@@ -39,8 +39,8 @@ pub fn run(args: AddArgs) -> Result<()> {
         },
     )?;
 
-    if let Some(output_path) = outcome.output_path {
-        println!("Vendored {}", output_path.display());
+    for file in outcome.files {
+        println!("Vendored {}", file.path.display());
     }
     Ok(())
 }

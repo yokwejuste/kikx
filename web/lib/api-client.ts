@@ -59,10 +59,14 @@ export interface RenderRequest {
   defaultNamespace?: string;
 }
 
+export interface RenderedFile {
+  path: string;
+  content: string;
+}
+
 export interface RenderResponse {
   component: string;
-  extension: string;
-  rendered: string;
+  files: RenderedFile[];
 }
 
 export interface FieldSpec {
@@ -74,23 +78,9 @@ export interface FieldSpec {
 export interface RegistryItem {
   name: string;
   category: string;
-  extension: string;
   title: string;
   description: string;
   fields: FieldSpec[];
-}
-
-export interface PublishProjectRequest {
-  details: { name: string; namespace: string; outputDir: string };
-  files: { fileName: string; component: string; content: string }[];
-}
-
-export interface PublishProjectResponse {
-  id: string;
-}
-
-export function setupCommandFor(id: string): string {
-  return `kikx setup ${API_URL}/api/project/${id}`;
 }
 
 export const api = {
@@ -104,10 +94,4 @@ export const api = {
 
   inspectRegistryItem: (reference: string) =>
     request<RegistryItem>(`/api/registry/inspect?ref=${encodeURIComponent(reference)}`),
-
-  publishProject: (body: PublishProjectRequest) =>
-    request<PublishProjectResponse>("/api/project", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
 };

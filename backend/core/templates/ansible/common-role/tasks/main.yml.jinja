@@ -1,0 +1,22 @@
+---
+- name: Install base packages
+  ansible.builtin.apt:
+    name:
+      - curl
+      - vim
+    state: present
+    update_cache: true
+
+- name: Set the system timezone
+  community.general.timezone:
+    name: "{{ timezone }}"
+  notify: restart systemd-timesyncd
+
+- name: Disable swap
+  ansible.builtin.command: swapoff -a
+  changed_when: false
+
+- name: Deploy the message of the day
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd

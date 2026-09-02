@@ -8,17 +8,19 @@ import { toast } from "sonner";
 import { Eye, PackagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ComponentFormFields } from "@/components/dashboard/component-form-fields";
-import { FileConflictDialog, type PendingFile } from "@/components/dashboard/file-conflict-dialog";
+import { FileConflictDialog } from "@/components/dashboard/file-conflict-dialog";
 import { YamlPreview } from "@/components/dashboard/yaml-preview";
-import { api, ApiClientError } from "@/lib/api-client";
-import { useProject } from "@/lib/project-context";
+import { api, ApiClientError, type RenderedFile } from "@/lib/api-client";
+import { useProject, type AddedComponent } from "@/lib/project-context";
 import { defaultsFor, schemas, toRenderRequest, type FormValues } from "@/lib/component-form-utils";
+import { toPresetComponent } from "@/lib/preset";
 import type { ComponentKind } from "@/lib/schemas";
 
 export function ComponentForm({ kind }: { kind: ComponentKind }) {
-  const { details, addFile, hasFile } = useProject();
-  const [rendered, setRendered] = useState<string | null>(null);
-  const [pendingFile, setPendingFile] = useState<PendingFile | null>(null);
+  const { details, addComponent, conflictingFileNames } = useProject();
+  const [files, setFiles] = useState<RenderedFile[] | null>(null);
+  const [pending, setPending] = useState<Omit<AddedComponent, "id"> | null>(null);
+  const [conflicts, setConflicts] = useState<string[] | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schemas[kind] as typeof schemas.deployment) as unknown as Resolver<FormValues>,
@@ -28,7 +30,7 @@ export function ComponentForm({ kind }: { kind: ComponentKind }) {
   const previewMutation = useMutation({
     mutationFn: (values: FormValues) =>
       api.render(toRenderRequest(details?.namespace ?? "default", values)),
-    onSuccess: (data) => setRendered(data.rendered),
+    onSuccess: (data) => setFiles(data.files),
     onError: (error: unknown) => {
       toast.error(error instanceof ApiClientError ? error.message : "Preview failed");
     },
@@ -38,14 +40,21 @@ export function ComponentForm({ kind }: { kind: ComponentKind }) {
     mutationFn: (values: FormValues) =>
       api.render(toRenderRequest(details?.namespace ?? "default", values)),
     onSuccess: (data, values) => {
-      setRendered(data.rendered);
-      const fileName = `${values.name}-${data.component}.${data.extension}`;
-      if (hasFile(fileName)) {
-        setPendingFile({ fileName, component: data.component, content: data.rendered });
+      setFiles(data.files);
+      const recipe = toPresetComponent(details?.namespace ?? "default", values);
+      const projectFiles = data.files.map((f) => ({
+        fileName: f.path,
+        component: data.component,
+        content: f.content,
+      }));
+      const clashes = conflictingFileNames(projectFiles);
+      if (clashes.length > 0) {
+        setPending({ recipe, files: projectFiles });
+        setConflicts(clashes);
         return;
       }
-      addFile({ fileName, component: data.component, content: data.rendered });
-      toast.success(`Added ${fileName}`);
+      addComponent(recipe, projectFiles);
+      toast.success(`Added ${projectFiles.length} file(s)`);
     },
     onError: (error: unknown) => {
       toast.error(error instanceof ApiClientError ? error.message : "Failed to render component");
@@ -76,17 +85,21 @@ export function ComponentForm({ kind }: { kind: ComponentKind }) {
         </Button>
       </div>
 
-      <YamlPreview rendered={rendered} />
+      <YamlPreview files={files} />
 
       <FileConflictDialog
-        pendingFile={pendingFile}
-        onCancel={() => setPendingFile(null)}
+        conflicts={conflicts}
+        onCancel={() => {
+          setPending(null);
+          setConflicts(null);
+        }}
         onConfirm={() => {
-          if (pendingFile) {
-            addFile(pendingFile);
-            toast.success(`Replaced ${pendingFile.fileName}`);
+          if (pending) {
+            addComponent(pending.recipe, pending.files);
+            toast.success(`Replaced ${pending.files.length} file(s)`);
           }
-          setPendingFile(null);
+          setPending(null);
+          setConflicts(null);
         }}
       />
     </div>

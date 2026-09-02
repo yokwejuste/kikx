@@ -1,5 +1,6 @@
 import type { RenderRequest } from "@/lib/api-client";
 import { OS_IMAGES } from "@/lib/os-images";
+import { buildInventoryGroups } from "@/lib/inventory-utils";
 import {
   deploymentFormSchema,
   serviceFormSchema,
@@ -106,11 +107,8 @@ export function defaultsFor(kind: ComponentKind): FormValues {
       return {
         component: "inventory",
         name: "",
-        group: "control_plane",
-        ansibleHost: "",
-        ansibleUser: "root",
-        ansiblePort: 22,
-        sshKeyFile: "",
+        hosts: [{ group: "all", name: "", ansibleHost: "", ansibleUser: "root", ansiblePort: 22, sshKeyFile: "" }],
+        groups: [],
       };
   }
 }
@@ -171,12 +169,6 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
   }
   return {
     ...base,
-    fields: {
-      group: values.group,
-      ansible_host: values.ansibleHost,
-      ansible_user: values.ansibleUser,
-      ansible_port: values.ansiblePort.toString(),
-      ssh_key_file: values.sshKeyFile ?? "",
-    },
+    fields: { hosts: JSON.stringify(buildInventoryGroups(values.hosts, values.groups)) },
   };
 }

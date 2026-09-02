@@ -14,18 +14,9 @@ interface Step {
 
 const STEPS: Step[] = [
   {
-    value: "provision",
-    label: "1. Provision",
-    description: "Terraform resources for the servers this project runs on.",
-    tabs: [
-      { value: "digitalocean", label: "DigitalOcean" },
-      { value: "hetzner", label: "Hetzner" },
-    ],
-  },
-  {
     value: "configure",
-    label: "2. Configure",
-    description: "Ansible playbooks that set servers up — provisioned here or already yours.",
+    label: "1. Configure",
+    description: "Ansible playbooks that set up a server you already have.",
     tabs: [
       { value: "ansible", label: "K8s bootstrap" },
       { value: "inventory", label: "Inventory" },
@@ -33,7 +24,7 @@ const STEPS: Step[] = [
   },
   {
     value: "deploy",
-    label: "3. Deploy",
+    label: "2. Deploy",
     description: "Kubernetes manifests for what runs on the cluster.",
     tabs: [
       { value: "deployment", label: "Deployment" },
@@ -55,7 +46,12 @@ export function ComponentTabs() {
       </TabsList>
 
       {STEPS.map((step) => (
-        <TabsContent key={step.value} value={step.value} className="mt-6">
+        <TabsContent
+          key={step.value}
+          value={step.value}
+          forceMount
+          className="mt-6 data-[state=inactive]:hidden"
+        >
           <Panel title={step.label} description={step.description}>
             <Tabs defaultValue={step.tabs[0].value}>
               <TabsList>
@@ -66,7 +62,12 @@ export function ComponentTabs() {
                 ))}
               </TabsList>
               {step.tabs.map((tab) => (
-                <TabsContent key={tab.value} value={tab.value} className="mt-6">
+                <TabsContent
+                  key={tab.value}
+                  value={tab.value}
+                  forceMount
+                  className="mt-6 data-[state=inactive]:hidden"
+                >
                   <ComponentForm kind={tab.value} />
                 </TabsContent>
               ))}

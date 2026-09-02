@@ -1,16 +1,18 @@
 import JSZip from "jszip";
-import type { ProjectDetails, ProjectFile } from "@/lib/project-context";
+import type { AddedComponent, ProjectDetails } from "@/lib/project-context";
 
 function buildKikxToml(details: ProjectDetails): string {
   return `[project]\nname = "${details.name}"\ndefault_namespace = "${details.namespace}"\noutput_dir = "${details.outputDir}"\n`;
 }
 
-export async function downloadProjectZip(details: ProjectDetails, files: ProjectFile[]) {
+export async function downloadProjectZip(details: ProjectDetails, components: AddedComponent[]) {
   const zip = new JSZip();
   zip.file("kikx.toml", buildKikxToml(details));
   const outputFolder = zip.folder(details.outputDir) ?? zip;
-  for (const file of files) {
-    outputFolder.file(file.fileName, file.content);
+  for (const component of components) {
+    for (const file of component.files) {
+      outputFolder.file(file.fileName, file.content);
+    }
   }
 
   const blob = await zip.generateAsync({ type: "blob" });

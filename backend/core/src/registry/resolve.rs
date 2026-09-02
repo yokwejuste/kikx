@@ -62,13 +62,14 @@ mod tests {
         let path = tmp.path().join("custom.json");
         std::fs::write(
             &path,
-            r#"{"name":"custom","category":"acme","extension":"txt","template":"hello {{ name }}"}"#,
+            r#"{"name":"custom","category":"acme","files":[{"path":"{{ name }}.txt","template":"hello {{ name }}"}]}"#,
         )
         .unwrap();
 
         let item = resolve(path.to_str().unwrap()).unwrap();
         assert_eq!(item.reference(), "acme/custom");
-        assert_eq!(item.template, "hello {{ name }}");
+        assert_eq!(item.files.len(), 1);
+        assert_eq!(item.files[0].template, "hello {{ name }}");
     }
 
     #[test]

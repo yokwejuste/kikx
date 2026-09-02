@@ -38,7 +38,6 @@ impl From<FieldSpec> for FieldSpecDto {
 pub struct RegistryItemDto {
     pub name: String,
     pub category: String,
-    pub extension: String,
     pub title: String,
     pub description: String,
     pub fields: Vec<FieldSpecDto>,
@@ -49,7 +48,6 @@ impl From<RegistryItem> for RegistryItemDto {
         Self {
             name: item.name,
             category: item.category,
-            extension: item.extension,
             title: item.title,
             description: item.description,
             fields: item.fields.into_iter().map(FieldSpecDto::from).collect(),
@@ -139,53 +137,30 @@ impl RenderRequest {
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct RenderedFileDto {
+    pub path: String,
+    pub content: String,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RenderResponse {
     pub component: String,
-    pub extension: String,
-    pub rendered: String,
+    pub files: Vec<RenderedFileDto>,
 }
 
 impl From<RenderOutcome> for RenderResponse {
     fn from(o: RenderOutcome) -> Self {
         Self {
             component: o.component,
-            extension: o.extension,
-            rendered: o.rendered,
+            files: o
+                .files
+                .into_iter()
+                .map(|f| RenderedFileDto {
+                    path: f.path.display().to_string(),
+                    content: f.content,
+                })
+                .collect(),
         }
     }
-}
-
-#[derive(Deserialize, Serialize, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct ProjectDetailsDto {
-    pub name: String,
-    pub namespace: String,
-    pub output_dir: String,
-}
-
-#[derive(Deserialize, Serialize, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct ProjectFileDto {
-    pub file_name: String,
-    pub component: String,
-    pub content: String,
-}
-
-#[derive(Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct PublishProjectRequest {
-    pub details: ProjectDetailsDto,
-    pub files: Vec<ProjectFileDto>,
-}
-
-#[derive(Serialize)]
-pub struct PublishProjectResponse {
-    pub id: String,
-}
-
-#[derive(Serialize, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct ProjectBundleDto {
-    pub details: ProjectDetailsDto,
-    pub files: Vec<ProjectFileDto>,
 }

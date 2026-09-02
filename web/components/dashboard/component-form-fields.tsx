@@ -4,6 +4,7 @@ import type { UseFormReturn } from "react-hook-form";
 import { FormField } from "@/components/dashboard/form-field";
 import { ServerFields } from "@/components/dashboard/server-fields";
 import { InventoryFields } from "@/components/dashboard/inventory-fields";
+import { InventoryGroupsFields } from "@/components/dashboard/inventory-groups-fields";
 import { LabelFields } from "@/components/dashboard/label-fields";
 import type { ComponentKind } from "@/lib/schemas";
 import { K8S_KINDS, type FormValues } from "@/lib/component-form-utils";
@@ -46,15 +47,6 @@ export function ComponentFormFields({
             placeholder="control_plane"
           />
         )}
-        {kind === "inventory" && (
-          <FormField
-            label="Group"
-            registration={reg("group")}
-            error={errors.group}
-            placeholder="control_plane"
-          />
-        )}
-
         {isK8s && (
           <FormField
             label="Port"
@@ -108,8 +100,6 @@ export function ComponentFormFields({
             placeholder="1.31"
           />
         )}
-        {kind === "inventory" && <InventoryFields errors={errors} reg={reg} />}
-
         {isK8s && (
           <FormField
             label="Namespace override"
@@ -121,6 +111,12 @@ export function ComponentFormFields({
       </div>
 
       {isK8s && <LabelFields form={form} />}
+      {kind === "inventory" && (
+        <>
+          <InventoryFields form={form} />
+          <InventoryGroupsFields form={form} />
+        </>
+      )}
     </>
   );
 }

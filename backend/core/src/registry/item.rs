@@ -10,17 +10,22 @@ pub struct FieldSpec {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct RegistryFile {
+    pub path: String,
+    pub template: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RegistryItem {
     pub name: String,
     pub category: String,
-    pub extension: String,
     #[serde(default)]
     pub title: String,
     #[serde(default)]
     pub description: String,
     #[serde(default)]
     pub fields: Vec<FieldSpec>,
-    pub template: String,
+    pub files: Vec<RegistryFile>,
 }
 
 impl RegistryItem {

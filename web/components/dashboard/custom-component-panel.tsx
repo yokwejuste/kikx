@@ -8,25 +8,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Panel } from "@/components/dashboard/panel";
-import { FileConflictDialog, type PendingFile } from "@/components/dashboard/file-conflict-dialog";
+import { FileConflictDialog } from "@/components/dashboard/file-conflict-dialog";
 import { YamlPreview } from "@/components/dashboard/yaml-preview";
-import { api, ApiClientError, type RegistryItem } from "@/lib/api-client";
-import { useProject } from "@/lib/project-context";
+import { api, ApiClientError, type RegistryItem, type RenderedFile } from "@/lib/api-client";
+import { useProject, type AddedComponent } from "@/lib/project-context";
 
 export function CustomComponentPanel() {
-  const { details, addFile, hasFile } = useProject();
+  const { details, addComponent, conflictingFileNames } = useProject();
   const [reference, setReference] = useState("");
   const [item, setItem] = useState<RegistryItem | null>(null);
   const [name, setName] = useState("");
   const [values, setValues] = useState<Record<string, string>>({});
-  const [rendered, setRendered] = useState<string | null>(null);
-  const [pendingFile, setPendingFile] = useState<PendingFile | null>(null);
+  const [files, setFiles] = useState<RenderedFile[] | null>(null);
+  const [pending, setPending] = useState<Omit<AddedComponent, "id"> | null>(null);
+  const [conflicts, setConflicts] = useState<string[] | null>(null);
 
   const loadMutation = useMutation({
     mutationFn: () => api.inspectRegistryItem(reference),
     onSuccess: (data) => {
       setItem(data);
-      setRendered(null);
+      setFiles(null);
       const defaults: Record<string, string> = {};
       for (const field of data.fields) {
         if (field.default) defaults[field.name] = field.default;
@@ -42,7 +43,7 @@ export function CustomComponentPanel() {
   const previewMutation = useMutation({
     mutationFn: () =>
       api.render({ reference, name, fields: values, defaultNamespace: details?.namespace ?? "default" }),
-    onSuccess: (data) => setRendered(data.rendered),
+    onSuccess: (data) => setFiles(data.files),
     onError: (error: unknown) => {
       toast.error(error instanceof ApiClientError ? error.message : "Preview failed");
     },
@@ -52,14 +53,21 @@ export function CustomComponentPanel() {
     mutationFn: () =>
       api.render({ reference, name, fields: values, defaultNamespace: details?.namespace ?? "default" }),
     onSuccess: (data) => {
-      setRendered(data.rendered);
-      const fileName = `${name}-${data.component}.${data.extension}`;
-      if (hasFile(fileName)) {
-        setPendingFile({ fileName, component: data.component, content: data.rendered });
+      setFiles(data.files);
+      const recipe = { reference, name, fields: values, labels: {} };
+      const projectFiles = data.files.map((f) => ({
+        fileName: f.path,
+        component: data.component,
+        content: f.content,
+      }));
+      const clashes = conflictingFileNames(projectFiles);
+      if (clashes.length > 0) {
+        setPending({ recipe, files: projectFiles });
+        setConflicts(clashes);
         return;
       }
-      addFile({ fileName, component: data.component, content: data.rendered });
-      toast.success(`Added ${fileName}`);
+      addComponent(recipe, projectFiles);
+      toast.success(`Added ${projectFiles.length} file(s)`);
     },
     onError: (error: unknown) => {
       toast.error(error instanceof ApiClientError ? error.message : "Failed to render component");
@@ -137,20 +145,24 @@ export function CustomComponentPanel() {
               </Button>
             </div>
 
-            <YamlPreview rendered={rendered} />
+            <YamlPreview files={files} />
           </>
         )}
       </div>
 
       <FileConflictDialog
-        pendingFile={pendingFile}
-        onCancel={() => setPendingFile(null)}
+        conflicts={conflicts}
+        onCancel={() => {
+          setPending(null);
+          setConflicts(null);
+        }}
         onConfirm={() => {
-          if (pendingFile) {
-            addFile(pendingFile);
-            toast.success(`Replaced ${pendingFile.fileName}`);
+          if (pending) {
+            addComponent(pending.recipe, pending.files);
+            toast.success(`Replaced ${pending.files.length} file(s)`);
           }
-          setPendingFile(null);
+          setPending(null);
+          setConflicts(null);
         }}
       />
     </Panel>

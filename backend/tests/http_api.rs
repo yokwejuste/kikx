@@ -38,6 +38,17 @@ async fn send(
     (status, value)
 }
 
+fn file_content<'a>(files: &'a Value, path: &str) -> &'a str {
+    files
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|f| f["path"] == path)
+        .unwrap_or_else(|| panic!("no rendered file at `{path}`"))["content"]
+        .as_str()
+        .unwrap()
+}
+
 #[tokio::test]
 async fn health_ok() {
     let (status, _) = send(router(), Method::GET, "/api/health", None).await;
@@ -60,6 +71,7 @@ async fn list_components_returns_all_builtins() {
             "terraform/hetzner",
             "ansible/k8s-bootstrap",
             "ansible/inventory",
+            "ansible/common-role",
         ]
     );
 }
@@ -80,8 +92,10 @@ async fn render_deployment_happy_path() {
     .await;
     assert_eq!(status, StatusCode::OK);
     assert_eq!(body["component"], "deployment");
-    assert_eq!(body["extension"], "yaml");
-    let rendered = body["rendered"].as_str().unwrap();
+    let files = body["files"].as_array().unwrap();
+    assert_eq!(files.len(), 1);
+    assert_eq!(files[0]["path"], "web-deployment.yaml");
+    let rendered = file_content(&body["files"], "web-deployment.yaml");
     assert!(rendered.contains("image: nginx:1.27"));
     assert!(rendered.contains("replicas: 3"));
     assert!(rendered.contains("namespace: default"));
@@ -130,8 +144,8 @@ async fn render_terraform_component_via_generic_fields_and_custom_namespace() {
     .await;
     assert_eq!(status, StatusCode::OK);
     assert_eq!(body["component"], "digitalocean");
-    assert_eq!(body["extension"], "tf");
-    let rendered = body["rendered"].as_str().unwrap();
+    assert_eq!(body["files"][0]["path"], "control-plane-digitalocean.tf");
+    let rendered = file_content(&body["files"], "control-plane-digitalocean.tf");
     assert!(rendered.contains("count  = 2"));
     assert!(rendered.contains("region = \"nyc3\""));
     assert!(!rendered.contains("platform"));
@@ -151,7 +165,7 @@ async fn render_ansible_playbook() {
     )
     .await;
     assert_eq!(status, StatusCode::OK);
-    let rendered = body["rendered"].as_str().unwrap();
+    let rendered = file_content(&body["files"], "cluster-k8s-bootstrap.yml");
     assert!(rendered.contains("hosts: control_plane"));
     assert!(rendered.contains("kubelet=1.31*"));
 }
@@ -165,20 +179,20 @@ async fn render_ansible_inventory_for_an_existing_server() {
         Some(json!({
             "reference": "ansible/inventory",
             "name": "my-vps",
-            "fields": { "group": "control_plane", "ansible_host": "203.0.113.10" },
+            "fields": { "hosts": r#"[{"group":"control_plane","members":[{"name":"my-vps","ansible_host":"203.0.113.10"}]}]"# },
         })),
     )
     .await;
     assert_eq!(status, StatusCode::OK);
-    assert_eq!(body["extension"], "ini");
-    let rendered = body["rendered"].as_str().unwrap();
+    assert_eq!(body["files"][0]["path"], "my-vps-inventory.ini");
+    let rendered = file_content(&body["files"], "my-vps-inventory.ini");
     assert!(rendered.contains("[control_plane]"));
     assert!(rendered.contains("my-vps ansible_host=203.0.113.10 ansible_user=root ansible_port=22"));
     assert!(!rendered.contains("ansible_ssh_private_key_file"));
 }
 
 #[tokio::test]
-async fn render_ansible_inventory_without_ansible_host_is_bad_request() {
+async fn render_ansible_inventory_without_hosts_is_bad_request() {
     let (status, body) = send(
         router(),
         Method::POST,
@@ -186,12 +200,98 @@ async fn render_ansible_inventory_without_ansible_host_is_bad_request() {
         Some(json!({
             "reference": "ansible/inventory",
             "name": "my-vps",
-            "fields": { "group": "control_plane" },
+            "fields": {},
         })),
     )
     .await;
     assert_eq!(status, StatusCode::BAD_REQUEST);
-    assert!(body["error"].as_str().unwrap().contains("--ansible_host"));
+    assert!(body["error"].as_str().unwrap().contains("--hosts"));
+}
+
+#[tokio::test]
+async fn render_ansible_inventory_with_multiple_groups_and_hosts() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "ansible/inventory",
+            "name": "cluster",
+            "fields": { "hosts": json!([
+                { "group": "k8s_control_plane", "members": [
+                    { "name": "cp-01", "ansible_host": "10.0.0.1" },
+                ] },
+                { "group": "k8s_workers", "members": [
+                    { "name": "worker-01", "ansible_host": "10.0.1.1", "ansible_port": 2222 },
+                ] },
+            ]).to_string() },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    let rendered = file_content(&body["files"], "cluster-inventory.ini");
+    assert!(rendered.contains("[k8s_control_plane]"));
+    assert!(rendered.contains("cp-01 ansible_host=10.0.0.1 ansible_user=root ansible_port=22"));
+    assert!(rendered.contains("[k8s_workers]"));
+    assert!(
+        rendered.contains("worker-01 ansible_host=10.0.1.1 ansible_user=root ansible_port=2222")
+    );
+}
+
+#[tokio::test]
+async fn render_ansible_inventory_with_children_and_vars_groups() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "ansible/inventory",
+            "name": "cluster",
+            "fields": { "hosts": json!([
+                { "group": "k8s_control_plane", "members": [{ "name": "cp-01", "ansible_host": "10.0.0.1" }] },
+                { "group": "k8s", "children": ["k8s_control_plane"] },
+                { "group": "alafia", "children": ["k8s"], "vars": { "ansible_user": "alafia-admin" } },
+            ]).to_string() },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    let rendered = file_content(&body["files"], "cluster-inventory.ini");
+    assert!(rendered.contains("[k8s:children]"));
+    assert!(rendered.contains("k8s_control_plane"));
+    assert!(rendered.contains("[alafia:children]"));
+    assert!(rendered.contains("[alafia:vars]"));
+    assert!(rendered.contains("ansible_user=alafia-admin"));
+}
+
+#[tokio::test]
+async fn render_common_role_returns_all_four_files() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "ansible/common-role",
+            "name": "web",
+            "fields": { "timezone": "Etc/UTC" },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    let files = body["files"].as_array().unwrap();
+    assert_eq!(files.len(), 4);
+    let paths: Vec<&str> = files.iter().map(|f| f["path"].as_str().unwrap()).collect();
+    assert!(paths.contains(&"roles/web/tasks/main.yml"));
+    assert!(paths.contains(&"roles/web/defaults/main.yml"));
+    assert!(paths.contains(&"roles/web/handlers/main.yml"));
+    assert!(paths.contains(&"roles/web/templates/motd.j2"));
+
+    let tasks = file_content(&body["files"], "roles/web/tasks/main.yml");
+    assert!(tasks.contains("name: \"Etc/UTC\""));
+
+    let motd = file_content(&body["files"], "roles/web/templates/motd.j2");
+    assert!(motd.contains("Host: web"));
+    assert!(motd.contains("{{ motd_message }}"));
 }
 
 #[tokio::test]
@@ -201,7 +301,6 @@ async fn registry_inspect_returns_field_schema_for_builtin() {
     assert_eq!(status, StatusCode::OK);
     assert_eq!(body["name"], "digitalocean");
     assert_eq!(body["category"], "terraform");
-    assert_eq!(body["extension"], "tf");
     let field_names: Vec<&str> = body["fields"]
         .as_array()
         .unwrap()
@@ -217,7 +316,7 @@ async fn registry_inspect_from_local_file() {
     let item_path = tmp.path().join("custom.json");
     std::fs::write(
         &item_path,
-        r#"{"name":"widget","category":"acme","extension":"txt","fields":[{"name":"color","required":true}],"template":"{{ color }}"}"#,
+        r#"{"name":"widget","category":"acme","fields":[{"name":"color","required":true}],"files":[{"path":"{{ name }}.txt","template":"{{ color }}"}]}"#,
     )
     .unwrap();
 
@@ -233,50 +332,4 @@ async fn registry_inspect_from_local_file() {
 
 fn urlencoding_path(path: &str) -> String {
     path.replace('/', "%2F")
-}
-
-#[tokio::test]
-async fn publish_and_fetch_project_roundtrip() {
-    let app = router();
-    let (status, body) = send(
-        app.clone(),
-        Method::POST,
-        "/api/project",
-        Some(json!({
-            "details": { "name": "demo-app", "namespace": "demo", "outputDir": "k8s" },
-            "files": [{ "fileName": "web-deployment.yaml", "component": "deployment", "content": "kind: Deployment\n" }],
-        })),
-    )
-    .await;
-    assert_eq!(status, StatusCode::OK);
-    let id = body["id"].as_str().unwrap().to_string();
-    assert!(!id.is_empty());
-
-    let (status, body) = send(app, Method::GET, &format!("/api/project/{id}"), None).await;
-    assert_eq!(status, StatusCode::OK);
-    assert_eq!(body["details"]["name"], "demo-app");
-    assert_eq!(body["files"][0]["fileName"], "web-deployment.yaml");
-}
-
-#[tokio::test]
-async fn publish_without_files_is_bad_request() {
-    let (status, body) = send(
-        router(),
-        Method::POST,
-        "/api/project",
-        Some(json!({
-            "details": { "name": "demo-app", "namespace": "demo", "outputDir": "k8s" },
-            "files": [],
-        })),
-    )
-    .await;
-    assert_eq!(status, StatusCode::BAD_REQUEST);
-    assert_eq!(body["code"], "invalid_request");
-}
-
-#[tokio::test]
-async fn get_unknown_project_is_not_found() {
-    let (status, body) = send(router(), Method::GET, "/api/project/does-not-exist", None).await;
-    assert_eq!(status, StatusCode::NOT_FOUND);
-    assert_eq!(body["code"], "not_found");
 }

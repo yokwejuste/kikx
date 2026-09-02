@@ -72,14 +72,28 @@ export const ansibleFormSchema = z.object({
   k8sVersion: z.string().min(1, "Kubernetes version is required"),
 });
 
-export const inventoryFormSchema = z.object({
-  component: z.literal("inventory"),
-  name: z.string().min(1, "Name is required"),
+const inventoryHostSchema = z.object({
   group: z.string().min(1, "Group is required"),
+  name: z.string().min(1, "Host name is required"),
   ansibleHost: z.string().min(1, "Host/IP is required"),
   ansibleUser: z.string().min(1, "SSH user is required"),
   ansiblePort: z.coerce.number().int().min(1).max(65535),
   sshKeyFile: z.string().optional(),
+});
+export type InventoryHostValues = z.infer<typeof inventoryHostSchema>;
+
+const inventoryGroupSchema = z.object({
+  name: z.string().min(1, "Group name is required"),
+  children: z.string().optional(),
+  vars: z.string().optional(),
+});
+export type InventoryGroupValues = z.infer<typeof inventoryGroupSchema>;
+
+export const inventoryFormSchema = z.object({
+  component: z.literal("inventory"),
+  name: z.string().min(1, "Name is required"),
+  hosts: z.array(inventoryHostSchema).min(1, "Add at least one host"),
+  groups: z.array(inventoryGroupSchema).default([]),
 });
 
 export const componentFormSchema = z.discriminatedUnion("component", [

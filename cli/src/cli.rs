@@ -15,45 +15,35 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Commands {
-    /// Initialize a kikx project in the current directory
     Init(InitArgs),
-    /// Vendor a component's rendered manifest into the project
     Add(AddArgs),
-    /// List available components
     List,
-    /// Fetch a project published by the web dashboard and write it to disk
     Setup(SetupArgs),
+    Apply(ApplyArgs),
 }
 
 #[derive(Args)]
 pub struct InitArgs {
-    /// Project name; defaults to the current directory's name
     #[arg(long)]
     pub name: Option<String>,
 
-    /// Output directory for vendored manifests
     #[arg(long, default_value = "k8s")]
     pub dir: PathBuf,
 
-    /// Default namespace recorded in kikx.toml
     #[arg(long, default_value = "default")]
     pub namespace: String,
 
-    /// Overwrite an existing kikx.toml
     #[arg(long)]
     pub force: bool,
 }
 
 #[derive(Args)]
 pub struct AddArgs {
-    /// Component to vendor — a built-in name ("deployment", "k8s/deployment"),
-    /// a URL, or a local path to a registry-item.json
     pub reference: String,
 
     #[arg(long)]
     pub name: String,
 
-    /// Required for the deployment component
     #[arg(long)]
     pub image: Option<String>,
 
@@ -63,47 +53,46 @@ pub struct AddArgs {
     #[arg(long, default_value_t = 80)]
     pub port: u16,
 
-    /// Service only; defaults to --port
     #[arg(long)]
     pub target_port: Option<u16>,
 
-    /// Overrides the project's default namespace
     #[arg(long)]
     pub namespace: Option<String>,
 
-    /// Ingress only; defaults to "<name>.example.com"
     #[arg(long)]
     pub host: Option<String>,
 
-    /// Ingress only
     #[arg(long, default_value = "/")]
     pub path: String,
 
-    /// Ingress only; backend service name, defaults to --name
     #[arg(long)]
     pub service: Option<String>,
 
-    /// Extra labels as KEY=VALUE, repeatable
     #[arg(long = "label", value_parser = parse_key_val)]
     pub labels: Vec<(String, String)>,
 
-    /// Set a field the component's template expects, as KEY=VALUE (repeatable).
-    /// Needed for components without a dedicated flag above — e.g.
-    /// terraform/digitalocean's --set region=nyc3, or any custom/remote component.
     #[arg(long = "set", value_parser = parse_key_val)]
     pub set: Vec<(String, String)>,
 
-    /// Overwrite an existing output file
     #[arg(long)]
     pub force: bool,
 }
 
 #[derive(Args)]
 pub struct SetupArgs {
-    /// The `kikx setup <url>` command the dashboard's "Get CLI command" button gave you
     pub reference: String,
 
-    /// Overwrite an existing kikx.toml
+    #[arg(long)]
+    pub force: bool,
+}
+
+#[derive(Args)]
+pub struct ApplyArgs {
+    pub reference: String,
+
+    #[arg(long)]
+    pub into: Option<PathBuf>,
+
     #[arg(long)]
     pub force: bool,
 }

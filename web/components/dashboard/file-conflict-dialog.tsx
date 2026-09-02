@@ -10,29 +10,30 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export interface PendingFile {
-  fileName: string;
-  component: string;
-  content: string;
-}
-
 export function FileConflictDialog({
-  pendingFile,
+  conflicts,
   onCancel,
   onConfirm,
 }: {
-  pendingFile: PendingFile | null;
+  conflicts: string[] | null;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
   return (
-    <Dialog open={!!pendingFile} onOpenChange={(open) => !open && onCancel()}>
+    <Dialog open={!!conflicts?.length} onOpenChange={(open) => !open && onCancel()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>File already added</DialogTitle>
+          <DialogTitle>File{conflicts && conflicts.length > 1 ? "s" : ""} already added</DialogTitle>
           <DialogDescription>
-            <code className="font-mono text-xs">{pendingFile?.fileName}</code> is already in your
-            project. Replace it?
+            <span className="flex flex-col gap-1">
+              {conflicts?.map((path) => (
+                <code key={path} className="font-mono text-xs">
+                  {path}
+                </code>
+              ))}
+            </span>
+            {conflicts && conflicts.length > 1 ? "are" : "is"} already in your project. Replace{" "}
+            {conflicts && conflicts.length > 1 ? "them" : "it"}?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

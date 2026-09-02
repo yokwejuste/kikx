@@ -353,9 +353,8 @@ fn add_custom_component_from_local_file() {
         r#"{
             "name": "acme-widget",
             "category": "acme",
-            "extension": "txt",
             "fields": [{"name": "color", "required": true}],
-            "template": "widget {{ name }} is {{ color }}"
+            "files": [{"path": "{{ name }}-acme-widget.txt", "template": "widget {{ name }} is {{ color }}"}]
         }"#,
     )
     .unwrap();
@@ -404,9 +403,7 @@ fn add_ansible_inventory_for_an_existing_server() {
             "--name",
             "my-vps",
             "--set",
-            "group=control_plane",
-            "--set",
-            "ansible_host=203.0.113.10",
+            r#"hosts=[{"group":"control_plane","members":[{"name":"my-vps","ansible_host":"203.0.113.10"}]}]"#,
         ])
         .assert()
         .success();
@@ -416,4 +413,151 @@ fn add_ansible_inventory_for_an_existing_server() {
     assert!(text.contains("[control_plane]"));
     assert!(text.contains("ansible_host=203.0.113.10"));
     assert!(text.contains("ansible_user=root"));
+}
+
+#[test]
+fn add_ansible_inventory_with_multiple_groups_and_hosts() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "ansible/inventory",
+            "--name",
+            "cluster",
+            "--set",
+            r#"hosts=[{"group":"control_plane","members":[{"name":"cp-01","ansible_host":"10.0.0.1"},{"name":"cp-02","ansible_host":"10.0.0.2"}]},{"group":"workers","members":[{"name":"worker-01","ansible_host":"10.0.1.1"}]}]"#,
+        ])
+        .assert()
+        .success();
+
+    let text = std::fs::read_to_string(tmp.path().join("k8s/cluster-inventory.ini")).unwrap();
+    assert!(text.contains("[control_plane]"));
+    assert!(text.contains("cp-01 ansible_host=10.0.0.1"));
+    assert!(text.contains("cp-02 ansible_host=10.0.0.2"));
+    assert!(text.contains("[workers]"));
+    assert!(text.contains("worker-01 ansible_host=10.0.1.1"));
+}
+
+#[test]
+fn setup_from_manifest_seeds_kikx_toml_from_project_block() {
+    let src = tempfile::tempdir().unwrap();
+    let preset_path = src.path().join("preset.json");
+    std::fs::write(
+        &preset_path,
+        r#"{"name":"demo","project":{"name":"demo-app","namespace":"demo","outputDir":"k8s"},"components":[{"reference":"k8s/deployment","name":"web","fields":{"image":"nginx:1.27"}}]}"#,
+    )
+    .unwrap();
+
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["setup", preset_path.to_str().unwrap()])
+        .assert()
+        .success();
+
+    let config = std::fs::read_to_string(tmp.path().join("kikx.toml")).unwrap();
+    assert!(config.contains("name = \"demo-app\""));
+    assert!(config.contains("default_namespace = \"demo\""));
+    let text = std::fs::read_to_string(tmp.path().join("k8s/web-deployment.yaml")).unwrap();
+    assert!(text.contains("image: nginx:1.27"));
+}
+
+#[test]
+fn apply_writes_files_without_touching_kikx_toml() {
+    let src = tempfile::tempdir().unwrap();
+    let preset_path = src.path().join("preset.json");
+    std::fs::write(
+        &preset_path,
+        r#"{"name":"demo","components":[{"reference":"k8s/deployment","name":"web","fields":{"image":"nginx:1.27"}}]}"#,
+    )
+    .unwrap();
+
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["apply", preset_path.to_str().unwrap()])
+        .assert()
+        .success();
+
+    assert!(tmp.path().join("web-deployment.yaml").exists());
+    assert!(!tmp.path().join("kikx.toml").exists());
+}
+
+#[test]
+fn apply_into_subdirectory_nests_correctly() {
+    let src = tempfile::tempdir().unwrap();
+    let preset_path = src.path().join("preset.json");
+    std::fs::write(
+        &preset_path,
+        r#"{"name":"demo","components":[{"reference":"k8s/deployment","name":"web","fields":{"image":"nginx:1.27"}}]}"#,
+    )
+    .unwrap();
+
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["apply", preset_path.to_str().unwrap(), "--into", "vendor"])
+        .assert()
+        .success();
+
+    assert!(tmp.path().join("vendor/web-deployment.yaml").exists());
+}
+
+#[test]
+fn add_common_role_writes_all_four_files() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args(["add", "ansible/common-role", "--name", "web"])
+        .assert()
+        .success();
+
+    let tasks = std::fs::read_to_string(tmp.path().join("k8s/roles/web/tasks/main.yml")).unwrap();
+    assert!(tasks.contains("name: \"UTC\""));
+    assert!(tmp.path().join("k8s/roles/web/defaults/main.yml").exists());
+    assert!(tmp.path().join("k8s/roles/web/handlers/main.yml").exists());
+    let motd = std::fs::read_to_string(tmp.path().join("k8s/roles/web/templates/motd.j2")).unwrap();
+    assert!(motd.contains("Host: web"));
+    assert!(motd.contains("{{ motd_message }}"));
+}
+
+#[test]
+fn add_ansible_inventory_with_children_and_vars_groups() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "ansible/inventory",
+            "--name",
+            "cluster",
+            "--set",
+            r#"hosts=[{"group":"k8s_control_plane","members":[{"name":"cp-01","ansible_host":"10.0.0.1"}]},{"group":"k8s_workers","members":[{"name":"worker-01","ansible_host":"10.0.1.1"}]},{"group":"k8s","children":["k8s_control_plane","k8s_workers"]},{"group":"alafia","children":["k8s"],"vars":{"ansible_user":"alafia-admin"}}]"#,
+        ])
+        .assert()
+        .success();
+
+    let text = std::fs::read_to_string(tmp.path().join("k8s/cluster-inventory.ini")).unwrap();
+    assert!(text.contains("[k8s:children]"));
+    assert!(text.contains("k8s_control_plane"));
+    assert!(text.contains("k8s_workers"));
+    assert!(text.contains("[alafia:children]"));
+    assert!(text.contains("[alafia:vars]"));
+    assert!(text.contains("ansible_user=alafia-admin"));
 }
