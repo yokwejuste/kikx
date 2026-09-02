@@ -1,0 +1,17 @@
+variable "do_token" {
+  description = "DigitalOcean API token. Set via TF_VAR_do_token or a gitignored terraform.tfvars."
+  type        = string
+  sensitive   = true
+}
+
+provider "digitalocean" {
+  token = var.do_token
+}
+
+resource "digitalocean_droplet" "{{ name }}" {
+  count  = {{ count }}
+  name   = "{{ name }}-${count.index}"
+  region = "{{ region }}"
+  size   = "{{ size }}"
+  image  = "{{ os_image }}"
+}

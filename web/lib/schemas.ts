@@ -1,10 +1,5 @@
 import { z } from "zod";
 
-export const projectDirSchema = z
-  .string()
-  .min(1, "Enter a project directory")
-  .refine((v) => v.startsWith("/"), "Must be an absolute path (starting with /)");
-
 export const initFormSchema = z.object({
   name: z.string().min(1, "Project name is required"),
   namespace: z.string().min(1, "Namespace is required"),
@@ -23,9 +18,6 @@ const baseComponentFields = {
   labels: z.array(labelSchema),
 };
 
-// z.coerce.number() turns an empty string (an untouched optional numeric
-// input) into 0, which then fails .min(1) — preprocess blank/undefined to
-// undefined first so "optional" numeric fields can actually be left blank.
 const optionalPort = z.preprocess(
   (val) => (val === "" || val === undefined ? undefined : val),
   z.coerce.number().int().min(1).max(65535).optional(),
@@ -55,10 +47,38 @@ export const ingressFormSchema = z.object({
   port: z.coerce.number().int().min(1).max(65535),
 });
 
+const serverFields = {
+  name: z.string().min(1, "Name is required"),
+  region: z.string().min(1, "Region is required"),
+  size: z.string().min(1, "Size is required"),
+  osImage: z.string().min(1, "OS image is required"),
+  count: z.coerce.number().int().min(1),
+};
+
+export const digitalOceanFormSchema = z.object({
+  component: z.literal("digitalocean"),
+  ...serverFields,
+});
+
+export const hetznerFormSchema = z.object({
+  component: z.literal("hetzner"),
+  ...serverFields,
+});
+
+export const ansibleFormSchema = z.object({
+  component: z.literal("ansible"),
+  name: z.string().min(1, "Name is required"),
+  hosts: z.string().min(1, "Hosts is required"),
+  k8sVersion: z.string().min(1, "Kubernetes version is required"),
+});
+
 export const componentFormSchema = z.discriminatedUnion("component", [
   deploymentFormSchema,
   serviceFormSchema,
   ingressFormSchema,
+  digitalOceanFormSchema,
+  hetznerFormSchema,
+  ansibleFormSchema,
 ]);
 
 export type ComponentFormValues = z.infer<typeof componentFormSchema>;

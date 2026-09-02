@@ -21,6 +21,8 @@ pub enum Commands {
     Add(AddArgs),
     /// List available components
     List,
+    /// Fetch a project published by the web dashboard and write it to disk
+    Setup(SetupArgs),
 }
 
 #[derive(Args)]
@@ -44,8 +46,9 @@ pub struct InitArgs {
 
 #[derive(Args)]
 pub struct AddArgs {
-    /// Component to vendor, e.g. "deployment" or "k8s/deployment"
-    pub component: String,
+    /// Component to vendor — a built-in name ("deployment", "k8s/deployment"),
+    /// a URL, or a local path to a registry-item.json
+    pub reference: String,
 
     #[arg(long)]
     pub name: String,
@@ -84,7 +87,23 @@ pub struct AddArgs {
     #[arg(long = "label", value_parser = parse_key_val)]
     pub labels: Vec<(String, String)>,
 
+    /// Set a field the component's template expects, as KEY=VALUE (repeatable).
+    /// Needed for components without a dedicated flag above — e.g.
+    /// terraform/digitalocean's --set region=nyc3, or any custom/remote component.
+    #[arg(long = "set", value_parser = parse_key_val)]
+    pub set: Vec<(String, String)>,
+
     /// Overwrite an existing output file
+    #[arg(long)]
+    pub force: bool,
+}
+
+#[derive(Args)]
+pub struct SetupArgs {
+    /// The `kikx setup <url>` command the dashboard's "Get CLI command" button gave you
+    pub reference: String,
+
+    /// Overwrite an existing kikx.toml
     #[arg(long)]
     pub force: bool,
 }

@@ -1,11 +1,14 @@
 pub mod dto;
 pub mod error;
 pub mod handlers;
+pub mod state;
 
 use axum::http::{header, HeaderValue, Method};
 use axum::routing::{get, post};
 use axum::Router;
 use tower_http::cors::CorsLayer;
+
+pub use state::AppState;
 
 pub fn default_allowed_origins() -> Vec<HeaderValue> {
     vec![
@@ -23,12 +26,10 @@ pub fn build_router(allowed_origins: Vec<HeaderValue>) -> Router {
     Router::new()
         .route("/api/health", get(handlers::health))
         .route("/api/components", get(handlers::list_components))
-        .route("/api/project", get(handlers::get_project))
-        .route("/api/project/init", post(handlers::init_project))
-        .route(
-            "/api/project/components/preview",
-            post(handlers::preview_component),
-        )
-        .route("/api/project/components", post(handlers::write_component))
+        .route("/api/registry/inspect", get(handlers::registry_inspect))
+        .route("/api/render", post(handlers::render_component))
+        .route("/api/project", post(handlers::publish_project))
+        .route("/api/project/{id}", get(handlers::get_project))
         .layer(cors)
+        .with_state(AppState::default())
 }

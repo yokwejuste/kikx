@@ -1,0 +1,17 @@
+variable "hcloud_token" {
+  description = "Hetzner Cloud API token. Set via TF_VAR_hcloud_token or a gitignored terraform.tfvars."
+  type        = string
+  sensitive   = true
+}
+
+provider "hcloud" {
+  token = var.hcloud_token
+}
+
+resource "hcloud_server" "{{ name }}" {
+  count       = {{ count }}
+  name        = "{{ name }}-${count.index}"
+  location    = "{{ region }}"
+  server_type = "{{ size }}"
+  image       = "{{ os_image }}"
+}

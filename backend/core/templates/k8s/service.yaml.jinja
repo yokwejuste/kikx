@@ -5,10 +5,10 @@ metadata:
   namespace: {{ namespace }}
 spec:
   selector:
-{% for key in selector %}
-    {{ key }}: {{ selector[key] }}
+{% for key in labels %}
+    {{ key }}: {{ labels[key] }}
 {% endfor %}
   ports:
     - port: {{ port }}
-      targetPort: {{ target_port }}
+      targetPort: {{ target_port | default(port) }}
       protocol: TCP

@@ -243,7 +243,147 @@ fn list_shows_all_components() {
         .arg("list")
         .assert()
         .success()
-        .stdout(contains("deployment"))
-        .stdout(contains("service"))
-        .stdout(contains("ingress"));
+        .stdout(contains("k8s/deployment"))
+        .stdout(contains("k8s/service"))
+        .stdout(contains("k8s/ingress"))
+        .stdout(contains("terraform/digitalocean"))
+        .stdout(contains("terraform/hetzner"));
+}
+
+#[test]
+fn add_digitalocean_server_happy_path() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "terraform/digitalocean",
+            "--name",
+            "control-plane",
+            "--set",
+            "region=nyc3",
+            "--set",
+            "size=s-2vcpu-4gb",
+            "--set",
+            "os_image=ubuntu-22-04-x64",
+            "--set",
+            "count=2",
+        ])
+        .assert()
+        .success();
+
+    let path = tmp.path().join("k8s/control-plane-digitalocean.tf");
+    let text = std::fs::read_to_string(&path).unwrap();
+    assert!(text.contains("count  = 2"));
+    assert!(text.contains("region = \"nyc3\""));
+    assert!(text.contains("resource \"digitalocean_droplet\" \"control-plane\""));
+}
+
+#[test]
+fn add_ansible_bootstrap_playbook_happy_path() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "ansible/k8s-bootstrap",
+            "--name",
+            "cluster",
+            "--set",
+            "hosts=control_plane",
+            "--set",
+            "k8s_version=1.31",
+        ])
+        .assert()
+        .success();
+
+    let path = tmp.path().join("k8s/cluster-k8s-bootstrap.yml");
+    let text = std::fs::read_to_string(&path).unwrap();
+    assert!(text.contains("hosts: control_plane"));
+    assert!(text.contains("kubelet=1.31*"));
+}
+
+#[test]
+fn add_terraform_missing_region_fails() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "terraform/hetzner",
+            "--name",
+            "worker",
+            "--set",
+            "size=cx21",
+            "--set",
+            "os_image=ubuntu-22.04",
+        ])
+        .assert()
+        .failure()
+        .stderr(contains("--region"));
+}
+
+#[test]
+fn add_custom_component_from_local_file() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+
+    let item_path = tmp.path().join("custom-item.json");
+    std::fs::write(
+        &item_path,
+        r#"{
+            "name": "acme-widget",
+            "category": "acme",
+            "extension": "txt",
+            "fields": [{"name": "color", "required": true}],
+            "template": "widget {{ name }} is {{ color }}"
+        }"#,
+    )
+    .unwrap();
+
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            item_path.to_str().unwrap(),
+            "--name",
+            "gadget",
+            "--set",
+            "color=blue",
+        ])
+        .assert()
+        .success();
+
+    let text = std::fs::read_to_string(tmp.path().join("k8s/gadget-acme-widget.txt")).unwrap();
+    assert_eq!(text, "widget gadget is blue");
+}
+
+#[test]
+fn setup_with_non_url_reference_fails() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["setup", "./not-a-url"])
+        .assert()
+        .failure()
+        .stderr(contains("isn't a URL"));
 }

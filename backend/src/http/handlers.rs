@@ -1,24 +1,49 @@
-use axum::extract::Query;
+use axum::extract::{Path, Query, State};
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use axum::Json;
-use kikx_core::ops::{self, OpsError};
-use kikx_core::templates::Component;
-use serde::Serialize;
+use kikx_core::ops;
+use kikx_core::registry;
 
 use super::dto::{
-    AddRequest, AddResponse, ComponentsResponse, InitRequest, InitResponse, ProjectQuery,
-    ProjectStateDto,
+    ComponentsResponse, ProjectBundleDto, PublishProjectRequest, PublishProjectResponse,
+    RegistryInspectQuery, RegistryItemDto, RenderRequest, RenderResponse,
 };
-use super::error::{ApiError, BadRequest, ErrorDto};
+use super::error::{ApiError, ErrorDto, NotFound};
+use super::state::AppState;
 
-async fn run_blocking<T, F>(f: F) -> Response
-where
-    F: FnOnce() -> Result<T, OpsError> + Send + 'static,
-    T: Serialize + Send + 'static,
-{
-    match tokio::task::spawn_blocking(f).await {
-        Ok(Ok(value)) => (StatusCode::OK, Json(value)).into_response(),
+pub async fn health() -> &'static str {
+    "ok"
+}
+
+pub async fn list_components() -> Json<ComponentsResponse> {
+    Json(ComponentsResponse {
+        components: registry::builtin::all()
+            .into_iter()
+            .map(|item| item.reference())
+            .collect(),
+    })
+}
+
+pub async fn registry_inspect(Query(query): Query<RegistryInspectQuery>) -> Response {
+    match tokio::task::spawn_blocking(move || registry::resolve(&query.reference)).await {
+        Ok(Ok(item)) => (StatusCode::OK, Json(RegistryItemDto::from(item))).into_response(),
+        Ok(Err(e)) => super::error::BadRequest(e.to_string()).into_response(),
+        Err(join_err) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(ErrorDto {
+                code: "internal".to_string(),
+                error: join_err.to_string(),
+            }),
+        )
+            .into_response(),
+    }
+}
+
+pub async fn render_component(Json(body): Json<RenderRequest>) -> Response {
+    let params = body.into_params();
+    match tokio::task::spawn_blocking(move || ops::render_component(params)).await {
+        Ok(Ok(outcome)) => (StatusCode::OK, Json(RenderResponse::from(outcome))).into_response(),
         Ok(Err(e)) => ApiError::from(e).into_response(),
         Err(join_err) => (
             StatusCode::INTERNAL_SERVER_ERROR,
@@ -31,59 +56,31 @@ where
     }
 }
 
-pub async fn health() -> &'static str {
-    "ok"
-}
-
-pub async fn list_components() -> Json<ComponentsResponse> {
-    Json(ComponentsResponse {
-        components: Component::ALL.iter().map(|c| c.name()).collect(),
-    })
-}
-
-pub async fn get_project(Query(query): Query<ProjectQuery>) -> Response {
-    if !query.dir.is_absolute() {
-        return BadRequest(format!(
-            "`dir` must be an absolute path, got `{}`",
-            query.dir.display()
-        ))
+pub async fn publish_project(
+    State(state): State<AppState>,
+    Json(body): Json<PublishProjectRequest>,
+) -> Response {
+    if body.details.name.trim().is_empty() {
+        return super::error::BadRequest("project name is required".to_string()).into_response();
+    }
+    if body.files.is_empty() {
+        return super::error::BadRequest(
+            "add at least one component before publishing".to_string(),
+        )
         .into_response();
     }
-    run_blocking(move || ops::inspect_project(&query.dir).map(ProjectStateDto::from)).await
+
+    let id = state.publish(ProjectBundleDto {
+        details: body.details,
+        files: body.files,
+    });
+
+    (StatusCode::OK, Json(PublishProjectResponse { id })).into_response()
 }
 
-pub async fn init_project(Json(body): Json<InitRequest>) -> Response {
-    let (project_dir, params) = body.into_params();
-    if !project_dir.is_absolute() {
-        return BadRequest(format!(
-            "`projectDir` must be an absolute path, got `{}`",
-            project_dir.display()
-        ))
-        .into_response();
+pub async fn get_project(State(state): State<AppState>, Path(id): Path<String>) -> Response {
+    match state.get(&id) {
+        Some(bundle) => (StatusCode::OK, Json(bundle)).into_response(),
+        None => NotFound(format!("no published project with id `{id}` — it may have expired if the backend restarted since it was published")).into_response(),
     }
-    run_blocking(move || ops::init_project(&project_dir, params).map(InitResponse::from)).await
-}
-
-pub async fn preview_component(Json(body): Json<AddRequest>) -> Response {
-    let (project_dir, params) = body.into_params(true);
-    if !project_dir.is_absolute() {
-        return BadRequest(format!(
-            "`projectDir` must be an absolute path, got `{}`",
-            project_dir.display()
-        ))
-        .into_response();
-    }
-    run_blocking(move || ops::add_component(&project_dir, params).map(AddResponse::from)).await
-}
-
-pub async fn write_component(Json(body): Json<AddRequest>) -> Response {
-    let (project_dir, params) = body.into_params(false);
-    if !project_dir.is_absolute() {
-        return BadRequest(format!(
-            "`projectDir` must be an absolute path, got `{}`",
-            project_dir.display()
-        ))
-        .into_response();
-    }
-    run_blocking(move || ops::add_component(&project_dir, params).map(AddResponse::from)).await
 }

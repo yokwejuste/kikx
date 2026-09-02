@@ -34,40 +34,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return body as T;
 }
 
-export interface ProjectSummary {
-  name: string;
-  defaultNamespace: string;
-  outputDir: string;
-}
-
-export interface VendoredFile {
-  fileName: string;
-  component: string;
-  name: string;
-}
-
-export interface ProjectState {
-  exists: boolean;
-  project: ProjectSummary | null;
-  vendoredFiles: VendoredFile[];
-}
-
 export interface ComponentsResponse {
   components: string[];
-}
-
-export interface InitRequest {
-  projectDir: string;
-  name?: string;
-  dir?: string;
-  namespace?: string;
-  force?: boolean;
-}
-
-export interface InitResponse {
-  projectName: string;
-  configPath: string;
-  outputDir: string;
 }
 
 export interface Label {
@@ -75,9 +43,8 @@ export interface Label {
   value: string;
 }
 
-export interface AddRequest {
-  projectDir: string;
-  component: string;
+export interface RenderRequest {
+  reference: string;
   name: string;
   image?: string;
   replicas?: number;
@@ -88,36 +55,58 @@ export interface AddRequest {
   path?: string;
   service?: string;
   labels?: Label[];
-  force?: boolean;
+  fields?: Record<string, string>;
+  defaultNamespace?: string;
 }
 
-export interface AddResponse {
+export interface RenderResponse {
   component: string;
+  extension: string;
   rendered: string;
-  outputPath: string | null;
-  written: boolean;
+}
+
+export interface FieldSpec {
+  name: string;
+  required: boolean;
+  default: string | null;
+}
+
+export interface RegistryItem {
+  name: string;
+  category: string;
+  extension: string;
+  title: string;
+  description: string;
+  fields: FieldSpec[];
+}
+
+export interface PublishProjectRequest {
+  details: { name: string; namespace: string; outputDir: string };
+  files: { fileName: string; component: string; content: string }[];
+}
+
+export interface PublishProjectResponse {
+  id: string;
+}
+
+export function setupCommandFor(id: string): string {
+  return `kikx setup ${API_URL}/api/project/${id}`;
 }
 
 export const api = {
   listComponents: () => request<ComponentsResponse>("/api/components"),
 
-  getProject: (dir: string) =>
-    request<ProjectState>(`/api/project?dir=${encodeURIComponent(dir)}`),
-
-  initProject: (body: InitRequest) =>
-    request<InitResponse>("/api/project/init", {
+  render: (body: RenderRequest) =>
+    request<RenderResponse>("/api/render", {
       method: "POST",
       body: JSON.stringify(body),
     }),
 
-  previewComponent: (body: AddRequest) =>
-    request<AddResponse>("/api/project/components/preview", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+  inspectRegistryItem: (reference: string) =>
+    request<RegistryItem>(`/api/registry/inspect?ref=${encodeURIComponent(reference)}`),
 
-  addComponent: (body: AddRequest) =>
-    request<AddResponse>("/api/project/components", {
+  publishProject: (body: PublishProjectRequest) =>
+    request<PublishProjectResponse>("/api/project", {
       method: "POST",
       body: JSON.stringify(body),
     }),

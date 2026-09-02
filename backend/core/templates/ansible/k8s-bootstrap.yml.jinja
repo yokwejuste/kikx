@@ -1,0 +1,26 @@
+---
+- name: Bootstrap Kubernetes prerequisites on {{ hosts }}
+  hosts: {{ hosts }}
+  become: true
+
+  tasks:
+    - name: Install containerd
+      apt:
+        name: containerd
+        state: present
+        update_cache: true
+
+    - name: Install kubelet
+      apt:
+        name: "kubelet={{ k8s_version }}*"
+        state: present
+
+    - name: Install kubeadm
+      apt:
+        name: "kubeadm={{ k8s_version }}*"
+        state: present
+
+    - name: Install kubectl
+      apt:
+        name: "kubectl={{ k8s_version }}*"
+        state: present

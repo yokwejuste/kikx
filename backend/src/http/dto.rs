@@ -1,18 +1,60 @@
-use std::path::PathBuf;
+use std::collections::HashMap;
 
-use kikx_core::ops::{
-    AddOutcome, AddParams, InitOutcome, InitParams, ProjectState, ProjectSummary, VendoredFile,
-};
+use kikx_core::ops::{RenderOutcome, RenderParams};
+use kikx_core::registry::{FieldSpec, RegistryItem};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize)]
 pub struct ComponentsResponse {
-    pub components: Vec<&'static str>,
+    pub components: Vec<String>,
 }
 
 #[derive(Deserialize)]
-pub struct ProjectQuery {
-    pub dir: PathBuf,
+pub struct RegistryInspectQuery {
+    #[serde(rename = "ref")]
+    pub reference: String,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FieldSpecDto {
+    pub name: String,
+    pub required: bool,
+    pub default: Option<String>,
+}
+
+impl From<FieldSpec> for FieldSpecDto {
+    fn from(f: FieldSpec) -> Self {
+        Self {
+            name: f.name,
+            required: f.required,
+            default: f.default,
+        }
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RegistryItemDto {
+    pub name: String,
+    pub category: String,
+    pub extension: String,
+    pub title: String,
+    pub description: String,
+    pub fields: Vec<FieldSpecDto>,
+}
+
+impl From<RegistryItem> for RegistryItemDto {
+    fn from(item: RegistryItem) -> Self {
+        Self {
+            name: item.name,
+            category: item.category,
+            extension: item.extension,
+            title: item.title,
+            description: item.description,
+            fields: item.fields.into_iter().map(FieldSpecDto::from).collect(),
+        }
+    }
 }
 
 #[derive(Deserialize)]
@@ -22,122 +64,10 @@ pub struct LabelDto {
     pub value: String,
 }
 
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ProjectSummaryDto {
-    pub name: String,
-    pub default_namespace: String,
-    pub output_dir: String,
-}
-
-impl From<ProjectSummary> for ProjectSummaryDto {
-    fn from(s: ProjectSummary) -> Self {
-        Self {
-            name: s.name,
-            default_namespace: s.default_namespace,
-            output_dir: s.output_dir,
-        }
-    }
-}
-
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct VendoredFileDto {
-    pub file_name: String,
-    pub component: String,
-    pub name: String,
-}
-
-impl From<VendoredFile> for VendoredFileDto {
-    fn from(f: VendoredFile) -> Self {
-        Self {
-            file_name: f.file_name,
-            component: f.component,
-            name: f.name,
-        }
-    }
-}
-
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ProjectStateDto {
-    pub exists: bool,
-    pub project: Option<ProjectSummaryDto>,
-    pub vendored_files: Vec<VendoredFileDto>,
-}
-
-impl From<ProjectState> for ProjectStateDto {
-    fn from(s: ProjectState) -> Self {
-        Self {
-            exists: s.exists,
-            project: s.project.map(ProjectSummaryDto::from),
-            vendored_files: s
-                .vendored_files
-                .into_iter()
-                .map(VendoredFileDto::from)
-                .collect(),
-        }
-    }
-}
-
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct InitRequest {
-    pub project_dir: PathBuf,
-    pub name: Option<String>,
-    #[serde(default = "default_output_dir")]
-    pub dir: PathBuf,
-    #[serde(default = "default_namespace")]
-    pub namespace: String,
-    #[serde(default)]
-    pub force: bool,
-}
-
-fn default_output_dir() -> PathBuf {
-    PathBuf::from("k8s")
-}
-
-fn default_namespace() -> String {
-    "default".to_string()
-}
-
-impl InitRequest {
-    pub fn into_params(self) -> (PathBuf, InitParams) {
-        (
-            self.project_dir,
-            InitParams {
-                name: self.name,
-                dir: self.dir,
-                namespace: self.namespace,
-                force: self.force,
-            },
-        )
-    }
-}
-
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct InitResponse {
-    pub project_name: String,
-    pub config_path: PathBuf,
-    pub output_dir: PathBuf,
-}
-
-impl From<InitOutcome> for InitResponse {
-    fn from(o: InitOutcome) -> Self {
-        Self {
-            project_name: o.project_name,
-            config_path: o.config_path,
-            output_dir: o.output_dir,
-        }
-    }
-}
-
-#[derive(Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct AddRequest {
-    pub project_dir: PathBuf,
-    pub component: String,
+pub struct RenderRequest {
+    pub reference: String,
     pub name: String,
     pub image: Option<String>,
     #[serde(default = "default_replicas")]
@@ -153,7 +83,9 @@ pub struct AddRequest {
     #[serde(default)]
     pub labels: Vec<LabelDto>,
     #[serde(default)]
-    pub force: bool,
+    pub fields: HashMap<String, String>,
+    #[serde(default = "default_namespace")]
+    pub default_namespace: String,
 }
 
 fn default_replicas() -> u32 {
@@ -168,45 +100,92 @@ fn default_path() -> String {
     "/".to_string()
 }
 
-impl AddRequest {
-    pub fn into_params(self, dry_run: bool) -> (PathBuf, AddParams) {
-        (
-            self.project_dir,
-            AddParams {
-                component: self.component,
-                name: self.name,
-                image: self.image,
-                replicas: self.replicas,
-                port: self.port,
-                target_port: self.target_port,
-                namespace: self.namespace,
-                host: self.host,
-                path: self.path,
-                service: self.service,
-                labels: self.labels.into_iter().map(|l| (l.key, l.value)).collect(),
-                force: self.force,
-                dry_run,
-            },
-        )
+fn default_namespace() -> String {
+    "default".to_string()
+}
+
+impl RenderRequest {
+    pub fn into_params(self) -> RenderParams {
+        let mut fields: Vec<(String, String)> = Vec::new();
+        if let Some(image) = self.image {
+            fields.push(("image".to_string(), image));
+        }
+        fields.push(("replicas".to_string(), self.replicas.to_string()));
+        fields.push(("port".to_string(), self.port.to_string()));
+        if let Some(target_port) = self.target_port {
+            fields.push(("target_port".to_string(), target_port.to_string()));
+        }
+        if let Some(namespace) = self.namespace {
+            fields.push(("namespace".to_string(), namespace));
+        }
+        if let Some(host) = self.host {
+            fields.push(("host".to_string(), host));
+        }
+        fields.push(("path".to_string(), self.path));
+        if let Some(service) = self.service {
+            fields.push(("service".to_string(), service));
+        }
+        fields.extend(self.fields);
+
+        RenderParams {
+            reference: self.reference,
+            name: self.name,
+            fields,
+            labels: self.labels.into_iter().map(|l| (l.key, l.value)).collect(),
+            default_namespace: self.default_namespace,
+        }
     }
 }
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct AddResponse {
-    pub component: &'static str,
+pub struct RenderResponse {
+    pub component: String,
+    pub extension: String,
     pub rendered: String,
-    pub output_path: Option<PathBuf>,
-    pub written: bool,
 }
 
-impl From<AddOutcome> for AddResponse {
-    fn from(o: AddOutcome) -> Self {
+impl From<RenderOutcome> for RenderResponse {
+    fn from(o: RenderOutcome) -> Self {
         Self {
             component: o.component,
+            extension: o.extension,
             rendered: o.rendered,
-            output_path: o.output_path,
-            written: o.written,
         }
     }
+}
+
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectDetailsDto {
+    pub name: String,
+    pub namespace: String,
+    pub output_dir: String,
+}
+
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectFileDto {
+    pub file_name: String,
+    pub component: String,
+    pub content: String,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PublishProjectRequest {
+    pub details: ProjectDetailsDto,
+    pub files: Vec<ProjectFileDto>,
+}
+
+#[derive(Serialize)]
+pub struct PublishProjectResponse {
+    pub id: String,
+}
+
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectBundleDto {
+    pub details: ProjectDetailsDto,
+    pub files: Vec<ProjectFileDto>,
 }

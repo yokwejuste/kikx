@@ -128,3 +128,41 @@
     @apply font-sans;
   }
 }
+
+.react-flow__controls {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.react-flow__controls-button {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  color: var(--foreground);
+}
+.react-flow__controls-button:hover {
+  background: var(--muted);
+}
+.react-flow__controls-button svg {
+  fill: currentColor;
+}
+.react-flow__minimap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.react-flow__minimap-mask {
+  fill: var(--foreground);
+  fill-opacity: 0.06;
+}
+.react-flow__minimap-node {
+  fill: var(--muted-foreground);
+  stroke: none;
+}
+.react-flow__attribution {
+  background: transparent;
+  color: var(--muted-foreground);
+}
+.react-flow__attribution a {
+  color: inherit;
+}

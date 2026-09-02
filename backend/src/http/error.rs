@@ -55,3 +55,18 @@ impl IntoResponse for BadRequest {
             .into_response()
     }
 }
+
+pub struct NotFound(pub String);
+
+impl IntoResponse for NotFound {
+    fn into_response(self) -> Response {
+        (
+            StatusCode::NOT_FOUND,
+            Json(ErrorDto {
+                code: "not_found".to_string(),
+                error: self.0,
+            }),
+        )
+            .into_response()
+    }
+}

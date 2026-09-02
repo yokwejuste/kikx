@@ -10,9 +10,6 @@ pub enum OpsErrorKind {
     Other,
 }
 
-/// Wraps an `anyhow::Error` with a `kind` an HTTP layer can map to a status
-/// code, while keeping the exact `Display` text callers already rely on
-/// (the CLI's error strings, matched by `cli/tests/cli.rs`).
 #[derive(Debug)]
 pub struct OpsError {
     pub kind: OpsErrorKind,
