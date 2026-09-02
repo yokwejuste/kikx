@@ -387,3 +387,33 @@ fn setup_with_non_url_reference_fails() {
         .failure()
         .stderr(contains("isn't a URL"));
 }
+
+#[test]
+fn add_ansible_inventory_for_an_existing_server() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "ansible/inventory",
+            "--name",
+            "my-vps",
+            "--set",
+            "group=control_plane",
+            "--set",
+            "ansible_host=203.0.113.10",
+        ])
+        .assert()
+        .success();
+
+    let path = tmp.path().join("k8s/my-vps-inventory.ini");
+    let text = std::fs::read_to_string(&path).unwrap();
+    assert!(text.contains("[control_plane]"));
+    assert!(text.contains("ansible_host=203.0.113.10"));
+    assert!(text.contains("ansible_user=root"));
+}

@@ -25,8 +25,11 @@ const STEPS: Step[] = [
   {
     value: "configure",
     label: "2. Configure",
-    description: "Ansible playbooks that set the provisioned servers up.",
-    tabs: [{ value: "ansible", label: "K8s bootstrap" }],
+    description: "Ansible playbooks that set servers up — provisioned here or already yours.",
+    tabs: [
+      { value: "ansible", label: "K8s bootstrap" },
+      { value: "inventory", label: "Inventory" },
+    ],
   },
   {
     value: "deploy",

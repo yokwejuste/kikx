@@ -100,6 +100,21 @@ pub fn all() -> Vec<RegistryItem> {
             fields: vec![required_field("hosts"), required_field("k8s_version")],
             template: include_str!("../../templates/ansible/k8s-bootstrap.yml.jinja").to_string(),
         },
+        RegistryItem {
+            name: "inventory".to_string(),
+            category: "ansible".to_string(),
+            extension: "ini".to_string(),
+            title: "Ansible Inventory".to_string(),
+            description: "Connects a playbook to a server you already have — pair with ansible/k8s-bootstrap to configure it without provisioning anything.".to_string(),
+            fields: vec![
+                required_field("group"),
+                required_field("ansible_host"),
+                defaulted_field("ansible_user", "root"),
+                defaulted_field("ansible_port", "22"),
+                field("ssh_key_file"),
+            ],
+            template: include_str!("../../templates/ansible/inventory.ini.jinja").to_string(),
+        },
     ]
 }
 

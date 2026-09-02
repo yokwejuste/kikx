@@ -1,14 +1,12 @@
 "use client";
 
-import { Controller, useFieldArray, type UseFormReturn } from "react-hook-form";
-import { Plus, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { UseFormReturn } from "react-hook-form";
 import { FormField } from "@/components/dashboard/form-field";
+import { ServerFields } from "@/components/dashboard/server-fields";
+import { InventoryFields } from "@/components/dashboard/inventory-fields";
+import { LabelFields } from "@/components/dashboard/label-fields";
 import type { ComponentKind } from "@/lib/schemas";
-import { K8S_KINDS, OS_IMAGES, type FormValues } from "@/lib/component-form-utils";
+import { K8S_KINDS, type FormValues } from "@/lib/component-form-utils";
 
 export function ComponentFormFields({
   kind,
@@ -18,7 +16,6 @@ export function ComponentFormFields({
   form: UseFormReturn<FormValues>;
 }) {
   const isK8s = K8S_KINDS.has(kind);
-  const labelFields = useFieldArray({ control: form.control, name: "labels" as never });
   const errors = form.formState.errors as Record<string, { message?: string } | undefined>;
   const reg = (field: string) => form.register(field as never);
 
@@ -46,6 +43,14 @@ export function ComponentFormFields({
             label="Hosts"
             registration={reg("hosts")}
             error={errors.hosts}
+            placeholder="control_plane"
+          />
+        )}
+        {kind === "inventory" && (
+          <FormField
+            label="Group"
+            registration={reg("group")}
+            error={errors.group}
             placeholder="control_plane"
           />
         )}
@@ -93,42 +98,7 @@ export function ComponentFormFields({
           </>
         )}
         {(kind === "digitalocean" || kind === "hetzner") && (
-          <>
-            <FormField
-              label="Size"
-              registration={reg("size")}
-              error={errors.size}
-              placeholder="s-2vcpu-4gb"
-            />
-            <Field data-invalid={!!errors.osImage}>
-              <FieldLabel>OS image</FieldLabel>
-              <Controller
-                control={form.control}
-                name={"osImage" as never}
-                render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select an image" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {OS_IMAGES[kind].map((image) => (
-                        <SelectItem key={image.slug} value={image.slug}>
-                          {image.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-            </Field>
-            <FormField
-              label="Count"
-              type="number"
-              min={1}
-              registration={reg("count")}
-              error={errors.count}
-            />
-          </>
+          <ServerFields kind={kind} form={form} errors={errors} reg={reg} />
         )}
         {kind === "ansible" && (
           <FormField
@@ -138,6 +108,7 @@ export function ComponentFormFields({
             placeholder="1.31"
           />
         )}
+        {kind === "inventory" && <InventoryFields errors={errors} reg={reg} />}
 
         {isK8s && (
           <FormField
@@ -149,38 +120,7 @@ export function ComponentFormFields({
         )}
       </div>
 
-      {isK8s && (
-        <Field>
-          <FieldLabel>Labels</FieldLabel>
-          <div className="flex flex-col gap-2">
-            {labelFields.fields.map((field, index) => (
-              <div key={field.id} className="flex gap-2">
-                <Input placeholder="key" {...form.register(`labels.${index}.key` as const)} />
-                <Input placeholder="value" {...form.register(`labels.${index}.value` as const)} />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="shrink-0 text-muted-foreground hover:text-destructive"
-                  onClick={() => labelFields.remove(index)}
-                >
-                  <X className="size-4" />
-                </Button>
-              </div>
-            ))}
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="w-fit gap-1.5"
-              onClick={() => labelFields.append({ key: "", value: "" })}
-            >
-              <Plus className="size-3.5" />
-              Add label
-            </Button>
-          </div>
-        </Field>
-      )}
+      {isK8s && <LabelFields form={form} />}
     </>
   );
 }

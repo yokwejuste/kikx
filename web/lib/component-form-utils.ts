@@ -1,4 +1,5 @@
 import type { RenderRequest } from "@/lib/api-client";
+import { OS_IMAGES } from "@/lib/os-images";
 import {
   deploymentFormSchema,
   serviceFormSchema,
@@ -6,6 +7,7 @@ import {
   digitalOceanFormSchema,
   hetznerFormSchema,
   ansibleFormSchema,
+  inventoryFormSchema,
   type ComponentKind,
 } from "@/lib/schemas";
 import type { z } from "zod";
@@ -17,6 +19,7 @@ export const schemas = {
   digitalocean: digitalOceanFormSchema,
   hetzner: hetznerFormSchema,
   ansible: ansibleFormSchema,
+  inventory: inventoryFormSchema,
 };
 
 export const REFERENCES: Record<ComponentKind, string> = {
@@ -26,28 +29,10 @@ export const REFERENCES: Record<ComponentKind, string> = {
   digitalocean: "terraform/digitalocean",
   hetzner: "terraform/hetzner",
   ansible: "ansible/k8s-bootstrap",
+  inventory: "ansible/inventory",
 };
 
 export const K8S_KINDS = new Set<ComponentKind>(["deployment", "service", "ingress"]);
-
-export const OS_IMAGES: Record<"digitalocean" | "hetzner", { label: string; slug: string }[]> = {
-  digitalocean: [
-    { label: "Ubuntu 24.04", slug: "ubuntu-24-04-x64" },
-    { label: "Ubuntu 22.04", slug: "ubuntu-22-04-x64" },
-    { label: "Debian 13", slug: "debian-13-x64" },
-    { label: "Fedora 44", slug: "fedora-44-x64" },
-    { label: "Rocky Linux 9", slug: "rockylinux-9-x64" },
-    { label: "AlmaLinux 9", slug: "almalinux-9-x64" },
-  ],
-  hetzner: [
-    { label: "Ubuntu 24.04", slug: "ubuntu-24.04" },
-    { label: "Ubuntu 22.04", slug: "ubuntu-22.04" },
-    { label: "Debian 12", slug: "debian-12" },
-    { label: "Fedora 44", slug: "fedora-44" },
-    { label: "Rocky Linux 9", slug: "rocky-9" },
-    { label: "AlmaLinux 9", slug: "alma-9" },
-  ],
-};
 
 type DeploymentValues = z.infer<typeof deploymentFormSchema>;
 type ServiceValues = z.infer<typeof serviceFormSchema>;
@@ -55,13 +40,15 @@ type IngressValues = z.infer<typeof ingressFormSchema>;
 type DigitalOceanValues = z.infer<typeof digitalOceanFormSchema>;
 type HetznerValues = z.infer<typeof hetznerFormSchema>;
 type AnsibleValues = z.infer<typeof ansibleFormSchema>;
+type InventoryValues = z.infer<typeof inventoryFormSchema>;
 export type FormValues =
   | DeploymentValues
   | ServiceValues
   | IngressValues
   | DigitalOceanValues
   | HetznerValues
-  | AnsibleValues;
+  | AnsibleValues
+  | InventoryValues;
 
 export function defaultsFor(kind: ComponentKind): FormValues {
   switch (kind) {
@@ -115,6 +102,16 @@ export function defaultsFor(kind: ComponentKind): FormValues {
       };
     case "ansible":
       return { component: "ansible", name: "", hosts: "", k8sVersion: "" };
+    case "inventory":
+      return {
+        component: "inventory",
+        name: "",
+        group: "control_plane",
+        ansibleHost: "",
+        ansibleUser: "root",
+        ansiblePort: 22,
+        sshKeyFile: "",
+      };
   }
 }
 
@@ -166,8 +163,20 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
       },
     };
   }
+  if (values.component === "ansible") {
+    return {
+      ...base,
+      fields: { hosts: values.hosts, k8s_version: values.k8sVersion },
+    };
+  }
   return {
     ...base,
-    fields: { hosts: values.hosts, k8s_version: values.k8sVersion },
+    fields: {
+      group: values.group,
+      ansible_host: values.ansibleHost,
+      ansible_user: values.ansibleUser,
+      ansible_port: values.ansiblePort.toString(),
+      ssh_key_file: values.sshKeyFile ?? "",
+    },
   };
 }

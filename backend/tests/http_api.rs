@@ -59,6 +59,7 @@ async fn list_components_returns_all_builtins() {
             "terraform/digitalocean",
             "terraform/hetzner",
             "ansible/k8s-bootstrap",
+            "ansible/inventory",
         ]
     );
 }
@@ -153,6 +154,44 @@ async fn render_ansible_playbook() {
     let rendered = body["rendered"].as_str().unwrap();
     assert!(rendered.contains("hosts: control_plane"));
     assert!(rendered.contains("kubelet=1.31*"));
+}
+
+#[tokio::test]
+async fn render_ansible_inventory_for_an_existing_server() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "ansible/inventory",
+            "name": "my-vps",
+            "fields": { "group": "control_plane", "ansible_host": "203.0.113.10" },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(body["extension"], "ini");
+    let rendered = body["rendered"].as_str().unwrap();
+    assert!(rendered.contains("[control_plane]"));
+    assert!(rendered.contains("my-vps ansible_host=203.0.113.10 ansible_user=root ansible_port=22"));
+    assert!(!rendered.contains("ansible_ssh_private_key_file"));
+}
+
+#[tokio::test]
+async fn render_ansible_inventory_without_ansible_host_is_bad_request() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "ansible/inventory",
+            "name": "my-vps",
+            "fields": { "group": "control_plane" },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::BAD_REQUEST);
+    assert!(body["error"].as_str().unwrap().contains("--ansible_host"));
 }
 
 #[tokio::test]
