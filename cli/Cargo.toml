@@ -1,0 +1,23 @@
+[package]
+name = "kikx"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "kikx"
+path = "src/main.rs"
+
+[lib]
+name = "kikx"
+path = "src/lib.rs"
+
+[dependencies]
+kikx-core = { path = "../backend/core" }
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3"
+serde_yaml_ng = "0.10"
