@@ -71,6 +71,7 @@ async fn list_components_returns_all_builtins() {
             "terraform/hetzner",
             "ansible/k8s-bootstrap",
             "ansible/inventory",
+            "ansible/group-vars",
             "ansible/common-role",
         ]
     );
@@ -292,6 +293,26 @@ async fn render_common_role_returns_all_four_files() {
     let motd = file_content(&body["files"], "roles/web/templates/motd.j2");
     assert!(motd.contains("Host: web"));
     assert!(motd.contains("{{ motd_message }}"));
+}
+
+#[tokio::test]
+async fn render_group_vars_writes_group_vars_yaml() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "ansible/group-vars",
+            "name": "web",
+            "fields": { "group": "web", "vars": r#"{"app_port":"8080","env":"production"}"# },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(body["files"][0]["path"], "group_vars/web.yml");
+    let rendered = file_content(&body["files"], "group_vars/web.yml");
+    assert!(rendered.contains("app_port: 8080"));
+    assert!(rendered.contains("env: production"));
 }
 
 #[tokio::test]

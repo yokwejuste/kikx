@@ -9,6 +9,7 @@ import {
   hetznerFormSchema,
   ansibleFormSchema,
   inventoryFormSchema,
+  groupVarsFormSchema,
   type ComponentKind,
 } from "@/lib/schemas";
 import type { z } from "zod";
@@ -21,6 +22,7 @@ export const schemas = {
   hetzner: hetznerFormSchema,
   ansible: ansibleFormSchema,
   inventory: inventoryFormSchema,
+  groupvars: groupVarsFormSchema,
 };
 
 export const REFERENCES: Record<ComponentKind, string> = {
@@ -31,6 +33,7 @@ export const REFERENCES: Record<ComponentKind, string> = {
   hetzner: "terraform/hetzner",
   ansible: "ansible/k8s-bootstrap",
   inventory: "ansible/inventory",
+  groupvars: "ansible/group-vars",
 };
 
 export const K8S_KINDS = new Set<ComponentKind>(["deployment", "service", "ingress"]);
@@ -42,6 +45,7 @@ type DigitalOceanValues = z.infer<typeof digitalOceanFormSchema>;
 type HetznerValues = z.infer<typeof hetznerFormSchema>;
 type AnsibleValues = z.infer<typeof ansibleFormSchema>;
 type InventoryValues = z.infer<typeof inventoryFormSchema>;
+type GroupVarsValues = z.infer<typeof groupVarsFormSchema>;
 export type FormValues =
   | DeploymentValues
   | ServiceValues
@@ -49,7 +53,8 @@ export type FormValues =
   | DigitalOceanValues
   | HetznerValues
   | AnsibleValues
-  | InventoryValues;
+  | InventoryValues
+  | GroupVarsValues;
 
 export function defaultsFor(kind: ComponentKind): FormValues {
   switch (kind) {
@@ -110,10 +115,25 @@ export function defaultsFor(kind: ComponentKind): FormValues {
         hosts: [{ group: "all", name: "", ansibleHost: "", ansibleUser: "root", ansiblePort: 22, sshKeyFile: "" }],
         groups: [],
       };
+    case "groupvars":
+      return { component: "groupvars", group: "", vars: [] };
   }
 }
 
 export function toRenderRequest(defaultNamespace: string, values: FormValues): RenderRequest {
+  if (values.component === "groupvars") {
+    const vars: Record<string, string> = {};
+    for (const v of values.vars) {
+      if (v.key) vars[v.key] = v.value;
+    }
+    return {
+      reference: REFERENCES.groupvars,
+      name: values.group,
+      defaultNamespace,
+      fields: { group: values.group, vars: JSON.stringify(vars) },
+    };
+  }
+
   const base: RenderRequest = {
     reference: REFERENCES[values.component],
     name: values.name,

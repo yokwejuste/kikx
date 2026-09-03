@@ -14,10 +14,12 @@ import { api, ApiClientError, type RenderedFile } from "@/lib/api-client";
 import { useProject, type AddedComponent } from "@/lib/project-context";
 import { defaultsFor, schemas, toRenderRequest, type FormValues } from "@/lib/component-form-utils";
 import { toPresetComponent } from "@/lib/preset";
+import { extractInventoryGroupNames } from "@/lib/inventory-utils";
 import type { ComponentKind } from "@/lib/schemas";
 
 export function ComponentForm({ kind }: { kind: ComponentKind }) {
-  const { details, addComponent, conflictingFileNames } = useProject();
+  const { details, components, addComponent, conflictingFileNames } = useProject();
+  const inventoryGroupNames = extractInventoryGroupNames(components);
   const [files, setFiles] = useState<RenderedFile[] | null>(null);
   const [pending, setPending] = useState<Omit<AddedComponent, "id"> | null>(null);
   const [conflicts, setConflicts] = useState<string[] | null>(null);
@@ -63,7 +65,7 @@ export function ComponentForm({ kind }: { kind: ComponentKind }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <ComponentFormFields kind={kind} form={form} />
+      <ComponentFormFields kind={kind} form={form} inventoryGroupNames={inventoryGroupNames} />
 
       <div className="flex gap-2 border-t pt-6">
         <Button

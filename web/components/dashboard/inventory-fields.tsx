@@ -4,11 +4,13 @@ import { useFieldArray, type UseFormReturn } from "react-hook-form";
 import { Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import type { FormValues } from "@/lib/component-form-utils";
+import type { InventoryHostValues } from "@/lib/schemas";
 
 export function InventoryFields({ form }: { form: UseFormReturn<FormValues> }) {
   const hostFields = useFieldArray({ control: form.control, name: "hosts" as never });
+  const errors = form.formState.errors as { hosts?: Array<Record<keyof InventoryHostValues, { message?: string } | undefined> | undefined> };
 
   return (
     <Field>
@@ -18,35 +20,72 @@ export function InventoryFields({ form }: { form: UseFormReturn<FormValues> }) {
         put them under one Ansible group; different names create separate groups.
       </p>
       <div className="flex flex-col gap-3">
-        {hostFields.fields.map((field, index) => (
-          <div key={field.id} className="grid grid-cols-2 gap-2 rounded-lg border p-3 sm:grid-cols-3">
-            <Input placeholder="group (e.g. all)" {...form.register(`hosts.${index}.group` as const)} />
-            <Input placeholder="host name" {...form.register(`hosts.${index}.name` as const)} />
-            <Input placeholder="203.0.113.10" {...form.register(`hosts.${index}.ansibleHost` as const)} />
-            <Input placeholder="ssh user" {...form.register(`hosts.${index}.ansibleUser` as const)} />
-            <Input
-              type="number"
-              placeholder="ssh port"
-              {...form.register(`hosts.${index}.ansiblePort` as const)}
-            />
-            <div className="flex gap-2">
-              <Input
-                placeholder="ssh key file (optional)"
-                {...form.register(`hosts.${index}.sshKeyFile` as const)}
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="shrink-0 text-muted-foreground hover:text-destructive"
-                disabled={hostFields.fields.length === 1}
-                onClick={() => hostFields.remove(index)}
-              >
-                <X className="size-4" />
-              </Button>
+        {hostFields.fields.map((field, index) => {
+          const rowErrors = errors.hosts?.[index];
+          return (
+            <div key={field.id} className="flex flex-col gap-2 rounded-lg border p-3">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                <div>
+                  <Input
+                    placeholder="group (e.g. all)"
+                    aria-invalid={!!rowErrors?.group}
+                    {...form.register(`hosts.${index}.group` as const)}
+                  />
+                  <FieldError errors={[rowErrors?.group]} />
+                </div>
+                <div>
+                  <Input
+                    placeholder="host name"
+                    aria-invalid={!!rowErrors?.name}
+                    {...form.register(`hosts.${index}.name` as const)}
+                  />
+                  <FieldError errors={[rowErrors?.name]} />
+                </div>
+                <div>
+                  <Input
+                    placeholder="203.0.113.10"
+                    aria-invalid={!!rowErrors?.ansibleHost}
+                    {...form.register(`hosts.${index}.ansibleHost` as const)}
+                  />
+                  <FieldError errors={[rowErrors?.ansibleHost]} />
+                </div>
+                <div>
+                  <Input
+                    placeholder="ssh user"
+                    aria-invalid={!!rowErrors?.ansibleUser}
+                    {...form.register(`hosts.${index}.ansibleUser` as const)}
+                  />
+                  <FieldError errors={[rowErrors?.ansibleUser]} />
+                </div>
+                <div>
+                  <Input
+                    type="number"
+                    placeholder="ssh port"
+                    aria-invalid={!!rowErrors?.ansiblePort}
+                    {...form.register(`hosts.${index}.ansiblePort` as const)}
+                  />
+                  <FieldError errors={[rowErrors?.ansiblePort]} />
+                </div>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="ssh key file (optional)"
+                    {...form.register(`hosts.${index}.sshKeyFile` as const)}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="shrink-0 text-muted-foreground hover:text-destructive"
+                    disabled={hostFields.fields.length === 1}
+                    onClick={() => hostFields.remove(index)}
+                  >
+                    <X className="size-4" />
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         <Button
           type="button"
           variant="outline"

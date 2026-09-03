@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+const IPV4_RE = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
+const HOSTNAME_RE = /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$/;
+
+function isValidHostOrIp(value: string): boolean {
+  return IPV4_RE.test(value) || value.includes(":") || HOSTNAME_RE.test(value);
+}
+
 export const initFormSchema = z.object({
   name: z.string().min(1, "Project name is required"),
   namespace: z.string().min(1, "Namespace is required"),
@@ -75,9 +82,16 @@ export const ansibleFormSchema = z.object({
 const inventoryHostSchema = z.object({
   group: z.string().min(1, "Group is required"),
   name: z.string().min(1, "Host name is required"),
-  ansibleHost: z.string().min(1, "Host/IP is required"),
+  ansibleHost: z
+    .string()
+    .min(1, "Host/IP is required")
+    .refine(isValidHostOrIp, "Enter a valid IP address or hostname"),
   ansibleUser: z.string().min(1, "SSH user is required"),
-  ansiblePort: z.coerce.number().int().min(1).max(65535),
+  ansiblePort: z.coerce
+    .number({ invalid_type_error: "Port is required" })
+    .int("Port must be a whole number")
+    .min(1, "Port must be between 1 and 65535")
+    .max(65535, "Port must be between 1 and 65535"),
   sshKeyFile: z.string().optional(),
 });
 export type InventoryHostValues = z.infer<typeof inventoryHostSchema>;
@@ -96,6 +110,12 @@ export const inventoryFormSchema = z.object({
   groups: z.array(inventoryGroupSchema).default([]),
 });
 
+export const groupVarsFormSchema = z.object({
+  component: z.literal("groupvars"),
+  group: z.string().min(1, "Group is required"),
+  vars: z.array(labelSchema).min(1, "Add at least one variable"),
+});
+
 export const componentFormSchema = z.discriminatedUnion("component", [
   deploymentFormSchema,
   serviceFormSchema,
@@ -104,6 +124,7 @@ export const componentFormSchema = z.discriminatedUnion("component", [
   hetznerFormSchema,
   ansibleFormSchema,
   inventoryFormSchema,
+  groupVarsFormSchema,
 ]);
 
 export type ComponentFormValues = z.infer<typeof componentFormSchema>;

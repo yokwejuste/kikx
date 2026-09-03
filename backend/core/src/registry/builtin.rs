@@ -131,6 +131,18 @@ pub fn all() -> Vec<RegistryItem> {
             )],
         },
         RegistryItem {
+            name: "group-vars".to_string(),
+            category: "ansible".to_string(),
+            title: "Group Vars".to_string(),
+            description: "Shared variables for one Ansible inventory group (group_vars/<group>.yml)."
+                .to_string(),
+            fields: vec![required_field("group"), required_field("vars")],
+            files: vec![file(
+                "group_vars/{{ group }}.yml",
+                include_str!("../../templates/ansible/group-vars.yml.jinja"),
+            )],
+        },
+        RegistryItem {
             name: "common-role".to_string(),
             category: "ansible".to_string(),
             title: "Common Host-Hygiene Role".to_string(),

@@ -279,6 +279,30 @@ mod tests {
     }
 
     #[test]
+    fn renders_group_vars_as_yaml() {
+        let outcome = render_component(RenderParams {
+            reference: "ansible/group-vars".to_string(),
+            name: "web".to_string(),
+            fields: vec![
+                ("group".to_string(), "web".to_string()),
+                (
+                    "vars".to_string(),
+                    r#"{"app_port":"8080","env":"production"}"#.to_string(),
+                ),
+            ],
+            labels: vec![],
+            default_namespace: "default".to_string(),
+        })
+        .unwrap();
+
+        assert_eq!(outcome.files.len(), 1);
+        assert_eq!(outcome.files[0].path, PathBuf::from("group_vars/web.yml"));
+        let content = &outcome.files[0].content;
+        assert!(content.contains("app_port: 8080"));
+        assert!(content.contains("env: production"));
+    }
+
+    #[test]
     fn rejects_two_files_rendering_to_the_same_path() {
         let item_json = r#"{"name":"dup","category":"acme","files":[{"path":"same.txt","template":"a"},{"path":"same.txt","template":"b"}]}"#;
         let tmp = tempfile::tempdir().unwrap();

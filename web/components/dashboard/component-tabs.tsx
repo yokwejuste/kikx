@@ -20,6 +20,7 @@ const STEPS: Step[] = [
     tabs: [
       { value: "ansible", label: "K8s bootstrap" },
       { value: "inventory", label: "Inventory" },
+      { value: "groupvars", label: "Group vars" },
     ],
   },
   {

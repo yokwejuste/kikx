@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -8,6 +8,8 @@ import {
   Controls,
   MiniMap,
   BackgroundVariant,
+  useNodesState,
+  useEdgesState,
   type Node,
   type Edge,
 } from "@xyflow/react";
@@ -142,7 +144,7 @@ export function DataFlow() {
     return ids;
   }, [activeEdgeIds]);
 
-  const nodes: Node[] = useMemo(
+  const computedNodes: Node[] = useMemo(
     () =>
       NODE_DEFS.map((n) => ({
         id: n.id,
@@ -154,7 +156,7 @@ export function DataFlow() {
     [activeNodeIds],
   );
 
-  const edges: Edge[] = useMemo(
+  const computedEdges: Edge[] = useMemo(
     () =>
       EDGE_DEFS.map((e) => {
         const active = activeEdgeIds.has(e.id);
@@ -174,6 +176,17 @@ export function DataFlow() {
       }),
     [activeEdgeIds],
   );
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(computedNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(computedEdges);
+
+  useEffect(() => {
+    setNodes(computedNodes);
+  }, [computedNodes, setNodes]);
+
+  useEffect(() => {
+    setEdges(computedEdges);
+  }, [computedEdges, setEdges]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -197,6 +210,8 @@ export function DataFlow() {
           <ReactFlow
             nodes={nodes}
             edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
             colorMode={resolvedTheme === "dark" ? "dark" : "light"}
             fitView
@@ -207,7 +222,7 @@ export function DataFlow() {
           >
             <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
             <Controls showInteractive={false} />
-            <MiniMap pannable zoomable />
+            <MiniMap pannable zoomable nodeColor="var(--primary)" nodeStrokeWidth={0} />
           </ReactFlow>
         </ReactFlowProvider>
       </div>

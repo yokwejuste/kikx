@@ -1,4 +1,5 @@
 import type { InventoryGroupValues, InventoryHostValues } from "@/lib/schemas";
+import type { AddedComponent } from "@/lib/project-context";
 
 interface InventoryGroupEntry {
   group: string;
@@ -52,4 +53,21 @@ export function buildInventoryGroups(hosts: InventoryHostValues[], groups: Inven
   }
 
   return Array.from(byName.values());
+}
+
+export function extractInventoryGroupNames(components: AddedComponent[]): string[] {
+  const names = new Set<string>();
+  for (const component of components) {
+    if (component.recipe.reference !== "ansible/inventory") continue;
+    try {
+      const parsed = JSON.parse(component.recipe.fields.hosts ?? "[]");
+      if (!Array.isArray(parsed)) continue;
+      for (const group of parsed) {
+        if (typeof group?.group === "string") names.add(group.group);
+      }
+    } catch {
+      continue;
+    }
+  }
+  return Array.from(names);
 }

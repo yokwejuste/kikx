@@ -533,6 +533,34 @@ fn add_common_role_writes_all_four_files() {
 }
 
 #[test]
+fn add_group_vars_writes_group_vars_yaml() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "ansible/group-vars",
+            "--name",
+            "web",
+            "--set",
+            "group=web",
+            "--set",
+            r#"vars={"app_port":"8080","env":"production"}"#,
+        ])
+        .assert()
+        .success();
+
+    let text = std::fs::read_to_string(tmp.path().join("k8s/group_vars/web.yml")).unwrap();
+    assert!(text.contains("app_port: 8080"));
+    assert!(text.contains("env: production"));
+}
+
+#[test]
 fn add_ansible_inventory_with_children_and_vars_groups() {
     let tmp = tempfile::tempdir().unwrap();
     kikx()
