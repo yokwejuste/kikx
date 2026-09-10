@@ -94,21 +94,7 @@ jobs:
           Copy-Item "README.md" "$name/"
           Compress-Archive -Path $name -DestinationPath "$name.zip"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: kikx-${{ matrix.target }}
-          path: kikx-*.${{ matrix.archive }}
-
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: dist
-          merge-multiple: true
-
       - uses: softprops/action-gh-release@v2
         with:
-          files: dist/kikx-*
+          files: kikx-*.${{ matrix.archive }}
           generate_release_notes: true
