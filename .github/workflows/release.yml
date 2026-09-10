@@ -40,19 +40,24 @@ jobs:
           - target: aarch64-apple-darwin
             os: macos-latest
             archive: tar.gz
+            asset_name: macos-arm64
           - target: x86_64-apple-darwin
             os: macos-latest
             archive: tar.gz
+            asset_name: macos-x64
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
             archive: tar.gz
+            asset_name: linux-x64
           - target: aarch64-unknown-linux-gnu
             os: ubuntu-latest
             archive: tar.gz
+            asset_name: linux-arm64
             cross: true
           - target: x86_64-pc-windows-msvc
             os: windows-latest
             archive: zip
+            asset_name: windows-x64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -77,7 +82,7 @@ jobs:
         shell: bash
         run: |
           version="${GITHUB_REF_NAME#v}"
-          name="kikx-${version}-${{ matrix.target }}"
+          name="kikx-${version}-${{ matrix.asset_name }}"
           mkdir "$name"
           cp cli/target/${{ matrix.target }}/release/kikx "$name/"
           cp README.md "$name/"
@@ -88,7 +93,7 @@ jobs:
         shell: pwsh
         run: |
           $version = "${env:GITHUB_REF_NAME}" -replace '^v', ''
-          $name = "kikx-$version-${{ matrix.target }}"
+          $name = "kikx-$version-${{ matrix.asset_name }}"
           New-Item -ItemType Directory -Path $name | Out-Null
           Copy-Item "cli/target/${{ matrix.target }}/release/kikx.exe" "$name/"
           Copy-Item "README.md" "$name/"
