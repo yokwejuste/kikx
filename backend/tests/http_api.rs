@@ -73,6 +73,7 @@ async fn list_components_returns_all_builtins() {
             "ansible/inventory",
             "ansible/group-vars",
             "ansible/common-role",
+            "ansible/playbook",
         ]
     );
 }
@@ -313,6 +314,27 @@ async fn render_group_vars_writes_group_vars_yaml() {
     let rendered = file_content(&body["files"], "group_vars/web.yml");
     assert!(rendered.contains("app_port: 8080"));
     assert!(rendered.contains("env: production"));
+}
+
+#[tokio::test]
+async fn render_playbook_assigns_roles_to_a_group() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "ansible/playbook",
+            "name": "web-site",
+            "fields": { "hosts": "web", "roles": r#"["hygiene","nginx"]"# },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(body["files"][0]["path"], "web-site.yml");
+    let rendered = file_content(&body["files"], "web-site.yml");
+    assert!(rendered.contains("hosts: web"));
+    assert!(rendered.contains("- hygiene"));
+    assert!(rendered.contains("- nginx"));
 }
 
 #[tokio::test]

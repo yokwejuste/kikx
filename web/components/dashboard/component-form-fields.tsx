@@ -6,6 +6,7 @@ import { ServerFields } from "@/components/dashboard/server-fields";
 import { InventoryFields } from "@/components/dashboard/inventory-fields";
 import { InventoryGroupsFields } from "@/components/dashboard/inventory-groups-fields";
 import { KeyValueFields } from "@/components/dashboard/key-value-fields";
+import { RolePickerFields } from "@/components/dashboard/role-picker-fields";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { ComponentKind } from "@/lib/schemas";
@@ -15,10 +16,12 @@ export function ComponentFormFields({
   kind,
   form,
   inventoryGroupNames = [],
+  availableRoleNames = [],
 }: {
   kind: ComponentKind;
   form: UseFormReturn<FormValues>;
   inventoryGroupNames?: string[];
+  availableRoleNames?: string[];
 }) {
   const isK8s = K8S_KINDS.has(kind);
   const errors = form.formState.errors as Record<string, { message?: string } | undefined>;
@@ -79,7 +82,7 @@ export function ComponentFormFields({
         {(kind === "digitalocean" || kind === "hetzner") && (
           <FormField label="Region" registration={reg("region")} error={errors.region} placeholder="nyc3" />
         )}
-        {kind === "ansible" && inventoryGroupNames.length > 0 && (
+        {(kind === "ansible" || kind === "playbook") && inventoryGroupNames.length > 0 && (
           <Field data-invalid={!!errors.hosts}>
             <FieldLabel>Hosts</FieldLabel>
             <Select
@@ -98,13 +101,11 @@ export function ComponentFormFields({
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">
-              Which Inventory group this playbook runs against.
-            </p>
+            <p className="text-xs text-muted-foreground">Which Inventory group this playbook runs against.</p>
             <FieldError errors={[errors.hosts]} />
           </Field>
         )}
-        {kind === "ansible" && inventoryGroupNames.length === 0 && (
+        {(kind === "ansible" || kind === "playbook") && inventoryGroupNames.length === 0 && (
           <FormField
             label="Hosts"
             registration={reg("hosts")}
@@ -193,6 +194,7 @@ export function ComponentFormFields({
           valuePlaceholder="value"
         />
       )}
+      {kind === "playbook" && <RolePickerFields form={form} availableRoleNames={availableRoleNames} />}
     </>
   );
 }

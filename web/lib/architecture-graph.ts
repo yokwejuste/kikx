@@ -88,6 +88,8 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
   const k8sDeploymentIdByName: Record<string, string> = {};
   const ansiblePlaybooks: { id: string; hosts: string }[] = [];
   const groupVarsNodes: { id: string; group: string }[] = [];
+  const roleIdByName: Record<string, string> = {};
+  const playbookRoleAssignments: { id: string; roles: string[] }[] = [];
   const k8sServices: { id: string; appLabel: string }[] = [];
   const k8sIngresses: { id: string; wantsService: string }[] = [];
 
@@ -148,16 +150,40 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
     }
 
     if (lane === "ansible") {
-      const isRole = component.files.length > 1;
+      const isPlaybookAssignment = reference === "ansible/playbook";
+      const isRole = component.files.length > 1 && !isPlaybookAssignment;
+      let assignedRoles: string[] = [];
+      if (isPlaybookAssignment) {
+        try {
+          const parsed = JSON.parse(fields.roles ?? "[]");
+          if (Array.isArray(parsed)) assignedRoles = parsed;
+        } catch {
+          assignedRoles = [];
+        }
+      }
+
+      let description: string;
+      if (isPlaybookAssignment) {
+        description = `Playbook · ${assignedRoles.length} role${assignedRoles.length === 1 ? "" : "s"}`;
+      } else if (isRole) {
+        description = `Ansible role · ${component.files.length} files`;
+      } else {
+        description = "Ansible playbook";
+      }
+
       addNode(component.id, lane, {
         label: name,
-        description: isRole ? `Ansible role · ${component.files.length} files` : "Ansible playbook",
+        description,
         icon: Cog,
         kind: "process",
         handles: { target: true, source: true },
       });
+      if (isRole) roleIdByName[name] = component.id;
       if (fields.hosts) {
         ansiblePlaybooks.push({ id: component.id, hosts: fields.hosts });
+      }
+      if (isPlaybookAssignment) {
+        playbookRoleAssignments.push({ id: component.id, roles: assignedRoles });
       }
       continue;
     }
@@ -209,6 +235,14 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
       playbook.hosts === "all" ? Object.values(inventoryGroupId) : [inventoryGroupId[playbook.hosts]].filter(Boolean);
     for (const groupId of targets) {
       edges.push(relationEdge(`${groupId}->${playbook.id}`, groupId, playbook.id, "targets"));
+    }
+  }
+
+  for (const assignment of playbookRoleAssignments) {
+    for (const roleName of assignment.roles) {
+      const roleId = roleIdByName[roleName];
+      if (!roleId) continue;
+      edges.push(relationEdge(`${assignment.id}->${roleId}`, assignment.id, roleId, "includes role"));
     }
   }
 

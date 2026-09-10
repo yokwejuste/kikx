@@ -167,6 +167,18 @@ pub fn all() -> Vec<RegistryItem> {
                 ),
             ],
         },
+        RegistryItem {
+            name: "playbook".to_string(),
+            category: "ansible".to_string(),
+            title: "Playbook".to_string(),
+            description: "Assigns roles to an Inventory group — the site.yml piece that ties roles to hosts."
+                .to_string(),
+            fields: vec![required_field("hosts"), required_field("roles")],
+            files: vec![file(
+                "{{ name }}.yml",
+                include_str!("../../templates/ansible/playbook.yml.jinja"),
+            )],
+        },
     ]
 }
 

@@ -10,6 +10,7 @@ import {
   ansibleFormSchema,
   inventoryFormSchema,
   groupVarsFormSchema,
+  playbookFormSchema,
   type ComponentKind,
 } from "@/lib/schemas";
 import type { z } from "zod";
@@ -23,6 +24,7 @@ export const schemas = {
   ansible: ansibleFormSchema,
   inventory: inventoryFormSchema,
   groupvars: groupVarsFormSchema,
+  playbook: playbookFormSchema,
 };
 
 export const REFERENCES: Record<ComponentKind, string> = {
@@ -34,6 +36,7 @@ export const REFERENCES: Record<ComponentKind, string> = {
   ansible: "ansible/k8s-bootstrap",
   inventory: "ansible/inventory",
   groupvars: "ansible/group-vars",
+  playbook: "ansible/playbook",
 };
 
 export const K8S_KINDS = new Set<ComponentKind>(["deployment", "service", "ingress"]);
@@ -46,6 +49,7 @@ type HetznerValues = z.infer<typeof hetznerFormSchema>;
 type AnsibleValues = z.infer<typeof ansibleFormSchema>;
 type InventoryValues = z.infer<typeof inventoryFormSchema>;
 type GroupVarsValues = z.infer<typeof groupVarsFormSchema>;
+type PlaybookValues = z.infer<typeof playbookFormSchema>;
 export type FormValues =
   | DeploymentValues
   | ServiceValues
@@ -54,7 +58,8 @@ export type FormValues =
   | HetznerValues
   | AnsibleValues
   | InventoryValues
-  | GroupVarsValues;
+  | GroupVarsValues
+  | PlaybookValues;
 
 export function defaultsFor(kind: ComponentKind): FormValues {
   switch (kind) {
@@ -117,7 +122,24 @@ export function defaultsFor(kind: ComponentKind): FormValues {
       };
     case "groupvars":
       return { component: "groupvars", group: "", vars: [] };
+    case "playbook":
+      return { component: "playbook", name: "", hosts: "", roles: [] };
   }
+}
+
+export function extractAvailableRoleNames(
+  components: { recipe: { reference: string; name: string }; files: unknown[] }[],
+): string[] {
+  return components
+    .filter(
+      (c) =>
+        c.recipe.reference.startsWith("ansible/") &&
+        c.recipe.reference !== "ansible/inventory" &&
+        c.recipe.reference !== "ansible/group-vars" &&
+        c.recipe.reference !== "ansible/playbook" &&
+        c.files.length > 1,
+    )
+    .map((c) => c.recipe.name);
 }
 
 export function toRenderRequest(defaultNamespace: string, values: FormValues): RenderRequest {
@@ -185,6 +207,12 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
     return {
       ...base,
       fields: { hosts: values.hosts, k8s_version: values.k8sVersion },
+    };
+  }
+  if (values.component === "playbook") {
+    return {
+      ...base,
+      fields: { hosts: values.hosts, roles: JSON.stringify(values.roles) },
     };
   }
   return {

@@ -1,0 +1,27 @@
+name: Feature request
+description: A component, workflow, or piece of the registry that's missing.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's missing
+      description: What are you trying to do that kikx can't render or vendor today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed shape
+      description: A new registry component, a CLI flag, a dashboard change — whatever form this would take.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you're doing instead right now
+      description: A custom registry-item.json, a manual edit after vendoring, something else.
+    validations:
+      required: false

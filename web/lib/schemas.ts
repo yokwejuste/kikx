@@ -116,6 +116,13 @@ export const groupVarsFormSchema = z.object({
   vars: z.array(labelSchema).min(1, "Add at least one variable"),
 });
 
+export const playbookFormSchema = z.object({
+  component: z.literal("playbook"),
+  name: z.string().min(1, "Name is required"),
+  hosts: z.string().min(1, "Hosts is required"),
+  roles: z.array(z.string()).min(1, "Pick at least one role"),
+});
+
 export const componentFormSchema = z.discriminatedUnion("component", [
   deploymentFormSchema,
   serviceFormSchema,
@@ -125,6 +132,7 @@ export const componentFormSchema = z.discriminatedUnion("component", [
   ansibleFormSchema,
   inventoryFormSchema,
   groupVarsFormSchema,
+  playbookFormSchema,
 ]);
 
 export type ComponentFormValues = z.infer<typeof componentFormSchema>;

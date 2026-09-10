@@ -1,0 +1,49 @@
+name: Bug report
+description: Something doesn't work the way it should.
+labels: [bug]
+body:
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did this happen?
+      options:
+        - CLI (kikx binary)
+        - Backend (kikx-backend HTTP API)
+        - Web dashboard
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: kikx version
+      description: "`kikx --version`, or the commit/tag you're on"
+      placeholder: v0.1.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Commands run, or what you did in the dashboard.
+      placeholder: |
+        kikx init --name demo
+        kikx add ansible/inventory --name hosts --set hosts='[...]'
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs. actual
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output
+      description: Error text, rendered file content, or a screenshot for dashboard issues.
+      render: shell

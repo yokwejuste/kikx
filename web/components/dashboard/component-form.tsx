@@ -12,7 +12,7 @@ import { FileConflictDialog } from "@/components/dashboard/file-conflict-dialog"
 import { YamlPreview } from "@/components/dashboard/yaml-preview";
 import { api, ApiClientError, type RenderedFile } from "@/lib/api-client";
 import { useProject, type AddedComponent } from "@/lib/project-context";
-import { defaultsFor, schemas, toRenderRequest, type FormValues } from "@/lib/component-form-utils";
+import { defaultsFor, extractAvailableRoleNames, schemas, toRenderRequest, type FormValues } from "@/lib/component-form-utils";
 import { toPresetComponent } from "@/lib/preset";
 import { extractInventoryGroupNames } from "@/lib/inventory-utils";
 import type { ComponentKind } from "@/lib/schemas";
@@ -20,6 +20,7 @@ import type { ComponentKind } from "@/lib/schemas";
 export function ComponentForm({ kind }: { kind: ComponentKind }) {
   const { details, components, addComponent, conflictingFileNames } = useProject();
   const inventoryGroupNames = extractInventoryGroupNames(components);
+  const availableRoleNames = extractAvailableRoleNames(components);
   const [files, setFiles] = useState<RenderedFile[] | null>(null);
   const [pending, setPending] = useState<Omit<AddedComponent, "id"> | null>(null);
   const [conflicts, setConflicts] = useState<string[] | null>(null);
@@ -65,7 +66,12 @@ export function ComponentForm({ kind }: { kind: ComponentKind }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <ComponentFormFields kind={kind} form={form} inventoryGroupNames={inventoryGroupNames} />
+      <ComponentFormFields
+        kind={kind}
+        form={form}
+        inventoryGroupNames={inventoryGroupNames}
+        availableRoleNames={availableRoleNames}
+      />
 
       <div className="flex gap-2 border-t pt-6">
         <Button

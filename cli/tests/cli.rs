@@ -561,6 +561,35 @@ fn add_group_vars_writes_group_vars_yaml() {
 }
 
 #[test]
+fn add_playbook_assigns_roles_to_a_group() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "ansible/playbook",
+            "--name",
+            "web-site",
+            "--set",
+            "hosts=web",
+            "--set",
+            r#"roles=["hygiene","nginx"]"#,
+        ])
+        .assert()
+        .success();
+
+    let text = std::fs::read_to_string(tmp.path().join("k8s/web-site.yml")).unwrap();
+    assert!(text.contains("hosts: web"));
+    assert!(text.contains("- hygiene"));
+    assert!(text.contains("- nginx"));
+}
+
+#[test]
 fn add_ansible_inventory_with_children_and_vars_groups() {
     let tmp = tempfile::tempdir().unwrap();
     kikx()

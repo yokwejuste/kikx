@@ -1,0 +1,8 @@
+---
+- name: {{ name }}
+  hosts: {{ hosts }}
+  become: true
+  roles:
+{% for role in roles -%}
+    - {{ role }}
+{% endfor -%}

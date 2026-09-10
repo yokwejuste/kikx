@@ -303,6 +303,28 @@ mod tests {
     }
 
     #[test]
+    fn renders_playbook_assigning_roles_to_a_group() {
+        let outcome = render_component(RenderParams {
+            reference: "ansible/playbook".to_string(),
+            name: "web-site".to_string(),
+            fields: vec![
+                ("hosts".to_string(), "web".to_string()),
+                ("roles".to_string(), r#"["hygiene","nginx"]"#.to_string()),
+            ],
+            labels: vec![],
+            default_namespace: "default".to_string(),
+        })
+        .unwrap();
+
+        assert_eq!(outcome.files.len(), 1);
+        assert_eq!(outcome.files[0].path, PathBuf::from("web-site.yml"));
+        let content = &outcome.files[0].content;
+        assert!(content.contains("hosts: web"));
+        assert!(content.contains("- hygiene"));
+        assert!(content.contains("- nginx"));
+    }
+
+    #[test]
     fn rejects_two_files_rendering_to_the_same_path() {
         let item_json = r#"{"name":"dup","category":"acme","files":[{"path":"same.txt","template":"a"},{"path":"same.txt","template":"b"}]}"#;
         let tmp = tempfile::tempdir().unwrap();
