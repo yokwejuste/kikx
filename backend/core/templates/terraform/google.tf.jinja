@@ -1,0 +1,21 @@
+provider "google" {
+  project = "{{ project }}"
+  zone    = "{{ region }}"
+}
+
+resource "google_compute_instance" "{{ name }}" {
+  count        = {{ count }}
+  name         = "{{ name }}-${count.index}"
+  machine_type = "{{ size }}"
+
+  boot_disk {
+    initialize_params {
+      image = "{{ os_image }}"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {}
+  }
+}

@@ -773,3 +773,137 @@ msgstr "[Relier les playbooks avec un playbook site](../how-to/site-playbook.md)
 msgid "[The registry as single source of truth](../explanation/registry.md)"
 msgstr "[Le registre, source unique de vérité](../explanation/registry.md)"
 
+msgid "[`terraform/aws`](#terraformaws)"
+msgstr "[`terraform/aws`](#terraformaws)"
+
+msgid "AWS EC2 Instance"
+msgstr "AWS EC2 Instance"
+
+msgid "Terraform for one or more AWS EC2 instances."
+msgstr "Terraform for one or more AWS EC2 instances."
+
+msgid "`{{ name }}-aws.tf`"
+msgstr "`{{ name }}-aws.tf`"
+
+msgid "[`terraform/google`](#terraformgoogle)"
+msgstr "[`terraform/google`](#terraformgoogle)"
+
+msgid "Google Compute Engine Instance"
+msgstr "Google Compute Engine Instance"
+
+msgid "Terraform for one or more Google Compute Engine instances."
+msgstr "Terraform for one or more Google Compute Engine instances."
+
+msgid "`{{ name }}-google.tf`"
+msgstr "`{{ name }}-google.tf`"
+
+msgid "[`terraform/scaleway`](#terraformscaleway)"
+msgstr "[`terraform/scaleway`](#terraformscaleway)"
+
+msgid "Scaleway Instance"
+msgstr "Scaleway Instance"
+
+msgid "Terraform for one or more Scaleway instances with public IPs."
+msgstr "Terraform for one or more Scaleway instances with public IPs."
+
+msgid "`{{ name }}-scaleway.tf`"
+msgstr "`{{ name }}-scaleway.tf`"
+
+msgid "[`terraform/linode`](#terraformlinode)"
+msgstr "[`terraform/linode`](#terraformlinode)"
+
+msgid "Linode Instance"
+msgstr "Linode Instance"
+
+msgid "Terraform for one or more Linode instances."
+msgstr "Terraform for one or more Linode instances."
+
+msgid "`{{ name }}-linode.tf`"
+msgstr "`{{ name }}-linode.tf`"
+
+msgid "`terraform/aws`"
+msgstr "`terraform/aws`"
+
+msgid "Declares an `aws` provider in the chosen region, a `data.aws_ami.<name>` lookup of the newest image matching `os_image` from `image_owner`, and resource `aws_instance.<name>` tagged `<name>-${count.index}`"
+msgstr "Déclare un provider `aws` dans la région choisie, une recherche `data.aws_ami.<name>` de l'image la plus récente correspondant à `os_image` publiée par `image_owner`, et la ressource `aws_instance.<name>` étiquetée `<name>-${count.index}`"
+
+msgid "`us-east-1`"
+msgstr "`us-east-1`"
+
+msgid "`t3.small`"
+msgstr "`t3.small`"
+
+msgid "`ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*`"
+msgstr "`ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*`"
+
+msgid "`ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*` (Ubuntu 24.04)<br>`ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*` (Ubuntu 22.04)"
+msgstr "`ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*` (Ubuntu 24.04)<br>`ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*` (Ubuntu 22.04)"
+
+msgid "`image_owner`"
+msgstr "`image_owner`"
+
+msgid "`099720109477`"
+msgstr "`099720109477`"
+
+msgid "AWS account that publishes the image; 099720109477 is Canonical."
+msgstr "AWS account that publishes the image; 099720109477 is Canonical."
+
+msgid "`terraform/google`"
+msgstr "`terraform/google`"
+
+msgid "Declares a `google` provider for `project` in the zone given as `region`, and resource `google_compute_instance.<name>` named `<name>-${count.index}` on the default network with a public IP"
+msgstr "Déclare un provider `google` pour `project` dans la zone indiquée par `region`, et la ressource `google_compute_instance.<name>` nommée `<name>-${count.index}` sur le réseau par défaut avec une IP publique"
+
+msgid "`europe-west1-b`"
+msgstr "`europe-west1-b`"
+
+msgid "`e2-medium`"
+msgstr "`e2-medium`"
+
+msgid "`ubuntu-os-cloud/ubuntu-2404-lts-amd64`"
+msgstr "`ubuntu-os-cloud/ubuntu-2404-lts-amd64`"
+
+msgid "`ubuntu-os-cloud/ubuntu-2404-lts-amd64` (Ubuntu 24.04)<br>`ubuntu-os-cloud/ubuntu-2204-lts` (Ubuntu 22.04)<br>`debian-cloud/debian-12` (Debian 12)<br>`rocky-linux-cloud/rocky-linux-9` (Rocky Linux 9)"
+msgstr "`ubuntu-os-cloud/ubuntu-2404-lts-amd64` (Ubuntu 24.04)<br>`ubuntu-os-cloud/ubuntu-2204-lts` (Ubuntu 22.04)<br>`debian-cloud/debian-12` (Debian 12)<br>`rocky-linux-cloud/rocky-linux-9` (Rocky Linux 9)"
+
+msgid "`project`"
+msgstr "`project`"
+
+msgid "`my-project`"
+msgstr "`my-project`"
+
+msgid "`terraform/scaleway`"
+msgstr "`terraform/scaleway`"
+
+msgid "Requires the `scaleway/scaleway` provider in the zone given as `region`; resources `scaleway_instance_ip.<name>` and `scaleway_instance_server.<name>` named `<name>-${count.index}`"
+msgstr "Nécessite le provider `scaleway/scaleway` dans la zone indiquée par `region` ; ressources `scaleway_instance_ip.<name>` et `scaleway_instance_server.<name>` nommées `<name>-${count.index}`"
+
+msgid "`fr-par-1`"
+msgstr "`fr-par-1`"
+
+msgid "`DEV1-S`"
+msgstr "`DEV1-S`"
+
+msgid "`ubuntu_noble`"
+msgstr "`ubuntu_noble`"
+
+msgid "`ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debian_bookworm` (Debian 12)<br>`rockylinux_9` (Rocky Linux 9)"
+msgstr "`ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debian_bookworm` (Debian 12)<br>`rockylinux_9` (Rocky Linux 9)"
+
+msgid "`terraform/linode`"
+msgstr "`terraform/linode`"
+
+msgid "Requires the `linode/linode` provider and declares variables `linode_token` (sensitive) and `ssh_public_key`; resource `linode_instance.<name>` labelled `<name>-${count.index}`"
+msgstr "Nécessite le provider `linode/linode` et déclare les variables `linode_token` (sensible) et `ssh_public_key` ; ressource `linode_instance.<name>` étiquetée `<name>-${count.index}`"
+
+msgid "`eu-central`"
+msgstr "`eu-central`"
+
+msgid "`g6-standard-1`"
+msgstr "`g6-standard-1`"
+
+msgid "`linode/ubuntu24.04`"
+msgstr "`linode/ubuntu24.04`"
+
+msgid "`linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9)"
+msgstr "`linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9)"

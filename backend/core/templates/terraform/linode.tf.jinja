@@ -1,0 +1,31 @@
+terraform {
+  required_providers {
+    linode = {
+      source = "linode/linode"
+    }
+  }
+}
+
+variable "linode_token" {
+  description = "Linode API token. Set via TF_VAR_linode_token or a gitignored terraform.tfvars."
+  type        = string
+  sensitive   = true
+}
+
+variable "ssh_public_key" {
+  description = "Public SSH key allowed to log in as root."
+  type        = string
+}
+
+provider "linode" {
+  token = var.linode_token
+}
+
+resource "linode_instance" "{{ name }}" {
+  count           = {{ count }}
+  label           = "{{ name }}-${count.index}"
+  region          = "{{ region }}"
+  type            = "{{ size }}"
+  image           = "{{ os_image }}"
+  authorized_keys = [var.ssh_public_key]
+}
