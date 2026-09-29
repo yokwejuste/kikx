@@ -50,6 +50,7 @@ Contributor guides (running kikx locally, tests, releases) are in [CONTRIBUTING.
 - [How it fits together](#how-it-fits-together)
 - [Contributing](#contributing)
 - [Current scope](#current-scope)
+- [License](#license)
 
 ## Concept
 
@@ -269,6 +270,9 @@ The hosted dashboard and the downloadable CLI are all you need to use kikx. Runn
 the dashboard yourself, the configuration they read, the HTTP API, the test suites, the docs build
 and the release process are described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
+Please follow the [code of conduct](CODE_OF_CONDUCT.md), and report security problems privately as
+described in [SECURITY.md](SECURITY.md).
+
 ## Current scope
 
 **Available today:**
@@ -284,3 +288,7 @@ and the release process are described in [CONTRIBUTING.md](CONTRIBUTING.md).
 - live cluster inspection.
 
 This is a local, single-user dev tool with no auth.
+
+## License
+
+kikx is released under the [MIT License](LICENSE).

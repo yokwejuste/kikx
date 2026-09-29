@@ -2,6 +2,8 @@
 name = "kikx"
 version = "0.0.1"
 edition = "2021"
+authors = ["Steve Yonkeu <steve@yokwejuste.me>"]
+license = "MIT"
 
 [[bin]]
 name = "kikx"

@@ -2,6 +2,8 @@
   "name": "web",
   "version": "0.0.1",
   "private": true,
+  "author": "Steve Yonkeu <steve@yokwejuste.me>",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
