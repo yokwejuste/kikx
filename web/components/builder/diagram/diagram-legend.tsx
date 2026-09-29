@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 function LineSample({ dashed }: { dashed?: boolean }) {
   return (
     <svg width="28" height="8" aria-hidden>
@@ -7,19 +11,20 @@ function LineSample({ dashed }: { dashed?: boolean }) {
 }
 
 export function DiagramLegend() {
+  const t = useTranslations("diagram.legend");
   return (
     <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
       <span className="flex items-center gap-1.5">
         <LineSample />
-        uses / targets
+        {t("uses")}
       </span>
       <span className="flex items-center gap-1.5">
         <LineSample dashed />
-        inventory structure
+        {t("structure")}
       </span>
       <span className="flex items-center gap-1.5">
         <span className="inline-block h-3 w-5 rounded-sm border border-dashed border-current" />
-        data (groups, vars)
+        {t("data")}
       </span>
     </div>
   );

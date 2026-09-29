@@ -4,16 +4,19 @@ import Link from "next/link";
 import { useProject } from "@/lib/project/context";
 import { Dashboard } from "@/components/builder/dashboard";
 import { RegistryGate } from "@/components/layout/registry-gate";
+import { PhoneWarning } from "@/components/builder/phone-warning";
+import { useTranslations } from "next-intl";
 
 export default function BuildPage() {
+  const t = useTranslations("builder");
   const { details } = useProject();
 
   if (!details) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center">
-        <p className="text-muted-foreground">No project details yet.</p>
+        <p className="text-muted-foreground">{t("noDetails")}</p>
         <Link href="/" className="text-sm underline underline-offset-4">
-          Go back and fill them in
+          {t("goBack")}
         </Link>
       </main>
     );
@@ -21,6 +24,7 @@ export default function BuildPage() {
 
   return (
     <RegistryGate>
+      <PhoneWarning />
       <Dashboard />
     </RegistryGate>
   );

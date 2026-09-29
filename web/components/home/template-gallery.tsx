@@ -2,8 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { LayoutTemplate, LoaderCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { api } from "@/lib/api/client";
-import { pluralize } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function TemplateGallery({
@@ -13,15 +14,17 @@ export function TemplateGallery({
   opening: string | null;
   onSelect: (name: string) => void;
 }) {
+  const t = useTranslations("templates");
+  const text = useCatalogText();
   const presets = useQuery({ queryKey: ["kikx-presets"], queryFn: api.presets, staleTime: Infinity });
 
   if (!presets.data?.length) return null;
 
   return (
     <section data-tour="templates" className="w-full text-left">
-      <h2 className="text-sm font-medium">Start from a template</h2>
+      <h2 className="text-sm font-medium">{t("title")}</h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        A complete, editable project to adapt instead of starting from an empty page.
+        {t("body")}
       </p>
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {presets.data.map((preset) => (
@@ -41,11 +44,11 @@ export function TemplateGallery({
                 ) : (
                   <LayoutTemplate className="size-4 text-muted-foreground" />
                 )}
-                {preset.title}
+                {text.preset(preset.name, "title", preset.title)}
               </span>
-              <span className="text-sm text-muted-foreground">{preset.description}</span>
+              <span className="text-sm text-muted-foreground">{text.preset(preset.name, "description", preset.description)}</span>
               <span className="mt-auto font-mono text-xs text-muted-foreground">
-                {preset.name} · {pluralize(preset.componentCount, "component")}
+                {preset.name} · {t("components", { count: preset.componentCount })}
               </span>
             </button>
           </li>

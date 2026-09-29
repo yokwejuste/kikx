@@ -29,21 +29,19 @@ interface CatalogSlot {
 interface CatalogEntry extends CatalogSlot {
   label: string;
   summary: string;
-  writes: string;
+  writes: string | null;
 }
 
+export type StageId = "provision" | "inventory" | "configure" | "deploy" | "custom";
+
 interface CatalogStage {
-  id: "provision" | "inventory" | "configure" | "deploy" | "custom";
-  label: string;
-  hint: string;
+  id: StageId;
   entries: CatalogSlot[];
 }
 
 export const CATALOG: CatalogStage[] = [
   {
     id: "provision",
-    label: "Provision",
-    hint: "Optional — skip if the servers already exist.",
     entries: [
       { kind: "hetzner", icon: Cloud },
       { kind: "digitalocean", icon: Cloud },
@@ -51,8 +49,6 @@ export const CATALOG: CatalogStage[] = [
   },
   {
     id: "inventory",
-    label: "Inventory",
-    hint: "List the servers and sort them into groups.",
     entries: [
       { kind: "inventory", icon: ListTree },
       { kind: "groupvars", icon: Braces },
@@ -60,8 +56,6 @@ export const CATALOG: CatalogStage[] = [
   },
   {
     id: "configure",
-    label: "Configure",
-    hint: "Decide which roles run on which groups.",
     entries: [
       { kind: "playbook", icon: ScrollText },
       { kind: "site", icon: ListOrdered },
@@ -73,8 +67,6 @@ export const CATALOG: CatalogStage[] = [
   },
   {
     id: "deploy",
-    label: "Deploy",
-    hint: "Kubernetes manifests for what runs on the cluster.",
     entries: [
       { kind: "deployment", icon: Box },
       { kind: "service", icon: Network },
@@ -83,8 +75,6 @@ export const CATALOG: CatalogStage[] = [
   },
   {
     id: "custom",
-    label: "Custom",
-    hint: "Anything with a registry-item.json.",
     entries: [
       { kind: "custom", icon: Puzzle },
     ],
@@ -95,9 +85,7 @@ const BY_KIND = new Map(CATALOG.flatMap((stage) => stage.entries.map((slot) => [
 
 export function catalogEntry(kind: CatalogKind): CatalogEntry {
   const { slot } = BY_KIND.get(kind)!;
-  if (kind === "custom") {
-    return { ...slot, label: "From registry URL", summary: "Load and render any registry item", writes: "defined by the item" };
-  }
+  if (kind === "custom") return { ...slot, label: "", summary: "", writes: null };
   const reference = REFERENCES[kind];
   const item = registryItem(reference);
   return {

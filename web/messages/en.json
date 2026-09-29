@@ -1,0 +1,663 @@
+{
+  "metadata": {
+    "title": "kikx",
+    "description": "Build real, editable infrastructure files in your browser: Ansible, Kubernetes and Terraform you own."
+  },
+  "common": {
+    "copied": "Copied to clipboard",
+    "close": "Close"
+  },
+  "header": {
+    "home": "kikx home",
+    "docs": "Docs",
+    "dataFlow": "Data flow",
+    "tour": "Take the tour",
+    "theme": "Toggle theme",
+    "language": "Language",
+    "languages": {
+      "en": "English",
+      "fr": "Français"
+    }
+  },
+  "registryGate": {
+    "loading": "Loading components…",
+    "unreachable": "Can't reach the kikx backend",
+    "retry": "Try again"
+  },
+  "home": {
+    "intro": "Render real, editable infrastructure files straight into your project: Ansible inventories, group vars and playbooks, Kubernetes manifests and Terraform. No hidden dependency, just plain files you own.",
+    "pronounce": {
+      "label": "Hear how to say kikx",
+      "hint": "Pronounced “kicking”"
+    },
+    "resume": {
+      "continueTitle": "Continue {name}",
+      "kept": "{count, plural, one {# component} other {# components}} and any unsaved drafts are kept in this browser.",
+      "continue": "Continue",
+      "discardLabel": "Discard {name}",
+      "confirmTitle": "Discard {name}?",
+      "confirmBody": "Its {count, plural, one {# component} other {# components}} and unsaved drafts are removed from this browser.",
+      "keep": "Keep",
+      "discard": "Discard",
+      "discarded": "Discarded {name}"
+    },
+    "copyCommands": "Copy commands",
+    "build": {
+      "title": "Or build it here",
+      "body": "Fill in your project's details, add the components you need, and download the result. Nothing is read from or written to your machine until you hit download.",
+      "projectName": "Project name",
+      "namespace": "Default namespace",
+      "outputDir": "Output directory",
+      "start": "Start building"
+    },
+    "preset": {
+      "open": "Open a preset",
+      "opening": "Opening preset…",
+      "body": "Continue from a <code>.kikx-preset.json</code> you downloaded earlier."
+    },
+    "dataFlowLink": "See how data flows through kikx",
+    "openFailed": "Couldn't open that preset"
+  },
+  "templates": {
+    "title": "Start from a template",
+    "body": "A complete, editable project to adapt instead of starting from an empty page.",
+    "components": "{count, plural, one {# component} other {# components}}"
+  },
+  "tour": {
+    "next": "Next",
+    "back": "Back",
+    "done": "Done",
+    "progress": "{current} of {total}",
+    "home": {
+      "welcome": {
+        "title": "Welcome to kikx",
+        "description": "kikx renders real infrastructure files for Ansible, Kubernetes and Terraform that you own and edit like any other code. This tour takes a minute."
+      },
+      "cli": {
+        "title": "The same thing, in your terminal",
+        "description": "Everything here is also in the kikx CLI. These are the commands you would run."
+      },
+      "templates": {
+        "title": "Start from a template",
+        "description": "Open a complete project, from a single server to a kubeadm cluster or a multi-tier platform, and adapt it."
+      },
+      "new-project": {
+        "title": "Or start from scratch",
+        "description": "Name the project, pick a namespace and an output folder, then add components one by one."
+      },
+      "open-preset": {
+        "title": "Pick up where you left off",
+        "description": "Every project downloads as a preset file. Open it here to keep editing."
+      },
+      "data-flow": {
+        "title": "How it fits together",
+        "description": "A diagram of how the dashboard, the CLI and the API turn a template into files."
+      },
+      "tour-button": {
+        "title": "Replay this tour",
+        "description": "Open it again from here on any page with a tour, including the builder."
+      }
+    },
+    "builder": {
+      "catalog": {
+        "title": "Components, stage by stage",
+        "description": "Provision servers, list them in an inventory, configure them with playbooks and roles, then deploy to Kubernetes. A tick shows each stage you have covered."
+      },
+      "editor": {
+        "title": "Fill in, watch it render",
+        "description": "Every field has a sensible default. The files below update as you type; press ⌘/Ctrl + Enter to add the component."
+      },
+      "project": {
+        "title": "Your project",
+        "description": "Everything you have added, with its files. Click one to edit it, or download the whole project as a preset to reopen later."
+      },
+      "views": {
+        "title": "Architecture and checks",
+        "description": "Architecture draws how your components connect. Checks catches conflicts such as duplicate hosts, missing groups and unknown roles before you ship."
+      },
+      "download": {
+        "title": "Take the files",
+        "description": "Download everything as a .zip of plain files. Nothing touches your machine until you do."
+      }
+    }
+  },
+  "phone": {
+    "title": "Do you really want to do this on your phone?",
+    "body": "You think you're doing great, but trust me: get up and grab your computer. I was too lazy to do it too.",
+    "continue": "Continue on my phone",
+    "copyLink": "Copy the link for my computer",
+    "copied": "Link copied. Open it on your computer.",
+    "copyFailed": "Couldn't copy the link. Copy it from the address bar instead."
+  },
+  "builder": {
+    "noDetails": "No project details yet.",
+    "goBack": "Go back and fill them in",
+    "header": {
+      "namespace": "Default Kubernetes namespace",
+      "outputDir": "Output directory",
+      "tabs": {
+        "build": "Build",
+        "diagram": "Architecture",
+        "checks": "Checks"
+      },
+      "download": "Download .zip",
+      "zipping": "Zipping…",
+      "startOver": "Start over"
+    },
+    "customNotice": "<code>{reference}</code> is a custom registry item. Load it again below with the same name to render it again.",
+    "scaffolded": "Scaffolded {count, plural, one {# role} other {# roles}}",
+    "scaffoldedDetail": "Empty tasks, defaults, handlers and meta. Open one to see its files.",
+    "scaffoldFailed": "Couldn't scaffold those roles"
+  },
+  "catalog": {
+    "nav": "Components",
+    "stages": {
+      "provision": {
+        "label": "Provision",
+        "hint": "Optional. Skip it if the servers already exist."
+      },
+      "inventory": {
+        "label": "Inventory",
+        "hint": "List the servers and sort them into groups."
+      },
+      "configure": {
+        "label": "Configure",
+        "hint": "Decide which roles run on which groups."
+      },
+      "deploy": {
+        "label": "Deploy",
+        "hint": "Kubernetes manifests for what runs on the cluster."
+      },
+      "custom": {
+        "label": "Custom",
+        "hint": "Anything with a registry-item.json."
+      }
+    },
+    "custom": {
+      "label": "From registry URL",
+      "summary": "Load and render any registry item",
+      "writes": "defined by the item"
+    }
+  },
+  "editor": {
+    "header": {
+      "new": "New {label}",
+      "editing": "Editing {label} · <mono>{title}</mono>",
+      "files": "{count, plural, one {# file} other {# files}}",
+      "startNew": "New"
+    },
+    "toasts": {
+      "added": "Added {title}",
+      "saved": "Saved {title}",
+      "replaced": "Replaced {count, plural, one {# other component} other {# other components}}.",
+      "files": "{count, plural, one {# file} other {# files}} in the project.",
+      "renderFailed": "Failed to render component",
+      "attention": "Some fields need attention",
+      "attentionHint": "They're highlighted in the form."
+    },
+    "draft": {
+      "restored": "Restored your unsaved draft from {date}.",
+      "discard": "Discard draft"
+    },
+    "preview": {
+      "title": "Preview",
+      "live": "Updates as you type"
+    },
+    "saveBar": {
+      "add": "Add to project",
+      "save": "Save changes",
+      "rendering": "Rendering…",
+      "discard": "Discard changes",
+      "reset": "Reset",
+      "clean": "No unsaved changes",
+      "draftKept": "Draft kept in this browser · ⌘/Ctrl + Enter to save",
+      "shortcut": "⌘/Ctrl + Enter to save",
+      "replaces": "Saving replaces <files></files>, currently from {owners}."
+    }
+  },
+  "preview": {
+    "rendering": "Rendering…",
+    "failed": "Couldn't render this component.",
+    "waiting": "The preview appears as soon as the required fields are filled in.",
+    "lastGood": "{error}. Showing the last good render.",
+    "invalid": "Some fields are incomplete. Showing the last valid render.",
+    "copy": "Copy",
+    "renderFailed": "Render failed"
+  },
+  "fields": {
+    "name": "Name",
+    "folder": "Folder",
+    "description": "Description",
+    "inventoryFile": "Inventory file",
+    "rolesPath": "Roles path",
+    "timezone": "Timezone",
+    "image": "Image",
+    "host": "Host",
+    "hosts": "Hosts",
+    "k8sVersion": "Kubernetes version",
+    "port": "Port",
+    "replicas": "Replicas",
+    "targetPort": "Target port",
+    "path": "Path",
+    "backendService": "Backend service",
+    "namespace": "Namespace",
+    "namespacePlaceholder": "project default",
+    "labels": "Labels",
+    "addLabel": "Add label",
+    "region": "Region",
+    "size": "Size",
+    "osImage": "OS image",
+    "count": "Count",
+    "key": "key",
+    "value": "value",
+    "removeRow": "Remove row",
+    "removeItem": "Remove {item}",
+    "nameHelp": {
+      "inventory": "Becomes {file}.",
+      "playbook": "The file name, without .yml.",
+      "role": "Writes {path}. Use this name in a playbook.",
+      "k8s": "Also the default app label, so a Deployment and Service with the same name find each other."
+    }
+  },
+  "inventory": {
+    "hostsTitle": "Hosts ({count})",
+    "hostsBody": "One row per server. Put it in every group it belongs to: kikx writes its address once and references it by name elsewhere.",
+    "imported": "Imported {hosts, plural, one {# host} other {# hosts}} and {groups, plural, one {# group} other {# groups}}",
+    "addHost": "Add host",
+    "groupsTitle": "Groups",
+    "groupsBody": "Nest groups (:children) and give them shared vars (:vars). Groups your hosts use exist already, so add a row only to nest them or attach vars.",
+    "addGroup": "Add group",
+    "orConfigure": "or configure:",
+    "host": {
+      "nameLabel": "Host name",
+      "namePlaceholder": "host name",
+      "addressLabel": "Address",
+      "addressPlaceholder": "IP or hostname (optional)",
+      "groupsLabel": "Groups",
+      "groupsPlaceholder": "groups it belongs to",
+      "remove": "Remove host",
+      "connection": "Connection & host vars",
+      "sshUserLabel": "SSH user",
+      "sshUserPlaceholder": "ssh user (inherit)",
+      "sshPortLabel": "SSH port",
+      "sshPortPlaceholder": "ssh port (inherit)",
+      "sshKeyLabel": "SSH key file",
+      "sshKeyPlaceholder": "ssh key file (optional)",
+      "varsLabel": "Host vars",
+      "varsPlaceholder": "host vars: key=value key2=value2",
+      "inheritNote": "Leave user and port empty to inherit them from a group's vars. Setting them here overrides the group.",
+      "summary": {
+        "user": "user {value}",
+        "port": "port {value}",
+        "keyFile": "key file",
+        "vars": "{count, plural, one {# var} other {# vars}}",
+        "inherits": "inherits from groups"
+      }
+    },
+    "group": {
+      "nameLabel": "Group name",
+      "namePlaceholder": "group name",
+      "childrenLabel": "Child groups",
+      "childrenPlaceholder": "children (optional)",
+      "varsLabel": "Group vars",
+      "varsPlaceholder": "vars, one per line\nkey=value",
+      "remove": "Remove group",
+      "members": "{count, plural, one {# host} other {# hosts}}",
+      "parent": "parent group",
+      "empty": "no hosts yet"
+    },
+    "import": {
+      "trigger": "Import inventory.ini",
+      "title": "Import an existing inventory",
+      "body": "Paste an INI inventory (or pick the file). Hosts listed in several groups are merged into one host with several groups; group <code>:children</code> and <code>:vars</code> come along too.",
+      "chooseFile": "Choose a file…",
+      "counts": "{hosts, plural, one {# host} other {# hosts}} · {groups, plural, one {# group} other {# groups}}",
+      "cancel": "Cancel",
+      "replace": "Replace hosts & groups",
+      "warnings": {
+        "outside": "Line {line}: \"{text}\" is outside any [group] section, so it was skipped.",
+        "conflict": "{host}: {field} is \"{existing}\" in one group but \"{value}\" in [{group}]. Kept the first.",
+        "noAddress": "{host} has no ansible_host. Ansible will try to resolve the name itself."
+      }
+    }
+  },
+  "groupVars": {
+    "group": "Group",
+    "writes": "Writes <code>{path}</code>",
+    "noInventory": "Add an Inventory to pick from its groups.",
+    "folderLayout": "Folder layout (<code>{path}</code>)",
+    "variables": "Variables",
+    "mode": "Editing mode",
+    "modes": {
+      "fields": "Key / value",
+      "yaml": "YAML"
+    },
+    "simple": "Simple values",
+    "addVar": "Add variable",
+    "keyPlaceholder": "key (e.g. app_port)",
+    "yamlHelp": "Paste lists, maps, anything YAML: it's written as-is. Ideal for copying an existing group_vars file.",
+    "nested": "This YAML has nested values. Keep editing it as YAML so nothing is lost."
+  },
+  "plays": {
+    "title": "Plays",
+    "body": "Each play runs its roles, in order, on one inventory group. Most playbooks need one; add more to run different roles on different groups from the same file.",
+    "add": "Add play",
+    "heading": "Play {number}",
+    "headingOn": "Play {number} · runs on {hosts}",
+    "moveUp": "Move play up",
+    "moveDown": "Move play down",
+    "remove": "Remove play",
+    "name": "Name",
+    "namePlaceholder": "e.g. {name}",
+    "nameFallback": "What this play does",
+    "hosts": "Runs on (hosts)",
+    "roles": "Roles, in the order they run",
+    "rolesLabel": "Roles",
+    "rolesPlaceholder": "role names, in run order",
+    "tags": "Tags (optional)",
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "tag names",
+    "become": "Run as root (become)",
+    "conditions": {
+      "title": "Role conditions (<code>when:</code>)",
+      "hint": "{set} of {total} set",
+      "empty": "Add roles above first.",
+      "placeholder": "always runs, or a Jinja condition"
+    },
+    "tasks": {
+      "title": "Pre-tasks & post-tasks",
+      "none": "none",
+      "pre": "pre",
+      "post": "post",
+      "before": "Before the roles",
+      "after": "After the roles",
+      "help": "A YAML list of tasks, written as-is under <code>pre_tasks:</code> / <code>post_tasks:</code>."
+    }
+  },
+  "site": {
+    "title": "Imports, in run order",
+    "body": "<code>ansible-playbook site.yml</code> runs these top to bottom. Pick playbooks from this project, or type the path of one that already lives in your repo.",
+    "namePlaceholder": "what this step does",
+    "nameLabel": "Import name",
+    "pathPlaceholder": "path to a playbook",
+    "pathLabel": "Playbook path",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "remove": "Remove import",
+    "addPath": "Add path",
+    "fromProject": "from this project:",
+    "addAll": "Add all"
+  },
+  "custom": {
+    "title": "Custom component",
+    "body": "Point at any registry-item.json (a URL or a local path) and render it. No kikx update required.",
+    "placeholder": "URL or path to a registry-item.json",
+    "load": "Load",
+    "loading": "Loading…",
+    "name": "Name",
+    "preview": "Preview",
+    "rendering": "Rendering…",
+    "add": "Add to project",
+    "replaced": "Replaced {count, plural, one {# component} other {# components}}",
+    "added": "Added {count, plural, one {# file} other {# files}}",
+    "loadFailed": "Failed to load that reference",
+    "previewFailed": "Preview failed"
+  },
+  "conflicts": {
+    "title": "{count, plural, one {This file already exists} other {# files already exist}}",
+    "body": "A project can only have one writer per file. Replacing removes the component that currently owns {count, plural, one {it} other {them}}. Expand a file to compare.",
+    "same": "same content",
+    "differs": "content differs",
+    "writtenBy": "Currently written by {kind} · <strong>{title}</strong>",
+    "current": "Current",
+    "incoming": "Incoming",
+    "collateral": "Also removed with {count, plural, one {that component} other {those components}}: <files></files>",
+    "keep": "Keep existing",
+    "replace": "Replace"
+  },
+  "project": {
+    "title": "Project",
+    "summary": "{components, plural, one {# component} other {# components}} · {files, plural, one {# file} other {# files}} in <code>{dir}</code>",
+    "errors": "{count, plural, one {# error} other {# errors}}",
+    "warnings": "{count, plural, one {# warning} other {# warnings}}",
+    "review": "Review",
+    "empty": "Nothing yet. Most projects start with an <strong>Inventory</strong>.",
+    "viewing": "Rendered by {component}. Edit the component to change it.",
+    "row": {
+      "showFiles": "Show files",
+      "hideFiles": "Hide files",
+      "edit": "Edit {title}",
+      "files": "{count, plural, one {# file} other {# files}}",
+      "issues": "{count, plural, one {# issue} other {# issues}}",
+      "remove": "Remove {title}",
+      "removed": "Removed {title}",
+      "undo": "Undo"
+    }
+  },
+  "setup": {
+    "download": "Download preset",
+    "copy": "Copy {command}",
+    "explain": "<code>setup</code> bootstraps a new kikx project from this file. <code>apply</code> vendors it into a project you already have, with no kikx.toml and no backend required."
+  },
+  "checks": {
+    "empty": "Add components and kikx will check how they fit together.",
+    "clear": "No conflicts found. Hosts, groups, playbooks and manifests all line up.",
+    "intro": "kikx cross-checks components against each other: duplicate files, hosts with two addresses, host vars that silently override group vars, plays aimed at groups that don't exist, and more. Errors break the output; warnings are likely mistakes; notes are just good to know.",
+    "severity": {
+      "error": "Errors",
+      "warning": "Warnings",
+      "info": "Notes"
+    },
+    "scaffold": "Scaffold {count, plural, one {# role} other {# roles}}",
+    "open": "Open {title}",
+    "issues": {
+      "dupFile": {
+        "title": "{count} components write {file}",
+        "detail": "Only the last one survives in the download. Remove or rename one of them."
+      },
+      "cycle": {
+        "title": "Group nesting loops: {path}",
+        "detail": "Ansible refuses to load an inventory whose :children form a cycle."
+      },
+      "emptyChild": {
+        "title": "[{group}:children] lists \"{child}\", which has no hosts",
+        "detail": "Probably a typo, or add hosts to that group."
+      },
+      "address": {
+        "title": "{host} has two addresses: {first} and {second}",
+        "detail": "The same host name points at different machines. Ansible uses whichever it reads last."
+      },
+      "override": {
+        "title": "{host} sets {key}={value}, overriding [{group}:vars] {key}={groupValue}",
+        "detail": "Host vars win over group vars. Clear {key} on the host if the group value is the one you want."
+      },
+      "multiInventory": {
+        "title": "{count} inventories in this project",
+        "detail": "Fine for separate environments; pass the right one with -i. Checks treat their groups as one pool."
+      },
+      "layouts": {
+        "title": "Group \"{group}\" has both group_vars/{group}.yml and group_vars/{group}/main.yml",
+        "detail": "Ansible loads and merges both, so a key set twice depends on load order. Keep one layout."
+      },
+      "unknownGroup": {
+        "title": "group_vars/{group}.yml targets a group no inventory defines",
+        "detail": "Those variables will never be loaded. Check the spelling against your inventory groups."
+      },
+      "shadow": {
+        "title": "{key} is set in both [{group}:vars] and group_vars/{group}.yml",
+        "detail": "group_vars/{group}.yml wins. Keep it in one place.",
+        "detailValues": "group_vars/{group}.yml wins ({fileValue} over {value}). Keep it in one place."
+      },
+      "playHosts": {
+        "title": "Play \"{play}\" targets \"{target}\", which isn't in the inventory",
+        "detail": "The play will match no hosts and silently do nothing."
+      },
+      "externalRoles": {
+        "title": "{playbook} uses {count, plural, one {# role} other {# roles}} kikx doesn't vendor",
+        "detail": "{roles}: they must already exist under roles/ in your repo, or scaffold empty ones here."
+      },
+      "siteMissing": {
+        "title": "{site}.yml imports {path}, which this project doesn't produce",
+        "detail": "Fine if the file already exists in your repo; otherwise add that playbook."
+      },
+      "notImported": {
+        "title": "{path} isn't imported by any site playbook",
+        "detail": "It only runs if you call it directly."
+      },
+      "serviceSelector": {
+        "title": "Service {service} selects app={selector}, but no deployment has that label",
+        "detail": "Its endpoints will be empty. Name the deployment the same, or set the app label."
+      },
+      "ingressBackend": {
+        "title": "Ingress {ingress} routes to service \"{backend}\", which isn't in the project"
+      }
+    }
+  },
+  "diagram": {
+    "empty": "Add a component to see the architecture start forming.",
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "export": "Export to draw.io",
+    "arranging": "Arranging diagram…",
+    "failed": "Couldn't lay out this diagram.",
+    "hint": "Laid out left to right in the order things happen. Hover a node to trace its connections, click it to edit. Export to draw.io to keep refining the diagram by hand.",
+    "legend": {
+      "uses": "uses / targets",
+      "structure": "inventory structure",
+      "data": "data (groups, vars)"
+    },
+    "lanes": {
+      "provision": "Provision",
+      "inventory": "Inventory",
+      "playbooks": "Playbooks",
+      "roles": "Roles",
+      "deploy": "Deploy",
+      "custom": "Custom"
+    },
+    "edges": {
+      "includes": "includes",
+      "targets": "targets",
+      "configures": "configures",
+      "imports": "imports",
+      "runs": "runs",
+      "routesTo": "routes to",
+      "selects": "selects"
+    },
+    "nodes": {
+      "hosts": "{count, plural, one {# host} other {# hosts}}",
+      "children": "{count, plural, one {# child group} other {# child groups}}",
+      "vars": "{count, plural, one {# var} other {# vars}}",
+      "emptyGroup": "empty group",
+      "groupVars": "Group vars",
+      "groupVarsYaml": "Group vars · YAML",
+      "site": "Site playbook · entry point",
+      "plays": "{plays, plural, one {# play} other {# plays}} · {roles, plural, one {# role} other {# roles}}",
+      "bootstrap": "K8s bootstrap playbook",
+      "rolesPath": "roles_path: {path}",
+      "unset": "not set",
+      "role": "Ansible role · {count, plural, one {# file} other {# files}}",
+      "terraform": "Terraform resource",
+      "image": "Image: {image}",
+      "k8s": "Kubernetes {kind}"
+    }
+  },
+  "flow": {
+    "title": "Data flow",
+    "body": "Pick how you'd drive kikx: the path it actually takes lights up.",
+    "tabs": {
+      "cli": "CLI",
+      "dashboard": "Dashboard"
+    },
+    "legend": {
+      "solid": "solid border = actor / process",
+      "dashed": "dashed border = data on disk"
+    },
+    "nodes": {
+      "terminal": {
+        "label": "Terminal"
+      },
+      "browser": {
+        "label": "Browser",
+        "description": "Dashboard form submit"
+      },
+      "cli": {
+        "description": "Parses flags, calls ops directly"
+      },
+      "backend": {
+        "description": "HTTP API, same ops underneath"
+      },
+      "core": {
+        "description": "Shared engine: config, templates, ops"
+      },
+      "config": {
+        "description": "Project name, namespace, output dir"
+      },
+      "manifests": {
+        "description": "Rendered, vendored manifests"
+      }
+    },
+    "edges": {
+      "terminal-cli": "invoke",
+      "core-config": "write",
+      "core-manifests": "render + write"
+    }
+  },
+  "notFound": {
+    "title": "This route hasn't been vendored",
+    "body": "There's no page here. While you find your way back, here's a dad joke:",
+    "jokeFailed": "Couldn't even fetch a joke. That's a 404 on a 404.",
+    "another": "Another one",
+    "home": "Take me home"
+  },
+  "validation": {
+    "projectNameRequired": "Project name is required",
+    "namespaceRequired": "Namespace is required",
+    "outputDirRequired": "Output directory is required",
+    "labelKeyRequired": "Label key is required",
+    "nameRequired": "Name is required",
+    "imageRequired": "Image is required",
+    "portNumber": "Port must be a number",
+    "portWhole": "Port must be a whole number",
+    "portRange": "Port must be between 1 and 65535",
+    "number": "Enter a number",
+    "wholeNumber": "Enter a whole number",
+    "atLeastOne": "Must be at least 1",
+    "pathRequired": "Path is required",
+    "regionRequired": "Region is required",
+    "sizeRequired": "Size is required",
+    "osImageRequired": "OS image is required",
+    "hostsRequired": "Hosts is required",
+    "k8sVersionRequired": "Kubernetes version is required",
+    "groupNameRequired": "Group name is required",
+    "groupNameFormat": "Letters, digits, _ and - only; start with a letter or _",
+    "addressInvalid": "Enter a valid IP address or hostname",
+    "hostNameRequired": "Host name is required",
+    "hostGroupsRequired": "Put the host in at least one group",
+    "addHost": "Add at least one host",
+    "hostDuplicate": "\"{name}\" is already host #{index}. Add the extra groups to that host instead",
+    "groupDuplicate": "Group \"{name}\" is listed twice",
+    "groupSelf": "A group can't contain itself",
+    "addVariable": "Add at least one variable",
+    "variableKey": "Give this value a key",
+    "pasteYaml": "Paste some YAML",
+    "playName": "Give the play a name",
+    "playHosts": "Pick a group to run on",
+    "playRoles": "Add at least one role",
+    "folderRelative": "Use a relative folder like playbooks",
+    "addPlay": "Add at least one play",
+    "importName": "Give it a name",
+    "importPath": "Path is required",
+    "addImport": "Import at least one playbook",
+    "timezoneRequired": "Timezone is required",
+    "rolesPathRequired": "Roles path is required",
+    "roleNameFormat": "Letters, digits, _ . and - only"
+  },
+  "errors": {
+    "notConfigured": "NEXT_PUBLIC_KIKX_API_URL is not set. Point it at your kikx backend (see web/.env.example).",
+    "network": "Can't reach the kikx backend. Check that it's running and that NEXT_PUBLIC_KIKX_API_URL points at it.",
+    "requestFailed": "Request to {path} failed with status {status}",
+    "notPreset": "That isn't a kikx preset: it has no components list.",
+    "presetComponent": "Component #{index} is missing a reference or name."
+  },
+  "registry": {}
+}

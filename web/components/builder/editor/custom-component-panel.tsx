@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Eye, PackagePlus, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useErrorText } from "@/lib/i18n/use-error-text";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -12,12 +14,14 @@ import { FileConflictDialog } from "@/components/builder/conflicts/file-conflict
 import { YamlPreview } from "@/components/builder/preview/yaml-preview";
 import { toProjectFiles } from "@/components/builder/editor/project-files";
 import { useConflictGuard } from "@/components/builder/conflicts/use-conflict-guard";
-import { api, ApiClientError, type RegistryItem, type RenderedFile } from "@/lib/api/client";
+import { api, type RegistryItem, type RenderedFile } from "@/lib/api/client";
 import { componentId, useProject, type ProjectFile } from "@/lib/project/context";
 import type { PresetComponent } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
 
 export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => void }) {
+  const t = useTranslations("custom");
+  const errorText = useErrorText();
   const { details, saveComponent } = useProject();
   const [reference, setReference] = useState("");
   const [item, setItem] = useState<RegistryItem | null>(null);
@@ -27,7 +31,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
 
   const commit = (recipe: PresetComponent, projectFiles: ProjectFile[]) => {
     const displaced = saveComponent(recipe, projectFiles);
-    toast.success(displaced.length ? `Replaced ${displaced.length} component(s)` : `Added ${projectFiles.length} file(s)`);
+    toast.success(displaced.length ? t("replaced", { count: displaced.length }) : t("added", { count: projectFiles.length }));
     onSaved?.(componentId(recipe));
   };
   const guard = useConflictGuard(commit);
@@ -48,7 +52,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
     },
     onError: (error: unknown) => {
       setItem(null);
-      toast.error(error instanceof ApiClientError ? error.message : "Failed to load that reference");
+      toast.error(errorText(error, "custom.loadFailed"));
     },
   });
 
@@ -56,7 +60,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
     mutationFn: render,
     onSuccess: (data) => setFiles(data.files),
     onError: (error: unknown) => {
-      toast.error(error instanceof ApiClientError ? error.message : "Preview failed");
+      toast.error(errorText(error, "custom.previewFailed"));
     },
   });
 
@@ -67,19 +71,19 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
       guard.save({ reference, name, fields: values, labels: {} }, toProjectFiles(data));
     },
     onError: (error: unknown) => {
-      toast.error(error instanceof ApiClientError ? error.message : "Failed to render component");
+      toast.error(errorText(error, "editor.toasts.renderFailed"));
     },
   });
 
   return (
     <Panel
-      title="Custom component"
-      description="Point at any registry-item.json — a URL or a local path — and render it. No kikx update required."
+      title={t("title")}
+      description={t("body")}
     >
       <div className="flex flex-col gap-6">
         <div className="flex gap-2">
           <Input
-            placeholder="URL or path to a registry-item.json"
+            placeholder={t("placeholder")}
             value={reference}
             onChange={(e) => setReference(e.target.value)}
             className="font-mono text-sm"
@@ -91,7 +95,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
             onClick={() => loadMutation.mutate()}
           >
             <Search className="size-4" />
-            {loadMutation.isPending ? "Loading…" : "Load"}
+            {loadMutation.isPending ? t("loading") : t("load")}
           </Button>
         </div>
 
@@ -104,7 +108,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Field>
-                <FieldLabel>Name</FieldLabel>
+                <FieldLabel>{t("name")}</FieldLabel>
                 <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="my-thing" />
               </Field>
               {item.fields.map((field) => (
@@ -130,7 +134,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
                 onClick={() => previewMutation.mutate()}
               >
                 <Eye className="size-4" />
-                {previewMutation.isPending ? "Rendering…" : "Preview"}
+                {previewMutation.isPending ? t("rendering") : t("preview")}
               </Button>
               <Button
                 type="button"
@@ -138,7 +142,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
                 onClick={() => addMutation.mutate()}
               >
                 <PackagePlus className="size-4" />
-                {addMutation.isPending ? "Rendering…" : "Add to project"}
+                {addMutation.isPending ? t("rendering") : t("add")}
               </Button>
             </div>
 

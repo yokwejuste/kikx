@@ -1,19 +1,21 @@
 "use client";
 
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 export function CopyButton({
   text,
   ...props
 }: { text: string } & Omit<React.ComponentProps<typeof Button>, "type" | "onClick">) {
+  const t = useTranslations("common");
   return (
     <Button
       type="button"
       variant="ghost"
       onClick={() => {
         navigator.clipboard.writeText(text);
-        toast.success("Copied to clipboard");
+        toast.success(t("copied"));
       }}
       {...props}
     />

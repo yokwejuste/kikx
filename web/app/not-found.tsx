@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { RefreshCw } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NotFoundIllustration } from "@/components/illustrations/illustrations";
@@ -18,6 +19,7 @@ async function fetchJoke(): Promise<string> {
 }
 
 export default function NotFound() {
+  const t = useTranslations("notFound");
   const [joke, setJoke] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
@@ -29,7 +31,7 @@ export default function NotFound() {
         if (!cancelled) setJoke(j);
       })
       .catch(() => {
-        if (!cancelled) setJoke("Couldn't even fetch a joke. That's a 404 on a 404.");
+        if (!cancelled) setJoke(t("jokeFailed"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -37,19 +39,15 @@ export default function NotFound() {
     return () => {
       cancelled = true;
     };
-  }, [attempt]);
+  }, [attempt, t]);
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-24 text-center">
       <div className="flex flex-col items-center gap-2">
         <NotFoundIllustration className="mb-4 h-32" />
         <p className="font-mono text-sm text-muted-foreground">404</p>
-        <h1 className="text-3xl font-semibold tracking-tight text-balance">
-          This route hasn&apos;t been vendored
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          There&apos;s no page here. While you find your way back, here&apos;s a dad joke:
-        </p>
+        <h1 className="text-3xl font-semibold tracking-tight text-balance">{t("title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("body")}</p>
       </div>
 
       <div className="w-full max-w-md rounded-xl border bg-card p-6">
@@ -66,10 +64,10 @@ export default function NotFound() {
       <div className="flex gap-2">
         <Button type="button" variant="outline" onClick={() => setAttempt((n) => n + 1)} disabled={loading}>
           <RefreshCw className="size-4" />
-          Another one
+          {t("another")}
         </Button>
         <Button asChild>
-          <Link href="/">Take me home</Link>
+          <Link href="/">{t("home")}</Link>
         </Button>
       </div>
     </main>

@@ -44,7 +44,7 @@ function labelWidth(text: string): number {
 }
 
 export async function layoutArchitecture(graph: ArchitectureGraph): Promise<ArchitectureLayout> {
-  const laneIndex = new Map(LANES.map((lane, index) => [lane.id, index]));
+  const laneIndex = new Map(LANES.map((lane, index) => [lane, index]));
 
   const root: ElkNode = {
     id: "root",
@@ -111,7 +111,7 @@ export async function layoutArchitecture(graph: ArchitectureGraph): Promise<Arch
   });
 
   const extents = LANES.map((lane) => {
-    const members = nodes.filter((n) => n.lane === lane.id);
+    const members = nodes.filter((n) => n.lane === lane);
     if (members.length === 0) return null;
     return {
       lane,
@@ -124,7 +124,7 @@ export async function layoutArchitecture(graph: ArchitectureGraph): Promise<Arch
     const left = index === 0 ? extent.min - LANE_PADDING : (extents[index - 1].max + extent.min) / 2;
     const right =
       index === extents.length - 1 ? extent.max + LANE_PADDING : (extent.max + extents[index + 1].min) / 2;
-    return { id: extent.lane.id, label: extent.lane.label, x: left, y: 0, width: right - left, height };
+    return { id: extent.lane, label: graph.laneLabels[extent.lane], x: left, y: 0, width: right - left, height };
   });
 
   return { nodes, edges, lanes };

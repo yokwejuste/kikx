@@ -6,15 +6,17 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import { useErrorText } from "@/lib/i18n/use-error-text";
+import { PronounceButton } from "@/components/common/pronounce-button";
 import { ArrowRight, Copy, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
 import { CopyButton } from "@/components/common/copy-button";
-import { pluralize } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
 import { useProject } from "@/lib/project/context";
 import { initFormSchema, type InitFormValues } from "@/lib/forms/schemas";
-import { api, ApiClientError } from "@/lib/api/client";
+import { api } from "@/lib/api/client";
 import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetManifest } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
@@ -40,6 +42,8 @@ export default function Home() {
 }
 
 function HomeContent() {
+  const t = useTranslations("home");
+  const errorText = useErrorText();
   const defaults = projectDefaults();
   const router = useRouter();
   const { details, components, setDetails, reset, loadProject } = useProject();
@@ -54,9 +58,7 @@ function HomeContent() {
       loadProject(details, components);
       router.push("/build");
     } catch (error) {
-      toast.error(
-        error instanceof ApiClientError || error instanceof Error ? error.message : "Couldn't open that preset",
-      );
+      toast.error(errorText(error, "home.openFailed"));
     } finally {
       setOpening(null);
     }
@@ -86,14 +88,14 @@ function HomeContent() {
 
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-10 px-6 py-24 text-center">
         <div data-tour="welcome" className="flex flex-col items-center gap-4">
-          <h1 className="flex items-center gap-4 text-5xl font-semibold tracking-tight">
-            <KikxMark className="size-12" />
-            kikx
-          </h1>
-          <p className="max-w-md text-balance text-muted-foreground">
-            Render real, editable infrastructure files — Ansible inventories, group vars and playbooks, Kubernetes
-            manifests, Terraform — straight into your project. No hidden dependency, just plain files you own.
-          </p>
+          <div className="flex flex-col items-center gap-1">
+            <h1 className="flex items-center gap-4 text-5xl font-semibold tracking-tight">
+              <KikxMark className="size-12" />
+              kikx
+            </h1>
+            <PronounceButton />
+          </div>
+          <p className="max-w-md text-balance text-muted-foreground">{t("intro")}</p>
         </div>
 
         {details && (
@@ -101,14 +103,14 @@ function HomeContent() {
             {confirmingDiscard ? (
               <>
                 <span>
-                  <span className="font-medium">Discard {details.name}?</span>
+                  <span className="font-medium">{t("resume.confirmTitle", { name: details.name })}</span>
                   <span className="block text-muted-foreground">
-                    Its {pluralize(components.length, "component")} and unsaved drafts are removed from this browser.
+                    {t("resume.confirmBody", { count: components.length })}
                   </span>
                 </span>
                 <span className="flex gap-2">
                   <Button type="button" variant="ghost" size="sm" onClick={() => setConfirmingDiscard(false)}>
-                    Keep
+                    {t("resume.keep")}
                   </Button>
                   <Button
                     type="button"
@@ -116,10 +118,10 @@ function HomeContent() {
                     onClick={() => {
                       reset();
                       setConfirmingDiscard(false);
-                      toast.success(`Discarded ${details.name}`);
+                      toast.success(t("resume.discarded", { name: details.name }));
                     }}
                   >
-                    Discard
+                    {t("resume.discard")}
                   </Button>
                 </span>
               </>
@@ -128,10 +130,8 @@ function HomeContent() {
                 <Link href="/build" className="flex min-w-0 flex-1 items-center gap-3 hover:underline-offset-4">
                   <History className="size-4 shrink-0 text-muted-foreground" />
                   <span>
-                    <span className="font-medium">Continue {details.name}</span>
-                    <span className="block text-muted-foreground">
-                      {pluralize(components.length, "component")} and any unsaved drafts are kept in this browser.
-                    </span>
+                    <span className="font-medium">{t("resume.continueTitle", { name: details.name })}</span>
+                    <span className="block text-muted-foreground">{t("resume.kept", { count: components.length })}</span>
                   </span>
                 </Link>
                 <span className="flex items-center gap-1">
@@ -139,8 +139,8 @@ function HomeContent() {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    aria-label={`Discard ${details.name}`}
-                    title={`Discard ${details.name}`}
+                    aria-label={t("resume.discardLabel", { name: details.name })}
+                    title={t("resume.discardLabel", { name: details.name })}
                     className="text-muted-foreground hover:text-foreground"
                     onClick={() => setConfirmingDiscard(true)}
                   >
@@ -148,7 +148,7 @@ function HomeContent() {
                   </Button>
                   <Button asChild size="sm">
                     <Link href="/build">
-                      Continue
+                      {t("resume.continue")}
                       <ArrowRight className="size-4" />
                     </Link>
                   </Button>
@@ -159,24 +159,25 @@ function HomeContent() {
         )}
 
         <div data-tour="cli" className="w-full overflow-hidden rounded-xl border bg-card text-left shadow-sm">
-          <div className="flex items-center gap-1.5 border-b bg-muted/40 px-4 py-2.5">
+          <div className="flex items-center gap-1.5 border-b bg-muted/40 py-1.5 pr-1.5 pl-4">
             <span className="size-2.5 rounded-full bg-muted-foreground/20" />
             <span className="size-2.5 rounded-full bg-muted-foreground/20" />
             <span className="size-2.5 rounded-full bg-muted-foreground/20" />
+            <CopyButton
+              text={SNIPPET.map((line) => line.cmd).join("\n")}
+              size="icon"
+              aria-label={t("copyCommands")}
+              title={t("copyCommands")}
+              className="ml-auto size-7 text-muted-foreground hover:text-foreground"
+            >
+              <Copy className="size-3.5" />
+            </CopyButton>
           </div>
           <div className="flex flex-col gap-2.5 p-4 font-mono text-sm">
             {SNIPPET.map((line) => (
-              <div key={line.cmd} className="flex items-center gap-2">
+              <div key={line.cmd} className="flex gap-2">
                 <span className="select-none text-muted-foreground">$</span>
-                <span className="min-w-0 flex-1">{line.cmd}</span>
-                <CopyButton
-                  text={line.cmd}
-                  size="icon"
-                  aria-label={`Copy ${line.cmd}`}
-                  className="size-6 text-muted-foreground hover:text-foreground"
-                >
-                  <Copy className="size-3.5" />
-                </CopyButton>
+                <span className="min-w-0 flex-1 break-words">{line.cmd}</span>
               </div>
             ))}
           </div>
@@ -188,34 +189,31 @@ function HomeContent() {
         />
 
         <div data-tour="new-project" className="w-full rounded-xl border bg-card p-6 text-left">
-          <h2 className="text-sm font-medium">Or build it here</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Fill in your project&apos;s details, add the components you need, and download the
-            result. Nothing is read from or written to your machine until you hit download.
-          </p>
+          <h2 className="text-sm font-medium">{t("build.title")}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{t("build.body")}</p>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
             <FieldGroup>
               <FormField
-                label="Project name"
+                label={t("build.projectName")}
                 registration={form.register("name")}
                 error={form.formState.errors.name}
                 placeholder="my-app"
                 autoFocus
               />
               <FormField
-                label="Default namespace"
+                label={t("build.namespace")}
                 registration={form.register("namespace")}
                 error={form.formState.errors.namespace}
               />
               <FormField
-                label="Output directory"
+                label={t("build.outputDir")}
                 registration={form.register("dir")}
                 error={form.formState.errors.dir}
               />
             </FieldGroup>
             <Button type="submit" size="lg" className="mt-6 h-11 w-full">
               <Sparkles className="size-4" />
-              Start building
+              {t("build.start")}
             </Button>
           </form>
         </div>
@@ -224,9 +222,9 @@ function HomeContent() {
           <span className="flex items-center gap-3">
             <FolderOpen className="size-4 text-muted-foreground" />
             <span>
-              <span className="font-medium">{opening === "file" ? "Opening preset…" : "Open a preset"}</span>
+              <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
               <span className="block text-muted-foreground">
-                Continue from a <code className="font-mono">.kikx-preset.json</code> you downloaded earlier.
+                {t.rich("preset.body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
               </span>
             </span>
           </span>
@@ -250,7 +248,7 @@ function HomeContent() {
           className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
         >
           <Waypoints className="size-4" />
-          See how data flows through kikx
+          {t("dataFlowLink")}
         </Link>
       </div>
     </main>

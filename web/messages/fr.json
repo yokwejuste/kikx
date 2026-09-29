@@ -1,0 +1,756 @@
+{
+  "metadata": {
+    "title": "kikx",
+    "description": "Créez dans votre navigateur de vrais fichiers d'infrastructure modifiables : Ansible, Kubernetes et Terraform qui vous appartiennent."
+  },
+  "common": {
+    "copied": "Copié dans le presse-papiers",
+    "close": "Fermer"
+  },
+  "header": {
+    "home": "Accueil kikx",
+    "docs": "Documentation",
+    "dataFlow": "Flux de données",
+    "tour": "Faire la visite",
+    "theme": "Changer de thème",
+    "language": "Langue",
+    "languages": {
+      "en": "English",
+      "fr": "Français"
+    }
+  },
+  "registryGate": {
+    "loading": "Chargement des composants…",
+    "unreachable": "Impossible de joindre le backend kikx",
+    "retry": "Réessayer"
+  },
+  "home": {
+    "intro": "Générez de vrais fichiers d'infrastructure modifiables directement dans votre projet : inventaires Ansible, group vars et playbooks, manifestes Kubernetes et Terraform. Aucune dépendance cachée, seulement des fichiers simples qui vous appartiennent.",
+    "pronounce": {
+      "label": "Écouter la prononciation de kikx",
+      "hint": "Se prononce « kicking »"
+    },
+    "resume": {
+      "continueTitle": "Reprendre {name}",
+      "kept": "{count, plural, one {# composant} other {# composants}} et les brouillons non enregistrés sont conservés dans ce navigateur.",
+      "continue": "Reprendre",
+      "discardLabel": "Abandonner {name}",
+      "confirmTitle": "Abandonner {name} ?",
+      "confirmBody": "Ses {count, plural, one {# composant} other {# composants}} et ses brouillons non enregistrés seront supprimés de ce navigateur.",
+      "keep": "Conserver",
+      "discard": "Abandonner",
+      "discarded": "{name} abandonné"
+    },
+    "copyCommands": "Copier les commandes",
+    "build": {
+      "title": "Ou créez-le ici",
+      "body": "Renseignez les détails de votre projet, ajoutez les composants dont vous avez besoin, puis téléchargez le résultat. Rien n'est lu ni écrit sur votre machine avant le téléchargement.",
+      "projectName": "Nom du projet",
+      "namespace": "Namespace par défaut",
+      "outputDir": "Dossier de sortie",
+      "start": "Commencer"
+    },
+    "preset": {
+      "open": "Ouvrir un preset",
+      "opening": "Ouverture du preset…",
+      "body": "Reprenez à partir d'un fichier <code>.kikx-preset.json</code> téléchargé précédemment."
+    },
+    "dataFlowLink": "Voir comment les données circulent dans kikx",
+    "openFailed": "Impossible d'ouvrir ce preset"
+  },
+  "templates": {
+    "title": "Partir d'un modèle",
+    "body": "Un projet complet et modifiable à adapter, plutôt que de partir d'une page vide.",
+    "components": "{count, plural, one {# composant} other {# composants}}"
+  },
+  "tour": {
+    "next": "Suivant",
+    "back": "Précédent",
+    "done": "Terminer",
+    "progress": "{current} sur {total}",
+    "home": {
+      "welcome": {
+        "title": "Bienvenue dans kikx",
+        "description": "kikx génère de vrais fichiers d'infrastructure pour Ansible, Kubernetes et Terraform, qui vous appartiennent et se modifient comme n'importe quel code. Cette visite prend une minute."
+      },
+      "cli": {
+        "title": "La même chose, dans votre terminal",
+        "description": "Tout ce qui se trouve ici existe aussi dans la CLI kikx. Voici les commandes que vous lanceriez."
+      },
+      "templates": {
+        "title": "Partir d'un modèle",
+        "description": "Ouvrez un projet complet, d'un serveur unique à un cluster kubeadm ou une plateforme multi-niveaux, et adaptez-le."
+      },
+      "new-project": {
+        "title": "Ou partir de zéro",
+        "description": "Nommez le projet, choisissez un namespace et un dossier de sortie, puis ajoutez les composants un par un."
+      },
+      "open-preset": {
+        "title": "Reprendre là où vous vous étiez arrêté",
+        "description": "Chaque projet se télécharge sous forme de fichier preset. Ouvrez-le ici pour continuer à le modifier."
+      },
+      "data-flow": {
+        "title": "Comment tout s'articule",
+        "description": "Un schéma qui montre comment le tableau de bord, la CLI et l'API transforment un modèle en fichiers."
+      },
+      "tour-button": {
+        "title": "Revoir cette visite",
+        "description": "Relancez-la d'ici sur toutes les pages qui en ont une, y compris le constructeur."
+      }
+    },
+    "builder": {
+      "catalog": {
+        "title": "Les composants, étape par étape",
+        "description": "Provisionnez des serveurs, listez-les dans un inventaire, configurez-les avec des playbooks et des rôles, puis déployez sur Kubernetes. Une coche indique chaque étape couverte."
+      },
+      "editor": {
+        "title": "Remplissez, regardez le rendu",
+        "description": "Chaque champ a une valeur par défaut sensée. Les fichiers ci-dessous se mettent à jour pendant la saisie ; appuyez sur ⌘/Ctrl + Entrée pour ajouter le composant."
+      },
+      "project": {
+        "title": "Votre projet",
+        "description": "Tout ce que vous avez ajouté, avec ses fichiers. Cliquez sur un élément pour le modifier, ou téléchargez tout le projet en preset pour le rouvrir plus tard."
+      },
+      "views": {
+        "title": "Architecture et vérifications",
+        "description": "L'architecture montre comment vos composants se relient. Les vérifications repèrent les conflits, comme les hôtes en double, les groupes manquants ou les rôles inconnus, avant la mise en production."
+      },
+      "download": {
+        "title": "Récupérer les fichiers",
+        "description": "Téléchargez le tout en .zip de fichiers simples. Rien ne touche votre machine avant cela."
+      }
+    }
+  },
+  "phone": {
+    "title": "Vous voulez vraiment faire ça sur votre téléphone ?",
+    "body": "Vous pensez très bien vous en sortir, mais croyez-moi : levez-vous et allez chercher votre ordinateur. J'avais la flemme de le faire, moi aussi.",
+    "continue": "Continuer sur mon téléphone",
+    "copyLink": "Copier le lien pour mon ordinateur",
+    "copied": "Lien copié. Ouvrez-le sur votre ordinateur.",
+    "copyFailed": "Impossible de copier le lien. Copiez-le depuis la barre d'adresse."
+  },
+  "builder": {
+    "noDetails": "Aucun détail de projet pour l'instant.",
+    "goBack": "Revenir pour les renseigner",
+    "header": {
+      "namespace": "Namespace Kubernetes par défaut",
+      "outputDir": "Dossier de sortie",
+      "tabs": {
+        "build": "Construire",
+        "diagram": "Architecture",
+        "checks": "Vérifications"
+      },
+      "download": "Télécharger le .zip",
+      "zipping": "Compression…",
+      "startOver": "Recommencer"
+    },
+    "customNotice": "<code>{reference}</code> est un élément de registre personnalisé. Chargez-le de nouveau ci-dessous avec le même nom pour le régénérer.",
+    "scaffolded": "{count, plural, one {# rôle créé} other {# rôles créés}}",
+    "scaffoldedDetail": "Tasks, defaults, handlers et meta vides. Ouvrez-en un pour voir ses fichiers.",
+    "scaffoldFailed": "Impossible de créer ces rôles"
+  },
+  "catalog": {
+    "nav": "Composants",
+    "stages": {
+      "provision": {
+        "label": "Provisionner",
+        "hint": "Facultatif. Passez cette étape si les serveurs existent déjà."
+      },
+      "inventory": {
+        "label": "Inventaire",
+        "hint": "Listez les serveurs et répartissez-les en groupes."
+      },
+      "configure": {
+        "label": "Configurer",
+        "hint": "Choisissez quels rôles s'exécutent sur quels groupes."
+      },
+      "deploy": {
+        "label": "Déployer",
+        "hint": "Les manifestes Kubernetes de ce qui tourne sur le cluster."
+      },
+      "custom": {
+        "label": "Personnalisé",
+        "hint": "Tout ce qui a un registry-item.json."
+      }
+    },
+    "custom": {
+      "label": "Depuis une URL de registre",
+      "summary": "Charger et générer n'importe quel élément de registre",
+      "writes": "défini par l'élément"
+    }
+  },
+  "editor": {
+    "header": {
+      "new": "Nouveau composant : {label}",
+      "editing": "Modification : {label} · <mono>{title}</mono>",
+      "files": "{count, plural, one {# fichier} other {# fichiers}}",
+      "startNew": "Nouveau"
+    },
+    "toasts": {
+      "added": "{title} ajouté",
+      "saved": "{title} enregistré",
+      "replaced": "{count, plural, one {# autre composant remplacé} other {# autres composants remplacés}}.",
+      "files": "{count, plural, one {# fichier} other {# fichiers}} dans le projet.",
+      "renderFailed": "Impossible de générer le composant",
+      "attention": "Certains champs demandent votre attention",
+      "attentionHint": "Ils sont mis en évidence dans le formulaire."
+    },
+    "draft": {
+      "restored": "Brouillon non enregistré restauré, datant du {date}.",
+      "discard": "Abandonner le brouillon"
+    },
+    "preview": {
+      "title": "Aperçu",
+      "live": "Mis à jour pendant la saisie"
+    },
+    "saveBar": {
+      "add": "Ajouter au projet",
+      "save": "Enregistrer",
+      "rendering": "Génération…",
+      "discard": "Annuler les modifications",
+      "reset": "Réinitialiser",
+      "clean": "Aucune modification non enregistrée",
+      "draftKept": "Brouillon conservé dans ce navigateur · ⌘/Ctrl + Entrée pour enregistrer",
+      "shortcut": "⌘/Ctrl + Entrée pour enregistrer",
+      "replaces": "Enregistrer remplace <files></files>, actuellement fourni par {owners}."
+    }
+  },
+  "preview": {
+    "rendering": "Génération…",
+    "failed": "Impossible de générer ce composant.",
+    "waiting": "L'aperçu apparaît dès que les champs obligatoires sont remplis.",
+    "lastGood": "{error}. Affichage du dernier rendu valide.",
+    "invalid": "Certains champs sont incomplets. Affichage du dernier rendu valide.",
+    "copy": "Copier",
+    "renderFailed": "Échec de la génération"
+  },
+  "fields": {
+    "name": "Nom",
+    "folder": "Dossier",
+    "description": "Description",
+    "inventoryFile": "Fichier d'inventaire",
+    "rolesPath": "Chemin des rôles",
+    "timezone": "Fuseau horaire",
+    "image": "Image",
+    "host": "Hôte",
+    "hosts": "Hôtes",
+    "k8sVersion": "Version de Kubernetes",
+    "port": "Port",
+    "replicas": "Réplicas",
+    "targetPort": "Port cible",
+    "path": "Chemin",
+    "backendService": "Service backend",
+    "namespace": "Namespace",
+    "namespacePlaceholder": "celui du projet",
+    "labels": "Labels",
+    "addLabel": "Ajouter un label",
+    "region": "Région",
+    "size": "Taille",
+    "osImage": "Image système",
+    "count": "Nombre",
+    "key": "clé",
+    "value": "valeur",
+    "removeRow": "Supprimer la ligne",
+    "removeItem": "Retirer {item}",
+    "nameHelp": {
+      "inventory": "Devient {file}.",
+      "playbook": "Le nom du fichier, sans .yml.",
+      "role": "Écrit {path}. Utilisez ce nom dans un playbook.",
+      "k8s": "C'est aussi le label app par défaut : un Deployment et un Service portant le même nom se trouvent automatiquement."
+    }
+  },
+  "inventory": {
+    "hostsTitle": "Hôtes ({count})",
+    "hostsBody": "Une ligne par serveur. Placez-le dans chaque groupe auquel il appartient : kikx écrit son adresse une seule fois et y fait référence par son nom ailleurs.",
+    "imported": "{hosts, plural, one {# hôte importé} other {# hôtes importés}} et {groups, plural, one {# groupe} other {# groupes}}",
+    "addHost": "Ajouter un hôte",
+    "groupsTitle": "Groupes",
+    "groupsBody": "Imbriquez des groupes (:children) et donnez-leur des variables partagées (:vars). Les groupes utilisés par vos hôtes existent déjà : n'ajoutez une ligne que pour les imbriquer ou leur associer des variables.",
+    "addGroup": "Ajouter un groupe",
+    "orConfigure": "ou configurer :",
+    "host": {
+      "nameLabel": "Nom de l'hôte",
+      "namePlaceholder": "nom de l'hôte",
+      "addressLabel": "Adresse",
+      "addressPlaceholder": "IP ou nom d'hôte (facultatif)",
+      "groupsLabel": "Groupes",
+      "groupsPlaceholder": "groupes auxquels il appartient",
+      "remove": "Supprimer l'hôte",
+      "connection": "Connexion et variables d'hôte",
+      "sshUserLabel": "Utilisateur SSH",
+      "sshUserPlaceholder": "utilisateur ssh (hérité)",
+      "sshPortLabel": "Port SSH",
+      "sshPortPlaceholder": "port ssh (hérité)",
+      "sshKeyLabel": "Fichier de clé SSH",
+      "sshKeyPlaceholder": "fichier de clé ssh (facultatif)",
+      "varsLabel": "Variables d'hôte",
+      "varsPlaceholder": "variables d'hôte : clé=valeur clé2=valeur2",
+      "inheritNote": "Laissez l'utilisateur et le port vides pour les hériter des variables d'un groupe. Les définir ici remplace la valeur du groupe.",
+      "summary": {
+        "user": "utilisateur {value}",
+        "port": "port {value}",
+        "keyFile": "fichier de clé",
+        "vars": "{count, plural, one {# variable} other {# variables}}",
+        "inherits": "hérite des groupes"
+      }
+    },
+    "group": {
+      "nameLabel": "Nom du groupe",
+      "namePlaceholder": "nom du groupe",
+      "childrenLabel": "Groupes enfants",
+      "childrenPlaceholder": "enfants (facultatif)",
+      "varsLabel": "Variables du groupe",
+      "varsPlaceholder": "variables, une par ligne\nclé=valeur",
+      "remove": "Supprimer le groupe",
+      "members": "{count, plural, one {# hôte} other {# hôtes}}",
+      "parent": "groupe parent",
+      "empty": "aucun hôte pour l'instant"
+    },
+    "import": {
+      "trigger": "Importer inventory.ini",
+      "title": "Importer un inventaire existant",
+      "body": "Collez un inventaire INI (ou choisissez le fichier). Les hôtes présents dans plusieurs groupes sont fusionnés en un seul hôte avec plusieurs groupes ; les <code>:children</code> et <code>:vars</code> des groupes sont repris aussi.",
+      "chooseFile": "Choisir un fichier…",
+      "counts": "{hosts, plural, one {# hôte} other {# hôtes}} · {groups, plural, one {# groupe} other {# groupes}}",
+      "cancel": "Annuler",
+      "replace": "Remplacer les hôtes et les groupes",
+      "warnings": {
+        "outside": "Ligne {line} : « {text} » se trouve hors de toute section [groupe], elle a donc été ignorée.",
+        "conflict": "{host} : {field} vaut « {existing} » dans un groupe mais « {value} » dans [{group}]. La première valeur est conservée.",
+        "noAddress": "{host} n'a pas d'ansible_host. Ansible essaiera de résoudre le nom lui-même."
+      }
+    }
+  },
+  "groupVars": {
+    "group": "Groupe",
+    "writes": "Écrit <code>{path}</code>",
+    "noInventory": "Ajoutez un inventaire pour choisir parmi ses groupes.",
+    "folderLayout": "Organisation en dossier (<code>{path}</code>)",
+    "variables": "Variables",
+    "mode": "Mode d'édition",
+    "modes": {
+      "fields": "Clé / valeur",
+      "yaml": "YAML"
+    },
+    "simple": "Valeurs simples",
+    "addVar": "Ajouter une variable",
+    "keyPlaceholder": "clé (par ex. app_port)",
+    "yamlHelp": "Collez des listes, des dictionnaires, n'importe quel YAML : il est écrit tel quel. Idéal pour reprendre un fichier group_vars existant.",
+    "nested": "Ce YAML contient des valeurs imbriquées. Continuez à le modifier en YAML pour ne rien perdre."
+  },
+  "plays": {
+    "title": "Plays",
+    "body": "Chaque play exécute ses rôles, dans l'ordre, sur un groupe de l'inventaire. La plupart des playbooks n'en ont besoin que d'un ; ajoutez-en pour exécuter des rôles différents sur des groupes différents depuis le même fichier.",
+    "add": "Ajouter un play",
+    "heading": "Play {number}",
+    "headingOn": "Play {number} · s'exécute sur {hosts}",
+    "moveUp": "Monter le play",
+    "moveDown": "Descendre le play",
+    "remove": "Supprimer le play",
+    "name": "Nom",
+    "namePlaceholder": "par ex. {name}",
+    "nameFallback": "Ce que fait ce play",
+    "hosts": "S'exécute sur (hôtes)",
+    "roles": "Rôles, dans leur ordre d'exécution",
+    "rolesLabel": "Rôles",
+    "rolesPlaceholder": "noms des rôles, dans l'ordre d'exécution",
+    "tags": "Tags (facultatif)",
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "noms des tags",
+    "become": "Exécuter en root (become)",
+    "conditions": {
+      "title": "Conditions des rôles (<code>when:</code>)",
+      "hint": "{set} sur {total} définies",
+      "empty": "Ajoutez d'abord des rôles ci-dessus.",
+      "placeholder": "toujours exécuté, ou une condition Jinja"
+    },
+    "tasks": {
+      "title": "Pre-tasks et post-tasks",
+      "none": "aucune",
+      "pre": "pre",
+      "post": "post",
+      "before": "Avant les rôles",
+      "after": "Après les rôles",
+      "help": "Une liste YAML de tâches, écrite telle quelle sous <code>pre_tasks:</code> / <code>post_tasks:</code>."
+    }
+  },
+  "site": {
+    "title": "Imports, dans l'ordre d'exécution",
+    "body": "<code>ansible-playbook site.yml</code> les exécute de haut en bas. Choisissez des playbooks de ce projet, ou saisissez le chemin d'un playbook qui existe déjà dans votre dépôt.",
+    "namePlaceholder": "ce que fait cette étape",
+    "nameLabel": "Nom de l'import",
+    "pathPlaceholder": "chemin vers un playbook",
+    "pathLabel": "Chemin du playbook",
+    "moveUp": "Monter",
+    "moveDown": "Descendre",
+    "remove": "Supprimer l'import",
+    "addPath": "Ajouter un chemin",
+    "fromProject": "de ce projet :",
+    "addAll": "Tout ajouter"
+  },
+  "custom": {
+    "title": "Composant personnalisé",
+    "body": "Indiquez n'importe quel registry-item.json (une URL ou un chemin local) et générez-le. Aucune mise à jour de kikx nécessaire.",
+    "placeholder": "URL ou chemin vers un registry-item.json",
+    "load": "Charger",
+    "loading": "Chargement…",
+    "name": "Nom",
+    "preview": "Aperçu",
+    "rendering": "Génération…",
+    "add": "Ajouter au projet",
+    "replaced": "{count, plural, one {# composant remplacé} other {# composants remplacés}}",
+    "added": "{count, plural, one {# fichier ajouté} other {# fichiers ajoutés}}",
+    "loadFailed": "Impossible de charger cette référence",
+    "previewFailed": "Échec de l'aperçu"
+  },
+  "conflicts": {
+    "title": "{count, plural, one {Ce fichier existe déjà} other {# fichiers existent déjà}}",
+    "body": "Un projet ne peut avoir qu'un seul auteur par fichier. Remplacer supprime le composant qui {count, plural, one {le} other {les}} produit actuellement. Dépliez un fichier pour comparer.",
+    "same": "contenu identique",
+    "differs": "contenu différent",
+    "writtenBy": "Actuellement écrit par {kind} · <strong>{title}</strong>",
+    "current": "Actuel",
+    "incoming": "Nouveau",
+    "collateral": "Également supprimés avec {count, plural, one {ce composant} other {ces composants}} : <files></files>",
+    "keep": "Garder l'existant",
+    "replace": "Remplacer"
+  },
+  "project": {
+    "title": "Projet",
+    "summary": "{components, plural, one {# composant} other {# composants}} · {files, plural, one {# fichier} other {# fichiers}} dans <code>{dir}</code>",
+    "errors": "{count, plural, one {# erreur} other {# erreurs}}",
+    "warnings": "{count, plural, one {# avertissement} other {# avertissements}}",
+    "review": "Examiner",
+    "empty": "Rien pour l'instant. La plupart des projets commencent par un <strong>Inventaire</strong>.",
+    "viewing": "Généré par {component}. Modifiez le composant pour le changer.",
+    "row": {
+      "showFiles": "Afficher les fichiers",
+      "hideFiles": "Masquer les fichiers",
+      "edit": "Modifier {title}",
+      "files": "{count, plural, one {# fichier} other {# fichiers}}",
+      "issues": "{count, plural, one {# problème} other {# problèmes}}",
+      "remove": "Supprimer {title}",
+      "removed": "{title} supprimé",
+      "undo": "Annuler"
+    }
+  },
+  "setup": {
+    "download": "Télécharger le preset",
+    "copy": "Copier {command}",
+    "explain": "<code>setup</code> initialise un nouveau projet kikx à partir de ce fichier. <code>apply</code> l'intègre à un projet existant, sans kikx.toml ni backend."
+  },
+  "checks": {
+    "empty": "Ajoutez des composants et kikx vérifiera qu'ils s'accordent entre eux.",
+    "clear": "Aucun conflit trouvé. Hôtes, groupes, playbooks et manifestes sont cohérents.",
+    "intro": "kikx confronte les composants entre eux : fichiers en double, hôtes avec deux adresses, variables d'hôte qui écrasent sans bruit celles d'un groupe, plays visant des groupes qui n'existent pas, et plus encore. Les erreurs cassent le résultat ; les avertissements signalent des erreurs probables ; les remarques sont simplement bonnes à savoir.",
+    "severity": {
+      "error": "Erreurs",
+      "warning": "Avertissements",
+      "info": "Remarques"
+    },
+    "scaffold": "Créer {count, plural, one {# rôle} other {# rôles}}",
+    "open": "Ouvrir {title}",
+    "issues": {
+      "dupFile": {
+        "title": "{count} composants écrivent {file}",
+        "detail": "Seul le dernier est conservé dans le téléchargement. Supprimez ou renommez l'un d'eux."
+      },
+      "cycle": {
+        "title": "L'imbrication des groupes forme une boucle : {path}",
+        "detail": "Ansible refuse de charger un inventaire dont les :children forment un cycle."
+      },
+      "emptyChild": {
+        "title": "[{group}:children] liste « {child} », qui n'a aucun hôte",
+        "detail": "Probablement une faute de frappe, ou ajoutez des hôtes à ce groupe."
+      },
+      "address": {
+        "title": "{host} a deux adresses : {first} et {second}",
+        "detail": "Le même nom d'hôte pointe vers des machines différentes. Ansible utilise celle qu'il lit en dernier."
+      },
+      "override": {
+        "title": "{host} définit {key}={value}, ce qui remplace [{group}:vars] {key}={groupValue}",
+        "detail": "Les variables d'hôte l'emportent sur celles du groupe. Videz {key} sur l'hôte si c'est la valeur du groupe que vous voulez."
+      },
+      "multiInventory": {
+        "title": "{count} inventaires dans ce projet",
+        "detail": "C'est normal pour des environnements séparés ; passez le bon avec -i. Les vérifications traitent leurs groupes comme un seul ensemble."
+      },
+      "layouts": {
+        "title": "Le groupe « {group} » a à la fois group_vars/{group}.yml et group_vars/{group}/main.yml",
+        "detail": "Ansible charge et fusionne les deux : une clé définie deux fois dépend donc de l'ordre de chargement. Gardez une seule organisation."
+      },
+      "unknownGroup": {
+        "title": "group_vars/{group}.yml vise un groupe qu'aucun inventaire ne définit",
+        "detail": "Ces variables ne seront jamais chargées. Vérifiez l'orthographe par rapport aux groupes de votre inventaire."
+      },
+      "shadow": {
+        "title": "{key} est défini à la fois dans [{group}:vars] et dans group_vars/{group}.yml",
+        "detail": "group_vars/{group}.yml l'emporte. Gardez-le à un seul endroit.",
+        "detailValues": "group_vars/{group}.yml l'emporte ({fileValue} plutôt que {value}). Gardez-le à un seul endroit."
+      },
+      "playHosts": {
+        "title": "Le play « {play} » vise « {target} », qui n'est pas dans l'inventaire",
+        "detail": "Le play ne correspondra à aucun hôte et ne fera rien, sans rien signaler."
+      },
+      "externalRoles": {
+        "title": "{playbook} utilise {count, plural, one {# rôle} other {# rôles}} que kikx ne fournit pas",
+        "detail": "{roles} : ils doivent déjà exister sous roles/ dans votre dépôt, ou créez ici des rôles vides."
+      },
+      "siteMissing": {
+        "title": "{site}.yml importe {path}, que ce projet ne produit pas",
+        "detail": "C'est normal si le fichier existe déjà dans votre dépôt ; sinon, ajoutez ce playbook."
+      },
+      "notImported": {
+        "title": "{path} n'est importé par aucun playbook site",
+        "detail": "Il ne s'exécute que si vous l'appelez directement."
+      },
+      "serviceSelector": {
+        "title": "Le Service {service} sélectionne app={selector}, mais aucun Deployment n'a ce label",
+        "detail": "Ses endpoints seront vides. Donnez le même nom au Deployment, ou définissez le label app."
+      },
+      "ingressBackend": {
+        "title": "L'Ingress {ingress} route vers le service « {backend} », qui n'est pas dans le projet"
+      }
+    }
+  },
+  "diagram": {
+    "empty": "Ajoutez un composant pour voir l'architecture prendre forme.",
+    "collapse": "Réduire",
+    "expand": "Agrandir",
+    "export": "Exporter vers draw.io",
+    "arranging": "Disposition du schéma…",
+    "failed": "Impossible de disposer ce schéma.",
+    "hint": "Disposé de gauche à droite dans l'ordre où les choses se produisent. Survolez un nœud pour suivre ses liens, cliquez dessus pour le modifier. Exportez vers draw.io pour continuer à affiner le schéma à la main.",
+    "legend": {
+      "uses": "utilise / vise",
+      "structure": "structure de l'inventaire",
+      "data": "données (groupes, variables)"
+    },
+    "lanes": {
+      "provision": "Provisionnement",
+      "inventory": "Inventaire",
+      "playbooks": "Playbooks",
+      "roles": "Rôles",
+      "deploy": "Déploiement",
+      "custom": "Personnalisé"
+    },
+    "edges": {
+      "includes": "inclut",
+      "targets": "vise",
+      "configures": "configure",
+      "imports": "importe",
+      "runs": "exécute",
+      "routesTo": "route vers",
+      "selects": "sélectionne"
+    },
+    "nodes": {
+      "hosts": "{count, plural, one {# hôte} other {# hôtes}}",
+      "children": "{count, plural, one {# groupe enfant} other {# groupes enfants}}",
+      "vars": "{count, plural, one {# variable} other {# variables}}",
+      "emptyGroup": "groupe vide",
+      "groupVars": "Group vars",
+      "groupVarsYaml": "Group vars · YAML",
+      "site": "Playbook site · point d'entrée",
+      "plays": "{plays, plural, one {# play} other {# plays}} · {roles, plural, one {# rôle} other {# rôles}}",
+      "bootstrap": "Playbook d'amorçage K8s",
+      "rolesPath": "roles_path : {path}",
+      "unset": "non défini",
+      "role": "Rôle Ansible · {count, plural, one {# fichier} other {# fichiers}}",
+      "terraform": "Ressource Terraform",
+      "image": "Image : {image}",
+      "k8s": "{kind} Kubernetes"
+    }
+  },
+  "flow": {
+    "title": "Flux de données",
+    "body": "Choisissez comment vous pilotez kikx : le chemin réellement emprunté s'allume.",
+    "tabs": {
+      "cli": "CLI",
+      "dashboard": "Tableau de bord"
+    },
+    "legend": {
+      "solid": "bordure pleine = acteur / traitement",
+      "dashed": "bordure pointillée = données sur disque"
+    },
+    "nodes": {
+      "terminal": {
+        "label": "Terminal"
+      },
+      "browser": {
+        "label": "Navigateur",
+        "description": "Envoi du formulaire du tableau de bord"
+      },
+      "cli": {
+        "description": "Analyse les options, appelle directement les ops"
+      },
+      "backend": {
+        "description": "API HTTP, les mêmes ops en dessous"
+      },
+      "core": {
+        "description": "Moteur partagé : config, modèles, ops"
+      },
+      "config": {
+        "description": "Nom du projet, namespace, dossier de sortie"
+      },
+      "manifests": {
+        "description": "Manifestes générés et intégrés"
+      }
+    },
+    "edges": {
+      "terminal-cli": "invoque",
+      "core-config": "écrit",
+      "core-manifests": "génère + écrit"
+    }
+  },
+  "notFound": {
+    "title": "Cette route n'a pas été intégrée",
+    "body": "Il n'y a pas de page ici. Pendant que vous retrouvez votre chemin, voici une blague (en anglais) :",
+    "jokeFailed": "Impossible même de récupérer une blague. C'est une 404 sur une 404.",
+    "another": "Une autre",
+    "home": "Retour à l'accueil"
+  },
+  "validation": {
+    "projectNameRequired": "Le nom du projet est obligatoire",
+    "namespaceRequired": "Le namespace est obligatoire",
+    "outputDirRequired": "Le dossier de sortie est obligatoire",
+    "labelKeyRequired": "La clé du label est obligatoire",
+    "nameRequired": "Le nom est obligatoire",
+    "imageRequired": "L'image est obligatoire",
+    "portNumber": "Le port doit être un nombre",
+    "portWhole": "Le port doit être un nombre entier",
+    "portRange": "Le port doit être compris entre 1 et 65535",
+    "number": "Saisissez un nombre",
+    "wholeNumber": "Saisissez un nombre entier",
+    "atLeastOne": "La valeur doit être d'au moins 1",
+    "pathRequired": "Le chemin est obligatoire",
+    "regionRequired": "La région est obligatoire",
+    "sizeRequired": "La taille est obligatoire",
+    "osImageRequired": "L'image système est obligatoire",
+    "hostsRequired": "Les hôtes sont obligatoires",
+    "k8sVersionRequired": "La version de Kubernetes est obligatoire",
+    "groupNameRequired": "Le nom du groupe est obligatoire",
+    "groupNameFormat": "Lettres, chiffres, _ et - uniquement ; commence par une lettre ou _",
+    "addressInvalid": "Saisissez une adresse IP ou un nom d'hôte valide",
+    "hostNameRequired": "Le nom de l'hôte est obligatoire",
+    "hostGroupsRequired": "Placez l'hôte dans au moins un groupe",
+    "addHost": "Ajoutez au moins un hôte",
+    "hostDuplicate": "« {name} » est déjà l'hôte n° {index}. Ajoutez plutôt les groupes supplémentaires à cet hôte",
+    "groupDuplicate": "Le groupe « {name} » apparaît deux fois",
+    "groupSelf": "Un groupe ne peut pas se contenir lui-même",
+    "addVariable": "Ajoutez au moins une variable",
+    "variableKey": "Donnez une clé à cette valeur",
+    "pasteYaml": "Collez du YAML",
+    "playName": "Donnez un nom au play",
+    "playHosts": "Choisissez un groupe sur lequel l'exécuter",
+    "playRoles": "Ajoutez au moins un rôle",
+    "folderRelative": "Utilisez un dossier relatif, comme playbooks",
+    "addPlay": "Ajoutez au moins un play",
+    "importName": "Donnez-lui un nom",
+    "importPath": "Le chemin est obligatoire",
+    "addImport": "Importez au moins un playbook",
+    "timezoneRequired": "Le fuseau horaire est obligatoire",
+    "rolesPathRequired": "Le chemin des rôles est obligatoire",
+    "roleNameFormat": "Lettres, chiffres, _ . et - uniquement"
+  },
+  "errors": {
+    "notConfigured": "NEXT_PUBLIC_KIKX_API_URL n'est pas défini. Faites-le pointer vers votre backend kikx (voir web/.env.example).",
+    "network": "Impossible de joindre le backend kikx. Vérifiez qu'il est lancé et que NEXT_PUBLIC_KIKX_API_URL pointe vers lui.",
+    "requestFailed": "La requête vers {path} a échoué avec le statut {status}",
+    "notPreset": "Ce n'est pas un preset kikx : il n'a pas de liste de composants.",
+    "presetComponent": "Il manque une référence ou un nom au composant n° {index}."
+  },
+  "registry": {
+    "deployment": {
+      "title": "Deployment",
+      "description": "Des pods qui exécutent une image de conteneur"
+    },
+    "service": {
+      "title": "Service",
+      "description": "Une adresse stable pour des pods",
+      "fields": {
+        "target_port": "Port du conteneur ; par défaut, le port du service."
+      }
+    },
+    "ingress": {
+      "title": "Ingress",
+      "description": "Achemine le trafic HTTP vers un service",
+      "fields": {
+        "service": "Service backend ; par défaut, le nom de l'ingress."
+      }
+    },
+    "digitalocean": {
+      "title": "Droplet DigitalOcean",
+      "description": "Terraform pour un ou plusieurs droplets DigitalOcean",
+      "fields": {
+        "os_image": "N'importe quel identifiant d'image accepté par le fournisseur ; la liste n'est qu'un raccourci."
+      }
+    },
+    "hetzner": {
+      "title": "Serveur Hetzner Cloud",
+      "description": "Terraform pour un ou plusieurs serveurs Hetzner Cloud",
+      "fields": {
+        "os_image": "N'importe quel identifiant d'image accepté par le fournisseur ; la liste n'est qu'un raccourci."
+      }
+    },
+    "ansible": {
+      "title": "Amorçage Kubernetes",
+      "description": "Installe containerd, kubelet, kubeadm et kubectl sur les hôtes cibles",
+      "fields": {
+        "hosts": "Un groupe de l'inventaire, ou all."
+      }
+    },
+    "inventory": {
+      "title": "Inventaire",
+      "description": "Hôtes, groupes, imbrication et variables partagées pour des serveurs que vous avez déjà"
+    },
+    "groupvars": {
+      "title": "Group vars",
+      "description": "Les variables d'un groupe de l'inventaire"
+    },
+    "commonrole": {
+      "title": "Rôle commun",
+      "description": "Un rôle de départ pour l'hygiène des hôtes : paquets de base, fuseau horaire, swap et un motd généré"
+    },
+    "role": {
+      "title": "Squelette de rôle",
+      "description": "Un rôle vide (tasks, defaults, handlers, meta) à compléter"
+    },
+    "playbook": {
+      "title": "Playbook",
+      "description": "Un ou plusieurs plays, chacun exécutant des rôles sur un groupe de l'inventaire",
+      "fields": {
+        "folder": "Où placer le fichier. Laissez vide pour la racine du projet."
+      }
+    },
+    "site": {
+      "title": "Playbook site",
+      "description": "Le point d'entrée qui importe vos playbooks dans l'ordre"
+    },
+    "ansiblecfg": {
+      "title": "Configuration Ansible",
+      "description": "Un ansible.cfg qui indique à Ansible votre inventaire et vos rôles, pour que les playbooks placés dans des sous-dossiers les trouvent"
+    },
+    "presets": {
+      "k8s-web-app": {
+        "title": "Application web Kubernetes",
+        "description": "Un frontend web et une API derrière des ingress, avec un worker en arrière-plan."
+      },
+      "single-server": {
+        "title": "Serveur unique avec Ansible",
+        "description": "Un droplet DigitalOcean, configuré par un rôle commun via un playbook site."
+      },
+      "kubeadm-cluster": {
+        "title": "Cluster Kubernetes avec kubeadm",
+        "description": "Des serveurs Hetzner amorcés en un control plane de trois nœuds et trois workers."
+      },
+      "web-and-database": {
+        "title": "Serveurs web et base de données",
+        "description": "Des serveurs existants répartis entre un niveau web et une base PostgreSQL principale avec un réplica."
+      },
+      "multi-tier-platform": {
+        "title": "Plateforme multi-niveaux",
+        "description": "Une plateforme de boutique en ligne : load balancers en bordure, niveaux web et applicatif, PostgreSQL principal avec réplicas, Redis, supervision et un cluster Kubernetes."
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { api } from "@/lib/api/client";
+import { LocalizedError } from "@/lib/i18n/localized-error";
 import { downloadBlob } from "@/lib/download";
 import { toRenderRequest, type FormValues } from "@/lib/forms/component-forms";
 import { componentId, type AddedComponent, type ProjectDetails } from "@/lib/project/context";
@@ -63,11 +64,11 @@ export interface PresetManifest {
 export function toPresetManifest(parsed: unknown): PresetManifest {
   const manifest = parsed as { name?: string; project?: Partial<ProjectDetails>; components?: unknown };
   if (!manifest || typeof manifest !== "object" || !Array.isArray(manifest.components)) {
-    throw new Error("That isn't a kikx preset — it has no components list.");
+    throw new LocalizedError("errors.notPreset");
   }
   const components: PresetComponent[] = manifest.components.map((c: Partial<PresetComponent>, i: number) => {
     if (typeof c?.reference !== "string" || typeof c?.name !== "string") {
-      throw new Error(`Component #${i + 1} is missing a reference or name.`);
+      throw new LocalizedError("errors.presetComponent", { index: i + 1 });
     }
     return { reference: c.reference, name: c.name, fields: c.fields ?? {}, labels: c.labels ?? {} };
   });

@@ -1,0 +1,12 @@
+*
+!web
+!docs
+web/node_modules
+web/.next
+web/public/docs
+web/.env
+web/.env.*
+!web/.env.example
+web/tsconfig.tsbuildinfo
+docs/build
+docs/locales/**/*.mo

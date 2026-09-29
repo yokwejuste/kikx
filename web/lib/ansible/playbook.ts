@@ -32,7 +32,7 @@ export function hostPatterns(hosts: string): string[] {
 }
 
 export function stripYamlDocumentMarker(yaml: string): string {
-  return yaml.replace(/^\s*---\s*\n/, "");
+  return yaml.replace(/^\s*-{3}\s*\n/, "");
 }
 
 export function extractAvailableRoleNames(

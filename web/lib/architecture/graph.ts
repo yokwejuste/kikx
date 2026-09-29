@@ -2,21 +2,14 @@ import { Settings2, Boxes, Cloud, Cog, FileCode2, ListOrdered, Network, Package,
 import { groupVarsPath } from "@/lib/ansible/group-vars";
 import { parseInventoryEntries } from "@/lib/ansible/inventory";
 import { hostPatterns, playbookPath, playsFromRecipe, siteImportsFromRecipe } from "@/lib/ansible/playbook";
-import { pluralize } from "@/lib/format";
+import type { Translate } from "@/lib/i18n/localized-error";
 import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
 import type { FlowNodeData } from "@/components/flow/flow-node";
 
-export const LANES = [
-  { id: "provision", label: "Provision" },
-  { id: "inventory", label: "Inventory" },
-  { id: "playbooks", label: "Playbooks" },
-  { id: "roles", label: "Roles" },
-  { id: "deploy", label: "Deploy" },
-  { id: "custom", label: "Custom" },
-] as const;
+export const LANES = ["provision", "inventory", "playbooks", "roles", "deploy", "custom"] as const;
 
-export type LaneId = (typeof LANES)[number]["id"];
+export type LaneId = (typeof LANES)[number];
 
 export interface GraphNode {
   id: string;
@@ -35,6 +28,7 @@ export interface GraphEdge {
 export interface ArchitectureGraph {
   nodes: GraphNode[];
   edges: GraphEdge[];
+  laneLabels: Record<LaneId, string>;
 }
 
 function laneFor(component: AddedComponent): LaneId {
@@ -51,7 +45,7 @@ function laneFor(component: AddedComponent): LaneId {
   return "custom";
 }
 
-export function buildArchitectureGraph(components: AddedComponent[]): ArchitectureGraph {
+export function buildArchitectureGraph(components: AddedComponent[], t: Translate): ArchitectureGraph {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
   const edgeIds = new Set<string>();
@@ -87,12 +81,12 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
       for (const entry of entries) {
         const id = `${component.id}:${entry.group}`;
         const parts: string[] = [];
-        if (entry.members?.length) parts.push(pluralize(entry.members.length, "host"));
-        if (entry.children?.length) parts.push(pluralize(entry.children.length, "child group"));
-        if (entry.vars && Object.keys(entry.vars).length) parts.push(`${Object.keys(entry.vars).length} var(s)`);
+        if (entry.members?.length) parts.push(t("nodes.hosts", { count: entry.members.length }));
+        if (entry.children?.length) parts.push(t("nodes.children", { count: entry.children.length }));
+        if (entry.vars && Object.keys(entry.vars).length) parts.push(t("nodes.vars", { count: Object.keys(entry.vars).length }));
         addNode(id, lane, {
           label: entry.group,
-          description: parts.join(" · ") || "empty group",
+          description: parts.join(" · ") || t("nodes.emptyGroup"),
           icon: entry.children?.length ? Network : Boxes,
           kind: "data",
         });
@@ -102,7 +96,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
         for (const child of entry.children ?? []) {
           if (!known.has(child)) continue;
           childGroups.add(child);
-          addEdge(`${component.id}:${entry.group}`, `${component.id}:${child}`, "includes", "structure");
+          addEdge(`${component.id}:${entry.group}`, `${component.id}:${child}`, t("edges.includes"), "structure");
         }
       }
       continue;
@@ -112,7 +106,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
       const group = fields.group || name;
       addNode(component.id, lane, {
         label: groupVarsPath(group, fields.layout),
-        description: fields.yaml ? "Group vars · YAML" : "Group vars",
+        description: fields.yaml ? t("nodes.groupVarsYaml") : t("nodes.groupVars"),
         icon: FileCode2,
         kind: "data",
       });
@@ -121,7 +115,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
     }
 
     if (reference === REFERENCES.site) {
-      addNode(component.id, lane, { label: `${name}.yml`, description: "Site playbook · entry point", icon: ListOrdered, kind: "process" });
+      addNode(component.id, lane, { label: `${name}.yml`, description: t("nodes.site"), icon: ListOrdered, kind: "process" });
       siteImports.push({ id: component.id, paths: siteImportsFromRecipe(component.recipe).map((i) => i.path) });
       continue;
     }
@@ -132,7 +126,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
       const path = playbookPath(name, fields.folder);
       addNode(component.id, lane, {
         label: path,
-        description: `${pluralize(plays.length, "play")} · ${pluralize(roles.length, "role")}`,
+        description: t("nodes.plays", { plays: plays.length, roles: roles.length }),
         icon: ScrollText,
         kind: "process",
       });
@@ -143,7 +137,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
     }
 
     if (reference === REFERENCES.ansible) {
-      addNode(component.id, lane, { label: name, description: "K8s bootstrap playbook", icon: Rocket, kind: "process" });
+      addNode(component.id, lane, { label: name, description: t("nodes.bootstrap"), icon: Rocket, kind: "process" });
       if (fields.hosts) hostTargets.push({ id: component.id, hosts: fields.hosts });
       continue;
     }
@@ -151,7 +145,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
     if (reference === REFERENCES.ansiblecfg) {
       addNode(component.id, lane, {
         label: "ansible.cfg",
-        description: `roles_path: ${fields.roles_path || "—"}`,
+        description: t("nodes.rolesPath", { path: fields.roles_path || t("nodes.unset") }),
         icon: Settings2,
         kind: "data",
       });
@@ -161,7 +155,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
     if (lane === "roles") {
       addNode(component.id, lane, {
         label: `roles/${name}`,
-        description: `Ansible role · ${component.files.length} files`,
+        description: t("nodes.role", { count: component.files.length }),
         icon: Cog,
         kind: "process",
       });
@@ -172,7 +166,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
     if (lane === "provision") {
       addNode(component.id, lane, {
         label: name,
-        description: [fields.region, fields.size].filter(Boolean).join(" · ") || "Terraform resource",
+        description: [fields.region, fields.size].filter(Boolean).join(" · ") || t("nodes.terraform"),
         icon: Cloud,
         kind: "process",
       });
@@ -183,7 +177,7 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
       const kind = reference.split("/")[1] ?? "resource";
       addNode(component.id, lane, {
         label: `${name} · ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`,
-        description: fields.image ? `Image: ${fields.image}` : `Kubernetes ${kind}`,
+        description: fields.image ? t("nodes.image", { image: fields.image }) : t("nodes.k8s", { kind }),
         icon: Package,
         kind: "process",
       });
@@ -206,33 +200,35 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
   for (const { id, hosts } of hostTargets) {
     for (const pattern of hostPatterns(hosts)) {
       const targets = pattern === "all" && !groupNodeId.has("all") ? rootGroups : [groupNodeId.get(pattern)];
-      for (const groupId of targets) if (groupId) addEdge(groupId, id, "targets");
+      for (const groupId of targets) if (groupId) addEdge(groupId, id, t("edges.targets"));
     }
   }
   for (const { id, group } of groupVars) {
     const groupId = groupNodeId.get(group);
-    if (groupId) addEdge(groupId, id, "configures", "structure");
+    if (groupId) addEdge(groupId, id, t("edges.configures"), "structure");
   }
   for (const { id, paths } of siteImports) {
     for (const path of paths) {
       const playbookId = playbookIdByPath.get(path);
-      if (playbookId) addEdge(id, playbookId, "imports");
+      if (playbookId) addEdge(id, playbookId, t("edges.imports"));
     }
   }
   for (const { id, roles } of roleAssignments) {
     for (const role of roles) {
       const roleId = roleIdByName.get(role);
-      if (roleId) addEdge(id, roleId, "runs");
+      if (roleId) addEdge(id, roleId, t("edges.runs"));
     }
   }
   for (const { id, backend } of ingresses) {
     const serviceId = serviceIdByName.get(backend);
-    if (serviceId) addEdge(id, serviceId, "routes to");
+    if (serviceId) addEdge(id, serviceId, t("edges.routesTo"));
   }
   for (const { id, selector } of services) {
     const deploymentId = deploymentIdByApp.get(selector);
-    if (deploymentId) addEdge(id, deploymentId, "selects");
+    if (deploymentId) addEdge(id, deploymentId, t("edges.selects"));
   }
 
-  return { nodes, edges };
+  const laneLabels = Object.fromEntries(LANES.map((lane) => [lane, t(`lanes.${lane}`)])) as Record<LaneId, string>;
+
+  return { nodes, edges, laneLabels };
 }

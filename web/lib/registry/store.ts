@@ -24,7 +24,7 @@ export function useRegistry() {
 }
 
 function current(): Snapshot {
-  if (!snapshot) throw new Error("The kikx registry hasn't loaded yet — render behind useRegistry().");
+  if (!snapshot) throw new Error("registry not loaded");
   return snapshot;
 }
 
@@ -64,9 +64,9 @@ function templateHint(template: string): string {
     .replace(/\{\{\s*(\w+)\s*\}\}/g, "<$1>");
 }
 
-export function writesHint(reference: string): string {
+export function writesHint(reference: string): string | null {
   const files = registryItem(reference)?.files ?? [];
-  if (files.length === 0) return "defined by the item";
+  if (files.length === 0) return null;
   if (files.length === 1) return templateHint(files[0]);
   const hints = files.map(templateHint);
   let prefix = hints[0];

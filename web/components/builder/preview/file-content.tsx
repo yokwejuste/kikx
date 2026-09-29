@@ -1,8 +1,12 @@
+"use client";
+
 import { Copy } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CopyButton } from "@/components/common/copy-button";
 import type { RenderedFile } from "@/lib/api/client";
 
 export function FileContent({ file }: { file: RenderedFile }) {
+  const t = useTranslations("preview");
   return (
     <div className="overflow-hidden rounded-lg border bg-muted/30">
       <div className="flex items-center justify-between border-b bg-muted/40 px-4 py-1.5">
@@ -13,7 +17,7 @@ export function FileContent({ file }: { file: RenderedFile }) {
           className="h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:text-foreground"
         >
           <Copy className="size-3.5" />
-          Copy
+          {t("copy")}
         </CopyButton>
       </div>
       <pre className="max-h-[28rem] overflow-auto p-4 font-mono text-xs leading-relaxed">{file.content}</pre>

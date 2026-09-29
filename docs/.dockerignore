@@ -1,4 +1,0 @@
-build
-locales/**/*.mo
-Dockerfile
-.dockerignore

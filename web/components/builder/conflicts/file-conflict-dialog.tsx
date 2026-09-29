@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { ChevronRight, FileWarning } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,13 +14,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CodeList } from "@/components/common/code-list";
-import { describeComponent } from "@/lib/registry/catalog";
 import type { FileConflict } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
 
 function ConflictRow({ conflict }: { conflict: FileConflict }) {
+  const t = useTranslations("conflicts");
+  const text = useCatalogText();
   const [open, setOpen] = useState(false);
-  const owner = describeComponent(conflict.owner.recipe);
+  const owner = text.describe(conflict.owner.recipe);
   const identical = conflict.existingContent === conflict.incomingContent;
 
   return (
@@ -32,18 +35,22 @@ function ConflictRow({ conflict }: { conflict: FileConflict }) {
         <ChevronRight className={cn("size-3.5 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")} />
         <code className="min-w-0 flex-1 truncate font-mono text-xs">{conflict.fileName}</code>
         <span className="shrink-0 text-xs text-muted-foreground">
-          {identical ? "same content" : "content differs"}
+          {identical ? t("same") : t("differs")}
         </span>
       </button>
       <p className="px-3 pb-2 pl-8 text-xs text-muted-foreground">
-        Currently written by {owner.kindLabel} · <span className="font-medium text-foreground">{owner.title}</span>
+        {t.rich("writtenBy", {
+          kind: owner.kindLabel,
+          title: owner.title,
+          strong: (chunks) => <span className="font-medium text-foreground">{chunks}</span>,
+        })}
       </p>
       {open && (
         <div className="grid gap-2 border-t p-2 sm:grid-cols-2">
           {(
             [
-              ["Current", conflict.existingContent],
-              ["Incoming", conflict.incomingContent],
+              [t("current"), conflict.existingContent],
+              [t("incoming"), conflict.incomingContent],
             ] as const
           ).map(([label, content]) => (
             <div key={label} className="min-w-0 overflow-hidden rounded-md border bg-muted/30">
@@ -71,7 +78,8 @@ export function FileConflictDialog({
   const collateral = Array.from(owners.values()).flatMap((owner) =>
     owner.files.map((f) => f.fileName).filter((fileName) => !clashing.has(fileName)),
   );
-  const many = (conflicts?.length ?? 0) > 1;
+  const t = useTranslations("conflicts");
+  const count = conflicts?.length ?? 0;
 
   return (
     <Dialog open={!!conflicts?.length} onOpenChange={(open) => !open && onCancel()}>
@@ -79,11 +87,10 @@ export function FileConflictDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FileWarning className="size-4" />
-            {many ? `${conflicts?.length} files already exist` : "This file already exists"}
+            {t("title", { count })}
           </DialogTitle>
           <DialogDescription>
-            A project can only have one writer per file. Replacing removes the component that currently owns{" "}
-            {many ? "them" : "it"}. Expand a file to compare.
+            {t("body", { count })}
           </DialogDescription>
         </DialogHeader>
 
@@ -95,17 +102,19 @@ export function FileConflictDialog({
 
         {collateral.length > 0 && (
           <p className="rounded-lg border border-dashed p-3 text-xs text-muted-foreground">
-            Also removed with {owners.size > 1 ? "those components" : "that component"}:{" "}
-            <CodeList items={collateral} className="text-foreground" />
+            {t.rich("collateral", {
+              count: owners.size,
+              files: () => <CodeList items={collateral} className="text-foreground" />,
+            })}
           </p>
         )}
 
         <DialogFooter>
           <Button variant="outline" onClick={onCancel}>
-            Keep existing
+            {t("keep")}
           </Button>
           <Button variant="destructive" onClick={onConfirm}>
-            Replace
+            {t("replace")}
           </Button>
         </DialogFooter>
       </DialogContent>
