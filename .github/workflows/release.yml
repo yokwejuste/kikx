@@ -10,9 +10,9 @@ permissions:
 
 jobs:
   check-version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Tag must match cli/Cargo.toml version
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
@@ -24,9 +24,9 @@ jobs:
 
   test:
     needs: check-version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - run: cd backend/core && cargo test
       - run: cd cli && cargo test
@@ -46,11 +46,11 @@ jobs:
             archive: tar.gz
             asset_name: macos-x64
           - target: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
+            os: ubuntu-24.04
             archive: tar.gz
             asset_name: linux-x64
           - target: aarch64-unknown-linux-gnu
-            os: ubuntu-latest
+            os: ubuntu-24.04
             archive: tar.gz
             asset_name: linux-arm64
             cross: true
@@ -60,7 +60,7 @@ jobs:
             asset_name: windows-x64
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: dtolnay/rust-toolchain@stable
         with:
@@ -99,7 +99,7 @@ jobs:
           Copy-Item "README.md" "$name/"
           Compress-Archive -Path $name -DestinationPath "$name.zip"
 
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           files: kikx-*.${{ matrix.archive }}
           generate_release_notes: ${{ matrix.target == 'x86_64-unknown-linux-gnu' }}
