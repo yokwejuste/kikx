@@ -42,6 +42,21 @@ pub enum Commands {
     Setup(SetupArgs),
     #[command(about = "Vendor a preset template, file or URL into an existing project")]
     Apply(ApplyArgs),
+    #[command(about = "Upgrade kikx to the latest release")]
+    Upgrade(UpgradeArgs),
+}
+
+#[derive(Args)]
+pub struct UpgradeArgs {
+    #[arg(short = 'c', long, help = "Only report whether a newer release exists")]
+    pub check: bool,
+
+    #[arg(
+        short = 'v',
+        long,
+        help = "Install this release instead of the latest, for example 0.2.0"
+    )]
+    pub version: Option<String>,
 }
 
 #[derive(Args)]

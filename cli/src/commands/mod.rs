@@ -4,6 +4,7 @@ pub mod init;
 pub mod list;
 pub mod presets;
 pub mod setup;
+pub mod upgrade;
 
 use std::path::PathBuf;
 

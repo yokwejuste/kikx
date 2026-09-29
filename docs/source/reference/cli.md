@@ -14,6 +14,7 @@ kikx <COMMAND>
 | [`presets`](#kikx-presets) | Print the built-in preset templates | no | no |
 | [`setup`](#kikx-setup) | Create a project from a preset template, file or URL | no | yes |
 | [`apply`](#kikx-apply) | Render a preset template, file or URL into an existing directory | no | no |
+| [`upgrade`](#kikx-upgrade) | Replace kikx with the latest release | no | no |
 
 Global options:
 
@@ -275,6 +276,28 @@ kikx apply k8s-web-app --into deploy/k8s
 4. Without `--force`, any existing target file stops the operation before the first write.
 
 Parent directories are created as needed.
+
+## `kikx upgrade`
+
+```
+kikx upgrade [OPTIONS]
+```
+
+Downloads the release for this system from the project's GitHub releases and replaces the running `kikx` binary. Does not need `kikx.toml`.
+
+| Option | Type | Default | Effect |
+|-|-|-|-|
+| `-c`, `--check` | flag | off | Only report whether a newer release exists |
+| `-v`, `--version <VERSION>` | version | latest | Install this release instead, for example `0.2.0` |
+
+```
+Upgrading kikx 0.2.0 to 0.3.0
+Extracting archive... Done
+Replacing binary file... Done
+kikx is now 0.3.0.
+```
+
+When no newer release exists it prints `kikx <version> is the latest version.` Releases are published for macOS arm64 and x64, Linux x64 and arm64, and Windows x64; on other systems it stops with `no kikx release is published for this platform`. If the binary sits in a directory you cannot write to, such as `/usr/local/bin`, run it with `sudo`.
 
 ## See also
 
