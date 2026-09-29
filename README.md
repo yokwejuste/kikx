@@ -4,34 +4,43 @@
 
 **Vendor real, editable infrastructure files straight into your project.**
 
-Kubernetes manifests, Ansible playbooks and inventory, Terraform resources — rendered from a
-template and written as *actual files* you own. No hidden dependency, no runtime package to
-upgrade, no black box to debug later.
+Ansible inventories, group vars, playbooks and roles, Kubernetes manifests and Terraform
+resources, rendered from a template and written as *actual files* you own. No hidden dependency,
+no runtime package to upgrade, no black box to debug later.
 
 [![Rust](https://img.shields.io/badge/Rust-CLI%20%2B%20backend-CE422B?logo=rust&logoColor=white)](cli)
 [![Next.js](https://img.shields.io/badge/Next.js-dashboard-000000?logo=nextdotjs&logoColor=white)](web)
-[![Ansible](https://img.shields.io/badge/Ansible-inventory%20%2B%20roles-EE0000?logo=ansible&logoColor=white)](backend/core/templates/ansible)
+[![Ansible](https://img.shields.io/badge/Ansible-inventory%20%C2%B7%20playbooks%20%C2%B7%20roles-EE0000?logo=ansible&logoColor=white)](backend/core/templates/ansible)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-manifests-326CE5?logo=kubernetes&logoColor=white)](backend/core/templates/k8s)
+[![Terraform](https://img.shields.io/badge/Terraform-servers-7B42BC?logo=terraform&logoColor=white)](backend/core/templates/terraform)
 
 </div>
 
 ---
 
 Instead of installing a hidden dependency or generating output you have to trust blindly, `kikx`
-renders a template with the values you gave it and writes the result into your project — flat,
-plain files, sitting right next to your other code. Edit them, delete them, check them into git
-like anything else. There's no registry lock-in and no generated-code comment telling you not to
-touch the file.
+renders a template with the values you gave it and writes the result into your project: plain
+files sitting next to your other code. Edit them, delete them, check them into git like anything
+else. There's no registry lock-in and no generated-code comment telling you not to touch the file.
 
-![kikx dashboard](docs/dashboard.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/builder-dark.png">
+  <img alt="The kikx builder editing a multi-play Kubernetes playbook in a 34-component, 76-file project" src="docs/builder-light.png">
+</picture>
+
+<sub>The builder with the bundled <a href="examples/multi-tier-platform.kikx-preset.json">multi-tier platform example</a>
+loaded: 34 components, 76 files. Stages on the left, the editor in the middle, the project on the right.</sub>
 
 ## Table of contents
 
 - [Concept](#concept)
 - [Quick start](#quick-start)
+- [Try the example project](#try-the-example-project)
 - [Available components](#available-components)
+- [The dashboard](#the-dashboard)
+- [Architecture diagram](#architecture-diagram)
 - [Presets: setup vs. apply](#presets-setup-vs-apply)
-- [Live architecture diagram](#live-architecture-diagram)
+- [Configuration](#configuration)
 - [How it fits together](#how-it-fits-together)
 - [Backend API](#backend-api)
 - [Development](#development)
@@ -40,26 +49,29 @@ touch the file.
 ## Concept
 
 A `kikx` project is a directory with a `kikx.toml` (project name, default namespace, output
-folder) and a flat folder of vendored files:
+folder) and the files kikx vendored for you:
 
 ```
-my-app/
+my-platform/
 ├── kikx.toml
-└── k8s/
-    ├── web-deployment.yaml
-    ├── web-service.yaml
-    └── web-ingress.yaml
+└── infra/
+    ├── platform-inventory.ini
+    ├── group_vars/
+    │   ├── all/main.yml
+    │   └── db.yml
+    ├── playbooks/
+    │   ├── bootstrap.yml
+    │   └── data.yml
+    ├── roles/postgres/{tasks,defaults,handlers,meta}/main.yml
+    ├── site.yml
+    ├── api-deployment.yaml
+    └── api-service.yaml
 ```
 
-`kikx add k8s/deployment --name web --image nginx:1.27` renders the `deployment` template with
-the values you gave it (filling in sane defaults for anything you didn't) and writes
-`k8s/web-deployment.yaml`. Run it again with `--force` to re-render and overwrite. That's the
-whole model — no registry lock-in, no generated-code comments telling you not to touch the file.
-
-The same registry covers more than Kubernetes: `ansible/inventory` renders a real, dynamic
-`.ini` inventory (groups, `:children`, `:vars`) for servers you already have, `ansible/group-vars`
-writes `group_vars/<group>.yml`, and `terraform/hetzner` / `terraform/digitalocean` render a
-starting Terraform resource — all through the exact same `add`/render pipeline.
+`kikx add k8s/deployment --name api --set image=ghcr.io/acme/api:1.0` renders the `deployment`
+template with the values you gave it, fills in the registry's defaults for anything you didn't,
+and writes `api-deployment.yaml`. Run it again with `--force` to re-render and overwrite. That's
+the whole model.
 
 ## Quick start
 
@@ -67,76 +79,159 @@ starting Terraform resource — all through the exact same `add`/render pipeline
 
 ```bash
 cd your-project
-kikx init --name my-app
-kikx add k8s/deployment --name web --image nginx:1.27 --port 8080 --replicas 2
-kikx add k8s/service --name web
-kikx add k8s/ingress --name web --host web.example.com
-kikx list
+kikx init --name my-platform --dir infra
+kikx list                                   # every component, with its fields, defaults and examples
+kikx add k8s/deployment --name api --set image=ghcr.io/acme/api:1.0 --replicas 3
+kikx add k8s/service    --name api
+kikx add ansible/role   --name postgres
 ```
 
-`init` and `add` both refuse to clobber an existing file unless you pass `--force`. Deployment's
-pod label and Service's selector both default to `app: <name>`, so vendoring a deployment and a
-service with the same `--name` gives you a pair that actually targets each other out of the box.
+`init` and `add` refuse to clobber an existing file unless you pass `--force`. A Deployment's pod
+label and a Service's selector both default to `app: <name>`, so a deployment and a service with
+the same `--name` target each other out of the box.
 
 ### Dashboard
 
-Run the backend and the web app side by side:
-
 ```bash
-cd backend && cargo run -p kikx-backend -- --port 4000 &
-cd web && npm run dev
+cp backend/.env.example backend/.env         # optional: port, bind address, allowed origins
+cp web/.env.example web/.env.local           # tells the dashboard where the backend is
+
+cd backend && cargo run &
+cd web && npm install && npm run dev
 ```
 
-Open `http://localhost:3000`, fill in your project's name/namespace/output directory, then use
-the Configure/Deploy tabs to build up components — preview the rendered output, add it to the
-project (nothing touches disk until you download), and pull the result as a `.zip` or a
-`kikx-preset.json` you can hand to `kikx setup`/`kikx apply`.
+Open `http://localhost:3000`, give your project a name, and start adding components, or open a
+preset you downloaded earlier.
+
+## Try the example project
+
+[`examples/multi-tier-platform.kikx-preset.json`](examples/multi-tier-platform.kikx-preset.json)
+describes a realistic storefront platform:
+- edge load balancers, web and app tiers;
+- a PostgreSQL primary with replicas, a Redis cache and monitoring;
+- a three-node Kubernetes control plane with four workers, running the storefront, API and worker
+  deployments.
+
+```bash
+mkdir demo && cd demo
+kikx setup ../examples/multi-tier-platform.kikx-preset.json
+```
+
+That writes 76 files:
+- a Terraform resource;
+- a 13-group inventory with nested `:children` and shared `:vars`;
+- four `group_vars` files;
+- six playbooks, with 10 plays between them;
+- a `site.yml` that imports them in order;
+- 14 roles;
+- 7 Kubernetes manifests.
+
+The generated inventory resolves with `ansible-inventory --graph`, and `site.yml` passes
+`ansible-playbook --syntax-check` (the common role uses `community.general`). You can also open
+the same file from the dashboard's home page to explore it visually.
 
 ## Available components
 
-Every component is `<category>/<name>` and resolves through the same registry, whether you're
-using the CLI, the HTTP API, or the dashboard.
+Every component is `<category>/<name>` and resolves through the same registry, whether you use the
+CLI, the HTTP API or the dashboard. The registry is also where each field's default, example and
+allowed choices live, so no client repeats them.
 
 | Reference | What it renders |
 |---|---|
-| `k8s/deployment` | A Kubernetes Deployment |
-| `k8s/service` | A Kubernetes Service |
-| `k8s/ingress` | A Kubernetes Ingress |
-| `terraform/digitalocean` | One or more DigitalOcean Droplets |
-| `terraform/hetzner` | One or more Hetzner Cloud servers |
-| `ansible/inventory` | A dynamic `.ini` inventory — multiple groups, hosts, `:children`, `:vars` |
-| `ansible/group-vars` | `group_vars/<group>.yml` for one inventory group |
-| `ansible/k8s-bootstrap` | A playbook that installs containerd/kubelet/kubeadm/kubectl on target hosts |
-| `ansible/common-role` | A real, multi-file Ansible role (`tasks/`, `defaults/`, `handlers/`, `templates/`) |
-| `ansible/playbook` | Assigns roles you've already added to an inventory group — the `site.yml` piece |
+| `ansible/inventory` | An `.ini` inventory. Hosts can sit in several groups; groups can nest with `:children` and share vars with `:vars` |
+| `ansible/group-vars` | `group_vars/<group>.yml` or `group_vars/<group>/main.yml`, as key/value pairs or raw YAML |
+| `ansible/playbook` | A playbook with one or more plays, each with its group, ordered roles, per-role `when:`, tags, `become`, and `pre_tasks`/`post_tasks` |
+| `ansible/site` | `site.yml`, which imports your playbooks in run order |
+| `ansible/role` | An empty role skeleton (`tasks`, `defaults`, `handlers`, `meta`) to fill in |
+| `ansible/common-role` | A starter host-hygiene role: base packages, timezone, swap, a templated motd |
+| `ansible/k8s-bootstrap` | A playbook installing containerd, kubelet, kubeadm and kubectl |
+| `k8s/deployment` · `k8s/service` · `k8s/ingress` | Kubernetes manifests |
+| `terraform/hetzner` · `terraform/digitalocean` | One or more cloud servers |
 
-Point the dashboard's "Custom component" panel (or `kikx add <url-or-path>`) at any
-`registry-item.json` — local file or URL — to render something that isn't built in. No kikx
-update required.
+Point the dashboard's "From registry URL" entry, or `kikx add <url-or-path>`, at any
+`registry-item.json` (local file or URL) to render something that isn't built in. No kikx update
+required.
+
+## The dashboard
+
+- **Stages, in order.** Components are grouped as Provision → Inventory → Configure → Deploy, with
+  a count and a tick per stage, so you can see what's still missing.
+- **One editor with a live preview.** Output re-renders as you type. Any component can be reopened
+  and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
+- **Bring what you have.** Import an existing `inventory.ini` (hosts listed in several groups are
+  merged), paste raw YAML into group vars, reopen a saved preset, or type role names that already
+  exist in your repo.
+- **Conflicts are caught, not written.** A project can't have two writers for one file. The
+  conflict dialog shows who owns the file and a side-by-side diff before replacing. The Checks
+  view cross-checks components for:
+  - a host with two addresses
+  - a host var silently overriding a group var
+  - a key set in both group_vars and the inventory
+  - plays aimed at groups that don't exist
+  - `:children` cycles
+  - `site.yml` importing a missing playbook
+  - a Service or Ingress pointing at nothing
+  - roles the project doesn't vendor, with one-click scaffolding
+- **Nothing touches disk until you download.** The project lives in the browser tab. Download it
+  as a `.zip`, or as a preset for `kikx setup` / `kikx apply`.
+
+## Architecture diagram
+
+The Architecture view is drawn from what you've added, not a static picture. Nodes sit in
+swimlanes (Provision → Inventory → Playbooks → Roles → Deploy). A layered layout engine (ELK)
+routes the edges at right angles around nodes, keeps crossings down and places labels where they
+don't cover anything. An edge only exists when kikx finds a real relationship:
+- a group including a child group;
+- group vars configuring a group;
+- a play targeting a group;
+- `site.yml` importing a playbook;
+- a playbook running a role;
+- an Ingress routing to a Service, which selects a Deployment.
+
+Hover a node to trace its connections, click it to edit, or **Export to draw.io** to keep
+refining it by hand. The export keeps the swimlanes and every edge's waypoints.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
+  <img alt="Architecture diagram of the multi-tier platform example: 46 nodes and 49 routed edges across five swimlanes" src="docs/architecture-light.png">
+</picture>
 
 ## Presets: setup vs. apply
 
-A preset is a portable JSON recipe — project details plus a list of components and their field
-values — not pre-rendered output. Download one from the dashboard, then:
+A preset is a portable JSON recipe (project details plus a list of components and their field
+values), not pre-rendered output. Download one from the dashboard, then:
 
 ```bash
-kikx setup ./my-app.kikx-preset.json      # bootstrap a brand-new project from it
-kikx apply ./my-app.kikx-preset.json      # vendor it into a project you already have
+kikx setup ./my-platform.kikx-preset.json      # bootstrap a brand-new project from it
+kikx apply ./my-platform.kikx-preset.json      # vendor it into a project you already have
 ```
 
 `setup` seeds a fresh `kikx.toml`; `apply` never touches one, so it's safe to run inside an
 existing repo (pass `--into <dir>` to nest the output under a subdirectory). Both re-render every
-component fresh at apply-time — a preset is never a frozen snapshot.
+component when they run, so a preset is never a frozen snapshot.
 
-## Live architecture diagram
+## Configuration
 
-The dashboard's Architecture view builds a real-time diagram from whatever you've added — not a
-static picture. Edges are only drawn when kikx finds an actual relationship between your
-components (a Service's label matching a Deployment's name, an Ingress's backend matching a
-Service, a playbook's `hosts` matching an inventory group), so an edge on the diagram means
-something, not just layout.
+Nothing environment-specific is baked into the code. Each piece reads its settings from flags or
+environment variables, and ships an example file to copy.
 
-![kikx architecture diagram](docs/architecture.png)
+**Backend.** Copy [`backend/.env.example`](backend/.env.example) to `backend/.env`. Flags and real
+environment variables take precedence over the file.
+
+| Variable | Flag | Default | Meaning |
+|---|---|---|---|
+| `KIKX_PORT` | `--port` | `4000` | Port the API listens on |
+| `KIKX_BIND` | `--bind` | `127.0.0.1` | Address to bind |
+| `KIKX_ALLOWED_ORIGINS` | `--allow-origin` | *(empty)* | Comma-separated browser origins. Empty allows any loopback origin (`localhost`, `127.0.0.1`, `[::1]`) on any port |
+
+**Dashboard.** Copy [`web/.env.example`](web/.env.example) to `web/.env.local`.
+
+| Variable | Meaning |
+|---|---|
+| `NEXT_PUBLIC_KIKX_API_URL` | URL of the running backend. Required; the dashboard explains what's missing if it isn't set |
+
+**Project defaults** (default namespace, output directory, fallback project name) are declared once
+in `kikx-core` and served at `/api/config`, so the CLI, API and dashboard always agree.
 
 ## How it fits together
 
@@ -154,67 +249,64 @@ flowchart LR
         Core["backend/core/\nkikx-core\nregistry · presets · ops"]
     end
 
-    Disk[("Your project\nkikx.toml + k8s/*.yaml")]
+    Disk[("Your project\nkikx.toml + infra/")]
 
-    Term -- "kikx init / add / setup / apply" --> CLI
-    Browser -- "fill form, preview, download" --> Web
-    Web -- "HTTP + JSON (render only)" --> Backend
+    Term -- "kikx init / add / list / setup / apply" --> CLI
+    Browser -- "build, preview, check, download" --> Web
+    Web -- "HTTP + JSON (registry, config, render)" --> Backend
     CLI --> Core
     Backend --> Core
     Core -- "reads / writes" --> Disk
 ```
 
-Three pieces, one shared engine:
+- **`cli/`**: the `kikx` binary (`init`, `add`, `list`, `setup`, `apply`). It talks straight to
+  the filesystem; no server needed.
+- **`backend/`**: a small, stateless HTTP API (`kikx-backend`) that wraps the same rendering logic
+  so a UI can drive it. It only renders; the dashboard writes files client-side.
+- **`backend/core/`**: `kikx-core`, the shared library. It holds the component registry, preset
+  resolution, project config, and the render/write operations. Both the CLI and the backend call
+  into it: one implementation, two front ends.
+- **`web/`**: the dashboard. It reads the registry and config from the backend, assembles the
+  project in the browser (persisted to `localStorage`), checks it, and draws its architecture.
 
-- **`cli/`** — the `kikx` binary. `init`, `add`, `list`, `setup`, `apply`. Talks straight to the
-  filesystem, no server needed.
-- **`backend/`** — a small, stateless HTTP API (`kikx-backend`) that wraps the same rendering
-  logic so a UI can drive it. It only renders — the dashboard writes files client-side.
-- **`backend/core/`** — `kikx-core`, the shared library: the component registry, preset
-  resolution, project config, and the actual render/write operations. Both the CLI and the
-  backend call into it — one implementation, two front ends.
-- **`web/`** — a dashboard that renders components via `kikx-backend`, assembles them into a
-  project entirely in the browser (persisted to `localStorage`, nothing written to disk until you
-  download), and shows a live architecture diagram of what you've built.
-
-`cli/` and `backend/` are independent Cargo packages, not a Cargo workspace — `cli`'s
-`Cargo.toml` reaches `kikx-core` via a relative path dependency on `backend/core`, so each has
-its own `Cargo.lock` and builds on its own.
+`cli/` and `backend/` are independent Cargo packages, not a Cargo workspace. `cli`'s `Cargo.toml`
+reaches `kikx-core` through a relative path dependency on `backend/core`, so each has its own
+`Cargo.lock` and builds on its own.
 
 ## Backend API
 
-All endpoints are under `/api`. The backend is stateless and only renders — it never writes to
-disk; the dashboard downloads the result client-side.
+All endpoints are under `/api`. The backend is stateless and only renders; it never writes to
+disk.
 
 | Method | Path | What it does |
 |---|---|---|
-| `GET` | `/api/health` | liveness check |
-| `GET` | `/api/components` | list every built-in component reference |
-| `GET` | `/api/registry/inspect?ref=<reference>` | field schema for one component (built-in, URL, or local file) |
-| `POST` | `/api/render` | render a component's file(s) — returns content, writes nothing |
-
-CORS is scoped to explicit localhost origins, configurable with `--allow-origin`.
+| `GET` | `/api/health` | Liveness check |
+| `GET` | `/api/registry` | Every built-in component with its fields (defaults, examples, options) and output paths |
+| `GET` | `/api/config` | Project defaults: namespace, output directory, project name |
+| `GET` | `/api/components` | Just the built-in references |
+| `GET` | `/api/registry/inspect?ref=<reference>` | The field schema for one component (built-in, URL, or local file) |
+| `POST` | `/api/render` | Render a component's file(s). Returns the content and writes nothing |
 
 ## Development
 
 ```bash
 # CLI
-cd cli && cargo build && cargo test && cargo clippy -- -D warnings && cargo fmt --check
+cd cli && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
 
-# Backend (+ its nested core library)
-cd backend && cargo build && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
-cd backend/core && cargo test  # core's own unit tests aren't pulled in by backend's `cargo test`
+# Backend and its core library (each crate keeps its tests in its own tests/ directory)
+cd backend && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
+cd backend/core && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
 
 # Web
-cd web && npm install && npm run lint && npm run build
+cd web && npm install && npx tsc --noEmit && npm run lint && npm run build
 ```
 
 ## Releasing
 
-Pushing a tag matching `v*.*.*` runs [`.github/workflows/release.yml`](.github/workflows/release.yml):
-it verifies the tag matches `cli/Cargo.toml`'s version, runs the Rust test suite, then builds and
-publishes the `kikx` CLI as a GitHub Release with binaries for macOS (arm64 + x64), Linux (x64 +
-arm64), and Windows (x64).
+Pushing a tag matching `v*.*.*` runs [`.github/workflows/release.yml`](.github/workflows/release.yml).
+It checks that the tag matches `cli/Cargo.toml`'s version, runs the Rust test suite, then builds
+and publishes the `kikx` CLI as a GitHub Release with binaries for macOS (arm64 + x64), Linux (x64
++ arm64) and Windows (x64).
 
 ```bash
 # bump the version in cli/Cargo.toml, backend/Cargo.toml, backend/core/Cargo.toml and web/package.json together
@@ -225,13 +317,16 @@ git push && git push --tags
 
 ## Current scope
 
-Available today: the ten components listed above, dynamic multi-group Ansible inventories,
-multi-file roles, a `site.yml`-style `ansible/playbook` component that assigns roles you've
-already added to an inventory group, presets (`setup`/`apply`), a CLI, a stateless HTTP API, and
-a dashboard with a real-time architecture diagram.
+**Available today:**
+- the twelve components above: multi-group inventories, directory-layout group vars, multi-play
+  playbooks with role conditions and pre/post tasks, site playbooks and role skeletons;
+- presets (`setup` / `apply`), the CLI and a stateless HTTP API;
+- a dashboard with conflict checks and a draw.io-exportable architecture diagram.
 
-Not yet in scope: a single playbook targeting more than one group (today it's one `hosts` value
-per playbook, so add one playbook component per group), scaffolding for arbitrary new role
-*content* beyond hand-authoring a `registry-item.json` (kikx ships one example role — it doesn't
-generate role internals for you), secrets/vault handling, and multi-environment inventories. This
-is a local, single-user dev tool — no live cluster inspection, no auth.
+**Not yet in scope:**
+- generating the *contents* of your roles: kikx scaffolds them, you write the tasks;
+- secrets and Ansible Vault handling;
+- a collection `requirements.yml`;
+- live cluster inspection.
+
+This is a local, single-user dev tool with no auth.
