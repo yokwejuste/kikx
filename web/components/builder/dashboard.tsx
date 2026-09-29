@@ -19,6 +19,7 @@ import { toPresetComponent } from "@/lib/project/preset";
 import { defaultsFor, type FormValues } from "@/lib/forms/component-forms";
 import { api, ApiClientError } from "@/lib/api/client";
 import { pluralize } from "@/lib/format";
+import { useFirstVisitTour } from "@/lib/tour/use-tour";
 
 interface Selection {
   kind: CatalogKind;
@@ -40,6 +41,7 @@ export function Dashboard() {
     return counts;
   }, [issues]);
   const context = useMemo(() => buildFormContext(components), [components]);
+  useFirstVisitTour("builder", Boolean(details));
 
   if (!details) return null;
 
@@ -86,11 +88,11 @@ export function Dashboard() {
       )}
 
       <div className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)_280px] lg:items-start" hidden={view !== "build"}>
-        <aside className="lg:sticky lg:top-6">
+        <aside data-tour="catalog" className="lg:sticky lg:top-6">
           <ComponentCatalog components={components} selected={selection.kind} onSelect={(kind) => select(kind)} />
         </aside>
 
-        <div ref={editorTop} className="min-w-0 scroll-mt-6">
+        <div ref={editorTop} data-tour="editor" className="min-w-0 scroll-mt-6">
           {selection.kind === "custom" ? (
             <div className="flex flex-col gap-3">
               {editing && (
@@ -116,7 +118,7 @@ export function Dashboard() {
           )}
         </div>
 
-        <aside className="lg:sticky lg:top-6">
+        <aside data-tour="project" className="lg:sticky lg:top-6">
           <ProjectPanel
             activeId={editing?.id ?? null}
             issuesFor={issuesFor}
