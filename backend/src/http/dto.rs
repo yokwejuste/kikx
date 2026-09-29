@@ -5,26 +5,29 @@ use kikx_core::ops::{CommonFields, RenderOutcome, RenderParams};
 use kikx_core::presets::PresetManifest;
 use kikx_core::registry::{FieldSpec, RegistryItem};
 use serde::{Deserialize, Serialize};
+use utoipa::{IntoParams, ToSchema};
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 pub struct ComponentsResponse {
     pub components: Vec<String>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 pub struct RegistryInspectQuery {
     #[serde(rename = "ref")]
+    #[param(example = "k8s/deployment")]
     pub reference: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct FieldOptionDto {
     pub value: String,
     pub label: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct FieldSpecDto {
     pub name: String,
@@ -59,7 +62,7 @@ impl From<FieldSpec> for FieldSpecDto {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct RegistryItemDto {
     pub name: String,
@@ -85,13 +88,13 @@ impl From<RegistryItem> for RegistryItemDto {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct RegistryResponse {
     pub items: Vec<RegistryItemDto>,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct PresetSummaryDto {
     pub name: String,
@@ -111,13 +114,13 @@ impl From<PresetManifest> for PresetSummaryDto {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct PresetsResponse {
     pub presets: Vec<PresetSummaryDto>,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfigResponse {
     pub default_namespace: String,
@@ -135,15 +138,22 @@ impl ConfigResponse {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct LabelDto {
     pub key: String,
     pub value: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
+#[schema(example = json!({
+    "reference": "k8s/deployment",
+    "name": "api",
+    "image": "ghcr.io/acme/api:1.0",
+    "replicas": 3,
+    "port": 8080
+}))]
 pub struct RenderRequest {
     pub reference: String,
     pub name: String,
@@ -169,14 +179,14 @@ impl RenderRequest {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct RenderedFileDto {
     pub path: String,
     pub content: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct RenderResponse {
     pub component: String,

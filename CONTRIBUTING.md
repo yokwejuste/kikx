@@ -99,10 +99,13 @@ in `kikx-core` and served at `/api/config`, so the CLI, API and dashboard always
 ## Backend API
 
 All endpoints are under `/api`. The backend is stateless and only renders; it never writes to
-disk.
+disk. Any other path returns `404` with `{"code": "not_found", "error": "no route for GET /…"}`, or a
+not-found page when the request comes from a browser.
 
 | Method | Path | What it does |
 |---|---|---|
+| `GET` | `/docs` | Interactive API reference built from the OpenAPI spec; `/` redirects here |
+| `GET` | `/api/openapi.json` | OpenAPI 3.1 description of every endpoint |
 | `GET` | `/api/health` | Liveness check |
 | `GET` | `/api/registry` | Every built-in component with its fields (defaults, examples, options) and output paths |
 | `GET` | `/api/config` | Project defaults: namespace, output directory, project name |

@@ -1,6 +1,8 @@
 mod dto;
 mod error;
 mod handlers;
+mod openapi;
+mod pages;
 
 use axum::http::{header, request::Parts, HeaderValue, Method};
 use axum::routing::{get, post};
@@ -40,6 +42,9 @@ pub fn build_router(allowed_origins: AllowedOrigins) -> Router {
         .allow_headers([header::CONTENT_TYPE]);
 
     Router::new()
+        .route("/", get(pages::root))
+        .route(pages::DOCS_PATH, get(pages::docs))
+        .route("/api/openapi.json", get(openapi::spec))
         .route("/api/health", get(handlers::health))
         .route("/api/components", get(handlers::list_components))
         .route("/api/registry", get(handlers::registry))
@@ -48,5 +53,6 @@ pub fn build_router(allowed_origins: AllowedOrigins) -> Router {
         .route("/api/presets/{name}", get(handlers::preset))
         .route("/api/registry/inspect", get(handlers::registry_inspect))
         .route("/api/render", post(handlers::render_component))
+        .fallback(pages::not_found)
         .layer(cors)
 }
