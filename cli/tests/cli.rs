@@ -643,3 +643,23 @@ fn setup_accepts_a_template_name() {
     assert!(tmp.path().join("infra/ansible.cfg").exists());
     assert!(tmp.path().join("infra/site.yml").exists());
 }
+
+#[test]
+fn help_opens_with_the_kikx_banner() {
+    kikx()
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(contains("▀██▄▄▄  ●"))
+        .stdout(contains(concat!("kikx ", env!("CARGO_PKG_VERSION"))))
+        .stdout(contains("Usage: kikx <COMMAND>"));
+}
+
+#[test]
+fn bare_kikx_shows_the_banner_and_commands() {
+    kikx()
+        .assert()
+        .code(2)
+        .stderr(contains("▄██▀"))
+        .stderr(contains("Commands:"));
+}

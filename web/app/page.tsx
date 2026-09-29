@@ -17,6 +17,7 @@ import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetM
 import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
 import { TemplateGallery } from "@/components/home/template-gallery";
+import { KikxMark } from "@/components/common/kikx-mark";
 
 const SNIPPET = [
   { cmd: "kikx init --name <project>" },
@@ -80,7 +81,10 @@ function HomeContent() {
 
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-10 px-6 py-24 text-center">
         <div className="flex flex-col items-center gap-4">
-          <h1 className="text-5xl font-semibold tracking-tight text-balance">kikx</h1>
+          <h1 className="flex items-center gap-4 text-5xl font-semibold tracking-tight">
+            <KikxMark className="size-12" />
+            kikx
+          </h1>
           <p className="max-w-md text-balance text-muted-foreground">
             Render real, editable infrastructure files — Ansible inventories, group vars and playbooks, Kubernetes
             manifests, Terraform — straight into your project. No hidden dependency, just plain files you own.

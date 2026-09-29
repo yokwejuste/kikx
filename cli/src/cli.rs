@@ -3,11 +3,25 @@ use std::path::PathBuf;
 use clap::{Args, Parser, Subcommand};
 use kikx_core::config::{DEFAULT_NAMESPACE, DEFAULT_OUTPUT_DIR};
 
+pub const BANNER: &str = concat!(
+    "██      ▄██▀\n",
+    "██    ▄██▀\n",
+    "██  ▄██▀       kikx ",
+    env!("CARGO_PKG_VERSION"),
+    "\n",
+    "██▄██▀         Vendor real, editable infrastructure files into your project\n",
+    "██▀ ▀██▄\n",
+    "██    ▀██▄▄▄  ●",
+);
+
 #[derive(Parser)]
 #[command(
     name = "kikx",
     version,
-    about = "Vendor real, editable infrastructure files into your project"
+    about = "Vendor real, editable infrastructure files into your project",
+    before_help = BANNER,
+    help_template = "{before-help}{usage-heading} {usage}\n\n{all-args}{after-help}",
+    arg_required_else_help = true
 )]
 pub struct Cli {
     #[command(subcommand)]
