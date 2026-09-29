@@ -17,7 +17,8 @@
     "languages": {
       "en": "English",
       "fr": "Français"
-    }
+    },
+    "github": "{repository} on GitHub, {stars, plural, one {# star} other {# stars}}, {forks, plural, one {# fork} other {# forks}}"
   },
   "registryGate": {
     "loading": "Loading components…",

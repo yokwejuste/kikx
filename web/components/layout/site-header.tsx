@@ -6,6 +6,7 @@ import { KikxMark } from "@/components/common/kikx-mark";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { TourButton } from "@/components/layout/tour-button";
+import { GithubLink } from "@/components/layout/github-link";
 
 export async function SiteHeader() {
   const t = await getTranslations("header");
@@ -15,9 +16,9 @@ export async function SiteHeader() {
     <header className="flex h-14 shrink-0 items-center justify-between gap-2 border-b px-4 sm:px-6">
       <Link href="/" aria-label={t("home")} className="flex items-center gap-2 text-base font-semibold tracking-tight">
         <KikxMark className="size-5" />
-        kikx
+        <span className="hidden sm:inline">kikx</span>
       </Link>
-      <nav className="flex items-center gap-1">
+      <nav className="flex items-center gap-0.5 sm:gap-1">
         <a
           href={docsHref}
           aria-label={t("docs")}
@@ -36,6 +37,7 @@ export async function SiteHeader() {
           <span className="hidden sm:inline">{t("dataFlow")}</span>
         </Link>
         <TourButton />
+        <GithubLink />
         <LanguageSwitcher />
         <ThemeToggle />
       </nav>
