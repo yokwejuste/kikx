@@ -80,7 +80,7 @@ the whole model.
 ```bash
 cd your-project
 kikx init --name my-platform --dir infra
-kikx list                                   # every component, with its fields, defaults and examples
+kikx list
 kikx add k8s/deployment --name api --set image=ghcr.io/acme/api:1.0 --replicas 3
 kikx add k8s/service    --name api
 kikx add ansible/role   --name postgres
@@ -93,8 +93,8 @@ the same `--name` target each other out of the box.
 ### Dashboard
 
 ```bash
-cp backend/.env.example backend/.env         # optional: port, bind address, allowed origins
-cp web/.env.example web/.env.local           # tells the dashboard where the backend is
+cp backend/.env.example backend/.env
+cp web/.env.example web/.env.local
 
 cd backend && cargo run &
 cd web && npm install && npm run dev
@@ -202,8 +202,8 @@ A preset is a portable JSON recipe (project details plus a list of components an
 values), not pre-rendered output. Download one from the dashboard, then:
 
 ```bash
-kikx setup ./my-platform.kikx-preset.json      # bootstrap a brand-new project from it
-kikx apply ./my-platform.kikx-preset.json      # vendor it into a project you already have
+kikx setup ./my-platform.kikx-preset.json
+kikx apply ./my-platform.kikx-preset.json
 ```
 
 `setup` seeds a fresh `kikx.toml`; `apply` never touches one, so it's safe to run inside an
@@ -290,14 +290,11 @@ disk.
 ## Development
 
 ```bash
-# CLI
 cd cli && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
 
-# Backend and its core library (each crate keeps its tests in its own tests/ directory)
 cd backend && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
 cd backend/core && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
 
-# Web
 cd web && npm install && npx tsc --noEmit && npm run lint && npm run build
 ```
 
@@ -309,7 +306,6 @@ and publishes the `kikx` CLI as a GitHub Release with binaries for macOS (arm64 
 + arm64) and Windows (x64).
 
 ```bash
-# bump the version in cli/Cargo.toml, backend/Cargo.toml, backend/core/Cargo.toml and web/package.json together
 git commit -am "chore: release v0.2.0"
 git tag v0.2.0
 git push && git push --tags

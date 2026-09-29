@@ -18,9 +18,7 @@ export interface ProjectIssue {
   severity: IssueSeverity;
   title: string;
   detail?: string;
-  /** Components the issue is about — "Fix" opens the first one. */
   componentIds: string[];
-  /** A one-click fix the Checks view can offer. */
   action?: { type: "scaffold-roles"; roles: string[] };
 }
 
@@ -30,7 +28,6 @@ interface InventoryModel {
   component: AddedComponent;
   entries: InventoryGroupEntry[];
   groups: Set<string>;
-  /** child group → its parent groups */
   parents: Map<string, string[]>;
 }
 

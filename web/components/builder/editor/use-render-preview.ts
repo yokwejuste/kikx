@@ -11,7 +11,6 @@ import type { ComponentKind } from "@/lib/registry/references";
 
 const PREVIEW_DEBOUNCE_MS = 350;
 
-/** Renders the form's current values once typing pauses, keeping the last good render while it's invalid. */
 export function useRenderPreview({
   form,
   kind,

@@ -12,7 +12,6 @@ import { parseKeyValuePairs } from "@/lib/ansible/inventory";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { InventoryHostValues } from "@/lib/forms/schemas";
 
-/** Shared by the host rows and their column headings so they line up. */
 export const HOST_COLUMNS = "sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.6fr)_2rem]";
 
 function connectionSummary(host: InventoryHostValues | undefined): string {

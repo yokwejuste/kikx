@@ -25,7 +25,6 @@ pub fn render(reference: &str, name: &str, fields: &[(&str, &str)]) -> RenderOut
     try_render(reference, name, fields).unwrap()
 }
 
-/// Writes `contents` to `dir/file_name` and returns the path as a reference string.
 pub fn write_file(dir: &Path, file_name: &str, contents: &str) -> String {
     let path: PathBuf = dir.join(file_name);
     std::fs::write(&path, contents).unwrap();

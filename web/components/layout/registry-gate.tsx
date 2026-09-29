@@ -4,7 +4,6 @@ import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRegistry } from "@/lib/registry/store";
 
-/** Renders children once the backend registry and project defaults have loaded. */
 export function RegistryGate({ children }: { children: React.ReactNode }) {
   const registry = useRegistry();
 

@@ -3,7 +3,6 @@ import { parseJson } from "@/lib/json";
 import type { PresetComponent } from "@/lib/project/preset";
 import { REFERENCES } from "@/lib/registry/references";
 
-/** A play as the playbook template takes it: roles are plain names or `{ role, when }`. */
 interface RenderedPlay {
   name?: string;
   hosts?: string;
@@ -25,7 +24,6 @@ export function playbookPath(name: string, folder?: string): string {
   return folder ? `${folder.replace(/\/+$/, "")}/${name}.yml` : `${name}.yml`;
 }
 
-/** Group names and host names a play's `hosts:` pattern targets, without `!`/`&` operators. */
 export function hostPatterns(hosts: string): string[] {
   return hosts
     .split(/[:,]/)
@@ -37,7 +35,6 @@ export function stripYamlDocumentMarker(yaml: string): string {
   return yaml.replace(/^\s*---\s*\n/, "");
 }
 
-/** Roles this project vendors itself (multi-file Ansible components). */
 export function extractAvailableRoleNames(
   components: { recipe: { reference: string; name: string }; files: unknown[] }[],
 ): string[] {
@@ -46,7 +43,6 @@ export function extractAvailableRoleNames(
       (c) =>
         c.recipe.reference.startsWith("ansible/") &&
         !SINGLE_FILE_ANSIBLE_REFERENCES.includes(c.recipe.reference) &&
-        // a skeleton or common role always writes several files; anything else is a one-file playbook
         c.files.length > 1,
     )
     .map((c) => c.recipe.name);

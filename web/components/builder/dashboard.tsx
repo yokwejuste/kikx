@@ -23,7 +23,6 @@ import { pluralize } from "@/lib/format";
 interface Selection {
   kind: CatalogKind;
   editingId: string | null;
-  /** Bumped to remount the editor with fresh values (after saving, or "New"). */
   nonce: number;
 }
 

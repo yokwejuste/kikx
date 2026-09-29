@@ -7,7 +7,6 @@ pub struct FieldOption {
     pub label: String,
 }
 
-/// The single source of a field's default, example and choices for every UI.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FieldSpec {
     pub name: String,
@@ -17,7 +16,6 @@ pub struct FieldSpec {
     pub default: Option<String>,
     #[serde(default)]
     pub description: Option<String>,
-    /// A sample value shown as a hint; never used as a value.
     #[serde(default)]
     pub example: Option<String>,
     #[serde(default)]

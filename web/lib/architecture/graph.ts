@@ -7,7 +7,6 @@ import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
 import type { FlowNodeData } from "@/components/flow/flow-node";
 
-/** Swimlanes, left to right in the order things happen. */
 export const LANES = [
   { id: "provision", label: "Provision" },
   { id: "inventory", label: "Inventory" },
@@ -30,7 +29,6 @@ export interface GraphEdge {
   source: string;
   target: string;
   label: string;
-  /** "structure" = how the inventory is nested; "relation" = how components use each other. */
   tone: "structure" | "relation";
 }
 
@@ -51,10 +49,6 @@ function laneFor(component: AddedComponent): LaneId {
   return "custom";
 }
 
-/**
- * The project's topology: one node per component (one per group for inventories) and an edge
- * for every real relationship between them. Layout is a separate step (layout.ts).
- */
 export function buildArchitectureGraph(components: AddedComponent[]): ArchitectureGraph {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
@@ -193,7 +187,6 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
     addNode(component.id, lane, { label: name, description: reference, icon: FileCode2, kind: "process" });
   }
 
-  // "all" means every host: point at the top-level groups rather than fanning out to each one.
   const rootGroups = Array.from(groupNodeId.entries())
     .filter(([group]) => !childGroups.has(group))
     .map(([, id]) => id);

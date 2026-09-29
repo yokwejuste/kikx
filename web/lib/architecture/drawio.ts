@@ -9,11 +9,6 @@ function escapeXml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/**
- * Serialises the laid-out diagram as a draw.io (diagrams.net) file: swimlanes, nodes and
- * orthogonal edges keep the exact positions and waypoints from the layout, so the file opens
- * already arranged and stays fully editable.
- */
 function toDrawio(layout: ArchitectureLayout, title: string): string {
   const cells: string[] = ['<mxCell id="0"/>', '<mxCell id="1" parent="0"/>'];
   const cellId = new Map<string, string>();

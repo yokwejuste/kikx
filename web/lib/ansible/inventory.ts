@@ -22,7 +22,6 @@ export interface InventoryGroupEntry {
   vars?: Record<string, string>;
 }
 
-/** Splits `a=1 b='two words'` (or one pair per line) into ordered pairs, respecting quotes. */
 export function parseKeyValuePairs(raw?: string): [string, string][] {
   const pairs: [string, string][] = [];
   let token = "";
@@ -60,12 +59,6 @@ function varsRecord(raw?: string): Record<string, string> | undefined {
   return pairs.length > 0 ? Object.fromEntries(pairs) : undefined;
 }
 
-/**
- * Turns the form's host-centric model (one row per server, many groups) into the
- * group-centric JSON the inventory template renders. A host's connection vars are written
- * once, on its first group; later groups list it by name only — how a hand-written
- * inventory avoids defining the same host twice with drifting values.
- */
 export function buildInventoryGroups(hosts: InventoryHostValues[], groups: InventoryGroupValues[]) {
   const byName = new Map<string, InventoryGroupEntry>();
   const entryFor = (name: string) => {
@@ -108,7 +101,6 @@ export function parseInventoryEntries(raw: string | undefined): InventoryGroupEn
   return Array.isArray(parsed) ? parsed : [];
 }
 
-/** Every group name an inventory defines — host groups, parents, and vars-only groups. */
 function groupNamesFromEntries(entries: InventoryGroupEntry[]): string[] {
   const names = new Set<string>();
   for (const entry of entries) {
@@ -131,7 +123,6 @@ export function extractInventoryGroupNames(components: AddedComponent[]): string
 
 export function entriesToFormValues(
   entries: InventoryGroupEntry[],
-  /** What the template writes for a host with no user/port key — the inventory's registry defaults. */
   fallback: { user: string; port: number | undefined },
 ): {
   hosts: InventoryHostValues[];
@@ -176,12 +167,6 @@ export interface ParsedInventory {
   warnings: string[];
 }
 
-/**
- * Parses a hand-written INI inventory — `[group]`, `[group:children]`, `[group:vars]`,
- * host lines with inline vars, and bare host references in extra groups. The same host
- * listed in several groups becomes one host with several groups; when its vars disagree
- * between groups the first value wins and a warning explains the clash.
- */
 export function parseInventoryIni(text: string): ParsedInventory {
   const hosts = new Map<string, InventoryHostValues>();
   const groups = new Map<string, InventoryGroupValues>();

@@ -4,13 +4,11 @@ export function groupVarsPath(group: string, layout: string | undefined): string
   return `group_vars/${group}${layout === "dir" ? "/main" : ""}`;
 }
 
-/** The key/value JSON a group_vars recipe stores; anything but a plain object reads as empty. */
 export function groupVarsRecord(raw: string | undefined): Record<string, unknown> {
   const parsed = parseJson<unknown>(raw, {});
   return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? (parsed as Record<string, unknown>) : {};
 }
 
-/** Top-level keys of a group_vars file, from either the key/value JSON or raw YAML. */
 export function groupVarsKeys(fields: Record<string, string>): Map<string, string | null> {
   const keys = new Map<string, string | null>();
   if (fields.yaml) {

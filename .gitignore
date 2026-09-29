@@ -1,6 +1,5 @@
 .DS_Store
 
-# AI assistant and agent tooling
 .claude/
 .gstack/
 CLAUDE.md

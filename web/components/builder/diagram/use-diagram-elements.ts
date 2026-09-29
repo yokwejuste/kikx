@@ -3,10 +3,6 @@ import { MarkerType, type Edge, type Node } from "@xyflow/react";
 import { edgeColor, type Emphasis } from "@/components/builder/diagram/emphasis";
 import type { ArchitectureLayout } from "@/lib/architecture/layout";
 
-/**
- * React Flow nodes and edges for a laid-out diagram. Hovering a node highlights it, its neighbours and the
- * edges between them; the rest fades.
- */
 export function useDiagramElements(layout: ArchitectureLayout | null, hovered: string | null) {
   const neighbourhood = useMemo(() => {
     if (!hovered || !layout) return null;

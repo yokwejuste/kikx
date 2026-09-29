@@ -5,7 +5,6 @@ use serde::{Deserialize, Serialize};
 
 pub const CONFIG_FILE_NAME: &str = "kikx.toml";
 
-/// Shared by the CLI, the HTTP API and (through `/api/config`) the web dashboard.
 pub const DEFAULT_NAMESPACE: &str = "default";
 pub const DEFAULT_OUTPUT_DIR: &str = "k8s";
 pub const DEFAULT_PROJECT_NAME: &str = "kikx-project";

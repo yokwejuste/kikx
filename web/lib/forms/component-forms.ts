@@ -43,7 +43,6 @@ export function emptyPlay(): PlayValues {
   return { name: "", hosts: "", roles: [], tags: [], become: true, conditions: {}, preTasks: "", postTasks: "" };
 }
 
-/** Empty form values; every non-empty default comes from the backend registry. */
 export function defaultsFor(kind: ComponentKind): FormValues {
   const ref = REFERENCES[kind];
   const num = (field: string) => fieldNumber(ref, field) as number;
@@ -98,7 +97,6 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
       for (const v of values.vars) if (v.key) vars[v.key] = v.value;
       fields.vars = JSON.stringify(vars);
     }
-    // The folder layout gets its own name so both layouts can coexist as separate components.
     const name = values.layout === "dir" ? `${values.group}/main` : values.group;
     return { reference: REFERENCES.groupvars, name, defaultNamespace, fields };
   }
@@ -160,17 +158,11 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
   }
 }
 
-/**
- * Rebuilds editable form values from a saved recipe, so anything in the project — including
- * components loaded from a preset — can be reopened and changed. Returns null for
- * references the built-in forms don't cover (custom registry items).
- */
 export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
   const kind = kindForReference(recipe.reference);
   if (!kind) return null;
   const f = recipe.fields;
   const labels = Object.entries(recipe.labels ?? {}).map(([key, value]) => ({ key, value }));
-  // Fields missing from an older recipe take the registry default, never a literal.
   const num = (raw: string | undefined, field: string) =>
     raw && !Number.isNaN(Number(raw)) ? Number(raw) : (fieldNumber(recipe.reference, field) as number);
   const str = (raw: string | undefined, field: string) => raw ?? fieldDefault(recipe.reference, field) ?? "";

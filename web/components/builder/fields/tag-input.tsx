@@ -4,10 +4,6 @@ import { useId, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/**
- * A chip input: type and press Enter (or comma) to add, Backspace to remove the last chip.
- * Suggestions are shown as you type and can be picked with the arrow keys.
- */
 export function TagInput({
   value,
   onChange,
@@ -23,7 +19,6 @@ export function TagInput({
   suggestions?: string[];
   placeholder?: string;
   invalid?: boolean;
-  /** Show a position number on each chip — for lists where order matters (roles). */
   ordered?: boolean;
   className?: string;
   "aria-label"?: string;
@@ -66,7 +61,6 @@ export function TagInput({
     } else if (event.key === "Enter" || event.key === "," || (event.key === "Tab" && typed)) {
       if (!typed && !(event.key === "Enter" && picked)) return;
       event.preventDefault();
-      // Enter on a highlighted suggestion picks it; otherwise the typed text wins.
       add(picked && (!typed || picked.toLowerCase().startsWith(typed.toLowerCase())) ? picked : typed);
     } else if (event.key === "Backspace" && !text && value.length) {
       onChange(value.slice(0, -1));

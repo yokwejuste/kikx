@@ -1,7 +1,6 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-/** An "Add …" button followed by one-click chips for values the user probably wants next. */
 export function AddWithSuggestions({
   addLabel,
   onAdd,

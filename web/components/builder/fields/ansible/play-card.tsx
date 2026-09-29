@@ -12,10 +12,6 @@ import type { FormValues } from "@/lib/forms/component-forms";
 import type { PlayValues } from "@/lib/forms/schemas";
 import { cn } from "@/lib/utils";
 
-/**
- * A caption above a control. Use `as="div"` around a TagInput: a <label> would forward clicks on its chips'
- * remove buttons.
- */
 function Captioned({
   caption,
   as: Element = "label",

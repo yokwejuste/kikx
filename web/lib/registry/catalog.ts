@@ -18,10 +18,8 @@ import type { PresetComponent } from "@/lib/project/preset";
 import { kindForReference, REFERENCES, type ComponentKind } from "@/lib/registry/references";
 import { registryItem, writesHint } from "@/lib/registry/store";
 
-/** A form-backed built-in kind, or the free-form "load any registry item" panel. */
 export type CatalogKind = ComponentKind | "custom";
 
-/** Presentation only: which stage a kind sits in and its icon. Everything else is the registry's. */
 interface CatalogSlot {
   kind: CatalogKind;
   icon: LucideIcon;
@@ -30,7 +28,6 @@ interface CatalogSlot {
 interface CatalogEntry extends CatalogSlot {
   label: string;
   summary: string;
-  /** Where the rendered file lands, from the registry's path template. */
   writes: string;
 }
 
@@ -113,7 +110,6 @@ export function catalogStage(kind: CatalogKind): CatalogStage {
   return BY_KIND.get(kind)!.stage;
 }
 
-/** How a project component is named across the UI: its catalog entry, or "Custom" for registry items. */
 export function describeComponent(recipe: PresetComponent): { kind: CatalogKind; kindLabel: string; icon: LucideIcon; title: string } {
   const kind = kindForReference(recipe.reference) ?? "custom";
   const entry = catalogEntry(kind);

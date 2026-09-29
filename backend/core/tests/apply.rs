@@ -19,7 +19,6 @@ fn preset(dir: &Path, components: &[&str]) -> String {
     )
 }
 
-/// A preset with one custom component whose only file renders to `path`.
 fn preset_writing_to(dir: &Path, path: &str) -> String {
     let item = format!(
         r#"{{"name":"raw","category":"acme","files":[{{"path":"{path}","template":"x"}}]}}"#

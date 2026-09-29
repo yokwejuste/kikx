@@ -18,7 +18,6 @@ interface PlacedNode extends GraphNode {
 }
 
 interface PlacedEdge extends GraphEdge {
-  /** Orthogonal route from source border to target border, bends included. */
   points: Point[];
   labelPosition: Point | null;
 }
@@ -44,11 +43,6 @@ function labelWidth(text: string): number {
   return Math.ceil(text.length * 6.4) + 12;
 }
 
-/**
- * Lays the graph out the way you would by hand in draw.io: layered left to right, one
- * swimlane per stage (ELK partitions keep every node in its lane), orthogonal edges routed
- * around nodes, crossings minimised, and labels placed where they don't cover anything.
- */
 export async function layoutArchitecture(graph: ArchitectureGraph): Promise<ArchitectureLayout> {
   const laneIndex = new Map(LANES.map((lane, index) => [lane.id, index]));
 
@@ -59,7 +53,6 @@ export async function layoutArchitecture(graph: ArchitectureGraph): Promise<Arch
       "elk.direction": "RIGHT",
       "elk.edgeRouting": "ORTHOGONAL",
       "elk.partitioning.activate": "true",
-      // One layout for everything: separately packed components would ignore the lane partitions.
       "elk.separateConnectedComponents": "false",
       "elk.layered.spacing.nodeNodeBetweenLayers": "96",
       "elk.layered.spacing.edgeNodeBetweenLayers": "28",
@@ -117,7 +110,6 @@ export async function layoutArchitecture(graph: ArchitectureGraph): Promise<Arch
     };
   });
 
-  // Swimlanes tile the canvas: each spans its nodes, and neighbours meet halfway across the gap.
   const extents = LANES.map((lane) => {
     const members = nodes.filter((n) => n.lane === lane.id);
     if (members.length === 0) return null;

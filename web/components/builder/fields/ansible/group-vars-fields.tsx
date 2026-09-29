@@ -22,7 +22,6 @@ function varsToYaml(vars: KeyValue[]): string {
     .join("\n");
 }
 
-/** Flat `key: value` YAML as rows, or null when it has nesting the key/value editor can't hold. */
 function yamlToVars(yaml: string): KeyValue[] | null {
   const lines = yaml.split("\n").filter((l) => l.trim() && !l.trim().startsWith("#") && l.trim() !== "---");
   if (!lines.every((l) => /^[A-Za-z_][\w-]*:\s*\S/.test(l))) return null;

@@ -38,11 +38,9 @@ export function ComponentEditor({
   const { details, saveComponent, findConflicts } = useProject();
   const namespace = details?.namespace ?? projectDefaults().defaultNamespace;
 
-  // The editor is keyed by kind + component, so initial values are computed once per mount.
   const [initial] = useState<FormValues>(() => {
     if (editing) return recipeToFormValues(editing.recipe) ?? defaultsFor(kind);
     const defaults = defaultsFor(kind);
-    // "<project>-inventory.ini" reads better than the generic "inventory-inventory.ini".
     return defaults.component === "inventory" && details?.name ? { ...defaults, name: details.name } : defaults;
   });
   const form = useForm<FormValues>({

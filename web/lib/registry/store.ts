@@ -3,11 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { api, type FieldOption, type FieldSpec, type ProjectDefaults, type RegistryItem } from "@/lib/api/client";
 
-/**
- * The backend registry is the single source of truth for component titles, field defaults,
- * examples, choices and output paths, and /api/config for project defaults. It's loaded once;
- * the dashboard waits for it, so everything below can read it synchronously.
- */
 interface Snapshot {
   items: Map<string, RegistryItem>;
   defaults: ProjectDefaults;
@@ -62,7 +57,6 @@ export function fieldOptions(reference: string, name: string): FieldOption[] {
   return fieldSpec(reference, name)?.options ?? [];
 }
 
-/** A registry path template as a readable hint: `{{ name }}-inventory.ini` → `<name>-inventory.ini`. */
 function templateHint(template: string): string {
   return template
     .replace(/\{%\s*if\s+(\w+)[^%]*%\}\{\{\s*\1\s*\}\}\/\{%\s*endif\s*%\}/g, "[<$1>/]")

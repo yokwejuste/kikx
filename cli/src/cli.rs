@@ -48,8 +48,7 @@ pub struct AddArgs {
     #[arg(long)]
     pub image: Option<String>,
 
-    /// Unset flags fall back to the component's registry defaults (see `kikx list`).
-    #[arg(long)]
+    #[arg(long, help = "Replicas (default from the registry, see `kikx list`)")]
     pub replicas: Option<u32>,
 
     #[arg(long)]

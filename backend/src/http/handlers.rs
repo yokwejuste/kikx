@@ -54,7 +54,6 @@ pub async fn render_component(
     Ok(Json(outcome.into()))
 }
 
-/// Registry lookups may hit the network or disk, so they stay off the async runtime.
 async fn run_blocking<T: Send + 'static>(
     job: impl FnOnce() -> Result<T, OpsError> + Send + 'static,
 ) -> Result<T, ApiError> {

@@ -67,7 +67,6 @@ pub struct RegistryItemDto {
     pub description: String,
     pub reference: String,
     pub fields: Vec<FieldSpecDto>,
-    /// Output path templates, e.g. `{{ name }}-inventory.ini`.
     pub files: Vec<String>,
 }
 

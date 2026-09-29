@@ -164,9 +164,7 @@ export const groupVarsFormSchema = z
     component: z.literal("groupvars"),
     group: groupName,
     mode: z.enum(["fields", "yaml"]),
-    /** "file" → group_vars/<group>.yml, "dir" → group_vars/<group>/main.yml */
     layout: z.enum(["file", "dir"]).default("file"),
-    // Rows are only checked in key/value mode — a blank starter row mustn't block YAML mode.
     vars: z.array(z.object({ key: z.string(), value: z.string() })),
     yaml: z.string().optional(),
   })
@@ -192,7 +190,6 @@ const playSchema = z.object({
   roles: z.array(z.string()).min(1, "Add at least one role"),
   tags: z.array(z.string()).default([]),
   become: z.boolean().default(true),
-  /** role name → `when:` condition; roles without one render as plain names */
   conditions: z.record(z.string()).default({}),
   preTasks: z.string().optional(),
   postTasks: z.string().optional(),

@@ -22,7 +22,6 @@ export interface AddedComponent {
   files: ProjectFile[];
 }
 
-/** A file the new component would write that another component already owns. */
 export interface FileConflict {
   fileName: string;
   owner: AddedComponent;
@@ -39,11 +38,6 @@ interface ProjectContextValue {
   details: ProjectDetails | null;
   setDetails: (details: ProjectDetails) => void;
   components: AddedComponent[];
-  /**
-   * Adds or updates a component. `replacingId` is the component being edited (kept in place);
-   * any other component that owns one of the incoming file paths is removed, so the project
-   * never holds two writers for the same file. Returns the ids it displaced.
-   */
   saveComponent: (recipe: PresetComponent, files: ProjectFile[], replacingId?: string) => string[];
   removeComponent: (id: string) => RemovedComponent | null;
   restoreComponent: (removed: RemovedComponent) => void;

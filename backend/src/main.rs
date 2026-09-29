@@ -6,17 +6,25 @@ use kikx_backend::http;
 #[derive(Parser)]
 #[command(name = "kikx-backend", about = "Local HTTP API for the kikx dashboard")]
 struct Args {
-    /// Port to listen on.
-    #[arg(long, env = "KIKX_PORT", default_value_t = 4000)]
+    #[arg(
+        long,
+        env = "KIKX_PORT",
+        default_value_t = 4000,
+        help = "Port to listen on"
+    )]
     port: u16,
 
-    /// Address to bind; keep it on loopback unless the API must be reachable from elsewhere.
-    #[arg(long, env = "KIKX_BIND", default_value = "127.0.0.1")]
+    #[arg(
+        long,
+        env = "KIKX_BIND",
+        default_value = "127.0.0.1",
+        help = "Address to bind"
+    )]
     bind: String,
 
-    /// Browser origins allowed to call the API. Defaults to any loopback origin.
     #[arg(
         long = "allow-origin",
+        help = "Browser origins allowed to call the API (default: any loopback origin)",
         env = "KIKX_ALLOWED_ORIGINS",
         value_delimiter = ','
     )]
@@ -25,11 +33,9 @@ struct Args {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    // A missing .env is fine: flags and the real environment still apply, and win over it.
     dotenvy::dotenv().ok();
     let args = Args::parse();
 
-    // An empty KIKX_ALLOWED_ORIGINS (as in .env.example) means "use the default", not "allow nothing".
     let origins: Vec<&str> = args
         .allow_origin
         .iter()

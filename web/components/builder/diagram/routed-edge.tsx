@@ -13,7 +13,6 @@ interface RoutedEdgeData {
   emphasis: Emphasis;
 }
 
-/** An orthogonal polyline through the layout's points, with softly rounded corners. */
 function roundedPath(points: Point[], radius = 8): string {
   if (points.length < 2) return "";
   let d = `M ${points[0].x} ${points[0].y}`;

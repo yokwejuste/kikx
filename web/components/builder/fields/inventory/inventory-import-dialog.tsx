@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { parseInventoryIni, type ParsedInventory } from "@/lib/ansible/inventory";
 
-/** The INI shape, not sample data: placeholders in angle brackets. */
 const FORMAT_HINT = `[<group>]
 <host> ansible_host=<address> <key>=<value>
 

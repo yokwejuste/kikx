@@ -8,15 +8,10 @@ import {
 import type { SiteImportValues } from "@/lib/forms/schemas";
 import type { AddedComponent } from "@/lib/project/context";
 
-/** What the rest of the project offers the component being edited, for suggestions and quick-adds. */
 export interface FormContext {
-  /** Group names from every Inventory in the project. */
   groupNames: string[];
-  /** Role names worth suggesting: vendored roles plus roles other playbooks already use. */
   roleSuggestions: string[];
-  /** Playbooks this project produces, for the site playbook's quick-add. */
   availablePlaybooks: SiteImportValues[];
-  /** Service names, so an ingress can suggest its backend. */
   serviceNames: string[];
 }
 

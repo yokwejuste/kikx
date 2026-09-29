@@ -93,7 +93,6 @@ export interface RegistryItem {
   description: string;
   fields: FieldSpec[];
   reference?: string;
-  /** Output path templates, e.g. `{{ name }}-inventory.ini`. */
   files?: string[];
 }
 

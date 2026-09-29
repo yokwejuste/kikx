@@ -29,7 +29,6 @@ import { cn } from "@/lib/utils";
 const nodeTypes = { diagram: DiagramNode, lane: LaneNode };
 const edgeTypes = { routed: RoutedEdge };
 
-/** Fits the whole diagram once React Flow has measured the nodes — fitView-on-init can run too early. */
 function FitWhenReady({ layoutKey }: { layoutKey: string }) {
   const initialized = useNodesInitialized();
   const { fitView } = useReactFlow();
@@ -52,7 +51,6 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
     return <EmptyState className="h-[560px]">Add a component to see the architecture start forming.</EmptyState>;
   }
 
-  // Remount (and so re-fit the view) whenever the shape of the diagram changes.
   const layoutKey = layout
     ? `${layout.nodes.length}:${layout.edges.length}:${layout.lanes.map((l) => Math.round(l.width)).join(",")}:${expanded}`
     : "pending";

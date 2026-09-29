@@ -3,7 +3,6 @@ use std::path::Path;
 use anyhow::{Context, Result};
 use serde::de::DeserializeOwned;
 
-/// `None` when `reference` is neither a URL nor a file, so callers can word their own error.
 pub(crate) fn load_json<T: DeserializeOwned>(reference: &str, what: &str) -> Option<Result<T>> {
     if reference.starts_with("http://") || reference.starts_with("https://") {
         return Some(fetch_url(reference, what));

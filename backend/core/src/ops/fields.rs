@@ -1,6 +1,5 @@
 use serde::Deserialize;
 
-/// The named options the CLI and the HTTP API both accept alongside free-form `key=value` fields.
 #[derive(Debug, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CommonFields {
@@ -15,8 +14,6 @@ pub struct CommonFields {
 }
 
 impl CommonFields {
-    /// Only the options that were set, so the rest fall back to the registry's defaults.
-    /// `extra` comes last so an explicit `key=value` overrides a named option.
     pub fn into_fields(
         self,
         extra: impl IntoIterator<Item = (String, String)>,
