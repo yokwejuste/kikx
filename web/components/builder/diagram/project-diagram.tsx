@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -22,7 +22,8 @@ import { LaneNode } from "@/components/builder/diagram/lane-node";
 import { RoutedEdge } from "@/components/builder/diagram/routed-edge";
 import { DiagramLegend } from "@/components/builder/diagram/diagram-legend";
 import { useArchitectureLayout } from "@/components/builder/diagram/use-architecture-layout";
-import { useDiagramElements } from "@/components/builder/diagram/use-diagram-elements";
+import { useDiagramElements, useNeighbourhood } from "@/components/builder/diagram/use-diagram-elements";
+import { NeighbourhoodContext } from "@/components/builder/diagram/emphasis";
 import { buildArchitectureGraph } from "@/lib/architecture/graph";
 import { downloadDrawio } from "@/lib/architecture/drawio";
 import { useProject, type AddedComponent } from "@/lib/project/context";
@@ -34,8 +35,11 @@ const edgeTypes = { routed: RoutedEdge };
 function FitWhenReady({ layoutKey }: { layoutKey: string }) {
   const initialized = useNodesInitialized();
   const { fitView } = useReactFlow();
+  const fittedKey = useRef<string | null>(null);
   useEffect(() => {
-    if (initialized) fitView({ padding: 0.06, duration: 0 });
+    if (!initialized || fittedKey.current === layoutKey) return;
+    fittedKey.current = layoutKey;
+    fitView({ padding: 0.06, duration: 0 });
   }, [initialized, fitView, layoutKey]);
   return null;
 }
@@ -48,7 +52,8 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
   const { layout, failed } = useArchitectureLayout(graph);
   const [hovered, setHovered] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
-  const { nodes, edges } = useDiagramElements(layout, hovered);
+  const { nodes, edges } = useDiagramElements(layout);
+  const neighbourhood = useNeighbourhood(layout, hovered);
 
   if (components.length === 0) {
     return (
@@ -103,6 +108,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
           </div>
         )}
         {layout && (
+          <NeighbourhoodContext.Provider value={neighbourhood}>
           <ReactFlowProvider>
             <ReactFlow
               key={layoutKey}
@@ -131,6 +137,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
               <Controls className="kikx-flow-panel" showInteractive={false} />
             </ReactFlow>
           </ReactFlowProvider>
+          </NeighbourhoodContext.Provider>
         )}
       </div>
       <p className="text-xs text-muted-foreground">

@@ -1,16 +1,13 @@
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import type { FlowNodeData } from "@/components/flow/flow-node";
-import type { Emphasis } from "@/components/builder/diagram/emphasis";
+import { useNodeEmphasis } from "@/components/builder/diagram/emphasis";
 import { NODE_HEIGHT, NODE_WIDTH } from "@/lib/architecture/layout";
 import { cn } from "@/lib/utils";
 
-interface DiagramNodeData extends FlowNodeData {
-  emphasis: Emphasis;
-}
-
-export const DiagramNode = memo(function DiagramNode({ data }: NodeProps) {
-  const { label, description, icon: Icon, kind, emphasis } = data as DiagramNodeData;
+export const DiagramNode = memo(function DiagramNode({ id, data }: NodeProps) {
+  const { label, description, icon: Icon, kind } = data as FlowNodeData;
+  const emphasis = useNodeEmphasis(id);
   return (
     <div
       style={{ width: NODE_WIDTH, height: NODE_HEIGHT }}

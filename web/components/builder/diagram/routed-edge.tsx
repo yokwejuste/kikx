@@ -1,5 +1,5 @@
 import { BaseEdge, EdgeLabelRenderer, type EdgeProps } from "@xyflow/react";
-import { edgeColor, type Emphasis } from "@/components/builder/diagram/emphasis";
+import { edgeColor, useEdgeEmphasis } from "@/components/builder/diagram/emphasis";
 import type { GraphEdge } from "@/lib/architecture/graph";
 import type { Point } from "@/lib/architecture/layout";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,21 @@ interface RoutedEdgeData {
   label: string;
   labelPosition: Point | null;
   tone: GraphEdge["tone"];
-  emphasis: Emphasis;
+}
+
+const ARROW_LENGTH = 9;
+const ARROW_HALF_WIDTH = 4.5;
+
+function arrowhead(points: Point[]) {
+  const tip = points[points.length - 1];
+  const from = points[points.length - 2];
+  const length = Math.hypot(tip.x - from.x, tip.y - from.y) || 1;
+  const ux = (tip.x - from.x) / length;
+  const uy = (tip.y - from.y) / length;
+  const base = { x: tip.x - ux * ARROW_LENGTH, y: tip.y - uy * ARROW_LENGTH };
+  const left = { x: base.x - uy * ARROW_HALF_WIDTH, y: base.y + ux * ARROW_HALF_WIDTH };
+  const right = { x: base.x + uy * ARROW_HALF_WIDTH, y: base.y - ux * ARROW_HALF_WIDTH };
+  return { base, shape: `M ${tip.x} ${tip.y} L ${left.x} ${left.y} L ${right.x} ${right.y} Z` };
 }
 
 function roundedPath(points: Point[], radius = 8): string {
@@ -35,22 +49,38 @@ function roundedPath(points: Point[], radius = 8): string {
   return `${d} L ${last.x} ${last.y}`;
 }
 
-export function RoutedEdge({ id, data, markerEnd }: EdgeProps) {
-  const { points, label, labelPosition, tone, emphasis } = data as RoutedEdgeData;
+export function RoutedEdge({ id, data }: EdgeProps) {
+  const { points, label, labelPosition, tone } = data as RoutedEdgeData;
+  const emphasis = useEdgeEmphasis(id);
+  const color = edgeColor(tone, emphasis);
+  const { base, shape } = arrowhead(points);
+  const path = roundedPath([...points.slice(0, -1), base]);
+  const opacity = emphasis === "dim" ? 0.12 : tone === "structure" ? 0.7 : 0.85;
   return (
     <>
       <BaseEdge
         id={id}
-        path={roundedPath(points)}
-        markerEnd={markerEnd}
+        path={path}
         style={{
-          stroke: edgeColor(tone, emphasis),
+          stroke: color,
           strokeWidth: emphasis === "focus" ? 2 : 1.25,
           strokeDasharray: tone === "structure" ? "5 4" : undefined,
-          opacity: emphasis === "dim" ? 0.12 : tone === "structure" ? 0.7 : 0.85,
+          opacity,
           transition: "opacity 150ms",
         }}
       />
+      {emphasis !== "dim" && (
+        <path
+          d={path}
+          fill="none"
+          stroke={color}
+          strokeWidth={emphasis === "focus" ? 3 : 2.25}
+          strokeLinecap="round"
+          className="kikx-edge-flow"
+          style={{ opacity: emphasis === "focus" ? 1 : 0.7 }}
+        />
+      )}
+      <path d={shape} fill={color} style={{ opacity, transition: "opacity 150ms" }} />
       {labelPosition && emphasis !== "dim" && (
         <EdgeLabelRenderer>
           <div
