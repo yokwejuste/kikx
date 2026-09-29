@@ -87,7 +87,17 @@ the whole model.
 
 ### Install the CLI
 
-Download the archive for your platform from the
+On macOS or Linux, install it with one command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/yokwejuste/kikx/main/install.sh | bash
+```
+
+The script downloads the right archive for your system from the latest release and puts `kikx` in
+`/usr/local/bin`, or in `~/.local/bin` when it can't write there. Set `KIKX_VERSION` to install a
+specific release, or `KIKX_INSTALL_DIR` to choose the directory.
+
+On Windows, or to install by hand, download the archive for your platform from the
 [latest release](https://github.com/yokwejuste/kikx/releases/latest) (macOS arm64 and x64, Linux
 x64 and arm64, Windows x64), unpack it and put `kikx` on your `PATH`. With a Rust toolchain you can
 also build it from source:

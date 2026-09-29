@@ -58,8 +58,14 @@ msgstr "[uv](https://docs.astral.sh/uv/), que vous utiliserez à la fin pour ex�
 msgid "Install kikx"
 msgstr "Installer kikx"
 
-msgid "Download the archive for your platform from the [kikx releases page](https://github.com/yokwejuste/kikx/releases):"
-msgstr "Téléchargez l'archive correspondant à votre plateforme depuis la [page des versions de kikx](https://github.com/yokwejuste/kikx/releases) :"
+msgid "On macOS or Linux, install it with one command:"
+msgstr "Sous macOS ou Linux, installez-le en une seule commande :"
+
+msgid "The script picks the archive for your system from the latest release and puts `kikx` in `/usr/local/bin`, or in `~/.local/bin` when it can't write there. Set `KIKX_VERSION` to install a specific release, or `KIKX_INSTALL_DIR` to choose the directory."
+msgstr "Le script choisit l'archive adaptée à votre système dans la dernière version et installe `kikx` dans `/usr/local/bin`, ou dans `~/.local/bin` s'il ne peut pas y écrire. Définissez `KIKX_VERSION` pour installer une version précise, ou `KIKX_INSTALL_DIR` pour choisir le répertoire."
+
+msgid "On Windows, or to install by hand, download the archive for your platform from the [kikx releases page](https://github.com/yokwejuste/kikx/releases):"
+msgstr "Sous Windows, ou pour l'installer à la main, téléchargez l'archive correspondant à votre plateforme depuis la [page des versions de kikx](https://github.com/yokwejuste/kikx/releases) :"
 
 msgid "Platform"
 msgstr "Plateforme"
