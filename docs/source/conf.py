@@ -24,7 +24,7 @@ source_suffix = {".md": "markdown"}
 master_doc = "index"
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-myst_enable_extensions = ["colon_fence"]
+myst_enable_extensions = ["colon_fence", "attrs_block"]
 myst_heading_anchors = 4
 
 API_CHANGES = ["added", "changed", "deprecated", "removed"]
@@ -82,6 +82,7 @@ templates_path = ["../_templates"]
 html_static_path = ["../_static"]
 html_favicon = "../_static/kikx-favicon.svg"
 html_css_files = ["kikx.css"]
+html_js_files = ["pronounce.js"]
 html_context = {
     "language_switcher": [
         ["en", "English"],

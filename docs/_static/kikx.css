@@ -217,3 +217,30 @@ a:hover {
 .admonition[class] > .admonition-title::before {
     background-color: var(--color-foreground-primary);
 }
+
+
+p.pronunciation {
+    align-items: center;
+    color: var(--color-foreground-secondary);
+    display: flex;
+    gap: 0.4rem;
+    margin-top: -0.5rem;
+}
+
+.pronounce-button {
+    align-items: center;
+    background: none;
+    border: 1px solid var(--color-background-border);
+    border-radius: 999px;
+    color: var(--color-foreground-primary);
+    cursor: pointer;
+    display: inline-flex;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
+}
+
+.pronounce-button:hover {
+    border-color: var(--color-foreground-primary);
+}
+
