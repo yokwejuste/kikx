@@ -1,152 +1,128 @@
-import { MarkerType, type Node, type Edge } from "@xyflow/react";
-import { Boxes, Cloud, Cog, FileCode2, ListOrdered, Network, Package, ScrollText } from "lucide-react";
+import { Boxes, Cloud, Cog, FileCode2, ListOrdered, Network, Package, Rocket, ScrollText } from "lucide-react";
 import { playbookPath, playsFromRecipe } from "@/lib/component-form-utils";
+import { parseInventoryEntries } from "@/lib/inventory-utils";
 import type { AddedComponent } from "@/lib/project-context";
 import type { FlowNodeData } from "@/components/flow/flow-node";
 
-/** Lanes wrap into extra columns past this many nodes, so a 20-group inventory stays readable. */
-const ROWS_PER_COLUMN = 8;
-const COLUMN_WIDTH = 260;
-const ROW_HEIGHT = 110;
-const LANE_GAP = 100;
+/** Swimlanes, left to right in the order things happen. */
+export const LANES = [
+  { id: "provision", label: "Provision" },
+  { id: "inventory", label: "Inventory" },
+  { id: "playbooks", label: "Playbooks" },
+  { id: "roles", label: "Roles" },
+  { id: "deploy", label: "Deploy" },
+  { id: "custom", label: "Custom" },
+] as const;
 
-const LANE_LABEL: Record<string, string> = {
-  terraform: "Provision",
-  inventory: "Inventory",
-  ansible: "Configure",
-  k8s: "Deploy",
-  custom: "Custom",
-};
+export type LaneId = (typeof LANES)[number]["id"];
 
-const LANE_ORDER = ["terraform", "inventory", "ansible", "k8s", "custom"];
+export interface GraphNode {
+  id: string;
+  lane: LaneId;
+  data: FlowNodeData;
+}
 
-function laneFor(reference: string): string {
-  if (reference === "ansible/inventory") return "inventory";
-  if (reference.startsWith("ansible/")) return "ansible";
-  if (reference.startsWith("terraform/")) return "terraform";
-  if (reference.startsWith("k8s/")) return "k8s";
+export interface GraphEdge {
+  id: string;
+  source: string;
+  target: string;
+  label: string;
+  /** "structure" = how the inventory is nested; "relation" = how components use each other. */
+  tone: "structure" | "relation";
+}
+
+export interface ArchitectureGraph {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+}
+
+function laneFor(component: AddedComponent): LaneId {
+  const { reference } = component.recipe;
+  if (reference === "ansible/inventory" || reference === "ansible/group-vars") return "inventory";
+  if (reference === "ansible/playbook" || reference === "ansible/site" || reference === "ansible/k8s-bootstrap") {
+    return "playbooks";
+  }
+  if (reference.startsWith("ansible/")) return "roles";
+  if (reference.startsWith("terraform/")) return "provision";
+  if (reference.startsWith("k8s/")) return "deploy";
   return "custom";
 }
 
-interface InventoryGroup {
-  group: string;
-  members?: { name: string }[];
-  children?: string[];
-  vars?: Record<string, string>;
-}
-
-function inventoryGroups(fieldsHosts: string | undefined): InventoryGroup[] {
-  if (!fieldsHosts) return [];
-  try {
-    const parsed = JSON.parse(fieldsHosts);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function relationEdge(id: string, source: string, target: string, label: string): Edge {
-  return {
-    id,
-    source,
-    target,
-    label,
-    animated: true,
-    labelStyle: { fill: "var(--foreground)", fontSize: 12, fontWeight: 500 },
-    labelBgStyle: { fill: "var(--card)" },
-    labelBgPadding: [4, 2],
-    style: { stroke: "var(--primary)", strokeWidth: 1.75 },
-    markerEnd: { type: MarkerType.ArrowClosed, color: "var(--primary)", width: 18, height: 18 },
-  };
-}
-
-export function buildArchitectureGraph(components: AddedComponent[]) {
-  const nodes: Node[] = [];
-  const edges: Edge[] = [];
-  const laneOf = new Map<string, string>();
-
-  // Positions are assigned at the end, once every lane's size is known.
-  const addNode = (id: string, lane: string, data: FlowNodeData) => {
-    laneOf.set(id, lane);
-    nodes.push({ id, type: "flow", position: { x: 0, y: 0 }, data: { ...data, active: true }, draggable: true });
+/**
+ * The project's topology: one node per component (one per group for inventories) and an edge
+ * for every real relationship between them. Layout is a separate step (architecture-layout).
+ */
+export function buildArchitectureGraph(components: AddedComponent[]): ArchitectureGraph {
+  const nodes: GraphNode[] = [];
+  const edges: GraphEdge[] = [];
+  const edgeIds = new Set<string>();
+  const addNode = (id: string, lane: LaneId, data: Pick<FlowNodeData, "label" | "description" | "icon" | "kind">) =>
+    nodes.push({ id, lane, data: { ...data, handles: { target: true, source: true }, active: true } });
+  const addEdge = (source: string, target: string, label: string, tone: GraphEdge["tone"] = "relation") => {
+    const id = `${source}->${target}`;
+    if (source === target || edgeIds.has(id)) return;
+    edgeIds.add(id);
+    edges.push({ id, source, target, label, tone });
   };
 
-  const inventoryGroupId: Record<string, string> = {};
-  const k8sServiceIdByName: Record<string, string> = {};
-  const k8sDeploymentIdByName: Record<string, string> = {};
-  const ansiblePlaybooks: { id: string; hosts: string }[] = [];
-  const groupVarsNodes: { id: string; group: string }[] = [];
-  const roleIdByName: Record<string, string> = {};
-  const playbookRoleAssignments: { id: string; roles: string[] }[] = [];
-  const k8sServices: { id: string; appLabel: string }[] = [];
-  const k8sIngresses: { id: string; wantsService: string }[] = [];
-  const playbookIdByPath: Record<string, string> = {};
+  const groupNodeId = new Map<string, string>();
+  const childGroups = new Set<string>();
+  const hostTargets: { id: string; hosts: string }[] = [];
+  const roleAssignments: { id: string; roles: string[] }[] = [];
+  const groupVars: { id: string; group: string }[] = [];
   const siteImports: { id: string; paths: string[] }[] = [];
+  const roleIdByName = new Map<string, string>();
+  const playbookIdByPath = new Map<string, string>();
+  const deploymentIdByApp = new Map<string, string>();
+  const serviceIdByName = new Map<string, string>();
+  const services: { id: string; selector: string }[] = [];
+  const ingresses: { id: string; backend: string }[] = [];
 
   for (const component of components) {
     const { reference, name, fields, labels } = component.recipe;
-    const lane = laneFor(reference);
+    const lane = laneFor(component);
 
     if (reference === "ansible/inventory") {
-      const groups = inventoryGroups(fields.hosts);
-      const idFor = (groupName: string) => `${component.id}:${groupName}`;
-      const known = new Set(groups.map((g) => g.group));
-
-      for (const g of groups) {
+      const entries = parseInventoryEntries(fields.hosts);
+      const known = new Set(entries.map((e) => e.group));
+      for (const entry of entries) {
+        const id = `${component.id}:${entry.group}`;
         const parts: string[] = [];
-        if (g.members?.length) parts.push(`${g.members.length} host${g.members.length > 1 ? "s" : ""}`);
-        if (g.children?.length) parts.push(`children: ${g.children.join(", ")}`);
-        if (g.vars && Object.keys(g.vars).length) parts.push(`${Object.keys(g.vars).length} var(s)`);
-
-        addNode(idFor(g.group), lane, {
-          label: g.group,
+        if (entry.members?.length) parts.push(`${entry.members.length} host${entry.members.length > 1 ? "s" : ""}`);
+        if (entry.children?.length) parts.push(`${entry.children.length} child group${entry.children.length > 1 ? "s" : ""}`);
+        if (entry.vars && Object.keys(entry.vars).length) parts.push(`${Object.keys(entry.vars).length} var(s)`);
+        addNode(id, lane, {
+          label: entry.group,
           description: parts.join(" · ") || "empty group",
-          icon: g.children?.length ? Network : Boxes,
+          icon: entry.children?.length ? Network : Boxes,
           kind: "data",
-          handles: { target: true, source: true },
         });
-        inventoryGroupId[g.group] = idFor(g.group);
-
-        for (const child of g.children ?? []) {
+        groupNodeId.set(entry.group, id);
+      }
+      for (const entry of entries) {
+        for (const child of entry.children ?? []) {
           if (!known.has(child)) continue;
-          edges.push({
-            id: `${idFor(g.group)}->${idFor(child)}`,
-            source: idFor(g.group),
-            target: idFor(child),
-            label: "includes",
-            labelStyle: { fill: "var(--muted-foreground)", fontSize: 12 },
-            labelBgStyle: { fill: "var(--card)" },
-            labelBgPadding: [4, 2],
-            style: { stroke: "var(--muted-foreground)", strokeWidth: 1.5 },
-            markerEnd: { type: MarkerType.ArrowClosed, color: "var(--muted-foreground)", width: 16, height: 16 },
-          });
+          childGroups.add(child);
+          addEdge(`${component.id}:${entry.group}`, `${component.id}:${child}`, "includes", "structure");
         }
       }
       continue;
     }
 
     if (reference === "ansible/group-vars") {
+      const group = fields.group || name;
       addNode(component.id, lane, {
-        label: `group_vars/${fields.group || name}`,
-        description: "Ansible group vars",
+        label: `group_vars/${group}${fields.layout === "dir" ? "/main" : ""}`,
+        description: fields.yaml ? "Group vars · YAML" : "Group vars",
         icon: FileCode2,
         kind: "data",
-        handles: { target: true, source: true },
       });
-      if (fields.group) {
-        groupVarsNodes.push({ id: component.id, group: fields.group });
-      }
+      groupVars.push({ id: component.id, group });
       continue;
     }
 
     if (reference === "ansible/site") {
-      addNode(component.id, lane, {
-        label: `${name}.yml`,
-        description: "Site playbook · entry point",
-        icon: ListOrdered,
-        kind: "process",
-        handles: { target: true, source: true },
-      });
+      addNode(component.id, lane, { label: `${name}.yml`, description: "Site playbook · entry point", icon: ListOrdered, kind: "process" });
       try {
         const imports = JSON.parse(fields.playbooks ?? "[]");
         if (Array.isArray(imports)) siteImports.push({ id: component.id, paths: imports.map((i) => i.path) });
@@ -158,142 +134,105 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
 
     if (reference === "ansible/playbook") {
       const plays = playsFromRecipe(component.recipe);
-      const roleCount = new Set(plays.flatMap((p) => p.roles)).size;
+      const roles = Array.from(new Set(plays.flatMap((p) => p.roles)));
       addNode(component.id, lane, {
-        label: name,
-        description: `Playbook · ${plays.length} play${plays.length === 1 ? "" : "s"} · ${roleCount} role${roleCount === 1 ? "" : "s"}`,
+        label: playbookPath(name, fields.folder),
+        description: `${plays.length} play${plays.length === 1 ? "" : "s"} · ${roles.length} role${roles.length === 1 ? "" : "s"}`,
         icon: ScrollText,
         kind: "process",
-        handles: { target: true, source: true },
       });
-      playbookIdByPath[playbookPath(name, fields.folder)] = component.id;
-      for (const play of plays) {
-        if (play.hosts) ansiblePlaybooks.push({ id: component.id, hosts: play.hosts });
-      }
-      playbookRoleAssignments.push({ id: component.id, roles: plays.flatMap((p) => p.roles) });
+      playbookIdByPath.set(playbookPath(name, fields.folder), component.id);
+      for (const play of plays) if (play.hosts) hostTargets.push({ id: component.id, hosts: play.hosts });
+      roleAssignments.push({ id: component.id, roles });
       continue;
     }
 
-    if (lane === "ansible") {
-      const isRole = component.files.length > 1;
+    if (reference === "ansible/k8s-bootstrap") {
+      addNode(component.id, lane, { label: name, description: "K8s bootstrap playbook", icon: Rocket, kind: "process" });
+      if (fields.hosts) hostTargets.push({ id: component.id, hosts: fields.hosts });
+      continue;
+    }
+
+    if (lane === "roles") {
       addNode(component.id, lane, {
-        label: name,
-        description: isRole ? `Ansible role · ${component.files.length} files` : "Ansible playbook",
+        label: `roles/${name}`,
+        description: `Ansible role · ${component.files.length} files`,
         icon: Cog,
         kind: "process",
-        handles: { target: true, source: true },
       });
-      if (isRole) roleIdByName[name] = component.id;
-      if (fields.hosts) ansiblePlaybooks.push({ id: component.id, hosts: fields.hosts });
+      roleIdByName.set(name, component.id);
       continue;
     }
 
-    if (lane === "terraform") {
-      const bits = [fields.region, fields.size].filter(Boolean).join(" · ");
+    if (lane === "provision") {
       addNode(component.id, lane, {
         label: name,
-        description: bits || "Terraform resource",
+        description: [fields.region, fields.size].filter(Boolean).join(" · ") || "Terraform resource",
         icon: Cloud,
         kind: "process",
-        handles: { target: true, source: true },
       });
       continue;
     }
 
-    if (lane === "k8s") {
+    if (lane === "deploy") {
       const kind = reference.split("/")[1] ?? "resource";
-      const kindLabel = kind.charAt(0).toUpperCase() + kind.slice(1);
       addNode(component.id, lane, {
-        label: `${name} · ${kindLabel}`,
+        label: `${name} · ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`,
         description: fields.image ? `Image: ${fields.image}` : `Kubernetes ${kind}`,
         icon: Package,
         kind: "process",
-        handles: { target: true, source: true },
       });
-      if (kind === "deployment") k8sDeploymentIdByName[name] = component.id;
+      if (kind === "deployment") deploymentIdByApp.set(labels.app ?? name, component.id);
       if (kind === "service") {
-        k8sServiceIdByName[name] = component.id;
-        k8sServices.push({ id: component.id, appLabel: labels.app });
+        serviceIdByName.set(name, component.id);
+        services.push({ id: component.id, selector: labels.app ?? name });
       }
-      if (kind === "ingress") {
-        k8sIngresses.push({ id: component.id, wantsService: fields.service || name });
-      }
+      if (kind === "ingress") ingresses.push({ id: component.id, backend: fields.service || name });
       continue;
     }
 
-    addNode(component.id, lane, {
-      label: name,
-      description: reference,
-      icon: FileCode2,
-      kind: "process",
-      handles: { target: true, source: true },
-    });
+    addNode(component.id, lane, { label: name, description: reference, icon: FileCode2, kind: "process" });
   }
 
-  const edgeIds = new Set<string>();
-  const pushEdge = (edge: Edge) => {
-    if (edgeIds.has(edge.id)) return;
-    edgeIds.add(edge.id);
-    edges.push(edge);
-  };
+  // "all" means every host: point at the top-level groups rather than fanning out to each one.
+  const rootGroups = Array.from(groupNodeId.entries())
+    .filter(([group]) => !childGroups.has(group))
+    .map(([, id]) => id);
 
-  for (const playbook of ansiblePlaybooks) {
-    const targets =
-      playbook.hosts === "all" ? Object.values(inventoryGroupId) : [inventoryGroupId[playbook.hosts]].filter(Boolean);
-    for (const groupId of targets) {
-      pushEdge(relationEdge(`${groupId}->${playbook.id}`, groupId, playbook.id, "targets"));
+  for (const { id, hosts } of hostTargets) {
+    const patterns = hosts
+      .split(/[:,]/)
+      .map((h) => h.trim().replace(/^[!&]/, ""))
+      .filter(Boolean);
+    for (const pattern of patterns) {
+      const targets = pattern === "all" && !groupNodeId.has("all") ? rootGroups : [groupNodeId.get(pattern)];
+      for (const groupId of targets) if (groupId) addEdge(groupId, id, "targets");
     }
   }
-
-  for (const assignment of playbookRoleAssignments) {
-    for (const roleName of assignment.roles) {
-      const roleId = roleIdByName[roleName];
-      if (!roleId) continue;
-      pushEdge(relationEdge(`${assignment.id}->${roleId}`, assignment.id, roleId, "includes role"));
+  for (const { id, group } of groupVars) {
+    const groupId = groupNodeId.get(group);
+    if (groupId) addEdge(groupId, id, "configures", "structure");
+  }
+  for (const { id, paths } of siteImports) {
+    for (const path of paths) {
+      const playbookId = playbookIdByPath.get(path);
+      if (playbookId) addEdge(id, playbookId, "imports");
     }
   }
-
-  for (const site of siteImports) {
-    for (const path of site.paths) {
-      const playbookId = playbookIdByPath[path];
-      if (!playbookId) continue;
-      pushEdge(relationEdge(`${site.id}->${playbookId}`, site.id, playbookId, "imports"));
+  for (const { id, roles } of roleAssignments) {
+    for (const role of roles) {
+      const roleId = roleIdByName.get(role);
+      if (roleId) addEdge(id, roleId, "runs");
     }
   }
-
-  for (const groupVars of groupVarsNodes) {
-    const groupId = inventoryGroupId[groupVars.group];
-    if (!groupId) continue;
-    edges.push(relationEdge(`${groupId}->${groupVars.id}`, groupId, groupVars.id, "configures"));
+  for (const { id, backend } of ingresses) {
+    const serviceId = serviceIdByName.get(backend);
+    if (serviceId) addEdge(id, serviceId, "routes to");
+  }
+  for (const { id, selector } of services) {
+    const deploymentId = deploymentIdByApp.get(selector);
+    if (deploymentId) addEdge(id, deploymentId, "selects");
   }
 
-  for (const service of k8sServices) {
-    if (!service.appLabel) continue;
-    const deploymentId = k8sDeploymentIdByName[service.appLabel];
-    if (!deploymentId) continue;
-    edges.push(relationEdge(`${service.id}->${deploymentId}`, service.id, deploymentId, "selects"));
-  }
-
-  for (const ingress of k8sIngresses) {
-    const serviceId = k8sServiceIdByName[ingress.wantsService];
-    if (!serviceId) continue;
-    edges.push(relationEdge(`${ingress.id}->${serviceId}`, ingress.id, serviceId, "routes to"));
-  }
-
-  const lanes: { id: string; label: string; x: number }[] = [];
-  let laneX = 0;
-  for (const lane of LANE_ORDER) {
-    const members = nodes.filter((n) => laneOf.get(n.id) === lane);
-    if (members.length === 0) continue;
-    members.forEach((node, index) => {
-      node.position = {
-        x: laneX + Math.floor(index / ROWS_PER_COLUMN) * COLUMN_WIDTH,
-        y: (index % ROWS_PER_COLUMN) * ROW_HEIGHT,
-      };
-    });
-    lanes.push({ id: lane, label: LANE_LABEL[lane], x: laneX });
-    laneX += Math.ceil(members.length / ROWS_PER_COLUMN) * COLUMN_WIDTH + LANE_GAP;
-  }
-
-  return { nodes, edges, lanes };
+  return { nodes, edges };
 }
