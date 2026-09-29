@@ -1,0 +1,5 @@
+target
+core/target
+.env
+Dockerfile
+.dockerignore
