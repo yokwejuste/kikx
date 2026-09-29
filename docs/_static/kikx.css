@@ -1,14 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&display=swap");
 
-:root {
-    --kikx-accent: #e8590c;
-}
-
 body {
     --font-stack: "Source Serif 4", Georgia, serif;
     --font-stack--headings: "Source Serif 4", Georgia, serif;
-    --color-brand-primary: var(--kikx-accent);
-    --color-brand-content: var(--kikx-accent);
 }
 
 .sidebar-drawer,
@@ -44,25 +38,21 @@ h3 {
     letter-spacing: 0.02em;
 }
 
-.sidebar-brand:hover .kikx-brand {
-    color: var(--kikx-accent);
-}
-
 .sidebar-tree .toctree-l1 > .reference {
     color: var(--color-foreground-secondary);
 }
 
-.sidebar-tree .reference:hover,
-.sidebar-tree .current-page > .reference {
-    color: var(--kikx-accent);
+.sidebar-tree .reference:hover {
+    color: var(--color-foreground-primary);
 }
 
 .sidebar-tree .current-page > .reference {
-    font-weight: 400;
+    color: var(--color-foreground-primary);
+    font-weight: 700;
 }
 
 .sidebar-tree > ul {
-    border-bottom: 1px solid var(--kikx-accent);
+    border-bottom: 1px solid var(--color-background-border);
     padding-bottom: 1rem;
 }
 
@@ -91,7 +81,7 @@ input.sidebar-search {
 
 .language-switcher a:hover,
 .language-switcher a[aria-current="page"] {
-    color: var(--kikx-accent);
+    color: var(--color-foreground-primary);
 }
 
 .language-switcher a[aria-current="page"] {
@@ -112,12 +102,13 @@ input.sidebar-search {
     }
 }
 
+.quadrants .sd-card.sd-shadow-sm,
 .quadrants .sd-card {
     background: none;
     border: none;
     border-radius: 0;
-    border-top: 2px solid var(--kikx-accent);
-    box-shadow: none;
+    border-top: 2px solid var(--color-foreground-primary);
+    box-shadow: none !important;
 }
 
 .quadrants .sd-card-body {
@@ -134,19 +125,45 @@ input.sidebar-search {
 }
 
 hr.docutils {
-    background-color: var(--kikx-accent);
+    background-color: var(--color-background-border);
 }
 
 .related-pages a:hover .page-info .title {
-    color: var(--kikx-accent);
+    text-decoration: underline;
 }
 
 .toc-tree li.scroll-current > .reference {
-    color: var(--kikx-accent);
+    color: var(--color-foreground-primary);
+    font-weight: 700;
 }
 
 .nav-overlay-icon .icon svg,
 .toc-overlay-icon .icon svg,
 .theme-toggle svg {
-    color: var(--kikx-accent);
+    color: var(--color-foreground-primary);
+}
+
+.highlight .hll,
+.highlight .err {
+    background: var(--color-background-border);
+    border: none;
+}
+
+.highlight,
+.highlight pre {
+    background: var(--color-code-background);
+    color: var(--color-code-foreground);
+}
+
+.sd-card,
+.sd-card-header,
+.sd-card-footer {
+    background: none;
+    border-color: var(--color-background-border);
+    color: var(--color-foreground-primary);
+}
+
+.sd-card-title a,
+.sd-card-text a {
+    color: var(--color-foreground-primary);
 }
