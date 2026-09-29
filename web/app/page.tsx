@@ -9,13 +9,13 @@ import { toast } from "sonner";
 import { FolderOpen, Sparkles, Waypoints } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
-import { FormField } from "@/components/dashboard/form-field";
-import { componentId, useProject, type AddedComponent } from "@/lib/project-context";
-import { initFormSchema, type InitFormValues } from "@/lib/schemas";
-import { api, ApiClientError } from "@/lib/api-client";
-import { parsePresetManifest } from "@/lib/preset";
-import { projectDefaults } from "@/lib/registry";
-import { RegistryGate } from "@/components/registry-gate";
+import { FormField } from "@/components/builder/fields/form-field";
+import { componentId, useProject, type AddedComponent } from "@/lib/project/context";
+import { initFormSchema, type InitFormValues } from "@/lib/forms/schemas";
+import { api, ApiClientError } from "@/lib/api/client";
+import { parsePresetManifest } from "@/lib/project/preset";
+import { projectDefaults } from "@/lib/registry/store";
+import { RegistryGate } from "@/components/layout/registry-gate";
 
 const SNIPPET = [
   { cmd: "kikx init --name <project>" },
