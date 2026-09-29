@@ -9,12 +9,26 @@ use super::dto::{
     ComponentsResponse, ConfigResponse, PresetsResponse, RegistryInspectQuery, RegistryItemDto,
     RegistryResponse, RenderRequest, RenderResponse,
 };
-use super::error::ApiError;
+use super::error::{ApiError, ErrorDto};
 
+#[utoipa::path(
+    get,
+    path = "/api/health",
+    tag = "health",
+    summary = "Liveness check",
+    responses((status = 200, description = "The API is up", body = String, content_type = "text/plain", example = "ok"))
+)]
 pub async fn health() -> &'static str {
     "ok"
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/components",
+    tag = "registry",
+    summary = "List built-in component references",
+    responses((status = 200, body = ComponentsResponse))
+)]
 pub async fn list_components() -> Json<ComponentsResponse> {
     Json(ComponentsResponse {
         components: registry::builtin::all()
@@ -24,6 +38,13 @@ pub async fn list_components() -> Json<ComponentsResponse> {
     })
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/registry",
+    tag = "registry",
+    summary = "Every built-in component with its fields and output files",
+    responses((status = 200, body = RegistryResponse))
+)]
 pub async fn registry() -> Json<RegistryResponse> {
     Json(RegistryResponse {
         items: registry::builtin::all()
@@ -33,16 +54,41 @@ pub async fn registry() -> Json<RegistryResponse> {
     })
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/config",
+    tag = "registry",
+    summary = "Project defaults shared by the CLI, API and dashboard",
+    responses((status = 200, body = ConfigResponse))
+)]
 pub async fn config() -> Json<ConfigResponse> {
     Json(ConfigResponse::current())
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/presets",
+    tag = "presets",
+    summary = "List the built-in preset templates",
+    responses((status = 200, body = PresetsResponse))
+)]
 pub async fn presets() -> Json<PresetsResponse> {
     Json(PresetsResponse {
         presets: presets::templates().into_iter().map(Into::into).collect(),
     })
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/presets/{name}",
+    tag = "presets",
+    summary = "One preset template's full manifest",
+    params(("name" = String, Path, description = "Template name", example = "multi-tier-platform")),
+    responses(
+        (status = 200, body = PresetManifest),
+        (status = 404, description = "No template with that name", body = ErrorDto)
+    )
+)]
 pub async fn preset(Path(name): Path<String>) -> Result<Json<PresetManifest>, ApiError> {
     presets::template(&name).map(Json).ok_or_else(|| {
         OpsError::new(
@@ -53,6 +99,17 @@ pub async fn preset(Path(name): Path<String>) -> Result<Json<PresetManifest>, Ap
     })
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/registry/inspect",
+    tag = "registry",
+    summary = "Field schema of one component: built-in reference, URL or local file",
+    params(RegistryInspectQuery),
+    responses(
+        (status = 200, body = RegistryItemDto),
+        (status = 400, description = "The reference cannot be resolved", body = ErrorDto)
+    )
+)]
 pub async fn registry_inspect(
     Query(query): Query<RegistryInspectQuery>,
 ) -> Result<Json<RegistryItemDto>, ApiError> {
@@ -64,6 +121,17 @@ pub async fn registry_inspect(
     Ok(Json(item.into()))
 }
 
+#[utoipa::path(
+    post,
+    path = "/api/render",
+    tag = "render",
+    summary = "Render a component's files without writing anything",
+    request_body = RenderRequest,
+    responses(
+        (status = 200, body = RenderResponse),
+        (status = 400, description = "Unknown component or missing field", body = ErrorDto)
+    )
+)]
 pub async fn render_component(
     Json(body): Json<RenderRequest>,
 ) -> Result<Json<RenderResponse>, ApiError> {

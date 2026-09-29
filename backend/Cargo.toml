@@ -14,7 +14,7 @@ name = "kikx-backend"
 path = "src/main.rs"
 
 [dependencies]
-kikx-core = { path = "core" }
+kikx-core = { path = "core", features = ["openapi"] }
 axum = "0.8"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal"] }
 tower-http = { version = "0.7", features = ["cors"] }
@@ -23,6 +23,7 @@ serde_json = "1"
 clap = { version = "4", features = ["derive", "env"] }
 anyhow = "1"
 dotenvy = "0.15.7"
+utoipa = "6"
 
 [dev-dependencies]
 tower = { version = "0.5", features = ["util"] }

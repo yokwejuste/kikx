@@ -3,11 +3,13 @@ use axum::response::{IntoResponse, Response};
 use axum::Json;
 use kikx_core::ops::{OpsError, OpsErrorKind};
 use serde::Serialize;
+use utoipa::ToSchema;
 
-#[derive(Serialize)]
-struct ErrorDto {
-    code: &'static str,
-    error: String,
+#[derive(Serialize, ToSchema)]
+pub struct ErrorDto {
+    #[schema(example = "not_found")]
+    pub code: &'static str,
+    pub error: String,
 }
 
 pub struct ApiError(OpsError);

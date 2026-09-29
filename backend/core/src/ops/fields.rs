@@ -1,6 +1,7 @@
 use serde::Deserialize;
 
 #[derive(Debug, Default, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
 #[serde(rename_all = "camelCase")]
 pub struct CommonFields {
     pub image: Option<String>,
