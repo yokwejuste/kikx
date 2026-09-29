@@ -1,14 +1,13 @@
-{% extends "furo/sidebar/brand.html" %}
-{% block brand_content %}
-<span class="kikx-brand">
-  <svg class="kikx-mark" viewBox="0 0 128 128" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <g transform="translate(-7 0)">
-      <path d="M30 14V114"></path>
-      <path d="M30 80L76 34"></path>
-      <path d="M50 62L74 100H86"></path>
-      <circle cx="108" cy="100" r="12" fill="currentColor" stroke="none"></circle>
-    </g>
-  </svg>
-  {{ project }}
-</span>
-{% endblock brand_content %}
+<a class="sidebar-brand" href="{{ app_url }}">
+  <span class="kikx-brand">
+    <svg class="kikx-mark" viewBox="0 0 128 128" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <g transform="translate(-7 0)">
+        <path d="M30 14V114"></path>
+        <path d="M30 80L76 34"></path>
+        <path d="M50 62L74 100H86"></path>
+        <circle cx="108" cy="100" r="12" fill="currentColor" stroke="none"></circle>
+      </g>
+    </svg>
+    {{ project }}
+  </span>
+</a>
