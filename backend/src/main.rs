@@ -6,9 +6,11 @@ use kikx_backend::http;
 #[derive(Parser)]
 #[command(name = "kikx-backend", about = "Local HTTP API for the kikx dashboard")]
 struct Args {
+    /// Port to listen on.
     #[arg(long, env = "KIKX_PORT", default_value_t = 4000)]
     port: u16,
 
+    /// Address to bind; keep it on loopback unless the API must be reachable from elsewhere.
     #[arg(long, env = "KIKX_BIND", default_value = "127.0.0.1")]
     bind: String,
 
@@ -23,16 +25,25 @@ struct Args {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    // A missing .env is fine: flags and the real environment still apply, and win over it.
+    dotenvy::dotenv().ok();
     let args = Args::parse();
 
-    let allowed_origins = if args.allow_origin.is_empty() {
+    // An empty KIKX_ALLOWED_ORIGINS (as in .env.example) means "use the default", not "allow nothing".
+    let origins: Vec<&str> = args
+        .allow_origin
+        .iter()
+        .map(|origin| origin.trim())
+        .filter(|origin| !origin.is_empty())
+        .collect();
+    let allowed_origins = if origins.is_empty() {
         http::AllowedOrigins::Loopback
     } else {
         http::AllowedOrigins::List(
-            args.allow_origin
-                .iter()
+            origins
+                .into_iter()
                 .map(|origin| {
-                    HeaderValue::from_str(origin.trim())
+                    HeaderValue::from_str(origin)
                         .with_context(|| format!("invalid --allow-origin value `{origin}`"))
                 })
                 .collect::<anyhow::Result<Vec<_>>>()?,

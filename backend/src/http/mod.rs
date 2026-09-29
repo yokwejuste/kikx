@@ -8,8 +8,7 @@ use axum::Router;
 use tower_http::cors::{AllowOrigin, CorsLayer};
 
 pub enum AllowedOrigins {
-    /// Any origin on this machine (localhost, 127.0.0.1, [::1]) on any port — the default,
-    /// matching the loopback-only bind, so the dashboard works whatever port it runs on.
+    /// Any origin on this machine (localhost, 127.0.0.1, [::1]) on any port — the default.
     Loopback,
     List(Vec<HeaderValue>),
 }

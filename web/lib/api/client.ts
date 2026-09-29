@@ -17,7 +17,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     throw new ApiClientError(
       0,
       "not_configured",
-      "NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.local.example).",
+      "NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.example).",
     );
   }
   const response = await fetch(`${API_URL}${path}`, {
