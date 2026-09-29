@@ -118,7 +118,7 @@ fn add_deployment_without_image_fails() {
         .args(["add", "k8s/deployment", "--name", "myapp"])
         .assert()
         .failure()
-        .stderr(contains("--image"));
+        .stderr(contains("field `image` is required"));
 }
 
 #[test]
@@ -335,7 +335,7 @@ fn add_terraform_missing_region_fails() {
         ])
         .assert()
         .failure()
-        .stderr(contains("--region"));
+        .stderr(contains("field `region` is required"));
 }
 
 #[test]
@@ -662,4 +662,52 @@ fn bare_kikx_shows_the_banner_and_commands() {
         .code(2)
         .stderr(contains("▄██▀"))
         .stderr(contains("Commands:"));
+}
+
+#[test]
+fn short_flags_match_the_long_ones() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "-n", "demo", "-d", "infra", "-N", "shop"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "k8s/deployment",
+            "-n",
+            "api",
+            "-i",
+            "ghcr.io/acme/api:1.0",
+            "-r",
+            "3",
+            "-p",
+            "8080",
+            "-l",
+            "tier=backend",
+        ])
+        .assert()
+        .success();
+    let manifest = std::fs::read_to_string(tmp.path().join("infra/api-deployment.yaml")).unwrap();
+    assert!(manifest.contains("replicas: 3"));
+    assert!(manifest.contains("image: ghcr.io/acme/api:1.0"));
+    assert!(manifest.contains("namespace: shop"));
+    assert!(manifest.contains("tier: backend"));
+    kikx()
+        .current_dir(&tmp)
+        .args([
+            "add",
+            "k8s/deployment",
+            "-n",
+            "api",
+            "-s",
+            "image=ghcr.io/acme/api:2.0",
+            "-f",
+        ])
+        .assert()
+        .success();
+    let updated = std::fs::read_to_string(tmp.path().join("infra/api-deployment.yaml")).unwrap();
+    assert!(updated.contains("image: ghcr.io/acme/api:2.0"));
 }

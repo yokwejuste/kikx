@@ -29,7 +29,6 @@ kikx add ansible/site --name site --set 'playbooks=[
 This writes `site.yml`:
 
 ```yaml
----
 - name: Web tier
   import_playbook: playbooks/web.yml
 - name: Database

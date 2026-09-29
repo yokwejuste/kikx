@@ -10,7 +10,7 @@ pub fn resolve_preset(reference: &str) -> Result<PresetManifest> {
     }
     load_json(reference, "kikx preset manifest").unwrap_or_else(|| {
         Err(anyhow!(
-            "`{reference}` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates"
+            "`{reference}` isn't a template name, a URL or an existing local file. Run `kikx presets` to see the templates"
         ))
     })
 }

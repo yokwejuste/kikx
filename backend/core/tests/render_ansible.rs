@@ -106,7 +106,7 @@ fn renders_playbook_assigning_roles_to_a_group() {
     assert_eq!(outcome.files[0].path, PathBuf::from("web-site.yml"));
     assert_eq!(
         outcome.files[0].content,
-        "---\n- name: web-site\n  hosts: web\n  become: true\n  roles:\n    - hygiene\n    - nginx\n"
+        "- name: web-site\n  hosts: web\n  become: true\n  roles:\n    - hygiene\n    - nginx\n"
     );
 }
 
@@ -139,7 +139,7 @@ fn group_vars_accepts_raw_yaml() {
     .remove(0)
     .content;
 
-    assert_eq!(content, "---\npostgres:\n  version: 16\n");
+    assert_eq!(content, "postgres:\n  version: 16\n");
 }
 
 #[test]
@@ -171,7 +171,7 @@ fn site_imports_playbooks_in_order() {
     assert_eq!(outcome.files[0].path, PathBuf::from("site.yml"));
     assert_eq!(
         outcome.files[0].content,
-        "---\n- name: Bootstrap\n  import_playbook: playbooks/bootstrap.yml\n- name: Kubernetes\n  import_playbook: playbooks/k8s.yml\n"
+        "- name: Bootstrap\n  import_playbook: playbooks/bootstrap.yml\n- name: Kubernetes\n  import_playbook: playbooks/k8s.yml\n"
     );
 }
 
@@ -190,7 +190,7 @@ fn playbook_renders_conditional_roles_and_pre_post_tasks() {
 
     assert_eq!(
         content,
-        "---\n- name: Database tier\n  hosts: db\n  become: true\n  tags: [db]\n  pre_tasks:\n    - name: Annotate start\n      ansible.builtin.include_role:\n        name: notify_start\n  roles:\n    - db_repos\n    - role: tls\n      when: tls_enabled | default(false)\n    - postgres\n  post_tasks:\n    - name: Annotate finish\n      ansible.builtin.debug:\n        msg: done\n"
+        "- name: Database tier\n  hosts: db\n  become: true\n  tags: [db]\n  pre_tasks:\n    - name: Annotate start\n      ansible.builtin.include_role:\n        name: notify_start\n  roles:\n    - db_repos\n    - role: tls\n      when: tls_enabled | default(false)\n    - postgres\n  post_tasks:\n    - name: Annotate finish\n      ansible.builtin.debug:\n        msg: done\n"
     );
 }
 

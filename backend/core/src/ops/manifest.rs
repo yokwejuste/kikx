@@ -32,7 +32,7 @@ fn validate_path_safety(rendered: &[RenderedFile]) -> Result<(), OpsError> {
             return Err(OpsError::new(
                 OpsErrorKind::InvalidComponent,
                 anyhow!(
-                    "refusing to write `{}` — absolute paths are not allowed",
+                    "refusing to write `{}`: absolute paths are not allowed",
                     file.path.display()
                 ),
             ));
@@ -46,7 +46,7 @@ fn validate_path_safety(rendered: &[RenderedFile]) -> Result<(), OpsError> {
                         return Err(OpsError::new(
                             OpsErrorKind::InvalidComponent,
                             anyhow!(
-                                "refusing to write `{}` — it escapes the target directory",
+                                "refusing to write `{}`: it escapes the target directory",
                                 file.path.display()
                             ),
                         ));
@@ -82,7 +82,7 @@ pub(super) fn write_all(
             return Err(OpsError::new(
                 OpsErrorKind::AlreadyExists,
                 anyhow!(
-                    "{} already exists — pass --force to overwrite",
+                    "{} already exists. Pass --force to overwrite",
                     target.display()
                 ),
             ));

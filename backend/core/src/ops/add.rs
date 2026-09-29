@@ -75,7 +75,11 @@ pub fn render_component(params: RenderParams) -> Result<RenderOutcome, OpsError>
             None if field.required => {
                 return Err(OpsError::new(
                     OpsErrorKind::MissingField,
-                    anyhow!("--{} is required for {}", field.name, item.reference()),
+                    anyhow!(
+                        "field `{}` is required for {}",
+                        field.name,
+                        item.reference()
+                    ),
                 ));
             }
             None => {}

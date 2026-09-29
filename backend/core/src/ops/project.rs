@@ -10,7 +10,7 @@ pub(super) fn ensure_no_config(project_dir: &Path, force: bool) -> Result<(), Op
         return Err(OpsError::new(
             OpsErrorKind::AlreadyExists,
             anyhow!(
-                "{CONFIG_FILE_NAME} already exists in {} — pass --force to overwrite",
+                "{CONFIG_FILE_NAME} already exists in {}. Pass --force to overwrite",
                 project_dir.display()
             ),
         ));

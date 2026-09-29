@@ -15,7 +15,7 @@ pub fn run(args: SetupArgs) -> Result<()> {
     )?;
 
     println!(
-        "Initialized kikx project `{}` — wrote {} file(s) to {}",
+        "Initialized kikx project `{}`: wrote {} file(s) to {}",
         outcome.project_name,
         outcome.files_written.len(),
         outcome.output_dir.display()

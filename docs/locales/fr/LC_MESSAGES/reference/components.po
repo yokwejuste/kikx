@@ -232,8 +232,6 @@ msgstr "`image`"
 msgid "yes"
 msgstr "oui"
 
-msgid "—"
-msgstr "—"
 
 msgid "`nginx:1.27`"
 msgstr "`nginx:1.27`"
@@ -634,11 +632,11 @@ msgstr "Forme"
 msgid "JSON object"
 msgstr "objet JSON"
 
-msgid "One `key: value` line per key, after `---`"
-msgstr "Une ligne `key: value` par clé, après `---`"
+msgid "One `key: value` line per key"
+msgstr "Une ligne `key: value` par clé"
 
-msgid "Written after `---` with leading and trailing whitespace trimmed. When non-empty, `vars` is ignored"
-msgstr "Écrit après `---`, sans les espaces de début et de fin. S'il n'est pas vide, `vars` est ignoré"
+msgid "Written as is, with leading and trailing whitespace trimmed. When non-empty, `vars` is ignored"
+msgstr "Écrit tel quel, sans les espaces de début et de fin. S'il n'est pas vide, `vars` est ignoré"
 
 msgid "`file` or `dir`"
 msgstr "`file` ou `dir`"

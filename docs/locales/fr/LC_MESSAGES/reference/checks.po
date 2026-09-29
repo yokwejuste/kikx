@@ -244,8 +244,8 @@ msgstr "Un nom d'hôte apparaît avec deux valeurs `ansible_host` différentes, 
 msgid "`<host> has two addresses: <first> and <second>`"
 msgstr "`<host> has two addresses: <first> and <second>`"
 
-msgid "`The same host name points at different machines — Ansible uses whichever it reads last.`"
-msgstr "`The same host name points at different machines — Ansible uses whichever it reads last.`"
+msgid "`The same host name points at different machines. Ansible uses whichever it reads last.`"
+msgstr "`The same host name points at different machines. Ansible uses whichever it reads last.`"
 
 msgid "`empty-child`"
 msgstr "`empty-child`"
@@ -256,8 +256,8 @@ msgstr "Les `children` d'un groupe nomment un groupe qui n'a ni `members` ni `ch
 msgid "`[<group>:children] lists \"<child>\", which has no hosts`"
 msgstr "`[<group>:children] lists \"<child>\", which has no hosts`"
 
-msgid "`Probably a typo — or add hosts to that group.`"
-msgstr "`Probably a typo — or add hosts to that group.`"
+msgid "`Probably a typo, or add hosts to that group.`"
+msgstr "`Probably a typo, or add hosts to that group.`"
 
 msgid "`override`"
 msgstr "`override`"
@@ -379,8 +379,8 @@ msgstr "Les plays d'un playbook utilisent des rôles qui ne sont pas des rôles 
 msgid "`<playbook name> uses <count> role kikx doesn't vendor`, with `roles` when count is not 1"
 msgstr "`<playbook name> uses <count> role kikx doesn't vendor`, avec `roles` lorsque le nombre est différent de 1"
 
-msgid "`<roles> — they must already exist under roles/ in your repo, or scaffold empty ones here.`"
-msgstr "`<roles> — they must already exist under roles/ in your repo, or scaffold empty ones here.`"
+msgid "`<roles>: they must already exist under roles/ in your repo, or scaffold empty ones here.`"
+msgstr "`<roles>: they must already exist under roles/ in your repo, or scaffold empty ones here.`"
 
 msgid "Action"
 msgstr "Action"

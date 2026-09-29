@@ -21,7 +21,7 @@ The export is a snapshot of the current project. If you add or change components
 ## What's preserved
 
 | Kept | Not kept |
-|---|---|
+|-|-|
 | The swimlanes shown in the dashboard (Provision, Inventory, Playbooks, Roles, Deploy), with their labels and sizes | Colors and dark mode. The export uses draw.io's default styling. |
 | Every node, at the position the dashboard laid it out, with its title and description | Hover tracing and click-to-edit |
 | Every edge, with its label and the waypoints of its right-angle route | The link back to the kikx component |

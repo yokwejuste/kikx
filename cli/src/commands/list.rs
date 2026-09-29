@@ -5,7 +5,7 @@ pub fn run() -> Result<()> {
     println!("Available components:");
     for item in registry::builtin::all() {
         println!();
-        println!("  {} — {}", item.reference(), item.description);
+        println!("  {}: {}", item.reference(), item.description);
         for field in &item.fields {
             let mut notes: Vec<String> = Vec::new();
             if field.required {

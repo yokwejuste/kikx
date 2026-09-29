@@ -7,7 +7,7 @@ releases are not patched; upgrade to the latest release from the
 [releases page](https://github.com/yokwejuste/kikx/releases/latest).
 
 | Component | Supported |
-|---|---|
+|-|-|
 | Latest CLI release | Yes |
 | Older CLI releases | No |
 | Hosted dashboard and backend | Yes |

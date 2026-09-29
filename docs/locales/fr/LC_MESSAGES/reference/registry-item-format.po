@@ -67,8 +67,8 @@ msgstr "4"
 msgid "Otherwise"
 msgstr "Sinon"
 
-msgid "Error: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
-msgstr "Erreur : `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
+msgid "Error: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
+msgstr "Erreur : `` `<reference>` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
 
 msgid "Step 1 applies to URLs and paths too: `https://example.com/items/role` and `./items/deployment` resolve to the built-ins `ansible/role` and `k8s/deployment`. The category is not compared: `other/deployment` resolves to `k8s/deployment`."
 msgstr "L'étape 1 s'applique aussi aux URL et aux chemins : `https://example.com/items/role` et `./items/deployment` sont résolus vers les composants intégrés `ansible/role` et `k8s/deployment`. La catégorie n'est pas comparée : `other/deployment` est résolu vers `k8s/deployment`."
@@ -121,8 +121,6 @@ msgstr "chaîne"
 msgid "yes"
 msgstr "oui"
 
-msgid "—"
-msgstr "—"
 
 msgid "Component name"
 msgstr "Nom du composant"
@@ -322,8 +320,8 @@ msgstr "`defaultNamespace` de la requête, sinon `default`"
 msgid "A declared field named `namespace` has no effect: its `default` is not applied."
 msgstr "Un champ déclaré nommé `namespace` n'a aucun effet : son `default` n'est pas appliqué."
 
-msgid "A required field with no supplied value and no `default` fails with `--<field> is required for <category>/<name>`."
-msgstr "Un champ obligatoire sans valeur fournie et sans `default` échoue avec `--<field> is required for <category>/<name>`."
+msgid "A required field with no supplied value and no `default` fails with ``field `<field>` is required for <category>/<name>``."
+msgstr "Un champ obligatoire sans valeur fournie et sans `default` échoue avec ``field `<field>` is required for <category>/<name>``."
 
 msgid "JSON-valued fields"
 msgstr "Champs à valeur JSON"
@@ -382,20 +380,20 @@ msgstr "`` two files rendered to the same path: `<path>` ``"
 msgid "Path is absolute"
 msgstr "Le chemin est absolu"
 
-msgid "`` refusing to write `<path>` — absolute paths are not allowed ``"
-msgstr "`` refusing to write `<path>` — absolute paths are not allowed ``"
+msgid "`` refusing to write `<path>`: absolute paths are not allowed ``"
+msgstr "`` refusing to write `<path>`: absolute paths are not allowed ``"
 
 msgid "Path, read left to right, climbs above the target directory at any `..`"
 msgstr "Le chemin, lu de gauche à droite, remonte au-dessus du répertoire cible à un `..` quelconque"
 
-msgid "`` refusing to write `<path>` — it escapes the target directory ``"
-msgstr "`` refusing to write `<path>` — it escapes the target directory ``"
+msgid "`` refusing to write `<path>`: it escapes the target directory ``"
+msgstr "`` refusing to write `<path>`: it escapes the target directory ``"
 
 msgid "Target file exists and `--force` is not passed"
 msgstr "Le fichier cible existe et `--force` n'est pas passé"
 
-msgid "`<path> already exists — pass --force to overwrite`"
-msgstr "`<path> already exists — pass --force to overwrite`"
+msgid "`<path> already exists. Pass --force to overwrite`"
+msgstr "`<path> already exists. Pass --force to overwrite`"
 
 msgid "All checks run before the first file is written. Parent directories are created as needed."
 msgstr "Toutes les vérifications ont lieu avant l'écriture du premier fichier. Les répertoires parents sont créés au besoin."

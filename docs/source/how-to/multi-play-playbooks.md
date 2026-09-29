@@ -45,7 +45,6 @@ kikx add ansible/playbook --name web --set folder=playbooks --set 'plays=[
 This writes `playbooks/web.yml`:
 
 ```yaml
----
 - name: Prepare every host
   hosts: platform
   become: true

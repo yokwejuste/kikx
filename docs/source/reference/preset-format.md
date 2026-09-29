@@ -9,30 +9,30 @@ The dashboard names the file `<project name>.kikx-preset.json`, or `kikx-project
 A reference is checked in this order:
 
 | Reference | Loaded from |
-|---|---|
+|-|-|
 | Name of a [built-in template](#built-in-templates) | The template embedded in `kikx-core` |
 | Starts with `http://` or `https://` | HTTP `GET` |
 | Existing local file | The file, relative to the current directory |
-| Anything else | Error: `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates `` |
+| Anything else | Error: `` `<reference>` isn't a template name, a URL or an existing local file. Run `kikx presets` to see the templates `` |
 
 A template name wins over a local file with the same name. Use `./<name>` to load the file instead.
 
 ## Manifest
 
 | Key | Type | Required | Default | Description |
-|---|---|---|---|---|
+|-|-|-|-|-|
 | `name` | string | no | `""` | Preset name. For a built-in template, the name that `setup` and `apply` accept. Not used when rendering |
 | `title` | string | no | `""` | Display title, shown by `kikx presets` and the dashboard template gallery. Not used when rendering |
 | `description` | string | no | `""` | Preset description. Not used when rendering |
 | `project` | [Project](#project) | no | absent | Project settings |
-| `components` | array of [Component](#component) | yes | — | Components, rendered in order |
+| `components` | array of [Component](#component) | yes |  | Components, rendered in order |
 
 Unknown keys are ignored.
 
 ## Project
 
 | Key | Type | Required | Default | Used by |
-|---|---|---|---|---|
+|-|-|-|-|-|
 | `name` | string | no | name of the current directory | `setup`: `project.name` in `kikx.toml` |
 | `namespace` | string | no | `default` | `setup` and `apply`: default namespace for every component; `setup`: `project.default_namespace` |
 | `outputDir` | string | no | `k8s` | `setup`: output directory and `project.output_dir`. Ignored by `apply` |
@@ -42,9 +42,9 @@ When `project` is absent, `setup` uses the current directory name, `default` and
 ## Component
 
 | Key | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `reference` | string | yes | — | Component reference. See [Registry item format](registry-item-format.md#reference-resolution) |
-| `name` | string | yes | — | `name` in the template context |
+|-|-|-|-|-|
+| `reference` | string | yes |  | Component reference. See [Registry item format](registry-item-format.md#reference-resolution) |
+| `name` | string | yes |  | `name` in the template context |
 | `fields` | object of string to string | no | `{}` | Field values. Every value must be a JSON string |
 | `labels` | object of string to string | no | `{}` | Labels. `app` defaults to `name` |
 
@@ -137,7 +137,7 @@ A larger preset with 35 components is the [`multi-tier-platform`](#built-in-temp
 kikx ships five presets, embedded in `kikx-core` at build time. Their source files are in `backend/core/presets/`, one `<name>.kikx-preset.json` per template. They are listed by [`kikx presets`](cli.md#kikx-presets) and [`GET /api/presets`](http-api.md#get-apipresets), and shown on the dashboard home page under **Start from a template**.
 
 | Name | Title | Components | Output directory | Namespace | Contents |
-|---|---|---|---|---|---|
+|-|-|-|-|-|-|
 | `k8s-web-app` | Kubernetes web app | 7 | `k8s` | `web` | A web frontend and an API behind ingresses, plus a background worker. |
 | `single-server` | Single server with Ansible | 7 | `infra` | `default` | One DigitalOcean droplet, configured by a common role through a site playbook. |
 | `kubeadm-cluster` | Kubernetes cluster with kubeadm | 11 | `infra` | `default` | Hetzner servers bootstrapped into a three-node control plane and three workers. |

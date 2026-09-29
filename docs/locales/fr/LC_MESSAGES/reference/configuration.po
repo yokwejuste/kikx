@@ -49,8 +49,8 @@ msgstr "`--port <PORT>`"
 msgid "`KIKX_PORT`"
 msgstr "`KIKX_PORT`"
 
-msgid "integer `0`–`65535`"
-msgstr "entier `0`–`65535`"
+msgid "integer `0` to `65535`"
+msgstr "entier `0` à `65535`"
 
 msgid "`4000`"
 msgstr "`4000`"
@@ -91,8 +91,6 @@ msgstr "Origines de navigateur autorisées par CORS. Vide autorise toute origine
 msgid "`-h`, `--help`"
 msgstr "`-h`, `--help`"
 
-msgid "—"
-msgstr "—"
 
 msgid "Print help"
 msgstr "Affiche l'aide"
@@ -178,8 +176,8 @@ msgstr "oui"
 msgid "Base URL of the backend, without `/api`"
 msgstr "URL de base du backend, sans `/api`"
 
-msgid "Read by Next.js from `web/.env.local` or the environment. When unset, every API call fails with code `not_configured` and the message ``NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.example).``"
-msgstr "Lue par Next.js depuis `web/.env.local` ou l'environnement. Lorsqu'elle n'est pas définie, chaque appel à l'API échoue avec le code `not_configured` et le message ``NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.example).``"
+msgid "Read by Next.js from `web/.env.local` or the environment. When unset, every API call fails with code `not_configured` and the message ``NEXT_PUBLIC_KIKX_API_URL is not set. Point it at your kikx backend (see web/.env.example).``"
+msgstr "Lue par Next.js depuis `web/.env.local` ou l'environnement. Lorsqu'elle n'est pas définie, chaque appel à l'API échoue avec le code `not_configured` et le message ``NEXT_PUBLIC_KIKX_API_URL is not set. Point it at your kikx backend (see web/.env.example).``"
 
 msgid "`web/.env.example`:"
 msgstr "`web/.env.example` :"

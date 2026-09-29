@@ -1,7 +1,25 @@
 {% extends "furo/page.html" %}
 
 {% block site_meta %}
-{{ super()|replace("<!-- Generated with Sphinx " ~ sphinx_version ~ " and Furo " ~ furo_version ~ " -->", "") }}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+{%- if metatags %}{{ metatags }}{% endif -%}
+{%- if hasdoc('search') %}
+<link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}">
+{%- endif %}
+{%- if next %}
+<link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}">
+{%- endif %}
+{%- if prev %}
+<link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}">
+{%- endif %}
+{%- if pageurl %}
+<link rel="canonical" href="{{ pageurl|e }}">
+{%- endif %}
+{%- if favicon_url %}
+<link rel="shortcut icon" href="{{ favicon_url }}">
+{%- endif %}
 <link rel="apple-touch-icon" href="{{ pathto('_static/kikx-apple-icon.png', 1) }}">
 {% endblock site_meta %}
 

@@ -40,8 +40,6 @@ msgstr "`GET`"
 msgid "[`/api/health`](#get-apihealth)"
 msgstr "[`/api/health`](#get-apihealth)"
 
-msgid "—"
-msgstr "—"
 
 msgid "`text/plain`"
 msgstr "`text/plain`"
@@ -343,8 +341,8 @@ msgstr "Référence inconnue"
 msgid "`400`"
 msgstr "`400`"
 
-msgid "`` {\"code\":\"invalid_request\",\"error\":\"`nope/thing` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json\"} ``"
-msgstr "`` {\"code\":\"invalid_request\",\"error\":\"`nope/thing` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json\"} ``"
+msgid "`` {\"code\":\"invalid_request\",\"error\":\"`nope/thing` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json\"} ``"
+msgstr "`` {\"code\":\"invalid_request\",\"error\":\"`nope/thing` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json\"} ``"
 
 msgid "URL fetch fails"
 msgstr "La récupération de l'URL échoue"
@@ -430,8 +428,8 @@ msgstr "Définit le champ `replicas`"
 msgid "`port`"
 msgstr "`port`"
 
-msgid "integer `0`–`65535`"
-msgstr "entier `0`–`65535`"
+msgid "integer `0` to `65535`"
+msgstr "entier `0` à `65535`"
 
 msgid "Sets field `port`"
 msgstr "Définit le champ `port`"

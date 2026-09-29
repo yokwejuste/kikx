@@ -6,7 +6,7 @@ Use this when the dashboard stops you with **This file already exists**, or when
 
 A project allows only one component per file. If the component you're saving would write a file another component already writes, the dashboard shows the conflict before it saves:
 
-- With the form still open, the save bar warns you: *Saving replaces `<file>` — currently from `<component>`*.
+- With the form still open, the save bar warns you: *Saving replaces `<file>`, currently from `<component>`*.
 - When you click **Add to project** or **Save changes**, a dialog opens titled **This file already exists** (or **N files already exist**).
 
 In the dialog:
@@ -23,7 +23,7 @@ Editing a component and saving it under the same name replaces it in place, with
 
 The CLI refuses instead of asking, and writes nothing:
 
-- `kikx add` and `kikx apply` stop with `<file> already exists — pass --force to overwrite`. Re-run with `--force` to overwrite. The files you don't re-render stay on disk.
+- `kikx add` and `kikx apply` stop with `<file> already exists. Pass --force to overwrite`. Re-run with `--force` to overwrite. The files you don't re-render stay on disk.
 - A preset where two components render the same path stops with ``two files rendered to the same path: `<file>` ``. Rename one of them in the preset.
 
 ## Fix what Checks reports
@@ -33,7 +33,7 @@ Open **Checks** from the header, or click **Review** in the **Project** panel. E
 ### Errors
 
 | Check | Fix |
-|---|---|
+|-|-|
 | `2 components write <file>` | Only the last one survives in the download. Remove one of them, or rename it. This usually comes from a preset you opened. |
 | `<host> has two addresses: <a> and <b>` | Two inventories, or two groups, give the same host name different `ansible_host` values. Rename one host, or correct the address. |
 | `Group nesting loops: a → b → a` | Remove one of the `:children` entries so the groups no longer contain each other. Ansible refuses to load a cycle. |
@@ -41,7 +41,7 @@ Open **Checks** from the header, or click **Review** in the **Project** panel. E
 ### Warnings
 
 | Check | Fix |
-|---|---|
+|-|-|
 | `[<parent>:children] lists "<group>", which has no hosts` | Fix the typo in the child group's name, or add hosts to that group. |
 | `<host> sets ansible_user=<a>, overriding [<group>:vars] ansible_user=<b>` (also `ansible_port`) | Clear the value on the host if the group's value is the one you want. Host vars win. |
 | `Group "<g>" has both group_vars/<g>.yml and group_vars/<g>/main.yml` | Keep one layout. See [Manage group vars](group-vars.md#when-both-layouts-exist). |
@@ -55,7 +55,7 @@ Open **Checks** from the header, or click **Review** in the **Project** panel. E
 ### Notes
 
 | Check | What to do |
-|---|---|
+|-|-|
 | `<playbook> uses N roles kikx doesn't vendor` | Click **Scaffold N roles**, or ignore it if the roles already exist in your repo. See [Scaffold roles](scaffold-roles.md). |
 | `<path> isn't imported by any site playbook` | Add it to the site playbook if it should run as part of `site.yml`. |
 | `N inventories in this project` | Fine for separate environments. Checks treat all their groups as one pool, so pass the right one with `-i`. |

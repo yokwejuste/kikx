@@ -55,7 +55,7 @@ If any target file already exists, `apply` writes nothing and names the file. Re
 ## Choose between setup and apply
 
 | You want to… | Use |
-|---|---|
+|-|-|
 | Start a fresh kikx project, then keep using `kikx add` | `kikx setup` |
 | Drop the files into an existing repo, at a path you choose | `kikx apply --into <dir>` |
 

@@ -26,7 +26,6 @@ kikx add ansible/group-vars --name web --set group=web \
 This writes `group_vars/web.yml`:
 
 ```yaml
----
 app_env: production
 http_port: 8080
 ```

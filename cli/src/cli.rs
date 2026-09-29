@@ -46,16 +46,16 @@ pub enum Commands {
 
 #[derive(Args)]
 pub struct InitArgs {
-    #[arg(long)]
+    #[arg(short = 'n', long)]
     pub name: Option<String>,
 
-    #[arg(long, default_value = DEFAULT_OUTPUT_DIR)]
+    #[arg(short = 'd', long, default_value = DEFAULT_OUTPUT_DIR)]
     pub dir: PathBuf,
 
-    #[arg(long, default_value = DEFAULT_NAMESPACE)]
+    #[arg(short = 'N', long, default_value = DEFAULT_NAMESPACE)]
     pub namespace: String,
 
-    #[arg(long)]
+    #[arg(short = 'f', long)]
     pub force: bool,
 }
 
@@ -63,40 +63,44 @@ pub struct InitArgs {
 pub struct AddArgs {
     pub reference: String,
 
-    #[arg(long)]
+    #[arg(short = 'n', long)]
     pub name: String,
 
-    #[arg(long)]
+    #[arg(short = 'i', long)]
     pub image: Option<String>,
 
-    #[arg(long, help = "Replicas (default from the registry, see `kikx list`)")]
+    #[arg(
+        short = 'r',
+        long,
+        help = "Replicas (default from the registry, see `kikx list`)"
+    )]
     pub replicas: Option<u32>,
 
-    #[arg(long)]
+    #[arg(short = 'p', long)]
     pub port: Option<u16>,
 
-    #[arg(long)]
+    #[arg(short = 't', long)]
     pub target_port: Option<u16>,
 
-    #[arg(long)]
+    #[arg(short = 'N', long)]
     pub namespace: Option<String>,
 
-    #[arg(long)]
+    #[arg(short = 'H', long)]
     pub host: Option<String>,
 
-    #[arg(long)]
+    #[arg(short = 'P', long)]
     pub path: Option<String>,
 
-    #[arg(long)]
+    #[arg(short = 'S', long)]
     pub service: Option<String>,
 
-    #[arg(long = "label", value_parser = parse_key_val)]
+    #[arg(short = 'l', long = "label", value_parser = parse_key_val)]
     pub labels: Vec<(String, String)>,
 
-    #[arg(long = "set", value_parser = parse_key_val)]
+    #[arg(short = 's', long = "set", value_parser = parse_key_val)]
     pub set: Vec<(String, String)>,
 
-    #[arg(long)]
+    #[arg(short = 'f', long)]
     pub force: bool,
 }
 
@@ -104,7 +108,7 @@ pub struct AddArgs {
 pub struct SetupArgs {
     pub reference: String,
 
-    #[arg(long)]
+    #[arg(short = 'f', long)]
     pub force: bool,
 }
 
@@ -112,10 +116,10 @@ pub struct SetupArgs {
 pub struct ApplyArgs {
     pub reference: String,
 
-    #[arg(long)]
+    #[arg(short = 'i', long)]
     pub into: Option<PathBuf>,
 
-    #[arg(long)]
+    #[arg(short = 'f', long)]
     pub force: bool,
 }
 
