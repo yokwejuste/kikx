@@ -222,7 +222,7 @@ Output on success:
 
 ```
 Initialized kikx project `multi-tier-platform`: wrote 77 file(s) to /home/user/demo/infra
-  /home/user/demo/infra/edge-hetzner.tf
+  /home/user/demo/infra/lb-hetzner.tf
   ...
 ```
 
@@ -255,7 +255,7 @@ Output on success:
 
 ```
 Vendored 77 file(s):
-  /home/user/repo/vendor/edge-hetzner.tf
+  /home/user/repo/vendor/lb-hetzner.tf
   ...
 ```
 

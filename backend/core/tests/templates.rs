@@ -78,7 +78,7 @@ fn multi_tier_platform_template_renders_every_component() {
         "group_vars/all/main.yml",
         "playbooks/k8s.yml",
         "roles/common/templates/motd.j2",
-        "edge-hetzner.tf",
+        "lb-hetzner.tf",
     ] {
         assert!(files.iter().any(|f| f == expected), "missing {expected}");
     }

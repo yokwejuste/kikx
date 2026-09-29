@@ -541,7 +541,9 @@
       "imports": "importe",
       "runs": "exécute",
       "routesTo": "route vers",
-      "selects": "sélectionne"
+      "selects": "sélectionne",
+      "provisions": "provisionne",
+      "loads": "charge"
     },
     "nodes": {
       "hosts": "{count, plural, one {# hôte} other {# hôtes}}",
