@@ -1,15 +1,14 @@
 import { MarkerType, type Node, type Edge } from "@xyflow/react";
-import { Boxes, Cloud, Cog, FileCode2, Network, Package } from "lucide-react";
+import { Boxes, Cloud, Cog, FileCode2, ListOrdered, Network, Package, ScrollText } from "lucide-react";
+import { playbookPath, playsFromRecipe } from "@/lib/component-form-utils";
 import type { AddedComponent } from "@/lib/project-context";
 import type { FlowNodeData } from "@/components/flow/flow-node";
 
-const LANE_X: Record<string, number> = {
-  terraform: 0,
-  inventory: 360,
-  ansible: 720,
-  k8s: 1080,
-  custom: 1440,
-};
+/** Lanes wrap into extra columns past this many nodes, so a 20-group inventory stays readable. */
+const ROWS_PER_COLUMN = 8;
+const COLUMN_WIDTH = 260;
+const ROW_HEIGHT = 110;
+const LANE_GAP = 100;
 
 const LANE_LABEL: Record<string, string> = {
   terraform: "Provision",
@@ -64,23 +63,12 @@ function relationEdge(id: string, source: string, target: string, label: string)
 export function buildArchitectureGraph(components: AddedComponent[]) {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
-  const laneY: Record<string, number> = {};
-  const usedLanes = new Set<string>();
-  const nextY = (lane: string) => {
-    const y = laneY[lane] ?? 0;
-    laneY[lane] = y + 110;
-    return y;
-  };
+  const laneOf = new Map<string, string>();
 
+  // Positions are assigned at the end, once every lane's size is known.
   const addNode = (id: string, lane: string, data: FlowNodeData) => {
-    usedLanes.add(lane);
-    nodes.push({
-      id,
-      type: "flow",
-      position: { x: LANE_X[lane] ?? LANE_X.custom, y: nextY(lane) },
-      data: { ...data, active: true },
-      draggable: true,
-    });
+    laneOf.set(id, lane);
+    nodes.push({ id, type: "flow", position: { x: 0, y: 0 }, data: { ...data, active: true }, draggable: true });
   };
 
   const inventoryGroupId: Record<string, string> = {};
@@ -92,6 +80,8 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
   const playbookRoleAssignments: { id: string; roles: string[] }[] = [];
   const k8sServices: { id: string; appLabel: string }[] = [];
   const k8sIngresses: { id: string; wantsService: string }[] = [];
+  const playbookIdByPath: Record<string, string> = {};
+  const siteImports: { id: string; paths: string[] }[] = [];
 
   for (const component of components) {
     const { reference, name, fields, labels } = component.recipe;
@@ -149,42 +139,52 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
       continue;
     }
 
-    if (lane === "ansible") {
-      const isPlaybookAssignment = reference === "ansible/playbook";
-      const isRole = component.files.length > 1 && !isPlaybookAssignment;
-      let assignedRoles: string[] = [];
-      if (isPlaybookAssignment) {
-        try {
-          const parsed = JSON.parse(fields.roles ?? "[]");
-          if (Array.isArray(parsed)) assignedRoles = parsed;
-        } catch {
-          assignedRoles = [];
-        }
+    if (reference === "ansible/site") {
+      addNode(component.id, lane, {
+        label: `${name}.yml`,
+        description: "Site playbook · entry point",
+        icon: ListOrdered,
+        kind: "process",
+        handles: { target: true, source: true },
+      });
+      try {
+        const imports = JSON.parse(fields.playbooks ?? "[]");
+        if (Array.isArray(imports)) siteImports.push({ id: component.id, paths: imports.map((i) => i.path) });
+      } catch {
+        // an unparseable recipe simply draws no edges
       }
+      continue;
+    }
 
-      let description: string;
-      if (isPlaybookAssignment) {
-        description = `Playbook · ${assignedRoles.length} role${assignedRoles.length === 1 ? "" : "s"}`;
-      } else if (isRole) {
-        description = `Ansible role · ${component.files.length} files`;
-      } else {
-        description = "Ansible playbook";
-      }
-
+    if (reference === "ansible/playbook") {
+      const plays = playsFromRecipe(component.recipe);
+      const roleCount = new Set(plays.flatMap((p) => p.roles)).size;
       addNode(component.id, lane, {
         label: name,
-        description,
+        description: `Playbook · ${plays.length} play${plays.length === 1 ? "" : "s"} · ${roleCount} role${roleCount === 1 ? "" : "s"}`,
+        icon: ScrollText,
+        kind: "process",
+        handles: { target: true, source: true },
+      });
+      playbookIdByPath[playbookPath(name, fields.folder)] = component.id;
+      for (const play of plays) {
+        if (play.hosts) ansiblePlaybooks.push({ id: component.id, hosts: play.hosts });
+      }
+      playbookRoleAssignments.push({ id: component.id, roles: plays.flatMap((p) => p.roles) });
+      continue;
+    }
+
+    if (lane === "ansible") {
+      const isRole = component.files.length > 1;
+      addNode(component.id, lane, {
+        label: name,
+        description: isRole ? `Ansible role · ${component.files.length} files` : "Ansible playbook",
         icon: Cog,
         kind: "process",
         handles: { target: true, source: true },
       });
       if (isRole) roleIdByName[name] = component.id;
-      if (fields.hosts) {
-        ansiblePlaybooks.push({ id: component.id, hosts: fields.hosts });
-      }
-      if (isPlaybookAssignment) {
-        playbookRoleAssignments.push({ id: component.id, roles: assignedRoles });
-      }
+      if (fields.hosts) ansiblePlaybooks.push({ id: component.id, hosts: fields.hosts });
       continue;
     }
 
@@ -230,11 +230,18 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
     });
   }
 
+  const edgeIds = new Set<string>();
+  const pushEdge = (edge: Edge) => {
+    if (edgeIds.has(edge.id)) return;
+    edgeIds.add(edge.id);
+    edges.push(edge);
+  };
+
   for (const playbook of ansiblePlaybooks) {
     const targets =
       playbook.hosts === "all" ? Object.values(inventoryGroupId) : [inventoryGroupId[playbook.hosts]].filter(Boolean);
     for (const groupId of targets) {
-      edges.push(relationEdge(`${groupId}->${playbook.id}`, groupId, playbook.id, "targets"));
+      pushEdge(relationEdge(`${groupId}->${playbook.id}`, groupId, playbook.id, "targets"));
     }
   }
 
@@ -242,7 +249,15 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
     for (const roleName of assignment.roles) {
       const roleId = roleIdByName[roleName];
       if (!roleId) continue;
-      edges.push(relationEdge(`${assignment.id}->${roleId}`, assignment.id, roleId, "includes role"));
+      pushEdge(relationEdge(`${assignment.id}->${roleId}`, assignment.id, roleId, "includes role"));
+    }
+  }
+
+  for (const site of siteImports) {
+    for (const path of site.paths) {
+      const playbookId = playbookIdByPath[path];
+      if (!playbookId) continue;
+      pushEdge(relationEdge(`${site.id}->${playbookId}`, site.id, playbookId, "imports"));
     }
   }
 
@@ -265,11 +280,20 @@ export function buildArchitectureGraph(components: AddedComponent[]) {
     edges.push(relationEdge(`${ingress.id}->${serviceId}`, ingress.id, serviceId, "routes to"));
   }
 
-  const lanes = LANE_ORDER.filter((lane) => usedLanes.has(lane)).map((lane) => ({
-    id: lane,
-    label: LANE_LABEL[lane],
-    x: LANE_X[lane],
-  }));
+  const lanes: { id: string; label: string; x: number }[] = [];
+  let laneX = 0;
+  for (const lane of LANE_ORDER) {
+    const members = nodes.filter((n) => laneOf.get(n.id) === lane);
+    if (members.length === 0) continue;
+    members.forEach((node, index) => {
+      node.position = {
+        x: laneX + Math.floor(index / ROWS_PER_COLUMN) * COLUMN_WIDTH,
+        y: (index % ROWS_PER_COLUMN) * ROW_HEIGHT,
+      };
+    });
+    lanes.push({ id: lane, label: LANE_LABEL[lane], x: laneX });
+    laneX += Math.ceil(members.length / ROWS_PER_COLUMN) * COLUMN_WIDTH + LANE_GAP;
+  }
 
   return { nodes, edges, lanes };
 }

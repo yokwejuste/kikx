@@ -22,13 +22,33 @@ export interface AddedComponent {
   files: ProjectFile[];
 }
 
+/** A file the new component would write that another component already owns. */
+export interface FileConflict {
+  fileName: string;
+  owner: AddedComponent;
+  existingContent: string;
+  incomingContent: string;
+}
+
+export interface RemovedComponent {
+  component: AddedComponent;
+  index: number;
+}
+
 interface ProjectContextValue {
   details: ProjectDetails | null;
   setDetails: (details: ProjectDetails) => void;
   components: AddedComponent[];
-  addComponent: (recipe: PresetComponent, files: ProjectFile[]) => void;
-  removeComponent: (id: string) => void;
-  conflictingFileNames: (files: ProjectFile[]) => string[];
+  /**
+   * Adds or updates a component. `replacingId` is the component being edited (kept in place);
+   * any other component that owns one of the incoming file paths is removed, so the project
+   * never holds two writers for the same file. Returns the ids it displaced.
+   */
+  saveComponent: (recipe: PresetComponent, files: ProjectFile[], replacingId?: string) => string[];
+  removeComponent: (id: string) => RemovedComponent | null;
+  restoreComponent: (removed: RemovedComponent) => void;
+  findConflicts: (files: ProjectFile[], ignoreId?: string) => FileConflict[];
+  loadProject: (details: ProjectDetails, components: AddedComponent[]) => void;
   reset: () => void;
 }
 
@@ -59,27 +79,77 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     saveStoredProject({ details, components });
   }, [details, components]);
 
-  const addComponent = useCallback((recipe: PresetComponent, files: ProjectFile[]) => {
-    const id = componentId(recipe);
+  const findConflicts = useCallback(
+    (files: ProjectFile[], ignoreId?: string) => {
+      const conflicts: FileConflict[] = [];
+      for (const file of files) {
+        for (const owner of components) {
+          if (owner.id === ignoreId) continue;
+          const existing = owner.files.find((f) => f.fileName === file.fileName);
+          if (existing) {
+            conflicts.push({
+              fileName: file.fileName,
+              owner,
+              existingContent: existing.content,
+              incomingContent: file.content,
+            });
+          }
+        }
+      }
+      return conflicts;
+    },
+    [components],
+  );
+
+  const saveComponent = useCallback(
+    (recipe: PresetComponent, files: ProjectFile[], replacingId?: string) => {
+      const id = componentId(recipe);
+      const incoming = new Set(files.map((f) => f.fileName));
+      const displaced = components
+        .filter((c) => c.id !== replacingId && (c.id === id || c.files.some((f) => incoming.has(f.fileName))))
+        .map((c) => c.id);
+      const dropped = new Set([...displaced, ...(replacingId ? [replacingId] : [])]);
+
+      setComponents((prev) => {
+        const anchor = prev.findIndex((c) => c.id === (replacingId ?? id));
+        const next = prev.filter((c) => !dropped.has(c.id));
+        const entry = { id, recipe, files };
+        if (anchor === -1) {
+          next.push(entry);
+        } else {
+          const droppedBefore = prev.slice(0, anchor).filter((c) => dropped.has(c.id)).length;
+          next.splice(anchor - droppedBefore, 0, entry);
+        }
+        return next;
+      });
+      return displaced.filter((d) => d !== id);
+    },
+    [components],
+  );
+
+  const removeComponent = useCallback(
+    (id: string) => {
+      const index = components.findIndex((c) => c.id === id);
+      if (index === -1) return null;
+      setComponents((prev) => prev.filter((c) => c.id !== id));
+      return { component: components[index], index };
+    },
+    [components],
+  );
+
+  const restoreComponent = useCallback((removed: RemovedComponent) => {
     setComponents((prev) => {
-      const next = prev.filter((c) => c.id !== id);
-      next.push({ id, recipe, files });
-      next.sort((a, b) => a.id.localeCompare(b.id));
+      if (prev.some((c) => c.id === removed.component.id)) return prev;
+      const next = [...prev];
+      next.splice(Math.min(removed.index, next.length), 0, removed.component);
       return next;
     });
   }, []);
 
-  const removeComponent = useCallback((id: string) => {
-    setComponents((prev) => prev.filter((c) => c.id !== id));
+  const loadProject = useCallback((nextDetails: ProjectDetails, nextComponents: AddedComponent[]) => {
+    setDetails(nextDetails);
+    setComponents(nextComponents);
   }, []);
-
-  const conflictingFileNames = useCallback(
-    (files: ProjectFile[]) => {
-      const existing = new Set(components.flatMap((c) => c.files.map((f) => f.fileName)));
-      return files.map((f) => f.fileName).filter((name) => existing.has(name));
-    },
-    [components],
-  );
 
   const reset = useCallback(() => {
     setDetails(null);
@@ -93,9 +163,11 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         details,
         setDetails,
         components,
-        addComponent,
+        saveComponent,
         removeComponent,
-        conflictingFileNames,
+        restoreComponent,
+        findConflicts,
+        loadProject,
         reset,
       }}
     >

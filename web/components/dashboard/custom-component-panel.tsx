@@ -11,17 +11,24 @@ import { Panel } from "@/components/dashboard/panel";
 import { FileConflictDialog } from "@/components/dashboard/file-conflict-dialog";
 import { YamlPreview } from "@/components/dashboard/yaml-preview";
 import { api, ApiClientError, type RegistryItem, type RenderedFile } from "@/lib/api-client";
-import { useProject, type AddedComponent } from "@/lib/project-context";
+import { componentId, useProject, type FileConflict, type ProjectFile } from "@/lib/project-context";
+import type { PresetComponent } from "@/lib/preset";
 
-export function CustomComponentPanel() {
-  const { details, addComponent, conflictingFileNames } = useProject();
+export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => void }) {
+  const { details, saveComponent, findConflicts } = useProject();
   const [reference, setReference] = useState("");
   const [item, setItem] = useState<RegistryItem | null>(null);
   const [name, setName] = useState("");
   const [values, setValues] = useState<Record<string, string>>({});
   const [files, setFiles] = useState<RenderedFile[] | null>(null);
-  const [pending, setPending] = useState<Omit<AddedComponent, "id"> | null>(null);
-  const [conflicts, setConflicts] = useState<string[] | null>(null);
+  const [pending, setPending] = useState<{ recipe: PresetComponent; files: ProjectFile[] } | null>(null);
+  const [conflicts, setConflicts] = useState<FileConflict[] | null>(null);
+
+  const commit = (recipe: PresetComponent, files: ProjectFile[]) => {
+    const displaced = saveComponent(recipe, files);
+    toast.success(displaced.length ? `Replaced ${displaced.length} component(s)` : `Added ${files.length} file(s)`);
+    onSaved?.(componentId(recipe));
+  };
 
   const loadMutation = useMutation({
     mutationFn: () => api.inspectRegistryItem(reference),
@@ -60,14 +67,13 @@ export function CustomComponentPanel() {
         component: data.component,
         content: f.content,
       }));
-      const clashes = conflictingFileNames(projectFiles);
+      const clashes = findConflicts(projectFiles);
       if (clashes.length > 0) {
         setPending({ recipe, files: projectFiles });
         setConflicts(clashes);
         return;
       }
-      addComponent(recipe, projectFiles);
-      toast.success(`Added ${projectFiles.length} file(s)`);
+      commit(recipe, projectFiles);
     },
     onError: (error: unknown) => {
       toast.error(error instanceof ApiClientError ? error.message : "Failed to render component");
@@ -145,7 +151,7 @@ export function CustomComponentPanel() {
               </Button>
             </div>
 
-            <YamlPreview files={files} />
+            <YamlPreview files={files} status={previewMutation.isPending ? "loading" : "ready"} />
           </>
         )}
       </div>
@@ -157,10 +163,7 @@ export function CustomComponentPanel() {
           setConflicts(null);
         }}
         onConfirm={() => {
-          if (pending) {
-            addComponent(pending.recipe, pending.files);
-            toast.success(`Replaced ${pending.files.length} file(s)`);
-          }
+          if (pending) commit(pending.recipe, pending.files);
           setPending(null);
           setConflicts(null);
         }}

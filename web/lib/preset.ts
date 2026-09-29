@@ -58,3 +58,23 @@ export function downloadPreset(details: ProjectDetails, components: AddedCompone
   link.remove();
   URL.revokeObjectURL(url);
 }
+
+export interface PresetManifest {
+  name?: string;
+  project?: Partial<ProjectDetails>;
+  components: PresetComponent[];
+}
+
+export function parsePresetManifest(text: string): PresetManifest {
+  const parsed = JSON.parse(text);
+  if (!parsed || typeof parsed !== "object" || !Array.isArray(parsed.components)) {
+    throw new Error("That file isn't a kikx preset — it has no components list.");
+  }
+  const components: PresetComponent[] = parsed.components.map((c: Partial<PresetComponent>, i: number) => {
+    if (typeof c?.reference !== "string" || typeof c?.name !== "string") {
+      throw new Error(`Component #${i + 1} is missing a reference or name.`);
+    }
+    return { reference: c.reference, name: c.name, fields: c.fields ?? {}, labels: c.labels ?? {} };
+  });
+  return { name: parsed.name, project: parsed.project, components };
+}

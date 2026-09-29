@@ -16,7 +16,7 @@ import "@xyflow/react/dist/style.css";
 import { useTheme } from "next-themes";
 import { FlowNode } from "@/components/flow/flow-node";
 import { buildArchitectureGraph } from "@/lib/architecture-graph";
-import { useProject } from "@/lib/project-context";
+import { useProject, type AddedComponent } from "@/lib/project-context";
 
 function LaneHeader({ data }: { data: { label: string } }) {
   return (
@@ -28,7 +28,7 @@ function LaneHeader({ data }: { data: { label: string } }) {
 
 const nodeTypes = { flow: FlowNode, lane: LaneHeader };
 
-export function ProjectDiagram() {
+export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent) => void }) {
   const { resolvedTheme } = useTheme();
   const { components } = useProject();
 
@@ -85,6 +85,10 @@ export function ProjectDiagram() {
             proOptions={{ hideAttribution: true }}
             nodesConnectable={false}
             elementsSelectable={false}
+            onNodeClick={(_, node) => {
+              const owner = components.find((c) => node.id === c.id || node.id.startsWith(`${c.id}:`));
+              if (owner) onOpen?.(owner);
+            }}
           >
             <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
             <Controls showInteractive={false} />
@@ -101,8 +105,9 @@ export function ProjectDiagram() {
         </ReactFlowProvider>
       </div>
       <p className="text-xs text-muted-foreground">
-        Dashed border = data on disk (inventory). Highlighted arrows = a real relationship kikx found between your
-        components (matching hosts, service names, or labels) — not just layout.
+        Click a node to edit it. Dashed border = data (inventory groups, vars). Arrows = a real relationship kikx found
+        between your components — a play targeting a group, a site importing a playbook, a service selecting a
+        deployment — not just layout.
       </p>
     </div>
   );

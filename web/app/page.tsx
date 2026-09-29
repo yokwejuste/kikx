@@ -1,25 +1,68 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Sparkles, Waypoints } from "lucide-react";
+import { toast } from "sonner";
+import { FolderOpen, Sparkles, Waypoints } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/dashboard/form-field";
-import { useProject } from "@/lib/project-context";
+import { componentId, useProject, type AddedComponent } from "@/lib/project-context";
 import { initFormSchema, type InitFormValues } from "@/lib/schemas";
+import { api, ApiClientError } from "@/lib/api-client";
+import { parsePresetManifest } from "@/lib/preset";
 
 const SNIPPET = [
   { cmd: "kikx init --name my-app" },
   { cmd: "kikx add k8s/deployment --name web --image nginx:1.27" },
-  { cmd: "kikx add k8s/service --name web" },
+  { cmd: "kikx apply ./my-app.kikx-preset.json" },
 ];
 
 export default function Home() {
   const router = useRouter();
-  const { setDetails, reset } = useProject();
+  const { setDetails, reset, loadProject } = useProject();
+  const [opening, setOpening] = useState(false);
+
+  async function openPreset(file: File) {
+    setOpening(true);
+    try {
+      const manifest = parsePresetManifest(await file.text());
+      const namespace = manifest.project?.namespace || "default";
+      const components: AddedComponent[] = [];
+      for (const recipe of manifest.components) {
+        const rendered = await api.render({
+          reference: recipe.reference,
+          name: recipe.name,
+          fields: recipe.fields,
+          labels: Object.entries(recipe.labels).map(([key, value]) => ({ key, value })),
+          defaultNamespace: namespace,
+        });
+        components.push({
+          id: componentId(recipe),
+          recipe,
+          files: rendered.files.map((f) => ({ fileName: f.path, component: rendered.component, content: f.content })),
+        });
+      }
+      loadProject(
+        {
+          name: manifest.project?.name || manifest.name || file.name.replace(/\.kikx-preset\.json$|\.json$/, ""),
+          namespace,
+          outputDir: manifest.project?.outputDir || "k8s",
+        },
+        components,
+      );
+      router.push("/build");
+    } catch (error) {
+      toast.error(
+        error instanceof ApiClientError || error instanceof Error ? error.message : "Couldn't open that preset",
+      );
+    } finally {
+      setOpening(false);
+    }
+  }
   const form = useForm<InitFormValues>({
     resolver: zodResolver(initFormSchema),
     defaultValues: { name: "", namespace: "default", dir: "k8s" },
@@ -46,8 +89,8 @@ export default function Home() {
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-5xl font-semibold tracking-tight text-balance">kikx</h1>
           <p className="max-w-md text-balance text-muted-foreground">
-            Render real, editable Kubernetes manifests straight into your project.
-            No hidden dependency, no generated black box — just plain YAML you own.
+            Render real, editable infrastructure files — Ansible inventories, group vars and playbooks, Kubernetes
+            manifests, Terraform — straight into your project. No hidden dependency, just plain files you own.
           </p>
         </div>
 
@@ -99,6 +142,29 @@ export default function Home() {
             </Button>
           </form>
         </div>
+
+        <label className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:bg-muted/40">
+          <span className="flex items-center gap-3">
+            <FolderOpen className="size-4 text-muted-foreground" />
+            <span>
+              <span className="font-medium">{opening ? "Opening preset…" : "Open a preset"}</span>
+              <span className="block text-muted-foreground">
+                Continue from a <code className="font-mono">.kikx-preset.json</code> you downloaded earlier.
+              </span>
+            </span>
+          </span>
+          <input
+            type="file"
+            accept=".json,application/json"
+            className="sr-only"
+            disabled={opening}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) openPreset(file);
+              e.target.value = "";
+            }}
+          />
+        </label>
 
         <Link
           href="/flow"

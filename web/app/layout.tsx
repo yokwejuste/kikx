@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "kikx",
-  description: "Vendor Kubernetes manifests into your project",
+  description: "Vendor real, editable infrastructure files into your project",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

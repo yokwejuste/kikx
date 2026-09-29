@@ -79,61 +79,159 @@ export const ansibleFormSchema = z.object({
   k8sVersion: z.string().min(1, "Kubernetes version is required"),
 });
 
-const inventoryHostSchema = z.object({
-  group: z.string().min(1, "Group is required"),
-  name: z.string().min(1, "Host name is required"),
-  ansibleHost: z
-    .string()
-    .min(1, "Host/IP is required")
-    .refine(isValidHostOrIp, "Enter a valid IP address or hostname"),
-  ansibleUser: z.string().min(1, "SSH user is required"),
-  ansiblePort: z.coerce
-    .number({ invalid_type_error: "Port is required" })
+const GROUP_NAME_RE = /^[A-Za-z_][A-Za-z0-9_-]*$/;
+const groupName = z
+  .string()
+  .min(1, "Group name is required")
+  .regex(GROUP_NAME_RE, "Letters, digits, _ and - only; start with a letter or _");
+
+const optionalHostOrIp = z
+  .string()
+  .optional()
+  .refine((v) => !v || isValidHostOrIp(v), "Enter a valid IP address or hostname");
+
+const optionalSshPort = z.preprocess(
+  (val) => (val === "" || val === undefined || val === null ? undefined : val),
+  z.coerce
+    .number({ invalid_type_error: "Port must be a number" })
     .int("Port must be a whole number")
     .min(1, "Port must be between 1 and 65535")
-    .max(65535, "Port must be between 1 and 65535"),
+    .max(65535, "Port must be between 1 and 65535")
+    .optional(),
+);
+
+const inventoryHostSchema = z.object({
+  name: z.string().min(1, "Host name is required"),
+  ansibleHost: optionalHostOrIp,
+  groups: z.array(groupName).min(1, "Put the host in at least one group"),
+  ansibleUser: z.string().optional(),
+  ansiblePort: optionalSshPort,
   sshKeyFile: z.string().optional(),
+  vars: z.string().optional(),
 });
 export type InventoryHostValues = z.infer<typeof inventoryHostSchema>;
 
 const inventoryGroupSchema = z.object({
-  name: z.string().min(1, "Group name is required"),
-  children: z.string().optional(),
+  name: groupName,
+  children: z.array(z.string()).default([]),
   vars: z.string().optional(),
 });
 export type InventoryGroupValues = z.infer<typeof inventoryGroupSchema>;
 
-export const inventoryFormSchema = z.object({
-  component: z.literal("inventory"),
-  name: z.string().min(1, "Name is required"),
-  hosts: z.array(inventoryHostSchema).min(1, "Add at least one host"),
-  groups: z.array(inventoryGroupSchema).default([]),
-});
+export const inventoryFormSchema = z
+  .object({
+    component: z.literal("inventory"),
+    name: z.string().min(1, "Name is required"),
+    hosts: z.array(inventoryHostSchema).min(1, "Add at least one host"),
+    groups: z.array(inventoryGroupSchema).default([]),
+  })
+  .superRefine((values, ctx) => {
+    const seen = new Map<string, number>();
+    values.hosts.forEach((host, index) => {
+      const first = seen.get(host.name);
+      if (first !== undefined && host.name) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["hosts", index, "name"],
+          message: `"${host.name}" is already host #${first + 1} — add the extra groups to that host instead`,
+        });
+      } else {
+        seen.set(host.name, index);
+      }
+    });
+    const groupSeen = new Set<string>();
+    values.groups.forEach((group, index) => {
+      if (groupSeen.has(group.name)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["groups", index, "name"],
+          message: `Group "${group.name}" is listed twice`,
+        });
+      }
+      groupSeen.add(group.name);
+      if (group.children.includes(group.name)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["groups", index, "children"],
+          message: "A group can't contain itself",
+        });
+      }
+    });
+  });
 
-export const groupVarsFormSchema = z.object({
-  component: z.literal("groupvars"),
-  group: z.string().min(1, "Group is required"),
-  vars: z.array(labelSchema).min(1, "Add at least one variable"),
+export const groupVarsFormSchema = z
+  .object({
+    component: z.literal("groupvars"),
+    group: groupName,
+    mode: z.enum(["fields", "yaml"]),
+    // Rows are only checked in key/value mode — a blank starter row mustn't block YAML mode.
+    vars: z.array(z.object({ key: z.string(), value: z.string() })),
+    yaml: z.string().optional(),
+  })
+  .superRefine((values, ctx) => {
+    if (values.mode === "fields") {
+      if (!values.vars.some((v) => v.key.trim())) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["vars"], message: "Add at least one variable" });
+      }
+      values.vars.forEach((v, index) => {
+        if (!v.key.trim() && v.value.trim()) {
+          ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["vars", index, "key"], message: "Give this value a key" });
+        }
+      });
+    }
+    if (values.mode === "yaml" && !values.yaml?.trim()) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["yaml"], message: "Paste some YAML" });
+    }
+  });
+
+const playSchema = z.object({
+  name: z.string().min(1, "Give the play a name"),
+  hosts: z.string().min(1, "Pick a group to run on"),
+  roles: z.array(z.string()).min(1, "Add at least one role"),
+  tags: z.array(z.string()).default([]),
+  become: z.boolean().default(true),
 });
+export type PlayValues = z.infer<typeof playSchema>;
+
+const safeFolder = z
+  .string()
+  .optional()
+  .refine((v) => !v || (!v.startsWith("/") && !v.split("/").includes("..")), "Use a relative folder like playbooks");
 
 export const playbookFormSchema = z.object({
   component: z.literal("playbook"),
   name: z.string().min(1, "Name is required"),
-  hosts: z.string().min(1, "Hosts is required"),
-  roles: z.array(z.string()).min(1, "Pick at least one role"),
+  folder: safeFolder,
+  plays: z.array(playSchema).min(1, "Add at least one play"),
 });
 
-export const componentFormSchema = z.discriminatedUnion("component", [
-  deploymentFormSchema,
-  serviceFormSchema,
-  ingressFormSchema,
-  digitalOceanFormSchema,
-  hetznerFormSchema,
-  ansibleFormSchema,
-  inventoryFormSchema,
-  groupVarsFormSchema,
-  playbookFormSchema,
-]);
+const siteImportSchema = z.object({
+  name: z.string().min(1, "Give it a name"),
+  path: z.string().min(1, "Path is required"),
+});
+export type SiteImportValues = z.infer<typeof siteImportSchema>;
 
-export type ComponentFormValues = z.infer<typeof componentFormSchema>;
-export type ComponentKind = ComponentFormValues["component"];
+export const siteFormSchema = z.object({
+  component: z.literal("site"),
+  name: z.string().min(1, "Name is required"),
+  imports: z.array(siteImportSchema).min(1, "Import at least one playbook"),
+});
+
+export const commonRoleFormSchema = z.object({
+  component: z.literal("commonrole"),
+  name: z.string().min(1, "Name is required"),
+  timezone: z.string().min(1, "Timezone is required"),
+});
+
+export type ComponentKind =
+  | "deployment"
+  | "service"
+  | "ingress"
+  | "digitalocean"
+  | "hetzner"
+  | "ansible"
+  | "inventory"
+  | "groupvars"
+  | "playbook"
+  | "site"
+  | "commonrole";
