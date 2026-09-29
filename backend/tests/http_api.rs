@@ -1,42 +1,8 @@
-use axum::body::Body;
-use axum::http::{header, Method, Request, StatusCode};
-use http_body_util::BodyExt;
+mod common;
+
+use axum::http::{Method, StatusCode};
+use common::{router, send};
 use serde_json::{json, Value};
-use tower::ServiceExt;
-
-fn router() -> axum::Router {
-    kikx_backend::http::build_router(kikx_backend::http::AllowedOrigins::Loopback)
-}
-
-async fn send(
-    app: axum::Router,
-    method: Method,
-    uri: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let request = match body {
-        Some(b) => Request::builder()
-            .method(method)
-            .uri(uri)
-            .header(header::CONTENT_TYPE, "application/json")
-            .body(Body::from(serde_json::to_vec(&b).unwrap()))
-            .unwrap(),
-        None => Request::builder()
-            .method(method)
-            .uri(uri)
-            .body(Body::empty())
-            .unwrap(),
-    };
-    let response = app.oneshot(request).await.unwrap();
-    let status = response.status();
-    let bytes = response.into_body().collect().await.unwrap().to_bytes();
-    let value: Value = if bytes.is_empty() {
-        Value::Null
-    } else {
-        serde_json::from_slice(&bytes).unwrap_or(Value::Null)
-    };
-    (status, value)
-}
 
 fn file_content<'a>(files: &'a Value, path: &str) -> &'a str {
     files
@@ -384,7 +350,10 @@ async fn registry_exposes_field_metadata_and_output_paths() {
     let (status, body) = send(router(), Method::GET, "/api/registry", None).await;
     assert_eq!(status, StatusCode::OK);
     let items = body["items"].as_array().unwrap();
-    let hetzner = items.iter().find(|i| i["reference"] == "terraform/hetzner").unwrap();
+    let hetzner = items
+        .iter()
+        .find(|i| i["reference"] == "terraform/hetzner")
+        .unwrap();
     let os_image = hetzner["fields"]
         .as_array()
         .unwrap()
@@ -400,8 +369,14 @@ async fn registry_exposes_field_metadata_and_output_paths() {
 async fn config_exposes_project_defaults() {
     let (status, body) = send(router(), Method::GET, "/api/config", None).await;
     assert_eq!(status, StatusCode::OK);
-    assert_eq!(body["defaultNamespace"], kikx_core::config::DEFAULT_NAMESPACE);
-    assert_eq!(body["defaultOutputDir"], kikx_core::config::DEFAULT_OUTPUT_DIR);
+    assert_eq!(
+        body["defaultNamespace"],
+        kikx_core::config::DEFAULT_NAMESPACE
+    );
+    assert_eq!(
+        body["defaultOutputDir"],
+        kikx_core::config::DEFAULT_OUTPUT_DIR
+    );
 }
 
 #[tokio::test]

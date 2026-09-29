@@ -13,7 +13,11 @@ struct Args {
     bind: String,
 
     /// Browser origins allowed to call the API. Defaults to any loopback origin.
-    #[arg(long = "allow-origin", env = "KIKX_ALLOWED_ORIGINS", value_delimiter = ',')]
+    #[arg(
+        long = "allow-origin",
+        env = "KIKX_ALLOWED_ORIGINS",
+        value_delimiter = ','
+    )]
     allow_origin: Vec<String>,
 }
 

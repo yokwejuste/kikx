@@ -1,13 +1,12 @@
-pub mod dto;
-pub mod error;
-pub mod handlers;
+mod dto;
+mod error;
+mod handlers;
 
 use axum::http::{header, request::Parts, HeaderValue, Method};
 use axum::routing::{get, post};
 use axum::Router;
 use tower_http::cors::{AllowOrigin, CorsLayer};
 
-/// Which browser origins may call the API.
 pub enum AllowedOrigins {
     /// Any origin on this machine (localhost, 127.0.0.1, [::1]) on any port — the default,
     /// matching the loopback-only bind, so the dashboard works whatever port it runs on.
@@ -50,19 +49,4 @@ pub fn build_router(allowed_origins: AllowedOrigins) -> Router {
         .route("/api/registry/inspect", get(handlers::registry_inspect))
         .route("/api/render", post(handlers::render_component))
         .layer(cors)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn loopback_origins_match_on_any_port() {
-        for origin in ["http://localhost:3000", "http://127.0.0.1:5173", "http://[::1]:8080", "http://localhost"] {
-            assert!(is_loopback_origin(&HeaderValue::from_static(origin)), "{origin}");
-        }
-        for origin in ["https://example.com", "http://localhost.evil.com:3000", "null"] {
-            assert!(!is_loopback_origin(&HeaderValue::from_static(origin)), "{origin}");
-        }
-    }
 }

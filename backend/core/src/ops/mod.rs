@@ -1,9 +1,11 @@
-pub mod add;
-pub mod apply;
-pub mod error;
-pub mod init;
-pub mod manifest;
-pub mod setup;
+mod add;
+mod apply;
+mod error;
+mod fields;
+mod init;
+mod manifest;
+mod project;
+mod setup;
 
 pub use add::{
     add_component, render_component, AddOutcome, AddParams, RenderOutcome, RenderParams,
@@ -11,5 +13,6 @@ pub use add::{
 };
 pub use apply::{apply_bundle, ApplyOutcome, ApplyParams};
 pub use error::{OpsError, OpsErrorKind};
+pub use fields::CommonFields;
 pub use init::{init_project, InitOutcome, InitParams};
 pub use setup::{setup_project, SetupOutcome, SetupParams};

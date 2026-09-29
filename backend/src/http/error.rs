@@ -5,9 +5,9 @@ use kikx_core::ops::{OpsError, OpsErrorKind};
 use serde::Serialize;
 
 #[derive(Serialize)]
-pub struct ErrorDto {
-    pub code: String,
-    pub error: String,
+struct ErrorDto {
+    code: &'static str,
+    error: String,
 }
 
 pub struct ApiError(OpsError);
@@ -30,28 +30,10 @@ impl IntoResponse for ApiError {
                 (StatusCode::INTERNAL_SERVER_ERROR, "internal")
             }
         };
-        (
-            status,
-            Json(ErrorDto {
-                code: code.to_string(),
-                error: self.0.to_string(),
-            }),
-        )
-            .into_response()
-    }
-}
-
-pub struct BadRequest(pub String);
-
-impl IntoResponse for BadRequest {
-    fn into_response(self) -> Response {
-        (
-            StatusCode::BAD_REQUEST,
-            Json(ErrorDto {
-                code: "invalid_request".to_string(),
-                error: self.0,
-            }),
-        )
-            .into_response()
+        let body = ErrorDto {
+            code,
+            error: self.0.to_string(),
+        };
+        (status, Json(body)).into_response()
     }
 }

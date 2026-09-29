@@ -1,5 +1,5 @@
 pub mod cli;
-pub mod commands;
+mod commands;
 
 use cli::{Cli, Commands};
 

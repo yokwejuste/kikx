@@ -1,6 +1,6 @@
 use super::item::{FieldSpec, RegistryFile, RegistryItem};
 
-fn f(name: &str) -> FieldSpec {
+fn field(name: &str) -> FieldSpec {
     FieldSpec::new(name)
 }
 
@@ -49,18 +49,17 @@ const HETZNER_IMAGES: &[(&str, &str)] = &[
 
 fn server_fields(region: &str, size: &str, images: &[(&str, &str)]) -> Vec<FieldSpec> {
     vec![
-        f("region").required().example(region),
-        f("size").required().example(size),
-        f("os_image")
+        field("region").required().example(region),
+        field("size").required().example(size),
+        field("os_image")
             .required()
             .default_value(images[0].0)
             .options(images)
             .describe("Any image slug the provider accepts; the list is a shortcut."),
-        f("count").default_value("1"),
+        field("count").default_value("1"),
     ]
 }
 
-/// The built-in registry. Every default, example and choice a UI shows comes from here.
 pub fn all() -> Vec<RegistryItem> {
     vec![
         item(
@@ -69,9 +68,9 @@ pub fn all() -> Vec<RegistryItem> {
             "Deployment",
             "Pods running one container image.",
             vec![
-                f("image").required().example("nginx:1.27"),
-                f("replicas").default_value("1"),
-                f("port").default_value("80"),
+                field("image").required().example("nginx:1.27"),
+                field("replicas").default_value("1"),
+                field("port").default_value("80"),
             ],
             vec![file(
                 "{{ name }}-deployment.yaml",
@@ -84,8 +83,8 @@ pub fn all() -> Vec<RegistryItem> {
             "Service",
             "A stable address for pods.",
             vec![
-                f("port").default_value("80"),
-                f("target_port").describe("Container port; defaults to the service port."),
+                field("port").default_value("80"),
+                field("target_port").describe("Container port; defaults to the service port."),
             ],
             vec![file(
                 "{{ name }}-service.yaml",
@@ -98,10 +97,10 @@ pub fn all() -> Vec<RegistryItem> {
             "Ingress",
             "Routes HTTP traffic to a service.",
             vec![
-                f("host").example("app.example.com"),
-                f("path").default_value("/"),
-                f("service").describe("Backend service; defaults to the ingress name."),
-                f("port").default_value("80"),
+                field("host").example("app.example.com"),
+                field("path").default_value("/"),
+                field("service").describe("Backend service; defaults to the ingress name."),
+                field("port").default_value("80"),
             ],
             vec![file(
                 "{{ name }}-ingress.yaml",
@@ -136,8 +135,10 @@ pub fn all() -> Vec<RegistryItem> {
             "Kubernetes Bootstrap",
             "Installs containerd, kubelet, kubeadm and kubectl on target hosts.",
             vec![
-                f("hosts").required().describe("An inventory group, or all."),
-                f("k8s_version").required().example("1.31"),
+                field("hosts")
+                    .required()
+                    .describe("An inventory group, or all."),
+                field("k8s_version").required().example("1.31"),
             ],
             vec![file(
                 "{{ name }}-k8s-bootstrap.yml",
@@ -150,13 +151,13 @@ pub fn all() -> Vec<RegistryItem> {
             "Inventory",
             "Hosts, groups, nesting and shared vars for servers you already have.",
             vec![
-                f("hosts").required(),
-                f("default_user")
-                    .default_value("root")
-                    .describe("SSH user written for hosts that don't set one (null on a host omits it)."),
-                f("default_port")
-                    .default_value("22")
-                    .describe("SSH port written for hosts that don't set one (null on a host omits it)."),
+                field("hosts").required(),
+                field("default_user").default_value("root").describe(
+                    "SSH user written for hosts that don't set one (null on a host omits it).",
+                ),
+                field("default_port").default_value("22").describe(
+                    "SSH port written for hosts that don't set one (null on a host omits it).",
+                ),
             ],
             vec![file(
                 "{{ name }}-inventory.ini",
@@ -169,12 +170,13 @@ pub fn all() -> Vec<RegistryItem> {
             "Group vars",
             "Variables for one inventory group.",
             vec![
-                f("group").required(),
-                f("vars").describe("JSON map of simple key/value pairs."),
-                f("yaml").describe("Raw YAML body, written as-is."),
-                f("layout")
-                    .default_value("file")
-                    .options(&[("file", "group_vars/<group>.yml"), ("dir", "group_vars/<group>/main.yml")]),
+                field("group").required(),
+                field("vars").describe("JSON map of simple key/value pairs."),
+                field("yaml").describe("Raw YAML body, written as-is."),
+                field("layout").default_value("file").options(&[
+                    ("file", "group_vars/<group>.yml"),
+                    ("dir", "group_vars/<group>/main.yml"),
+                ]),
             ],
             vec![file(
                 "group_vars/{{ group }}{% if layout == \"dir\" %}/main{% endif %}.yml",
@@ -186,7 +188,7 @@ pub fn all() -> Vec<RegistryItem> {
             "common-role",
             "Common role",
             "A starter host-hygiene role: base packages, timezone, swap, a templated motd.",
-            vec![f("timezone").default_value("UTC")],
+            vec![field("timezone").default_value("UTC")],
             vec![
                 file(
                     "roles/{{ name }}/tasks/main.yml",
@@ -211,7 +213,7 @@ pub fn all() -> Vec<RegistryItem> {
             "role",
             "Role skeleton",
             "An empty role (tasks, defaults, handlers, meta) to fill in.",
-            vec![f("description").default_value("")],
+            vec![field("description").default_value("")],
             vec![
                 file(
                     "roles/{{ name }}/tasks/main.yml",
@@ -237,10 +239,12 @@ pub fn all() -> Vec<RegistryItem> {
             "Playbook",
             "One or more plays, each running roles on an inventory group.",
             vec![
-                f("hosts"),
-                f("roles"),
-                f("plays").describe("JSON list of plays: name, hosts, become, tags, roles, pre_tasks, post_tasks."),
-                f("folder")
+                field("hosts"),
+                field("roles"),
+                field("plays").describe(
+                    "JSON list of plays: name, hosts, become, tags, roles, pre_tasks, post_tasks.",
+                ),
+                field("folder")
                     .describe("Where the file goes. Leave empty for the project root.")
                     .example("playbooks"),
             ],
@@ -254,7 +258,7 @@ pub fn all() -> Vec<RegistryItem> {
             "site",
             "Site playbook",
             "The entry point that imports your playbooks in order.",
-            vec![f("playbooks").required()],
+            vec![field("playbooks").required()],
             vec![file(
                 "{{ name }}.yml",
                 include_str!("../../templates/ansible/site.yml.jinja"),

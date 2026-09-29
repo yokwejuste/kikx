@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-/// One allowed value for a field that has a fixed set of choices.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FieldOption {
     pub value: String,
@@ -8,8 +7,7 @@ pub struct FieldOption {
     pub label: String,
 }
 
-/// Everything a UI needs to render a field — defaults, examples and choices live here, in the
-/// registry, so neither the CLI nor the dashboard has to repeat them.
+/// The single source of a field's default, example and choices for every UI.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FieldSpec {
     pub name: String,

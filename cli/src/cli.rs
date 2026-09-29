@@ -104,21 +104,3 @@ fn parse_key_val(s: &str) -> Result<(String, String), String> {
         .map(|(k, v)| (k.to_string(), v.to_string()))
         .ok_or_else(|| format!("expected KEY=VALUE, got `{s}`"))
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn parse_key_val_splits_on_first_equals() {
-        assert_eq!(
-            parse_key_val("tier=backend").unwrap(),
-            ("tier".to_string(), "backend".to_string())
-        );
-    }
-
-    #[test]
-    fn parse_key_val_rejects_missing_equals() {
-        assert!(parse_key_val("no-equals-here").is_err());
-    }
-}

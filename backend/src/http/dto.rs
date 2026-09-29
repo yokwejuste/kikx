@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use kikx_core::ops::{RenderOutcome, RenderParams};
 use kikx_core::config;
+use kikx_core::ops::{CommonFields, RenderOutcome, RenderParams};
 use kikx_core::registry::{FieldSpec, RegistryItem};
 use serde::{Deserialize, Serialize};
 
@@ -46,7 +46,11 @@ impl From<FieldSpec> for FieldSpecDto {
                 .options
                 .into_iter()
                 .map(|o| FieldOptionDto {
-                    label: if o.label.is_empty() { o.value.clone() } else { o.label },
+                    label: if o.label.is_empty() {
+                        o.value.clone()
+                    } else {
+                        o.label
+                    },
                     value: o.value,
                 })
                 .collect(),
@@ -87,7 +91,6 @@ pub struct RegistryResponse {
     pub items: Vec<RegistryItemDto>,
 }
 
-/// Project defaults, so clients never have to repeat them.
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfigResponse {
@@ -118,14 +121,8 @@ pub struct LabelDto {
 pub struct RenderRequest {
     pub reference: String,
     pub name: String,
-    pub image: Option<String>,
-    pub replicas: Option<u32>,
-    pub port: Option<u16>,
-    pub target_port: Option<u16>,
-    pub namespace: Option<String>,
-    pub host: Option<String>,
-    pub path: Option<String>,
-    pub service: Option<String>,
+    #[serde(flatten)]
+    pub common: CommonFields,
     #[serde(default)]
     pub labels: Vec<LabelDto>,
     #[serde(default)]
@@ -136,38 +133,10 @@ pub struct RenderRequest {
 
 impl RenderRequest {
     pub fn into_params(self) -> RenderParams {
-        let mut fields: Vec<(String, String)> = Vec::new();
-        if let Some(image) = self.image {
-            fields.push(("image".to_string(), image));
-        }
-        // Only what the caller sent: unset fields fall back to the registry's own defaults.
-        if let Some(replicas) = self.replicas {
-            fields.push(("replicas".to_string(), replicas.to_string()));
-        }
-        if let Some(port) = self.port {
-            fields.push(("port".to_string(), port.to_string()));
-        }
-        if let Some(target_port) = self.target_port {
-            fields.push(("target_port".to_string(), target_port.to_string()));
-        }
-        if let Some(namespace) = self.namespace {
-            fields.push(("namespace".to_string(), namespace));
-        }
-        if let Some(host) = self.host {
-            fields.push(("host".to_string(), host));
-        }
-        if let Some(path) = self.path {
-            fields.push(("path".to_string(), path));
-        }
-        if let Some(service) = self.service {
-            fields.push(("service".to_string(), service));
-        }
-        fields.extend(self.fields);
-
         RenderParams {
             reference: self.reference,
             name: self.name,
-            fields,
+            fields: self.common.into_fields(self.fields),
             labels: self.labels.into_iter().map(|l| (l.key, l.value)).collect(),
             default_namespace: self.default_namespace,
         }
