@@ -88,11 +88,12 @@ async fn unknown_path_returns_a_json_not_found_by_default() {
 }
 
 #[tokio::test]
-async fn unknown_path_returns_the_not_found_page_to_browsers() {
-    let (status, _, content_type, html) =
+async fn unknown_path_returns_the_json_not_found_to_browsers_too() {
+    let (status, _, content_type, body) =
         get_with_accept("/doc", "text/html,application/xhtml+xml").await;
     assert_eq!(status, StatusCode::NOT_FOUND);
-    assert!(content_type.starts_with("text/html"));
-    assert!(html.contains("404"));
-    assert!(html.contains("href=\"/docs\""));
+    assert!(content_type.starts_with("application/json"));
+    let body: serde_json::Value = serde_json::from_str(&body).unwrap();
+    assert_eq!(body["code"], "not_found");
+    assert_eq!(body["error"], "no route for GET /doc");
 }
