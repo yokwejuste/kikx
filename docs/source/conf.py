@@ -2,8 +2,8 @@ from pygments.lexers.shell import BashLexer
 
 project = "kikx"
 html_title = "kikx"
-author = "kikx contributors"
-copyright = "kikx contributors"
+author = "Steve Yonkeu"
+copyright = "2026 Steve Yonkeu"
 
 extensions = ["myst_parser", "sphinx_design"]
 
