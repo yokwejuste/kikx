@@ -10,7 +10,7 @@
   "components": [
     {
       "reference": "terraform/hetzner",
-      "name": "edge",
+      "name": "lb",
       "fields": {
         "region": "fsn1",
         "size": "cx22",

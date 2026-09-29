@@ -70,6 +70,10 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
   const serviceIdByName = new Map<string, string>();
   const services: { id: string; selector: string }[] = [];
   const ingresses: { id: string; backend: string }[] = [];
+  const groupMembers = new Map<string, string[]>();
+  const inventories: { fileName: string; groups: string[]; children: Set<string> }[] = [];
+  const provisioners: { id: string; name: string }[] = [];
+  const configs: { id: string; inventory: string }[] = [];
 
   for (const component of components) {
     const { reference, name, fields, labels } = component.recipe;
@@ -78,6 +82,12 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
     if (reference === REFERENCES.inventory) {
       const entries = parseInventoryEntries(fields.hosts);
       const known = new Set(entries.map((e) => e.group));
+      inventories.push({
+        fileName: component.files[0]?.fileName ?? "",
+        groups: entries.map((e) => e.group),
+        children: new Set(entries.flatMap((e) => e.children ?? [])),
+      });
+      for (const entry of entries) groupMembers.set(entry.group, (entry.members ?? []).map((m) => m.name));
       for (const entry of entries) {
         const id = `${component.id}:${entry.group}`;
         const parts: string[] = [];
@@ -145,10 +155,16 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
     if (reference === REFERENCES.ansiblecfg) {
       addNode(component.id, lane, {
         label: "ansible.cfg",
-        description: t("nodes.rolesPath", { path: fields.roles_path || t("nodes.unset") }),
+        description: t("nodes.rolesPath", {
+          path:
+            fields.roles_path ||
+            /^roles_path\s*=\s*(\S+)/m.exec(component.files[0]?.content ?? "")?.[1] ||
+            t("nodes.unset"),
+        }),
         icon: Settings2,
         kind: "data",
       });
+      configs.push({ id: component.id, inventory: fields.inventory ?? "" });
       continue;
     }
 
@@ -170,6 +186,7 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
         icon: Cloud,
         kind: "process",
       });
+      provisioners.push({ id: component.id, name });
       continue;
     }
 
@@ -226,6 +243,36 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
   for (const { id, selector } of services) {
     const deploymentId = deploymentIdByApp.get(selector);
     if (deploymentId) addEdge(id, deploymentId, t("edges.selects"));
+  }
+
+  const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "_");
+  const groups = Array.from(groupNodeId.keys());
+  for (const { id, name } of provisioners) {
+    const key = normalize(name);
+    const byName = groups.filter((group) => normalize(group) === key);
+    const byHosts = groups.filter((group) =>
+      (groupMembers.get(group) ?? []).some((host) => host.toLowerCase().startsWith(`${name.toLowerCase()}-`)),
+    );
+    const word = new RegExp(`(^|_)${key}(_|$)`);
+    const byWord = groups.filter((group) => word.test(normalize(group)));
+    const matches = [byName, byHosts, byWord].find((candidates) => candidates.length > 0);
+    const targets = matches ? matches.map((group) => groupNodeId.get(group)) : rootGroups;
+    for (const groupId of targets) if (groupId) addEdge(id, groupId, t("edges.provisions"));
+  }
+  for (const { id, inventory } of configs) {
+    const wanted = inventory.split("/").pop();
+    const loaded = wanted
+      ? inventories.filter((candidate) => candidate.fileName.split("/").pop() === wanted)
+      : inventories.length === 1
+        ? inventories
+        : [];
+    for (const candidate of loaded) {
+      for (const group of candidate.groups) {
+        if (candidate.children.has(group)) continue;
+        const groupId = groupNodeId.get(group);
+        if (groupId) addEdge(id, groupId, t("edges.loads"), "structure");
+      }
+    }
   }
 
   const laneLabels = Object.fromEntries(LANES.map((lane) => [lane, t(`lanes.${lane}`)])) as Record<LaneId, string>;

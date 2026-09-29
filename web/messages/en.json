@@ -541,7 +541,9 @@
       "imports": "imports",
       "runs": "runs",
       "routesTo": "routes to",
-      "selects": "selects"
+      "selects": "selects",
+      "provisions": "provisions",
+      "loads": "loads"
     },
     "nodes": {
       "hosts": "{count, plural, one {# host} other {# hosts}}",
