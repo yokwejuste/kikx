@@ -1,4 +1,8 @@
 ---
+{% if yaml -%}
+{{ yaml | trim }}
+{% else -%}
 {% for key in vars -%}
 {{ key }}: {{ vars[key] }}
 {% endfor -%}
+{% endif -%}

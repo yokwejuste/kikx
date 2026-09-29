@@ -384,7 +384,7 @@ fn setup_with_non_url_reference_fails() {
         .args(["setup", "./not-a-url"])
         .assert()
         .failure()
-        .stderr(contains("isn't a URL"));
+        .stderr(contains("isn't a template name, a URL"));
 }
 
 #[test]
@@ -605,7 +605,7 @@ fn add_ansible_inventory_with_children_and_vars_groups() {
             "--name",
             "cluster",
             "--set",
-            r#"hosts=[{"group":"k8s_control_plane","members":[{"name":"cp-01","ansible_host":"10.0.0.1"}]},{"group":"k8s_workers","members":[{"name":"worker-01","ansible_host":"10.0.1.1"}]},{"group":"k8s","children":["k8s_control_plane","k8s_workers"]},{"group":"alafia","children":["k8s"],"vars":{"ansible_user":"alafia-admin"}}]"#,
+            r#"hosts=[{"group":"k8s_control_plane","members":[{"name":"cp-01","ansible_host":"10.0.0.1"}]},{"group":"k8s_workers","members":[{"name":"worker-01","ansible_host":"10.0.1.1"}]},{"group":"k8s","children":["k8s_control_plane","k8s_workers"]},{"group":"platform","children":["k8s"],"vars":{"ansible_user":"ops-admin"}}]"#,
         ])
         .assert()
         .success();
@@ -614,7 +614,32 @@ fn add_ansible_inventory_with_children_and_vars_groups() {
     assert!(text.contains("[k8s:children]"));
     assert!(text.contains("k8s_control_plane"));
     assert!(text.contains("k8s_workers"));
-    assert!(text.contains("[alafia:children]"));
-    assert!(text.contains("[alafia:vars]"));
-    assert!(text.contains("ansible_user=alafia-admin"));
+    assert!(text.contains("[platform:children]"));
+    assert!(text.contains("[platform:vars]"));
+    assert!(text.contains("ansible_user=ops-admin"));
+}
+
+#[test]
+fn presets_lists_the_built_in_templates() {
+    kikx()
+        .arg("presets")
+        .assert()
+        .success()
+        .stdout(contains("k8s-web-app"))
+        .stdout(contains("multi-tier-platform"));
+}
+
+#[test]
+fn setup_accepts_a_template_name() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["setup", "web-and-database"])
+        .assert()
+        .success();
+
+    let config = std::fs::read_to_string(tmp.path().join("kikx.toml")).unwrap();
+    assert!(config.contains("web-and-database"));
+    assert!(tmp.path().join("infra/ansible.cfg").exists());
+    assert!(tmp.path().join("infra/site.yml").exists());
 }

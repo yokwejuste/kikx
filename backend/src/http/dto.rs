@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 
-use kikx_core::ops::{RenderOutcome, RenderParams};
+use kikx_core::config;
+use kikx_core::ops::{CommonFields, RenderOutcome, RenderParams};
+use kikx_core::presets::PresetManifest;
 use kikx_core::registry::{FieldSpec, RegistryItem};
 use serde::{Deserialize, Serialize};
 
@@ -17,10 +19,20 @@ pub struct RegistryInspectQuery {
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct FieldOptionDto {
+    pub value: String,
+    pub label: String,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct FieldSpecDto {
     pub name: String,
     pub required: bool,
     pub default: Option<String>,
+    pub description: Option<String>,
+    pub example: Option<String>,
+    pub options: Vec<FieldOptionDto>,
 }
 
 impl From<FieldSpec> for FieldSpecDto {
@@ -29,6 +41,20 @@ impl From<FieldSpec> for FieldSpecDto {
             name: f.name,
             required: f.required,
             default: f.default,
+            description: f.description,
+            example: f.example,
+            options: f
+                .options
+                .into_iter()
+                .map(|o| FieldOptionDto {
+                    label: if o.label.is_empty() {
+                        o.value.clone()
+                    } else {
+                        o.label
+                    },
+                    value: o.value,
+                })
+                .collect(),
         }
     }
 }
@@ -40,17 +66,71 @@ pub struct RegistryItemDto {
     pub category: String,
     pub title: String,
     pub description: String,
+    pub reference: String,
     pub fields: Vec<FieldSpecDto>,
+    pub files: Vec<String>,
 }
 
 impl From<RegistryItem> for RegistryItemDto {
     fn from(item: RegistryItem) -> Self {
         Self {
+            reference: item.reference(),
             name: item.name,
             category: item.category,
             title: item.title,
             description: item.description,
             fields: item.fields.into_iter().map(FieldSpecDto::from).collect(),
+            files: item.files.into_iter().map(|f| f.path).collect(),
+        }
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RegistryResponse {
+    pub items: Vec<RegistryItemDto>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PresetSummaryDto {
+    pub name: String,
+    pub title: String,
+    pub description: String,
+    pub component_count: usize,
+}
+
+impl From<PresetManifest> for PresetSummaryDto {
+    fn from(manifest: PresetManifest) -> Self {
+        Self {
+            component_count: manifest.components.len(),
+            name: manifest.name,
+            title: manifest.title,
+            description: manifest.description,
+        }
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PresetsResponse {
+    pub presets: Vec<PresetSummaryDto>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ConfigResponse {
+    pub default_namespace: String,
+    pub default_output_dir: String,
+    pub default_project_name: String,
+}
+
+impl ConfigResponse {
+    pub fn current() -> Self {
+        Self {
+            default_namespace: config::DEFAULT_NAMESPACE.to_string(),
+            default_output_dir: config::DEFAULT_OUTPUT_DIR.to_string(),
+            default_project_name: config::DEFAULT_PROJECT_NAME.to_string(),
         }
     }
 }
@@ -67,68 +147,22 @@ pub struct LabelDto {
 pub struct RenderRequest {
     pub reference: String,
     pub name: String,
-    pub image: Option<String>,
-    #[serde(default = "default_replicas")]
-    pub replicas: u32,
-    #[serde(default = "default_port")]
-    pub port: u16,
-    pub target_port: Option<u16>,
-    pub namespace: Option<String>,
-    pub host: Option<String>,
-    #[serde(default = "default_path")]
-    pub path: String,
-    pub service: Option<String>,
+    #[serde(flatten)]
+    pub common: CommonFields,
     #[serde(default)]
     pub labels: Vec<LabelDto>,
     #[serde(default)]
     pub fields: HashMap<String, String>,
-    #[serde(default = "default_namespace")]
+    #[serde(default = "config::default_namespace")]
     pub default_namespace: String,
-}
-
-fn default_replicas() -> u32 {
-    1
-}
-
-fn default_port() -> u16 {
-    80
-}
-
-fn default_path() -> String {
-    "/".to_string()
-}
-
-fn default_namespace() -> String {
-    "default".to_string()
 }
 
 impl RenderRequest {
     pub fn into_params(self) -> RenderParams {
-        let mut fields: Vec<(String, String)> = Vec::new();
-        if let Some(image) = self.image {
-            fields.push(("image".to_string(), image));
-        }
-        fields.push(("replicas".to_string(), self.replicas.to_string()));
-        fields.push(("port".to_string(), self.port.to_string()));
-        if let Some(target_port) = self.target_port {
-            fields.push(("target_port".to_string(), target_port.to_string()));
-        }
-        if let Some(namespace) = self.namespace {
-            fields.push(("namespace".to_string(), namespace));
-        }
-        if let Some(host) = self.host {
-            fields.push(("host".to_string(), host));
-        }
-        fields.push(("path".to_string(), self.path));
-        if let Some(service) = self.service {
-            fields.push(("service".to_string(), service));
-        }
-        fields.extend(self.fields);
-
         RenderParams {
             reference: self.reference,
             name: self.name,
-            fields,
+            fields: self.common.into_fields(self.fields),
             labels: self.labels.into_iter().map(|l| (l.key, l.value)).collect(),
             default_namespace: self.default_namespace,
         }

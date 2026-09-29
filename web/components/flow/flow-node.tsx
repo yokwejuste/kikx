@@ -13,7 +13,7 @@ export interface FlowNodeData {
   active?: boolean;
 }
 
-function FlowNodeImpl({ data }: NodeProps) {
+export const FlowNode = memo(function FlowNode({ data }: NodeProps) {
   const { label, description, icon: Icon, kind, handles, active } = data as FlowNodeData;
 
   return (
@@ -40,6 +40,4 @@ function FlowNodeImpl({ data }: NodeProps) {
       {handles.source && <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />}
     </div>
   );
-}
-
-export const FlowNode = memo(FlowNodeImpl);
+});

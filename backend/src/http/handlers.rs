@@ -1,14 +1,15 @@
-use axum::extract::Query;
-use axum::http::StatusCode;
-use axum::response::{IntoResponse, Response};
+use anyhow::anyhow;
+use axum::extract::{Path, Query};
 use axum::Json;
-use kikx_core::ops;
+use kikx_core::ops::{self, OpsError, OpsErrorKind};
+use kikx_core::presets::{self, PresetManifest};
 use kikx_core::registry;
 
 use super::dto::{
-    ComponentsResponse, RegistryInspectQuery, RegistryItemDto, RenderRequest, RenderResponse,
+    ComponentsResponse, ConfigResponse, PresetsResponse, RegistryInspectQuery, RegistryItemDto,
+    RegistryResponse, RenderRequest, RenderResponse,
 };
-use super::error::{ApiError, ErrorDto};
+use super::error::ApiError;
 
 pub async fn health() -> &'static str {
     "ok"
@@ -23,33 +24,59 @@ pub async fn list_components() -> Json<ComponentsResponse> {
     })
 }
 
-pub async fn registry_inspect(Query(query): Query<RegistryInspectQuery>) -> Response {
-    match tokio::task::spawn_blocking(move || registry::resolve(&query.reference)).await {
-        Ok(Ok(item)) => (StatusCode::OK, Json(RegistryItemDto::from(item))).into_response(),
-        Ok(Err(e)) => super::error::BadRequest(e.to_string()).into_response(),
-        Err(join_err) => (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(ErrorDto {
-                code: "internal".to_string(),
-                error: join_err.to_string(),
-            }),
-        )
-            .into_response(),
-    }
+pub async fn registry() -> Json<RegistryResponse> {
+    Json(RegistryResponse {
+        items: registry::builtin::all()
+            .into_iter()
+            .map(RegistryItemDto::from)
+            .collect(),
+    })
 }
 
-pub async fn render_component(Json(body): Json<RenderRequest>) -> Response {
-    let params = body.into_params();
-    match tokio::task::spawn_blocking(move || ops::render_component(params)).await {
-        Ok(Ok(outcome)) => (StatusCode::OK, Json(RenderResponse::from(outcome))).into_response(),
-        Ok(Err(e)) => ApiError::from(e).into_response(),
-        Err(join_err) => (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(ErrorDto {
-                code: "internal".to_string(),
-                error: join_err.to_string(),
-            }),
+pub async fn config() -> Json<ConfigResponse> {
+    Json(ConfigResponse::current())
+}
+
+pub async fn presets() -> Json<PresetsResponse> {
+    Json(PresetsResponse {
+        presets: presets::templates().into_iter().map(Into::into).collect(),
+    })
+}
+
+pub async fn preset(Path(name): Path<String>) -> Result<Json<PresetManifest>, ApiError> {
+    presets::template(&name).map(Json).ok_or_else(|| {
+        OpsError::new(
+            OpsErrorKind::NotFound,
+            anyhow!("no preset template named `{name}`"),
         )
-            .into_response(),
-    }
+        .into()
+    })
+}
+
+pub async fn registry_inspect(
+    Query(query): Query<RegistryInspectQuery>,
+) -> Result<Json<RegistryItemDto>, ApiError> {
+    let item = run_blocking(move || {
+        registry::resolve(&query.reference)
+            .map_err(|e| OpsError::new(OpsErrorKind::InvalidComponent, e))
+    })
+    .await?;
+    Ok(Json(item.into()))
+}
+
+pub async fn render_component(
+    Json(body): Json<RenderRequest>,
+) -> Result<Json<RenderResponse>, ApiError> {
+    let params = body.into_params();
+    let outcome = run_blocking(move || ops::render_component(params)).await?;
+    Ok(Json(outcome.into()))
+}
+
+async fn run_blocking<T: Send + 'static>(
+    job: impl FnOnce() -> Result<T, OpsError> + Send + 'static,
+) -> Result<T, ApiError> {
+    tokio::task::spawn_blocking(job)
+        .await
+        .map_err(|e| OpsError::new(OpsErrorKind::Other, e))?
+        .map_err(ApiError::from)
 }

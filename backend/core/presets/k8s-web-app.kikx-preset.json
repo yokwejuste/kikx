@@ -1,0 +1,80 @@
+{
+  "name": "k8s-web-app",
+  "title": "Kubernetes web app",
+  "description": "A web frontend and an API behind ingresses, plus a background worker.",
+  "project": {
+    "name": "web-app",
+    "namespace": "web",
+    "outputDir": "k8s"
+  },
+  "components": [
+    {
+      "reference": "k8s/deployment",
+      "name": "frontend",
+      "fields": {
+        "image": "ghcr.io/example/frontend:1.0.0",
+        "replicas": "2",
+        "port": "3000"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "k8s/service",
+      "name": "frontend",
+      "fields": {
+        "port": "80",
+        "target_port": "3000"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "k8s/ingress",
+      "name": "frontend",
+      "fields": {
+        "host": "app.example.com",
+        "path": "/",
+        "port": "80"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "k8s/deployment",
+      "name": "api",
+      "fields": {
+        "image": "ghcr.io/example/api:1.0.0",
+        "replicas": "2",
+        "port": "8080"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "k8s/service",
+      "name": "api",
+      "fields": {
+        "port": "80",
+        "target_port": "8080"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "k8s/ingress",
+      "name": "api",
+      "fields": {
+        "host": "api.example.com",
+        "path": "/",
+        "port": "80"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "k8s/deployment",
+      "name": "worker",
+      "fields": {
+        "image": "ghcr.io/example/worker:1.0.0",
+        "replicas": "1",
+        "port": "9000"
+      },
+      "labels": {}
+    }
+  ]
+}

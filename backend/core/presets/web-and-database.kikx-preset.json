@@ -1,0 +1,123 @@
+{
+  "name": "web-and-database",
+  "title": "Web servers and a database",
+  "description": "Existing servers split into a web tier and a PostgreSQL primary with a replica.",
+  "project": {
+    "name": "web-and-database",
+    "namespace": "default",
+    "outputDir": "infra"
+  },
+  "components": [
+    {
+      "reference": "ansible/inventory",
+      "name": "app",
+      "fields": {
+        "hosts": "[{\"group\": \"web\", \"members\": [{\"name\": \"web-01\", \"ansible_host\": \"192.0.2.21\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"web-02\", \"ansible_host\": \"192.0.2.22\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"db_primary\", \"members\": [{\"name\": \"db-01\", \"ansible_host\": \"198.51.100.11\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"db_replicas\", \"members\": [{\"name\": \"db-02\", \"ansible_host\": \"198.51.100.12\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"db\", \"children\": [\"db_primary\", \"db_replicas\"]}, {\"group\": \"app\", \"children\": [\"web\", \"db\"], \"vars\": {\"ansible_user\": \"deploy\"}}]"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/config",
+      "name": "ansible",
+      "fields": {
+        "inventory": "app-inventory.ini"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/group-vars",
+      "name": "all/main",
+      "fields": {
+        "group": "all",
+        "yaml": "timezone: UTC\n",
+        "layout": "dir"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/group-vars",
+      "name": "web",
+      "fields": {
+        "group": "web",
+        "vars": "{\"nginx_worker_processes\": \"auto\"}"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/group-vars",
+      "name": "db",
+      "fields": {
+        "group": "db",
+        "yaml": "postgres_version: 16\npostgres_max_connections: 200\n"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/common-role",
+      "name": "common",
+      "fields": {
+        "timezone": "UTC"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/role",
+      "name": "nginx",
+      "fields": {
+        "description": ""
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/role",
+      "name": "postgres",
+      "fields": {
+        "description": ""
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/role",
+      "name": "pg_replication",
+      "fields": {
+        "description": ""
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/playbook",
+      "name": "bootstrap",
+      "fields": {
+        "plays": "[{\"name\": \"Baseline every host\", \"hosts\": \"app\", \"become\": true, \"tags\": [\"bootstrap\"], \"roles\": [\"common\"]}]",
+        "folder": "playbooks"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/playbook",
+      "name": "web",
+      "fields": {
+        "plays": "[{\"name\": \"Web tier\", \"hosts\": \"web\", \"become\": true, \"tags\": [\"web\"], \"roles\": [\"nginx\"]}]",
+        "folder": "playbooks"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/playbook",
+      "name": "db",
+      "fields": {
+        "plays": "[{\"name\": \"Database tier\", \"hosts\": \"db\", \"become\": true, \"tags\": [\"db\"], \"roles\": [\"postgres\", {\"role\": \"pg_replication\", \"when\": \"groups['db_replicas'] | length > 0\"}]}]",
+        "folder": "playbooks"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/site",
+      "name": "site",
+      "fields": {
+        "playbooks": "[{\"name\": \"Baseline\", \"path\": \"playbooks/bootstrap.yml\"}, {\"name\": \"Web tier\", \"path\": \"playbooks/web.yml\"}, {\"name\": \"Database tier\", \"path\": \"playbooks/db.yml\"}]"
+      },
+      "labels": {}
+    }
+  ]
+}

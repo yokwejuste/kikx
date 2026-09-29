@@ -1,0 +1,133 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import {
+  ReactFlow,
+  ReactFlowProvider,
+  Background,
+  BackgroundVariant,
+  Controls,
+  useNodesInitialized,
+  useReactFlow,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import { useTheme } from "next-themes";
+import { Download, LoaderCircle, Maximize2, Minimize2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/common/empty-state";
+import { DiagramNode } from "@/components/builder/diagram/diagram-node";
+import { LaneNode } from "@/components/builder/diagram/lane-node";
+import { RoutedEdge } from "@/components/builder/diagram/routed-edge";
+import { DiagramLegend } from "@/components/builder/diagram/diagram-legend";
+import { useArchitectureLayout } from "@/components/builder/diagram/use-architecture-layout";
+import { useDiagramElements } from "@/components/builder/diagram/use-diagram-elements";
+import { buildArchitectureGraph } from "@/lib/architecture/graph";
+import { downloadDrawio } from "@/lib/architecture/drawio";
+import { useProject, type AddedComponent } from "@/lib/project/context";
+import { cn } from "@/lib/utils";
+
+const nodeTypes = { diagram: DiagramNode, lane: LaneNode };
+const edgeTypes = { routed: RoutedEdge };
+
+function FitWhenReady({ layoutKey }: { layoutKey: string }) {
+  const initialized = useNodesInitialized();
+  const { fitView } = useReactFlow();
+  useEffect(() => {
+    if (initialized) fitView({ padding: 0.06, duration: 0 });
+  }, [initialized, fitView, layoutKey]);
+  return null;
+}
+
+export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent) => void }) {
+  const { resolvedTheme } = useTheme();
+  const { details, components } = useProject();
+  const graph = useMemo(() => buildArchitectureGraph(components), [components]);
+  const { layout, failed } = useArchitectureLayout(graph);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const { nodes, edges } = useDiagramElements(layout, hovered);
+
+  if (components.length === 0) {
+    return <EmptyState className="h-[560px]">Add a component to see the architecture start forming.</EmptyState>;
+  }
+
+  const layoutKey = layout
+    ? `${layout.nodes.length}:${layout.edges.length}:${layout.lanes.map((l) => Math.round(l.width)).join(",")}:${expanded}`
+    : "pending";
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <DiagramLegend />
+        <div className="flex gap-2">
+          <Button type="button" variant="outline" size="sm" onClick={() => setExpanded((e) => !e)}>
+            {expanded ? <Minimize2 /> : <Maximize2 />}
+            {expanded ? "Collapse" : "Expand"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={!layout}
+            onClick={() => layout && downloadDrawio(layout, `${details?.name || "kikx"}-architecture`)}
+          >
+            <Download />
+            Export to draw.io
+          </Button>
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          "relative overflow-hidden rounded-xl border bg-card transition-[height]",
+          expanded ? "h-[80vh]" : "h-[620px]",
+        )}
+      >
+        {!layout && !failed && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <LoaderCircle className="size-4 animate-spin" />
+            Arranging diagram…
+          </div>
+        )}
+        {failed && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center text-sm text-destructive">
+            Couldn&apos;t lay out this diagram.
+          </div>
+        )}
+        {layout && (
+          <ReactFlowProvider>
+            <ReactFlow
+              key={layoutKey}
+              nodes={nodes}
+              edges={edges}
+              nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
+              colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+              fitView
+              fitViewOptions={{ padding: 0.08 }}
+              minZoom={0.1}
+              proOptions={{ hideAttribution: true }}
+              nodesDraggable={false}
+              nodesConnectable={false}
+              elementsSelectable={false}
+              onNodeMouseEnter={(_, node) => node.type === "diagram" && setHovered(node.id)}
+              onNodeMouseLeave={() => setHovered(null)}
+              onNodeClick={(_, node) => {
+                const owner = components.find((c) => node.id === c.id || node.id.startsWith(`${c.id}:`));
+                if (owner) onOpen?.(owner);
+              }}
+            >
+              <FitWhenReady layoutKey={layoutKey} />
+              <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
+              <Controls showInteractive={false} />
+            </ReactFlow>
+          </ReactFlowProvider>
+        )}
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Laid out left to right in the order things happen. Hover a node to trace its connections, click it to edit.
+        Export to draw.io to keep refining the diagram by hand.
+      </p>
+    </div>
+  );
+}

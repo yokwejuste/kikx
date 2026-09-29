@@ -1,8 +1,42 @@
 ---
+{% if plays -%}
+{% for play in plays -%}
+{% if not loop.first %}
+{% endif -%}
+- name: {{ play.name or name }}
+  hosts: {{ play.hosts }}
+{%- if play.become is not defined or play.become %}
+  become: true
+{%- endif %}
+{%- if play.tags %}
+  tags: [{{ play.tags | join(", ") }}]
+{%- endif %}
+{%- if play.pre_tasks %}
+  pre_tasks:
+    {{ play.pre_tasks | trim | indent(4) }}
+{%- endif %}
+  roles:
+{% for role in play.roles -%}
+{% if role is mapping -%}
+{{ "    - role: " ~ role.role }}
+{% if role.when -%}
+{{ "      when: " ~ role.when }}
+{% endif -%}
+{% else -%}
+{{ "    - " ~ role }}
+{% endif -%}
+{% endfor -%}
+{% if play.post_tasks -%}
+{{ "  post_tasks:" }}
+    {{ play.post_tasks | trim | indent(4) }}
+{% endif -%}
+{% endfor -%}
+{% else -%}
 - name: {{ name }}
   hosts: {{ hosts }}
   become: true
   roles:
 {% for role in roles -%}
-    - {{ role }}
+{{ "    - " ~ role }}
 {% endfor -%}
+{% endif -%}

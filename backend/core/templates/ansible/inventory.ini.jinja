@@ -1,7 +1,7 @@
 {% for g in hosts -%}
 {% if g.members %}[{{ g.group }}]
 {% for h in g.members -%}
-{{ h.name }} ansible_host={{ h.ansible_host }} ansible_user={{ h.ansible_user | default("root") }} ansible_port={{ h.ansible_port | default(22) }}{% if h.ssh_key_file %} ansible_ssh_private_key_file={{ h.ssh_key_file }}{% endif %}
+{{ h.name }}{% if h.ansible_host %} ansible_host={{ h.ansible_host }}{% endif %}{% if h.ansible_user is not defined %}{% if default_user %} ansible_user={{ default_user }}{% endif %}{% elif h.ansible_user %} ansible_user={{ h.ansible_user }}{% endif %}{% if h.ansible_port is not defined %}{% if default_port %} ansible_port={{ default_port }}{% endif %}{% elif h.ansible_port %} ansible_port={{ h.ansible_port }}{% endif %}{% if h.ssh_key_file %} ansible_ssh_private_key_file={{ h.ssh_key_file }}{% endif %}{% if h.vars %}{% for key in h.vars %} {{ key }}={{ h.vars[key] }}{% endfor %}{% endif %}
 {% endfor %}
 {% endif -%}
 {% if g.children %}[{{ g.group }}:children]

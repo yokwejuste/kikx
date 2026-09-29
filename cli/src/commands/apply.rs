@@ -1,10 +1,10 @@
-use anyhow::{Context, Result};
+use anyhow::Result;
 use kikx_core::ops::{self, ApplyParams};
 
 use crate::cli::ApplyArgs;
 
 pub fn run(args: ApplyArgs) -> Result<()> {
-    let cwd = std::env::current_dir().context("failed to read current directory")?;
+    let cwd = super::current_dir()?;
 
     let outcome = ops::apply_bundle(
         &cwd,

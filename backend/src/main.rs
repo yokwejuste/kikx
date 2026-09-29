@@ -6,30 +6,54 @@ use kikx_backend::http;
 #[derive(Parser)]
 #[command(name = "kikx-backend", about = "Local HTTP API for the kikx dashboard")]
 struct Args {
-    #[arg(long, default_value_t = 4000)]
+    #[arg(
+        long,
+        env = "KIKX_PORT",
+        default_value_t = 4000,
+        help = "Port to listen on"
+    )]
     port: u16,
 
-    #[arg(long, default_value = "127.0.0.1")]
+    #[arg(
+        long,
+        env = "KIKX_BIND",
+        default_value = "127.0.0.1",
+        help = "Address to bind"
+    )]
     bind: String,
 
-    #[arg(long = "allow-origin")]
+    #[arg(
+        long = "allow-origin",
+        help = "Browser origins allowed to call the API (default: any loopback origin)",
+        env = "KIKX_ALLOWED_ORIGINS",
+        value_delimiter = ','
+    )]
     allow_origin: Vec<String>,
 }
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    dotenvy::dotenv().ok();
     let args = Args::parse();
 
-    let allowed_origins = if args.allow_origin.is_empty() {
-        http::default_allowed_origins()
+    let origins: Vec<&str> = args
+        .allow_origin
+        .iter()
+        .map(|origin| origin.trim())
+        .filter(|origin| !origin.is_empty())
+        .collect();
+    let allowed_origins = if origins.is_empty() {
+        http::AllowedOrigins::Loopback
     } else {
-        args.allow_origin
-            .iter()
-            .map(|origin| {
-                HeaderValue::from_str(origin)
-                    .with_context(|| format!("invalid --allow-origin value `{origin}`"))
-            })
-            .collect::<anyhow::Result<Vec<_>>>()?
+        http::AllowedOrigins::List(
+            origins
+                .into_iter()
+                .map(|origin| {
+                    HeaderValue::from_str(origin)
+                        .with_context(|| format!("invalid --allow-origin value `{origin}`"))
+                })
+                .collect::<anyhow::Result<Vec<_>>>()?,
+        )
     };
 
     let router = http::build_router(allowed_origins);

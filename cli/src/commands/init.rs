@@ -1,10 +1,10 @@
-use anyhow::{Context, Result};
+use anyhow::Result;
 use kikx_core::ops::{self, InitParams};
 
 use crate::cli::InitArgs;
 
 pub fn run(args: InitArgs) -> Result<()> {
-    let cwd = std::env::current_dir().context("failed to read current directory")?;
+    let cwd = super::current_dir()?;
     let outcome = ops::init_project(
         &cwd,
         InitParams {
@@ -16,7 +16,7 @@ pub fn run(args: InitArgs) -> Result<()> {
     )?;
 
     println!(
-        "Initialized kikx project `{}` — vendor components with `kikx add k8s/<component>`",
+        "Initialized kikx project `{}` — vendor components with `kikx add <category>/<component>` (see `kikx list`)",
         outcome.project_name
     );
     Ok(())

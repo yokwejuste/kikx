@@ -1,42 +1,8 @@
-use axum::body::Body;
-use axum::http::{header, Method, Request, StatusCode};
-use http_body_util::BodyExt;
+mod common;
+
+use axum::http::{Method, StatusCode};
+use common::{router, send};
 use serde_json::{json, Value};
-use tower::ServiceExt;
-
-fn router() -> axum::Router {
-    kikx_backend::http::build_router(kikx_backend::http::default_allowed_origins())
-}
-
-async fn send(
-    app: axum::Router,
-    method: Method,
-    uri: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let request = match body {
-        Some(b) => Request::builder()
-            .method(method)
-            .uri(uri)
-            .header(header::CONTENT_TYPE, "application/json")
-            .body(Body::from(serde_json::to_vec(&b).unwrap()))
-            .unwrap(),
-        None => Request::builder()
-            .method(method)
-            .uri(uri)
-            .body(Body::empty())
-            .unwrap(),
-    };
-    let response = app.oneshot(request).await.unwrap();
-    let status = response.status();
-    let bytes = response.into_body().collect().await.unwrap().to_bytes();
-    let value: Value = if bytes.is_empty() {
-        Value::Null
-    } else {
-        serde_json::from_slice(&bytes).unwrap_or(Value::Null)
-    };
-    (status, value)
-}
 
 fn file_content<'a>(files: &'a Value, path: &str) -> &'a str {
     files
@@ -73,7 +39,10 @@ async fn list_components_returns_all_builtins() {
             "ansible/inventory",
             "ansible/group-vars",
             "ansible/common-role",
+            "ansible/role",
             "ansible/playbook",
+            "ansible/site",
+            "ansible/config",
         ]
     );
 }
@@ -252,7 +221,7 @@ async fn render_ansible_inventory_with_children_and_vars_groups() {
             "fields": { "hosts": json!([
                 { "group": "k8s_control_plane", "members": [{ "name": "cp-01", "ansible_host": "10.0.0.1" }] },
                 { "group": "k8s", "children": ["k8s_control_plane"] },
-                { "group": "alafia", "children": ["k8s"], "vars": { "ansible_user": "alafia-admin" } },
+                { "group": "platform", "children": ["k8s"], "vars": { "ansible_user": "ops-admin" } },
             ]).to_string() },
         })),
     )
@@ -261,9 +230,9 @@ async fn render_ansible_inventory_with_children_and_vars_groups() {
     let rendered = file_content(&body["files"], "cluster-inventory.ini");
     assert!(rendered.contains("[k8s:children]"));
     assert!(rendered.contains("k8s_control_plane"));
-    assert!(rendered.contains("[alafia:children]"));
-    assert!(rendered.contains("[alafia:vars]"));
-    assert!(rendered.contains("ansible_user=alafia-admin"));
+    assert!(rendered.contains("[platform:children]"));
+    assert!(rendered.contains("[platform:vars]"));
+    assert!(rendered.contains("ansible_user=ops-admin"));
 }
 
 #[tokio::test]
@@ -375,4 +344,59 @@ async fn registry_inspect_from_local_file() {
 
 fn urlencoding_path(path: &str) -> String {
     path.replace('/', "%2F")
+}
+
+#[tokio::test]
+async fn registry_exposes_field_metadata_and_output_paths() {
+    let (status, body) = send(router(), Method::GET, "/api/registry", None).await;
+    assert_eq!(status, StatusCode::OK);
+    let items = body["items"].as_array().unwrap();
+    let hetzner = items
+        .iter()
+        .find(|i| i["reference"] == "terraform/hetzner")
+        .unwrap();
+    let os_image = hetzner["fields"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|f| f["name"] == "os_image")
+        .unwrap();
+    assert!(!os_image["options"].as_array().unwrap().is_empty());
+    assert_eq!(os_image["default"], os_image["options"][0]["value"]);
+    assert_eq!(hetzner["files"][0], "{{ name }}-hetzner.tf");
+}
+
+#[tokio::test]
+async fn config_exposes_project_defaults() {
+    let (status, body) = send(router(), Method::GET, "/api/config", None).await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(
+        body["defaultNamespace"],
+        kikx_core::config::DEFAULT_NAMESPACE
+    );
+    assert_eq!(
+        body["defaultOutputDir"],
+        kikx_core::config::DEFAULT_OUTPUT_DIR
+    );
+}
+
+#[tokio::test]
+async fn omitted_fields_fall_back_to_registry_defaults() {
+    let port_default = kikx_core::registry::builtin::lookup("k8s/service")
+        .unwrap()
+        .fields
+        .into_iter()
+        .find(|f| f.name == "port")
+        .and_then(|f| f.default)
+        .unwrap();
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({ "reference": "k8s/service", "name": "web" })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    let rendered = file_content(&body["files"], "web-service.yaml");
+    assert!(rendered.contains(&format!("port: {port_default}")));
 }

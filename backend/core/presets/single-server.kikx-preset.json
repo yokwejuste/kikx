@@ -1,0 +1,73 @@
+{
+  "name": "single-server",
+  "title": "Single server with Ansible",
+  "description": "One DigitalOcean droplet, configured by a common role through a site playbook.",
+  "project": {
+    "name": "single-server",
+    "namespace": "default",
+    "outputDir": "infra"
+  },
+  "components": [
+    {
+      "reference": "terraform/digitalocean",
+      "name": "app",
+      "fields": {
+        "region": "nyc3",
+        "size": "s-2vcpu-4gb",
+        "os_image": "ubuntu-24-04-x64",
+        "count": "1"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/inventory",
+      "name": "app",
+      "fields": {
+        "hosts": "[{\"group\": \"app\", \"members\": [{\"name\": \"app-01\", \"ansible_host\": \"192.0.2.10\", \"ansible_user\": null, \"ansible_port\": null}], \"vars\": {\"ansible_user\": \"deploy\"}}]"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/config",
+      "name": "ansible",
+      "fields": {
+        "inventory": "app-inventory.ini"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/group-vars",
+      "name": "app",
+      "fields": {
+        "group": "app",
+        "vars": "{\"app_port\": \"8080\"}"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/common-role",
+      "name": "common",
+      "fields": {
+        "timezone": "UTC"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/playbook",
+      "name": "bootstrap",
+      "fields": {
+        "plays": "[{\"name\": \"Baseline the server\", \"hosts\": \"app\", \"become\": true, \"tags\": [\"bootstrap\"], \"roles\": [\"common\"]}]",
+        "folder": "playbooks"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/site",
+      "name": "site",
+      "fields": {
+        "playbooks": "[{\"name\": \"Baseline\", \"path\": \"playbooks/bootstrap.yml\"}]"
+      },
+      "labels": {}
+    }
+  ]
+}

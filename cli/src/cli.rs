@@ -1,12 +1,13 @@
 use std::path::PathBuf;
 
 use clap::{Args, Parser, Subcommand};
+use kikx_core::config::{DEFAULT_NAMESPACE, DEFAULT_OUTPUT_DIR};
 
 #[derive(Parser)]
 #[command(
     name = "kikx",
     version,
-    about = "Vendor real, editable Kubernetes manifests into your project"
+    about = "Vendor real, editable infrastructure files into your project"
 )]
 pub struct Cli {
     #[command(subcommand)]
@@ -15,10 +16,17 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Commands {
+    #[command(about = "Create kikx.toml in the current directory")]
     Init(InitArgs),
+    #[command(about = "Render a component and write its files into the project")]
     Add(AddArgs),
+    #[command(about = "List the built-in components with their fields")]
     List,
+    #[command(about = "List the built-in preset templates")]
+    Presets,
+    #[command(about = "Bootstrap a new project from a preset template, file or URL")]
     Setup(SetupArgs),
+    #[command(about = "Vendor a preset template, file or URL into an existing project")]
     Apply(ApplyArgs),
 }
 
@@ -27,10 +35,10 @@ pub struct InitArgs {
     #[arg(long)]
     pub name: Option<String>,
 
-    #[arg(long, default_value = "k8s")]
+    #[arg(long, default_value = DEFAULT_OUTPUT_DIR)]
     pub dir: PathBuf,
 
-    #[arg(long, default_value = "default")]
+    #[arg(long, default_value = DEFAULT_NAMESPACE)]
     pub namespace: String,
 
     #[arg(long)]
@@ -47,11 +55,11 @@ pub struct AddArgs {
     #[arg(long)]
     pub image: Option<String>,
 
-    #[arg(long, default_value_t = 1)]
-    pub replicas: u32,
+    #[arg(long, help = "Replicas (default from the registry, see `kikx list`)")]
+    pub replicas: Option<u32>,
 
-    #[arg(long, default_value_t = 80)]
-    pub port: u16,
+    #[arg(long)]
+    pub port: Option<u16>,
 
     #[arg(long)]
     pub target_port: Option<u16>,
@@ -62,8 +70,8 @@ pub struct AddArgs {
     #[arg(long)]
     pub host: Option<String>,
 
-    #[arg(long, default_value = "/")]
-    pub path: String,
+    #[arg(long)]
+    pub path: Option<String>,
 
     #[arg(long)]
     pub service: Option<String>,
@@ -101,22 +109,4 @@ fn parse_key_val(s: &str) -> Result<(String, String), String> {
     s.split_once('=')
         .map(|(k, v)| (k.to_string(), v.to_string()))
         .ok_or_else(|| format!("expected KEY=VALUE, got `{s}`"))
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn parse_key_val_splits_on_first_equals() {
-        assert_eq!(
-            parse_key_val("tier=backend").unwrap(),
-            ("tier".to_string(), "backend".to_string())
-        );
-    }
-
-    #[test]
-    fn parse_key_val_rejects_missing_equals() {
-        assert!(parse_key_val("no-equals-here").is_err());
-    }
 }

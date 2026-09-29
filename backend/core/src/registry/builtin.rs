@@ -1,27 +1,7 @@
 use super::item::{FieldSpec, RegistryFile, RegistryItem};
 
 fn field(name: &str) -> FieldSpec {
-    FieldSpec {
-        name: name.to_string(),
-        required: false,
-        default: None,
-    }
-}
-
-fn required_field(name: &str) -> FieldSpec {
-    FieldSpec {
-        name: name.to_string(),
-        required: true,
-        default: None,
-    }
-}
-
-fn defaulted_field(name: &str, default: &str) -> FieldSpec {
-    FieldSpec {
-        name: name.to_string(),
-        required: false,
-        default: Some(default.to_string()),
-    }
+    FieldSpec::new(name)
 }
 
 fn file(path: &str, template: &str) -> RegistryFile {
@@ -31,124 +11,185 @@ fn file(path: &str, template: &str) -> RegistryFile {
     }
 }
 
+fn item(
+    category: &str,
+    name: &str,
+    title: &str,
+    description: &str,
+    fields: Vec<FieldSpec>,
+    files: Vec<RegistryFile>,
+) -> RegistryItem {
+    RegistryItem {
+        name: name.to_string(),
+        category: category.to_string(),
+        title: title.to_string(),
+        description: description.to_string(),
+        fields,
+        files,
+    }
+}
+
+const DIGITALOCEAN_IMAGES: &[(&str, &str)] = &[
+    ("ubuntu-24-04-x64", "Ubuntu 24.04"),
+    ("ubuntu-22-04-x64", "Ubuntu 22.04"),
+    ("debian-13-x64", "Debian 13"),
+    ("fedora-44-x64", "Fedora 44"),
+    ("rockylinux-9-x64", "Rocky Linux 9"),
+    ("almalinux-9-x64", "AlmaLinux 9"),
+];
+
+const HETZNER_IMAGES: &[(&str, &str)] = &[
+    ("ubuntu-24.04", "Ubuntu 24.04"),
+    ("ubuntu-22.04", "Ubuntu 22.04"),
+    ("debian-12", "Debian 12"),
+    ("fedora-44", "Fedora 44"),
+    ("rocky-9", "Rocky Linux 9"),
+    ("alma-9", "AlmaLinux 9"),
+];
+
+fn server_fields(region: &str, size: &str, images: &[(&str, &str)]) -> Vec<FieldSpec> {
+    vec![
+        field("region").required().example(region),
+        field("size").required().example(size),
+        field("os_image")
+            .required()
+            .default_value(images[0].0)
+            .options(images)
+            .describe("Any image slug the provider accepts; the list is a shortcut."),
+        field("count").default_value("1"),
+    ]
+}
+
 pub fn all() -> Vec<RegistryItem> {
     vec![
-        RegistryItem {
-            name: "deployment".to_string(),
-            category: "k8s".to_string(),
-            title: "Deployment".to_string(),
-            description: "A Kubernetes Deployment.".to_string(),
-            fields: vec![
-                required_field("image"),
-                defaulted_field("replicas", "1"),
-                defaulted_field("port", "80"),
+        item(
+            "k8s",
+            "deployment",
+            "Deployment",
+            "Pods running one container image.",
+            vec![
+                field("image").required().example("nginx:1.27"),
+                field("replicas").default_value("1"),
+                field("port").default_value("80"),
             ],
-            files: vec![file(
+            vec![file(
                 "{{ name }}-deployment.yaml",
                 include_str!("../../templates/k8s/deployment.yaml.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "service".to_string(),
-            category: "k8s".to_string(),
-            title: "Service".to_string(),
-            description: "A Kubernetes Service.".to_string(),
-            fields: vec![defaulted_field("port", "80"), field("target_port")],
-            files: vec![file(
+        ),
+        item(
+            "k8s",
+            "service",
+            "Service",
+            "A stable address for pods.",
+            vec![
+                field("port").default_value("80"),
+                field("target_port").describe("Container port; defaults to the service port."),
+            ],
+            vec![file(
                 "{{ name }}-service.yaml",
                 include_str!("../../templates/k8s/service.yaml.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "ingress".to_string(),
-            category: "k8s".to_string(),
-            title: "Ingress".to_string(),
-            description: "A Kubernetes Ingress.".to_string(),
-            fields: vec![
-                field("host"),
-                defaulted_field("path", "/"),
-                field("service"),
-                defaulted_field("port", "80"),
+        ),
+        item(
+            "k8s",
+            "ingress",
+            "Ingress",
+            "Routes HTTP traffic to a service.",
+            vec![
+                field("host").example("app.example.com"),
+                field("path").default_value("/"),
+                field("service").describe("Backend service; defaults to the ingress name."),
+                field("port").default_value("80"),
             ],
-            files: vec![file(
+            vec![file(
                 "{{ name }}-ingress.yaml",
                 include_str!("../../templates/k8s/ingress.yaml.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "digitalocean".to_string(),
-            category: "terraform".to_string(),
-            title: "DigitalOcean Droplet".to_string(),
-            description: "One or more DigitalOcean Droplets.".to_string(),
-            fields: vec![
-                required_field("region"),
-                required_field("size"),
-                required_field("os_image"),
-                defaulted_field("count", "1"),
-            ],
-            files: vec![file(
+        ),
+        item(
+            "terraform",
+            "digitalocean",
+            "DigitalOcean Droplet",
+            "Terraform for one or more DigitalOcean droplets.",
+            server_fields("nyc3", "s-2vcpu-4gb", DIGITALOCEAN_IMAGES),
+            vec![file(
                 "{{ name }}-digitalocean.tf",
                 include_str!("../../templates/terraform/digitalocean.tf.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "hetzner".to_string(),
-            category: "terraform".to_string(),
-            title: "Hetzner Cloud Server".to_string(),
-            description: "One or more Hetzner Cloud servers.".to_string(),
-            fields: vec![
-                required_field("region"),
-                required_field("size"),
-                required_field("os_image"),
-                defaulted_field("count", "1"),
-            ],
-            files: vec![file(
+        ),
+        item(
+            "terraform",
+            "hetzner",
+            "Hetzner Cloud Server",
+            "Terraform for one or more Hetzner Cloud servers.",
+            server_fields("fsn1", "cx22", HETZNER_IMAGES),
+            vec![file(
                 "{{ name }}-hetzner.tf",
                 include_str!("../../templates/terraform/hetzner.tf.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "k8s-bootstrap".to_string(),
-            category: "ansible".to_string(),
-            title: "Kubernetes Bootstrap Playbook".to_string(),
-            description: "Installs containerd, kubelet, kubeadm and kubectl on target hosts."
-                .to_string(),
-            fields: vec![required_field("hosts"), required_field("k8s_version")],
-            files: vec![file(
+        ),
+        item(
+            "ansible",
+            "k8s-bootstrap",
+            "Kubernetes Bootstrap",
+            "Installs containerd, kubelet, kubeadm and kubectl on target hosts.",
+            vec![
+                field("hosts")
+                    .required()
+                    .describe("An inventory group, or all."),
+                field("k8s_version").required().example("1.31"),
+            ],
+            vec![file(
                 "{{ name }}-k8s-bootstrap.yml",
                 include_str!("../../templates/ansible/k8s-bootstrap.yml.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "inventory".to_string(),
-            category: "ansible".to_string(),
-            title: "Ansible Inventory".to_string(),
-            description: "Connects a playbook to servers you already have — pair with ansible/k8s-bootstrap to configure them without provisioning anything.".to_string(),
-            fields: vec![required_field("hosts")],
-            files: vec![file(
+        ),
+        item(
+            "ansible",
+            "inventory",
+            "Inventory",
+            "Hosts, groups, nesting and shared vars for servers you already have.",
+            vec![
+                field("hosts").required(),
+                field("default_user").default_value("root").describe(
+                    "SSH user written for hosts that don't set one (null on a host omits it).",
+                ),
+                field("default_port").default_value("22").describe(
+                    "SSH port written for hosts that don't set one (null on a host omits it).",
+                ),
+            ],
+            vec![file(
                 "{{ name }}-inventory.ini",
                 include_str!("../../templates/ansible/inventory.ini.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "group-vars".to_string(),
-            category: "ansible".to_string(),
-            title: "Group Vars".to_string(),
-            description: "Shared variables for one Ansible inventory group (group_vars/<group>.yml)."
-                .to_string(),
-            fields: vec![required_field("group"), required_field("vars")],
-            files: vec![file(
-                "group_vars/{{ group }}.yml",
+        ),
+        item(
+            "ansible",
+            "group-vars",
+            "Group vars",
+            "Variables for one inventory group.",
+            vec![
+                field("group").required(),
+                field("vars").describe("JSON map of simple key/value pairs."),
+                field("yaml").describe("Raw YAML body, written as-is."),
+                field("layout").default_value("file").options(&[
+                    ("file", "group_vars/<group>.yml"),
+                    ("dir", "group_vars/<group>/main.yml"),
+                ]),
+            ],
+            vec![file(
+                "group_vars/{{ group }}{% if layout == \"dir\" %}/main{% endif %}.yml",
                 include_str!("../../templates/ansible/group-vars.yml.jinja"),
             )],
-        },
-        RegistryItem {
-            name: "common-role".to_string(),
-            category: "ansible".to_string(),
-            title: "Common Host-Hygiene Role".to_string(),
-            description: "A real, multi-file Ansible role — base packages, timezone, swap, a templated motd.".to_string(),
-            fields: vec![defaulted_field("timezone", "UTC")],
-            files: vec![
+        ),
+        item(
+            "ansible",
+            "common-role",
+            "Common role",
+            "A starter host-hygiene role: base packages, timezone, swap, a templated motd.",
+            vec![field("timezone").default_value("UTC")],
+            vec![
                 file(
                     "roles/{{ name }}/tasks/main.yml",
                     include_str!("../../templates/ansible/common-role/tasks/main.yml.jinja"),
@@ -166,19 +207,77 @@ pub fn all() -> Vec<RegistryItem> {
                     include_str!("../../templates/ansible/common-role/templates/motd.j2.jinja"),
                 ),
             ],
-        },
-        RegistryItem {
-            name: "playbook".to_string(),
-            category: "ansible".to_string(),
-            title: "Playbook".to_string(),
-            description: "Assigns roles to an Inventory group — the site.yml piece that ties roles to hosts."
-                .to_string(),
-            fields: vec![required_field("hosts"), required_field("roles")],
-            files: vec![file(
-                "{{ name }}.yml",
+        ),
+        item(
+            "ansible",
+            "role",
+            "Role skeleton",
+            "An empty role (tasks, defaults, handlers, meta) to fill in.",
+            vec![field("description").default_value("")],
+            vec![
+                file(
+                    "roles/{{ name }}/tasks/main.yml",
+                    include_str!("../../templates/ansible/role/tasks/main.yml.jinja"),
+                ),
+                file(
+                    "roles/{{ name }}/defaults/main.yml",
+                    include_str!("../../templates/ansible/role/defaults/main.yml.jinja"),
+                ),
+                file(
+                    "roles/{{ name }}/handlers/main.yml",
+                    include_str!("../../templates/ansible/role/handlers/main.yml.jinja"),
+                ),
+                file(
+                    "roles/{{ name }}/meta/main.yml",
+                    include_str!("../../templates/ansible/role/meta/main.yml.jinja"),
+                ),
+            ],
+        ),
+        item(
+            "ansible",
+            "playbook",
+            "Playbook",
+            "One or more plays, each running roles on an inventory group.",
+            vec![
+                field("hosts"),
+                field("roles"),
+                field("plays").describe(
+                    "JSON list of plays: name, hosts, become, tags, roles, pre_tasks, post_tasks.",
+                ),
+                field("folder")
+                    .describe("Where the file goes. Leave empty for the project root.")
+                    .example("playbooks"),
+            ],
+            vec![file(
+                "{% if folder %}{{ folder }}/{% endif %}{{ name }}.yml",
                 include_str!("../../templates/ansible/playbook.yml.jinja"),
             )],
-        },
+        ),
+        item(
+            "ansible",
+            "site",
+            "Site playbook",
+            "The entry point that imports your playbooks in order.",
+            vec![field("playbooks").required()],
+            vec![file(
+                "{{ name }}.yml",
+                include_str!("../../templates/ansible/site.yml.jinja"),
+            )],
+        ),
+        item(
+            "ansible",
+            "config",
+            "Ansible config",
+            "ansible.cfg pointing Ansible at your inventory and roles, so playbooks in subfolders find them.",
+            vec![
+                field("inventory").example("platform-inventory.ini"),
+                field("roles_path").default_value("roles"),
+            ],
+            vec![file(
+                "ansible.cfg",
+                include_str!("../../templates/ansible/ansible-cfg.jinja"),
+            )],
+        ),
     ]
 }
 

@@ -1,2 +1,6 @@
-.gstack/
 .DS_Store
+
+.claude/
+.gstack/
+CLAUDE.md
+AGENTS.md

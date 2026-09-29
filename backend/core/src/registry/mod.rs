@@ -1,6 +1,6 @@
 pub mod builtin;
-pub mod item;
-pub mod resolve;
+mod item;
+mod resolve;
 
-pub use item::{FieldSpec, RegistryFile, RegistryItem};
+pub use item::{FieldOption, FieldSpec, RegistryFile, RegistryItem};
 pub use resolve::resolve;
