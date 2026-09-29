@@ -48,10 +48,10 @@ NEXT_PUBLIC_KIKX_API_URL=http://localhost:4100
 
 Restart `npm run dev` after changing `web/.env.local`. Next.js reads `NEXT_PUBLIC_*` variables when it starts.
 
-Flags override the file for a single run:
+Environment variables override the file for a single run:
 
 ```bash
-cargo run -- --port 4100 --bind 127.0.0.1
+KIKX_PORT=4100 KIKX_BIND=127.0.0.1 cargo run
 ```
 
 ## Allow a non-local browser origin

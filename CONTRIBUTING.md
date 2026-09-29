@@ -70,7 +70,7 @@ is up. The CLI builds and runs on its own:
 
 ```bash
 cd cli
-cargo run -- --help
+cargo run
 ```
 
 ## Configuration
@@ -118,10 +118,10 @@ disk. Any other path returns `404` with
 ## Checks before a pull request
 
 ```bash
-cd cli && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
+cd cli && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
 
-cd backend && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
-cd backend/core && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
+cd backend && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
+cd backend/core && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
 
 cd web && npm install && npx tsc --noEmit && npm run lint && npm run build
 ```

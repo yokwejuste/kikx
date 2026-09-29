@@ -98,6 +98,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
           <ReactFlowProvider>
             <ReactFlow
               key={layoutKey}
+              className="kikx-flow"
               nodes={nodes}
               edges={edges}
               nodeTypes={nodeTypes}
@@ -119,7 +120,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
             >
               <FitWhenReady layoutKey={layoutKey} />
               <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
-              <Controls showInteractive={false} />
+              <Controls className="kikx-flow-panel" showInteractive={false} />
             </ReactFlow>
           </ReactFlowProvider>
         )}
