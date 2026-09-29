@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { DashboardHeader, type View } from "@/components/builder/dashboard-header";
 import { ComponentCatalog } from "@/components/builder/catalog/component-catalog";
@@ -13,7 +13,8 @@ import { ChecksPanel } from "@/components/builder/project/checks-panel";
 import type { IssueCounts } from "@/components/builder/project/severity";
 import { ProjectDiagram } from "@/components/builder/diagram/project-diagram";
 import { useProject, type AddedComponent } from "@/lib/project/context";
-import { describeComponent, type CatalogKind } from "@/lib/registry/catalog";
+import { CATALOG, describeComponent, type CatalogKind } from "@/lib/registry/catalog";
+import { loadBuilderState, saveBuilderState } from "@/lib/project/drafts";
 import { checkProject, issuesByComponent } from "@/lib/project/checks";
 import { toPresetComponent } from "@/lib/project/preset";
 import { defaultsFor, type FormValues } from "@/lib/forms/component-forms";
@@ -27,10 +28,21 @@ interface Selection {
   nonce: number;
 }
 
+const VIEWS: View[] = ["build", "diagram", "checks"];
+const KINDS = new Set<string>(CATALOG.flatMap((stage) => stage.entries.map((entry) => entry.kind)));
+
+function restoredBuilder(): { view: View; selection: Selection } {
+  const stored = loadBuilderState();
+  const view = VIEWS.find((candidate) => candidate === stored?.view) ?? "build";
+  const kind = stored && KINDS.has(stored.kind) ? (stored.kind as CatalogKind) : "inventory";
+  return { view, selection: { kind, editingId: stored?.editingId ?? null, nonce: 0 } };
+}
+
 export function Dashboard() {
   const { details, components, saveComponent } = useProject();
-  const [view, setView] = useState<View>("build");
-  const [selection, setSelection] = useState<Selection>({ kind: "inventory", editingId: null, nonce: 0 });
+  const [restored] = useState(restoredBuilder);
+  const [view, setView] = useState<View>(restored.view);
+  const [selection, setSelection] = useState<Selection>(restored.selection);
   const editorTop = useRef<HTMLDivElement>(null);
 
   const issues = useMemo(() => checkProject(components), [components]);
@@ -42,6 +54,10 @@ export function Dashboard() {
   }, [issues]);
   const context = useMemo(() => buildFormContext(components), [components]);
   useFirstVisitTour("builder", Boolean(details));
+
+  useEffect(() => {
+    saveBuilderState({ view, kind: selection.kind, editingId: selection.editingId });
+  }, [view, selection.kind, selection.editingId]);
 
   if (!details) return null;
 

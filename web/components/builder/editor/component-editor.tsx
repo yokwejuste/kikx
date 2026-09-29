@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { History } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { ComponentFormFields } from "@/components/builder/editor/component-form-fields";
 import type { FormContext } from "@/components/builder/editor/form-context";
 import { EditorHeader } from "@/components/builder/editor/editor-header";
@@ -14,6 +16,8 @@ import { firstError, hasDirtyField } from "@/components/builder/editor/form-stat
 import { toProjectFiles } from "@/components/builder/editor/project-files";
 import { useConflictGuard } from "@/components/builder/conflicts/use-conflict-guard";
 import { useRenderPreview } from "@/components/builder/editor/use-render-preview";
+import { useFormDraft } from "@/components/builder/editor/use-form-draft";
+import { draftKey } from "@/lib/project/drafts";
 import { api, ApiClientError } from "@/lib/api/client";
 import { describeComponent } from "@/lib/registry/catalog";
 import { componentId, useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
@@ -50,10 +54,12 @@ export function ComponentEditor({
   });
 
   const preview = useRenderPreview({ form, kind, namespace, initial });
+  const draft = useFormDraft({ form, draftKey: draftKey(kind, editing?.id ?? null), initial });
   const liveConflicts = preview.files ? findConflicts(preview.files, editing?.id) : [];
   const [saving, setSaving] = useState(false);
 
   const commit = (recipe: PresetComponent, files: ProjectFile[]) => {
+    draft.settle();
     const displaced = saveComponent(recipe, files, editing?.id);
     const { title } = describeComponent(recipe);
     toast.success(editing ? `Saved ${title}` : `Added ${title}`, {
@@ -99,6 +105,19 @@ export function ComponentEditor({
     >
       <EditorHeader kind={kind} editing={editing} previewFiles={preview.files} onStartNew={onStartNew} />
 
+      {draft.restoredAt !== null && (
+        <div className="flex flex-wrap items-center gap-2 border-b bg-muted/40 px-6 py-2.5 text-sm">
+          <History className="size-4 text-muted-foreground" />
+          <span>
+            Restored your unsaved draft from{" "}
+            {new Date(draft.restoredAt).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}.
+          </span>
+          <Button type="button" variant="ghost" size="sm" className="ml-auto" onClick={draft.discard}>
+            Discard draft
+          </Button>
+        </div>
+      )}
+
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -116,7 +135,7 @@ export function ComponentEditor({
         saving={saving}
         conflicts={liveConflicts}
         onSave={() => submit()}
-        onReset={() => form.reset(initial)}
+        onReset={draft.discard}
       />
 
       <div className="flex flex-col gap-3 border-t p-6">

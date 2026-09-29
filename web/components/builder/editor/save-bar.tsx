@@ -42,7 +42,11 @@ export function SaveBar({
           </Button>
         )}
         <span className="ml-auto hidden text-xs text-muted-foreground sm:inline">
-          {isEditing && !dirty ? "No unsaved changes" : "⌘/Ctrl + Enter to save"}
+          {isEditing && !dirty
+            ? "No unsaved changes"
+            : dirty
+              ? "Draft kept in this browser · ⌘/Ctrl + Enter to save"
+              : "⌘/Ctrl + Enter to save"}
         </span>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { PresetComponent } from "@/lib/project/preset";
 import { clearStoredProject, loadStoredProject, saveStoredProject } from "@/lib/project/storage";
+import { clearAllDrafts } from "@/lib/project/drafts";
 
 export interface ProjectDetails {
   name: string;
@@ -141,11 +142,13 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const loadProject = useCallback((nextDetails: ProjectDetails, nextComponents: AddedComponent[]) => {
+    clearAllDrafts();
     setDetails(nextDetails);
     setComponents(nextComponents);
   }, []);
 
   const reset = useCallback(() => {
+    clearAllDrafts();
     setDetails(null);
     setComponents([]);
     clearStoredProject();

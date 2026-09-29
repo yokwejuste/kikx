@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { FolderOpen, Sparkles, Waypoints } from "lucide-react";
+import { ArrowRight, FolderOpen, History, Sparkles, Waypoints } from "lucide-react";
+import { pluralize } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
@@ -40,7 +41,7 @@ export default function Home() {
 function HomeContent() {
   const defaults = projectDefaults();
   const router = useRouter();
-  const { setDetails, reset, loadProject } = useProject();
+  const { details, components, setDetails, reset, loadProject } = useProject();
   const [opening, setOpening] = useState<string | null>(null);
   useFirstVisitTour("home");
 
@@ -92,6 +93,25 @@ function HomeContent() {
             manifests, Terraform — straight into your project. No hidden dependency, just plain files you own.
           </p>
         </div>
+
+        {details && (
+          <Link
+            href="/build"
+            className="flex w-full items-center justify-between gap-4 rounded-xl border bg-card p-4 text-left text-sm shadow-sm hover:bg-muted/40"
+          >
+            <span className="flex items-center gap-3">
+              <History className="size-4 shrink-0 text-muted-foreground" />
+              <span>
+                <span className="font-medium">Continue {details.name}</span>
+                <span className="block text-muted-foreground">
+                  {pluralize(components.length, "component")} and any unsaved drafts are kept in this browser.
+                  Starting a new project below replaces them.
+                </span>
+              </span>
+            </span>
+            <ArrowRight className="size-4 shrink-0" />
+          </Link>
+        )}
 
         <div data-tour="cli" className="w-full overflow-hidden rounded-xl border bg-card text-left shadow-sm">
           <div className="flex items-center gap-1.5 border-b bg-muted/40 px-4 py-2.5">
