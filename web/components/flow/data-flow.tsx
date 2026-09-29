@@ -15,22 +15,29 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 import { Terminal, Globe, Cog, Layers, FileJson2, FileCode2 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FlowNode, type FlowNodeData } from "@/components/flow/flow-node";
 
 const nodeTypes = { flow: FlowNode };
 
-type NodeDef = { id: string; x: number; y: number; data: FlowNodeData };
+type NodeDef = {
+  id: string;
+  x: number;
+  y: number;
+  label?: string;
+  description?: string;
+  data: Omit<FlowNodeData, "label" | "description">;
+};
 
 const NODE_DEFS: NodeDef[] = [
   {
     id: "terminal",
     x: 0,
     y: 0,
+    description: "kikx init / kikx add …",
     data: {
-      label: "Terminal",
-      description: "kikx init / kikx add …",
       icon: Terminal,
       kind: "actor",
       handles: { source: true },
@@ -41,8 +48,6 @@ const NODE_DEFS: NodeDef[] = [
     x: 0,
     y: 200,
     data: {
-      label: "Browser",
-      description: "Dashboard form submit",
       icon: Globe,
       kind: "actor",
       handles: { source: true },
@@ -52,9 +57,8 @@ const NODE_DEFS: NodeDef[] = [
     id: "cli",
     x: 300,
     y: 0,
+    label: "kikx CLI",
     data: {
-      label: "kikx CLI",
-      description: "Parses flags, calls ops directly",
       icon: Terminal,
       kind: "process",
       handles: { target: true, source: true },
@@ -64,9 +68,8 @@ const NODE_DEFS: NodeDef[] = [
     id: "backend",
     x: 300,
     y: 200,
+    label: "kikx-backend",
     data: {
-      label: "kikx-backend",
-      description: "HTTP API, same ops underneath",
       icon: Globe,
       kind: "process",
       handles: { target: true, source: true },
@@ -76,9 +79,8 @@ const NODE_DEFS: NodeDef[] = [
     id: "core",
     x: 620,
     y: 100,
+    label: "kikx-core",
     data: {
-      label: "kikx-core",
-      description: "Shared engine: config, templates, ops",
       icon: Cog,
       kind: "process",
       handles: { target: true, source: true },
@@ -88,9 +90,8 @@ const NODE_DEFS: NodeDef[] = [
     id: "config",
     x: 940,
     y: 0,
+    label: "kikx.toml",
     data: {
-      label: "kikx.toml",
-      description: "Project name, namespace, output dir",
       icon: FileJson2,
       kind: "data",
       handles: { target: true },
@@ -100,9 +101,8 @@ const NODE_DEFS: NodeDef[] = [
     id: "manifests",
     x: 940,
     y: 200,
+    label: "k8s/*.yaml",
     data: {
-      label: "k8s/*.yaml",
-      description: "Rendered, vendored manifests",
       icon: FileCode2,
       kind: "data",
       handles: { target: true },
@@ -110,15 +110,15 @@ const NODE_DEFS: NodeDef[] = [
   },
 ];
 
-type EdgeDef = { id: string; source: string; target: string; label: string };
+type EdgeDef = { id: string; source: string; target: string; label?: string };
 
 const EDGE_DEFS: EdgeDef[] = [
-  { id: "terminal-cli", source: "terminal", target: "cli", label: "invoke" },
+  { id: "terminal-cli", source: "terminal", target: "cli" },
   { id: "browser-backend", source: "browser", target: "backend", label: "fetch /api/*" },
   { id: "cli-core", source: "cli", target: "core", label: "ops::*" },
   { id: "backend-core", source: "backend", target: "core", label: "ops::*" },
-  { id: "core-config", source: "core", target: "config", label: "write" },
-  { id: "core-manifests", source: "core", target: "manifests", label: "render + write" },
+  { id: "core-config", source: "core", target: "config" },
+  { id: "core-manifests", source: "core", target: "manifests" },
 ];
 
 const PATHS = {
@@ -129,6 +129,7 @@ const PATHS = {
 type PathKind = keyof typeof PATHS;
 
 export function DataFlow() {
+  const t = useTranslations("flow");
   const { resolvedTheme } = useTheme();
   const [selected, setSelected] = useState<PathKind>("cli");
 
@@ -150,10 +151,15 @@ export function DataFlow() {
         id: n.id,
         type: "flow",
         position: { x: n.x, y: n.y },
-        data: { ...n.data, active: activeNodeIds.has(n.id) },
+        data: {
+          ...n.data,
+          label: n.label ?? t(`nodes.${n.id}.label`),
+          description: n.description ?? t(`nodes.${n.id}.description`),
+          active: activeNodeIds.has(n.id),
+        },
         draggable: true,
       })),
-    [activeNodeIds],
+    [activeNodeIds, t],
   );
 
   const computedEdges: Edge[] = useMemo(
@@ -164,7 +170,7 @@ export function DataFlow() {
           id: e.id,
           source: e.source,
           target: e.target,
-          label: e.label,
+          label: e.label ?? t(`edges.${e.id}`),
           animated: active,
           labelStyle: { fill: "var(--muted-foreground)", fontSize: 11 },
           labelBgStyle: { fill: "var(--card)" },
@@ -174,7 +180,7 @@ export function DataFlow() {
           },
         };
       }),
-    [activeEdgeIds],
+    [activeEdgeIds, t],
   );
 
   const [nodes, setNodes, onNodesChange] = useNodesState(computedNodes);
@@ -192,15 +198,15 @@ export function DataFlow() {
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-lg font-semibold tracking-tight">Data flow</h1>
+          <h1 className="text-lg font-semibold tracking-tight">{t("title")}</h1>
           <p className="text-sm text-muted-foreground">
-            Pick how you&apos;d drive kikx — the path it actually takes lights up.
+            {t("body")}
           </p>
         </div>
         <Tabs value={selected} onValueChange={(v) => setSelected(v as PathKind)}>
           <TabsList>
-            <TabsTrigger value="cli">CLI</TabsTrigger>
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="cli">{t("tabs.cli")}</TabsTrigger>
+            <TabsTrigger value="dashboard">{t("tabs.dashboard")}</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -230,10 +236,10 @@ export function DataFlow() {
 
       <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5">
-          <Layers className="size-3.5" /> solid border = actor / process
+          <Layers className="size-3.5" /> {t("legend.solid")}
         </span>
         <span className="flex items-center gap-1.5">
-          <FileJson2 className="size-3.5" /> dashed border = data on disk
+          <FileJson2 className="size-3.5" /> {t("legend.dashed")}
         </span>
       </div>
     </div>

@@ -2,11 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import { Compass } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { TOUR_ROUTES } from "@/lib/tour/steps";
 import { useStartTour } from "@/lib/tour/use-tour";
 
 export function TourButton() {
+  const t = useTranslations("header");
   const tour = TOUR_ROUTES[usePathname()];
   const start = useStartTour(tour);
 
@@ -19,11 +21,11 @@ export function TourButton() {
       size="sm"
       data-tour="tour-button"
       className="gap-1.5 text-muted-foreground hover:text-foreground"
-      aria-label="Take the tour"
+      aria-label={t("tour")}
       onClick={start}
     >
       <Compass className="size-4" />
-      <span className="hidden sm:inline">Take the tour</span>
+      <span className="hidden md:inline">{t("tour")}</span>
     </Button>
   );
 }

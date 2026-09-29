@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 export function TagInput({
@@ -23,6 +24,7 @@ export function TagInput({
   className?: string;
   "aria-label"?: string;
 }) {
+  const t = useTranslations("fields");
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState(0);
@@ -87,7 +89,7 @@ export function TagInput({
             {item}
             <button
               type="button"
-              aria-label={`Remove ${item}`}
+              aria-label={t("removeItem", { item })}
               className="rounded-sm p-0.5 text-muted-foreground hover:bg-muted hover:text-foreground"
               onClick={(event) => {
                 event.stopPropagation();

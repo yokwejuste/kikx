@@ -233,3 +233,19 @@
 .kikx-tour .driver-popover-arrow-side-bottom.driver-popover-arrow {
   border-bottom-color: var(--popover);
 }
+
+@media (pointer: coarse) {
+  [data-slot="button"],
+  [data-slot="tabs-trigger"],
+  [data-slot="input"] {
+    min-height: 2.5rem;
+  }
+
+  [data-slot="button"]:has(> svg:only-child) {
+    min-width: 2.5rem;
+  }
+
+  [data-slot="tabs-list"] {
+    height: auto;
+  }
+}

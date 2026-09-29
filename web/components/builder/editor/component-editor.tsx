@@ -5,6 +5,9 @@ import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { History } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+import { useCatalogText } from "@/lib/i18n/use-catalog-text";
+import { useErrorText, useValidationText } from "@/lib/i18n/use-error-text";
 import { Button } from "@/components/ui/button";
 import { ComponentFormFields } from "@/components/builder/editor/component-form-fields";
 import type { FormContext } from "@/components/builder/editor/form-context";
@@ -18,8 +21,7 @@ import { useConflictGuard } from "@/components/builder/conflicts/use-conflict-gu
 import { useRenderPreview } from "@/components/builder/editor/use-render-preview";
 import { useFormDraft } from "@/components/builder/editor/use-form-draft";
 import { draftKey } from "@/lib/project/drafts";
-import { api, ApiClientError } from "@/lib/api/client";
-import { describeComponent } from "@/lib/registry/catalog";
+import { api } from "@/lib/api/client";
 import { componentId, useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
 import { defaultsFor, recipeToFormValues, schemas, toRenderRequest, type FormValues } from "@/lib/forms/component-forms";
 import { toPresetComponent, type PresetComponent } from "@/lib/project/preset";
@@ -39,6 +41,11 @@ export function ComponentEditor({
   onSaved: (id: string) => void;
   onStartNew: () => void;
 }) {
+  const t = useTranslations("editor");
+  const format = useFormatter();
+  const text = useCatalogText();
+  const errorText = useErrorText();
+  const validationText = useValidationText();
   const { details, saveComponent, findConflicts } = useProject();
   const namespace = details?.namespace ?? projectDefaults().defaultNamespace;
 
@@ -61,11 +68,11 @@ export function ComponentEditor({
   const commit = (recipe: PresetComponent, files: ProjectFile[]) => {
     draft.settle();
     const displaced = saveComponent(recipe, files, editing?.id);
-    const { title } = describeComponent(recipe);
-    toast.success(editing ? `Saved ${title}` : `Added ${title}`, {
+    const { title } = text.describe(recipe);
+    toast.success(editing ? t("toasts.saved", { title }) : t("toasts.added", { title }), {
       description: displaced.length
-        ? `Replaced ${displaced.length} other component${displaced.length > 1 ? "s" : ""}.`
-        : `${files.length} file${files.length === 1 ? "" : "s"} in the project.`,
+        ? t("toasts.replaced", { count: displaced.length })
+        : t("toasts.files", { count: files.length }),
     });
     onSaved(componentId(recipe));
   };
@@ -78,15 +85,15 @@ export function ComponentEditor({
         const data = await api.render(toRenderRequest(namespace, values));
         guard.save(toPresetComponent(namespace, values), toProjectFiles(data));
       } catch (error) {
-        toast.error(error instanceof ApiClientError ? error.message : "Failed to render component");
+        toast.error(errorText(error, "editor.toasts.renderFailed"));
       } finally {
         setSaving(false);
       }
     },
     (errors) => {
       const first = firstError(errors);
-      toast.error("Some fields need attention", {
-        description: first ? `${first.path}: ${first.message}` : "They're highlighted in the form.",
+      toast.error(t("toasts.attention"), {
+        description: first ? `${first.path}: ${validationText(first.message)}` : t("toasts.attentionHint"),
       });
     },
   );
@@ -109,11 +116,12 @@ export function ComponentEditor({
         <div className="flex flex-wrap items-center gap-2 border-b bg-muted/40 px-6 py-2.5 text-sm">
           <History className="size-4 text-muted-foreground" />
           <span>
-            Restored your unsaved draft from{" "}
-            {new Date(draft.restoredAt).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}.
+            {t("draft.restored", {
+              date: format.dateTime(new Date(draft.restoredAt), { dateStyle: "medium", timeStyle: "short" }),
+            })}
           </span>
           <Button type="button" variant="ghost" size="sm" className="ml-auto" onClick={draft.discard}>
-            Discard draft
+            {t("draft.discard")}
           </Button>
         </div>
       )}
@@ -140,8 +148,8 @@ export function ComponentEditor({
 
       <div className="flex flex-col gap-3 border-t p-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">Preview</h3>
-          <span className="text-xs text-muted-foreground">Updates as you type</span>
+          <h3 className="text-sm font-medium">{t("preview.title")}</h3>
+          <span className="text-xs text-muted-foreground">{t("preview.live")}</span>
         </div>
         <YamlPreview
           files={preview.rendered}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { EmptyProjectIllustration } from "@/components/illustrations/illustrations";
 import {
   Dialog,
@@ -16,7 +18,6 @@ import { FileContent } from "@/components/builder/preview/file-content";
 import { CATALOG, catalogStage, describeComponent } from "@/lib/registry/catalog";
 import { useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
 import type { ProjectIssue } from "@/lib/project/checks";
-import { pluralize } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function ProjectPanel({
@@ -32,6 +33,8 @@ export function ProjectPanel({
   onEdit: (component: AddedComponent) => void;
   onShowChecks: () => void;
 }) {
+  const t = useTranslations("project");
+  const text = useCatalogText();
   const { details, components } = useProject();
   const [viewing, setViewing] = useState<ProjectFile | null>(null);
   const fileCount = components.reduce((n, c) => n + c.files.length, 0);
@@ -45,9 +48,14 @@ export function ProjectPanel({
   return (
     <div className="flex flex-col rounded-xl border bg-card">
       <div className="border-b px-4 py-3">
-        <h2 className="text-sm font-medium">Project</h2>
+        <h2 className="text-sm font-medium">{t("title")}</h2>
         <p className="text-xs text-muted-foreground">
-          {pluralize(components.length, "component")} · {pluralize(fileCount, "file")} in <code className="font-mono">{details?.outputDir}/</code>
+          {t.rich("summary", {
+            components: components.length,
+            files: fileCount,
+            dir: `${details?.outputDir}/`,
+            code: (chunks) => <code className="font-mono">{chunks}</code>,
+          })}
         </p>
         {(issueCounts.error > 0 || issueCounts.warning > 0) && (
           <button
@@ -58,13 +66,13 @@ export function ProjectPanel({
             <AttentionIcon className={cn("size-3.5", issueCounts.error > 0 && SEVERITY.error.className)} />
             <span className="flex-1">
               {[
-                issueCounts.error && pluralize(issueCounts.error, "error"),
-                issueCounts.warning && pluralize(issueCounts.warning, "warning"),
+                issueCounts.error && t("errors", { count: issueCounts.error }),
+                issueCounts.warning && t("warnings", { count: issueCounts.warning }),
               ]
                 .filter(Boolean)
                 .join(" · ")}
             </span>
-            <span className="text-muted-foreground">Review</span>
+            <span className="text-muted-foreground">{t("review")}</span>
           </button>
         )}
       </div>
@@ -73,16 +81,14 @@ export function ProjectPanel({
         {components.length === 0 ? (
           <div className="flex flex-col items-center gap-3 px-2 py-6 text-center text-sm text-muted-foreground">
             <EmptyProjectIllustration className="h-16" />
-            <p>
-              Nothing yet. Most projects start with an <span className="font-medium text-foreground">Inventory</span>.
-            </p>
+            <p>{t.rich("empty", { strong: (chunks) => <span className="font-medium text-foreground">{chunks}</span> })}</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
             {byStage.map(({ stage, items }) => (
               <div key={stage.id}>
                 <p className="px-2 pb-1 text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">
-                  {stage.label}
+                  {text.stage(stage.id).label}
                 </p>
                 <ul className="flex flex-col gap-0.5">
                   {items.map((component) => (
@@ -112,7 +118,7 @@ export function ProjectPanel({
         <DialogContent className="sm:max-w-3xl">
           <DialogHeader>
             <DialogTitle className="font-mono text-sm">{viewing?.fileName}</DialogTitle>
-            <DialogDescription>Rendered by {viewing?.component}. Edit the component to change it.</DialogDescription>
+            <DialogDescription>{t("viewing", { component: viewing?.component ?? "" })}</DialogDescription>
           </DialogHeader>
           {viewing && <FileContent file={{ path: viewing.fileName, content: viewing.content }} />}
         </DialogContent>

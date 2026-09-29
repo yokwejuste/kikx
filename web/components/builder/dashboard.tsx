@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import { useErrorText } from "@/lib/i18n/use-error-text";
 import { DashboardHeader, type View } from "@/components/builder/dashboard-header";
 import { ComponentCatalog } from "@/components/builder/catalog/component-catalog";
 import { ComponentEditor } from "@/components/builder/editor/component-editor";
@@ -18,8 +20,7 @@ import { loadBuilderState, saveBuilderState } from "@/lib/project/drafts";
 import { checkProject, issuesByComponent } from "@/lib/project/checks";
 import { toPresetComponent } from "@/lib/project/preset";
 import { defaultsFor, type FormValues } from "@/lib/forms/component-forms";
-import { api, ApiClientError } from "@/lib/api/client";
-import { pluralize } from "@/lib/format";
+import { api } from "@/lib/api/client";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
 
 interface Selection {
@@ -39,6 +40,8 @@ function restoredBuilder(): { view: View; selection: Selection } {
 }
 
 export function Dashboard() {
+  const t = useTranslations("builder");
+  const errorText = useErrorText();
   const { details, components, saveComponent } = useProject();
   const [restored] = useState(restoredBuilder);
   const [view, setView] = useState<View>(restored.view);
@@ -80,11 +83,9 @@ export function Dashboard() {
         const rendered = await api.render({ ...recipe, labels: [], defaultNamespace: details.namespace });
         saveComponent(recipe, toProjectFiles(rendered));
       }
-      toast.success(`Scaffolded ${pluralize(roles.length, "role")}`, {
-        description: "Empty tasks/defaults/handlers/meta — open one to see its files.",
-      });
+      toast.success(t("scaffolded", { count: roles.length }), { description: t("scaffoldedDetail") });
     } catch (error) {
-      toast.error(error instanceof ApiClientError ? error.message : "Couldn't scaffold those roles");
+      toast.error(errorText(error, "builder.scaffoldFailed"));
     }
   };
 
@@ -103,8 +104,14 @@ export function Dashboard() {
         <ChecksPanel issues={issues} components={components} onOpen={openComponent} onScaffoldRoles={scaffoldRoles} />
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)_280px] lg:items-start" hidden={view !== "build"}>
-        <aside data-tour="catalog" className="lg:sticky lg:top-6">
+      <div
+        className="grid gap-6 md:grid-cols-[200px_minmax(0,1fr)] md:items-start xl:grid-cols-[200px_minmax(0,1fr)_280px]"
+        hidden={view !== "build"}
+      >
+        <aside
+          data-tour="catalog"
+          className="md:sticky md:top-6 md:row-span-2 md:max-h-[calc(100vh-3rem)] md:overflow-y-auto xl:row-span-1"
+        >
           <ComponentCatalog components={components} selected={selection.kind} onSelect={(kind) => select(kind)} />
         </aside>
 
@@ -113,8 +120,10 @@ export function Dashboard() {
             <div className="flex flex-col gap-3">
               {editing && (
                 <p className="rounded-lg border border-dashed p-3 text-sm text-muted-foreground">
-                  <span className="font-mono text-foreground">{editing.recipe.reference}</span> is a custom registry item —
-                  load it again below with the same name to re-render it.
+                  {t.rich("customNotice", {
+                    reference: editing.recipe.reference,
+                    code: (chunks) => <span className="font-mono text-foreground">{chunks}</span>,
+                  })}
                 </p>
               )}
               <CustomComponentPanel
@@ -134,7 +143,7 @@ export function Dashboard() {
           )}
         </div>
 
-        <aside data-tour="project" className="lg:sticky lg:top-6">
+        <aside data-tour="project" className="md:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1">
           <ProjectPanel
             activeId={editing?.id ?? null}
             issuesFor={issuesFor}

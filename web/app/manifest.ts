@@ -1,10 +1,12 @@
 import type { MetadataRoute } from "next";
+import { getTranslations } from "next-intl/server";
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const t = await getTranslations("metadata");
   return {
     name: "kikx",
     short_name: "kikx",
-    description: "Vendor real, editable infrastructure files into your project",
+    description: t("description"),
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

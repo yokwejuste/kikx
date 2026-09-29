@@ -28,7 +28,7 @@ export function Disclosure({
       >
         <ChevronRight className="size-3.5 transition-transform group-open/disclosure:rotate-90" />
         {title}
-        {hint && <span className={cn("text-muted-foreground/80", styles.hint)}>— {hint}</span>}
+        {hint && <span className={cn("text-muted-foreground/80", styles.hint)}>· {hint}</span>}
       </summary>
       {children}
     </details>

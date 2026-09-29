@@ -1,6 +1,8 @@
 "use client";
 
 import { useId } from "react";
+import { useTranslations } from "next-intl";
+import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import type { UseFormReturn } from "react-hook-form";
 import { FormField } from "@/components/builder/fields/form-field";
 import { Datalist } from "@/components/builder/fields/datalist";
@@ -16,13 +18,13 @@ import type { FormValues } from "@/lib/forms/component-forms";
 import { K8S_KINDS, REFERENCES, type ComponentKind } from "@/lib/registry/references";
 import { fieldExample, fieldSpec } from "@/lib/registry/store";
 
-function nameDescription(kind: ComponentKind): string | undefined {
-  if (kind === "inventory") return "Becomes <name>-inventory.ini.";
-  if (kind === "playbook") return "The file name, without .yml.";
-  if (kind === "commonrole" || kind === "role") return "Writes roles/<name>/ — use this name in a playbook.";
-  if (K8S_KINDS.has(kind)) {
-    return "Also the default app label, so a Deployment and Service with the same name find each other.";
-  }
+type Translate = ReturnType<typeof useTranslations<"fields">>;
+
+function nameDescription(kind: ComponentKind, t: Translate): string | undefined {
+  if (kind === "inventory") return t("nameHelp.inventory", { file: "<name>-inventory.ini" });
+  if (kind === "playbook") return t("nameHelp.playbook");
+  if (kind === "commonrole" || kind === "role") return t("nameHelp.role", { path: "roles/<name>/" });
+  if (K8S_KINDS.has(kind)) return t("nameHelp.k8s");
   return undefined;
 }
 
@@ -35,12 +37,14 @@ export function ComponentFormFields({
   form: UseFormReturn<FormValues>;
   context: FormContext;
 }) {
+  const t = useTranslations("fields");
+  const text = useCatalogText();
   const isK8s = K8S_KINDS.has(kind);
   const errors = form.formState.errors as FieldErrors;
   const reg = (field: string) => form.register(field as never);
   const ref = REFERENCES[kind];
   const example = (field: string) => fieldExample(ref, field);
-  const help = (field: string) => fieldSpec(ref, field)?.description ?? undefined;
+  const help = (field: string) => text.fieldHelp(kind, field, fieldSpec(ref, field)?.description);
   const hostsListId = useId();
   const servicesListId = useId();
 
@@ -50,15 +54,15 @@ export function ComponentFormFields({
     <>
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField
-          label="Name"
+          label={t("name")}
           registration={reg("name")}
           error={errors.name}
-          description={nameDescription(kind)}
+          description={nameDescription(kind, t)}
         />
 
         {kind === "playbook" && (
           <FormField
-            label="Folder"
+            label={t("folder")}
             registration={reg("folder")}
             error={errors.folder}
             placeholder={example("folder")}
@@ -67,7 +71,7 @@ export function ComponentFormFields({
         )}
         {kind === "role" && (
           <FormField
-            label="Description"
+            label={t("description")}
             registration={reg("description")}
             error={errors.description}
             description={help("description")}
@@ -76,28 +80,28 @@ export function ComponentFormFields({
         {kind === "ansiblecfg" && (
           <>
             <FormField
-              label="Inventory file"
+              label={t("inventoryFile")}
               registration={reg("inventory")}
               error={errors.inventory}
               placeholder={example("inventory")}
               description={help("inventory")}
             />
-            <FormField label="Roles path" registration={reg("rolesPath")} error={errors.rolesPath} />
+            <FormField label={t("rolesPath")} registration={reg("rolesPath")} error={errors.rolesPath} />
           </>
         )}
         {kind === "commonrole" && (
-          <FormField label="Timezone" registration={reg("timezone")} error={errors.timezone} description={help("timezone")} />
+          <FormField label={t("timezone")} registration={reg("timezone")} error={errors.timezone} description={help("timezone")} />
         )}
         {kind === "deployment" && (
-          <FormField label="Image" registration={reg("image")} error={errors.image} placeholder={example("image")} />
+          <FormField label={t("image")} registration={reg("image")} error={errors.image} placeholder={example("image")} />
         )}
         {kind === "ingress" && (
-          <FormField label="Host" registration={reg("host")} error={errors.host} placeholder={example("host")} />
+          <FormField label={t("host")} registration={reg("host")} error={errors.host} placeholder={example("host")} />
         )}
         {kind === "ansible" && (
           <>
             <FormField
-              label="Hosts"
+              label={t("hosts")}
               registration={reg("hosts")}
               error={errors.hosts}
               placeholder={context.groupNames[0] ?? "all"}
@@ -106,7 +110,7 @@ export function ComponentFormFields({
             />
             <Datalist id={hostsListId} options={["all", ...context.groupNames]} />
             <FormField
-              label="Kubernetes version"
+              label={t("k8sVersion")}
               registration={reg("k8sVersion")}
               error={errors.k8sVersion}
               placeholder={example("k8s_version")}
@@ -114,14 +118,14 @@ export function ComponentFormFields({
           </>
         )}
         {isK8s && (
-          <FormField label="Port" type="number" min={1} max={65535} registration={reg("port")} error={errors.port} />
+          <FormField label={t("port")} type="number" min={1} max={65535} registration={reg("port")} error={errors.port} />
         )}
         {kind === "deployment" && (
-          <FormField label="Replicas" type="number" min={1} registration={reg("replicas")} error={errors.replicas} />
+          <FormField label={t("replicas")} type="number" min={1} registration={reg("replicas")} error={errors.replicas} />
         )}
         {kind === "service" && (
           <FormField
-            label="Target port"
+            label={t("targetPort")}
             type="number"
             min={1}
             max={65535}
@@ -132,9 +136,9 @@ export function ComponentFormFields({
         )}
         {kind === "ingress" && (
           <>
-            <FormField label="Path" registration={reg("path")} error={errors.path} />
+            <FormField label={t("path")} registration={reg("path")} error={errors.path} />
             <FormField
-              label="Backend service"
+              label={t("backendService")}
               registration={reg("service")}
               error={errors.service}
               description={help("service")}
@@ -148,15 +152,15 @@ export function ComponentFormFields({
         )}
         {isK8s && (
           <FormField
-            label="Namespace"
+            label={t("namespace")}
             registration={reg("namespace")}
             error={errors.namespace}
-            placeholder="project default"
+            placeholder={t("namespacePlaceholder")}
           />
         )}
       </div>
 
-      {isK8s && <KeyValueFields form={form} name="labels" label="Labels" addLabel="Add label" />}
+      {isK8s && <KeyValueFields form={form} name="labels" label={t("labels")} addLabel={t("addLabel")} />}
       {kind === "inventory" && <InventoryFields form={form} externalGroupNames={context.groupNames} />}
       {kind === "playbook" && (
         <PlaysFields form={form} groupNames={context.groupNames} roleSuggestions={context.roleSuggestions} />

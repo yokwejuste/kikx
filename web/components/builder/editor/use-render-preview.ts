@@ -5,7 +5,8 @@ import { useWatch, type UseFormReturn } from "react-hook-form";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { toProjectFiles } from "@/components/builder/editor/project-files";
 import type { PreviewStatus } from "@/components/builder/preview/yaml-preview";
-import { api, ApiClientError } from "@/lib/api/client";
+import { api } from "@/lib/api/client";
+import { useErrorText } from "@/lib/i18n/use-error-text";
 import { schemas, toRenderRequest, type FormValues } from "@/lib/forms/component-forms";
 import type { ComponentKind } from "@/lib/registry/references";
 
@@ -50,8 +51,8 @@ export function useRenderPreview({
       : preview.isError
         ? "error"
         : "ready";
-  const error =
-    preview.error instanceof ApiClientError ? preview.error.message : preview.error ? "Render failed" : undefined;
+  const errorText = useErrorText();
+  const error = preview.error ? errorText(preview.error, "preview.renderFailed") : undefined;
 
   return {
     rendered: preview.data?.files ?? null,

@@ -1,4 +1,5 @@
 import type { InventoryGroupValues, InventoryHostValues } from "@/lib/forms/schemas";
+import type { LocalizedMessage } from "@/lib/i18n/localized-error";
 import { parseJson } from "@/lib/json";
 import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
@@ -164,13 +165,13 @@ export function entriesToFormValues(
 export interface ParsedInventory {
   hosts: InventoryHostValues[];
   groups: InventoryGroupValues[];
-  warnings: string[];
+  warnings: LocalizedMessage[];
 }
 
 export function parseInventoryIni(text: string): ParsedInventory {
   const hosts = new Map<string, InventoryHostValues>();
   const groups = new Map<string, InventoryGroupValues>();
-  const warnings: string[] = [];
+  const warnings: LocalizedMessage[] = [];
   const groupFor = (name: string) => {
     if (!groups.has(name)) groups.set(name, { name, children: [], vars: "" });
     return groups.get(name)!;
@@ -189,7 +190,7 @@ export function parseInventoryIni(text: string): ParsedInventory {
       return;
     }
     if (!section) {
-      warnings.push(`Line ${index + 1}: "${line}" is outside any [group] section — skipped.`);
+      warnings.push({ key: "inventory.import.warnings.outside", values: { line: index + 1, text: line } });
       return;
     }
 
@@ -214,7 +215,10 @@ export function parseInventoryIni(text: string): ParsedInventory {
 
     const keep = (field: string, existing: string | undefined, value: string) => {
       if (existing && existing !== value) {
-        warnings.push(`${hostName}: ${field} is "${existing}" in one group but "${value}" in [${current.group}] — kept the first.`);
+        warnings.push({
+          key: "inventory.import.warnings.conflict",
+          values: { host: hostName, field, existing, value, group: current.group },
+        });
         return existing;
       }
       return existing || value;
@@ -232,7 +236,7 @@ export function parseInventoryIni(text: string): ParsedInventory {
 
   for (const host of hosts.values()) {
     if (!host.ansibleHost) {
-      warnings.push(`${host.name} has no ansible_host — Ansible will try to resolve the name itself.`);
+      warnings.push({ key: "inventory.import.warnings.noAddress", values: { host: host.name } });
     }
   }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useFieldArray, useWatch, type UseFormReturn } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FieldError } from "@/components/ui/field";
@@ -18,6 +19,7 @@ export function SiteFields({
   form: UseFormReturn<FormValues>;
   availablePlaybooks: SiteImportValues[];
 }) {
+  const t = useTranslations("site");
   const imports = useFieldArray({ control: form.control, name: "imports" as never });
   const values = (useWatch({ control: form.control, name: "imports" as never }) ?? []) as SiteImportValues[];
   const errors = form.formState.errors as unknown as { imports?: ListErrors<SiteImportValues> };
@@ -27,13 +29,8 @@ export function SiteFields({
   return (
     <section className="flex flex-col gap-3">
       <SectionHeader
-        title="Imports, in run order"
-        description={
-          <>
-            <code className="font-mono">ansible-playbook site.yml</code> runs these top to bottom. Pick playbooks from
-            this project, or type the path of one that already lives in your repo.
-          </>
-        }
+        title={t("title")}
+        description={t.rich("body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
       />
 
       {imports.fields.length > 0 && (
@@ -45,14 +42,14 @@ export function SiteFields({
                 <div className="grid items-center gap-2 sm:grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_auto]">
                   <span className="text-center text-xs text-muted-foreground">{index + 1}</span>
                   <Input
-                    placeholder="what this step does"
-                    aria-label="Import name"
+                    placeholder={t("namePlaceholder")}
+                    aria-label={t("nameLabel")}
                     aria-invalid={!!rowErrors?.name}
                     {...form.register(`imports.${index}.name` as never)}
                   />
                   <Input
-                    placeholder="path to a playbook"
-                    aria-label="Playbook path"
+                    placeholder={t("pathPlaceholder")}
+                    aria-label={t("pathLabel")}
                     aria-invalid={!!rowErrors?.path}
                     className="font-mono"
                     {...form.register(`imports.${index}.path` as never)}
@@ -60,7 +57,7 @@ export function SiteFields({
                   <RowActions
                     index={index}
                     count={imports.fields.length}
-                    labels={{ up: "Move up", down: "Move down", remove: "Remove import" }}
+                    labels={{ up: t("moveUp"), down: t("moveDown"), remove: t("remove") }}
                     onMove={imports.move}
                     onRemove={() => imports.remove(index)}
                   />
@@ -74,15 +71,15 @@ export function SiteFields({
       <FieldError errors={[errors.imports]} />
 
       <AddWithSuggestions
-        addLabel="Add path"
+        addLabel={t("addPath")}
         onAdd={() => imports.append({ name: "", path: "" })}
-        suggestionsLabel="from this project:"
+        suggestionsLabel={t("fromProject")}
         suggestions={notImported.map((p) => p.path)}
         onPick={(path) => imports.append(notImported.find((p) => p.path === path)!)}
       >
         {notImported.length > 1 && (
           <Button type="button" variant="link" size="sm" onClick={() => imports.append(notImported)}>
-            Add all
+            {t("addAll")}
           </Button>
         )}
       </AddWithSuggestions>

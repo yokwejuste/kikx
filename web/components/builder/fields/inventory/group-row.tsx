@@ -1,6 +1,7 @@
 "use client";
 
 import type { UseFormReturn } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FieldError } from "@/components/ui/field";
@@ -10,10 +11,6 @@ import type { RowErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { InventoryGroupValues } from "@/lib/forms/schemas";
 
-function membership(members: number, group: InventoryGroupValues | undefined): string {
-  if (members > 0) return `${members} host${members === 1 ? "" : "s"}`;
-  return group?.children?.length ? "parent group" : "no hosts yet";
-}
 
 export function GroupRow({
   form,
@@ -32,34 +29,37 @@ export function GroupRow({
   knownGroups: string[];
   onRemove: () => void;
 }) {
+  const t = useTranslations("inventory.group");
+  const membership = members > 0 ? t("members", { count: members }) : group?.children?.length ? t("parent") : t("empty");
+
   return (
     <div className="grid gap-2 rounded-lg border p-2 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_minmax(0,1.2fr)_2rem]">
       <div className="flex flex-col gap-1">
         <Input
-          placeholder="group name"
-          aria-label="Group name"
+          placeholder={t("namePlaceholder")}
+          aria-label={t("nameLabel")}
           aria-invalid={!!errors?.name}
           className="font-mono"
           {...form.register(`groups.${index}.name` as never)}
         />
-        <span className="px-1 text-xs text-muted-foreground">{membership(members, group)}</span>
+        <span className="px-1 text-xs text-muted-foreground">{membership}</span>
       </div>
       <TagInputField
         form={form}
         name={`groups.${index}.children`}
-        aria-label="Child groups"
+        aria-label={t("childrenLabel")}
         suggestions={knownGroups.filter((g) => g !== group?.name)}
-        placeholder="children (optional)"
+        placeholder={t("childrenPlaceholder")}
         invalid={!!errors?.children}
       />
       <Textarea
-        placeholder={"vars, one per line\nkey=value"}
-        aria-label="Group vars"
+        placeholder={t("varsPlaceholder")}
+        aria-label={t("varsLabel")}
         rows={1}
         className="min-h-8 font-mono text-xs"
         {...form.register(`groups.${index}.vars` as never)}
       />
-      <RemoveButton aria-label="Remove group" onClick={onRemove} />
+      <RemoveButton aria-label={t("remove")} onClick={onRemove} />
       <FieldError className="text-xs sm:col-span-4" errors={[errors?.name, errors?.children]} />
     </div>
   );

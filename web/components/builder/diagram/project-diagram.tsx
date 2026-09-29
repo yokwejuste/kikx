@@ -12,6 +12,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 import { Download, LoaderCircle, Maximize2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
@@ -41,8 +42,9 @@ function FitWhenReady({ layoutKey }: { layoutKey: string }) {
 
 export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent) => void }) {
   const { resolvedTheme } = useTheme();
+  const t = useTranslations("diagram");
   const { details, components } = useProject();
-  const graph = useMemo(() => buildArchitectureGraph(components), [components]);
+  const graph = useMemo(() => buildArchitectureGraph(components, t), [components, t]);
   const { layout, failed } = useArchitectureLayout(graph);
   const [hovered, setHovered] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -52,7 +54,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
     return (
       <EmptyState className="h-[560px] gap-4">
         <DiagramIllustration className="h-28" />
-        Add a component to see the architecture start forming.
+        {t("empty")}
       </EmptyState>
     );
   }
@@ -68,7 +70,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
         <div className="flex gap-2">
           <Button type="button" variant="outline" size="sm" onClick={() => setExpanded((e) => !e)}>
             {expanded ? <Minimize2 /> : <Maximize2 />}
-            {expanded ? "Collapse" : "Expand"}
+            {expanded ? t("collapse") : t("expand")}
           </Button>
           <Button
             type="button"
@@ -78,7 +80,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
             onClick={() => layout && downloadDrawio(layout, `${details?.name || "kikx"}-architecture`)}
           >
             <Download />
-            Export to draw.io
+            {t("export")}
           </Button>
         </div>
       </div>
@@ -92,12 +94,12 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
         {!layout && !failed && (
           <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <LoaderCircle className="size-4 animate-spin" />
-            Arranging diagram…
+            {t("arranging")}
           </div>
         )}
         {failed && (
           <div className="absolute inset-0 z-10 flex items-center justify-center text-sm text-destructive">
-            Couldn&apos;t lay out this diagram.
+            {t("failed")}
           </div>
         )}
         {layout && (
@@ -132,8 +134,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
         )}
       </div>
       <p className="text-xs text-muted-foreground">
-        Laid out left to right in the order things happen. Hover a node to trace its connections, click it to edit.
-        Export to draw.io to keep refining the diagram by hand.
+        {t("hint")}
       </p>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { PreviewIllustration } from "@/components/illustrations/illustrations";
 import { FileWarning, LoaderCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { FileContent } from "@/components/builder/preview/file-content";
 import type { RenderedFile } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ export function YamlPreview({
   error?: string;
   conflictPaths?: Set<string>;
 }) {
+  const t = useTranslations("preview");
   const [active, setActive] = useState(0);
 
   if (!files || files.length === 0) {
@@ -28,14 +30,14 @@ export function YamlPreview({
         {status === "loading" ? (
           <>
             <LoaderCircle className="size-4 animate-spin" />
-            Rendering…
+            {t("rendering")}
           </>
         ) : status === "error" ? (
-          <span className="text-destructive">{error ?? "Couldn't render this component."}</span>
+          <span className="text-destructive">{error ?? t("failed")}</span>
         ) : (
           <>
             <PreviewIllustration className="h-14" />
-            <span>The preview appears as soon as the required fields are filled in.</span>
+            <span>{t("waiting")}</span>
           </>
         )}
       </div>
@@ -67,9 +69,9 @@ export function YamlPreview({
         </div>
       )}
       <FileContent file={current} />
-      {status === "error" && error && <p className="text-xs text-destructive">{error} — showing the last good render.</p>}
+      {status === "error" && error && <p className="text-xs text-destructive">{t("lastGood", { error })}</p>}
       {status === "invalid" && (
-        <p className="text-xs text-muted-foreground">Some fields are incomplete — showing the last valid render.</p>
+        <p className="text-xs text-muted-foreground">{t("invalid")}</p>
       )}
     </div>
   );

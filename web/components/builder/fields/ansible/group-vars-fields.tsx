@@ -3,6 +3,7 @@
 import { useId } from "react";
 import { useWatch, type UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -23,7 +24,7 @@ function varsToYaml(vars: KeyValue[]): string {
 }
 
 function yamlToVars(yaml: string): KeyValue[] | null {
-  const lines = yaml.split("\n").filter((l) => l.trim() && !l.trim().startsWith("#") && l.trim() !== "---");
+  const lines = yaml.split("\n").filter((l) => l.trim() && !l.trim().startsWith("#") && !/^-{3}$/.test(l.trim()));
   if (!lines.every((l) => /^[A-Za-z_][\w-]*:\s*\S/.test(l))) return null;
   return lines.map((l) => {
     const idx = l.indexOf(":");
@@ -32,6 +33,7 @@ function yamlToVars(yaml: string): KeyValue[] | null {
 }
 
 export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<FormValues>; groupNames: string[] }) {
+  const t = useTranslations("groupVars");
   const listId = useId();
   const errors = form.formState.errors as FieldErrors;
   const mode = ((useWatch({ control: form.control, name: "mode" as never }) as unknown as Mode | undefined) ?? "fields");
@@ -47,7 +49,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
     if (next === "fields" && values.yaml?.trim()) {
       const vars = yamlToVars(values.yaml);
       if (!vars) {
-        toast.info("This YAML has nested values — keep editing it as YAML so nothing is lost.");
+        toast.info(t("nested"));
         return;
       }
       form.setValue("vars" as never, vars as never);
@@ -58,7 +60,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
   return (
     <>
       <Field data-invalid={!!errors.group} className="max-w-sm">
-        <FieldLabel>Group</FieldLabel>
+        <FieldLabel>{t("group")}</FieldLabel>
         <Input
           list={listId}
           placeholder={groupNames[0] ?? "all"}
@@ -68,12 +70,11 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
         />
         <Datalist id={listId} options={["all", ...groupNames]} />
         <p className="text-xs text-muted-foreground">
-          Writes{" "}
-          <code className="font-mono">
-            group_vars/{group || "<group>"}
-            {layout === "dir" ? "/main" : ""}.yml
-          </code>
-          {groupNames.length === 0 && " — add an Inventory to pick from its groups."}
+          {t.rich("writes", {
+            path: `group_vars/${group || "<group>"}${layout === "dir" ? "/main" : ""}.yml`,
+            code: (chunks) => <code className="font-mono">{chunks}</code>,
+          })}
+          {groupNames.length === 0 && ` ${t("noInventory")}`}
         </p>
         <label className="flex items-center gap-2 text-sm">
           <input
@@ -84,15 +85,18 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
               form.setValue("layout" as never, (e.target.checked ? "dir" : "file") as never, { shouldDirty: true })
             }
           />
-          Folder layout (<code className="font-mono text-xs">group_vars/{group || "<group>"}/main.yml</code>)
+          {t.rich("folderLayout", {
+            path: `group_vars/${group || "<group>"}/main.yml`,
+            code: (chunks) => <code className="font-mono text-xs">{chunks}</code>,
+          })}
         </label>
         <FieldError errors={[errors.group]} />
       </Field>
 
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-sm font-medium">Variables</span>
-          <div role="radiogroup" aria-label="Editing mode" className="inline-flex rounded-lg bg-muted p-0.5 text-xs">
+          <span className="text-sm font-medium">{t("variables")}</span>
+          <div role="radiogroup" aria-label={t("mode")} className="inline-flex rounded-lg bg-muted p-0.5 text-xs">
             {(["fields", "yaml"] as const).map((m) => (
               <button
                 key={m}
@@ -105,7 +109,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
                   mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                {m === "fields" ? "Key / value" : "YAML"}
+                {t(`modes.${m}`)}
               </button>
             ))}
           </div>
@@ -115,10 +119,9 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
           <KeyValueFields
             form={form}
             name="vars"
-            label="Simple values"
-            addLabel="Add variable"
-            keyPlaceholder="key (e.g. app_port)"
-            valuePlaceholder="value"
+            label={t("simple")}
+            addLabel={t("addVar")}
+            keyPlaceholder={t("keyPlaceholder")}
           />
         ) : (
           <Field data-invalid={!!errors.yaml}>
@@ -130,7 +133,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
               {...form.register("yaml" as never)}
             />
             <p className="text-xs text-muted-foreground">
-              Paste lists, maps, anything YAML — it&apos;s written as-is. Ideal for copying an existing group_vars file.
+              {t("yamlHelp")}
             </p>
             <FieldError errors={[errors.yaml]} />
           </Field>

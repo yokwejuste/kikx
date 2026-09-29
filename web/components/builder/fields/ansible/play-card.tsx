@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, type UseFormReturn } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FieldError } from "@/components/ui/field";
@@ -37,19 +38,16 @@ function countConditions(play: PlayValues | undefined): number {
 }
 
 function RoleConditions({ form, index, play }: { form: UseFormReturn<FormValues>; index: number; play: PlayValues | undefined }) {
+  const t = useTranslations("plays.conditions");
   return (
     <Disclosure
       variant="dashed"
-      title={
-        <>
-          Role conditions (<code className="font-mono">when:</code>)
-        </>
-      }
-      hint={`${countConditions(play)} of ${play?.roles?.length ?? 0} set`}
+      title={t.rich("title", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
+      hint={t("hint", { set: countConditions(play), total: play?.roles?.length ?? 0 })}
     >
       <div className="flex flex-col gap-2 px-2.5 pb-2.5">
         {!play?.roles?.length ? (
-          <p className="text-xs text-muted-foreground">Add roles above first.</p>
+          <p className="text-xs text-muted-foreground">{t("empty")}</p>
         ) : (
           <Controller
             control={form.control}
@@ -63,7 +61,7 @@ function RoleConditions({ form, index, play }: { form: UseFormReturn<FormValues>
                       <span className="truncate font-mono text-foreground">{role}</span>
                       <Input
                         value={conditions[role] ?? ""}
-                        placeholder="always runs — or a Jinja condition"
+                        placeholder={t("placeholder")}
                         className="font-mono text-xs"
                         onChange={(e) => field.onChange({ ...conditions, [role]: e.target.value })}
                       />
@@ -80,12 +78,13 @@ function RoleConditions({ form, index, play }: { form: UseFormReturn<FormValues>
 }
 
 function PrePostTasks({ form, index, play }: { form: UseFormReturn<FormValues>; index: number; play: PlayValues | undefined }) {
-  const summary = [play?.preTasks?.trim() && "pre", play?.postTasks?.trim() && "post"].filter(Boolean).join(" + ");
+  const t = useTranslations("plays.tasks");
+  const summary = [play?.preTasks?.trim() && t("pre"), play?.postTasks?.trim() && t("post")].filter(Boolean).join(" + ");
   return (
-    <Disclosure variant="dashed" title={<>Pre-tasks &amp; post-tasks</>} hint={summary || "none"}>
+    <Disclosure variant="dashed" title={t("title")} hint={summary || t("none")}>
       <div className="grid gap-2 px-2.5 pb-2.5 sm:grid-cols-2">
         {(["preTasks", "postTasks"] as const).map((key) => (
-          <Captioned key={key} caption={key === "preTasks" ? "Before the roles" : "After the roles"}>
+          <Captioned key={key} caption={key === "preTasks" ? t("before") : t("after")}>
             <Textarea
               spellCheck={false}
               placeholder={"- name: …\n  ansible.builtin.debug:\n    msg: …"}
@@ -95,8 +94,7 @@ function PrePostTasks({ form, index, play }: { form: UseFormReturn<FormValues>; 
           </Captioned>
         ))}
         <p className="text-xs text-muted-foreground sm:col-span-2">
-          A YAML list of tasks, written as-is under <code className="font-mono">pre_tasks:</code> /{" "}
-          <code className="font-mono">post_tasks:</code>.
+          {t.rich("help", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
         </p>
       </div>
     </Disclosure>
@@ -128,19 +126,19 @@ export function PlayCard({
   onMove: (from: number, to: number) => void;
   onRemove: () => void;
 }) {
+  const t = useTranslations("plays");
   const register = (field: keyof PlayValues) => form.register(`plays.${index}.${field}` as never);
 
   return (
     <li className="flex flex-col gap-3 rounded-lg border p-3">
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-medium text-muted-foreground">
-          Play {index + 1}
-          {play?.hosts ? ` · runs on ${play.hosts}` : ""}
+          {play?.hosts ? t("headingOn", { number: index + 1, hosts: play.hosts }) : t("heading", { number: index + 1 })}
         </span>
         <RowActions
           index={index}
           count={count}
-          labels={{ up: "Move play up", down: "Move play down", remove: "Remove play" }}
+          labels={{ up: t("moveUp"), down: t("moveDown"), remove: t("remove") }}
           canRemove={count > 1}
           onMove={onMove}
           onRemove={onRemove}
@@ -148,15 +146,15 @@ export function PlayCard({
       </div>
 
       <div className="grid gap-2 sm:grid-cols-2">
-        <Captioned caption="Name">
+        <Captioned caption={t("name")}>
           <Input
-            placeholder={playbookName ? `e.g. ${playbookName}` : "What this play does"}
+            placeholder={playbookName ? t("namePlaceholder", { name: playbookName }) : t("nameFallback")}
             aria-invalid={!!errors?.name}
             className="text-foreground"
             {...register("name")}
           />
         </Captioned>
-        <Captioned caption="Runs on (hosts)">
+        <Captioned caption={t("hosts")}>
           <Input
             list={hostsListId}
             placeholder={defaultHosts}
@@ -167,14 +165,14 @@ export function PlayCard({
         </Captioned>
       </div>
 
-      <Captioned as="div" caption="Roles, in the order they run">
+      <Captioned as="div" caption={t("roles")}>
         <TagInputField
           form={form}
           name={`plays.${index}.roles`}
-          aria-label="Roles"
+          aria-label={t("rolesLabel")}
           ordered
           suggestions={roleSuggestions}
-          placeholder="role names, in run order"
+          placeholder={t("rolesPlaceholder")}
           invalid={!!errors?.roles}
         />
       </Captioned>
@@ -183,12 +181,12 @@ export function PlayCard({
       <PrePostTasks form={form} index={index} play={play} />
 
       <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-end">
-        <Captioned as="div" caption="Tags (optional)">
-          <TagInputField form={form} name={`plays.${index}.tags`} aria-label="Tags" placeholder="tag names" />
+        <Captioned as="div" caption={t("tags")}>
+          <TagInputField form={form} name={`plays.${index}.tags`} aria-label={t("tagsLabel")} placeholder={t("tagsPlaceholder")} />
         </Captioned>
         <label className="flex h-8 items-center gap-2 text-sm">
           <input type="checkbox" className="size-4 rounded border-input accent-primary" {...register("become")} />
-          Run as root (become)
+          {t("become")}
         </label>
       </div>
 

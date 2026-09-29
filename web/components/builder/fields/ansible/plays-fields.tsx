@@ -3,6 +3,7 @@
 import { useId } from "react";
 import { useFieldArray, useWatch, type UseFormReturn } from "react-hook-form";
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
 import { Datalist } from "@/components/builder/fields/datalist";
@@ -21,6 +22,7 @@ export function PlaysFields({
   groupNames: string[];
   roleSuggestions: string[];
 }) {
+  const t = useTranslations("plays");
   const plays = useFieldArray({ control: form.control, name: "plays" as never });
   const values = (useWatch({ control: form.control, name: "plays" as never }) ?? []) as PlayValues[];
   const playbookName = useWatch({ control: form.control, name: "name" as never }) as unknown as string;
@@ -30,8 +32,8 @@ export function PlaysFields({
   return (
     <section className="flex flex-col gap-3">
       <SectionHeader
-        title="Plays"
-        description="Each play runs its roles, in order, on one inventory group. Most playbooks need one; add more to run different roles on different groups from the same file."
+        title={t("title")}
+        description={t("body")}
       />
 
       <Datalist id={hostsListId} options={["all", ...groupNames]} />
@@ -58,7 +60,7 @@ export function PlaysFields({
 
       <Button type="button" variant="outline" size="sm" className="w-fit" onClick={() => plays.append(emptyPlay())}>
         <Plus />
-        Add play
+        {t("add")}
       </Button>
     </section>
   );

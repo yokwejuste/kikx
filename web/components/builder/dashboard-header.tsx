@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Download } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -44,6 +45,7 @@ export function DashboardHeader({
   onViewChange: (view: View) => void;
   issueCounts: IssueCounts;
 }) {
+  const t = useTranslations("builder.header");
   const [downloading, setDownloading] = useState(false);
 
   const download = async () => {
@@ -60,10 +62,10 @@ export function DashboardHeader({
       <div className="flex min-w-0 items-center gap-3">
         <h1 className="truncate text-lg font-semibold tracking-tight">{details.name}</h1>
         <div className="hidden items-center gap-1.5 sm:flex">
-          <Badge variant="secondary" className="font-mono text-xs font-normal" title="Default Kubernetes namespace">
+          <Badge variant="secondary" className="font-mono text-xs font-normal" title={t("namespace")}>
             ns: {details.namespace}
           </Badge>
-          <Badge variant="secondary" className="font-mono text-xs font-normal" title="Output directory">
+          <Badge variant="secondary" className="font-mono text-xs font-normal" title={t("outputDir")}>
             {details.outputDir}/
           </Badge>
         </div>
@@ -72,20 +74,20 @@ export function DashboardHeader({
       <div className="flex flex-wrap items-center gap-2">
         <Tabs data-tour="views" value={view} onValueChange={(v) => onViewChange(v as View)}>
           <TabsList>
-            <TabsTrigger value="build">Build</TabsTrigger>
-            <TabsTrigger value="diagram">Architecture</TabsTrigger>
+            <TabsTrigger value="build">{t("tabs.build")}</TabsTrigger>
+            <TabsTrigger value="diagram">{t("tabs.diagram")}</TabsTrigger>
             <TabsTrigger value="checks" className="gap-1.5">
-              Checks
+              {t("tabs.checks")}
               <ChecksBadge counts={issueCounts} />
             </TabsTrigger>
           </TabsList>
         </Tabs>
         <Button data-tour="download" type="button" disabled={components.length === 0 || downloading} onClick={download}>
           <Download />
-          {downloading ? "Zipping…" : "Download .zip"}
+          {downloading ? t("zipping") : t("download")}
         </Button>
-        <Link href="/" className="px-2 text-sm text-muted-foreground hover:text-foreground">
-          Start over
+        <Link href="/" className="flex items-center px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-10">
+          {t("startOver")}
         </Link>
       </div>
     </div>

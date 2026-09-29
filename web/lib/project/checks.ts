@@ -7,7 +7,7 @@ import {
   playsFromRecipe,
   siteImportsFromRecipe,
 } from "@/lib/ansible/playbook";
-import { pluralize } from "@/lib/format";
+import type { LocalizedMessage } from "@/lib/i18n/localized-error";
 import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
 
@@ -16,8 +16,8 @@ export type IssueSeverity = "error" | "warning" | "info";
 export interface ProjectIssue {
   id: string;
   severity: IssueSeverity;
-  title: string;
-  detail?: string;
+  title: LocalizedMessage;
+  detail?: LocalizedMessage;
   componentIds: string[];
   action?: { type: "scaffold-roles"; roles: string[] };
 }
@@ -93,8 +93,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
     push({
       id: `dup-file:${fileName}`,
       severity: "error",
-      title: `${list.length} components write ${fileName}`,
-      detail: "Only the last one survives in the download. Remove or rename one of them.",
+      title: { key: "checks.issues.dupFile.title", values: { count: list.length, file: fileName } },
+      detail: { key: "checks.issues.dupFile.detail" },
       componentIds: list.map((c) => c.id),
     });
   }
@@ -111,8 +111,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
       push({
         id: `cycle:${component.id}`,
         severity: "error",
-        title: `Group nesting loops: ${cycle.join(" → ")}`,
-        detail: "Ansible refuses to load an inventory whose :children form a cycle.",
+        title: { key: "checks.issues.cycle.title", values: { path: cycle.join(" → ") } },
+        detail: { key: "checks.issues.cycle.detail" },
         componentIds: [component.id],
       });
     }
@@ -124,8 +124,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
           push({
             id: `empty-child:${component.id}:${entry.group}:${child}`,
             severity: "warning",
-            title: `[${entry.group}:children] lists "${child}", which has no hosts`,
-            detail: "Probably a typo — or add hosts to that group.",
+            title: { key: "checks.issues.emptyChild.title", values: { group: entry.group, child } },
+            detail: { key: "checks.issues.emptyChild.detail" },
             componentIds: [component.id],
           });
         }
@@ -142,8 +142,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
             push({
               id: `addr:${member.name}:${address}`,
               severity: "error",
-              title: `${member.name} has two addresses: ${seen.address} and ${address}`,
-              detail: "The same host name points at different machines — Ansible uses whichever it reads last.",
+              title: { key: "checks.issues.address.title", values: { host: member.name, first: seen.address, second: address } },
+              detail: { key: "checks.issues.address.detail" },
               componentIds: [seen.component.id, component.id],
             });
           } else if (!seen) {
@@ -160,8 +160,11 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
               push({
                 id: `override:${component.id}:${member.name}:${key}:${group}`,
                 severity: "warning",
-                title: `${member.name} sets ${key}=${hostValue}, overriding [${group}:vars] ${key}=${groupValue}`,
-                detail: `Host vars win over group vars. Clear ${key} on the host if the group value is the one you want.`,
+                title: {
+                  key: "checks.issues.override.title",
+                  values: { host: member.name, key, value: String(hostValue), group, groupValue: String(groupValue) },
+                },
+                detail: { key: "checks.issues.override.detail", values: { key } },
                 componentIds: [component.id],
               });
             }
@@ -175,8 +178,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
     push({
       id: "multi-inventory",
       severity: "info",
-      title: `${inventories.length} inventories in this project`,
-      detail: "Fine for separate environments; pass the right one with -i. Checks treat their groups as one pool.",
+      title: { key: "checks.issues.multiInventory.title", values: { count: inventories.length } },
+      detail: { key: "checks.issues.multiInventory.detail" },
       componentIds: inventories.map((i) => i.component.id),
     });
   }
@@ -192,8 +195,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
     push({
       id: `gv-layouts:${group}`,
       severity: "warning",
-      title: `Group "${group}" has both group_vars/${group}.yml and group_vars/${group}/main.yml`,
-      detail: "Ansible loads and merges both, so a key set twice depends on load order. Keep one layout.",
+      title: { key: "checks.issues.layouts.title", values: { group } },
+      detail: { key: "checks.issues.layouts.detail" },
       componentIds: list.map((c) => c.id),
     });
   }
@@ -204,8 +207,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
       push({
         id: `gv-group:${gv.id}`,
         severity: "warning",
-        title: `group_vars/${group}.yml targets a group no inventory defines`,
-        detail: "Those variables will never be loaded. Check the spelling against your inventory groups.",
+        title: { key: "checks.issues.unknownGroup.title", values: { group } },
+        detail: { key: "checks.issues.unknownGroup.detail" },
         componentIds: [gv.id],
       });
     }
@@ -219,8 +222,11 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
         push({
           id: `gv-shadow:${gv.id}:${inv.component.id}:${key}`,
           severity: "warning",
-          title: `${key} is set in both [${group}:vars] and group_vars/${group}.yml`,
-          detail: `group_vars/${group}.yml wins${fileValue !== null ? ` (${fileValue} over ${value})` : ""}. Keep it in one place.`,
+          title: { key: "checks.issues.shadow.title", values: { key, group } },
+          detail:
+            fileValue !== null
+              ? { key: "checks.issues.shadow.detailValues", values: { group, fileValue: String(fileValue), value: String(value) } }
+              : { key: "checks.issues.shadow.detail", values: { group } },
           componentIds: [gv.id, inv.component.id],
         });
       }
@@ -238,8 +244,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
           push({
             id: `play-hosts:${pb.id}:${index}:${target}`,
             severity: "warning",
-            title: `Play "${play.name || pb.recipe.name}" targets "${target}", which isn't in the inventory`,
-            detail: "The play will match no hosts and silently do nothing.",
+            title: { key: "checks.issues.playHosts.title", values: { play: play.name || pb.recipe.name, target } },
+            detail: { key: "checks.issues.playHosts.detail" },
             componentIds: [pb.id],
           });
         }
@@ -250,8 +256,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
       push({
         id: `ext-roles:${pb.id}`,
         severity: "info",
-        title: `${pb.recipe.name} uses ${pluralize(externalRoles.size, "role")} kikx doesn't vendor`,
-        detail: `${Array.from(externalRoles).join(", ")} — they must already exist under roles/ in your repo, or scaffold empty ones here.`,
+        title: { key: "checks.issues.externalRoles.title", values: { playbook: pb.recipe.name, count: externalRoles.size } },
+        detail: { key: "checks.issues.externalRoles.detail", values: { roles: Array.from(externalRoles).join(", ") } },
         componentIds: [pb.id],
         action: { type: "scaffold-roles", roles: Array.from(externalRoles) },
       });
@@ -267,8 +273,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
         push({
           id: `site-missing:${site.id}:${imp.path}`,
           severity: "warning",
-          title: `${site.recipe.name}.yml imports ${imp.path}, which this project doesn't produce`,
-          detail: "Fine if the file already exists in your repo; otherwise add that playbook.",
+          title: { key: "checks.issues.siteMissing.title", values: { site: site.recipe.name, path: imp.path } },
+          detail: { key: "checks.issues.siteMissing.detail" },
           componentIds: [site.id],
         });
       }
@@ -280,8 +286,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
         push({
           id: `not-imported:${pb.id}`,
           severity: "info",
-          title: `${path} isn't imported by any site playbook`,
-          detail: "It only runs if you call it directly.",
+          title: { key: "checks.issues.notImported.title", values: { path } },
+          detail: { key: "checks.issues.notImported.detail" },
           componentIds: [pb.id, ...sites.map((s) => s.id)],
         });
       }
@@ -297,8 +303,8 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
       push({
         id: `svc-selector:${svc.id}`,
         severity: "warning",
-        title: `Service ${svc.recipe.name} selects app=${selector}, but no deployment has that label`,
-        detail: "Its endpoints will be empty. Name the deployment the same, or set the app label.",
+        title: { key: "checks.issues.serviceSelector.title", values: { service: svc.recipe.name, selector } },
+        detail: { key: "checks.issues.serviceSelector.detail" },
         componentIds: [svc.id],
       });
     }
@@ -309,7 +315,7 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
       push({
         id: `ing-backend:${ing.id}`,
         severity: "warning",
-        title: `Ingress ${ing.recipe.name} routes to service "${backend}", which isn't in the project`,
+        title: { key: "checks.issues.ingressBackend.title", values: { ingress: ing.recipe.name, backend } },
         componentIds: [ing.id],
       });
     }

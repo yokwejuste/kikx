@@ -8,7 +8,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "docs": "make -C ../docs html-all && rm -rf public/docs && cp -R ../docs/build/html public/docs",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -21,6 +23,7 @@
     "jszip": "^3.10.1",
     "lucide-react": "^1.39.0",
     "next": "16.3.4",
+    "next-intl": "^4.14.8",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.6.7",
     "react": "19.2.8",

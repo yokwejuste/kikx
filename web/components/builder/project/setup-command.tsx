@@ -2,16 +2,23 @@
 
 import { useState } from "react";
 import { Copy, Download } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/common/copy-button";
 import { useProject } from "@/lib/project/context";
 import { downloadPreset, presetFileName } from "@/lib/project/preset";
 
 function CommandLine({ command }: { command: string }) {
+  const t = useTranslations("setup");
   return (
     <div className="flex items-center justify-between gap-2 overflow-hidden rounded-lg border bg-muted/30 py-2 pr-2 pl-3">
       <code className="min-w-0 flex-1 truncate font-mono text-xs">{command}</code>
-      <CopyButton text={command} size="icon" className="size-6 text-muted-foreground hover:text-foreground">
+      <CopyButton
+        text={command}
+        size="icon"
+        aria-label={t("copy", { command })}
+        className="size-6 text-muted-foreground hover:text-foreground"
+      >
         <Copy className="size-3.5" />
       </CopyButton>
     </div>
@@ -19,6 +26,7 @@ function CommandLine({ command }: { command: string }) {
 }
 
 export function SetupCommand() {
+  const t = useTranslations("setup");
   const { details, components } = useProject();
   const [downloaded, setDownloaded] = useState(false);
 
@@ -31,9 +39,7 @@ export function SetupCommand() {
         <CommandLine command={`kikx setup ${path}`} />
         <CommandLine command={`kikx apply ${path}`} />
         <p className="text-xs text-muted-foreground">
-          <code className="font-mono">setup</code> bootstraps a new kikx project from this file.{" "}
-          <code className="font-mono">apply</code> vendors it into a project you already have —
-          no kikx.toml, no backend required.
+          {t.rich("explain", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
         </p>
       </div>
     );
@@ -51,7 +57,7 @@ export function SetupCommand() {
       }}
     >
       <Download className="size-4" />
-      Download preset
+      {t("download")}
     </Button>
   );
 }

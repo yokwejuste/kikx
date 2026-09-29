@@ -1,3 +1,5 @@
+import { LocalizedError } from "@/lib/i18n/localized-error";
+
 const API_URL = process.env.NEXT_PUBLIC_KIKX_API_URL;
 
 export class ApiClientError extends Error {
@@ -13,13 +15,7 @@ export class ApiClientError extends Error {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  if (!API_URL) {
-    throw new ApiClientError(
-      0,
-      "not_configured",
-      "NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.example).",
-    );
-  }
+  if (!API_URL) throw new LocalizedError("errors.notConfigured");
   const response = await fetch(`${API_URL}${path}`, {
     ...init,
     headers: {
@@ -31,11 +27,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const body = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new ApiClientError(
-      response.status,
-      body?.code ?? "unknown",
-      body?.error ?? `Request to ${path} failed with status ${response.status}`,
-    );
+    if (!body?.error) throw new LocalizedError("errors.requestFailed", { path, status: response.status });
+    throw new ApiClientError(response.status, body.code ?? "unknown", body.error);
   }
 
   return body as T;

@@ -3,6 +3,7 @@
 import { useFieldArray, useWatch, type UseFormReturn } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
 import { SectionHeader } from "@/components/builder/fields/section-header";
@@ -34,6 +35,7 @@ export function InventoryFields({
   form: UseFormReturn<FormValues>;
   externalGroupNames?: string[];
 }) {
+  const t = useTranslations("inventory");
   const hostFields = useFieldArray({ control: form.control, name: "hosts" as never });
   const groupFields = useFieldArray({ control: form.control, name: "groups" as never });
   const hosts = (useWatch({ control: form.control, name: "hosts" as never }) ?? []) as InventoryHostValues[];
@@ -61,22 +63,22 @@ export function InventoryFields({
     <div className="flex flex-col gap-8">
       <section className="flex flex-col gap-3">
         <SectionHeader
-          title={`Hosts (${hostFields.fields.length})`}
-          description="One row per server. Put it in every group it belongs to — kikx writes its address once and references it by name elsewhere."
+          title={t("hostsTitle", { count: hostFields.fields.length })}
+          description={t("hostsBody")}
         >
           <InventoryImportDialog
             onImport={(parsed) => {
               hostFields.replace(parsed.hosts);
               groupFields.replace(parsed.groups);
-              toast.success(`Imported ${parsed.hosts.length} hosts and ${parsed.groups.length} groups`);
+              toast.success(t("imported", { hosts: parsed.hosts.length, groups: parsed.groups.length }));
             }}
           />
         </SectionHeader>
 
         <div className={cn("hidden gap-2 px-3 text-xs font-medium text-muted-foreground sm:grid", HOST_COLUMNS)}>
-          <span>Host name</span>
-          <span>Address</span>
-          <span>Groups</span>
+          <span>{t("host.nameLabel")}</span>
+          <span>{t("host.addressLabel")}</span>
+          <span>{t("host.groupsLabel")}</span>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -96,14 +98,14 @@ export function InventoryFields({
         <FieldError errors={[errors.hosts]} />
         <Button type="button" variant="outline" size="sm" className="w-fit" onClick={() => hostFields.append({ ...EMPTY_HOST })}>
           <Plus />
-          Add host
+          {t("addHost")}
         </Button>
       </section>
 
       <section className="flex flex-col gap-3">
         <SectionHeader
-          title="Groups"
-          description="Nest groups (:children) and give them shared vars (:vars). Groups your hosts use exist already — add a row only to nest them or attach vars."
+          title={t("groupsTitle")}
+          description={t("groupsBody")}
         />
 
         {groupFields.fields.length > 0 && (
@@ -124,9 +126,9 @@ export function InventoryFields({
         )}
 
         <AddWithSuggestions
-          addLabel="Add group"
+          addLabel={t("addGroup")}
           onAdd={() => groupFields.append(emptyGroup())}
-          suggestionsLabel="or configure:"
+          suggestionsLabel={t("orConfigure")}
           suggestions={unlistedHostGroups}
           onPick={(name) => groupFields.append(emptyGroup(name))}
         />
