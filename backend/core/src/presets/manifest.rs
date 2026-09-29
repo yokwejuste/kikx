@@ -18,7 +18,9 @@ pub struct PresetComponent {
 pub struct PresetProject {
     #[serde(default)]
     pub name: Option<String>,
+    #[serde(default = "crate::config::default_namespace")]
     pub namespace: String,
+    #[serde(default = "crate::config::default_output_dir")]
     pub output_dir: String,
 }
 

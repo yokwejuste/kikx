@@ -4,7 +4,7 @@ use anyhow::anyhow;
 
 use super::error::{OpsError, OpsErrorKind};
 use super::manifest::{render_manifest, write_all};
-use crate::config::{KikxConfig, ProjectConfig, CONFIG_FILE_NAME};
+use crate::config::{self, KikxConfig, ProjectConfig, CONFIG_FILE_NAME};
 use crate::presets::resolve_preset;
 
 pub struct SetupParams {
@@ -38,7 +38,7 @@ pub fn setup_project(project_dir: &Path, params: SetupParams) -> Result<SetupOut
         project_dir
             .file_name()
             .map(|n| n.to_string_lossy().to_string())
-            .unwrap_or_else(|| "kikx-project".to_string())
+            .unwrap_or_else(|| config::DEFAULT_PROJECT_NAME.to_string())
     };
     let (name, namespace, output_dir_str) = match &manifest.project {
         Some(p) => (
@@ -46,7 +46,7 @@ pub fn setup_project(project_dir: &Path, params: SetupParams) -> Result<SetupOut
             p.namespace.clone(),
             p.output_dir.clone(),
         ),
-        None => (default_dir_name(), "default".to_string(), "k8s".to_string()),
+        None => (default_dir_name(), config::default_namespace(), config::default_output_dir()),
     };
 
     let output_dir = project_dir.join(&output_dir_str);

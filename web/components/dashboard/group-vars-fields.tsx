@@ -122,7 +122,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
             <Textarea
               spellCheck={false}
               aria-invalid={!!errors.yaml}
-              placeholder={"postgres_version: 16\nbackup:\n  schedule: \"0 2 * * *\"\n  keep_days: 14"}
+              placeholder={"key: value\nlist:\n  - item\nmap:\n  nested: value"}
               className="min-h-48 font-mono text-xs"
               {...form.register("yaml" as never)}
             />

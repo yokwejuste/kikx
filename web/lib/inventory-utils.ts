@@ -132,7 +132,11 @@ export function extractInventoryGroupNames(components: AddedComponent[]): string
 }
 
 /** Converts rendered-entry JSON (a saved recipe) back into editable form rows. */
-export function entriesToFormValues(entries: InventoryGroupEntry[]): {
+export function entriesToFormValues(
+  entries: InventoryGroupEntry[],
+  /** What the template writes for a host with no user/port key — the inventory's registry defaults. */
+  fallback: { user: string; port: number | undefined },
+): {
   hosts: InventoryHostValues[];
   groups: InventoryGroupValues[];
 } {
@@ -148,10 +152,15 @@ export function entriesToFormValues(entries: InventoryGroupEntry[]): {
         name: member.name,
         ansibleHost: member.ansible_host ? String(member.ansible_host) : "",
         groups: [entry.group],
-        // A missing key meant "use the template default" in older recipes.
-        ansibleUser: member.ansible_user === undefined ? "root" : member.ansible_user ? String(member.ansible_user) : "",
+        // A missing key means the template writes its default for this host.
+        ansibleUser:
+          member.ansible_user === undefined ? fallback.user : member.ansible_user ? String(member.ansible_user) : "",
         ansiblePort:
-          member.ansible_port === undefined ? 22 : member.ansible_port ? Number(member.ansible_port) : undefined,
+          member.ansible_port === undefined
+            ? fallback.port
+            : member.ansible_port
+              ? Number(member.ansible_port)
+              : undefined,
         sshKeyFile: member.ssh_key_file ?? "",
         vars: formatKeyValuePairs(member.vars),
       });

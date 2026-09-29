@@ -16,7 +16,7 @@ pub fn run(args: InitArgs) -> Result<()> {
     )?;
 
     println!(
-        "Initialized kikx project `{}` — vendor components with `kikx add k8s/<component>`",
+        "Initialized kikx project `{}` — vendor components with `kikx add <category>/<component>` (see `kikx list`)",
         outcome.project_name
     );
     Ok(())

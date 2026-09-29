@@ -14,14 +14,26 @@ import { componentId, useProject, type AddedComponent } from "@/lib/project-cont
 import { initFormSchema, type InitFormValues } from "@/lib/schemas";
 import { api, ApiClientError } from "@/lib/api-client";
 import { parsePresetManifest } from "@/lib/preset";
+import { projectDefaults } from "@/lib/registry";
+import { RegistryGate } from "@/components/registry-gate";
 
 const SNIPPET = [
-  { cmd: "kikx init --name my-app" },
-  { cmd: "kikx add k8s/deployment --name web --image nginx:1.27" },
-  { cmd: "kikx apply ./my-app.kikx-preset.json" },
+  { cmd: "kikx init --name <project>" },
+  { cmd: "kikx list" },
+  { cmd: "kikx add <category>/<component> --name <name> --set key=value" },
+  { cmd: "kikx apply ./<project>.kikx-preset.json" },
 ];
 
 export default function Home() {
+  return (
+    <RegistryGate>
+      <HomeContent />
+    </RegistryGate>
+  );
+}
+
+function HomeContent() {
+  const defaults = projectDefaults();
   const router = useRouter();
   const { setDetails, reset, loadProject } = useProject();
   const [opening, setOpening] = useState(false);
@@ -30,7 +42,7 @@ export default function Home() {
     setOpening(true);
     try {
       const manifest = parsePresetManifest(await file.text());
-      const namespace = manifest.project?.namespace || "default";
+      const namespace = manifest.project?.namespace || defaults.defaultNamespace;
       const components: AddedComponent[] = [];
       for (const recipe of manifest.components) {
         const rendered = await api.render({
@@ -50,7 +62,7 @@ export default function Home() {
         {
           name: manifest.project?.name || manifest.name || file.name.replace(/\.kikx-preset\.json$|\.json$/, ""),
           namespace,
-          outputDir: manifest.project?.outputDir || "k8s",
+          outputDir: manifest.project?.outputDir || defaults.defaultOutputDir,
         },
         components,
       );
@@ -65,7 +77,7 @@ export default function Home() {
   }
   const form = useForm<InitFormValues>({
     resolver: zodResolver(initFormSchema),
-    defaultValues: { name: "", namespace: "default", dir: "k8s" },
+    defaultValues: { name: "", namespace: defaults.defaultNamespace, dir: defaults.defaultOutputDir },
   });
 
   function onSubmit(values: InitFormValues) {

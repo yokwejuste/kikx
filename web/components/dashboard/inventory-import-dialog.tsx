@@ -15,18 +15,15 @@ import {
 } from "@/components/ui/dialog";
 import { parseInventoryIni, type ParsedInventory } from "@/lib/inventory-utils";
 
-const EXAMPLE = `[k8s_control_plane]
-cp-01 ansible_host=10.0.0.11 kube_bootstrap=true
+/** The INI shape, not sample data: placeholders in angle brackets. */
+const FORMAT_HINT = `[<group>]
+<host> ansible_host=<address> <key>=<value>
 
-[k8s_workers]
-worker-01 ansible_host=10.0.0.21
+[<parent-group>:children]
+<group>
 
-[k8s:children]
-k8s_control_plane
-k8s_workers
-
-[k8s:vars]
-ansible_user=admin`;
+[<parent-group>:vars]
+<key>=<value>`;
 
 export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedInventory) => void }) {
   const [open, setOpen] = useState(false);
@@ -60,7 +57,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
         <Textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder={EXAMPLE}
+          placeholder={FORMAT_HINT}
           spellCheck={false}
           className="max-h-80 min-h-48 font-mono text-xs"
         />

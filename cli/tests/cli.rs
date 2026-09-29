@@ -605,7 +605,7 @@ fn add_ansible_inventory_with_children_and_vars_groups() {
             "--name",
             "cluster",
             "--set",
-            r#"hosts=[{"group":"k8s_control_plane","members":[{"name":"cp-01","ansible_host":"10.0.0.1"}]},{"group":"k8s_workers","members":[{"name":"worker-01","ansible_host":"10.0.1.1"}]},{"group":"k8s","children":["k8s_control_plane","k8s_workers"]},{"group":"alafia","children":["k8s"],"vars":{"ansible_user":"alafia-admin"}}]"#,
+            r#"hosts=[{"group":"k8s_control_plane","members":[{"name":"cp-01","ansible_host":"10.0.0.1"}]},{"group":"k8s_workers","members":[{"name":"worker-01","ansible_host":"10.0.1.1"}]},{"group":"k8s","children":["k8s_control_plane","k8s_workers"]},{"group":"platform","children":["k8s"],"vars":{"ansible_user":"ops-admin"}}]"#,
         ])
         .assert()
         .success();
@@ -614,7 +614,7 @@ fn add_ansible_inventory_with_children_and_vars_groups() {
     assert!(text.contains("[k8s:children]"));
     assert!(text.contains("k8s_control_plane"));
     assert!(text.contains("k8s_workers"));
-    assert!(text.contains("[alafia:children]"));
-    assert!(text.contains("[alafia:vars]"));
-    assert!(text.contains("ansible_user=alafia-admin"));
+    assert!(text.contains("[platform:children]"));
+    assert!(text.contains("[platform:vars]"));
+    assert!(text.contains("ansible_user=ops-admin"));
 }

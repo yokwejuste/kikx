@@ -1,12 +1,13 @@
 use std::path::PathBuf;
 
 use clap::{Args, Parser, Subcommand};
+use kikx_core::config::{DEFAULT_NAMESPACE, DEFAULT_OUTPUT_DIR};
 
 #[derive(Parser)]
 #[command(
     name = "kikx",
     version,
-    about = "Vendor real, editable Kubernetes manifests into your project"
+    about = "Vendor real, editable infrastructure files into your project"
 )]
 pub struct Cli {
     #[command(subcommand)]
@@ -27,10 +28,10 @@ pub struct InitArgs {
     #[arg(long)]
     pub name: Option<String>,
 
-    #[arg(long, default_value = "k8s")]
+    #[arg(long, default_value = DEFAULT_OUTPUT_DIR)]
     pub dir: PathBuf,
 
-    #[arg(long, default_value = "default")]
+    #[arg(long, default_value = DEFAULT_NAMESPACE)]
     pub namespace: String,
 
     #[arg(long)]
@@ -47,11 +48,12 @@ pub struct AddArgs {
     #[arg(long)]
     pub image: Option<String>,
 
-    #[arg(long, default_value_t = 1)]
-    pub replicas: u32,
+    /// Unset flags fall back to the component's registry defaults (see `kikx list`).
+    #[arg(long)]
+    pub replicas: Option<u32>,
 
-    #[arg(long, default_value_t = 80)]
-    pub port: u16,
+    #[arg(long)]
+    pub port: Option<u16>,
 
     #[arg(long)]
     pub target_port: Option<u16>,
@@ -62,8 +64,8 @@ pub struct AddArgs {
     #[arg(long)]
     pub host: Option<String>,
 
-    #[arg(long, default_value = "/")]
-    pub path: String,
+    #[arg(long)]
+    pub path: Option<String>,
 
     #[arg(long)]
     pub service: Option<String>,

@@ -110,14 +110,14 @@ export function InventoryFields({
               <div key={field.id} className="rounded-lg border">
                 <div className="grid gap-2 p-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.6fr)_2rem]">
                   <Input
-                    placeholder="cp-01"
+                    placeholder="host name"
                     aria-label="Host name"
                     aria-invalid={!!rowErrors?.name}
                     className="font-mono"
                     {...form.register(`hosts.${index}.name` as never)}
                   />
                   <Input
-                    placeholder="10.0.0.11 (optional)"
+                    placeholder="IP or hostname (optional)"
                     aria-label="Address"
                     aria-invalid={!!rowErrors?.ansibleHost}
                     className="font-mono"
@@ -132,7 +132,7 @@ export function InventoryFields({
                         value={(groupsField.value as string[] | undefined) ?? []}
                         onChange={groupsField.onChange}
                         suggestions={knownGroups}
-                        placeholder="k8s_workers, db…"
+                        placeholder="groups it belongs to"
                         invalid={!!rowErrors?.groups}
                       />
                     )}
@@ -176,7 +176,7 @@ export function InventoryFields({
                       {...form.register(`hosts.${index}.sshKeyFile` as never)}
                     />
                     <Input
-                      placeholder="host vars — kube_bootstrap=true public_ip=203.0.113.9"
+                      placeholder="host vars — key=value key2=value2"
                       aria-label="Host vars"
                       className="font-mono text-xs sm:col-span-3"
                       {...form.register(`hosts.${index}.vars` as never)}
@@ -247,7 +247,7 @@ export function InventoryFields({
                     )}
                   />
                   <Textarea
-                    placeholder={"vars, one per line\nansible_user=admin"}
+                    placeholder={"vars, one per line\nkey=value"}
                     aria-label="Group vars"
                     rows={1}
                     className="min-h-8 font-mono text-xs"

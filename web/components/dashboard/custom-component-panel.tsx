@@ -13,6 +13,7 @@ import { YamlPreview } from "@/components/dashboard/yaml-preview";
 import { api, ApiClientError, type RegistryItem, type RenderedFile } from "@/lib/api-client";
 import { componentId, useProject, type FileConflict, type ProjectFile } from "@/lib/project-context";
 import type { PresetComponent } from "@/lib/preset";
+import { projectDefaults } from "@/lib/registry";
 
 export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => void }) {
   const { details, saveComponent, findConflicts } = useProject();
@@ -49,7 +50,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
 
   const previewMutation = useMutation({
     mutationFn: () =>
-      api.render({ reference, name, fields: values, defaultNamespace: details?.namespace ?? "default" }),
+      api.render({ reference, name, fields: values, defaultNamespace: details?.namespace ?? projectDefaults().defaultNamespace }),
     onSuccess: (data) => setFiles(data.files),
     onError: (error: unknown) => {
       toast.error(error instanceof ApiClientError ? error.message : "Preview failed");
@@ -58,7 +59,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
 
   const addMutation = useMutation({
     mutationFn: () =>
-      api.render({ reference, name, fields: values, defaultNamespace: details?.namespace ?? "default" }),
+      api.render({ reference, name, fields: values, defaultNamespace: details?.namespace ?? projectDefaults().defaultNamespace }),
     onSuccess: (data) => {
       setFiles(data.files);
       const recipe = { reference, name, fields: values, labels: {} };
@@ -88,7 +89,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
       <div className="flex flex-col gap-6">
         <div className="flex gap-2">
           <Input
-            placeholder="https://example.com/r/aws-ec2.json or ./my-item.json"
+            placeholder="URL or path to a registry-item.json"
             value={reference}
             onChange={(e) => setReference(e.target.value)}
             className="font-mono text-sm"

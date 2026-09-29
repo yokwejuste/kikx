@@ -253,7 +253,7 @@ mod tests {
             {"group":"k8s_control_plane","members":[{"name":"cp-01","ansible_host":"10.0.0.1"}]},
             {"group":"k8s_workers","members":[{"name":"worker-01","ansible_host":"10.0.1.1"}]},
             {"group":"k8s","children":["k8s_control_plane","k8s_workers"]},
-            {"group":"alafia","children":["k8s"],"vars":{"ansible_user":"alafia-admin","ansible_connection":"ssh"}}
+            {"group":"platform","children":["k8s"],"vars":{"ansible_user":"ops-admin","ansible_connection":"ssh"}}
         ]"#;
 
         let outcome = render_component(RenderParams {
@@ -272,9 +272,9 @@ mod tests {
         assert!(content.contains("[k8s:children]"));
         assert!(content.contains("k8s_control_plane"));
         assert!(content.contains("k8s_workers"));
-        assert!(content.contains("[alafia:children]"));
-        assert!(content.contains("[alafia:vars]"));
-        assert!(content.contains("ansible_user=alafia-admin"));
+        assert!(content.contains("[platform:children]"));
+        assert!(content.contains("[platform:vars]"));
+        assert!(content.contains("ansible_user=ops-admin"));
         assert!(content.contains("ansible_connection=ssh"));
     }
 
@@ -406,8 +406,8 @@ mod tests {
     fn playbook_renders_conditional_roles_and_pre_post_tasks() {
         let plays = r#"[{
             "name":"Database tier","hosts":"db","become":true,"tags":["db"],
-            "pre_tasks":"- name: Annotate start\n  ansible.builtin.include_role:\n    name: monitoring_annotate\n",
-            "roles":["db_repos",{"role":"db_tls","when":"db_tls_enabled | default(false)"},"postgres"],
+            "pre_tasks":"- name: Annotate start\n  ansible.builtin.include_role:\n    name: notify_start\n",
+            "roles":["db_repos",{"role":"tls","when":"tls_enabled | default(false)"},"postgres"],
             "post_tasks":"- name: Annotate finish\n  ansible.builtin.debug:\n    msg: done\n"
         }]"#;
         let content = render("ansible/playbook", "db", &[("plays", plays)])
@@ -417,7 +417,7 @@ mod tests {
 
         assert_eq!(
             content,
-            "---\n- name: Database tier\n  hosts: db\n  become: true\n  tags: [db]\n  pre_tasks:\n    - name: Annotate start\n      ansible.builtin.include_role:\n        name: monitoring_annotate\n  roles:\n    - db_repos\n    - role: db_tls\n      when: db_tls_enabled | default(false)\n    - postgres\n  post_tasks:\n    - name: Annotate finish\n      ansible.builtin.debug:\n        msg: done\n"
+            "---\n- name: Database tier\n  hosts: db\n  become: true\n  tags: [db]\n  pre_tasks:\n    - name: Annotate start\n      ansible.builtin.include_role:\n        name: notify_start\n  roles:\n    - db_repos\n    - role: tls\n      when: tls_enabled | default(false)\n    - postgres\n  post_tasks:\n    - name: Annotate finish\n      ansible.builtin.debug:\n        msg: done\n"
         );
     }
 

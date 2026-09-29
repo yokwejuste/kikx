@@ -17,7 +17,10 @@ import { useProject, type AddedComponent } from "@/lib/project-context";
 import { describeComponent, type CatalogKind } from "@/lib/component-catalog";
 import { checkProject, issuesByComponent } from "@/lib/project-checks";
 import { extractInventoryGroupNames } from "@/lib/inventory-utils";
+import { toPresetComponent } from "@/lib/preset";
 import {
+  defaultsFor,
+  type FormValues,
   extractAvailableRoleNames,
   extractReferencedRoleNames,
   playbookPath,
@@ -86,7 +89,7 @@ export function Dashboard() {
   const scaffoldRoles = async (roles: string[]) => {
     try {
       for (const role of roles) {
-        const recipe = { reference: "ansible/role", name: role, fields: { description: "" }, labels: {} };
+        const recipe = toPresetComponent(details.namespace, { ...defaultsFor("role"), name: role } as FormValues);
         const rendered = await api.render({ ...recipe, labels: [], defaultNamespace: details.namespace });
         saveComponent(
           recipe,

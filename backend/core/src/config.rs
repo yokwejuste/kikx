@@ -5,6 +5,12 @@ use serde::{Deserialize, Serialize};
 
 pub const CONFIG_FILE_NAME: &str = "kikx.toml";
 
+/// Project defaults, declared once. The CLI, the HTTP API and (through `/api/config`) the web
+/// dashboard all read these instead of repeating the values.
+pub const DEFAULT_NAMESPACE: &str = "default";
+pub const DEFAULT_OUTPUT_DIR: &str = "k8s";
+pub const DEFAULT_PROJECT_NAME: &str = "kikx-project";
+
 #[derive(Serialize, Deserialize)]
 pub struct KikxConfig {
     pub project: ProjectConfig,
@@ -19,12 +25,12 @@ pub struct ProjectConfig {
     pub output_dir: String,
 }
 
-fn default_namespace() -> String {
-    "default".to_string()
+pub fn default_namespace() -> String {
+    DEFAULT_NAMESPACE.to_string()
 }
 
-fn default_output_dir() -> String {
-    "k8s".to_string()
+pub fn default_output_dir() -> String {
+    DEFAULT_OUTPUT_DIR.to_string()
 }
 
 impl KikxConfig {

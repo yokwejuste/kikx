@@ -44,13 +44,13 @@ export function SiteFields({
                 <div className="grid items-center gap-2 sm:grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_auto]">
                   <span className="text-center text-xs text-muted-foreground">{index + 1}</span>
                   <Input
-                    placeholder="Provision the database tier"
+                    placeholder="what this step does"
                     aria-label="Import name"
                     aria-invalid={!!rowErrors?.name}
                     {...form.register(`imports.${index}.name` as never)}
                   />
                   <Input
-                    placeholder="playbooks/db.yml"
+                    placeholder="path to a playbook"
                     aria-label="Playbook path"
                     aria-invalid={!!rowErrors?.path}
                     className="font-mono"

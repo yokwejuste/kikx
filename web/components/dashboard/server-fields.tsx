@@ -1,15 +1,13 @@
 "use client";
 
-import { Controller, type UseFormReturn } from "react-hook-form";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useId } from "react";
+import type { UseFormReturn } from "react-hook-form";
 import { FormField } from "@/components/dashboard/form-field";
-import type { FormValues } from "@/lib/component-form-utils";
-import { OS_IMAGES } from "@/lib/os-images";
+import { REFERENCES, type FormValues } from "@/lib/component-form-utils";
+import { fieldExample, fieldOptions, fieldSpec } from "@/lib/registry";
 
 export function ServerFields({
   kind,
-  form,
   errors,
   reg,
 }: {
@@ -18,30 +16,28 @@ export function ServerFields({
   errors: Record<string, { message?: string } | undefined>;
   reg: (field: string) => ReturnType<UseFormReturn<FormValues>["register"]>;
 }) {
+  const ref = REFERENCES[kind];
+  const imagesListId = useId();
+  const images = fieldOptions(ref, "os_image");
+
   return (
     <>
-      <FormField label="Size" registration={reg("size")} error={errors.size} placeholder="s-2vcpu-4gb" />
-      <Field data-invalid={!!errors.osImage}>
-        <FieldLabel>OS image</FieldLabel>
-        <Controller
-          control={form.control}
-          name={"osImage" as never}
-          render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select an image" />
-              </SelectTrigger>
-              <SelectContent>
-                {OS_IMAGES[kind].map((image) => (
-                  <SelectItem key={image.slug} value={image.slug}>
-                    {image.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
-      </Field>
+      <FormField label="Size" registration={reg("size")} error={errors.size} placeholder={fieldExample(ref, "size")} />
+      <FormField
+        label="OS image"
+        registration={reg("osImage")}
+        error={errors.osImage}
+        list={imagesListId}
+        className="font-mono"
+        description={fieldSpec(ref, "os_image")?.description ?? undefined}
+      />
+      <datalist id={imagesListId}>
+        {images.map((image) => (
+          <option key={image.value} value={image.value}>
+            {image.label}
+          </option>
+        ))}
+      </datalist>
       <FormField label="Count" type="number" min={1} registration={reg("count")} error={errors.count} />
     </>
   );

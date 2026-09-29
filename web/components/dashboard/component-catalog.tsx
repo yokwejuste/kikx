@@ -1,7 +1,7 @@
 "use client";
 
 import { CircleCheck } from "lucide-react";
-import { CATALOG, describeComponent, type CatalogKind } from "@/lib/component-catalog";
+import { CATALOG, catalogEntry, describeComponent, type CatalogKind } from "@/lib/component-catalog";
 import type { AddedComponent } from "@/lib/project-context";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +39,8 @@ export function ComponentCatalog({
             </div>
             <p className="mb-1 px-2 pl-9 text-xs leading-snug text-muted-foreground">{stage.hint}</p>
             <ul className="flex flex-col">
-              {stage.entries.map((entry) => {
+              {stage.entries.map(({ kind }) => {
+                const entry = catalogEntry(kind);
                 const count = counts.get(entry.kind) ?? 0;
                 const active = entry.kind === selected;
                 const Icon = entry.icon;

@@ -15,17 +15,22 @@ import {
 } from "lucide-react";
 import type { ComponentKind } from "@/lib/schemas";
 import type { PresetComponent } from "@/lib/preset";
-import { kindForReference } from "@/lib/component-form-utils";
+import { kindForReference, REFERENCES } from "@/lib/component-form-utils";
+import { registryItem, writesHint } from "@/lib/registry";
 
 /** A form-backed built-in kind, or the free-form "load any registry item" panel. */
 export type CatalogKind = ComponentKind | "custom";
 
-export interface CatalogEntry {
+/** Presentation only: which stage a kind sits in and its icon. Everything else is the registry's. */
+interface CatalogSlot {
   kind: CatalogKind;
+  icon: LucideIcon;
+}
+
+export interface CatalogEntry extends CatalogSlot {
   label: string;
   summary: string;
-  icon: LucideIcon;
-  /** Where the rendered file lands, with placeholders — shown before anything is rendered. */
+  /** Where the rendered file lands, from the registry's path template. */
   writes: string;
 }
 
@@ -33,7 +38,7 @@ export interface CatalogStage {
   id: "provision" | "inventory" | "configure" | "deploy" | "custom";
   label: string;
   hint: string;
-  entries: CatalogEntry[];
+  entries: CatalogSlot[];
 }
 
 export const CATALOG: CatalogStage[] = [
@@ -42,8 +47,8 @@ export const CATALOG: CatalogStage[] = [
     label: "Provision",
     hint: "Optional — skip if the servers already exist.",
     entries: [
-      { kind: "hetzner", label: "Hetzner server", summary: "Terraform for Hetzner Cloud servers", icon: Cloud, writes: "<name>-hetzner.tf" },
-      { kind: "digitalocean", label: "DigitalOcean droplet", summary: "Terraform for DigitalOcean droplets", icon: Cloud, writes: "<name>-digitalocean.tf" },
+      { kind: "hetzner", icon: Cloud },
+      { kind: "digitalocean", icon: Cloud },
     ],
   },
   {
@@ -51,8 +56,8 @@ export const CATALOG: CatalogStage[] = [
     label: "Inventory",
     hint: "List the servers and sort them into groups.",
     entries: [
-      { kind: "inventory", label: "Inventory", summary: "Hosts, groups, nesting and shared vars", icon: ListTree, writes: "<name>-inventory.ini" },
-      { kind: "groupvars", label: "Group vars", summary: "Variables for one inventory group", icon: Braces, writes: "group_vars/<group>.yml" },
+      { kind: "inventory", icon: ListTree },
+      { kind: "groupvars", icon: Braces },
     ],
   },
   {
@@ -60,11 +65,11 @@ export const CATALOG: CatalogStage[] = [
     label: "Configure",
     hint: "Decide which roles run on which groups.",
     entries: [
-      { kind: "playbook", label: "Playbook", summary: "One or more plays: group → roles", icon: ScrollText, writes: "<folder>/<name>.yml" },
-      { kind: "site", label: "Site playbook", summary: "Imports your playbooks in order", icon: ListOrdered, writes: "<name>.yml" },
-      { kind: "role", label: "Role skeleton", summary: "An empty role to fill in", icon: FolderCog, writes: "roles/<name>/…" },
-      { kind: "commonrole", label: "Common role", summary: "A starter host-hygiene role", icon: Cog, writes: "roles/<name>/…" },
-      { kind: "ansible", label: "K8s bootstrap", summary: "Installs containerd + kubeadm", icon: Rocket, writes: "<name>-k8s-bootstrap.yml" },
+      { kind: "playbook", icon: ScrollText },
+      { kind: "site", icon: ListOrdered },
+      { kind: "role", icon: FolderCog },
+      { kind: "commonrole", icon: Cog },
+      { kind: "ansible", icon: Rocket },
     ],
   },
   {
@@ -72,9 +77,9 @@ export const CATALOG: CatalogStage[] = [
     label: "Deploy",
     hint: "Kubernetes manifests for what runs on the cluster.",
     entries: [
-      { kind: "deployment", label: "Deployment", summary: "Pods running one image", icon: Box, writes: "<name>-deployment.yaml" },
-      { kind: "service", label: "Service", summary: "A stable address for pods", icon: Network, writes: "<name>-service.yaml" },
-      { kind: "ingress", label: "Ingress", summary: "Routes HTTP traffic to a service", icon: Globe, writes: "<name>-ingress.yaml" },
+      { kind: "deployment", icon: Box },
+      { kind: "service", icon: Network },
+      { kind: "ingress", icon: Globe },
     ],
   },
   {
@@ -82,15 +87,26 @@ export const CATALOG: CatalogStage[] = [
     label: "Custom",
     hint: "Anything with a registry-item.json.",
     entries: [
-      { kind: "custom", label: "From registry URL", summary: "Load and render any registry item", icon: Puzzle, writes: "defined by the item" },
+      { kind: "custom", icon: Puzzle },
     ],
   },
 ];
 
-const BY_KIND = new Map(CATALOG.flatMap((stage) => stage.entries.map((entry) => [entry.kind, { entry, stage }] as const)));
+const BY_KIND = new Map(CATALOG.flatMap((stage) => stage.entries.map((slot) => [slot.kind, { slot, stage }] as const)));
 
 export function catalogEntry(kind: CatalogKind): CatalogEntry {
-  return BY_KIND.get(kind)!.entry;
+  const { slot } = BY_KIND.get(kind)!;
+  if (kind === "custom") {
+    return { ...slot, label: "From registry URL", summary: "Load and render any registry item", writes: "defined by the item" };
+  }
+  const reference = REFERENCES[kind];
+  const item = registryItem(reference);
+  return {
+    ...slot,
+    label: item?.title ?? reference,
+    summary: (item?.description ?? "").replace(/\.$/, ""),
+    writes: writesHint(reference),
+  };
 }
 
 export function catalogStage(kind: CatalogKind): CatalogStage {

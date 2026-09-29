@@ -10,8 +10,12 @@ pub fn run(args: AddArgs) -> Result<()> {
     if let Some(image) = args.image {
         fields.push(("image".to_string(), image));
     }
-    fields.push(("replicas".to_string(), args.replicas.to_string()));
-    fields.push(("port".to_string(), args.port.to_string()));
+    if let Some(replicas) = args.replicas {
+        fields.push(("replicas".to_string(), replicas.to_string()));
+    }
+    if let Some(port) = args.port {
+        fields.push(("port".to_string(), port.to_string()));
+    }
     if let Some(target_port) = args.target_port {
         fields.push(("target_port".to_string(), target_port.to_string()));
     }
@@ -21,7 +25,9 @@ pub fn run(args: AddArgs) -> Result<()> {
     if let Some(host) = args.host {
         fields.push(("host".to_string(), host));
     }
-    fields.push(("path".to_string(), args.path));
+    if let Some(path) = args.path {
+        fields.push(("path".to_string(), path));
+    }
     if let Some(service) = args.service {
         fields.push(("service".to_string(), service));
     }

@@ -10,7 +10,8 @@ import { GroupVarsFields } from "@/components/dashboard/group-vars-fields";
 import { PlaysFields } from "@/components/dashboard/plays-fields";
 import { SiteFields } from "@/components/dashboard/site-fields";
 import type { ComponentKind, SiteImportValues } from "@/lib/schemas";
-import { K8S_KINDS, type FormValues } from "@/lib/component-form-utils";
+import { K8S_KINDS, REFERENCES, type FormValues } from "@/lib/component-form-utils";
+import { fieldExample, fieldSpec } from "@/lib/registry";
 
 export interface FormContext {
   /** Group names from every Inventory in the project. */
@@ -35,6 +36,9 @@ export function ComponentFormFields({
   const isK8s = K8S_KINDS.has(kind);
   const errors = form.formState.errors as Record<string, { message?: string } | undefined>;
   const reg = (field: string) => form.register(field as never);
+  const ref = REFERENCES[kind];
+  const example = (field: string) => fieldExample(ref, field);
+  const help = (field: string) => fieldSpec(ref, field)?.description ?? undefined;
   const hostsListId = useId();
   const servicesListId = useId();
 
@@ -47,7 +51,6 @@ export function ComponentFormFields({
           label="Name"
           registration={form.register("name")}
           error={errors.name}
-          placeholder={kind === "playbook" ? "k8s" : kind === "site" ? "site" : "my-app"}
           description={
             kind === "inventory"
               ? "Becomes <name>-inventory.ini."
@@ -66,8 +69,8 @@ export function ComponentFormFields({
             label="Folder"
             registration={reg("folder")}
             error={errors.folder}
-            placeholder="playbooks"
-            description="Where the file goes. Leave empty for the project root."
+            placeholder={example("folder")}
+            description={help("folder")}
           />
         )}
         {kind === "role" && (
@@ -75,24 +78,24 @@ export function ComponentFormFields({
             label="Description"
             registration={reg("description")}
             error={errors.description}
-            placeholder="What this role sets up (optional)"
+            description={help("description")}
           />
         )}
         {kind === "commonrole" && (
-          <FormField label="Timezone" registration={reg("timezone")} error={errors.timezone} placeholder="UTC" />
+          <FormField label="Timezone" registration={reg("timezone")} error={errors.timezone} description={help("timezone")} />
         )}
         {kind === "deployment" && (
-          <FormField label="Image" registration={reg("image")} error={errors.image} placeholder="nginx:1.27" />
+          <FormField label="Image" registration={reg("image")} error={errors.image} placeholder={example("image")} />
         )}
         {kind === "ingress" && (
-          <FormField label="Host" registration={reg("host")} error={errors.host} placeholder="app.example.com" />
+          <FormField label="Host" registration={reg("host")} error={errors.host} placeholder={example("host")} />
         )}
         {(kind === "digitalocean" || kind === "hetzner") && (
           <FormField
             label="Region"
             registration={reg("region")}
             error={errors.region}
-            placeholder={kind === "hetzner" ? "fsn1" : "nyc3"}
+            placeholder={example("region")}
           />
         )}
         {kind === "ansible" && (
@@ -103,7 +106,7 @@ export function ComponentFormFields({
               error={errors.hosts}
               placeholder={context.groupNames[0] ?? "all"}
               list={hostsListId}
-              description="An inventory group, or all."
+              description={help("hosts")}
             />
             <datalist id={hostsListId}>
               <option value="all" />
@@ -115,7 +118,7 @@ export function ComponentFormFields({
               label="Kubernetes version"
               registration={reg("k8sVersion")}
               error={errors.k8sVersion}
-              placeholder="1.31"
+              placeholder={example("k8s_version")}
             />
           </>
         )}
@@ -131,19 +134,19 @@ export function ComponentFormFields({
             type="number"
             min={1}
             max={65535}
-            placeholder="same as port"
+            description={help("target_port")}
             registration={reg("targetPort")}
             error={errors.targetPort}
           />
         )}
         {kind === "ingress" && (
           <>
-            <FormField label="Path" registration={reg("path")} error={errors.path} placeholder="/" />
+            <FormField label="Path" registration={reg("path")} error={errors.path} />
             <FormField
               label="Backend service"
               registration={reg("service")}
               error={errors.service}
-              placeholder="same as name"
+              description={help("service")}
               list={servicesListId}
             />
             <datalist id={servicesListId}>

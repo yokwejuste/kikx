@@ -17,6 +17,7 @@ import { componentId, useProject, type AddedComponent, type FileConflict, type P
 import { defaultsFor, recipeToFormValues, schemas, toRenderRequest, type FormValues } from "@/lib/component-form-utils";
 import { toPresetComponent, type PresetComponent } from "@/lib/preset";
 import type { ComponentKind } from "@/lib/schemas";
+import { projectDefaults } from "@/lib/registry";
 
 const PREVIEW_DEBOUNCE_MS = 350;
 
@@ -60,7 +61,7 @@ export function ComponentEditor({
   onStartNew: () => void;
 }) {
   const { details, saveComponent, findConflicts } = useProject();
-  const namespace = details?.namespace ?? "default";  const entry = catalogEntry(kind);
+  const namespace = details?.namespace ?? projectDefaults().defaultNamespace;  const entry = catalogEntry(kind);
   const Icon = entry.icon;
 
   // The editor is keyed by kind + component, so initial values are computed once per mount.

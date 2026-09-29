@@ -1,5 +1,5 @@
 import type { RenderRequest } from "@/lib/api-client";
-import { OS_IMAGES } from "@/lib/os-images";
+import { fieldDefault, fieldNumber } from "@/lib/registry";
 import { buildInventoryGroups, entriesToFormValues, parseInventoryEntries } from "@/lib/inventory-utils";
 import type { PresetComponent } from "@/lib/preset";
 import {
@@ -87,39 +87,47 @@ export function emptyPlay(): PlayValues {
   return { name: "", hosts: "", roles: [], tags: [], become: true, conditions: {}, preTasks: "", postTasks: "" };
 }
 
+/** Empty form values; every non-empty default comes from the backend registry. */
 export function defaultsFor(kind: ComponentKind): FormValues {
+  const ref = REFERENCES[kind];
+  const num = (field: string) => fieldNumber(ref, field) as number;
+  const str = (field: string) => fieldDefault(ref, field) ?? "";
   switch (kind) {
     case "deployment":
-      return { component: "deployment", name: "", namespace: "", labels: [], image: "", replicas: 1, port: 80 };
+      return { component: kind, name: "", namespace: "", labels: [], image: str("image"), replicas: num("replicas"), port: num("port") };
     case "service":
-      return { component: "service", name: "", namespace: "", labels: [], port: 80, targetPort: undefined };
+      return { component: kind, name: "", namespace: "", labels: [], port: num("port"), targetPort: fieldNumber(ref, "target_port") };
     case "ingress":
-      return { component: "ingress", name: "", namespace: "", labels: [], host: "", path: "/", service: "", port: 80 };
+      return { component: kind, name: "", namespace: "", labels: [], host: str("host"), path: str("path"), service: str("service"), port: num("port") };
     case "digitalocean":
-      return { component: "digitalocean", name: "", region: "", size: "", osImage: OS_IMAGES.digitalocean[0].slug, count: 1 };
     case "hetzner":
-      return { component: "hetzner", name: "", region: "", size: "", osImage: OS_IMAGES.hetzner[0].slug, count: 1 };
+      return { component: kind, name: "", region: str("region"), size: str("size"), osImage: str("os_image"), count: num("count") };
     case "ansible":
-      return { component: "ansible", name: "", hosts: "", k8sVersion: "" };
+      return { component: kind, name: "", hosts: str("hosts"), k8sVersion: str("k8s_version") };
     case "inventory":
       return {
-        component: "inventory",
-        name: "inventory",
-        hosts: [
-          { name: "", ansibleHost: "", groups: [], ansibleUser: "", ansiblePort: undefined, sshKeyFile: "", vars: "" },
-        ],
+        component: kind,
+        name: "",
+        hosts: [{ name: "", ansibleHost: "", groups: [], ansibleUser: "", ansiblePort: undefined, sshKeyFile: "", vars: "" }],
         groups: [],
       };
     case "groupvars":
-      return { component: "groupvars", group: "", mode: "fields", layout: "file", vars: [{ key: "", value: "" }], yaml: "" };
+      return {
+        component: kind,
+        group: "",
+        mode: "fields",
+        layout: str("layout") === "dir" ? "dir" : "file",
+        vars: [{ key: "", value: "" }],
+        yaml: "",
+      };
     case "playbook":
-      return { component: "playbook", name: "", folder: "playbooks", plays: [emptyPlay()] };
+      return { component: kind, name: "", folder: str("folder"), plays: [emptyPlay()] };
     case "site":
-      return { component: "site", name: "site", imports: [] };
+      return { component: kind, name: "", imports: [] };
     case "commonrole":
-      return { component: "commonrole", name: "common", timezone: "UTC" };
+      return { component: kind, name: "", timezone: str("timezone") };
     case "role":
-      return { component: "role", name: "", description: "" };
+      return { component: kind, name: "", description: str("description") };
   }
 }
 
@@ -311,7 +319,10 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
   if (!kind) return null;
   const f = recipe.fields;
   const labels = Object.entries(recipe.labels ?? {}).map(([key, value]) => ({ key, value }));
-  const num = (raw: string | undefined, fallback: number) => (raw && !Number.isNaN(Number(raw)) ? Number(raw) : fallback);
+  // Fields missing from an older recipe take the registry default, never a literal.
+  const num = (raw: string | undefined, field: string) =>
+    raw && !Number.isNaN(Number(raw)) ? Number(raw) : (fieldNumber(recipe.reference, field) as number);
+  const str = (raw: string | undefined, field: string) => raw ?? fieldDefault(recipe.reference, field) ?? "";
 
   switch (kind) {
     case "deployment":
@@ -321,8 +332,8 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
         namespace: f.namespace ?? "",
         labels,
         image: f.image ?? "",
-        replicas: num(f.replicas, 1),
-        port: num(f.port, 80),
+        replicas: num(f.replicas, "replicas"),
+        port: num(f.port, "port"),
       };
     case "service":
       return {
@@ -330,7 +341,7 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
         name: recipe.name,
         namespace: f.namespace ?? "",
         labels,
-        port: num(f.port, 80),
+        port: num(f.port, "port"),
         targetPort: f.target_port ? Number(f.target_port) : undefined,
       };
     case "ingress":
@@ -340,9 +351,9 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
         namespace: f.namespace ?? "",
         labels,
         host: f.host ?? "",
-        path: f.path ?? "/",
+        path: str(f.path, "path"),
         service: f.service ?? "",
-        port: num(f.port, 80),
+        port: num(f.port, "port"),
       };
     case "digitalocean":
     case "hetzner":
@@ -351,13 +362,16 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
         name: recipe.name,
         region: f.region ?? "",
         size: f.size ?? "",
-        osImage: f.os_image ?? OS_IMAGES[kind][0].slug,
-        count: num(f.count, 1),
+        osImage: str(f.os_image, "os_image"),
+        count: num(f.count, "count"),
       };
     case "ansible":
       return { component: kind, name: recipe.name, hosts: f.hosts ?? "", k8sVersion: f.k8s_version ?? "" };
     case "inventory": {
-      const { hosts, groups } = entriesToFormValues(parseInventoryEntries(f.hosts));
+      const { hosts, groups } = entriesToFormValues(parseInventoryEntries(f.hosts), {
+        user: str(f.default_user, "default_user"),
+        port: num(f.default_port, "default_port"),
+      });
       return { component: kind, name: recipe.name, hosts, groups };
     }
     case "groupvars": {
@@ -378,7 +392,7 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
         imports: parseJson<{ name: string; path: string }[]>(f.playbooks, []),
       };
     case "commonrole":
-      return { component: kind, name: recipe.name, timezone: f.timezone ?? "UTC" };
+      return { component: kind, name: recipe.name, timezone: str(f.timezone, "timezone") };
     case "role":
       return { component: kind, name: recipe.name, description: f.description ?? "" };
   }

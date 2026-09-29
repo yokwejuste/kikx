@@ -132,7 +132,7 @@ export function PlaysFields({
                       value={(rolesField.value as string[] | undefined) ?? []}
                       onChange={rolesField.onChange}
                       suggestions={roleSuggestions}
-                      placeholder="containerd, kube_common…"
+                      placeholder="role names, in run order"
                       invalid={!!rowErrors?.roles}
                     />
                   )}
@@ -163,7 +163,7 @@ export function PlaysFields({
                                 <span className="truncate font-mono text-foreground">{role}</span>
                                 <Input
                                   value={conditions[role] ?? ""}
-                                  placeholder="always runs — e.g. db_tls_enabled | default(false)"
+                                  placeholder="always runs — or a Jinja condition"
                                   className="font-mono text-xs"
                                   onChange={(e) => conditionsField.onChange({ ...conditions, [role]: e.target.value })}
                                 />
@@ -191,7 +191,7 @@ export function PlaysFields({
                       {key === "preTasks" ? "Before the roles" : "After the roles"}
                       <Textarea
                         spellCheck={false}
-                        placeholder={"- name: Annotate the deploy\n  ansible.builtin.include_role:\n    name: monitoring_annotate"}
+                        placeholder={"- name: …\n  ansible.builtin.debug:\n    msg: …"}
                         className="min-h-24 font-mono text-xs text-foreground"
                         {...form.register(`plays.${index}.${key}` as never)}
                       />
@@ -215,7 +215,7 @@ export function PlaysFields({
                         aria-label="Tags"
                         value={(tagsField.value as string[] | undefined) ?? []}
                         onChange={tagsField.onChange}
-                        placeholder="k8s, k8s_workers"
+                        placeholder="tag names"
                       />
                     )}
                   />

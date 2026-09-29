@@ -6,7 +6,8 @@ use kikx_core::ops;
 use kikx_core::registry;
 
 use super::dto::{
-    ComponentsResponse, RegistryInspectQuery, RegistryItemDto, RenderRequest, RenderResponse,
+    ComponentsResponse, ConfigResponse, RegistryInspectQuery, RegistryItemDto, RegistryResponse,
+    RenderRequest, RenderResponse,
 };
 use super::error::{ApiError, ErrorDto};
 
@@ -21,6 +22,19 @@ pub async fn list_components() -> Json<ComponentsResponse> {
             .map(|item| item.reference())
             .collect(),
     })
+}
+
+pub async fn registry() -> Json<RegistryResponse> {
+    Json(RegistryResponse {
+        items: registry::builtin::all()
+            .into_iter()
+            .map(RegistryItemDto::from)
+            .collect(),
+    })
+}
+
+pub async fn config() -> Json<ConfigResponse> {
+    Json(ConfigResponse::current())
 }
 
 pub async fn registry_inspect(Query(query): Query<RegistryInspectQuery>) -> Response {

@@ -22,7 +22,7 @@ pub fn apply_bundle(target_dir: &Path, params: ApplyParams) -> Result<ApplyOutco
         .project
         .as_ref()
         .map(|p| p.namespace.clone())
-        .unwrap_or_else(|| "default".to_string());
+        .unwrap_or_else(crate::config::default_namespace);
 
     let rendered = render_manifest(&manifest, &default_namespace)?;
 
