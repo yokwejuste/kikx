@@ -74,6 +74,7 @@ async fn list_components_returns_all_builtins() {
             "ansible/group-vars",
             "ansible/common-role",
             "ansible/playbook",
+            "ansible/site",
         ]
     );
 }

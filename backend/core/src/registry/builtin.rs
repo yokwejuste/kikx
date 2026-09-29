@@ -136,7 +136,7 @@ pub fn all() -> Vec<RegistryItem> {
             title: "Group Vars".to_string(),
             description: "Shared variables for one Ansible inventory group (group_vars/<group>.yml)."
                 .to_string(),
-            fields: vec![required_field("group"), required_field("vars")],
+            fields: vec![required_field("group"), field("vars"), field("yaml")],
             files: vec![file(
                 "group_vars/{{ group }}.yml",
                 include_str!("../../templates/ansible/group-vars.yml.jinja"),
@@ -171,12 +171,28 @@ pub fn all() -> Vec<RegistryItem> {
             name: "playbook".to_string(),
             category: "ansible".to_string(),
             title: "Playbook".to_string(),
-            description: "Assigns roles to an Inventory group — the site.yml piece that ties roles to hosts."
+            description: "Assigns roles to Inventory groups — one or more plays, each targeting a group."
                 .to_string(),
-            fields: vec![required_field("hosts"), required_field("roles")],
+            fields: vec![
+                field("hosts"),
+                field("roles"),
+                field("plays"),
+                field("folder"),
+            ],
+            files: vec![file(
+                "{% if folder %}{{ folder }}/{% endif %}{{ name }}.yml",
+                include_str!("../../templates/ansible/playbook.yml.jinja"),
+            )],
+        },
+        RegistryItem {
+            name: "site".to_string(),
+            category: "ansible".to_string(),
+            title: "Site Playbook".to_string(),
+            description: "The entry point (site.yml) that imports your playbooks in order.".to_string(),
+            fields: vec![required_field("playbooks")],
             files: vec![file(
                 "{{ name }}.yml",
-                include_str!("../../templates/ansible/playbook.yml.jinja"),
+                include_str!("../../templates/ansible/site.yml.jinja"),
             )],
         },
     ]

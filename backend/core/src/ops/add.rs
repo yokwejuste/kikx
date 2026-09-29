@@ -324,6 +324,84 @@ mod tests {
         assert!(content.contains("- nginx"));
     }
 
+    fn render(reference: &str, name: &str, fields: &[(&str, &str)]) -> RenderOutcome {
+        render_component(RenderParams {
+            reference: reference.to_string(),
+            name: name.to_string(),
+            fields: fields
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect(),
+            labels: vec![],
+            default_namespace: "default".to_string(),
+        })
+        .unwrap()
+    }
+
+    #[test]
+    fn inventory_omits_null_connection_vars_and_renders_host_vars() {
+        let hosts = r#"[
+            {"group":"cp","members":[{"name":"cp-01","ansible_host":"10.0.0.1","ansible_user":null,"ansible_port":null,"vars":{"kube_bootstrap":"true"}}]},
+            {"group":"redis","members":[{"name":"cp-01","ansible_host":null,"ansible_user":null,"ansible_port":null}]},
+            {"group":"all","vars":{"ansible_user":"admin"}}
+        ]"#;
+        let content = render("ansible/inventory", "site", &[("hosts", hosts)])
+            .files
+            .remove(0)
+            .content;
+
+        assert!(content.contains("cp-01 ansible_host=10.0.0.1 kube_bootstrap=true\n"));
+        assert!(content.contains("[redis]\ncp-01\n"));
+        assert!(!content.contains("ansible_user=root"));
+        assert!(content.contains("[all:vars]\nansible_user=admin"));
+    }
+
+    #[test]
+    fn group_vars_accepts_raw_yaml() {
+        let content = render(
+            "ansible/group-vars",
+            "db",
+            &[("group", "db"), ("yaml", "postgres:\n  version: 16\n\n")],
+        )
+        .files
+        .remove(0)
+        .content;
+
+        assert_eq!(content, "---\npostgres:\n  version: 16\n");
+    }
+
+    #[test]
+    fn playbook_renders_multiple_plays_into_a_folder() {
+        let plays = r#"[
+            {"name":"Prereqs","hosts":"k8s","become":true,"tags":["k8s"],"roles":["containerd","kube_common"]},
+            {"name":"Workers","hosts":"k8s_workers","become":false,"tags":[],"roles":["kube_worker"]}
+        ]"#;
+        let outcome = render(
+            "ansible/playbook",
+            "k8s",
+            &[("plays", plays), ("folder", "playbooks")],
+        );
+
+        assert_eq!(outcome.files[0].path, PathBuf::from("playbooks/k8s.yml"));
+        let content = &outcome.files[0].content;
+        assert!(content.contains(
+            "- name: Prereqs\n  hosts: k8s\n  become: true\n  tags: [k8s]\n  roles:\n    - containerd\n    - kube_common\n"
+        ));
+        assert!(content.contains("\n\n- name: Workers\n  hosts: k8s_workers\n  roles:\n    - kube_worker\n"));
+    }
+
+    #[test]
+    fn site_imports_playbooks_in_order() {
+        let playbooks = r#"[{"name":"Bootstrap","path":"playbooks/bootstrap.yml"},{"name":"Kubernetes","path":"playbooks/k8s.yml"}]"#;
+        let outcome = render("ansible/site", "site", &[("playbooks", playbooks)]);
+
+        assert_eq!(outcome.files[0].path, PathBuf::from("site.yml"));
+        assert_eq!(
+            outcome.files[0].content,
+            "---\n- name: Bootstrap\n  import_playbook: playbooks/bootstrap.yml\n- name: Kubernetes\n  import_playbook: playbooks/k8s.yml\n"
+        );
+    }
+
     #[test]
     fn rejects_two_files_rendering_to_the_same_path() {
         let item_json = r#"{"name":"dup","category":"acme","files":[{"path":"same.txt","template":"a"},{"path":"same.txt","template":"b"}]}"#;
