@@ -1,14 +1,8 @@
 ## What
 
-<!-- What does this change, in one or two sentences? -->
-
 ## Why
 
-<!-- What prompted it — a bug, a missing component, a rough edge? Link an issue if there is one. -->
-
 ## Testing
-
-<!-- Commands you ran, or "none" if this is docs-only. -->
 
 ```bash
 
