@@ -104,10 +104,10 @@ fn renders_playbook_assigning_roles_to_a_group() {
 
     assert_eq!(outcome.files.len(), 1);
     assert_eq!(outcome.files[0].path, PathBuf::from("web-site.yml"));
-    let content = &outcome.files[0].content;
-    assert!(content.contains("hosts: web"));
-    assert!(content.contains("- hygiene"));
-    assert!(content.contains("- nginx"));
+    assert_eq!(
+        outcome.files[0].content,
+        "---\n- name: web-site\n  hosts: web\n  become: true\n  roles:\n    - hygiene\n    - nginx\n"
+    );
 }
 
 #[test]

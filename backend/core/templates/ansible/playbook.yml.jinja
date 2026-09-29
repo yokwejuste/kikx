@@ -37,6 +37,6 @@
   become: true
   roles:
 {% for role in roles -%}
-    - {{ role }}
+{{ "    - " ~ role }}
 {% endfor -%}
 {% endif -%}
