@@ -18,6 +18,7 @@ import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
 import { TemplateGallery } from "@/components/home/template-gallery";
 import { KikxMark } from "@/components/common/kikx-mark";
+import { useFirstVisitTour } from "@/lib/tour/use-tour";
 
 const SNIPPET = [
   { cmd: "kikx init --name <project>" },
@@ -41,6 +42,7 @@ function HomeContent() {
   const router = useRouter();
   const { setDetails, reset, loadProject } = useProject();
   const [opening, setOpening] = useState<string | null>(null);
+  useFirstVisitTour("home");
 
   async function open(label: string, manifest: () => Promise<PresetManifest>, fallbackName: string) {
     setOpening(label);
@@ -80,7 +82,7 @@ function HomeContent() {
       />
 
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-10 px-6 py-24 text-center">
-        <div className="flex flex-col items-center gap-4">
+        <div data-tour="welcome" className="flex flex-col items-center gap-4">
           <h1 className="flex items-center gap-4 text-5xl font-semibold tracking-tight">
             <KikxMark className="size-12" />
             kikx
@@ -91,7 +93,7 @@ function HomeContent() {
           </p>
         </div>
 
-        <div className="w-full overflow-hidden rounded-xl border bg-card text-left shadow-sm">
+        <div data-tour="cli" className="w-full overflow-hidden rounded-xl border bg-card text-left shadow-sm">
           <div className="flex items-center gap-1.5 border-b bg-muted/40 px-4 py-2.5">
             <span className="size-2.5 rounded-full bg-muted-foreground/20" />
             <span className="size-2.5 rounded-full bg-muted-foreground/20" />
@@ -112,7 +114,7 @@ function HomeContent() {
           onSelect={(name) => open(name, async () => toPresetManifest(await api.preset(name)), name)}
         />
 
-        <div className="w-full rounded-xl border bg-card p-6 text-left">
+        <div data-tour="new-project" className="w-full rounded-xl border bg-card p-6 text-left">
           <h2 className="text-sm font-medium">Or build it here</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Fill in your project&apos;s details, add the components you need, and download the
@@ -145,7 +147,7 @@ function HomeContent() {
           </form>
         </div>
 
-        <label className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:bg-muted/40">
+        <label data-tour="open-preset" className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:bg-muted/40">
           <span className="flex items-center gap-3">
             <FolderOpen className="size-4 text-muted-foreground" />
             <span>

@@ -70,7 +70,7 @@ export function DashboardHeader({
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <Tabs value={view} onValueChange={(v) => onViewChange(v as View)}>
+        <Tabs data-tour="views" value={view} onValueChange={(v) => onViewChange(v as View)}>
           <TabsList>
             <TabsTrigger value="build">Build</TabsTrigger>
             <TabsTrigger value="diagram">Architecture</TabsTrigger>
@@ -80,7 +80,7 @@ export function DashboardHeader({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Button type="button" disabled={components.length === 0 || downloading} onClick={download}>
+        <Button data-tour="download" type="button" disabled={components.length === 0 || downloading} onClick={download}>
           <Download />
           {downloading ? "Zipping…" : "Download .zip"}
         </Button>

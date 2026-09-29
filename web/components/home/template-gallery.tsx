@@ -18,7 +18,7 @@ export function TemplateGallery({
   if (!presets.data?.length) return null;
 
   return (
-    <section className="w-full text-left">
+    <section data-tour="templates" className="w-full text-left">
       <h2 className="text-sm font-medium">Start from a template</h2>
       <p className="mt-1 text-sm text-muted-foreground">
         A complete, editable project to adapt instead of starting from an empty page.

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Waypoints } from "lucide-react";
 import { KikxMark } from "@/components/common/kikx-mark";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { TourButton } from "@/components/layout/tour-button";
 
 export function SiteHeader() {
   return (
@@ -13,11 +14,13 @@ export function SiteHeader() {
       <nav className="flex items-center gap-1">
         <Link
           href="/flow"
+          data-tour="data-flow"
           className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           <Waypoints className="size-4" />
           Data flow
         </Link>
+        <TourButton />
         <ThemeToggle />
       </nav>
     </header>
