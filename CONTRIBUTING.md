@@ -164,6 +164,8 @@ It checks that the tag matches `cli/Cargo.toml`'s version, runs the Rust test su
 and publishes the `kikx` CLI as a GitHub Release with binaries for macOS (arm64 + x64), Linux (x64
 + arm64) and Windows (x64).
 
+`install.sh` downloads `kikx-<version>-<os>-<arch>.tar.gz` from the latest release, so keep those archive names when changing the workflow.
+
 ```bash
 git commit -am "chore: release v0.2.0"
 git tag v0.2.0

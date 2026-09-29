@@ -4,6 +4,10 @@
   "private": true,
   "author": "Steve Yonkeu <steve@yokwejuste.me>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yokwejuste/kikx"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

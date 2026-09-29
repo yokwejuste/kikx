@@ -23,7 +23,15 @@ You need:
 
 ## Install kikx
 
-Download the archive for your platform from the [kikx releases page](https://github.com/yokwejuste/kikx/releases):
+On macOS or Linux, install it with one command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/yokwejuste/kikx/main/install.sh | bash
+```
+
+The script picks the archive for your system from the latest release and puts `kikx` in `/usr/local/bin`, or in `~/.local/bin` when it can't write there. Set `KIKX_VERSION` to install a specific release, or `KIKX_INSTALL_DIR` to choose the directory.
+
+On Windows, or to install by hand, download the archive for your platform from the [kikx releases page](https://github.com/yokwejuste/kikx/releases):
 
 | Platform | Archive |
 |-|-|
@@ -48,7 +56,7 @@ kikx --version
 ```
 
 ```text
-kikx 0.1.0
+kikx 0.2.0
 ```
 
 ## Create the project

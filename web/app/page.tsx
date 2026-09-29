@@ -25,6 +25,7 @@ import { KikxMark } from "@/components/common/kikx-mark";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
 
 const SNIPPET = [
+  { cmd: "curl -fsSL https://raw.githubusercontent.com/yokwejuste/kikx/main/install.sh | bash" },
   { cmd: "kikx init --name <project>" },
   { cmd: "kikx presets" },
   { cmd: "kikx setup <template>" },
@@ -127,7 +128,7 @@ function HomeContent() {
               </>
             ) : (
               <>
-                <Link href="/build" className="flex min-w-0 flex-1 items-center gap-3 hover:underline-offset-4">
+                <Link href="/build" className="flex min-w-48 flex-1 items-center gap-3 hover:underline-offset-4">
                   <History className="size-4 shrink-0 text-muted-foreground" />
                   <span>
                     <span className="font-medium">{t("resume.continueTitle", { name: details.name })}</span>
