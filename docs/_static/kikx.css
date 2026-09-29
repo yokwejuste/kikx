@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&display=swap");
+
+body {
+    --font-stack: "Source Serif 4", Georgia, serif;
+    --font-stack--headings: "Source Serif 4", Georgia, serif;
+}
+
+.sidebar-drawer,
+.toc-drawer,
+.language-switcher,
+table {
+    font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+.sidebar-brand {
+    padding: 1.25rem var(--sidebar-item-spacing-horizontal) 0.5rem;
+}
+
+.kikx-brand {
+    color: var(--color-foreground-primary);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.sidebar-tree .toctree-l1 > .reference {
+    color: var(--color-foreground-secondary);
+}
+
+.sidebar-tree .reference:hover {
+    color: var(--color-foreground-primary);
+}
+
+.sidebar-tree .current-page > .reference {
+    color: var(--color-foreground-primary);
+    font-weight: 700;
+}
+
+.sidebar-tree > ul {
+    border-bottom: 1px solid var(--color-background-border);
+    padding-bottom: 1rem;
+}
+
+.sidebar-search-container {
+    border-bottom: 1px solid var(--color-background-border);
+}
+
+input.sidebar-search {
+    border: none;
+}
+
+.language-switcher {
+    align-items: center;
+    display: flex;
+    font-size: var(--font-size--small--2);
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.language-switcher a {
+    color: var(--color-foreground-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.language-switcher a:hover,
+.language-switcher a[aria-current="page"] {
+    color: var(--color-foreground-primary);
+}
+
+.language-switcher a[aria-current="page"] {
+    font-weight: 700;
+}
+
+.language-switcher-short {
+    display: none;
+}
+
+@media (max-width: 63em) {
+    .language-switcher-long {
+        display: none;
+    }
+
+    .language-switcher-short {
+        display: inline;
+    }
+}
+
+.quadrants .sd-card.sd-shadow-sm,
+.quadrants .sd-card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    border-top: 2px solid var(--color-foreground-primary);
+    box-shadow: none !important;
+}
+
+.quadrants .sd-card-body {
+    padding: 1rem 0 0;
+}
+
+.quadrants .sd-card-title {
+    font-family: var(--font-stack--headings);
+    font-size: 1.4rem;
+}
+
+.quadrants .sd-card-text:first-of-type em {
+    color: var(--color-foreground-secondary);
+}
+
+hr.docutils {
+    background-color: var(--color-background-border);
+}
+
+.related-pages a:hover .page-info .title {
+    text-decoration: underline;
+}
+
+.toc-tree li.scroll-current > .reference {
+    color: var(--color-foreground-primary);
+    font-weight: 700;
+}
+
+.nav-overlay-icon .icon svg,
+.toc-overlay-icon .icon svg,
+.theme-toggle svg {
+    color: var(--color-foreground-primary);
+}
+
+.highlight .hll,
+.highlight .err {
+    background: var(--color-background-border);
+    border: none;
+}
+
+.highlight,
+.highlight pre {
+    background: var(--color-code-background);
+    color: var(--color-code-foreground);
+}
+
+.sd-card,
+.sd-card-header,
+.sd-card-footer {
+    background: none;
+    border-color: var(--color-background-border);
+    color: var(--color-foreground-primary);
+}
+
+.sd-card-title a,
+.sd-card-text a {
+    color: var(--color-foreground-primary);
+}

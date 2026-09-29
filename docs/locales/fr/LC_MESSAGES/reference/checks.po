@@ -1,0 +1,411 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Checks"
+msgstr "Vérifications"
+
+msgid "The dashboard's Checks view, computed in the browser by `checkProject` in `web/lib/project/checks.ts`. Checks read component field values; they do not call the backend or read files on disk."
+msgstr "La vue « Checks » du tableau de bord, calculée dans le navigateur par `checkProject` dans `web/lib/project/checks.ts`. Les vérifications lisent les valeurs des champs des composants ; elles n'appellent pas le backend et ne lisent aucun fichier sur le disque."
+
+msgid "Severities"
+msgstr "Sévérités"
+
+msgid "Severity"
+msgstr "Sévérité"
+
+msgid "Order"
+msgstr "Ordre"
+
+msgid "`error`"
+msgstr "`error`"
+
+msgid "1"
+msgstr "1"
+
+msgid "`warning`"
+msgstr "`warning`"
+
+msgid "2"
+msgstr "2"
+
+msgid "`info`"
+msgstr "`info`"
+
+msgid "3"
+msgstr "3"
+
+msgid "Issues are listed in this order."
+msgstr "Les problèmes sont listés dans cet ordre."
+
+msgid "Summary"
+msgstr "Résumé"
+
+msgid "ID pattern"
+msgstr "Modèle d'ID"
+
+msgid "Component types"
+msgstr "Types de composants"
+
+msgid "[`dup-file:<file>`](#dup-file)"
+msgstr "[`dup-file:<file>`](#dup-file)"
+
+msgid "any"
+msgstr "tous"
+
+msgid "[`cycle:<inventory>`](#cycle)"
+msgstr "[`cycle:<inventory>`](#cycle)"
+
+msgid "`ansible/inventory`"
+msgstr "`ansible/inventory`"
+
+msgid "[`addr:<host>:<address>`](#addr)"
+msgstr "[`addr:<host>:<address>`](#addr)"
+
+msgid "[`empty-child:<inventory>:<group>:<child>`](#empty-child)"
+msgstr "[`empty-child:<inventory>:<group>:<child>`](#empty-child)"
+
+msgid "[`override:<inventory>:<host>:<key>:<group>`](#override)"
+msgstr "[`override:<inventory>:<host>:<key>:<group>`](#override)"
+
+msgid "[`gv-layouts:<group>`](#gv-layouts)"
+msgstr "[`gv-layouts:<group>`](#gv-layouts)"
+
+msgid "`ansible/group-vars`"
+msgstr "`ansible/group-vars`"
+
+msgid "[`gv-group:<group-vars>`](#gv-group)"
+msgstr "[`gv-group:<group-vars>`](#gv-group)"
+
+msgid "`ansible/group-vars`, `ansible/inventory`"
+msgstr "`ansible/group-vars`, `ansible/inventory`"
+
+msgid "[`gv-shadow:<group-vars>:<inventory>:<key>`](#gv-shadow)"
+msgstr "[`gv-shadow:<group-vars>:<inventory>:<key>`](#gv-shadow)"
+
+msgid "[`play-hosts:<playbook>:<play index>:<target>`](#play-hosts)"
+msgstr "[`play-hosts:<playbook>:<play index>:<target>`](#play-hosts)"
+
+msgid "`ansible/playbook`, `ansible/inventory`"
+msgstr "`ansible/playbook`, `ansible/inventory`"
+
+msgid "[`site-missing:<site>:<path>`](#site-missing)"
+msgstr "[`site-missing:<site>:<path>`](#site-missing)"
+
+msgid "`ansible/site`, `ansible/playbook`"
+msgstr "`ansible/site`, `ansible/playbook`"
+
+msgid "[`svc-selector:<service>`](#svc-selector)"
+msgstr "[`svc-selector:<service>`](#svc-selector)"
+
+msgid "`k8s/service`, `k8s/deployment`"
+msgstr "`k8s/service`, `k8s/deployment`"
+
+msgid "[`ing-backend:<ingress>`](#ing-backend)"
+msgstr "[`ing-backend:<ingress>`](#ing-backend)"
+
+msgid "`k8s/ingress`, `k8s/service`"
+msgstr "`k8s/ingress`, `k8s/service`"
+
+msgid "[`multi-inventory`](#multi-inventory)"
+msgstr "[`multi-inventory`](#multi-inventory)"
+
+msgid "[`ext-roles:<playbook>`](#ext-roles)"
+msgstr "[`ext-roles:<playbook>`](#ext-roles)"
+
+msgid "`ansible/playbook`"
+msgstr "`ansible/playbook`"
+
+msgid "[`not-imported:<playbook>`](#not-imported)"
+msgstr "[`not-imported:<playbook>`](#not-imported)"
+
+msgid "`ansible/playbook`, `ansible/site`"
+msgstr "`ansible/playbook`, `ansible/site`"
+
+msgid "In ID patterns, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>` and `<ingress>` are the dashboard's internal component IDs."
+msgstr "Dans les modèles d'ID, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>` et `<ingress>` sont les identifiants internes des composants dans le tableau de bord."
+
+msgid "Definitions"
+msgstr "Définitions"
+
+msgid "Term"
+msgstr "Terme"
+
+msgid "Meaning"
+msgstr "Signification"
+
+msgid "Inventory entries"
+msgstr "Entrées d'inventaire"
+
+msgid "The parsed `hosts` field of an `ansible/inventory` component. See [Components](components.md#hosts)"
+msgstr "Le champ `hosts` analysé d'un composant `ansible/inventory`. Voir [Composants](components.md#hosts)"
+
+msgid "Known groups"
+msgstr "Groupes connus"
+
+msgid "`all`, `ungrouped`, and every `group` and `children` name in every inventory"
+msgstr "`all`, `ungrouped`, et chaque nom de `group` et de `children` de chaque inventaire"
+
+msgid "Addressed hosts"
+msgstr "Hôtes adressés"
+
+msgid "Host names that have an `ansible_host` in any inventory"
+msgstr "Noms d'hôtes qui ont un `ansible_host` dans un inventaire quelconque"
+
+msgid "Group of a group-vars component"
+msgstr "Groupe d'un composant de group vars"
+
+msgid "Its `group` field, else its component name"
+msgstr "Son champ `group`, sinon son nom de composant"
+
+msgid "Plays"
+msgstr "Plays"
+
+msgid "The parsed `plays` field of an `ansible/playbook` component, else one play from its `hosts` and `roles` fields"
+msgstr "Le champ `plays` analysé d'un composant `ansible/playbook`, sinon un seul play issu de ses champs `hosts` et `roles`"
+
+msgid "Play targets"
+msgstr "Cibles d'un play"
+
+msgid "The play's `hosts` split on `:` and `,`, trimmed, with a leading `!` or `&` removed, empty parts dropped"
+msgstr "Le `hosts` du play découpé sur `:` et `,`, sans espaces autour, sans `!` ou `&` initial, les parties vides étant supprimées"
+
+msgid "Playbook path"
+msgstr "Chemin du playbook"
+
+msgid "`<folder>/<name>.yml` with trailing `/` removed from `folder`, or `<name>.yml` when `folder` is empty"
+msgstr "`<folder>/<name>.yml` avec le `/` final retiré de `folder`, ou `<name>.yml` lorsque `folder` est vide"
+
+msgid "Vendored roles"
+msgstr "Rôles vendorisés"
+
+msgid "Names of `ansible/*` components, other than `inventory`, `group-vars`, `playbook` and `site`, that render more than one file"
+msgstr "Noms des composants `ansible/*`, autres que `inventory`, `group-vars`, `playbook` et `site`, qui rendent plus d'un fichier"
+
+msgid "App label"
+msgstr "Label app"
+
+msgid "A component's `app` label, else its name"
+msgstr "Le label `app` d'un composant, sinon son nom"
+
+msgid "Checks that compare against the inventory ([`gv-group`](#gv-group), [`play-hosts`](#play-hosts)) run only when the project has at least one inventory."
+msgstr "Les vérifications qui comparent à l'inventaire ([`gv-group`](#gv-group), [`play-hosts`](#play-hosts)) ne s'exécutent que lorsque le projet contient au moins un inventaire."
+
+msgid "`dup-file`"
+msgstr "`dup-file`"
+
+msgid "Trigger"
+msgstr "Déclencheur"
+
+msgid "Two or more components render a file with the same path"
+msgstr "Deux composants ou plus rendent un fichier ayant le même chemin"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "`<count> components write <file>`"
+msgstr "`<count> components write <file>`"
+
+msgid "Detail"
+msgstr "Détail"
+
+msgid "`Only the last one survives in the download. Remove or rename one of them.`"
+msgstr "`Only the last one survives in the download. Remove or rename one of them.`"
+
+msgid "`cycle`"
+msgstr "`cycle`"
+
+msgid "The `children` of an inventory's groups form a cycle. One issue per inventory, for the first cycle found"
+msgstr "Les `children` des groupes d'un inventaire forment un cycle. Un problème par inventaire, pour le premier cycle trouvé"
+
+msgid "`Group nesting loops: <a> → <b> → <a>`"
+msgstr "`Group nesting loops: <a> → <b> → <a>`"
+
+msgid "`Ansible refuses to load an inventory whose :children form a cycle.`"
+msgstr "`Ansible refuses to load an inventory whose :children form a cycle.`"
+
+msgid "`addr`"
+msgstr "`addr`"
+
+msgid "A host name appears with two different `ansible_host` values, in one or several inventories"
+msgstr "Un nom d'hôte apparaît avec deux valeurs `ansible_host` différentes, dans un ou plusieurs inventaires"
+
+msgid "`<host> has two addresses: <first> and <second>`"
+msgstr "`<host> has two addresses: <first> and <second>`"
+
+msgid "`The same host name points at different machines — Ansible uses whichever it reads last.`"
+msgstr "`The same host name points at different machines — Ansible uses whichever it reads last.`"
+
+msgid "`empty-child`"
+msgstr "`empty-child`"
+
+msgid "A group's `children` names a group that has no `members` and no `children` in the same inventory"
+msgstr "Les `children` d'un groupe nomment un groupe qui n'a ni `members` ni `children` dans le même inventaire"
+
+msgid "`[<group>:children] lists \"<child>\", which has no hosts`"
+msgstr "`[<group>:children] lists \"<child>\", which has no hosts`"
+
+msgid "`Probably a typo — or add hosts to that group.`"
+msgstr "`Probably a typo — or add hosts to that group.`"
+
+msgid "`override`"
+msgstr "`override`"
+
+msgid "A host sets `ansible_user` or `ansible_port` to a non-empty value, and its group or an ancestor group sets the same key in `vars` to a different value"
+msgstr "Un hôte définit `ansible_user` ou `ansible_port` avec une valeur non vide, et son groupe ou un groupe ancêtre définit la même clé dans `vars` avec une valeur différente"
+
+msgid "`<host> sets <key>=<host value>, overriding [<group>:vars] <key>=<group value>`"
+msgstr "`<host> sets <key>=<host value>, overriding [<group>:vars] <key>=<group value>`"
+
+msgid "`Host vars win over group vars. Clear <key> on the host if the group value is the one you want.`"
+msgstr "`Host vars win over group vars. Clear <key> on the host if the group value is the one you want.`"
+
+msgid "`gv-layouts`"
+msgstr "`gv-layouts`"
+
+msgid "Two or more `ansible/group-vars` components target the same group, whatever their `layout`"
+msgstr "Deux composants `ansible/group-vars` ou plus ciblent le même groupe, quel que soit leur `layout`"
+
+msgid "`Group \"<group>\" has both group_vars/<group>.yml and group_vars/<group>/main.yml`"
+msgstr "`Group \"<group>\" has both group_vars/<group>.yml and group_vars/<group>/main.yml`"
+
+msgid "`Ansible loads and merges both, so a key set twice depends on load order. Keep one layout.`"
+msgstr "`Ansible loads and merges both, so a key set twice depends on load order. Keep one layout.`"
+
+msgid "`gv-group`"
+msgstr "`gv-group`"
+
+msgid "A group-vars component's group is not a known group"
+msgstr "Le groupe d'un composant de group vars n'est pas un groupe connu"
+
+msgid "`group_vars/<group>.yml targets a group no inventory defines`"
+msgstr "`group_vars/<group>.yml targets a group no inventory defines`"
+
+msgid "`Those variables will never be loaded. Check the spelling against your inventory groups.`"
+msgstr "`Those variables will never be loaded. Check the spelling against your inventory groups.`"
+
+msgid "`gv-shadow`"
+msgstr "`gv-shadow`"
+
+msgid "A key is set both in a group-vars component and in the same group's `vars` in an inventory, unless the group-vars value is present and equal to the inventory value"
+msgstr "Une clé est définie à la fois dans un composant de group vars et dans les `vars` du même groupe dans un inventaire, sauf si la valeur des group vars est présente et égale à celle de l'inventaire"
+
+msgid "`<key> is set in both [<group>:vars] and group_vars/<group>.yml`"
+msgstr "`<key> is set in both [<group>:vars] and group_vars/<group>.yml`"
+
+msgid "`group_vars/<group>.yml wins (<file value> over <inventory value>). Keep it in one place.` The part in parentheses is omitted when the key has no value in `yaml`"
+msgstr "`group_vars/<group>.yml wins (<file value> over <inventory value>). Keep it in one place.` La partie entre parenthèses est omise lorsque la clé n'a pas de valeur dans `yaml`"
+
+msgid "Group-vars keys are read from `yaml` when set, as top-level lines matching `name: value` with surrounding quotes removed from the value; otherwise from `vars`."
+msgstr "Les clés des group vars sont lues depuis `yaml` lorsqu'il est défini, sous forme de lignes de premier niveau correspondant à `name: value`, les guillemets entourant la valeur étant retirés ; sinon depuis `vars`."
+
+msgid "`play-hosts`"
+msgstr "`play-hosts`"
+
+msgid "A play target is neither a known group nor an addressed host"
+msgstr "Une cible de play n'est ni un groupe connu ni un hôte adressé"
+
+msgid "`Play \"<play name>\" targets \"<target>\", which isn't in the inventory`"
+msgstr "`Play \"<play name>\" targets \"<target>\", which isn't in the inventory`"
+
+msgid "`The play will match no hosts and silently do nothing.`"
+msgstr "`The play will match no hosts and silently do nothing.`"
+
+msgid "`site-missing`"
+msgstr "`site-missing`"
+
+msgid "A site component imports a `path` that is not the playbook path of any playbook component"
+msgstr "Un composant site importe un `path` qui n'est le chemin d'aucun composant playbook"
+
+msgid "`<site name>.yml imports <path>, which this project doesn't produce`"
+msgstr "`<site name>.yml imports <path>, which this project doesn't produce`"
+
+msgid "`Fine if the file already exists in your repo; otherwise add that playbook.`"
+msgstr "`Fine if the file already exists in your repo; otherwise add that playbook.`"
+
+msgid "`svc-selector`"
+msgstr "`svc-selector`"
+
+msgid "A service's app label matches the app label of no `k8s/deployment` component"
+msgstr "Le label app d'un service ne correspond au label app d'aucun composant `k8s/deployment`"
+
+msgid "`Service <name> selects app=<label>, but no deployment has that label`"
+msgstr "`Service <name> selects app=<label>, but no deployment has that label`"
+
+msgid "`Its endpoints will be empty. Name the deployment the same, or set the app label.`"
+msgstr "`Its endpoints will be empty. Name the deployment the same, or set the app label.`"
+
+msgid "`ing-backend`"
+msgstr "`ing-backend`"
+
+msgid "An ingress's `service` field, else its name, is not the name of any `k8s/service` component"
+msgstr "Le champ `service` d'un ingress, sinon son nom, n'est le nom d'aucun composant `k8s/service`"
+
+msgid "`Ingress <name> routes to service \"<service>\", which isn't in the project`"
+msgstr "`Ingress <name> routes to service \"<service>\", which isn't in the project`"
+
+msgid "none"
+msgstr "aucun"
+
+msgid "`multi-inventory`"
+msgstr "`multi-inventory`"
+
+msgid "The project has more than one `ansible/inventory` component"
+msgstr "Le projet contient plus d'un composant `ansible/inventory`"
+
+msgid "`<count> inventories in this project`"
+msgstr "`<count> inventories in this project`"
+
+msgid "`Fine for separate environments; pass the right one with -i. Checks treat their groups as one pool.`"
+msgstr "`Fine for separate environments; pass the right one with -i. Checks treat their groups as one pool.`"
+
+msgid "`ext-roles`"
+msgstr "`ext-roles`"
+
+msgid "A playbook's plays use roles that are not vendored roles"
+msgstr "Les plays d'un playbook utilisent des rôles qui ne sont pas des rôles vendorisés"
+
+msgid "`<playbook name> uses <count> role kikx doesn't vendor`, with `roles` when count is not 1"
+msgstr "`<playbook name> uses <count> role kikx doesn't vendor`, avec `roles` lorsque le nombre est différent de 1"
+
+msgid "`<roles> — they must already exist under roles/ in your repo, or scaffold empty ones here.`"
+msgstr "`<roles> — they must already exist under roles/ in your repo, or scaffold empty ones here.`"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "`scaffold-roles` with the list of roles"
+msgstr "`scaffold-roles` avec la liste des rôles"
+
+msgid "`not-imported`"
+msgstr "`not-imported`"
+
+msgid "The project has at least one site component, and a playbook's path is imported by none of them"
+msgstr "Le projet contient au moins un composant site, et le chemin d'un playbook n'est importé par aucun d'eux"
+
+msgid "`<path> isn't imported by any site playbook`"
+msgstr "`<path> isn't imported by any site playbook`"
+
+msgid "`It only runs if you call it directly.`"
+msgstr "`It only runs if you call it directly.`"
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Resolve file conflicts and checks](../how-to/resolve-conflicts.md)"
+msgstr "[Résoudre les conflits de fichiers et les vérifications](../how-to/resolve-conflicts.md)"
+
+msgid "[Scaffold the roles your playbooks use](../how-to/scaffold-roles.md)"
+msgstr "[Générer les rôles utilisés par vos playbooks](../how-to/scaffold-roles.md)"
+

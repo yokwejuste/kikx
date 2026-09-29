@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Wire playbooks together with a site playbook"
+msgstr "Relier les playbooks avec un playbook site"
+
+msgid "Use this when you want one entry point, `ansible-playbook site.yml`, that runs your playbooks in a fixed order."
+msgstr "Suivez ce guide lorsque vous voulez un point d'entrée unique, `ansible-playbook site.yml`, qui exécute vos playbooks dans un ordre fixe."
+
+msgid "In the dashboard"
+msgstr "Dans le tableau de bord"
+
+msgid "Add your playbooks first. See [Write a multi-play playbook](multi-play-playbooks.md)."
+msgstr "Ajoutez d'abord vos playbooks. Consultez [Écrire un playbook à plusieurs plays avec des conditions de rôle](multi-play-playbooks.md)."
+
+msgid "In **Build**, pick **Site playbook** under the Configure stage."
+msgstr "Dans « Build », choisissez « Site playbook » sous l'étape Configure."
+
+msgid "Set **Name** to `site`. The file is written as `<name>.yml`."
+msgstr "Réglez « Name » sur `site`. Le fichier est écrit sous la forme `<name>.yml`."
+
+msgid "Under **Imports, in run order**, click each playbook listed after **from this project:**, or click **Add all** to import every one of them."
+msgstr "Sous « Imports, in run order », cliquez sur chaque playbook listé après « from this project: », ou cliquez sur « Add all » pour tous les importer."
+
+msgid "To import a playbook that already lives in your repo and that kikx doesn't produce, click **Add path**. Then type a step name and the playbook's path relative to `site.yml`, for example `playbooks/legacy.yml`."
+msgstr "Pour importer un playbook qui se trouve déjà dans votre dépôt et que kikx ne produit pas, cliquez sur « Add path ». Saisissez ensuite un nom d'étape et le chemin du playbook relativement à `site.yml`, par exemple `playbooks/legacy.yml`."
+
+msgid "Reorder the rows with the arrows. `ansible-playbook` runs them top to bottom."
+msgstr "Réordonnez les lignes avec les flèches. `ansible-playbook` les exécute de haut en bas."
+
+msgid "Click **Add to project**."
+msgstr "Cliquez sur « Add to project »."
+
+msgid "**Checks** then tells you about two things:"
+msgstr "« Checks » vous signale alors deux choses :"
+
+msgid "an import that points to a playbook this project doesn't produce. That's fine if the file already exists in your repo."
+msgstr "un import qui pointe vers un playbook que ce projet ne produit pas. Ce n'est pas un problème si le fichier existe déjà dans votre dépôt."
+
+msgid "a playbook that no site playbook imports. It only runs if you call it directly."
+msgstr "un playbook qu'aucun playbook site n'importe. Il ne s'exécute que si vous l'appelez directement."
+
+msgid "With the CLI"
+msgstr "Avec la CLI"
+
+msgid "This writes `site.yml`:"
+msgstr "Cette commande écrit `site.yml` :"
+
+msgid "Paths are relative to `site.yml`, which kikx writes at the root of the output directory."
+msgstr "Les chemins sont relatifs à `site.yml`, que kikx écrit à la racine du répertoire de sortie."
+
+msgid "Point Ansible at the inventory and roles"
+msgstr "Indiquer à Ansible l'inventaire et les rôles"
+
+msgid "If your playbooks sit in a subfolder such as `playbooks/`, Ansible looks for roles next to each playbook, not in the root `roles/` folder. Add an `ansible.cfg` next to `site.yml` that points at the vendored roles and your inventory."
+msgstr "Si vos playbooks se trouvent dans un sous-dossier comme `playbooks/`, Ansible cherche les rôles à côté de chaque playbook, et non dans le dossier `roles/` de la racine. Ajoutez à côté de `site.yml` un `ansible.cfg` qui pointe vers les rôles vendorisés et vers votre inventaire."
+
+msgid "In the dashboard, pick **Ansible config** under the Configure stage, set **Inventory file** to your inventory, for example `platform-inventory.ini`, leave **Roles path** as `roles`, and click **Add to project**."
+msgstr "Dans le tableau de bord, choisissez « Ansible config » sous l'étape Configure, renseignez « Inventory file » avec votre inventaire, par exemple `platform-inventory.ini`, laissez « Roles path » à `roles`, puis cliquez sur « Add to project »."
+
+msgid "With the CLI:"
+msgstr "Avec la CLI :"
+
+msgid "This writes `ansible.cfg`:"
+msgstr "Cela écrit `ansible.cfg` :"
+
+msgid "The built-in [templates](presets.md#start-from-a-template) that contain Ansible already include it."
+msgstr "Les [templates](presets.md#start-from-a-template) intégrés qui contiennent de l'Ansible l'incluent déjà."
+
+msgid "Run it"
+msgstr "L'exécuter"
+
+msgid "Run these from the directory that holds `ansible.cfg`. Ansible looks for it in the current directory, not next to the playbook."
+msgstr "Lancez ces commandes depuis le répertoire qui contient `ansible.cfg`. Ansible le cherche dans le répertoire courant, et non à côté du playbook."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Components reference](../reference/components.md)"
+msgstr "[Composants](../reference/components.md)"
+
+msgid "[Resolve file conflicts and checks](resolve-conflicts.md)"
+msgstr "[Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md)"
+

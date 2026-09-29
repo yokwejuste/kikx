@@ -23,27 +23,32 @@ renders a template with the values you gave it and writes the result into your p
 files sitting next to your other code. Edit them, delete them, check them into git like anything
 else. There's no registry lock-in and no generated-code comment telling you not to touch the file.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/builder-dark.png">
-  <img alt="The kikx builder editing a multi-play Kubernetes playbook in a 34-component, 76-file project" src="docs/builder-light.png">
-</picture>
+<p align="center">
+  <img alt="Starting from a template, editing a playbook, tracing the architecture and checking the project" src="docs/source/images/kikx-demo.gif" width="900">
+</p>
 
-<sub>The builder with the bundled <a href="examples/multi-tier-platform.kikx-preset.json">multi-tier platform example</a>
-loaded: 34 components, 76 files. Stages on the left, the editor in the middle, the project on the right.</sub>
+<p align="center"><sub>The <a href="backend/core/presets/multi-tier-platform.kikx-preset.json">multi-tier-platform template</a>:
+35 components and 77 files, from the template gallery to the playbook editor, the architecture and the checks.</sub></p>
+
+## Documentation
+
+Full documentation lives in `docs/`, organised with [Diátaxis](https://diataxis.fr): tutorials, how-to
+guides, reference and explanation. It is built with Sphinx, the same toolchain as the Diátaxis site. The source pages are in English, starting at [docs/source/index.md](docs/source/index.md).
+The French translation lives in gettext catalogues under `docs/locales/fr/`, managed with sphinx-intl.
+Contributor guides (running kikx locally, tests, releases) are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Table of contents
 
+- [Documentation](#documentation)
 - [Concept](#concept)
 - [Quick start](#quick-start)
-- [Try the example project](#try-the-example-project)
+- [Start from a template](#start-from-a-template)
 - [Available components](#available-components)
 - [The dashboard](#the-dashboard)
 - [Architecture diagram](#architecture-diagram)
 - [Presets: setup vs. apply](#presets-setup-vs-apply)
-- [Configuration](#configuration)
 - [How it fits together](#how-it-fits-together)
-- [Backend API](#backend-api)
-- [Development](#development)
+- [Contributing](#contributing)
 - [Current scope](#current-scope)
 
 ## Concept
@@ -75,7 +80,18 @@ the whole model.
 
 ## Quick start
 
-### CLI
+### Install the CLI
+
+Download the archive for your platform from the
+[latest release](https://github.com/yokwejuste/kikx/releases/latest) (macOS arm64 and x64, Linux
+x64 and arm64, Windows x64), unpack it and put `kikx` on your `PATH`. With a Rust toolchain you can
+also build it from source:
+
+```bash
+cargo install --git https://github.com/yokwejuste/kikx kikx
+```
+
+Then, in your project:
 
 ```bash
 cd your-project
@@ -90,45 +106,42 @@ kikx add ansible/role   --name postgres
 label and a Service's selector both default to `app: <name>`, so a deployment and a service with
 the same `--name` target each other out of the box.
 
-### Dashboard
+### Use the dashboard
 
-```bash
-cp backend/.env.example backend/.env
-cp web/.env.example web/.env.local
+The dashboard is a hosted web app: open it in your browser, give your project a name and start
+adding components, pick a template, or open a preset you downloaded earlier. Nothing to install.
 
-cd backend && cargo run &
-cd web && npm install && npm run dev
-```
+## Start from a template
 
-Open `http://localhost:3000`, give your project a name, and start adding components, or open a
-preset you downloaded earlier.
+kikx ships ready-made preset templates. List them with `kikx presets`, or pick one on the
+dashboard's home page under "Start from a template".
 
-## Try the example project
-
-[`examples/multi-tier-platform.kikx-preset.json`](examples/multi-tier-platform.kikx-preset.json)
-describes a realistic storefront platform:
-- edge load balancers, web and app tiers;
-- a PostgreSQL primary with replicas, a Redis cache and monitoring;
-- a three-node Kubernetes control plane with four workers, running the storefront, API and worker
-  deployments.
+| Template | What you get |
+|---|---|
+| `k8s-web-app` | A frontend and an API behind ingresses, plus a background worker |
+| `single-server` | One DigitalOcean droplet configured by Ansible: inventory, common role, playbook, site |
+| `kubeadm-cluster` | Hetzner servers bootstrapped into a three-node control plane and three workers |
+| `web-and-database` | Existing servers split into a web tier and a PostgreSQL primary with a replica |
+| `multi-tier-platform` | Load balancers, web and app tiers, PostgreSQL, Redis, monitoring and a Kubernetes cluster |
 
 ```bash
 mkdir demo && cd demo
-kikx setup ../examples/multi-tier-platform.kikx-preset.json
+kikx setup multi-tier-platform
 ```
 
-That writes 76 files:
+The largest one writes 77 files:
 - a Terraform resource;
-- a 13-group inventory with nested `:children` and shared `:vars`;
+- a 13-group inventory with nested `:children` and shared `:vars`, and an `ansible.cfg`;
 - four `group_vars` files;
 - six playbooks, with 10 plays between them;
 - a `site.yml` that imports them in order;
 - 14 roles;
 - 7 Kubernetes manifests.
 
-The generated inventory resolves with `ansible-inventory --graph`, and `site.yml` passes
-`ansible-playbook --syntax-check` (the common role uses `community.general`). You can also open
-the same file from the dashboard's home page to explore it visually.
+From the output folder, the inventory resolves with `ansible-inventory --graph` and `site.yml`
+passes `ansible-playbook --syntax-check` (the common role uses `community.general`). Templates are
+ordinary presets in [`backend/core/presets/`](backend/core/presets), so they are a good starting
+point for writing your own.
 
 ## Available components
 
@@ -178,7 +191,7 @@ required.
 ## Architecture diagram
 
 The Architecture view is drawn from what you've added, not a static picture. Nodes sit in
-swimlanes (Provision → Inventory → Playbooks → Roles → Deploy). A layered layout engine (ELK)
+swimlanes (Provision → Inventory → Playbooks → Roles → Deploy, plus Custom for registry items). A layered layout engine (ELK)
 routes the edges at right angles around nodes, keeps crossings down and places labels where they
 don't cover anything. An edge only exists when kikx finds a real relationship:
 - a group including a child group;
@@ -192,8 +205,8 @@ Hover a node to trace its connections, click it to edit, or **Export to draw.io*
 refining it by hand. The export keeps the swimlanes and every edge's waypoints.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
-  <img alt="Architecture diagram of the multi-tier platform example: 46 nodes and 49 routed edges across five swimlanes" src="docs/architecture-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/source/images/architecture-dark.png">
+  <img alt="Architecture diagram of the multi-tier platform example: 47 nodes and 49 routed edges across five swimlanes" src="docs/source/images/architecture-light.png">
 </picture>
 
 ## Presets: setup vs. apply
@@ -209,29 +222,6 @@ kikx apply ./my-platform.kikx-preset.json
 `setup` seeds a fresh `kikx.toml`; `apply` never touches one, so it's safe to run inside an
 existing repo (pass `--into <dir>` to nest the output under a subdirectory). Both re-render every
 component when they run, so a preset is never a frozen snapshot.
-
-## Configuration
-
-Nothing environment-specific is baked into the code. Each piece reads its settings from flags or
-environment variables, and ships an example file to copy.
-
-**Backend.** Copy [`backend/.env.example`](backend/.env.example) to `backend/.env`. Flags and real
-environment variables take precedence over the file.
-
-| Variable | Flag | Default | Meaning |
-|---|---|---|---|
-| `KIKX_PORT` | `--port` | `4000` | Port the API listens on |
-| `KIKX_BIND` | `--bind` | `127.0.0.1` | Address to bind |
-| `KIKX_ALLOWED_ORIGINS` | `--allow-origin` | *(empty)* | Comma-separated browser origins. Empty allows any loopback origin (`localhost`, `127.0.0.1`, `[::1]`) on any port |
-
-**Dashboard.** Copy [`web/.env.example`](web/.env.example) to `web/.env.local`.
-
-| Variable | Meaning |
-|---|---|
-| `NEXT_PUBLIC_KIKX_API_URL` | URL of the running backend. Required; the dashboard explains what's missing if it isn't set |
-
-**Project defaults** (default namespace, output directory, fallback project name) are declared once
-in `kikx-core` and served at `/api/config`, so the CLI, API and dashboard always agree.
 
 ## How it fits together
 
@@ -273,43 +263,11 @@ flowchart LR
 reaches `kikx-core` through a relative path dependency on `backend/core`, so each has its own
 `Cargo.lock` and builds on its own.
 
-## Backend API
+## Contributing
 
-All endpoints are under `/api`. The backend is stateless and only renders; it never writes to
-disk.
-
-| Method | Path | What it does |
-|---|---|---|
-| `GET` | `/api/health` | Liveness check |
-| `GET` | `/api/registry` | Every built-in component with its fields (defaults, examples, options) and output paths |
-| `GET` | `/api/config` | Project defaults: namespace, output directory, project name |
-| `GET` | `/api/components` | Just the built-in references |
-| `GET` | `/api/registry/inspect?ref=<reference>` | The field schema for one component (built-in, URL, or local file) |
-| `POST` | `/api/render` | Render a component's file(s). Returns the content and writes nothing |
-
-## Development
-
-```bash
-cd cli && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
-
-cd backend && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
-cd backend/core && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
-
-cd web && npm install && npx tsc --noEmit && npm run lint && npm run build
-```
-
-## Releasing
-
-Pushing a tag matching `v*.*.*` runs [`.github/workflows/release.yml`](.github/workflows/release.yml).
-It checks that the tag matches `cli/Cargo.toml`'s version, runs the Rust test suite, then builds
-and publishes the `kikx` CLI as a GitHub Release with binaries for macOS (arm64 + x64), Linux (x64
-+ arm64) and Windows (x64).
-
-```bash
-git commit -am "chore: release v0.2.0"
-git tag v0.2.0
-git push && git push --tags
-```
+The hosted dashboard and the downloadable CLI are all you need to use kikx. Running the backend and
+the dashboard yourself, the configuration they read, the HTTP API, the test suites, the docs build
+and the release process are described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Current scope
 

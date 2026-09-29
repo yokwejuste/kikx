@@ -1,0 +1,627 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "HTTP API"
+msgstr "API HTTP"
+
+msgid "The `kikx-backend` HTTP API, built from `backend/`. It is stateless, renders only, and never writes to disk. Bind address and port are set in [Configuration](configuration.md#backend)."
+msgstr "L'API HTTP de `kikx-backend`, compilée depuis `backend/`. Elle est sans état, se contente d'effectuer des rendus et n'écrit jamais sur le disque. L'adresse d'écoute et le port se règlent dans [Configuration](configuration.md#backend)."
+
+msgid "Base URL: `http://127.0.0.1:4000` by default. All paths are under `/api`."
+msgstr "URL de base : `http://127.0.0.1:4000` par défaut. Tous les chemins sont sous `/api`."
+
+msgid "Method"
+msgstr "Méthode"
+
+msgid "Path"
+msgstr "Chemin"
+
+msgid "Request"
+msgstr "Requête"
+
+msgid "Response"
+msgstr "Réponse"
+
+msgid "`GET`"
+msgstr "`GET`"
+
+msgid "[`/api/health`](#get-apihealth)"
+msgstr "[`/api/health`](#get-apihealth)"
+
+msgid "—"
+msgstr "—"
+
+msgid "`text/plain`"
+msgstr "`text/plain`"
+
+msgid "[`/api/components`](#get-apicomponents)"
+msgstr "[`/api/components`](#get-apicomponents)"
+
+msgid "`ComponentsResponse`"
+msgstr "`ComponentsResponse`"
+
+msgid "[`/api/registry`](#get-apiregistry)"
+msgstr "[`/api/registry`](#get-apiregistry)"
+
+msgid "`RegistryResponse`"
+msgstr "`RegistryResponse`"
+
+msgid "[`/api/config`](#get-apiconfig)"
+msgstr "[`/api/config`](#get-apiconfig)"
+
+msgid "`ConfigResponse`"
+msgstr "`ConfigResponse`"
+
+msgid "[`/api/presets`](#get-apipresets)"
+msgstr "[`/api/presets`](#get-apipresets)"
+
+msgid "`PresetsResponse`"
+msgstr "`PresetsResponse`"
+
+msgid "[`/api/presets/{name}`](#get-apipresetsname)"
+msgstr "[`/api/presets/{name}`](#get-apipresetsname)"
+
+msgid "path `name`"
+msgstr "chemin `name`"
+
+msgid "Preset manifest"
+msgstr "Manifeste de preset"
+
+msgid "[`/api/registry/inspect`](#get-apiregistryinspect)"
+msgstr "[`/api/registry/inspect`](#get-apiregistryinspect)"
+
+msgid "query `ref`"
+msgstr "requête `ref`"
+
+msgid "`RegistryItem`"
+msgstr "`RegistryItem`"
+
+msgid "`POST`"
+msgstr "`POST`"
+
+msgid "[`/api/render`](#post-apirender)"
+msgstr "[`/api/render`](#post-apirender)"
+
+msgid "`RenderRequest` JSON"
+msgstr "JSON `RenderRequest`"
+
+msgid "`RenderResponse`"
+msgstr "`RenderResponse`"
+
+msgid "`GET` routes also answer `HEAD`. Any other method on a known path returns `405 Method Not Allowed` with an `allow` header. An unknown path returns `404 Not Found` with an empty body."
+msgstr "Les routes `GET` répondent aussi à `HEAD`. Toute autre méthode sur un chemin connu renvoie `405 Method Not Allowed` avec un en-tête `allow`. Un chemin inconnu renvoie `404 Not Found` avec un corps vide."
+
+msgid "`GET /api/health`"
+msgstr "`GET /api/health`"
+
+msgid "Response `200`, `content-type: text/plain; charset=utf-8`:"
+msgstr "Réponse `200`, `content-type: text/plain; charset=utf-8` :"
+
+msgid "`GET /api/components`"
+msgstr "`GET /api/components`"
+
+msgid "References of the built-in components, in registry order."
+msgstr "Références des composants intégrés, dans l'ordre du registre."
+
+msgid "Response `200`:"
+msgstr "Réponse `200` :"
+
+msgid "Key"
+msgstr "Clé"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "`components`"
+msgstr "`components`"
+
+msgid "array of strings"
+msgstr "tableau de chaînes"
+
+msgid "`GET /api/registry`"
+msgstr "`GET /api/registry`"
+
+msgid "Every built-in component."
+msgstr "Tous les composants intégrés."
+
+msgid "The example shows the first item only. The full content is listed in [Components](components.md)."
+msgstr "L'exemple ne montre que le premier élément. Le contenu complet est listé dans [Composants](components.md)."
+
+msgid "`items`"
+msgstr "`items`"
+
+msgid "array of [`RegistryItem`](#registryitem)"
+msgstr "tableau de [`RegistryItem`](#registryitem)"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "`name`"
+msgstr "`name`"
+
+msgid "string"
+msgstr "chaîne"
+
+msgid "Component name"
+msgstr "Nom du composant"
+
+msgid "`category`"
+msgstr "`category`"
+
+msgid "Component category"
+msgstr "Catégorie du composant"
+
+msgid "`title`"
+msgstr "`title`"
+
+msgid "Display title, `\"\"` when unset"
+msgstr "Titre affiché, `\"\"` s'il n'est pas défini"
+
+msgid "`description`"
+msgstr "`description`"
+
+msgid "One-line description, `\"\"` when unset"
+msgstr "Description sur une ligne, `\"\"` si elle n'est pas définie"
+
+msgid "`reference`"
+msgstr "`reference`"
+
+msgid "`<category>/<name>`"
+msgstr "`<category>/<name>`"
+
+msgid "`fields`"
+msgstr "`fields`"
+
+msgid "array of [`Field`](#field)"
+msgstr "tableau de [`Field`](#field)"
+
+msgid "Declared fields, in order"
+msgstr "Champs déclarés, dans l'ordre"
+
+msgid "`files`"
+msgstr "`files`"
+
+msgid "Output path templates, unrendered. Template bodies are not included"
+msgstr "Templates des chemins de sortie, non rendus. Le corps des templates n'est pas inclus"
+
+msgid "`Field`"
+msgstr "`Field`"
+
+msgid "Field name"
+msgstr "Nom du champ"
+
+msgid "`required`"
+msgstr "`required`"
+
+msgid "boolean"
+msgstr "booléen"
+
+msgid "Rendering fails when no value and no default"
+msgstr "Le rendu échoue en l'absence de valeur et de valeur par défaut"
+
+msgid "`default`"
+msgstr "`default`"
+
+msgid "string or `null`"
+msgstr "chaîne ou `null`"
+
+msgid "Value used when none is supplied"
+msgstr "Valeur utilisée lorsqu'aucune n'est fournie"
+
+msgid "Help text"
+msgstr "Texte d'aide"
+
+msgid "`example`"
+msgstr "`example`"
+
+msgid "Example value"
+msgstr "Valeur d'exemple"
+
+msgid "`options`"
+msgstr "`options`"
+
+msgid "array of `{value, label}`"
+msgstr "tableau de `{value, label}`"
+
+msgid "Suggested values. `label` equals `value` when the registry item leaves it empty"
+msgstr "Valeurs suggérées. `label` est égal à `value` lorsque l'élément de registre le laisse vide"
+
+msgid "`GET /api/config`"
+msgstr "`GET /api/config`"
+
+msgid "Project defaults compiled into `kikx-core`."
+msgstr "Valeurs par défaut du projet compilées dans `kikx-core`."
+
+msgid "`defaultNamespace`"
+msgstr "`defaultNamespace`"
+
+msgid "`defaultOutputDir`"
+msgstr "`defaultOutputDir`"
+
+msgid "`defaultProjectName`"
+msgstr "`defaultProjectName`"
+
+msgid "`GET /api/presets`"
+msgstr "`GET /api/presets`"
+
+msgid "Summaries of the [built-in preset templates](preset-format.md#built-in-templates), in the order `kikx presets` prints them."
+msgstr "Résumés des [templates de preset intégrés](preset-format.md#built-in-templates), dans l'ordre où `kikx presets` les affiche."
+
+msgid "`presets`"
+msgstr "`presets`"
+
+msgid "array of [`PresetSummary`](#presetsummary)"
+msgstr "tableau de [`PresetSummary`](#presetsummary)"
+
+msgid "`PresetSummary`"
+msgstr "`PresetSummary`"
+
+msgid "Template name, accepted by `GET /api/presets/{name}`, `kikx setup` and `kikx apply`"
+msgstr "Nom du template, accepté par `GET /api/presets/{name}`, `kikx setup` et `kikx apply`"
+
+msgid "`componentCount`"
+msgstr "`componentCount`"
+
+msgid "integer"
+msgstr "entier"
+
+msgid "Number of components in the template"
+msgstr "Nombre de composants du template"
+
+msgid "`GET /api/presets/{name}`"
+msgstr "`GET /api/presets/{name}`"
+
+msgid "Returns one built-in template as a preset manifest, in the [Preset format](preset-format.md#manifest). Every key is present: `fields` and `labels` are `{}` when the template leaves them out, and `project.name` is `null` when unset. The dashboard renders each component through [`POST /api/render`](#post-apirender) to open it."
+msgstr "Renvoie un template intégré sous forme de manifeste de preset, au [Format des presets](preset-format.md#manifest). Toutes les clés sont présentes : `fields` et `labels` valent `{}` lorsque le template les omet, et `project.name` vaut `null` s'il n'est pas défini. Pour l'ouvrir, le tableau de bord effectue le rendu de chaque composant via [`POST /api/render`](#post-apirender)."
+
+msgid "Path parameter"
+msgstr "Paramètre de chemin"
+
+msgid "Template name, as listed by [`GET /api/presets`](#get-apipresets)"
+msgstr "Nom du template, tel que listé par [`GET /api/presets`](#get-apipresets)"
+
+msgid "Request:"
+msgstr "Requête :"
+
+msgid "Response `200`, shortened to the first component:"
+msgstr "Réponse `200`, raccourcie au premier composant :"
+
+msgid "Condition"
+msgstr "Condition"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Body"
+msgstr "Corps"
+
+msgid "No template with that name"
+msgstr "Aucun template ne porte ce nom"
+
+msgid "`404`"
+msgstr "`404`"
+
+msgid "``{\"code\":\"not_found\",\"error\":\"no preset template named `nope`\"}``"
+msgstr "``{\"code\":\"not_found\",\"error\":\"no preset template named `nope`\"}``"
+
+msgid "`GET /api/registry/inspect`"
+msgstr "`GET /api/registry/inspect`"
+
+msgid "Resolves one reference and returns its [`RegistryItem`](#registryitem)."
+msgstr "Résout une référence et renvoie son [`RegistryItem`](#registryitem)."
+
+msgid "Query parameter"
+msgstr "Paramètre de requête"
+
+msgid "Required"
+msgstr "Obligatoire"
+
+msgid "`ref`"
+msgstr "`ref`"
+
+msgid "yes"
+msgstr "oui"
+
+msgid "Built-in reference, URL, or path to a `registry-item.json`. A relative path is resolved against the backend's working directory. See [Registry item format](registry-item-format.md#reference-resolution)"
+msgstr "Référence intégrée, URL, ou chemin vers un `registry-item.json`. Un chemin relatif est résolu par rapport au répertoire de travail du backend. Voir [Format des éléments de registre](registry-item-format.md#reference-resolution)"
+
+msgid "Unknown reference"
+msgstr "Référence inconnue"
+
+msgid "`400`"
+msgstr "`400`"
+
+msgid "`` {\"code\":\"invalid_request\",\"error\":\"`nope/thing` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json\"} ``"
+msgstr "`` {\"code\":\"invalid_request\",\"error\":\"`nope/thing` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json\"} ``"
+
+msgid "URL fetch fails"
+msgstr "La récupération de l'URL échoue"
+
+msgid "`{\"code\":\"invalid_request\",\"error\":\"failed to fetch registry item from <url>\"}`"
+msgstr "`{\"code\":\"invalid_request\",\"error\":\"failed to fetch registry item from <url>\"}`"
+
+msgid "File or response is not a registry item"
+msgstr "Le fichier ou la réponse n'est pas un élément de registre"
+
+msgid "`{\"code\":\"invalid_request\",\"error\":\"<ref> is not a valid registry item\"}`"
+msgstr "`{\"code\":\"invalid_request\",\"error\":\"<ref> is not a valid registry item\"}`"
+
+msgid "`ref` missing"
+msgstr "`ref` absent"
+
+msgid "`text/plain`: ``Failed to deserialize query string: missing field `ref` ``"
+msgstr "`text/plain` : ``Failed to deserialize query string: missing field `ref` ``"
+
+msgid "`POST /api/render`"
+msgstr "`POST /api/render`"
+
+msgid "Renders one component and returns the file contents. Writes nothing. Path safety checks applied by the CLI when writing are not applied."
+msgstr "Effectue le rendu d'un composant et renvoie le contenu des fichiers. N'écrit rien. Les vérifications de sécurité des chemins appliquées par la CLI à l'écriture ne sont pas appliquées."
+
+msgid "Request headers: `Content-Type: application/json`."
+msgstr "En-têtes de la requête : `Content-Type: application/json`."
+
+msgid "`RenderRequest`"
+msgstr "`RenderRequest`"
+
+msgid "Default"
+msgstr "Valeur par défaut"
+
+msgid "Component reference"
+msgstr "Référence du composant"
+
+msgid "`name` in the template context"
+msgstr "`name` dans le contexte du template"
+
+msgid "object of string to string"
+msgstr "objet de chaîne vers chaîne"
+
+msgid "no"
+msgstr "non"
+
+msgid "`{}`"
+msgstr "`{}`"
+
+msgid "Field values"
+msgstr "Valeurs des champs"
+
+msgid "`labels`"
+msgstr "`labels`"
+
+msgid "array of `{key, value}`"
+msgstr "tableau de `{key, value}`"
+
+msgid "`[]`"
+msgstr "`[]`"
+
+msgid "Labels. `app` defaults to `name`"
+msgstr "Labels. `app` vaut `name` par défaut"
+
+msgid "Namespace used when no `namespace` field is supplied"
+msgstr "Namespace utilisé lorsqu'aucun champ `namespace` n'est fourni"
+
+msgid "`image`"
+msgstr "`image`"
+
+msgid "Sets field `image`"
+msgstr "Définit le champ `image`"
+
+msgid "`replicas`"
+msgstr "`replicas`"
+
+msgid "unsigned 32-bit integer"
+msgstr "entier non signé sur 32 bits"
+
+msgid "Sets field `replicas`"
+msgstr "Définit le champ `replicas`"
+
+msgid "`port`"
+msgstr "`port`"
+
+msgid "integer `0`–`65535`"
+msgstr "entier `0`–`65535`"
+
+msgid "Sets field `port`"
+msgstr "Définit le champ `port`"
+
+msgid "`targetPort`"
+msgstr "`targetPort`"
+
+msgid "Sets field `target_port`"
+msgstr "Définit le champ `target_port`"
+
+msgid "`namespace`"
+msgstr "`namespace`"
+
+msgid "Sets field `namespace`"
+msgstr "Définit le champ `namespace`"
+
+msgid "`host`"
+msgstr "`host`"
+
+msgid "Sets field `host`"
+msgstr "Définit le champ `host`"
+
+msgid "`path`"
+msgstr "`path`"
+
+msgid "Sets field `path`"
+msgstr "Définit le champ `path`"
+
+msgid "`service`"
+msgstr "`service`"
+
+msgid "Sets field `service`"
+msgstr "Définit le champ `service`"
+
+msgid "A key in `fields` wins over the top-level key that sets the same field. Unknown top-level keys are ignored."
+msgstr "Une clé de `fields` l'emporte sur la clé de premier niveau qui définit le même champ. Les clés de premier niveau inconnues sont ignorées."
+
+msgid "`component`"
+msgstr "`component`"
+
+msgid "Component name, without category"
+msgstr "Nom du composant, sans la catégorie"
+
+msgid "array of `{path, content}`"
+msgstr "tableau de `{path, content}`"
+
+msgid "Rendered path, relative, and file content"
+msgstr "Chemin rendu, relatif, et contenu du fichier"
+
+msgid "Errors"
+msgstr "Erreurs"
+
+msgid "Content type"
+msgstr "Type de contenu"
+
+msgid "Unknown or invalid reference"
+msgstr "Référence inconnue ou invalide"
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "`{\"code\":\"invalid_request\",\"error\":\"...\"}`"
+msgstr "`{\"code\":\"invalid_request\",\"error\":\"...\"}`"
+
+msgid "Required field missing"
+msgstr "Champ obligatoire manquant"
+
+msgid "`{\"code\":\"invalid_request\",\"error\":\"--image is required for k8s/deployment\"}`"
+msgstr "`{\"code\":\"invalid_request\",\"error\":\"--image is required for k8s/deployment\"}`"
+
+msgid "Two files render to the same path"
+msgstr "Deux fichiers sont rendus vers le même chemin"
+
+msgid "``{\"code\":\"invalid_request\",\"error\":\"custom/dup has two files that both render to `a.txt`\"}``"
+msgstr "``{\"code\":\"invalid_request\",\"error\":\"custom/dup has two files that both render to `a.txt`\"}``"
+
+msgid "Template syntax or render error"
+msgstr "Erreur de syntaxe ou de rendu du template"
+
+msgid "`500`"
+msgstr "`500`"
+
+msgid "`{\"code\":\"internal\",\"error\":\"syntax error: unexpected end of block (in <string>:1)\"}`"
+msgstr "`{\"code\":\"internal\",\"error\":\"syntax error: unexpected end of block (in <string>:1)\"}`"
+
+msgid "Missing `Content-Type: application/json`"
+msgstr "`Content-Type: application/json` absent"
+
+msgid "`415`"
+msgstr "`415`"
+
+msgid "text"
+msgstr "texte"
+
+msgid "``Expected request with `Content-Type: application/json` ``"
+msgstr "``Expected request with `Content-Type: application/json` ``"
+
+msgid "Body is not valid JSON"
+msgstr "Le corps n'est pas du JSON valide"
+
+msgid "`Failed to parse the request body as JSON: ...`"
+msgstr "`Failed to parse the request body as JSON: ...`"
+
+msgid "Missing key or wrong type"
+msgstr "Clé manquante ou type incorrect"
+
+msgid "`422`"
+msgstr "`422`"
+
+msgid "``Failed to deserialize the JSON body into the target type: missing field `reference` at line 1 column 14``"
+msgstr "``Failed to deserialize the JSON body into the target type: missing field `reference` at line 1 column 14``"
+
+msgid "Error shape"
+msgstr "Forme des erreurs"
+
+msgid "Errors raised by kikx use this JSON body, with `content-type: application/json`:"
+msgstr "Les erreurs levées par kikx utilisent ce corps JSON, avec `content-type: application/json` :"
+
+msgid "`code`"
+msgstr "`code`"
+
+msgid "`invalid_request`"
+msgstr "`invalid_request`"
+
+msgid "`not_found`"
+msgstr "`not_found`"
+
+msgid "`not_initialized`"
+msgstr "`not_initialized`"
+
+msgid "`already_exists`"
+msgstr "`already_exists`"
+
+msgid "`409`"
+msgstr "`409`"
+
+msgid "`internal`"
+msgstr "`internal`"
+
+msgid "`not_initialized` and `already_exists` are defined but not returned by any current endpoint. Request parsing errors are returned by the framework as `text/plain`, as listed per endpoint."
+msgstr "`not_initialized` et `already_exists` sont définis mais ne sont renvoyés par aucun point d'accès actuel. Les erreurs d'analyse de la requête sont renvoyées par le framework en `text/plain`, comme indiqué pour chaque point d'accès."
+
+msgid "CORS"
+msgstr "CORS"
+
+msgid "Setting"
+msgstr "Réglage"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Allowed methods"
+msgstr "Méthodes autorisées"
+
+msgid "`GET`, `POST`"
+msgstr "`GET`, `POST`"
+
+msgid "Allowed request headers"
+msgstr "En-têtes de requête autorisés"
+
+msgid "`content-type`"
+msgstr "`content-type`"
+
+msgid "Allowed origins, `KIKX_ALLOWED_ORIGINS` empty"
+msgstr "Origines autorisées, `KIKX_ALLOWED_ORIGINS` vide"
+
+msgid "Any origin whose host is `localhost`, `127.0.0.1` or `[::1]`, any scheme and port"
+msgstr "Toute origine dont l'hôte est `localhost`, `127.0.0.1` ou `[::1]`, quels que soient le schéma et le port"
+
+msgid "Allowed origins, `KIKX_ALLOWED_ORIGINS` set"
+msgstr "Origines autorisées, `KIKX_ALLOWED_ORIGINS` défini"
+
+msgid "Exactly the listed origins. Loopback origins are no longer allowed unless listed"
+msgstr "Exactement les origines listées. Les origines de bouclage ne sont plus autorisées si elles ne sont pas listées"
+
+msgid "An allowed origin is echoed in `access-control-allow-origin`. A disallowed origin gets no `access-control-allow-origin` header; the request itself is still processed. Every response carries `vary: origin`. Preflight `OPTIONS` requests return `200` with `access-control-allow-methods: GET,POST` and `access-control-allow-headers: content-type`."
+msgstr "Une origine autorisée est renvoyée dans `access-control-allow-origin`. Une origine refusée ne reçoit aucun en-tête `access-control-allow-origin` ; la requête elle-même est tout de même traitée. Chaque réponse porte `vary: origin`. Les requêtes préalables `OPTIONS` renvoient `200` avec `access-control-allow-methods: GET,POST` et `access-control-allow-headers: content-type`."
+
+msgid "Preflight for `http://localhost:3000`:"
+msgstr "Requête préalable pour `http://localhost:3000` :"
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Run kikx locally](../contributing/run-locally.md)"
+msgstr "[Lancer kikx en local](../contributing/run-locally.md)"
+
+msgid "[Render your own component from a registry item](../how-to/custom-registry-item.md)"
+msgstr "[Générer votre propre composant depuis un élément de registre](../how-to/custom-registry-item.md)"
+
+msgid "[How the pieces fit together](../explanation/project-layout.md)"
+msgstr "[Comment les éléments s'articulent](../explanation/project-layout.md)"
+

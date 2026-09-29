@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Scaffold the roles your playbooks use"
+msgstr "Générer les rôles utilisés par vos playbooks"
+
+msgid "Use this when a playbook references roles that don't exist yet and you want an empty, valid role to fill in for each one."
+msgstr "Suivez ce guide lorsqu'un playbook référence des rôles qui n'existent pas encore et que vous voulez, pour chacun, un rôle vide et valide à compléter."
+
+msgid "A scaffolded role has four files:"
+msgstr "Un rôle généré comporte quatre fichiers :"
+
+msgid "The task file holds a single placeholder `debug` task, so the role runs straight away. Replace it with your real tasks."
+msgstr "Le fichier de tâches contient une seule tâche `debug` provisoire, si bien que le rôle s'exécute immédiatement. Remplacez-la par vos vraies tâches."
+
+msgid "Scaffold every missing role at once (dashboard)"
+msgstr "Générer tous les rôles manquants d'un coup (tableau de bord)"
+
+msgid "Add your playbooks."
+msgstr "Ajoutez vos playbooks."
+
+msgid "Open **Checks**. For each playbook that uses roles kikx doesn't vendor, there's a note such as:"
+msgstr "Ouvrez « Checks ». Pour chaque playbook qui utilise des rôles que kikx ne vendorise pas, une note s'affiche, par exemple :"
+
+msgid "web uses 3 roles kikx doesn't vendor"
+msgstr "web uses 3 roles kikx doesn't vendor"
+
+msgid "Click **Scaffold 3 roles** on that note."
+msgstr "Cliquez sur « Scaffold 3 roles » dans cette note."
+
+msgid "This adds one **Role skeleton** per missing role. The note disappears, and the roles appear in the project and in role suggestions."
+msgstr "Un « Role skeleton » est ajouté pour chaque rôle manquant. La note disparaît, et les rôles apparaissent dans le projet et dans les suggestions de rôles."
+
+msgid "Skip this for roles that already exist under `roles/` in your repo, or that come from Ansible Galaxy. The note is only informational, and the download works without it."
+msgstr "Passez cette étape pour les rôles qui existent déjà sous `roles/` dans votre dépôt, ou qui proviennent d'Ansible Galaxy. La note est purement informative, et le téléchargement fonctionne sans elle."
+
+msgid "Scaffold one role (dashboard)"
+msgstr "Générer un seul rôle (tableau de bord)"
+
+msgid "In **Build**, pick **Role skeleton** under the Configure stage."
+msgstr "Dans « Build », choisissez « Role skeleton » sous l'étape Configure."
+
+msgid "Fill in **Name**, which must match the name used in the playbook. It can contain letters, digits, `_`, `.` and `-`."
+msgstr "Renseignez « Name », qui doit correspondre au nom utilisé dans le playbook. Il peut contenir des lettres, des chiffres, `_`, `.` et `-`."
+
+msgid "Optionally fill in **Description**, which goes into `meta/main.yml`."
+msgstr "Si besoin, renseignez « Description », qui est écrite dans `meta/main.yml`."
+
+msgid "Click **Add to project**."
+msgstr "Cliquez sur « Add to project »."
+
+msgid "For a role with real starter tasks (base packages, timezone, swap, motd), pick **Common role** instead."
+msgstr "Pour un rôle avec de vraies tâches de départ (paquets de base, fuseau horaire, swap, motd), choisissez plutôt « Common role »."
+
+msgid "Scaffold a role with the CLI"
+msgstr "Générer un rôle avec la CLI"
+
+msgid "This writes the four files under `roles/nginx/`. `meta/main.yml` gets the description:"
+msgstr "Cette commande écrit les quatre fichiers sous `roles/nginx/`. `meta/main.yml` reçoit la description :"
+
+msgid "`defaults/main.yml` starts with a single `nginx_enabled: true`. Dashes in the role name become underscores in the variable and in `role_name`."
+msgstr "`defaults/main.yml` commence avec un unique `nginx_enabled: true`. Les tirets du nom du rôle deviennent des tirets bas dans la variable et dans `role_name`."
+
+msgid "`kikx add` won't overwrite a role you've already started filling in. It stops with `already exists — pass --force to overwrite`, so only pass `--force` if you want the empty skeleton back."
+msgstr "`kikx add` n'écrase pas un rôle que vous avez déjà commencé à remplir. Il s'arrête avec `already exists — pass --force to overwrite` ; ne passez donc `--force` que si vous voulez retrouver le squelette vide."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Write a multi-play playbook with role conditions](multi-play-playbooks.md)"
+msgstr "[Écrire un playbook à plusieurs plays avec des conditions de rôle](multi-play-playbooks.md)"
+
+msgid "[Components reference](../reference/components.md)"
+msgstr "[Composants](../reference/components.md)"
+

@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Development"
+msgstr "Développement"
+
+msgid "kikx is three Cargo packages and a Next.js app. Each one builds and tests on its own."
+msgstr "kikx se compose de trois paquets Cargo et d'une application Next.js. Chacun se construit et se teste de façon indépendante."
+
+msgid "Before you start"
+msgstr "Avant de commencer"
+
+msgid "You need:"
+msgstr "Il vous faut :"
+
+msgid "a checkout of the kikx repository;"
+msgstr "une copie locale du dépôt kikx ;"
+
+msgid "a Rust toolchain (`cargo`, `clippy`, `rustfmt`);"
+msgstr "une chaîne d'outils Rust (`cargo`, `clippy`, `rustfmt`) ;"
+
+msgid "Node.js with `npm`;"
+msgstr "Node.js avec `npm` ;"
+
+msgid "Python 3, to build the documentation."
+msgstr "Python 3, pour construire la documentation."
+
+msgid "Check the Rust packages"
+msgstr "Vérifier les paquets Rust"
+
+msgid "Run the tests, clippy and rustfmt in each package:"
+msgstr "Lancez les tests, clippy et rustfmt dans chaque paquet :"
+
+msgid "Tests live in each package's `tests/` directory, never in the source files."
+msgstr "Les tests se trouvent dans le répertoire `tests/` de chaque paquet, jamais dans les fichiers source."
+
+msgid "Check the dashboard"
+msgstr "Vérifier le tableau de bord"
+
+msgid "Build the documentation"
+msgstr "Construire la documentation"
+
+msgid "The documentation is built with Sphinx from `docs/`. Install the pinned dependencies once:"
+msgstr "La documentation est construite avec Sphinx à partir de `docs/`. Installez une fois les dépendances épinglées :"
+
+msgid "Then build the English and French sites. Both treat warnings as errors:"
+msgstr "Construisez ensuite les sites anglais et français. Les deux traitent les avertissements comme des erreurs :"
+
+msgid "After changing an English page, refresh the French catalogues in `docs/locales/fr/` and translate the new entries:"
+msgstr "Après avoir modifié une page anglaise, mettez à jour les catalogues français dans `docs/locales/fr/` et traduisez les nouvelles entrées :"
+
+msgid "To rebuild on every save while you write:"
+msgstr "Pour reconstruire à chaque enregistrement pendant que vous écrivez :"
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Run kikx locally](run-locally.md)"
+msgstr "[Lancer kikx en local](run-locally.md)"
+
+msgid "[Releasing](releasing.md)"
+msgstr "[Publier une version](releasing.md)"
+
+msgid "[How the pieces fit together](../explanation/project-layout.md)"
+msgstr "[Comment les éléments s'articulent](../explanation/project-layout.md)"
+

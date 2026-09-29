@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "kikx documentation"
+msgstr "Documentation de kikx"
+
+msgid "The docs follow [Diátaxis](https://diataxis.fr): four kinds of documentation for four different needs."
+msgstr "Cette documentation suit [Diátaxis](https://diataxis.fr) : quatre types de documentation pour quatre besoins différents."
+
+msgid "Tutorials"
+msgstr "Tutoriels"
+
+msgid "*Learn kikx by building something.*"
+msgstr "*Apprendre kikx en construisant quelque chose.*"
+
+msgid "Start here if you're new. Each one builds a working project from scratch."
+msgstr "Commencez ici si vous découvrez kikx. Chacun construit un projet fonctionnel à partir de zéro."
+
+msgid "[Your first project with the CLI](tutorials/first-project-cli.md)"
+msgstr "[Votre premier projet avec la CLI](tutorials/first-project-cli.md)"
+
+msgid "[Build an Ansible platform in the dashboard](tutorials/platform-in-the-dashboard.md)"
+msgstr "[Construire une plateforme Ansible dans le tableau de bord](tutorials/platform-in-the-dashboard.md)"
+
+msgid "How-to guides"
+msgstr "Guides pratiques"
+
+msgid "*Get a specific task done.*"
+msgstr "*Accomplir une tâche précise.*"
+
+msgid "Recipes for a specific goal, assuming you know the basics."
+msgstr "Des recettes pour un objectif précis, en supposant que vous connaissez les bases."
+
+msgid "[Import an existing Ansible inventory](how-to/import-an-inventory.md)"
+msgstr "[Importer un inventaire Ansible existant](how-to/import-an-inventory.md)"
+
+msgid "[Write a multi-play playbook with role conditions](how-to/multi-play-playbooks.md)"
+msgstr "[Écrire un playbook à plusieurs plays avec des conditions de rôle](how-to/multi-play-playbooks.md)"
+
+msgid "[Manage group vars as YAML or a folder](how-to/group-vars.md)"
+msgstr "[Gérer les group vars en YAML ou en dossier](how-to/group-vars.md)"
+
+msgid "[Wire playbooks together with a site playbook](how-to/site-playbook.md)"
+msgstr "[Relier les playbooks avec un playbook site](how-to/site-playbook.md)"
+
+msgid "[Scaffold the roles your playbooks use](how-to/scaffold-roles.md)"
+msgstr "[Générer les rôles utilisés par vos playbooks](how-to/scaffold-roles.md)"
+
+msgid "[Resolve file conflicts and checks](how-to/resolve-conflicts.md)"
+msgstr "[Résoudre les conflits de fichiers et les vérifications](how-to/resolve-conflicts.md)"
+
+msgid "[Share a project as a preset](how-to/presets.md)"
+msgstr "[Partager un projet sous forme de preset](how-to/presets.md)"
+
+msgid "[Export the architecture to draw.io](how-to/export-to-drawio.md)"
+msgstr "[Exporter l'architecture vers draw.io](how-to/export-to-drawio.md)"
+
+msgid "[Render your own component from a registry item](how-to/custom-registry-item.md)"
+msgstr "[Générer votre propre composant depuis un élément de registre](how-to/custom-registry-item.md)"
+
+msgid "Explanation"
+msgstr "Explications"
+
+msgid "*Why kikx works the way it does.*"
+msgstr "*Pourquoi kikx fonctionne ainsi.*"
+
+msgid "Background and design decisions."
+msgstr "Contexte et choix de conception."
+
+msgid "[Vendoring real files](explanation/vendoring.md)"
+msgstr "[Vendoriser de vrais fichiers](explanation/vendoring.md)"
+
+msgid "[The registry as single source of truth](explanation/registry.md)"
+msgstr "[Le registre, source unique de vérité](explanation/registry.md)"
+
+msgid "[How rendering works](explanation/rendering.md)"
+msgstr "[Comment fonctionne le rendu](explanation/rendering.md)"
+
+msgid "[How the architecture diagram is drawn](explanation/architecture-diagram.md)"
+msgstr "[Comment le diagramme d'architecture est dessiné](explanation/architecture-diagram.md)"
+
+msgid "[How the pieces fit together](explanation/project-layout.md)"
+msgstr "[Comment les éléments s'articulent](explanation/project-layout.md)"
+
+msgid "Reference"
+msgstr "Référence"
+
+msgid "*Exact commands, fields and formats.*"
+msgstr "*Commandes, champs et formats exacts.*"
+
+msgid "Exact, complete facts to look things up."
+msgstr "Des faits exacts et complets à consulter."
+
+msgid "[CLI](reference/cli.md)"
+msgstr "[CLI](reference/cli.md)"
+
+msgid "[Components](reference/components.md)"
+msgstr "[Composants](reference/components.md)"
+
+msgid "[HTTP API](reference/http-api.md)"
+msgstr "[API HTTP](reference/http-api.md)"
+
+msgid "[Configuration](reference/configuration.md)"
+msgstr "[Configuration](reference/configuration.md)"
+
+msgid "[Preset format](reference/preset-format.md)"
+msgstr "[Format des presets](reference/preset-format.md)"
+
+msgid "[Registry item format](reference/registry-item-format.md)"
+msgstr "[Format des éléments de registre](reference/registry-item-format.md)"
+
+msgid "[Checks](reference/checks.md)"
+msgstr "[Vérifications](reference/checks.md)"
+

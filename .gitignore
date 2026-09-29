@@ -4,3 +4,6 @@
 .gstack/
 CLAUDE.md
 AGENTS.md
+
+docs/build/
+docs/locales/**/*.mo

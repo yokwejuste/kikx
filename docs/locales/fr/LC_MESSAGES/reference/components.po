@@ -1,0 +1,777 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Components"
+msgstr "Composants"
+
+msgid "The thirteen built-in components of the kikx registry, generated from `GET /api/registry`. Components and fields are also printed by [`kikx list`](cli.md#kikx-list)."
+msgstr "Les treize composants intégrés du registre kikx, générés à partir de `GET /api/registry`. Les composants et leurs champs sont aussi affichés par [`kikx list`](cli.md#kikx-list)."
+
+msgid "Every field value is a string. Every template also receives `name`, `namespace` and `labels`, described in [Registry item format](registry-item-format.md#template-context). Output paths are relative to the target directory and are rendered with the same context as the file content."
+msgstr "Chaque valeur de champ est une chaîne. Chaque template reçoit aussi `name`, `namespace` et `labels`, décrits dans [Format des éléments de registre](registry-item-format.md#template-context). Les chemins de sortie sont relatifs au répertoire cible et sont rendus avec le même contexte que le contenu des fichiers."
+
+msgid "A reference resolves to a built-in when the part after its last `/` equals a built-in name. See [Registry item format](registry-item-format.md#reference-resolution)."
+msgstr "Une référence correspond à un composant intégré lorsque la partie qui suit son dernier `/` est égale au nom d'un composant intégré. Voir [Format des éléments de registre](registry-item-format.md#reference-resolution)."
+
+msgid "Summary"
+msgstr "Résumé"
+
+msgid "Reference"
+msgstr "Référence"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Output paths"
+msgstr "Chemins de sortie"
+
+msgid "[`k8s/deployment`](#k8sdeployment)"
+msgstr "[`k8s/deployment`](#k8sdeployment)"
+
+msgid "Deployment"
+msgstr "Deployment"
+
+msgid "Pods running one container image."
+msgstr "Pods running one container image."
+
+msgid "`{{ name }}-deployment.yaml`"
+msgstr "`{{ name }}-deployment.yaml`"
+
+msgid "[`k8s/service`](#k8sservice)"
+msgstr "[`k8s/service`](#k8sservice)"
+
+msgid "Service"
+msgstr "Service"
+
+msgid "A stable address for pods."
+msgstr "A stable address for pods."
+
+msgid "`{{ name }}-service.yaml`"
+msgstr "`{{ name }}-service.yaml`"
+
+msgid "[`k8s/ingress`](#k8singress)"
+msgstr "[`k8s/ingress`](#k8singress)"
+
+msgid "Ingress"
+msgstr "Ingress"
+
+msgid "Routes HTTP traffic to a service."
+msgstr "Routes HTTP traffic to a service."
+
+msgid "`{{ name }}-ingress.yaml`"
+msgstr "`{{ name }}-ingress.yaml`"
+
+msgid "[`terraform/digitalocean`](#terraformdigitalocean)"
+msgstr "[`terraform/digitalocean`](#terraformdigitalocean)"
+
+msgid "DigitalOcean Droplet"
+msgstr "DigitalOcean Droplet"
+
+msgid "Terraform for one or more DigitalOcean droplets."
+msgstr "Terraform for one or more DigitalOcean droplets."
+
+msgid "`{{ name }}-digitalocean.tf`"
+msgstr "`{{ name }}-digitalocean.tf`"
+
+msgid "[`terraform/hetzner`](#terraformhetzner)"
+msgstr "[`terraform/hetzner`](#terraformhetzner)"
+
+msgid "Hetzner Cloud Server"
+msgstr "Hetzner Cloud Server"
+
+msgid "Terraform for one or more Hetzner Cloud servers."
+msgstr "Terraform for one or more Hetzner Cloud servers."
+
+msgid "`{{ name }}-hetzner.tf`"
+msgstr "`{{ name }}-hetzner.tf`"
+
+msgid "[`ansible/k8s-bootstrap`](#ansiblek8s-bootstrap)"
+msgstr "[`ansible/k8s-bootstrap`](#ansiblek8s-bootstrap)"
+
+msgid "Kubernetes Bootstrap"
+msgstr "Kubernetes Bootstrap"
+
+msgid "Installs containerd, kubelet, kubeadm and kubectl on target hosts."
+msgstr "Installs containerd, kubelet, kubeadm and kubectl on target hosts."
+
+msgid "`{{ name }}-k8s-bootstrap.yml`"
+msgstr "`{{ name }}-k8s-bootstrap.yml`"
+
+msgid "[`ansible/inventory`](#ansibleinventory)"
+msgstr "[`ansible/inventory`](#ansibleinventory)"
+
+msgid "Inventory"
+msgstr "Inventory"
+
+msgid "Hosts, groups, nesting and shared vars for servers you already have."
+msgstr "Hosts, groups, nesting and shared vars for servers you already have."
+
+msgid "`{{ name }}-inventory.ini`"
+msgstr "`{{ name }}-inventory.ini`"
+
+msgid "[`ansible/group-vars`](#ansiblegroup-vars)"
+msgstr "[`ansible/group-vars`](#ansiblegroup-vars)"
+
+msgid "Group vars"
+msgstr "Group vars"
+
+msgid "Variables for one inventory group."
+msgstr "Variables for one inventory group."
+
+msgid "`group_vars/{{ group }}{% if layout == \"dir\" %}/main{% endif %}.yml`"
+msgstr "`group_vars/{{ group }}{% if layout == \"dir\" %}/main{% endif %}.yml`"
+
+msgid "[`ansible/common-role`](#ansiblecommon-role)"
+msgstr "[`ansible/common-role`](#ansiblecommon-role)"
+
+msgid "Common role"
+msgstr "Common role"
+
+msgid "A starter host-hygiene role: base packages, timezone, swap, a templated motd."
+msgstr "A starter host-hygiene role: base packages, timezone, swap, a templated motd."
+
+msgid "`roles/{{ name }}/tasks/main.yml`<br>`roles/{{ name }}/defaults/main.yml`<br>`roles/{{ name }}/handlers/main.yml`<br>`roles/{{ name }}/templates/motd.j2`"
+msgstr "`roles/{{ name }}/tasks/main.yml`<br>`roles/{{ name }}/defaults/main.yml`<br>`roles/{{ name }}/handlers/main.yml`<br>`roles/{{ name }}/templates/motd.j2`"
+
+msgid "[`ansible/role`](#ansiblerole)"
+msgstr "[`ansible/role`](#ansiblerole)"
+
+msgid "Role skeleton"
+msgstr "Role skeleton"
+
+msgid "An empty role (tasks, defaults, handlers, meta) to fill in."
+msgstr "An empty role (tasks, defaults, handlers, meta) to fill in."
+
+msgid "`roles/{{ name }}/tasks/main.yml`<br>`roles/{{ name }}/defaults/main.yml`<br>`roles/{{ name }}/handlers/main.yml`<br>`roles/{{ name }}/meta/main.yml`"
+msgstr "`roles/{{ name }}/tasks/main.yml`<br>`roles/{{ name }}/defaults/main.yml`<br>`roles/{{ name }}/handlers/main.yml`<br>`roles/{{ name }}/meta/main.yml`"
+
+msgid "[`ansible/playbook`](#ansibleplaybook)"
+msgstr "[`ansible/playbook`](#ansibleplaybook)"
+
+msgid "Playbook"
+msgstr "Playbook"
+
+msgid "One or more plays, each running roles on an inventory group."
+msgstr "One or more plays, each running roles on an inventory group."
+
+msgid "`{% if folder %}{{ folder }}/{% endif %}{{ name }}.yml`"
+msgstr "`{% if folder %}{{ folder }}/{% endif %}{{ name }}.yml`"
+
+msgid "[`ansible/site`](#ansiblesite)"
+msgstr "[`ansible/site`](#ansiblesite)"
+
+msgid "Site playbook"
+msgstr "Site playbook"
+
+msgid "The entry point that imports your playbooks in order."
+msgstr "The entry point that imports your playbooks in order."
+
+msgid "`{{ name }}.yml`"
+msgstr "`{{ name }}.yml`"
+
+msgid "[`ansible/config`](#ansibleconfig)"
+msgstr "[`ansible/config`](#ansibleconfig)"
+
+msgid "Ansible config"
+msgstr "Ansible config"
+
+msgid "ansible.cfg pointing Ansible at your inventory and roles, so playbooks in subfolders find them."
+msgstr "ansible.cfg pointing Ansible at your inventory and roles, so playbooks in subfolders find them."
+
+msgid "`ansible.cfg`"
+msgstr "`ansible.cfg`"
+
+msgid "`k8s/deployment`"
+msgstr "`k8s/deployment`"
+
+msgid "Property"
+msgstr "Propriété"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Template fallbacks"
+msgstr "Valeurs de repli du template"
+
+msgid "`labels` are written to `metadata.labels`; `spec.selector.matchLabels` and the pod template label are always `app: <name>`"
+msgstr "`labels` sont écrits dans `metadata.labels` ; `spec.selector.matchLabels` et le label du template de pod valent toujours `app: <name>`"
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "Required"
+msgstr "Requis"
+
+msgid "Default"
+msgstr "Valeur par défaut"
+
+msgid "Example"
+msgstr "Exemple"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "`image`"
+msgstr "`image`"
+
+msgid "yes"
+msgstr "oui"
+
+msgid "—"
+msgstr "—"
+
+msgid "`nginx:1.27`"
+msgstr "`nginx:1.27`"
+
+msgid "`replicas`"
+msgstr "`replicas`"
+
+msgid "no"
+msgstr "non"
+
+msgid "`1`"
+msgstr "`1`"
+
+msgid "`port`"
+msgstr "`port`"
+
+msgid "`80`"
+msgstr "`80`"
+
+msgid "`k8s/service`"
+msgstr "`k8s/service`"
+
+msgid "`target_port` unset: `targetPort` is `port`; `spec.selector` is `labels`, which includes `app: <name>` unless overridden"
+msgstr "`target_port` non défini : `targetPort` vaut `port` ; `spec.selector` vaut `labels`, qui inclut `app: <name>` sauf s'il est remplacé"
+
+msgid "`target_port`"
+msgstr "`target_port`"
+
+msgid "Container port; defaults to the service port."
+msgstr "Container port; defaults to the service port."
+
+msgid "`k8s/ingress`"
+msgstr "`k8s/ingress`"
+
+msgid "`host` unset: `<name>.example.com`; `service` unset: `<name>`; `pathType` is always `Prefix`"
+msgstr "`host` non défini : `<name>.example.com` ; `service` non défini : `<name>` ; `pathType` vaut toujours `Prefix`"
+
+msgid "`host`"
+msgstr "`host`"
+
+msgid "`app.example.com`"
+msgstr "`app.example.com`"
+
+msgid "`path`"
+msgstr "`path`"
+
+msgid "`/`"
+msgstr "`/`"
+
+msgid "`service`"
+msgstr "`service`"
+
+msgid "Backend service; defaults to the ingress name."
+msgstr "Backend service; defaults to the ingress name."
+
+msgid "`terraform/digitalocean`"
+msgstr "`terraform/digitalocean`"
+
+msgid "Declares variable `do_token` (sensitive) and a `digitalocean` provider; resource `digitalocean_droplet.<name>` named `<name>-${count.index}`"
+msgstr "Déclare la variable `do_token` (sensible) et un provider `digitalocean` ; ressource `digitalocean_droplet.<name>` nommée `<name>-${count.index}`"
+
+msgid "`region`"
+msgstr "`region`"
+
+msgid "`nyc3`"
+msgstr "`nyc3`"
+
+msgid "`size`"
+msgstr "`size`"
+
+msgid "`s-2vcpu-4gb`"
+msgstr "`s-2vcpu-4gb`"
+
+msgid "`os_image`"
+msgstr "`os_image`"
+
+msgid "`ubuntu-24-04-x64`"
+msgstr "`ubuntu-24-04-x64`"
+
+msgid "`ubuntu-24-04-x64` (Ubuntu 24.04)<br>`ubuntu-22-04-x64` (Ubuntu 22.04)<br>`debian-13-x64` (Debian 13)<br>`fedora-44-x64` (Fedora 44)<br>`rockylinux-9-x64` (Rocky Linux 9)<br>`almalinux-9-x64` (AlmaLinux 9)"
+msgstr "`ubuntu-24-04-x64` (Ubuntu 24.04)<br>`ubuntu-22-04-x64` (Ubuntu 22.04)<br>`debian-13-x64` (Debian 13)<br>`fedora-44-x64` (Fedora 44)<br>`rockylinux-9-x64` (Rocky Linux 9)<br>`almalinux-9-x64` (AlmaLinux 9)"
+
+msgid "Any image slug the provider accepts; the list is a shortcut."
+msgstr "Any image slug the provider accepts; the list is a shortcut."
+
+msgid "`count`"
+msgstr "`count`"
+
+msgid "`terraform/hetzner`"
+msgstr "`terraform/hetzner`"
+
+msgid "Declares variable `hcloud_token` (sensitive) and an `hcloud` provider; resource `hcloud_server.<name>` named `<name>-${count.index}`"
+msgstr "Déclare la variable `hcloud_token` (sensible) et un provider `hcloud` ; ressource `hcloud_server.<name>` nommée `<name>-${count.index}`"
+
+msgid "`fsn1`"
+msgstr "`fsn1`"
+
+msgid "`cx22`"
+msgstr "`cx22`"
+
+msgid "`ubuntu-24.04`"
+msgstr "`ubuntu-24.04`"
+
+msgid "`ubuntu-24.04` (Ubuntu 24.04)<br>`ubuntu-22.04` (Ubuntu 22.04)<br>`debian-12` (Debian 12)<br>`fedora-44` (Fedora 44)<br>`rocky-9` (Rocky Linux 9)<br>`alma-9` (AlmaLinux 9)"
+msgstr "`ubuntu-24.04` (Ubuntu 24.04)<br>`ubuntu-22.04` (Ubuntu 22.04)<br>`debian-12` (Debian 12)<br>`fedora-44` (Fedora 44)<br>`rocky-9` (Rocky Linux 9)<br>`alma-9` (AlmaLinux 9)"
+
+msgid "`ansible/k8s-bootstrap`"
+msgstr "`ansible/k8s-bootstrap`"
+
+msgid "Installs `containerd`, then `kubelet`, `kubeadm` and `kubectl` pinned to `<k8s_version>*` with `apt`, `become: true`"
+msgstr "Installe `containerd`, puis `kubelet`, `kubeadm` et `kubectl` épinglés à `<k8s_version>*` avec `apt`, `become: true`"
+
+msgid "`hosts`"
+msgstr "`hosts`"
+
+msgid "An inventory group, or all."
+msgstr "An inventory group, or all."
+
+msgid "`k8s_version`"
+msgstr "`k8s_version`"
+
+msgid "`1.31`"
+msgstr "`1.31`"
+
+msgid "`ansible/inventory`"
+msgstr "`ansible/inventory`"
+
+msgid "JSON-valued fields"
+msgstr "Champs à valeur JSON"
+
+msgid "[`hosts`](#hosts)"
+msgstr "[`hosts`](#hosts)"
+
+msgid "`default_user`"
+msgstr "`default_user`"
+
+msgid "`root`"
+msgstr "`root`"
+
+msgid "SSH user written for hosts that don't set one (null on a host omits it)."
+msgstr "SSH user written for hosts that don't set one (null on a host omits it)."
+
+msgid "`default_port`"
+msgstr "`default_port`"
+
+msgid "`22`"
+msgstr "`22`"
+
+msgid "SSH port written for hosts that don't set one (null on a host omits it)."
+msgstr "SSH port written for hosts that don't set one (null on a host omits it)."
+
+msgid "`ansible/group-vars`"
+msgstr "`ansible/group-vars`"
+
+msgid "`yaml` non-empty: `vars` is ignored"
+msgstr "`yaml` non vide : `vars` est ignoré"
+
+msgid "[`vars`](#vars-yaml-and-layout)"
+msgstr "[`vars`](#vars-yaml-and-layout)"
+
+msgid "`group`"
+msgstr "`group`"
+
+msgid "`vars`"
+msgstr "`vars`"
+
+msgid "JSON map of simple key/value pairs."
+msgstr "JSON map of simple key/value pairs."
+
+msgid "`yaml`"
+msgstr "`yaml`"
+
+msgid "Raw YAML body, written as-is."
+msgstr "Raw YAML body, written as-is."
+
+msgid "`layout`"
+msgstr "`layout`"
+
+msgid "`file`"
+msgstr "`file`"
+
+msgid "`file` (group_vars/<group>.yml)<br>`dir` (group_vars/<group>/main.yml)"
+msgstr "`file` (group_vars/<group>.yml)<br>`dir` (group_vars/<group>/main.yml)"
+
+msgid "`ansible/common-role`"
+msgstr "`ansible/common-role`"
+
+msgid "`defaults/main.yml` sets `motd_message: \"Managed by kikx\"`; the timezone task uses `community.general.timezone`"
+msgstr "`defaults/main.yml` définit `motd_message: \"Managed by kikx\"` ; la tâche de fuseau horaire utilise `community.general.timezone`"
+
+msgid "`timezone`"
+msgstr "`timezone`"
+
+msgid "`UTC`"
+msgstr "`UTC`"
+
+msgid "`ansible/role`"
+msgstr "`ansible/role`"
+
+msgid "`description` empty: `meta/main.yml` uses `The <name> role`; `defaults/main.yml` sets `<name>_enabled: true` with `-` replaced by `_`"
+msgstr "`description` vide : `meta/main.yml` utilise `The <name> role` ; `defaults/main.yml` définit `<name>_enabled: true`, avec `-` remplacé par `_`"
+
+msgid "`description`"
+msgstr "`description`"
+
+msgid "`\"\"`"
+msgstr "`\"\"`"
+
+msgid "`ansible/playbook`"
+msgstr "`ansible/playbook`"
+
+msgid "`plays` non-empty: `hosts` and `roles` are ignored; see [`plays`](#plays)"
+msgstr "`plays` non vide : `hosts` et `roles` sont ignorés ; voir [`plays`](#plays)"
+
+msgid "[`plays`](#plays), [`roles`](#legacy-hosts-and-roles)"
+msgstr "[`plays`](#plays), [`roles`](#legacy-hosts-and-roles)"
+
+msgid "`roles`"
+msgstr "`roles`"
+
+msgid "`plays`"
+msgstr "`plays`"
+
+msgid "JSON list of plays: name, hosts, become, tags, roles, pre_tasks, post_tasks."
+msgstr "JSON list of plays: name, hosts, become, tags, roles, pre_tasks, post_tasks."
+
+msgid "`folder`"
+msgstr "`folder`"
+
+msgid "`playbooks`"
+msgstr "`playbooks`"
+
+msgid "Where the file goes. Leave empty for the project root."
+msgstr "Where the file goes. Leave empty for the project root."
+
+msgid "`ansible/site`"
+msgstr "`ansible/site`"
+
+msgid "[`playbooks`](#playbooks)"
+msgstr "[`playbooks`](#playbooks)"
+
+msgid "`ansible/config`"
+msgstr "`ansible/config`"
+
+msgid "`inventory` empty: no `inventory` line. The component name is not used in the output"
+msgstr "`inventory` vide : aucune ligne `inventory`. Le nom du composant n'est pas utilisé dans la sortie"
+
+msgid "`inventory`"
+msgstr "`inventory`"
+
+msgid "`platform-inventory.ini`"
+msgstr "`platform-inventory.ini`"
+
+msgid "`roles_path`"
+msgstr "`roles_path`"
+
+msgid "Example: `inventory=platform-inventory.ini` writes `ansible.cfg`:"
+msgstr "Exemple : `inventory=platform-inventory.ini` écrit `ansible.cfg` :"
+
+msgid "Ansible reads `ansible.cfg` from the directory it is run in. From the output directory, `ansible-playbook site.yml` then uses that inventory without `-i`, and finds roles in `roles/` even for playbooks in a subfolder such as `playbooks/`."
+msgstr "Ansible lit `ansible.cfg` dans le répertoire depuis lequel il est lancé. Depuis le répertoire de sortie, `ansible-playbook site.yml` utilise alors cet inventaire sans `-i`, et trouve les rôles dans `roles/`, même pour des playbooks situés dans un sous-dossier comme `playbooks/`."
+
+msgid "JSON field shapes"
+msgstr "Formes des champs JSON"
+
+msgid "A field value whose first non-whitespace character is `[` or `{` and that parses as JSON is passed to the template as a list or map. Any other value, including invalid JSON, is passed as a string. Object keys are iterated in alphabetical order."
+msgstr "Une valeur de champ dont le premier caractère autre qu'une espace est `[` ou `{` et qui s'analyse comme du JSON est transmise au template sous forme de liste ou de map. Toute autre valeur, y compris du JSON invalide, est transmise sous forme de chaîne. Les clés des objets sont parcourues dans l'ordre alphabétique."
+
+msgid "Field of [`ansible/inventory`](#ansibleinventory). A JSON array of group objects, written in array order."
+msgstr "Champ de [`ansible/inventory`](#ansibleinventory). Un tableau JSON d'objets groupe, écrits dans l'ordre du tableau."
+
+msgid "Key"
+msgstr "Clé"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Written as"
+msgstr "Écrit sous la forme"
+
+msgid "string"
+msgstr "chaîne"
+
+msgid "Section name `[<group>]`, `[<group>:children]`, `[<group>:vars]`"
+msgstr "Nom de section `[<group>]`, `[<group>:children]`, `[<group>:vars]`"
+
+msgid "`members`"
+msgstr "`members`"
+
+msgid "array of host objects"
+msgstr "tableau d'objets hôte"
+
+msgid "`[<group>]` section, one line per host. Omitted when missing or empty"
+msgstr "Section `[<group>]`, une ligne par hôte. Omise si absente ou vide"
+
+msgid "`children`"
+msgstr "`children`"
+
+msgid "array of strings"
+msgstr "tableau de chaînes"
+
+msgid "`[<group>:children]` section, one group name per line. Omitted when missing or empty"
+msgstr "Section `[<group>:children]`, un nom de groupe par ligne. Omise si absente ou vide"
+
+msgid "object"
+msgstr "objet"
+
+msgid "`[<group>:vars]` section, one `key=value` line per key. Omitted when missing or empty"
+msgstr "Section `[<group>:vars]`, une ligne `key=value` par clé. Omise si absente ou vide"
+
+msgid "Host object:"
+msgstr "Objet hôte :"
+
+msgid "`name`"
+msgstr "`name`"
+
+msgid "First token of the host line"
+msgstr "Premier élément de la ligne de l'hôte"
+
+msgid "`ansible_host`"
+msgstr "`ansible_host`"
+
+msgid "` ansible_host=<value>` when non-empty"
+msgstr "` ansible_host=<value>` si non vide"
+
+msgid "`ansible_user`"
+msgstr "`ansible_user`"
+
+msgid "string or `null`"
+msgstr "chaîne ou `null`"
+
+msgid "See [Missing, null and empty](#missing-null-and-empty)"
+msgstr "Voir [Absent, null et vide](#missing-null-and-empty)"
+
+msgid "`ansible_port`"
+msgstr "`ansible_port`"
+
+msgid "number, string or `null`"
+msgstr "nombre, chaîne ou `null`"
+
+msgid "`ssh_key_file`"
+msgstr "`ssh_key_file`"
+
+msgid "` ansible_ssh_private_key_file=<value>` when non-empty"
+msgstr "` ansible_ssh_private_key_file=<value>` si non vide"
+
+msgid "` key=value` per key, after all other tokens"
+msgstr "` key=value` par clé, après tous les autres éléments"
+
+msgid "A host listed under several groups is written in each of those groups."
+msgstr "Un hôte listé dans plusieurs groupes est écrit dans chacun de ces groupes."
+
+msgid "Missing, null and empty"
+msgstr "Absent, null et vide"
+
+msgid "`ansible_user` on the host"
+msgstr "`ansible_user` sur l'hôte"
+
+msgid "Written"
+msgstr "Écrit"
+
+msgid "key missing"
+msgstr "clé absente"
+
+msgid "` ansible_user=<default_user>`, or nothing when `default_user` is empty"
+msgstr "` ansible_user=<default_user>`, ou rien si `default_user` est vide"
+
+msgid "`null`, `\"\"` or `false`"
+msgstr "`null`, `\"\"` ou `false`"
+
+msgid "nothing"
+msgstr "rien"
+
+msgid "non-empty value"
+msgstr "valeur non vide"
+
+msgid "` ansible_user=<value>`"
+msgstr "` ansible_user=<value>`"
+
+msgid "`ansible_port` follows the same rules with `default_port`."
+msgstr "`ansible_port` suit les mêmes règles avec `default_port`."
+
+msgid "Example value:"
+msgstr "Exemple de valeur :"
+
+msgid "Output with the default `default_user` and `default_port`:"
+msgstr "Sortie avec les valeurs par défaut de `default_user` et `default_port` :"
+
+msgid "`vars`, `yaml` and `layout`"
+msgstr "`vars`, `yaml` et `layout`"
+
+msgid "Fields of [`ansible/group-vars`](#ansiblegroup-vars)."
+msgstr "Champs de [`ansible/group-vars`](#ansiblegroup-vars)."
+
+msgid "Shape"
+msgstr "Forme"
+
+msgid "JSON object"
+msgstr "objet JSON"
+
+msgid "One `key: value` line per key, after `---`"
+msgstr "Une ligne `key: value` par clé, après `---`"
+
+msgid "Written after `---` with leading and trailing whitespace trimmed. When non-empty, `vars` is ignored"
+msgstr "Écrit après `---`, sans les espaces de début et de fin. S'il n'est pas vide, `vars` est ignoré"
+
+msgid "`file` or `dir`"
+msgstr "`file` ou `dir`"
+
+msgid "`dir`: `group_vars/<group>/main.yml`. Any other value: `group_vars/<group>.yml`"
+msgstr "`dir` : `group_vars/<group>/main.yml`. Toute autre valeur : `group_vars/<group>.yml`"
+
+msgid "The path uses the `group` field, not the component name."
+msgstr "Le chemin utilise le champ `group`, et non le nom du composant."
+
+msgid "Example: `group=db`, `vars={\"pg_version\":16,\"pg_port\":5432}` writes `group_vars/db.yml`:"
+msgstr "Exemple : `group=db`, `vars={\"pg_version\":16,\"pg_port\":5432}` écrit `group_vars/db.yml` :"
+
+msgid "Field of [`ansible/playbook`](#ansibleplaybook). A JSON array of play objects, written in order and separated by a blank line."
+msgstr "Champ de [`ansible/playbook`](#ansibleplaybook). Un tableau JSON d'objets play, écrits dans l'ordre et séparés par une ligne vide."
+
+msgid "component name"
+msgstr "nom du composant"
+
+msgid "`- name: <value>`"
+msgstr "`- name: <value>`"
+
+msgid "`hosts: <value>`, verbatim"
+msgstr "`hosts: <value>`, tel quel"
+
+msgid "`become`"
+msgstr "`become`"
+
+msgid "boolean"
+msgstr "booléen"
+
+msgid "`true`"
+msgstr "`true`"
+
+msgid "`become: true` when missing or truthy. No line when `false`"
+msgstr "`become: true` si absent ou vrai. Aucune ligne si `false`"
+
+msgid "`tags`"
+msgstr "`tags`"
+
+msgid "`tags: [a, b]`. No line when missing or empty"
+msgstr "`tags: [a, b]`. Aucune ligne si absent ou vide"
+
+msgid "`pre_tasks`"
+msgstr "`pre_tasks`"
+
+msgid "string of YAML tasks"
+msgstr "chaîne de tâches YAML"
+
+msgid "`pre_tasks:` block, trimmed and indented by 4 spaces. No block when missing or empty"
+msgstr "Bloc `pre_tasks:`, sans espaces de début et de fin, indenté de 4 espaces. Aucun bloc si absent ou vide"
+
+msgid "array of role entries"
+msgstr "tableau d'entrées de rôle"
+
+msgid "`roles:` list"
+msgstr "Liste `roles:`"
+
+msgid "`post_tasks`"
+msgstr "`post_tasks`"
+
+msgid "`post_tasks:` block after `roles`, trimmed and indented by 4 spaces"
+msgstr "Bloc `post_tasks:` après `roles`, sans espaces de début et de fin, indenté de 4 espaces"
+
+msgid "Role entry:"
+msgstr "Entrée de rôle :"
+
+msgid "Form"
+msgstr "Forme"
+
+msgid "`\"common\"`"
+msgstr "`\"common\"`"
+
+msgid "`- common`"
+msgstr "`- common`"
+
+msgid "`{\"role\": \"postgres\"}`"
+msgstr "`{\"role\": \"postgres\"}`"
+
+msgid "`- role: postgres`"
+msgstr "`- role: postgres`"
+
+msgid "`{\"role\": \"postgres\", \"when\": \"<expr>\"}`"
+msgstr "`{\"role\": \"postgres\", \"when\": \"<expr>\"}`"
+
+msgid "`- role: postgres` followed by `when: <expr>`"
+msgstr "`- role: postgres` suivi de `when: <expr>`"
+
+msgid "Example value, with component name `data` and `folder=playbooks`:"
+msgstr "Exemple de valeur, avec le nom de composant `data` et `folder=playbooks` :"
+
+msgid "Output, `playbooks/data.yml`:"
+msgstr "Sortie, `playbooks/data.yml` :"
+
+msgid "Legacy `hosts` and `roles`"
+msgstr "`hosts` et `roles` hérités"
+
+msgid "Fields of [`ansible/playbook`](#ansibleplaybook), used when `plays` is missing or empty. They produce one play named after the component, with `become: true`."
+msgstr "Champs de [`ansible/playbook`](#ansibleplaybook), utilisés lorsque `plays` est absent ou vide. Ils produisent un seul play nommé d'après le composant, avec `become: true`."
+
+msgid "JSON array of role names"
+msgstr "tableau JSON de noms de rôles"
+
+msgid "Example: component name `legacy`, `hosts=web`, `roles=[\"common\",\"nginx\"]` writes `legacy.yml`:"
+msgstr "Exemple : le nom de composant `legacy`, `hosts=web`, `roles=[\"common\",\"nginx\"]` écrit `legacy.yml` :"
+
+msgid "`plays` covers everything this form does, plus names, tags, role conditions and several plays per file. Prefer it for new playbooks."
+msgstr "`plays` couvre tout ce que fait cette forme, avec en plus les noms, les tags, les conditions de rôle et plusieurs plays par fichier. Préférez-le pour les nouveaux playbooks."
+
+msgid "Field of [`ansible/site`](#ansiblesite). A JSON array of objects, written in order."
+msgstr "Champ de [`ansible/site`](#ansiblesite). Un tableau JSON d'objets, écrits dans l'ordre."
+
+msgid "`import_playbook: <value>`"
+msgstr "`import_playbook: <value>`"
+
+msgid "Example: `[{\"name\":\"Data\",\"path\":\"playbooks/data.yml\"},{\"name\":\"Legacy\",\"path\":\"legacy.yml\"}]` writes:"
+msgstr "Exemple : `[{\"name\":\"Data\",\"path\":\"playbooks/data.yml\"},{\"name\":\"Legacy\",\"path\":\"legacy.yml\"}]` écrit :"
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Write a multi-play playbook with role conditions](../how-to/multi-play-playbooks.md)"
+msgstr "[Écrire un playbook à plusieurs plays avec des conditions de rôle](../how-to/multi-play-playbooks.md)"
+
+msgid "[Manage group vars as YAML or a folder](../how-to/group-vars.md)"
+msgstr "[Gérer les group vars en YAML ou en dossier](../how-to/group-vars.md)"
+
+msgid "[Import an existing Ansible inventory](../how-to/import-an-inventory.md)"
+msgstr "[Importer un inventaire Ansible existant](../how-to/import-an-inventory.md)"
+
+msgid "[Wire playbooks together with a site playbook](../how-to/site-playbook.md)"
+msgstr "[Relier les playbooks avec un playbook site](../how-to/site-playbook.md)"
+
+msgid "[The registry as single source of truth](../explanation/registry.md)"
+msgstr "[Le registre, source unique de vérité](../explanation/registry.md)"
+

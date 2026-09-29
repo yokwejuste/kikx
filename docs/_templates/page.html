@@ -1,0 +1,58 @@
+{% extends "furo/page.html" %}
+
+{% block site_meta %}
+{{ super()|replace("<!-- Generated with Sphinx " ~ sphinx_version ~ " and Furo " ~ furo_version ~ " -->", "") }}
+{% endblock site_meta %}
+
+{% block content %}
+<nav class="language-switcher" aria-label="Language">
+  {%- for code, label in language_switcher %}
+  {%- if language == default_language %}
+    {%- set root = '' %}
+  {%- else %}
+    {%- set root = '../' %}
+  {%- endif %}
+  {%- if code == default_language %}
+    {%- set target = root ~ pagename ~ file_suffix %}
+  {%- else %}
+    {%- set target = root ~ code ~ '/' ~ pagename ~ file_suffix %}
+  {%- endif %}
+  <a href="{{ pathto(pagename) if code == language else pathto(target, 1) }}" hreflang="{{ code }}" lang="{{ code }}"{% if code == language %} aria-current="page"{% endif %}>
+    <span class="language-switcher-long">{{ label }}</span>
+    <span class="language-switcher-short">{{ code|upper }}</span>
+  </a>
+  {%- endfor %}
+</nav>
+{{ body }}
+{% endblock content %}
+
+{% block footer %}
+<div class="related-pages">
+  {% if next -%}
+  <a class="next-page" href="{{ next.link }}">
+    <div class="page-info">
+      <div class="context"><span>{{ _("Next") }}</span></div>
+      <div class="title">{{ next.title }}</div>
+    </div>
+    <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+  </a>
+  {%- endif %}
+  {% if prev -%}
+  <a class="prev-page" href="{{ prev.link }}">
+    <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+    <div class="page-info">
+      <div class="context"><span>{{ _("Previous") }}</span></div>
+      <div class="title">{{ prev.title }}</div>
+    </div>
+  </a>
+  {%- endif %}
+</div>
+<div class="bottom-of-page">
+  <div class="left-details">
+    {%- if show_copyright %}
+    <div class="copyright">&#169; {{ copyright|e }}</div>
+    {%- endif %}
+  </div>
+  <div class="right-details"></div>
+</div>
+{% endblock footer %}

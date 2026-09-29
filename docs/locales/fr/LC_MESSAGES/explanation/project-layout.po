@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "How the pieces fit together"
+msgstr "Comment les éléments s'articulent"
+
+msgid "kikx is four pieces in one repository: a command-line tool, an HTTP API, a shared library and a web dashboard. This page explains how they divide the work and why the boundaries are where they are. For the commands and endpoints themselves, see the [CLI reference](../reference/cli.md) and the [HTTP API reference](../reference/http-api.md)."
+msgstr "kikx se compose de quatre éléments réunis dans un même dépôt : un outil en ligne de commande, une API HTTP, une bibliothèque partagée et un tableau de bord web. Cette page explique comment ils se répartissent le travail et pourquoi les frontières sont placées là où elles le sont. Pour les commandes et les points d'accès eux-mêmes, consultez la [référence de la CLI](../reference/cli.md) et la [référence de l'API HTTP](../reference/http-api.md)."
+
+msgid "One library, two front ends"
+msgstr "Une bibliothèque, deux interfaces"
+
+msgid "All of kikx's actual behaviour lives in `kikx-core`, in `backend/core/`. It holds the registry of components and their templates, the built-in preset templates and preset parsing, the `kikx.toml` config and its defaults, and the operations: rendering a component, adding it to a project, initialising a project, and setting up or applying a preset. It knows nothing about terminals or HTTP."
+msgstr "Tout le comportement réel de kikx réside dans `kikx-core`, dans `backend/core/`. On y trouve le registre des composants et leurs templates, les templates de preset intégrés et l'analyse des presets, la configuration `kikx.toml` et ses valeurs par défaut, ainsi que les opérations : effectuer le rendu d'un composant, l'ajouter à un projet, initialiser un projet, et mettre en place ou appliquer un preset. Cette bibliothèque ignore tout des terminaux et de HTTP."
+
+msgid "The CLI in `cli/` and the backend in `backend/` are thin layers over that library. The CLI turns arguments into calls to `kikx-core` and prints the result; it reads and writes the filesystem directly and needs no server. The backend turns HTTP requests into calls to the same functions and serialises the result as JSON. The dashboard in `web/` talks only to the backend."
+msgstr "La CLI, dans `cli/`, et le backend, dans `backend/`, sont de fines couches au-dessus de cette bibliothèque. La CLI transforme des arguments en appels à `kikx-core` et affiche le résultat ; elle lit et écrit directement sur le système de fichiers et n'a besoin d'aucun serveur. Le backend transforme des requêtes HTTP en appels à ces mêmes fonctions et sérialise le résultat en JSON. Le tableau de bord, dans `web/`, ne communique qu'avec le backend."
+
+msgid "The point of this shape is that there is exactly one implementation of \"render this component with these values\". The dashboard's live preview, a `kikx add` in a terminal and a `kikx setup` from a downloaded preset all go through the same `render_component`, with the same defaults from the same registry. A preset built in the dashboard therefore renders to the same files on the command line, and a fix to a template or a rendering rule reaches every front end at once. See [The registry as single source of truth](registry.md) and [How rendering works](rendering.md)."
+msgstr "L'intérêt de cette organisation est qu'il existe une seule et unique implémentation de « effectuer le rendu de ce composant avec ces valeurs ». L'aperçu en direct du tableau de bord, un `kikx add` dans un terminal et un `kikx setup` à partir d'un preset téléchargé passent tous par le même `render_component`, avec les mêmes valeurs par défaut issues du même registre. Un preset construit dans le tableau de bord produit donc les mêmes fichiers en ligne de commande, et la correction d'un template ou d'une règle de rendu atteint toutes les interfaces à la fois. Voir [Le registre, source unique de vérité](registry.md) et [Comment fonctionne le rendu](rendering.md)."
+
+msgid "Separate Cargo packages, shared by path"
+msgstr "Des paquets Cargo séparés, partagés par chemin"
+
+msgid "`cli/` and `backend/` are independent Cargo packages rather than members of one Cargo workspace. The backend depends on `kikx-core` at `core`, and the CLI reaches the same crate through a relative path, `../backend/core`. Each package has its own `Cargo.lock`, builds on its own, and runs its own tests and lints."
+msgstr "`cli/` et `backend/` sont des paquets Cargo indépendants et non les membres d'un même workspace Cargo. Le backend dépend de `kikx-core` situé dans `core`, et la CLI atteint la même crate par un chemin relatif, `../backend/core`. Chaque paquet possède son propre `Cargo.lock`, se compile seul et exécute ses propres tests et linters."
+
+msgid "This keeps the two deliverables honestly separate. The `kikx` binary is what users install, and it is released on its own; the release workflow checks the tag against `cli/Cargo.toml` and builds only the CLI. It has no reason to compile or lock the HTTP stack (axum, tokio, tower-http) the backend needs, and the backend has no reason to carry the CLI's argument parsing. A workspace would share a single lock file across both and tie their dependency resolution together. The path dependency gives the one thing that matters, a single copy of the core code, without coupling the rest."
+msgstr "Les deux livrables restent ainsi réellement séparés. Le binaire `kikx` est ce que les utilisateurs installent, et il est publié indépendamment ; le workflow de publication vérifie le tag par rapport à `cli/Cargo.toml` et ne compile que la CLI. Il n'a aucune raison de compiler ni de verrouiller la pile HTTP (axum, tokio, tower-http) dont le backend a besoin, et le backend n'a aucune raison d'embarquer l'analyse d'arguments de la CLI. Un workspace partagerait un seul fichier de verrouillage entre les deux et lierait la résolution de leurs dépendances. La dépendance par chemin apporte la seule chose qui compte, une copie unique du code du cœur, sans coupler le reste."
+
+msgid "The cost is some repetition: three `Cargo.lock` files, and three places to run `cargo test`. The README's development section lists them."
+msgstr "Le prix à payer est une certaine répétition : trois fichiers `Cargo.lock`, et trois endroits où lancer `cargo test`. La section consacrée au développement du README les énumère."
+
+msgid "A stateless backend that only renders"
+msgstr "Un backend sans état qui se contente du rendu"
+
+msgid "The backend holds no state between requests and never writes a file. It serves the registry and the project defaults, inspects registry items, and renders a component into file contents that it returns in the response. It has no notion of a project, a user or a session."
+msgstr "Le backend ne conserve aucun état entre les requêtes et n'écrit jamais de fichier. Il sert le registre et les valeurs par défaut du projet, inspecte les éléments de registre et effectue le rendu d'un composant en contenus de fichiers qu'il renvoie dans la réponse. Il n'a aucune notion de projet, d'utilisateur ni de session."
+
+msgid "Several things follow from that. There is nothing to store, migrate or back up. Any number of dashboard tabs can use the same backend without stepping on each other. And the backend can't damage anything: the worst a request can do is render something, and the rendered content only becomes a file when you choose to download it. That also explains why the backend is a small local tool with no authentication and a CORS policy that, by default, admits only loopback origins."
+msgstr "Plusieurs conséquences en découlent. Il n'y a rien à stocker, à migrer ni à sauvegarder. Autant d'onglets du tableau de bord que vous le souhaitez peuvent utiliser le même backend sans se gêner. Et le backend ne peut rien endommager : le pire qu'une requête puisse faire est de produire un rendu, et le contenu rendu ne devient un fichier que lorsque vous choisissez de le télécharger. Cela explique aussi pourquoi le backend est un petit outil local, sans authentification, dont la politique CORS n'admet par défaut que les origines de bouclage."
+
+msgid "It also keeps responsibility clear. Writing files, with its questions about existing files, `--force` and path safety, belongs to the CLI, which runs on the machine that owns the project. Rendering, which is pure and repeatable, is the only thing that needed to be shared over HTTP."
+msgstr "Les responsabilités restent également claires. L'écriture de fichiers, avec ses questions sur les fichiers existants, `--force` et la sécurité des chemins, relève de la CLI, qui s'exécute sur la machine à laquelle appartient le projet. Le rendu, pur et reproductible, était la seule chose qu'il fallait partager en HTTP."
+
+msgid "The dashboard keeps the project in the browser"
+msgstr "Le tableau de bord garde le projet dans le navigateur"
+
+msgid "The dashboard assembles the whole project client-side. Each component you save is stored as its recipe (reference, name, field values and labels) together with the files the backend rendered for it. The project is kept in React state and mirrored to the browser's `localStorage`, so a refresh or a closed tab doesn't lose work. Conflict detection, the Checks view and the architecture diagram all run over that in-browser model, without calling the backend."
+msgstr "Le tableau de bord assemble l'intégralité du projet côté client. Chaque composant que vous enregistrez est stocké sous forme de recette (référence, nom, valeurs des champs et labels), accompagnée des fichiers que le backend a rendus pour lui. Le projet est conservé dans l'état React et répliqué dans le `localStorage` du navigateur : un rafraîchissement ou un onglet fermé ne fait donc pas perdre le travail. La détection des conflits, la vue « Checks » et le diagramme d'architecture opèrent tous sur ce modèle en mémoire du navigateur, sans appeler le backend."
+
+msgid "Nothing reaches disk until you download. You can take the project as a `.zip` containing `kikx.toml` and the rendered files, or as a preset: the recipes only, for `kikx setup` or `kikx apply` to render again."
+msgstr "Rien n'atteint le disque avant le téléchargement. Vous pouvez récupérer le projet sous forme de `.zip` contenant `kikx.toml` et les fichiers rendus, ou sous forme de preset : les recettes seules, que `kikx setup` ou `kikx apply` rendront à nouveau."
+
+msgid "Keeping the project in the browser matches the vendoring model. A project being built is a draft, and drafts shouldn't be half-written into someone's repository. Deferring every write to one explicit download means you review a complete, conflict-checked project before any of it becomes yours, and it lets the backend stay stateless. The trade-off is that the project lives in one browser profile until you export it; the preset download is how you move it, share it or keep it under version control. See [Share a project as a preset](../how-to/presets.md)."
+msgstr "Conserver le projet dans le navigateur s'accorde avec le modèle de vendorisation. Un projet en cours de construction est un brouillon, et un brouillon n'a pas à être à moitié écrit dans le dépôt de quelqu'un. Reporter toute écriture à un unique téléchargement explicite signifie que vous examinez un projet complet, vérifié contre les conflits, avant qu'il ne devienne le vôtre, et cela permet au backend de rester sans état. La contrepartie est que le projet vit dans un seul profil de navigateur tant que vous ne l'exportez pas ; le téléchargement du preset est le moyen de le déplacer, de le partager ou de le placer sous contrôle de version. Voir [Partager un projet sous forme de preset](../how-to/presets.md)."
+
+msgid "Where the tests live"
+msgstr "Où se trouvent les tests"
+
+msgid "Each Rust package keeps its tests in its own `tests/` directory as integration tests, rather than in `#[cfg(test)]` modules next to the code. `backend/core/tests/` covers rendering, the registry, presets, `setup`, `apply` and the built-in preset templates; `backend/tests/` drives the HTTP router, its preset endpoints and its CORS policy; `cli/tests/` runs the built `kikx` binary against temporary directories and checks argument parsing."
+msgstr "Chaque paquet Rust range ses tests dans son propre répertoire `tests/`, sous forme de tests d'intégration, plutôt que dans des modules `#[cfg(test)]` placés à côté du code. `backend/core/tests/` couvre le rendu, le registre, les presets, `setup`, `apply` et les templates de preset intégrés ; `backend/tests/` pilote le routeur HTTP, ses points d'accès de presets et sa politique CORS ; `cli/tests/` exécute le binaire `kikx` compilé sur des répertoires temporaires et vérifie l'analyse des arguments."
+
+msgid "Testing from the outside means the tests exercise the same public API the other packages use: the CLI's tests see what a user sees, the backend's see what the dashboard sees, and the core's see what both front ends call. It keeps the source files focused on behaviour, and it makes each package's test suite runnable on its own with `cargo test`, consistent with building each package on its own. The dashboard is checked by type checking, linting and a production build."
+msgstr "Tester depuis l'extérieur garantit que les tests exercent la même API publique que celle qu'utilisent les autres paquets : les tests de la CLI voient ce que voit un utilisateur, ceux du backend ce que voit le tableau de bord, et ceux du cœur ce qu'appellent les deux interfaces. Les fichiers source restent ainsi centrés sur le comportement, et la suite de tests de chaque paquet peut s'exécuter seule avec `cargo test`, de la même manière que chaque paquet se compile seul. Le tableau de bord est contrôlé par la vérification de types, le linting et un build de production."
+
+msgid "Related"
+msgstr "Voir aussi"
+
+msgid "[Run kikx locally](../contributing/run-locally.md)"
+msgstr "[Lancer kikx en local](../contributing/run-locally.md)"
+
+msgid "[Configuration reference](../reference/configuration.md)"
+msgstr "[Référence de la configuration](../reference/configuration.md)"
+
+msgid "[Vendoring real files](vendoring.md)"
+msgstr "[Vendoriser de vrais fichiers](vendoring.md)"
+

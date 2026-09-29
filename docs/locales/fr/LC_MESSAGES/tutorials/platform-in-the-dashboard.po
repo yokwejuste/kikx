@@ -1,0 +1,351 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Build an Ansible platform in the dashboard"
+msgstr "Construire une plateforme Ansible dans le tableau de bord"
+
+msgid "In this tutorial you'll use the kikx dashboard to build a small Ansible project for a platform with two web servers and a database server. You'll start from an inventory you already have, add group vars, a playbook with two plays and a role condition, a site playbook and an Ansible config. Along the way the dashboard will spot a mistake in the inventory; you'll fix it, let it scaffold the missing roles, look at the architecture it draws, and download the result."
+msgstr "Dans ce tutoriel, vous allez utiliser le tableau de bord de kikx pour construire un petit projet Ansible destiné à une plateforme composée de deux serveurs web et d'un serveur de base de données. Vous partirez d'un inventaire que vous avez déjà, puis vous ajouterez des group vars, un playbook avec deux plays et une condition de rôle, un playbook site et une configuration Ansible. En chemin, le tableau de bord repérera une erreur dans l'inventaire : vous la corrigerez, vous le laisserez générer les rôles manquants, vous regarderez l'architecture qu'il dessine et vous téléchargerez le résultat."
+
+msgid "It takes about twenty minutes."
+msgstr "Comptez environ vingt minutes."
+
+msgid "Before you start"
+msgstr "Avant de commencer"
+
+msgid "You need:"
+msgstr "Il vous faut :"
+
+msgid "a web browser;"
+msgstr "un navigateur web ;"
+
+msgid "a terminal with [uv](https://docs.astral.sh/uv/), which you'll use to check the result with Ansible without installing it."
+msgstr "un terminal avec [uv](https://docs.astral.sh/uv/), que vous utiliserez pour vérifier le résultat avec Ansible sans l'installer."
+
+msgid "The last step also uses the `kikx` CLI. If you haven't installed it yet, [Your first project with the CLI](first-project-cli.md) shows how."
+msgstr "La dernière étape utilise aussi la CLI `kikx`. Si vous ne l'avez pas encore installée, [Votre premier projet avec la CLI](first-project-cli.md) explique comment faire."
+
+msgid "Open the dashboard"
+msgstr "Ouvrir le tableau de bord"
+
+msgid "Open the kikx dashboard in your browser. You should see the kikx home page with a form headed **Or build it here**. Above it, **Start from a template** offers ready-made projects; in this tutorial you'll start from an empty one instead."
+msgstr "Ouvrez le tableau de bord kikx dans votre navigateur. Vous devriez voir la page d'accueil de kikx avec un formulaire intitulé « Or build it here ». Au-dessus, « Start from a template » propose des projets prêts à l'emploi ; dans ce tutoriel, vous partirez plutôt d'un projet vide."
+
+msgid "To work on kikx itself with a local copy of the dashboard, see [Run kikx locally](../contributing/run-locally.md)."
+msgstr "Pour travailler sur kikx lui-même avec une copie locale du tableau de bord, voir [Lancer kikx en local](../contributing/run-locally.md)."
+
+msgid "Create the project"
+msgstr "Créer le projet"
+
+msgid "Fill in the form:"
+msgstr "Remplissez le formulaire :"
+
+msgid "**Project name**: `platform`"
+msgstr "« Project name » : `platform`"
+
+msgid "**Default namespace**: leave it as `default`"
+msgstr "« Default namespace » : laissez `default`"
+
+msgid "**Output directory**: `infra`"
+msgstr "« Output directory » : `infra`"
+
+msgid "Click **Start building**."
+msgstr "Cliquez sur « Start building »."
+
+msgid "You're now in the builder. It has three columns: the stages on the left (Provision, Inventory, Configure, Deploy, Custom), the editor in the middle, and the **Project** panel on the right, which says **Nothing yet. Most projects start with an Inventory.** Here is the same layout on a much larger project:"
+msgstr "Vous êtes maintenant dans l'éditeur de projet. Il comporte trois colonnes : les étapes à gauche (« Provision », « Inventory », « Configure », « Deploy », « Custom »), l'éditeur au centre, et le panneau « Project » à droite, qui indique « Nothing yet. Most projects start with an Inventory. » Voici la même disposition sur un projet beaucoup plus grand :"
+
+msgid "![The builder: stages on the left, the editor in the middle, the project on the right](../images/builder-light.png)"
+msgstr "![L'éditeur de projet : les étapes à gauche, l'éditeur au centre, le projet à droite](../images/builder-light.png)"
+
+msgid "The builder: stages on the left, the editor in the middle, the project on the right"
+msgstr "L'éditeur de projet : les étapes à gauche, l'éditeur au centre, le projet à droite"
+
+msgid "Above the columns you see the project name, the badges `ns: default` and `infra/`, and three tabs: **Build**, **Architecture** and **Checks**."
+msgstr "Au-dessus des colonnes, vous devriez voir le nom du projet, les badges `ns: default` et `infra/`, et trois onglets : « Build », « Architecture » et « Checks »."
+
+msgid "Import an inventory"
+msgstr "Importer un inventaire"
+
+msgid "The editor already shows **New inventory**, and its **Name** field says `platform`. Instead of typing the hosts one by one, you'll paste an existing inventory."
+msgstr "L'éditeur affiche déjà « New inventory », et son champ « Name » indique `platform`. Au lieu de saisir les hôtes un par un, vous allez coller un inventaire existant."
+
+msgid "Next to **Hosts (1)**, click **Import inventory.ini**. A dialog titled **Import an existing inventory** opens. Paste this into the text area:"
+msgstr "À côté de « Hosts (1) », cliquez sur « Import inventory.ini ». Une boîte de dialogue intitulée « Import an existing inventory » s'ouvre. Collez ceci dans la zone de texte :"
+
+msgid "Under the text area the dialog counts **3 hosts · 3 groups**. Click **Replace hosts & groups**."
+msgstr "Sous la zone de texte, vous devriez voir le décompte « 3 hosts · 3 groups ». Cliquez sur « Replace hosts & groups »."
+
+msgid "The dialog closes and the form fills in: **Hosts (3)** with `web-01`, `web-02` and `db-01`, and a **Groups** section with `web`, `db` and `platform`. The `platform` row lists `web` and `db` as child groups and `ansible_user=deploy` as its vars."
+msgstr "La boîte de dialogue se ferme et le formulaire se remplit : « Hosts (3) » avec `web-01`, `web-02` et `db-01`, et une section « Groups » avec `web`, `db` et `platform`. La ligne `platform` liste `web` et `db` comme groupes enfants et `ansible_user=deploy` comme variables."
+
+msgid "Scroll down to **Preview**. It shows `platform-inventory.ini`, rendered as you'd get it:"
+msgstr "Faites défiler jusqu'à « Preview ». L'aperçu en direct montre `platform-inventory.ini`, tel que vous l'obtiendrez après le rendu :"
+
+msgid "Click **Add to project**. A notification says **Added platform**, and the **Project** panel now lists `platform` under **Inventory**."
+msgstr "Cliquez sur « Add to project ». Une notification indique « Added platform », et le panneau « Project » liste maintenant `platform` sous « Inventory »."
+
+msgid "Notice two other things: the **Project** panel shows **1 warning** with a **Review** button, and the **Checks** tab has a count of `1`. Leave that for now; you'll come back to it."
+msgstr "Remarquez deux autres choses : le panneau « Project » affiche « 1 warning » avec un bouton « Review », et l'onglet « Checks » porte le compteur `1`. Laissez cela de côté pour l'instant ; vous y reviendrez."
+
+msgid "Add group vars"
+msgstr "Ajouter des group vars"
+
+msgid "The database servers need some nested settings. In the left column, under **Inventory**, click **Group vars**. The editor switches to **New group vars**."
+msgstr "Les serveurs de base de données ont besoin de quelques réglages imbriqués. Dans la colonne de gauche, sous « Inventory », cliquez sur « Group vars ». L'éditeur passe à « New group vars »."
+
+msgid "In **Group**, type `db`."
+msgstr "Dans « Group », saisissez `db`."
+
+msgid "Tick **Folder layout** so the file becomes `group_vars/db/main.yml`."
+msgstr "Cochez « Folder layout » pour que le fichier devienne `group_vars/db/main.yml`."
+
+msgid "Next to **Variables**, switch from **Key / value** to **YAML**."
+msgstr "À côté de « Variables », passez de « Key / value » à « YAML »."
+
+msgid "Paste this into the text area:"
+msgstr "Collez ceci dans la zone de texte :"
+
+msgid "The preview shows `group_vars/db/main.yml`:"
+msgstr "Vous devriez voir l'aperçu montrer `group_vars/db/main.yml` :"
+
+msgid "Click **Add to project**. The **Project** panel now has `group_vars/db/main` under **Inventory**."
+msgstr "Cliquez sur « Add to project ». Le panneau « Project » contient maintenant `group_vars/db/main` sous « Inventory »."
+
+msgid "Add a playbook with two plays"
+msgstr "Ajouter un playbook avec deux plays"
+
+msgid "In the left column, under **Configure**, click **Playbook**."
+msgstr "Dans la colonne de gauche, sous « Configure », cliquez sur « Playbook »."
+
+msgid "In **Name**, type `services`."
+msgstr "Dans « Name », saisissez `services`."
+
+msgid "In **Folder**, type `playbooks`. The field shows `playbooks` in grey before you type; that's only a hint, so type it."
+msgstr "Dans « Folder », saisissez `playbooks`. Le champ affiche `playbooks` en gris avant que vous ne tapiez ; ce n'est qu'une indication, alors saisissez-le."
+
+msgid "Fill in **Play 1**:"
+msgstr "Remplissez « Play 1 » :"
+
+msgid "**Name**: `Web tier`"
+msgstr "« Name » : `Web tier`"
+
+msgid "**Runs on (hosts)**: `web`"
+msgstr "« Runs on (hosts) » : `web`"
+
+msgid "**Roles, in the order they run**: type `nginx` and press Enter. It becomes a numbered chip."
+msgstr "« Roles, in the order they run » : saisissez `nginx` et appuyez sur Entrée. Il devient une puce numérotée."
+
+msgid "Click **Add play** and fill in **Play 2**:"
+msgstr "Cliquez sur « Add play » et remplissez « Play 2 » :"
+
+msgid "**Name**: `Database tier`"
+msgstr "« Name » : `Database tier`"
+
+msgid "**Runs on (hosts)**: `db`"
+msgstr "« Runs on (hosts) » : `db`"
+
+msgid "**Roles, in the order they run**: type `postgres` and press Enter, then `backups` and press Enter."
+msgstr "« Roles, in the order they run » : saisissez `postgres` et appuyez sur Entrée, puis `backups` et appuyez sur Entrée."
+
+msgid "Backups should be something you can switch off. Under Play 2, open **Role conditions (when:)**. It lists one field per role. In the field next to `backups`, type:"
+msgstr "Les sauvegardes doivent pouvoir être désactivées. Sous « Play 2 », ouvrez « Role conditions (when:) ». La section liste un champ par rôle. Dans le champ à côté de `backups`, saisissez :"
+
+msgid "The preview shows `playbooks/services.yml`:"
+msgstr "Vous devriez voir l'aperçu montrer `playbooks/services.yml` :"
+
+msgid "Click **Add to project**. `services` appears in the **Project** panel under **Configure**."
+msgstr "Cliquez sur « Add to project ». `services` apparaît dans le panneau « Project » sous « Configure »."
+
+msgid "Add the site playbook"
+msgstr "Ajouter le playbook site"
+
+msgid "Under **Configure**, click **Site playbook**."
+msgstr "Sous « Configure », cliquez sur « Site playbook »."
+
+msgid "In **Name**, type `site`."
+msgstr "Dans « Name », saisissez `site`."
+
+msgid "Under **Imports, in run order**, next to **from this project:**, click the `playbooks/services.yml` chip. A row appears with that path."
+msgstr "Sous « Imports, in run order », à côté de « from this project: », cliquez sur la puce `playbooks/services.yml`. Une ligne apparaît avec ce chemin."
+
+msgid "The row's name is filled in with the first play's name, `Web tier`. This import runs the whole playbook, so replace it with `Services`."
+msgstr "Le nom de la ligne est rempli avec le nom du premier play, `Web tier`. Cet import exécute le playbook entier : remplacez-le donc par `Services`."
+
+msgid "The preview shows `site.yml`:"
+msgstr "Vous devriez voir l'aperçu montrer `site.yml` :"
+
+msgid "Click **Add to project**. The **Project** panel now reads **4 components · 4 files in infra/**."
+msgstr "Cliquez sur « Add to project ». Le panneau « Project » indique maintenant « 4 components · 4 files in infra/ »."
+
+msgid "Add an Ansible config"
+msgstr "Ajouter une configuration Ansible"
+
+msgid "The playbook lives in `playbooks/`, and its roles will live in `roles/` at the top of `infra/`. Ansible looks for roles next to the playbook, so it needs an `ansible.cfg` that points at them."
+msgstr "Le playbook se trouve dans `playbooks/`, et ses rôles se trouveront dans `roles/`, à la racine de `infra/`. Ansible cherche les rôles à côté du playbook : il lui faut donc un `ansible.cfg` qui pointe vers eux."
+
+msgid "Under **Configure**, click **Ansible config**. The editor switches to **New ansible config**, and **Name** already says `ansible`."
+msgstr "Sous « Configure », cliquez sur « Ansible config ». L'éditeur passe à « New ansible config », et « Name » contient déjà `ansible`."
+
+msgid "In **Inventory file**, type `platform-inventory.ini`. The field shows it in grey before you type; that's only a hint, so type it."
+msgstr "Dans « Inventory file », saisissez `platform-inventory.ini`. Le champ l'affiche en gris avant que vous ne tapiez ; ce n'est qu'une indication, alors saisissez-le."
+
+msgid "Leave **Roles path** as `roles`."
+msgstr "Laissez « Roles path » à `roles`."
+
+msgid "The preview shows `ansible.cfg`:"
+msgstr "Vous devriez voir l'aperçu montrer `ansible.cfg` :"
+
+msgid "Click **Add to project**. The **Project** panel now reads **5 components · 5 files in infra/**."
+msgstr "Cliquez sur « Add to project ». Le panneau « Project » indique maintenant « 5 components · 5 files in infra/ »."
+
+msgid "Fix the warning"
+msgstr "Corriger l'avertissement"
+
+msgid "Click the **Checks** tab. The page lists what kikx found when it cross-checked your components:"
+msgstr "Cliquez sur l'onglet « Checks ». La page liste ce que kikx a trouvé en croisant vos composants :"
+
+msgid "under **Warnings**: **web-02 sets ansible_user=root, overriding [platform:vars] ansible_user=deploy**, with the explanation *Host vars win over group vars. Clear ansible_user on the host if the group value is the one you want.*"
+msgstr "sous « Warnings » : « web-02 sets ansible_user=root, overriding [platform:vars] ansible_user=deploy », avec l'explication *Host vars win over group vars. Clear ansible_user on the host if the group value is the one you want.* ;"
+
+msgid "under **Notes**: **services uses 3 roles kikx doesn't vendor**, listing `nginx, postgres, backups`."
+msgstr "sous « Notes » : « services uses 3 roles kikx doesn't vendor », qui liste `nginx, postgres, backups`."
+
+msgid "The warning is right: the pasted inventory still had an old `ansible_user=root` on `web-02`, so it would ignore the `deploy` user every other host uses. Fix it:"
+msgstr "L'avertissement a raison : l'inventaire collé contenait encore un ancien `ansible_user=root` sur `web-02`, qui ignorerait donc l'utilisateur `deploy` qu'utilisent tous les autres hôtes. Corrigez-le :"
+
+msgid "Next to the warning, click **Open platform**. You're back in the **Build** tab, in **Editing Inventory · platform**."
+msgstr "À côté de l'avertissement, cliquez sur « Open platform ». Vous revenez dans l'onglet « Build », sur « Editing Inventory · platform »."
+
+msgid "On the `web-02` row, open **Connection & host vars**. Its summary says **user root**."
+msgstr "Sur la ligne `web-02`, ouvrez « Connection & host vars ». Son résumé indique « user root »."
+
+msgid "Clear the **ssh user (inherit)** field."
+msgstr "Videz le champ « ssh user (inherit) »."
+
+msgid "In the preview, the `web-02` line loses its user:"
+msgstr "Dans l'aperçu, vous devriez voir la ligne `web-02` perdre son utilisateur :"
+
+msgid "Click **Save changes**. A notification says **Saved platform**. The warning count disappears from the **Project** panel and from the **Checks** tab."
+msgstr "Cliquez sur « Save changes ». Une notification indique « Saved platform ». Le compteur d'avertissements disparaît du panneau « Project » et de l'onglet « Checks »."
+
+msgid "Scaffold the roles"
+msgstr "Générer les rôles"
+
+msgid "Click the **Checks** tab again. Only the note is left: **services uses 3 roles kikx doesn't vendor**."
+msgstr "Cliquez de nouveau sur l'onglet « Checks ». Il ne reste que la note : « services uses 3 roles kikx doesn't vendor »."
+
+msgid "Click **Scaffold 3 roles**. A notification says **Scaffolded 3 roles**, and the page now reads:"
+msgstr "Cliquez sur « Scaffold 3 roles ». Une notification indique « Scaffolded 3 roles », et vous devriez voir la page afficher :"
+
+msgid "Click the **Build** tab. The **Project** panel lists `nginx`, `postgres` and `backups` under **Configure**, each a **Role skeleton · 4 files**. Click the arrow next to `postgres` to see its four files, and click `roles/postgres/tasks/main.yml` to read it:"
+msgstr "Cliquez sur l'onglet « Build ». Le panneau « Project » liste `nginx`, `postgres` et `backups` sous « Configure », chacun comme « Role skeleton · 4 files ». Cliquez sur la flèche à côté de `postgres` pour voir ses quatre fichiers, puis cliquez sur `roles/postgres/tasks/main.yml` pour le lire :"
+
+msgid "Look at the architecture"
+msgstr "Examiner l'architecture"
+
+msgid "Click the **Architecture** tab. kikx draws your project in swimlanes, left to right in the order things happen: **Inventory**, **Playbooks**, **Roles**."
+msgstr "Cliquez sur l'onglet « Architecture ». kikx dessine votre projet en couloirs, de gauche à droite dans l'ordre où les choses se produisent : « Inventory », « Playbooks », « Roles »."
+
+msgid "You should see:"
+msgstr "Vous devriez voir :"
+
+msgid "`ansible.cfg` (**roles_path: roles**) in the **Inventory** lane, with no edges;"
+msgstr "`ansible.cfg` (« roles_path: roles ») dans le couloir « Inventory », sans arête ;"
+
+msgid "`platform` (**2 child groups**) with an **includes** edge to `web` (**2 hosts**) and one to `db` (**1 host**);"
+msgstr "`platform` (« 2 child groups ») avec une arête « includes » vers `web` (« 2 hosts ») et une vers `db` (« 1 host ») ;"
+
+msgid "`group_vars/db/main` with a **configures** edge to `db`;"
+msgstr "`group_vars/db/main` avec une arête « configures » vers `db` ;"
+
+msgid "`playbooks/services.yml` (**2 plays · 3 roles**) with **targets** edges to `web` and `db`;"
+msgstr "`playbooks/services.yml` (« 2 plays · 3 roles ») avec des arêtes « targets » vers `web` et `db` ;"
+
+msgid "`site.yml` with an **imports** edge to `playbooks/services.yml`;"
+msgstr "`site.yml` avec une arête « imports » vers `playbooks/services.yml` ;"
+
+msgid "three **runs** edges from the playbook to `roles/nginx`, `roles/postgres` and `roles/backups`."
+msgstr "trois arêtes « runs » du playbook vers `roles/nginx`, `roles/postgres` et `roles/backups`."
+
+msgid "Hover a node to highlight its connections; click one to open it in the editor. On a larger project the same view looks like this:"
+msgstr "Survolez un nœud pour mettre en évidence ses connexions ; cliquez sur un nœud pour l'ouvrir dans l'éditeur. Sur un projet plus grand, la même vue ressemble à ceci :"
+
+msgid "![The Architecture view of a larger project, with nodes in swimlanes and routed edges](../images/architecture-light.png)"
+msgstr "![La vue « Architecture » d'un projet plus grand, avec des nœuds en couloirs et des arêtes routées](../images/architecture-light.png)"
+
+msgid "The Architecture view of a larger project, with nodes in swimlanes and routed edges"
+msgstr "La vue « Architecture » d'un projet plus grand, avec des nœuds en couloirs et des arêtes routées"
+
+msgid "Download the project"
+msgstr "Télécharger le projet"
+
+msgid "Click **Download .zip** at the top right. Your browser saves `platform.zip`. Unzip it into an empty directory and look inside:"
+msgstr "Cliquez sur « Download .zip » en haut à droite. Votre navigateur enregistre `platform.zip`. Décompressez-le dans un répertoire vide et regardez son contenu :"
+
+msgid "Nothing was written to your disk until now: the project lived in the browser tab."
+msgstr "Rien n'avait été écrit sur votre disque jusqu'ici : le projet vivait dans l'onglet du navigateur."
+
+msgid "Check that Ansible reads what you built. From `infra/`, ask it about `db-01`:"
+msgstr "Vérifiez qu'Ansible lit ce que vous avez construit. Depuis `infra/`, interrogez-le sur `db-01` :"
+
+msgid "The user comes from `[platform:vars]` and the settings from the group vars you pasted. Then check the playbooks. `ansible.cfg` gives Ansible the inventory and the roles path, so no other option is needed:"
+msgstr "L'utilisateur vient de `[platform:vars]` et les réglages des group vars que vous avez collées. Vérifiez ensuite les playbooks. `ansible.cfg` fournit à Ansible l'inventaire et le chemin des rôles : aucune autre option n'est nécessaire :"
+
+msgid "Download the preset"
+msgstr "Télécharger le preset"
+
+msgid "Go back to the dashboard and the **Build** tab. At the bottom of the **Project** panel, click **Download preset**. Your browser saves `platform.kikx-preset.json`, and the button is replaced by two commands:"
+msgstr "Revenez au tableau de bord, dans l'onglet « Build ». En bas du panneau « Project », cliquez sur « Download preset ». Votre navigateur enregistre `platform.kikx-preset.json`, et vous devriez voir le bouton remplacé par deux commandes :"
+
+msgid "The preset is the recipe for your project, not the files themselves. Rebuild the project from it with the CLI, in a new empty directory that contains only the preset:"
+msgstr "Le preset est la recette de votre projet, pas les fichiers eux-mêmes. Reconstruisez le projet à partir de lui avec la CLI, dans un nouveau répertoire vide qui ne contient que le preset :"
+
+msgid "kikx lists the 17 files it wrote. The first line reads:"
+msgstr "kikx liste les 17 fichiers qu'il a écrits. Vous devriez voir en première ligne :"
+
+msgid "They're the same files as in the zip."
+msgstr "Ce sont les mêmes fichiers que dans le zip."
+
+msgid "What you've done"
+msgstr "Ce que vous avez fait"
+
+msgid "You imported an existing inventory, added YAML group vars in a folder layout, wrote a two-play playbook with a role condition, wired it into `site.yml` and pointed Ansible at your roles with `ansible.cfg`. The Checks view caught a host var silently overriding a group var; you fixed it and scaffolded the three roles the playbook needed. You saw the architecture kikx drew from your components, downloaded the project as a zip that Ansible accepts, and rebuilt it from a preset with the CLI."
+msgstr "Vous avez importé un inventaire existant, ajouté des group vars en YAML dans une disposition en dossier, écrit un playbook à deux plays avec une condition de rôle, l'avez relié à `site.yml` et avez indiqué à Ansible où trouver vos rôles avec `ansible.cfg`. La vue « Checks » a repéré une variable d'hôte qui écrasait silencieusement une variable de groupe ; vous l'avez corrigée et avez généré les trois rôles dont le playbook avait besoin. Vous avez vu l'architecture que kikx a dessinée à partir de vos composants, téléchargé le projet sous forme de zip accepté par Ansible, et l'avez reconstruit à partir d'un preset avec la CLI."
+
+msgid "When you want to go further:"
+msgstr "Pour aller plus loin :"
+
+msgid "bring your own inventory: [Import an existing Ansible inventory](../how-to/import-an-inventory.md);"
+msgstr "apporter votre propre inventaire : [Importer un inventaire Ansible existant](../how-to/import-an-inventory.md) ;"
+
+msgid "more plays, pre-tasks and post-tasks: [Write a multi-play playbook with role conditions](../how-to/multi-play-playbooks.md);"
+msgstr "davantage de plays, de pre-tasks et de post-tasks : [Écrire un playbook à plusieurs plays avec des conditions de rôle](../how-to/multi-play-playbooks.md) ;"
+
+msgid "every check and what triggers it: [Checks reference](../reference/checks.md);"
+msgstr "toutes les vérifications et ce qui les déclenche : [Vérifications](../reference/checks.md) ;"
+
+msgid "keep refining the diagram by hand: [Export the architecture to draw.io](../how-to/export-to-drawio.md);"
+msgstr "continuer à affiner le diagramme à la main : [Exporter l'architecture vers draw.io](../how-to/export-to-drawio.md) ;"
+
+msgid "`setup` versus `apply`: [Share a project as a preset](../how-to/presets.md);"
+msgstr "`setup` ou `apply` : [Partager un projet sous forme de preset](../how-to/presets.md) ;"
+
+msgid "start from a ready-made project instead of an empty page: [Start from a template](../how-to/presets.md#start-from-a-template);"
+msgstr "partir d'un projet prêt à l'emploi plutôt que d'une page vide : [Démarrer depuis un template](../how-to/presets.md#start-from-a-template) ;"
+
+msgid "how the edges are chosen: [How the architecture diagram is drawn](../explanation/architecture-diagram.md)."
+msgstr "comment les arêtes sont choisies : [Comment le diagramme d'architecture est dessiné](../explanation/architecture-diagram.md)."
+

@@ -1,0 +1,525 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "CLI"
+msgstr "CLI"
+
+msgid "The `kikx` binary, built from `cli/`. It reads and writes the filesystem directly and needs no running backend."
+msgstr "Le binaire `kikx`, compilé depuis `cli/`. Il lit et écrit directement sur le système de fichiers et n'a besoin d'aucun backend en cours d'exécution."
+
+msgid "Command"
+msgstr "Commande"
+
+msgid "Purpose"
+msgstr "Rôle"
+
+msgid "Reads `kikx.toml`"
+msgstr "Lit `kikx.toml`"
+
+msgid "Writes `kikx.toml`"
+msgstr "Écrit `kikx.toml`"
+
+msgid "[`init`](#kikx-init)"
+msgstr "[`init`](#kikx-init)"
+
+msgid "Create a project"
+msgstr "Créer un projet"
+
+msgid "no"
+msgstr "non"
+
+msgid "yes"
+msgstr "oui"
+
+msgid "[`add`](#kikx-add)"
+msgstr "[`add`](#kikx-add)"
+
+msgid "Render one component into the output directory"
+msgstr "Effectuer le rendu d'un composant dans le répertoire de sortie"
+
+msgid "[`list`](#kikx-list)"
+msgstr "[`list`](#kikx-list)"
+
+msgid "Print the built-in components"
+msgstr "Afficher les composants intégrés"
+
+msgid "[`presets`](#kikx-presets)"
+msgstr "[`presets`](#kikx-presets)"
+
+msgid "Print the built-in preset templates"
+msgstr "Afficher les templates de preset intégrés"
+
+msgid "[`setup`](#kikx-setup)"
+msgstr "[`setup`](#kikx-setup)"
+
+msgid "Create a project from a preset template, file or URL"
+msgstr "Créer un projet depuis un template de preset, un fichier ou une URL"
+
+msgid "[`apply`](#kikx-apply)"
+msgstr "[`apply`](#kikx-apply)"
+
+msgid "Render a preset template, file or URL into an existing directory"
+msgstr "Effectuer le rendu d'un template de preset, d'un fichier ou d'une URL dans un répertoire existant"
+
+msgid "Global options:"
+msgstr "Options globales :"
+
+msgid "Option"
+msgstr "Option"
+
+msgid "Effect"
+msgstr "Effet"
+
+msgid "`-h`, `--help`"
+msgstr "`-h`, `--help`"
+
+msgid "Print help"
+msgstr "Affiche l'aide"
+
+msgid "`-V`, `--version`"
+msgstr "`-V`, `--version`"
+
+msgid "Print the version, for example `kikx 0.0.1`"
+msgstr "Affiche la version, par exemple `kikx 0.0.1`"
+
+msgid "All paths are resolved against the current working directory. The CLI reads no environment variables."
+msgstr "Tous les chemins sont résolus par rapport au répertoire de travail courant. La CLI ne lit aucune variable d'environnement."
+
+msgid "`kikx --help` lists each command with a one-line description:"
+msgstr "`kikx --help` liste chaque commande avec une description d'une ligne :"
+
+msgid "`kikx <COMMAND> --help` prints the same description above the command's usage."
+msgstr "`kikx <COMMAND> --help` affiche la même description au-dessus de l'usage de la commande."
+
+msgid "Exit status"
+msgstr "Code de sortie"
+
+msgid "Status"
+msgstr "Code"
+
+msgid "Cause"
+msgstr "Cause"
+
+msgid "`0`"
+msgstr "`0`"
+
+msgid "Success"
+msgstr "Succès"
+
+msgid "`1`"
+msgstr "`1`"
+
+msgid "Operation error. The message is printed to stderr as `Error: <message>`, followed by `Caused by:` lines when present"
+msgstr "Erreur d'opération. Le message est affiché sur stderr sous la forme `Error: <message>`, suivi de lignes `Caused by:` le cas échéant"
+
+msgid "`2`"
+msgstr "`2`"
+
+msgid "Argument parsing error, for example a missing required option, a `--label` or `--set` value without `=`, or a number out of range"
+msgstr "Erreur d'analyse des arguments, par exemple une option obligatoire absente, une valeur de `--label` ou `--set` sans `=`, ou un nombre hors limites"
+
+msgid "`kikx init`"
+msgstr "`kikx init`"
+
+msgid "Writes `kikx.toml` in the current directory and creates the output directory."
+msgstr "Écrit `kikx.toml` dans le répertoire courant et crée le répertoire de sortie."
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Default"
+msgstr "Valeur par défaut"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "`--name <NAME>`"
+msgstr "`--name <NAME>`"
+
+msgid "string"
+msgstr "chaîne"
+
+msgid "name of the current directory, or `kikx-project` when it has none"
+msgstr "nom du répertoire courant, ou `kikx-project` s'il n'en a pas"
+
+msgid "Project name, stored as `project.name`"
+msgstr "Nom du projet, enregistré dans `project.name`"
+
+msgid "`--dir <DIR>`"
+msgstr "`--dir <DIR>`"
+
+msgid "path"
+msgstr "chemin"
+
+msgid "`k8s`"
+msgstr "`k8s`"
+
+msgid "Output directory, stored as `project.output_dir`"
+msgstr "Répertoire de sortie, enregistré dans `project.output_dir`"
+
+msgid "`--namespace <NAMESPACE>`"
+msgstr "`--namespace <NAMESPACE>`"
+
+msgid "`default`"
+msgstr "`default`"
+
+msgid "Default namespace, stored as `project.default_namespace`"
+msgstr "Namespace par défaut, enregistré dans `project.default_namespace`"
+
+msgid "`--force`"
+msgstr "`--force`"
+
+msgid "flag"
+msgstr "option sans valeur"
+
+msgid "off"
+msgstr "désactivée"
+
+msgid "Overwrite an existing `kikx.toml`"
+msgstr "Écrase un `kikx.toml` existant"
+
+msgid "Condition"
+msgstr "Condition"
+
+msgid "Result"
+msgstr "Résultat"
+
+msgid "`kikx.toml` exists, no `--force`"
+msgstr "`kikx.toml` existe, sans `--force`"
+
+msgid "Exit `1`: ``kikx.toml already exists in <dir> — pass --force to overwrite``"
+msgstr "Sortie `1` : ``kikx.toml already exists in <dir> — pass --force to overwrite``"
+
+msgid "`kikx.toml` exists, `--force`"
+msgstr "`kikx.toml` existe, avec `--force`"
+
+msgid "`kikx.toml` is replaced. Files already in the output directory are kept"
+msgstr "`kikx.toml` est remplacé. Les fichiers déjà présents dans le répertoire de sortie sont conservés"
+
+msgid "Output on success:"
+msgstr "Sortie en cas de succès :"
+
+msgid "`kikx add`"
+msgstr "`kikx add`"
+
+msgid "Renders one component with the project's `default_namespace` and writes its files under the project's `output_dir`."
+msgstr "Effectue le rendu d'un composant avec le `default_namespace` du projet et écrit ses fichiers sous le `output_dir` du projet."
+
+msgid "Argument"
+msgstr "Argument"
+
+msgid "`<REFERENCE>`"
+msgstr "`<REFERENCE>`"
+
+msgid "Built-in reference (`k8s/deployment`), URL, or local path to a `registry-item.json`. See [Registry item format](registry-item-format.md#reference-resolution)"
+msgstr "Référence intégrée (`k8s/deployment`), URL, ou chemin local vers un `registry-item.json`. Voir [Format des éléments de registre](registry-item-format.md#reference-resolution)"
+
+msgid "Sets field"
+msgstr "Définit le champ"
+
+msgid "required"
+msgstr "obligatoire"
+
+msgid "`name` in the template context"
+msgstr "`name` dans le contexte du template"
+
+msgid "`--image <IMAGE>`"
+msgstr "`--image <IMAGE>`"
+
+msgid "registry default"
+msgstr "valeur par défaut du registre"
+
+msgid "`image`"
+msgstr "`image`"
+
+msgid "`--replicas <REPLICAS>`"
+msgstr "`--replicas <REPLICAS>`"
+
+msgid "unsigned 32-bit integer"
+msgstr "entier non signé 32 bits"
+
+msgid "`replicas`"
+msgstr "`replicas`"
+
+msgid "`--port <PORT>`"
+msgstr "`--port <PORT>`"
+
+msgid "integer `0`–`65535`"
+msgstr "entier `0`–`65535`"
+
+msgid "`port`"
+msgstr "`port`"
+
+msgid "`--target-port <TARGET_PORT>`"
+msgstr "`--target-port <TARGET_PORT>`"
+
+msgid "`target_port`"
+msgstr "`target_port`"
+
+msgid "`project.default_namespace`"
+msgstr "`project.default_namespace`"
+
+msgid "`namespace`"
+msgstr "`namespace`"
+
+msgid "`--host <HOST>`"
+msgstr "`--host <HOST>`"
+
+msgid "`host`"
+msgstr "`host`"
+
+msgid "`--path <PATH>`"
+msgstr "`--path <PATH>`"
+
+msgid "`path`"
+msgstr "`path`"
+
+msgid "`--service <SERVICE>`"
+msgstr "`--service <SERVICE>`"
+
+msgid "`service`"
+msgstr "`service`"
+
+msgid "`--label <KEY=VALUE>`"
+msgstr "`--label <KEY=VALUE>`"
+
+msgid "key/value, repeatable"
+msgstr "clé/valeur, répétable"
+
+msgid "`app=<name>`"
+msgstr "`app=<name>`"
+
+msgid "an entry of `labels`"
+msgstr "une entrée de `labels`"
+
+msgid "`--set <KEY=VALUE>`"
+msgstr "`--set <KEY=VALUE>`"
+
+msgid "—"
+msgstr "—"
+
+msgid "field `KEY`"
+msgstr "champ `KEY`"
+
+msgid "Overwrite existing files"
+msgstr "Écrase les fichiers existants"
+
+msgid "Field precedence, highest first: `--set`, the dedicated option (`--image`, `--port`, …), the registry default. A later `--set` for the same key wins over an earlier one. `--label app=<value>` replaces the default `app` label."
+msgstr "Priorité des champs, de la plus haute à la plus basse : `--set`, l'option dédiée (`--image`, `--port`, …), la valeur par défaut du registre. Un `--set` ultérieur pour la même clé l'emporte sur un précédent. `--label app=<value>` remplace le label `app` par défaut."
+
+msgid "The dedicated options set their field on any component. A field the component does not declare is still passed to the template."
+msgstr "Les options dédiées définissent leur champ sur n'importe quel composant. Un champ que le composant ne déclare pas est tout de même transmis au template."
+
+msgid "No `kikx.toml` in the current directory"
+msgstr "Aucun `kikx.toml` dans le répertoire courant"
+
+msgid "Exit `1`: ``no kikx.toml found in <dir> — run `kikx init` first``"
+msgstr "Sortie `1` : ``no kikx.toml found in <dir> — run `kikx init` first``"
+
+msgid "Unknown reference"
+msgstr "Référence inconnue"
+
+msgid "Exit `1`: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
+msgstr "Sortie `1` : `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
+
+msgid "Required field missing with no default"
+msgstr "Champ obligatoire absent sans valeur par défaut"
+
+msgid "Exit `1`: `--<field> is required for <reference>`"
+msgstr "Sortie `1` : `--<field> is required for <reference>`"
+
+msgid "Rendered path is absolute"
+msgstr "Le chemin rendu est absolu"
+
+msgid "Exit `1`: ``refusing to write `<path>` — absolute paths are not allowed``"
+msgstr "Sortie `1` : ``refusing to write `<path>` — absolute paths are not allowed``"
+
+msgid "Rendered path leaves the output directory"
+msgstr "Le chemin rendu sort du répertoire de sortie"
+
+msgid "Exit `1`: ``refusing to write `<path>` — it escapes the target directory``"
+msgstr "Sortie `1` : ``refusing to write `<path>` — it escapes the target directory``"
+
+msgid "A target file exists, no `--force`"
+msgstr "Un fichier cible existe, sans `--force`"
+
+msgid "Exit `1`: `<path> already exists — pass --force to overwrite`. No file is written"
+msgstr "Sortie `1` : `<path> already exists — pass --force to overwrite`. Aucun fichier n'est écrit"
+
+msgid "Template error"
+msgstr "Erreur de template"
+
+msgid "Exit `1` with the template engine message"
+msgstr "Sortie `1` avec le message du moteur de templates"
+
+msgid "Output on success, one line per file:"
+msgstr "Sortie en cas de succès, une ligne par fichier :"
+
+msgid "Example:"
+msgstr "Exemple :"
+
+msgid "`kikx list`"
+msgstr "`kikx list`"
+
+msgid "Prints every built-in component with its fields. Takes no options besides `--help`. Does not need `kikx.toml`."
+msgstr "Affiche chaque composant intégré avec ses champs. N'accepte aucune option en dehors de `--help`. N'a pas besoin de `kikx.toml`."
+
+msgid "Each field line shows, when present: `required`, `default <value>` (omitted for an empty default), `e.g. <example>`, `one of <options>`."
+msgstr "Chaque ligne de champ indique, le cas échéant : `required`, `default <value>` (omis pour une valeur par défaut vide), `e.g. <example>`, `one of <options>`."
+
+msgid "The full list is in [Components](components.md)."
+msgstr "La liste complète se trouve dans [Composants](components.md)."
+
+msgid "`kikx presets`"
+msgstr "`kikx presets`"
+
+msgid "Prints every built-in preset template with its name, title, component count and description. Takes no options besides `--help`. Does not need `kikx.toml`."
+msgstr "Affiche chaque template de preset intégré avec son nom, son titre, son nombre de composants et sa description. N'accepte aucune option en dehors de `--help`. N'a pas besoin de `kikx.toml`."
+
+msgid "The name in the first column is what [`setup`](#kikx-setup) and [`apply`](#kikx-apply) accept. The templates are described in [Preset format](preset-format.md#built-in-templates)."
+msgstr "Le nom de la première colonne est celui qu'acceptent [`setup`](#kikx-setup) et [`apply`](#kikx-apply). Les templates sont décrits dans [Format des presets](preset-format.md#built-in-templates)."
+
+msgid "`kikx setup`"
+msgstr "`kikx setup`"
+
+msgid "Renders every component of a preset into the preset's output directory, then writes `kikx.toml`."
+msgstr "Effectue le rendu de chaque composant d'un preset dans le répertoire de sortie du preset, puis écrit `kikx.toml`."
+
+msgid "Template name (see [`kikx presets`](#kikx-presets)), URL (`http://` or `https://`) or local path to a preset file. See [Preset format](preset-format.md#location)"
+msgstr "Nom de template (voir [`kikx presets`](#kikx-presets)), URL (`http://` ou `https://`) ou chemin local vers un fichier de preset. Voir [Format des presets](preset-format.md#location)"
+
+msgid "Overwrite an existing `kikx.toml` and existing files"
+msgstr "Écrase un `kikx.toml` existant et les fichiers existants"
+
+msgid "Values taken from the preset's `project` object:"
+msgstr "Valeurs tirées de l'objet `project` du preset :"
+
+msgid "`kikx.toml` key"
+msgstr "Clé de `kikx.toml`"
+
+msgid "From"
+msgstr "Source"
+
+msgid "When `project` is absent"
+msgstr "Lorsque `project` est absent"
+
+msgid "`name`"
+msgstr "`name`"
+
+msgid "`project.name`, else the current directory name"
+msgstr "`project.name`, sinon le nom du répertoire courant"
+
+msgid "current directory name"
+msgstr "nom du répertoire courant"
+
+msgid "`default_namespace`"
+msgstr "`default_namespace`"
+
+msgid "`project.namespace` (default `default`)"
+msgstr "`project.namespace` (par défaut `default`)"
+
+msgid "`output_dir`"
+msgstr "`output_dir`"
+
+msgid "`project.outputDir` (default `k8s`)"
+msgstr "`project.outputDir` (par défaut `k8s`)"
+
+msgid "Exit `1`, nothing written"
+msgstr "Sortie `1`, rien n'est écrit"
+
+msgid "Reference is not a template name, a URL or an existing file"
+msgstr "La référence n'est ni un nom de template, ni une URL, ni un fichier existant"
+
+msgid "Exit `1`: `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
+msgstr "Sortie `1` : `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
+
+msgid "Preset does not parse"
+msgstr "Le preset ne peut pas être analysé"
+
+msgid "Exit `1`: `<reference> is not a valid kikx preset manifest`"
+msgstr "Sortie `1` : `<reference> is not a valid kikx preset manifest`"
+
+msgid "Two components render the same path"
+msgstr "Deux composants rendent le même chemin"
+
+msgid "Exit `1`: ``two files rendered to the same path: `<path>` ``"
+msgstr "Sortie `1` : ``two files rendered to the same path: `<path>` ``"
+
+msgid "Exit `1`, no file and no `kikx.toml` written"
+msgstr "Sortie `1`, aucun fichier ni `kikx.toml` n'est écrit"
+
+msgid "Example, starting from a template:"
+msgstr "Exemple, en partant d'un template :"
+
+msgid "`kikx apply`"
+msgstr "`kikx apply`"
+
+msgid "Renders every component of a preset into the current directory, or into `--into`. Never reads or writes `kikx.toml`. The namespace is `project.namespace` from the preset, else `default`. The preset's `project.outputDir` is not used."
+msgstr "Effectue le rendu de chaque composant d'un preset dans le répertoire courant, ou dans `--into`. Ne lit ni n'écrit jamais `kikx.toml`. Le namespace est `project.namespace` du preset, sinon `default`. Le `project.outputDir` du preset n'est pas utilisé."
+
+msgid "Template name, URL or local path to a preset file"
+msgstr "Nom de template, URL ou chemin local vers un fichier de preset"
+
+msgid "`--into <INTO>`"
+msgstr "`--into <INTO>`"
+
+msgid "current directory"
+msgstr "répertoire courant"
+
+msgid "Directory to write into, joined to the current directory"
+msgstr "Répertoire dans lequel écrire, joint au répertoire courant"
+
+msgid "Error conditions are those of [`setup`](#kikx-setup), except the `kikx.toml` check."
+msgstr "Les conditions d'erreur sont celles de [`setup`](#kikx-setup), sauf la vérification de `kikx.toml`."
+
+msgid "Example, adding a template to an existing repo:"
+msgstr "Exemple, en ajoutant un template à un dépôt existant :"
+
+msgid "Write rules"
+msgstr "Règles d'écriture"
+
+msgid "`add`, `setup` and `apply` validate every rendered path before writing any file:"
+msgstr "`add`, `setup` et `apply` valident chaque chemin rendu avant d'écrire le moindre fichier :"
+
+msgid "Absolute paths are refused."
+msgstr "Les chemins absolus sont refusés."
+
+msgid "A path whose `..` components climb above the target directory at any point is refused."
+msgstr "Un chemin dont les composants `..` remontent, à un moment quelconque, au-dessus du répertoire cible est refusé."
+
+msgid "Two files with the same path are refused."
+msgstr "Deux fichiers ayant le même chemin sont refusés."
+
+msgid "Without `--force`, any existing target file stops the operation before the first write."
+msgstr "Sans `--force`, tout fichier cible existant arrête l'opération avant la première écriture."
+
+msgid "Parent directories are created as needed."
+msgstr "Les répertoires parents sont créés au besoin."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Your first project with the CLI](../tutorials/first-project-cli.md)"
+msgstr "[Votre premier projet avec la CLI](../tutorials/first-project-cli.md)"
+
+msgid "[Share a project as a preset](../how-to/presets.md)"
+msgstr "[Partager un projet sous forme de preset](../how-to/presets.md)"
+
+msgid "[Resolve file conflicts and checks](../how-to/resolve-conflicts.md)"
+msgstr "[Résoudre les conflits de fichiers et les vérifications](../how-to/resolve-conflicts.md)"
+
+msgid "[Vendoring real files](../explanation/vendoring.md)"
+msgstr "[Vendoriser de vrais fichiers](../explanation/vendoring.md)"
+
