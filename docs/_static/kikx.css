@@ -6,7 +6,7 @@ body {
 
 .sidebar-drawer,
 .toc-drawer,
-.language-switcher,
+.page-actions,
 table {
     font-family: "Source Sans 3", system-ui, sans-serif;
 }
@@ -242,5 +242,34 @@ p.pronunciation {
 
 .pronounce-button:hover {
     border-color: var(--color-foreground-primary);
+}
+
+.page-actions {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.page-actions .language-switcher {
+    margin: 0;
+}
+
+.try-kikx,
+.try-kikx:visited {
+    background: var(--color-foreground-primary);
+    border-radius: 999px;
+    color: var(--color-background-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.35rem 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.try-kikx:hover {
+    color: var(--color-background-primary);
+    opacity: 0.85;
 }
 

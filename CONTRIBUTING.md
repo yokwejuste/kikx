@@ -102,6 +102,7 @@ Run `npm run docs` in `web/` to build them into `web/public/docs` for local deve
 
 | Build variable | Meaning |
 |-|-|
+| `KIKX_APP_URL` | Optional. Where the docs' Try kikx button points. Defaults to `/`, the dashboard serving the docs |
 | `KIKX_DOCS_URL` | Optional. Public URL of the docs, for example `https://<dashboard-domain>/docs/`, used for absolute link-preview URLs. Unset, the preview tags use relative paths |
 
 **Project defaults** (default namespace, output directory, fallback project name) are declared once

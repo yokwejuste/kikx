@@ -19,3 +19,5 @@ msgstr "Suivant"
 msgid "Previous"
 msgstr "Précédent"
 
+msgid "Try kikx"
+msgstr "Essayer kikx"
