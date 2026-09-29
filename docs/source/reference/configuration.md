@@ -94,7 +94,7 @@ output_dir = "infra"
 |-|-|-|-|-|
 | `project.name` | string | yes |  | Project name |
 | `project.default_namespace` | string | no | `default` | `namespace` in the template context when no `namespace` field is supplied |
-| `project.output_dir` | string | no | `k8s` | Directory, relative to `kikx.toml`, that rendered paths are joined to |
+| `project.output_dir` | string | no | `infra` | Directory, relative to `kikx.toml`, that rendered paths are joined to |
 
 A missing `[project]` table or `name` key fails with `failed to parse <path>/kikx.toml`.
 
@@ -105,7 +105,7 @@ Compiled into `kikx-core` (`backend/core/src/config.rs`) and served by [`GET /ap
 | Constant | Value | `/api/config` key | Used for |
 |-|-|-|-|
 | `DEFAULT_NAMESPACE` | `default` | `defaultNamespace` | `kikx init --namespace`, `kikx.toml`, presets, `/api/render` `defaultNamespace` |
-| `DEFAULT_OUTPUT_DIR` | `k8s` | `defaultOutputDir` | `kikx init --dir`, `kikx.toml`, preset `project.outputDir`, `kikx setup` |
+| `DEFAULT_OUTPUT_DIR` | `infra` | `defaultOutputDir` | `kikx init --dir`, `kikx.toml`, preset `project.outputDir`, `kikx setup` |
 | `DEFAULT_PROJECT_NAME` | `kikx-project` | `defaultProjectName` | Project name when the current directory has no name |
 
 ## See also

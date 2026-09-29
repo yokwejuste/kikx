@@ -35,9 +35,9 @@ Unknown keys are ignored.
 |-|-|-|-|-|
 | `name` | string | no | name of the current directory | `setup`: `project.name` in `kikx.toml` |
 | `namespace` | string | no | `default` | `setup` and `apply`: default namespace for every component; `setup`: `project.default_namespace` |
-| `outputDir` | string | no | `k8s` | `setup`: output directory and `project.output_dir`. Ignored by `apply` |
+| `outputDir` | string | no | `infra` | `setup`: output directory and `project.output_dir`. Ignored by `apply` |
 
-When `project` is absent, `setup` uses the current directory name, `default` and `k8s`, and `apply` uses `default`.
+When `project` is absent, `setup` uses the current directory name, `default` and `infra`, and `apply` uses `default`.
 
 ## Component
 
@@ -62,13 +62,13 @@ A `namespace` key in `fields` overrides the project namespace for that component
 }
 ```
 
-`kikx setup` writes `k8s/web-service.yaml` and:
+`kikx setup` writes `infra/web-service.yaml` and:
 
 ```toml
 [project]
 name = "<current directory name>"
 default_namespace = "default"
-output_dir = "k8s"
+output_dir = "infra"
 ```
 
 ## Full example

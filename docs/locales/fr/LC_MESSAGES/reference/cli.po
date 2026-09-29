@@ -431,8 +431,8 @@ msgstr "`project.namespace` (par défaut `default`)"
 msgid "`output_dir`"
 msgstr "`output_dir`"
 
-msgid "`project.outputDir` (default `k8s`)"
-msgstr "`project.outputDir` (par défaut `k8s`)"
+msgid "`project.outputDir` (default `infra`)"
+msgstr "`project.outputDir` (par défaut `infra`)"
 
 msgid "Exit `1`, nothing written"
 msgstr "Sortie `1`, rien n'est écrit"

@@ -287,3 +287,5 @@ msgstr "[Lancer kikx en local](../contributing/run-locally.md)"
 msgid "[How the pieces fit together](../explanation/project-layout.md)"
 msgstr "[Comment les éléments s'articulent](../explanation/project-layout.md)"
 
+msgid "`infra`"
+msgstr "`infra`"
