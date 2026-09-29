@@ -164,8 +164,8 @@ msgstr "`k8s`"
 msgid "`setup`: output directory and `project.output_dir`. Ignored by `apply`"
 msgstr "`setup` : répertoire de sortie et `project.output_dir`. Ignorée par `apply`"
 
-msgid "When `project` is absent, `setup` uses the current directory name, `default` and `k8s`, and `apply` uses `default`."
-msgstr "Lorsque `project` est absent, `setup` utilise le nom du répertoire courant, `default` et `k8s`, et `apply` utilise `default`."
+msgid "When `project` is absent, `setup` uses the current directory name, `default` and `infra`, and `apply` uses `default`."
+msgstr "Lorsque `project` est absent, `setup` utilise le nom du répertoire courant, `default` et `infra`, et `apply` utilise `default`."
 
 msgid "Component"
 msgstr "Composant"
@@ -206,8 +206,8 @@ msgstr "Une clé `namespace` dans `fields` remplace le namespace du projet pour 
 msgid "Minimal example"
 msgstr "Exemple minimal"
 
-msgid "`kikx setup` writes `k8s/web-service.yaml` and:"
-msgstr "`kikx setup` écrit `k8s/web-service.yaml` et :"
+msgid "`kikx setup` writes `infra/web-service.yaml` and:"
+msgstr "`kikx setup` écrit `infra/web-service.yaml` et :"
 
 msgid "Full example"
 msgstr "Exemple complet"

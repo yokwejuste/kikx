@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 pub const CONFIG_FILE_NAME: &str = "kikx.toml";
 
 pub const DEFAULT_NAMESPACE: &str = "default";
-pub const DEFAULT_OUTPUT_DIR: &str = "k8s";
+pub const DEFAULT_OUTPUT_DIR: &str = "infra";
 pub const DEFAULT_PROJECT_NAME: &str = "kikx-project";
 
 #[derive(Serialize, Deserialize)]

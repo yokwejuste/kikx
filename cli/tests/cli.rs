@@ -15,7 +15,7 @@ fn init_creates_config_and_output_dir() {
         .success();
 
     assert!(tmp.path().join("kikx.toml").exists());
-    assert!(tmp.path().join("k8s").is_dir());
+    assert!(tmp.path().join("infra").is_dir());
     let config = std::fs::read_to_string(tmp.path().join("kikx.toml")).unwrap();
     assert!(config.contains("demo"));
 }
@@ -94,7 +94,7 @@ fn add_deployment_happy_path() {
         .assert()
         .success();
 
-    let path = tmp.path().join("k8s/myapp-deployment.yaml");
+    let path = tmp.path().join("infra/myapp-deployment.yaml");
     let text = std::fs::read_to_string(&path).unwrap();
     assert!(text.contains("replicas: 3"));
     assert!(text.contains("image: nginx:1.27"));
@@ -147,7 +147,7 @@ fn add_service_defaults_target_port_and_matches_deployment_selector() {
         .assert()
         .success();
 
-    let text = std::fs::read_to_string(tmp.path().join("k8s/myapp-service.yaml")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/myapp-service.yaml")).unwrap();
     let doc: serde_yaml_ng::Value = serde_yaml_ng::from_str(&text).unwrap();
     assert_eq!(doc["spec"]["ports"][0]["targetPort"].as_i64(), Some(80));
     assert_eq!(doc["spec"]["selector"]["app"].as_str(), Some("myapp"));
@@ -167,7 +167,7 @@ fn add_ingress_defaults_host() {
         .assert()
         .success();
 
-    let text = std::fs::read_to_string(tmp.path().join("k8s/myapp-ingress.yaml")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/myapp-ingress.yaml")).unwrap();
     assert!(text.contains("host: myapp.example.com"));
 }
 
@@ -217,7 +217,7 @@ fn add_collision_requires_force() {
         ])
         .assert()
         .success();
-    let text = std::fs::read_to_string(tmp.path().join("k8s/myapp-deployment.yaml")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/myapp-deployment.yaml")).unwrap();
     assert!(text.contains("nginx:new"));
 }
 
@@ -277,7 +277,7 @@ fn add_digitalocean_server_happy_path() {
         .assert()
         .success();
 
-    let path = tmp.path().join("k8s/control-plane-digitalocean.tf");
+    let path = tmp.path().join("infra/control-plane-digitalocean.tf");
     let text = std::fs::read_to_string(&path).unwrap();
     assert!(text.contains("count  = 2"));
     assert!(text.contains("region = \"nyc3\""));
@@ -307,7 +307,7 @@ fn add_ansible_bootstrap_playbook_happy_path() {
         .assert()
         .success();
 
-    let path = tmp.path().join("k8s/cluster-k8s-bootstrap.yml");
+    let path = tmp.path().join("infra/cluster-k8s-bootstrap.yml");
     let text = std::fs::read_to_string(&path).unwrap();
     assert!(text.contains("hosts: control_plane"));
     assert!(text.contains("kubelet=1.31*"));
@@ -372,7 +372,7 @@ fn add_custom_component_from_local_file() {
         .assert()
         .success();
 
-    let text = std::fs::read_to_string(tmp.path().join("k8s/gadget-acme-widget.txt")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/gadget-acme-widget.txt")).unwrap();
     assert_eq!(text, "widget gadget is blue");
 }
 
@@ -408,7 +408,7 @@ fn add_ansible_inventory_for_an_existing_server() {
         .assert()
         .success();
 
-    let path = tmp.path().join("k8s/my-vps-inventory.ini");
+    let path = tmp.path().join("infra/my-vps-inventory.ini");
     let text = std::fs::read_to_string(&path).unwrap();
     assert!(text.contains("[control_plane]"));
     assert!(text.contains("ansible_host=203.0.113.10"));
@@ -436,7 +436,7 @@ fn add_ansible_inventory_with_multiple_groups_and_hosts() {
         .assert()
         .success();
 
-    let text = std::fs::read_to_string(tmp.path().join("k8s/cluster-inventory.ini")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/cluster-inventory.ini")).unwrap();
     assert!(text.contains("[control_plane]"));
     assert!(text.contains("cp-01 ansible_host=10.0.0.1"));
     assert!(text.contains("cp-02 ansible_host=10.0.0.2"));
@@ -523,11 +523,18 @@ fn add_common_role_writes_all_four_files() {
         .assert()
         .success();
 
-    let tasks = std::fs::read_to_string(tmp.path().join("k8s/roles/web/tasks/main.yml")).unwrap();
+    let tasks = std::fs::read_to_string(tmp.path().join("infra/roles/web/tasks/main.yml")).unwrap();
     assert!(tasks.contains("name: \"UTC\""));
-    assert!(tmp.path().join("k8s/roles/web/defaults/main.yml").exists());
-    assert!(tmp.path().join("k8s/roles/web/handlers/main.yml").exists());
-    let motd = std::fs::read_to_string(tmp.path().join("k8s/roles/web/templates/motd.j2")).unwrap();
+    assert!(tmp
+        .path()
+        .join("infra/roles/web/defaults/main.yml")
+        .exists());
+    assert!(tmp
+        .path()
+        .join("infra/roles/web/handlers/main.yml")
+        .exists());
+    let motd =
+        std::fs::read_to_string(tmp.path().join("infra/roles/web/templates/motd.j2")).unwrap();
     assert!(motd.contains("Host: web"));
     assert!(motd.contains("{{ motd_message }}"));
 }
@@ -555,7 +562,7 @@ fn add_group_vars_writes_group_vars_yaml() {
         .assert()
         .success();
 
-    let text = std::fs::read_to_string(tmp.path().join("k8s/group_vars/web.yml")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/group_vars/web.yml")).unwrap();
     assert!(text.contains("app_port: 8080"));
     assert!(text.contains("env: production"));
 }
@@ -583,7 +590,7 @@ fn add_playbook_assigns_roles_to_a_group() {
         .assert()
         .success();
 
-    let text = std::fs::read_to_string(tmp.path().join("k8s/web-site.yml")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/web-site.yml")).unwrap();
     assert!(text.contains("hosts: web"));
     assert!(text.contains("- hygiene"));
     assert!(text.contains("- nginx"));
@@ -610,7 +617,7 @@ fn add_ansible_inventory_with_children_and_vars_groups() {
         .assert()
         .success();
 
-    let text = std::fs::read_to_string(tmp.path().join("k8s/cluster-inventory.ini")).unwrap();
+    let text = std::fs::read_to_string(tmp.path().join("infra/cluster-inventory.ini")).unwrap();
     assert!(text.contains("[k8s:children]"));
     assert!(text.contains("k8s_control_plane"));
     assert!(text.contains("k8s_workers"));

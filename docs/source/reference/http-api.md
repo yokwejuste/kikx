@@ -85,7 +85,7 @@ Project defaults compiled into `kikx-core`.
 Response `200`:
 
 ```json
-{"defaultNamespace":"default","defaultOutputDir":"k8s","defaultProjectName":"kikx-project"}
+{"defaultNamespace":"default","defaultOutputDir":"infra","defaultProjectName":"kikx-project"}
 ```
 
 | Key | Type |

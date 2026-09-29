@@ -66,7 +66,7 @@ Writes `kikx.toml` in the current directory and creates the output directory.
 | Option | Type | Default | Description |
 |-|-|-|-|
 | `-n`, `--name <NAME>` | string | name of the current directory, or `kikx-project` when it has none | Project name, stored as `project.name` |
-| `-d`, `--dir <DIR>` | path | `k8s` | Output directory, stored as `project.output_dir` |
+| `-d`, `--dir <DIR>` | path | `infra` | Output directory, stored as `project.output_dir` |
 | `-N`, `--namespace <NAMESPACE>` | string | `default` | Default namespace, stored as `project.default_namespace` |
 | `-f`, `--force` | flag | off | Overwrite an existing `kikx.toml` |
 
@@ -208,7 +208,7 @@ Values taken from the preset's `project` object:
 |-|-|-|
 | `name` | `project.name`, else the current directory name | current directory name |
 | `default_namespace` | `project.namespace` (default `default`) | `default` |
-| `output_dir` | `project.outputDir` (default `k8s`) | `k8s` |
+| `output_dir` | `project.outputDir` (default `infra`) | `infra` |
 
 | Condition | Result |
 |-|-|
