@@ -1,6 +1,17 @@
+FROM python:3.13-slim AS docs
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends make \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /docs
+COPY docs/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+ARG KIKX_DOCS_URL
+COPY docs/ .
+RUN make html-all
+
 FROM node:24-alpine AS deps
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY web/package.json web/package-lock.json ./
 RUN npm ci
 
 FROM node:24-alpine AS build
@@ -9,7 +20,8 @@ ARG NEXT_PUBLIC_KIKX_API_URL
 ENV NEXT_PUBLIC_KIKX_API_URL=$NEXT_PUBLIC_KIKX_API_URL \
     NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY web/ .
+COPY --from=docs /docs/build/html ./public/docs
 RUN if [ -z "$NEXT_PUBLIC_KIKX_API_URL" ]; then \
         echo "Set the NEXT_PUBLIC_KIKX_API_URL build argument to the backend URL" >&2; exit 1; \
     fi \

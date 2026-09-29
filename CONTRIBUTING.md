@@ -82,7 +82,7 @@ environment variables, and ships an example file to copy.
 environment variables take precedence over the file.
 
 | Variable | Flag | Default | Meaning |
-|---|---|---|---|
+|-|-|-|-|
 | `KIKX_PORT` | `--port` | `4000` | Port the API listens on |
 | `KIKX_BIND` | `--bind` | `127.0.0.1` | Address to bind |
 | `KIKX_ALLOWED_ORIGINS` | `--allow-origin` | *(empty)* | Comma-separated browser origins. Empty allows any loopback origin (`localhost`, `127.0.0.1`, `[::1]`) on any port |
@@ -90,16 +90,19 @@ environment variables take precedence over the file.
 **Dashboard.** Copy [`web/.env.example`](web/.env.example) to `web/.env.local`.
 
 | Variable | Meaning |
-|---|---|
+|-|-|
 | `NEXT_PUBLIC_KIKX_API_URL` | URL of the running backend. Required; the dashboard explains what's missing if it isn't set |
 
 Link previews use the address the dashboard is served from, read from the request, so they need no setting.
 
-**Docs.** Optional, at build time.
+**Docs.** The dashboard image builds the docs and serves them at `/docs/` (French at `/docs/fr/`), so
+there is no separate docs deployment. The image is built from the repository root: in Coolify, set
+the base directory to `/` and the Dockerfile to `/web/Dockerfile`, with watch paths `web/**` and `docs/**`.
+Run `npm run docs` in `web/` to build them into `web/public/docs` for local development.
 
-| Variable | Meaning |
-|---|---|
-| `KIKX_DOCS_URL` | Public URL of the docs, used for absolute link-preview URLs. On Read the Docs its canonical URL is used instead. Unset, the preview tags use relative paths |
+| Build variable | Meaning |
+|-|-|
+| `KIKX_DOCS_URL` | Optional. Public URL of the docs, for example `https://<dashboard-domain>/docs/`, used for absolute link-preview URLs. Unset, the preview tags use relative paths |
 
 **Project defaults** (default namespace, output directory, fallback project name) are declared once
 in `kikx-core` and served at `/api/config`, so the CLI, API and dashboard always agree.
@@ -111,7 +114,7 @@ disk. Any other path returns `404` with
 `{"code": "not_found", "error": "no route for GET /…"}`.
 
 | Method | Path | What it does |
-|---|---|---|
+|-|-|-|
 | `GET` | `/docs` | Interactive API reference built from the OpenAPI spec; `/` redirects here |
 | `GET` | `/api/openapi.json` | OpenAPI 3.1 description of every endpoint |
 | `GET` | `/api/health` | Liveness check |
