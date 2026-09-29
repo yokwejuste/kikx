@@ -11,5 +11,6 @@ pub fn run(cli: Cli) -> anyhow::Result<()> {
         Commands::Presets => commands::presets::run(),
         Commands::Setup(args) => commands::setup::run(args),
         Commands::Apply(args) => commands::apply::run(args),
+        Commands::Upgrade(args) => commands::upgrade::run(args),
     }
 }

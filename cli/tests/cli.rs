@@ -711,3 +711,18 @@ fn short_flags_match_the_long_ones() {
     let updated = std::fs::read_to_string(tmp.path().join("infra/api-deployment.yaml")).unwrap();
     assert!(updated.contains("image: ghcr.io/acme/api:2.0"));
 }
+
+#[test]
+fn upgrade_is_listed_with_its_options() {
+    kikx()
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(contains("upgrade"));
+    kikx()
+        .args(["upgrade", "--help"])
+        .assert()
+        .success()
+        .stdout(contains("--check"))
+        .stdout(contains("--version"));
+}

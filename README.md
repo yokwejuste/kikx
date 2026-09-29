@@ -93,7 +93,7 @@ On macOS or Linux, install it with one command:
 curl -fsSL https://raw.githubusercontent.com/yokwejuste/kikx/main/install.sh | bash
 ```
 
-The script downloads the right archive for your system from the latest release and puts `kikx` in
+Run `kikx upgrade` later to move to a newer release. The script downloads the right archive for your system from the latest release and puts `kikx` in
 `/usr/local/bin`, or in `~/.local/bin` when it can't write there. Set `KIKX_VERSION` to install a
 specific release, or `KIKX_INSTALL_DIR` to choose the directory.
 

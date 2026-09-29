@@ -521,3 +521,38 @@ msgstr "[Résoudre les conflits de fichiers et les vérifications](../how-to/res
 msgid "[Vendoring real files](../explanation/vendoring.md)"
 msgstr "[Vendoriser de vrais fichiers](../explanation/vendoring.md)"
 
+msgid "[`upgrade`](#kikx-upgrade)"
+msgstr "[`upgrade`](#kikx-upgrade)"
+
+msgid "Replace kikx with the latest release"
+msgstr "Remplacer kikx par la dernière version"
+
+msgid "`infra`"
+msgstr "`infra`"
+
+msgid "`kikx upgrade`"
+msgstr "`kikx upgrade`"
+
+msgid "Downloads the release for this system from the project's GitHub releases and replaces the running `kikx` binary. Does not need `kikx.toml`."
+msgstr "Télécharge la version adaptée à ce système depuis les versions GitHub du projet et remplace le binaire `kikx` en cours d'exécution. N'a pas besoin de `kikx.toml`."
+
+msgid "`-c`, `--check`"
+msgstr "`-c`, `--check`"
+
+msgid "Only report whether a newer release exists"
+msgstr "Indique seulement si une version plus récente existe"
+
+msgid "`-v`, `--version <VERSION>`"
+msgstr "`-v`, `--version <VERSION>`"
+
+msgid "version"
+msgstr "version"
+
+msgid "latest"
+msgstr "la plus récente"
+
+msgid "Install this release instead, for example `0.2.0`"
+msgstr "Installe plutôt cette version, par exemple `0.2.0`"
+
+msgid "When no newer release exists it prints `kikx <version> is the latest version.` Releases are published for macOS arm64 and x64, Linux x64 and arm64, and Windows x64; on other systems it stops with `no kikx release is published for this platform`. If the binary sits in a directory you cannot write to, such as `/usr/local/bin`, run it with `sudo`."
+msgstr "Lorsqu'aucune version plus récente n'existe, elle affiche `kikx <version> is the latest version.` Des versions sont publiées pour macOS arm64 et x64, Linux x64 et arm64, et Windows x64 ; sur les autres systèmes, elle s'arrête avec `no kikx release is published for this platform`. Si le binaire se trouve dans un répertoire où vous ne pouvez pas écrire, comme `/usr/local/bin`, lancez-la avec `sudo`."
