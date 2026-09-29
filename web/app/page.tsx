@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { ArrowRight, FolderOpen, History, Sparkles, Waypoints } from "lucide-react";
+import { ArrowRight, Copy, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
+import { CopyButton } from "@/components/common/copy-button";
 import { pluralize } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
@@ -43,6 +44,7 @@ function HomeContent() {
   const router = useRouter();
   const { details, components, setDetails, reset, loadProject } = useProject();
   const [opening, setOpening] = useState<string | null>(null);
+  const [confirmingDiscard, setConfirmingDiscard] = useState(false);
   useFirstVisitTour("home");
 
   async function open(label: string, manifest: () => Promise<PresetManifest>, fallbackName: string) {
@@ -95,22 +97,65 @@ function HomeContent() {
         </div>
 
         {details && (
-          <Link
-            href="/build"
-            className="flex w-full items-center justify-between gap-4 rounded-xl border bg-card p-4 text-left text-sm shadow-sm hover:bg-muted/40"
-          >
-            <span className="flex items-center gap-3">
-              <History className="size-4 shrink-0 text-muted-foreground" />
-              <span>
-                <span className="font-medium">Continue {details.name}</span>
-                <span className="block text-muted-foreground">
-                  {pluralize(components.length, "component")} and any unsaved drafts are kept in this browser.
-                  Starting a new project below replaces them.
+          <div className="flex w-full flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4 text-left text-sm shadow-sm">
+            {confirmingDiscard ? (
+              <>
+                <span>
+                  <span className="font-medium">Discard {details.name}?</span>
+                  <span className="block text-muted-foreground">
+                    Its {pluralize(components.length, "component")} and unsaved drafts are removed from this browser.
+                  </span>
                 </span>
-              </span>
-            </span>
-            <ArrowRight className="size-4 shrink-0" />
-          </Link>
+                <span className="flex gap-2">
+                  <Button type="button" variant="ghost" size="sm" onClick={() => setConfirmingDiscard(false)}>
+                    Keep
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                      reset();
+                      setConfirmingDiscard(false);
+                      toast.success(`Discarded ${details.name}`);
+                    }}
+                  >
+                    Discard
+                  </Button>
+                </span>
+              </>
+            ) : (
+              <>
+                <Link href="/build" className="flex min-w-0 flex-1 items-center gap-3 hover:underline-offset-4">
+                  <History className="size-4 shrink-0 text-muted-foreground" />
+                  <span>
+                    <span className="font-medium">Continue {details.name}</span>
+                    <span className="block text-muted-foreground">
+                      {pluralize(components.length, "component")} and any unsaved drafts are kept in this browser.
+                    </span>
+                  </span>
+                </Link>
+                <span className="flex items-center gap-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label={`Discard ${details.name}`}
+                    title={`Discard ${details.name}`}
+                    className="text-muted-foreground hover:text-foreground"
+                    onClick={() => setConfirmingDiscard(true)}
+                  >
+                    <X className="size-4" />
+                  </Button>
+                  <Button asChild size="sm">
+                    <Link href="/build">
+                      Continue
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  </Button>
+                </span>
+              </>
+            )}
+          </div>
         )}
 
         <div data-tour="cli" className="w-full overflow-hidden rounded-xl border bg-card text-left shadow-sm">
@@ -121,9 +166,17 @@ function HomeContent() {
           </div>
           <div className="flex flex-col gap-2.5 p-4 font-mono text-sm">
             {SNIPPET.map((line) => (
-              <div key={line.cmd} className="flex gap-2">
+              <div key={line.cmd} className="flex items-center gap-2">
                 <span className="select-none text-muted-foreground">$</span>
-                <span>{line.cmd}</span>
+                <span className="min-w-0 flex-1">{line.cmd}</span>
+                <CopyButton
+                  text={line.cmd}
+                  size="icon"
+                  aria-label={`Copy ${line.cmd}`}
+                  className="size-6 text-muted-foreground hover:text-foreground"
+                >
+                  <Copy className="size-3.5" />
+                </CopyButton>
               </div>
             ))}
           </div>

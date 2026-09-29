@@ -208,6 +208,7 @@ export function DataFlow() {
       <div className="h-[560px] overflow-hidden rounded-xl border bg-card">
         <ReactFlowProvider>
           <ReactFlow
+            className="kikx-flow"
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
@@ -221,8 +222,8 @@ export function DataFlow() {
             elementsSelectable={false}
           >
             <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
-            <Controls showInteractive={false} />
-            <MiniMap pannable zoomable nodeColor="var(--primary)" nodeStrokeWidth={0} />
+            <Controls className="kikx-flow-panel" showInteractive={false} />
+            <MiniMap className="kikx-flow-panel" pannable zoomable nodeColor="var(--muted-foreground)" nodeStrokeWidth={0} />
           </ReactFlow>
         </ReactFlowProvider>
       </div>

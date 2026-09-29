@@ -129,43 +129,23 @@
   }
 }
 
-.react-flow__controls {
-  border-radius: var(--radius-lg);
+.kikx-flow {
+  --xy-controls-box-shadow: none;
+  --xy-controls-button-background-color: var(--card);
+  --xy-controls-button-background-color-hover: var(--muted);
+  --xy-controls-button-color: var(--foreground);
+  --xy-controls-button-color-hover: var(--foreground);
+  --xy-controls-button-border-color: var(--border);
+  --xy-minimap-background-color: var(--card);
+  --xy-minimap-mask-background-color: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+.kikx-flow-panel {
   overflow: hidden;
   border: 1px solid var(--border);
-  box-shadow: none;
-}
-.react-flow__controls-button {
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  color: var(--foreground);
-}
-.react-flow__controls-button:hover {
-  background: var(--muted);
-}
-.react-flow__controls-button svg {
-  fill: currentColor;
-}
-.react-flow__minimap {
   border-radius: var(--radius-lg);
-  overflow: hidden;
-  border: 1px solid var(--border);
 }
-.react-flow__minimap-mask {
-  fill: var(--foreground);
-  fill-opacity: 0.06;
-}
-.react-flow__minimap-node {
-  fill: var(--muted-foreground);
-  stroke: none;
-}
-.react-flow__attribution {
-  background: transparent;
-  color: var(--muted-foreground);
-}
-.react-flow__attribution a {
-  color: inherit;
-}
+
 .driver-popover.kikx-tour {
   max-width: 340px;
   padding: 18px 18px 14px;

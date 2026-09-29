@@ -16,15 +16,15 @@ You need:
 Run the tests, clippy and rustfmt in each package:
 
 ```bash
-cd cli && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
+cd cli && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
 ```
 
 ```bash
-cd backend && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
+cd backend && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
 ```
 
 ```bash
-cd backend/core && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
+cd backend/core && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
 ```
 
 Tests live in each package's `tests/` directory, never in the source files.

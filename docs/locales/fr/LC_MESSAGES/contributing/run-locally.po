@@ -49,8 +49,8 @@ msgstr "Puis faites pointer le tableau de bord vers cette adresse dans `web/.env
 msgid "Restart `npm run dev` after changing `web/.env.local`. Next.js reads `NEXT_PUBLIC_*` variables when it starts."
 msgstr "Relancez `npm run dev` après avoir modifié `web/.env.local`. Next.js lit les variables `NEXT_PUBLIC_*` au démarrage."
 
-msgid "Flags override the file for a single run:"
-msgstr "Les options de ligne de commande remplacent le fichier le temps d'une exécution :"
+msgid "Environment variables override the file for a single run:"
+msgstr "Les variables d'environnement remplacent le fichier le temps d'une exécution :"
 
 msgid "Allow a non-local browser origin"
 msgstr "Autoriser une origine de navigateur non locale"

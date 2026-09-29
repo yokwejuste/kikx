@@ -24,6 +24,5 @@ def render(mark_path, bold_font, regular_font, width, height, out):
     image.save(out, optimize=True)
 
 
-if __name__ == "__main__":
-    mark_path, bold_font, regular_font = sys.argv[1:4]
-    render(mark_path, bold_font, regular_font, 1280, 640, Path("kikx-social.png"))
+mark_path, bold_font, regular_font = sys.argv[1:4]
+render(mark_path, bold_font, regular_font, 1280, 640, Path("kikx-social.png"))
