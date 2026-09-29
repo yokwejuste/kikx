@@ -99,8 +99,8 @@ in `kikx-core` and served at `/api/config`, so the CLI, API and dashboard always
 ## Backend API
 
 All endpoints are under `/api`. The backend is stateless and only renders; it never writes to
-disk. Any other path returns `404` with `{"code": "not_found", "error": "no route for GET /…"}`, or a
-not-found page when the request comes from a browser.
+disk. Any other path returns `404` with
+`{"code": "not_found", "error": "no route for GET /…"}`.
 
 | Method | Path | What it does |
 |---|---|---|
