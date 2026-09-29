@@ -1,5 +1,8 @@
 # kikx documentation
 
+{.pronunciation}
+kikx is pronounced “kicking”.
+
 The docs follow [Diátaxis](https://diataxis.fr): four kinds of documentation for four different needs.
 
 ::::{grid} 1 1 2 2

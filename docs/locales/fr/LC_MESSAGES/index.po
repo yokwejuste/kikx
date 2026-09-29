@@ -16,6 +16,9 @@ msgstr ""
 msgid "kikx documentation"
 msgstr "Documentation de kikx"
 
+msgid "kikx is pronounced “kicking”."
+msgstr "kikx se prononce « kicking »."
+
 msgid "The docs follow [Diátaxis](https://diataxis.fr): four kinds of documentation for four different needs."
 msgstr "Cette documentation suit [Diátaxis](https://diataxis.fr) : quatre types de documentation pour quatre besoins différents."
 
