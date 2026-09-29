@@ -16,9 +16,38 @@ myst_heading_anchors = 4
 
 html_theme = "furo"
 html_theme_options = {
+    "sidebar_hide_name": True,
+    "top_of_page_buttons": [],
     "source_repository": "https://github.com/yokwejuste/kikx/",
     "source_branch": "main",
     "source_directory": "docs/source/",
+    "light_css_variables": {
+        "color-background-secondary": "#fff",
+        "color-sidebar-background-border": "none",
+    },
+    "dark_css_variables": {
+        "color-background-secondary": "#000",
+        "color-sidebar-background-border": "none",
+    },
+}
+templates_path = ["../_templates"]
+html_static_path = ["../_static"]
+html_css_files = ["kikx.css"]
+html_context = {
+    "language_switcher": [
+        ["en", "English"],
+        ["fr", "Français"],
+    ],
+    "default_language": "en",
+}
+html_sidebars = {
+    "**": [
+        "sidebar/scroll-start.html",
+        "sidebar/brand.html",
+        "sidebar/navigation.html",
+        "sidebar/search.html",
+        "sidebar/scroll-end.html",
+    ]
 }
 html_show_sphinx = False
 html_permalinks_icon = "¶"
