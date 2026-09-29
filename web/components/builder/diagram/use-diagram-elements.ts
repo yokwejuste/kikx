@@ -3,20 +3,40 @@ import type { Edge, Node } from "@xyflow/react";
 import type { Neighbourhood } from "@/components/builder/diagram/emphasis";
 import type { ArchitectureLayout } from "@/lib/architecture/layout";
 
+function trace(start: string, next: Map<string, { edge: string; node: string }[]>, nodes: Set<string>, edges: Set<string>) {
+  const queue = [start];
+  const seen = new Set([start]);
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    for (const step of next.get(current) ?? []) {
+      edges.add(step.edge);
+      nodes.add(step.node);
+      if (seen.has(step.node)) continue;
+      seen.add(step.node);
+      queue.push(step.node);
+    }
+  }
+}
+
 export function useNeighbourhood(layout: ArchitectureLayout | null, hovered: string | null): Neighbourhood | null {
+  const links = useMemo(() => {
+    const downstream = new Map<string, { edge: string; node: string }[]>();
+    const upstream = new Map<string, { edge: string; node: string }[]>();
+    for (const edge of layout?.edges ?? []) {
+      downstream.set(edge.source, [...(downstream.get(edge.source) ?? []), { edge: edge.id, node: edge.target }]);
+      upstream.set(edge.target, [...(upstream.get(edge.target) ?? []), { edge: edge.id, node: edge.source }]);
+    }
+    return { downstream, upstream };
+  }, [layout]);
+
   return useMemo(() => {
     if (!hovered || !layout) return null;
     const nodes = new Set([hovered]);
     const edges = new Set<string>();
-    for (const edge of layout.edges) {
-      if (edge.source === hovered || edge.target === hovered) {
-        edges.add(edge.id);
-        nodes.add(edge.source);
-        nodes.add(edge.target);
-      }
-    }
+    trace(hovered, links.downstream, nodes, edges);
+    trace(hovered, links.upstream, nodes, edges);
     return { hovered, nodes, edges };
-  }, [hovered, layout]);
+  }, [hovered, layout, links]);
 }
 
 export function useDiagramElements(layout: ArchitectureLayout | null) {
