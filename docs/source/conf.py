@@ -5,7 +5,11 @@ html_title = "kikx"
 author = "Steve Yonkeu"
 copyright = "2026 Steve Yonkeu"
 
-extensions = ["myst_parser", "sphinx_design"]
+extensions = ["myst_parser", "sphinx_design", "sphinx_copybutton"]
+
+copybutton_prompt_text = r"\$ |>>> "
+copybutton_prompt_is_regexp = True
+copybutton_remove_prompts = True
 
 source_suffix = {".md": "markdown"}
 master_doc = "index"
@@ -14,19 +18,6 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 myst_enable_extensions = ["colon_fence"]
 myst_heading_anchors = 4
 
-ADMONITION_KINDS = [
-    "attention",
-    "caution",
-    "danger",
-    "error",
-    "hint",
-    "important",
-    "note",
-    "seealso",
-    "tip",
-    "warning",
-    "admonition-todo",
-]
 API_CHANGES = ["added", "changed", "deprecated", "removed"]
 
 
@@ -46,7 +37,6 @@ def monochrome(background, foreground, muted, surface, border):
         "color-brand-content": foreground,
         "color-brand-visited": foreground,
         "color-link-underline": border,
-        "color-link-underline--hover": foreground,
         "color-code-background": surface,
         "color-code-foreground": foreground,
         "color-inline-code-background": surface,
@@ -61,9 +51,6 @@ def monochrome(background, foreground, muted, surface, border):
         "color-admonition-title-background": surface,
         "color-admonition-background": background,
     }
-    for kind in ADMONITION_KINDS:
-        colors[f"color-admonition-title--{kind}"] = foreground
-        colors[f"color-admonition-title-background--{kind}"] = surface
     for change in API_CHANGES:
         colors[f"color-api-{change}"] = foreground
         colors[f"color-api-{change}-border"] = border
