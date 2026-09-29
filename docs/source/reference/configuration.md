@@ -2,6 +2,8 @@
 
 Settings read by the backend, the dashboard and the CLI.
 
+The backend and dashboard settings only matter when you run your own instance, for example while contributing to kikx. The hosted dashboard needs none of them. See [Run kikx locally](../contributing/run-locally.md).
+
 ## Backend
 
 `kikx-backend` options:
@@ -108,5 +110,5 @@ Compiled into `kikx-core` (`backend/core/src/config.rs`) and served by [`GET /ap
 
 ## See also
 
-- [Run the dashboard and backend](../how-to/run-the-dashboard.md)
+- [Run kikx locally](../contributing/run-locally.md)
 - [How the pieces fit together](../explanation/project-layout.md)

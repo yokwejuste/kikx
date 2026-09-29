@@ -18,23 +18,27 @@ It takes about fifteen minutes.
 
 You need:
 
-- a checkout of the kikx repository;
-- a Rust toolchain (`cargo`);
+- a terminal on macOS, Linux or Windows;
 - [uv](https://docs.astral.sh/uv/), which you'll use at the end to run Ansible without installing it.
 
 ## Install kikx
 
-From the root of your kikx checkout, build and install the CLI:
+Download the archive for your platform from the [kikx releases page](https://github.com/yokwejuste/kikx/releases):
+
+| Platform | Archive |
+|---|---|
+| macOS, Apple silicon | `kikx-<version>-macos-arm64.tar.gz` |
+| macOS, Intel | `kikx-<version>-macos-x64.tar.gz` |
+| Linux, x64 | `kikx-<version>-linux-x64.tar.gz` |
+| Linux, arm64 | `kikx-<version>-linux-arm64.tar.gz` |
+| Windows, x64 | `kikx-<version>-windows-x64.zip` |
+
+Unpack it and put the `kikx` binary (`kikx.exe` on Windows) in a directory on your `PATH`.
+
+If you have a Rust toolchain, you can build and install it from source instead:
 
 ```bash
-cargo install --path cli
-```
-
-The last lines of the output end with:
-
-```text
-  Installing …/.cargo/bin/kikx
-   Installed package `kikx v0.0.1 (…/kikx/cli)` (executable `kikx`)
+cargo install --git https://github.com/yokwejuste/kikx kikx
 ```
 
 Check that it runs:

@@ -12,52 +12,19 @@ It takes about twenty minutes.
 
 You need:
 
-- a checkout of the kikx repository;
-- a Rust toolchain (`cargo`) and Node.js with `npm`;
-- two terminal windows.
+- a web browser;
+- a terminal with [uv](https://docs.astral.sh/uv/), which you'll use to check the result with Ansible without installing it.
 
 The last step also uses the `kikx` CLI. If you haven't installed it yet,
 [Your first project with the CLI](first-project-cli.md) shows how.
 
-## Start the backend
+## Open the dashboard
 
-In the first terminal, from the root of your kikx checkout, copy the example settings and start
-the backend:
-
-```bash
-cp backend/.env.example backend/.env
-cd backend
-cargo run
-```
-
-When it's ready it prints:
-
-```text
-kikx-backend listening on http://127.0.0.1:4000
-```
-
-Leave it running.
-
-## Start the dashboard
-
-In the second terminal, from the root of your kikx checkout:
-
-```bash
-cp web/.env.example web/.env.local
-cd web
-npm install
-npm run dev
-```
-
-Wait until it prints the local address and a line starting with `✓ Ready`:
-
-```text
-- Local:         http://localhost:3000
-```
-
-Open `http://localhost:3000` in your browser. You should see the kikx home page with a form headed
+Open the kikx dashboard in your browser. You should see the kikx home page with a form headed
 **Or build it here**. Above it, **Start from a template** offers ready-made projects; in this
 tutorial you'll start from an empty one instead.
+
+To work on kikx itself with a local copy of the dashboard, see [Run kikx locally](../contributing/run-locally.md).
 
 ## Create the project
 
@@ -422,10 +389,6 @@ Initialized kikx project `platform` — wrote 17 file(s) to …/rebuilt/infra
 ```
 
 They're the same files as in the zip.
-
-## Stop the servers
-
-Press Ctrl+C in both terminals.
 
 ## What you've done
 

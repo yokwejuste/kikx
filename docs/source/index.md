@@ -4,6 +4,7 @@ The docs follow [Diátaxis](https://diataxis.fr): four kinds of documentation fo
 
 ::::{grid} 1 1 2 2
 :gutter: 3
+:class-container: quadrants
 
 :::{grid-item-card} Tutorials
 *Learn kikx by building something.*
@@ -19,7 +20,6 @@ Start here if you're new. Each one builds a working project from scratch.
 
 Recipes for a specific goal, assuming you know the basics.
 
-- [Run the dashboard and backend](how-to/run-the-dashboard.md)
 - [Import an existing Ansible inventory](how-to/import-an-inventory.md)
 - [Write a multi-play playbook with role conditions](how-to/multi-play-playbooks.md)
 - [Manage group vars as YAML or a folder](how-to/group-vars.md)
@@ -60,53 +60,13 @@ Exact, complete facts to look things up.
 ::::
 
 ```{toctree}
-:caption: Tutorials
-:maxdepth: 1
+:maxdepth: 2
+:titlesonly:
 :hidden:
 
-tutorials/first-project-cli
-tutorials/platform-in-the-dashboard
-```
-
-```{toctree}
-:caption: How-to guides
-:maxdepth: 1
-:hidden:
-
-how-to/run-the-dashboard
-how-to/import-an-inventory
-how-to/multi-play-playbooks
-how-to/group-vars
-how-to/site-playbook
-how-to/scaffold-roles
-how-to/resolve-conflicts
-how-to/presets
-how-to/export-to-drawio
-how-to/custom-registry-item
-```
-
-```{toctree}
-:caption: Reference
-:maxdepth: 1
-:hidden:
-
-reference/cli
-reference/components
-reference/http-api
-reference/configuration
-reference/preset-format
-reference/registry-item-format
-reference/checks
-```
-
-```{toctree}
-:caption: Explanation
-:maxdepth: 1
-:hidden:
-
-explanation/vendoring
-explanation/registry
-explanation/rendering
-explanation/architecture-diagram
-explanation/project-layout
+tutorials/index
+how-to/index
+reference/index
+explanation/index
+contributing/index
 ```

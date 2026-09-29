@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
 "PO-Revision-Date: 2026-09-29 12:00+0100\n"
 "Last-Translator: kikx contributors\n"
 "Language: fr\n"
@@ -49,11 +49,8 @@ msgstr "Avant de commencer"
 msgid "You need:"
 msgstr "Il vous faut :"
 
-msgid "a checkout of the kikx repository;"
-msgstr "une copie locale du dépôt kikx ;"
-
-msgid "a Rust toolchain (`cargo`);"
-msgstr "une chaîne d'outils Rust (`cargo`) ;"
+msgid "a terminal on macOS, Linux or Windows;"
+msgstr "un terminal sous macOS, Linux ou Windows ;"
 
 msgid "[uv](https://docs.astral.sh/uv/), which you'll use at the end to run Ansible without installing it."
 msgstr "[uv](https://docs.astral.sh/uv/), que vous utiliserez à la fin pour exécuter Ansible sans l'installer."
@@ -61,11 +58,50 @@ msgstr "[uv](https://docs.astral.sh/uv/), que vous utiliserez à la fin pour ex�
 msgid "Install kikx"
 msgstr "Installer kikx"
 
-msgid "From the root of your kikx checkout, build and install the CLI:"
-msgstr "Depuis la racine de votre copie de kikx, compilez et installez la CLI :"
+msgid "Download the archive for your platform from the [kikx releases page](https://github.com/yokwejuste/kikx/releases):"
+msgstr "Téléchargez l'archive correspondant à votre plateforme depuis la [page des versions de kikx](https://github.com/yokwejuste/kikx/releases) :"
 
-msgid "The last lines of the output end with:"
-msgstr "Vous devriez voir la sortie se terminer par ces lignes :"
+msgid "Platform"
+msgstr "Plateforme"
+
+msgid "Archive"
+msgstr "Archive"
+
+msgid "macOS, Apple silicon"
+msgstr "macOS, Apple silicon"
+
+msgid "`kikx-<version>-macos-arm64.tar.gz`"
+msgstr "`kikx-<version>-macos-arm64.tar.gz`"
+
+msgid "macOS, Intel"
+msgstr "macOS, Intel"
+
+msgid "`kikx-<version>-macos-x64.tar.gz`"
+msgstr "`kikx-<version>-macos-x64.tar.gz`"
+
+msgid "Linux, x64"
+msgstr "Linux, x64"
+
+msgid "`kikx-<version>-linux-x64.tar.gz`"
+msgstr "`kikx-<version>-linux-x64.tar.gz`"
+
+msgid "Linux, arm64"
+msgstr "Linux, arm64"
+
+msgid "`kikx-<version>-linux-arm64.tar.gz`"
+msgstr "`kikx-<version>-linux-arm64.tar.gz`"
+
+msgid "Windows, x64"
+msgstr "Windows, x64"
+
+msgid "`kikx-<version>-windows-x64.zip`"
+msgstr "`kikx-<version>-windows-x64.zip`"
+
+msgid "Unpack it and put the `kikx` binary (`kikx.exe` on Windows) in a directory on your `PATH`."
+msgstr "Décompressez-la et placez le binaire `kikx` (`kikx.exe` sous Windows) dans un répertoire de votre `PATH`."
+
+msgid "If you have a Rust toolchain, you can build and install it from source instead:"
+msgstr "Si vous disposez d'une chaîne d'outils Rust, vous pouvez plutôt le construire et l'installer depuis les sources :"
 
 msgid "Check that it runs:"
 msgstr "Vérifiez qu'elle fonctionne :"

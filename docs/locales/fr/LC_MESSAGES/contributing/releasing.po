@@ -1,0 +1,102 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Releasing"
+msgstr "Publier une version"
+
+msgid "The `kikx` CLI is released from a git tag. Pushing a tag that matches `v*.*.*` runs `.github/workflows/release.yml`."
+msgstr "La CLI `kikx` est publiée à partir d'un tag git. Pousser un tag correspondant à `v*.*.*` lance `.github/workflows/release.yml`."
+
+msgid "What the workflow does"
+msgstr "Ce que fait le workflow"
+
+msgid "Checks that the tag, without its `v`, matches the `version` in `cli/Cargo.toml`. A mismatch stops the release."
+msgstr "Vérifie que le tag, sans son `v`, correspond à la `version` de `cli/Cargo.toml`. En cas de différence, la publication s'arrête."
+
+msgid "Runs `cargo test` in `backend/core` and `cli`."
+msgstr "Lance `cargo test` dans `backend/core` et `cli`."
+
+msgid "Builds the CLI in release mode for every platform and publishes the archives on a GitHub Release."
+msgstr "Construit la CLI en mode release pour chaque plateforme et publie les archives dans une GitHub Release."
+
+msgid "Platform"
+msgstr "Plateforme"
+
+msgid "Target"
+msgstr "Cible"
+
+msgid "Asset"
+msgstr "Fichier"
+
+msgid "macOS, Apple silicon"
+msgstr "macOS, Apple silicon"
+
+msgid "`aarch64-apple-darwin`"
+msgstr "`aarch64-apple-darwin`"
+
+msgid "`kikx-<version>-macos-arm64.tar.gz`"
+msgstr "`kikx-<version>-macos-arm64.tar.gz`"
+
+msgid "macOS, Intel"
+msgstr "macOS, Intel"
+
+msgid "`x86_64-apple-darwin`"
+msgstr "`x86_64-apple-darwin`"
+
+msgid "`kikx-<version>-macos-x64.tar.gz`"
+msgstr "`kikx-<version>-macos-x64.tar.gz`"
+
+msgid "Linux, x64"
+msgstr "Linux, x64"
+
+msgid "`x86_64-unknown-linux-gnu`"
+msgstr "`x86_64-unknown-linux-gnu`"
+
+msgid "`kikx-<version>-linux-x64.tar.gz`"
+msgstr "`kikx-<version>-linux-x64.tar.gz`"
+
+msgid "Linux, arm64"
+msgstr "Linux, arm64"
+
+msgid "`aarch64-unknown-linux-gnu`"
+msgstr "`aarch64-unknown-linux-gnu`"
+
+msgid "`kikx-<version>-linux-arm64.tar.gz`"
+msgstr "`kikx-<version>-linux-arm64.tar.gz`"
+
+msgid "Windows, x64"
+msgstr "Windows, x64"
+
+msgid "`x86_64-pc-windows-msvc`"
+msgstr "`x86_64-pc-windows-msvc`"
+
+msgid "`kikx-<version>-windows-x64.zip`"
+msgstr "`kikx-<version>-windows-x64.zip`"
+
+msgid "Each archive holds the `kikx` binary (`kikx.exe` on Windows) and `README.md`."
+msgstr "Chaque archive contient le binaire `kikx` (`kikx.exe` sous Windows) et `README.md`."
+
+msgid "Cut a release"
+msgstr "Publier une nouvelle version"
+
+msgid "Set the new version in `cli/Cargo.toml`, then commit, tag and push:"
+msgstr "Indiquez la nouvelle version dans `cli/Cargo.toml`, puis faites un commit, ajoutez le tag et poussez :"
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Development](development.md)"
+msgstr "[Développement](development.md)"
+

@@ -268,6 +268,6 @@ content-length: 0
 
 ## See also
 
-- [Run the dashboard and backend](../how-to/run-the-dashboard.md)
+- [Run kikx locally](../contributing/run-locally.md)
 - [Render your own component from a registry item](../how-to/custom-registry-item.md)
 - [How the pieces fit together](../explanation/project-layout.md)

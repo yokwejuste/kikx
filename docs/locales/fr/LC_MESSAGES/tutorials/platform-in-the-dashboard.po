@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
 "PO-Revision-Date: 2026-09-29 12:00+0100\n"
 "Last-Translator: kikx contributors\n"
 "Language: fr\n"
@@ -28,41 +28,23 @@ msgstr "Avant de commencer"
 msgid "You need:"
 msgstr "Il vous faut :"
 
-msgid "a checkout of the kikx repository;"
-msgstr "une copie locale du dépôt kikx ;"
+msgid "a web browser;"
+msgstr "un navigateur web ;"
 
-msgid "a Rust toolchain (`cargo`) and Node.js with `npm`;"
-msgstr "une chaîne d'outils Rust (`cargo`) et Node.js avec `npm` ;"
-
-msgid "two terminal windows."
-msgstr "deux fenêtres de terminal."
+msgid "a terminal with [uv](https://docs.astral.sh/uv/), which you'll use to check the result with Ansible without installing it."
+msgstr "un terminal avec [uv](https://docs.astral.sh/uv/), que vous utiliserez pour vérifier le résultat avec Ansible sans l'installer."
 
 msgid "The last step also uses the `kikx` CLI. If you haven't installed it yet, [Your first project with the CLI](first-project-cli.md) shows how."
 msgstr "La dernière étape utilise aussi la CLI `kikx`. Si vous ne l'avez pas encore installée, [Votre premier projet avec la CLI](first-project-cli.md) explique comment faire."
 
-msgid "Start the backend"
-msgstr "Démarrer le backend"
+msgid "Open the dashboard"
+msgstr "Ouvrir le tableau de bord"
 
-msgid "In the first terminal, from the root of your kikx checkout, copy the example settings and start the backend:"
-msgstr "Dans le premier terminal, depuis la racine de votre copie de kikx, copiez les réglages d'exemple et démarrez le backend :"
+msgid "Open the kikx dashboard in your browser. You should see the kikx home page with a form headed **Or build it here**. Above it, **Start from a template** offers ready-made projects; in this tutorial you'll start from an empty one instead."
+msgstr "Ouvrez le tableau de bord kikx dans votre navigateur. Vous devriez voir la page d'accueil de kikx avec un formulaire intitulé « Or build it here ». Au-dessus, « Start from a template » propose des projets prêts à l'emploi ; dans ce tutoriel, vous partirez plutôt d'un projet vide."
 
-msgid "When it's ready it prints:"
-msgstr "Lorsqu'il est prêt, vous devriez voir :"
-
-msgid "Leave it running."
-msgstr "Laissez-le tourner."
-
-msgid "Start the dashboard"
-msgstr "Démarrer le tableau de bord"
-
-msgid "In the second terminal, from the root of your kikx checkout:"
-msgstr "Dans le second terminal, depuis la racine de votre copie de kikx :"
-
-msgid "Wait until it prints the local address and a line starting with `✓ Ready`:"
-msgstr "Attendez qu'il affiche l'adresse locale et une ligne commençant par `✓ Ready` :"
-
-msgid "Open `http://localhost:3000` in your browser. You should see the kikx home page with a form headed **Or build it here**. Above it, **Start from a template** offers ready-made projects; in this tutorial you'll start from an empty one instead."
-msgstr "Ouvrez `http://localhost:3000` dans votre navigateur. Vous devriez voir la page d'accueil de kikx avec un formulaire intitulé « Or build it here ». Au-dessus, « Start from a template » propose des projets prêts à l'emploi ; dans ce tutoriel, vous partirez plutôt d'un projet vide."
+msgid "To work on kikx itself with a local copy of the dashboard, see [Run kikx locally](../contributing/run-locally.md)."
+msgstr "Pour travailler sur kikx lui-même avec une copie locale du tableau de bord, voir [Lancer kikx en local](../contributing/run-locally.md)."
 
 msgid "Create the project"
 msgstr "Créer le projet"
@@ -336,12 +318,6 @@ msgstr "kikx liste les 17 fichiers qu'il a écrits. Vous devriez voir en premiè
 
 msgid "They're the same files as in the zip."
 msgstr "Ce sont les mêmes fichiers que dans le zip."
-
-msgid "Stop the servers"
-msgstr "Arrêter les serveurs"
-
-msgid "Press Ctrl+C in both terminals."
-msgstr "Appuyez sur Ctrl+C dans les deux terminaux."
 
 msgid "What you've done"
 msgstr "Ce que vous avez fait"

@@ -93,6 +93,6 @@ on its own. The dashboard is checked by type checking, linting and a production 
 
 ## Related
 
-- [Run the dashboard and backend](../how-to/run-the-dashboard.md)
+- [Run kikx locally](../contributing/run-locally.md)
 - [Configuration reference](../reference/configuration.md)
 - [Vendoring real files](vendoring.md)

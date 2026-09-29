@@ -1,6 +1,6 @@
-# Run the dashboard and backend
+# Run kikx locally
 
-The dashboard (`web/`) is a Next.js app that renders everything through the kikx backend (`backend/`). You need both running.
+To work on kikx you run your own copy of the dashboard and backend. The dashboard (`web/`) is a Next.js app that renders everything through the kikx backend (`backend/`). You need both running.
 
 ## Start both with the defaults
 

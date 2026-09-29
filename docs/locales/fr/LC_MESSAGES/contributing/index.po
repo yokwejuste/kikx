@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Contributing"
+msgstr "Contribuer"
+
+msgid "These pages are for people who work on kikx itself. To use kikx you only need the hosted dashboard or the `kikx` CLI; nothing here is required for that."
+msgstr "Ces pages s'adressent aux personnes qui travaillent sur kikx lui-même. Pour utiliser kikx, il vous suffit du tableau de bord hébergé ou de la CLI `kikx` ; rien de ce qui suit n'est nécessaire pour cela."
+
