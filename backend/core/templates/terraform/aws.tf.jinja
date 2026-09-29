@@ -1,0 +1,23 @@
+provider "aws" {
+  region = "{{ region }}"
+}
+
+data "aws_ami" "{{ name }}" {
+  most_recent = true
+  owners      = ["{{ image_owner }}"]
+
+  filter {
+    name   = "name"
+    values = ["{{ os_image }}"]
+  }
+}
+
+resource "aws_instance" "{{ name }}" {
+  count         = {{ count }}
+  ami           = data.aws_ami.{{ name }}.id
+  instance_type = "{{ size }}"
+
+  tags = {
+    Name = "{{ name }}-${count.index}"
+  }
+}

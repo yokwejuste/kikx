@@ -174,7 +174,7 @@ allowed choices live, so no client repeats them.
 | `ansible/common-role` | A starter host-hygiene role: base packages, timezone, swap, a templated motd |
 | `ansible/k8s-bootstrap` | A playbook installing containerd, kubelet, kubeadm and kubectl |
 | `k8s/deployment` · `k8s/service` · `k8s/ingress` | Kubernetes manifests |
-| `terraform/hetzner` · `terraform/digitalocean` | One or more cloud servers |
+| `terraform/hetzner` · `terraform/digitalocean` · `terraform/aws` · `terraform/google` · `terraform/scaleway` · `terraform/linode` | One or more cloud servers |
 
 Point the dashboard's "From registry URL" entry, or `kikx add <url-or-path>`, at any
 `registry-item.json` (local file or URL) to render something that isn't built in. No kikx update

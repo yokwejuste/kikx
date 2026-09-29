@@ -15,7 +15,7 @@ import { SiteFields } from "@/components/builder/fields/ansible/site-fields";
 import type { FormContext } from "@/components/builder/editor/form-context";
 import type { FieldErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
-import { K8S_KINDS, REFERENCES, type ComponentKind } from "@/lib/registry/references";
+import { fixedReference, K8S_KINDS, type ComponentKind } from "@/lib/registry/references";
 import { fieldExample, fieldSpec } from "@/lib/registry/store";
 
 type Translate = ReturnType<typeof useTranslations<"fields">>;
@@ -42,7 +42,7 @@ export function ComponentFormFields({
   const isK8s = K8S_KINDS.has(kind);
   const errors = form.formState.errors as FieldErrors;
   const reg = (field: string) => form.register(field as never);
-  const ref = REFERENCES[kind];
+  const ref = fixedReference(kind) ?? "";
   const example = (field: string) => fieldExample(ref, field);
   const help = (field: string) => text.fieldHelp(kind, field, fieldSpec(ref, field)?.description);
   const hostsListId = useId();
@@ -147,9 +147,7 @@ export function ComponentFormFields({
             <Datalist id={servicesListId} options={context.serviceNames} />
           </>
         )}
-        {(kind === "digitalocean" || kind === "hetzner") && (
-          <ServerFields kind={kind} errors={errors} reg={reg} />
-        )}
+        {kind === "server" && <ServerFields form={form} errors={errors} />}
         {isK8s && (
           <FormField
             label={t("namespace")}

@@ -32,7 +32,7 @@ References of the built-in components, in registry order.
 Response `200`:
 
 ```json
-{"components":["k8s/deployment","k8s/service","k8s/ingress","terraform/digitalocean","terraform/hetzner","ansible/k8s-bootstrap","ansible/inventory","ansible/group-vars","ansible/common-role","ansible/role","ansible/playbook","ansible/site","ansible/config"]}
+{"components":["k8s/deployment","k8s/service","k8s/ingress","terraform/digitalocean","terraform/hetzner","terraform/aws","terraform/google","terraform/scaleway","terraform/linode","ansible/k8s-bootstrap","ansible/inventory","ansible/group-vars","ansible/common-role","ansible/role","ansible/playbook","ansible/site","ansible/config"]}
 ```
 
 | Key | Type |

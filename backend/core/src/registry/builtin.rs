@@ -38,6 +38,38 @@ const DIGITALOCEAN_IMAGES: &[(&str, &str)] = &[
     ("almalinux-9-x64", "AlmaLinux 9"),
 ];
 
+const AWS_IMAGES: &[(&str, &str)] = &[
+    (
+        "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*",
+        "Ubuntu 24.04",
+    ),
+    (
+        "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*",
+        "Ubuntu 22.04",
+    ),
+];
+
+const GOOGLE_IMAGES: &[(&str, &str)] = &[
+    ("ubuntu-os-cloud/ubuntu-2404-lts-amd64", "Ubuntu 24.04"),
+    ("ubuntu-os-cloud/ubuntu-2204-lts", "Ubuntu 22.04"),
+    ("debian-cloud/debian-12", "Debian 12"),
+    ("rocky-linux-cloud/rocky-linux-9", "Rocky Linux 9"),
+];
+
+const SCALEWAY_IMAGES: &[(&str, &str)] = &[
+    ("ubuntu_noble", "Ubuntu 24.04"),
+    ("ubuntu_jammy", "Ubuntu 22.04"),
+    ("debian_bookworm", "Debian 12"),
+    ("rockylinux_9", "Rocky Linux 9"),
+];
+
+const LINODE_IMAGES: &[(&str, &str)] = &[
+    ("linode/ubuntu24.04", "Ubuntu 24.04"),
+    ("linode/ubuntu22.04", "Ubuntu 22.04"),
+    ("linode/debian12", "Debian 12"),
+    ("linode/rocky9", "Rocky Linux 9"),
+];
+
 const HETZNER_IMAGES: &[(&str, &str)] = &[
     ("ubuntu-24.04", "Ubuntu 24.04"),
     ("ubuntu-22.04", "Ubuntu 22.04"),
@@ -127,6 +159,60 @@ pub fn all() -> Vec<RegistryItem> {
             vec![file(
                 "{{ name }}-hetzner.tf",
                 include_str!("../../templates/terraform/hetzner.tf.jinja"),
+            )],
+        ),
+        item(
+            "terraform",
+            "aws",
+            "AWS EC2 Instance",
+            "Terraform for one or more AWS EC2 instances.",
+            [
+                server_fields("us-east-1", "t3.small", AWS_IMAGES),
+                vec![field("image_owner")
+                    .default_value("099720109477")
+                    .describe("AWS account that publishes the image; 099720109477 is Canonical.")],
+            ]
+            .concat(),
+            vec![file(
+                "{{ name }}-aws.tf",
+                include_str!("../../templates/terraform/aws.tf.jinja"),
+            )],
+        ),
+        item(
+            "terraform",
+            "google",
+            "Google Compute Engine Instance",
+            "Terraform for one or more Google Compute Engine instances.",
+            [
+                server_fields("europe-west1-b", "e2-medium", GOOGLE_IMAGES),
+                vec![field("project").required().example("my-project")],
+            ]
+            .concat(),
+            vec![file(
+                "{{ name }}-google.tf",
+                include_str!("../../templates/terraform/google.tf.jinja"),
+            )],
+        ),
+        item(
+            "terraform",
+            "scaleway",
+            "Scaleway Instance",
+            "Terraform for one or more Scaleway instances with public IPs.",
+            server_fields("fr-par-1", "DEV1-S", SCALEWAY_IMAGES),
+            vec![file(
+                "{{ name }}-scaleway.tf",
+                include_str!("../../templates/terraform/scaleway.tf.jinja"),
+            )],
+        ),
+        item(
+            "terraform",
+            "linode",
+            "Linode Instance",
+            "Terraform for one or more Linode instances.",
+            server_fields("eu-central", "g6-standard-1", LINODE_IMAGES),
+            vec![file(
+                "{{ name }}-linode.tf",
+                include_str!("../../templates/terraform/linode.tf.jinja"),
             )],
         ),
         item(

@@ -15,6 +15,10 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | [`k8s/ingress`](#k8singress) | Ingress | Routes HTTP traffic to a service. | `{{ name }}-ingress.yaml` |
 | [`terraform/digitalocean`](#terraformdigitalocean) | DigitalOcean Droplet | Terraform for one or more DigitalOcean droplets. | `{{ name }}-digitalocean.tf` |
 | [`terraform/hetzner`](#terraformhetzner) | Hetzner Cloud Server | Terraform for one or more Hetzner Cloud servers. | `{{ name }}-hetzner.tf` |
+| [`terraform/aws`](#terraformaws) | AWS EC2 Instance | Terraform for one or more AWS EC2 instances. | `{{ name }}-aws.tf` |
+| [`terraform/google`](#terraformgoogle) | Google Compute Engine Instance | Terraform for one or more Google Compute Engine instances. | `{{ name }}-google.tf` |
+| [`terraform/scaleway`](#terraformscaleway) | Scaleway Instance | Terraform for one or more Scaleway instances with public IPs. | `{{ name }}-scaleway.tf` |
+| [`terraform/linode`](#terraformlinode) | Linode Instance | Terraform for one or more Linode instances. | `{{ name }}-linode.tf` |
 | [`ansible/k8s-bootstrap`](#ansiblek8s-bootstrap) | Kubernetes Bootstrap | Installs containerd, kubelet, kubeadm and kubectl on target hosts. | `{{ name }}-k8s-bootstrap.yml` |
 | [`ansible/inventory`](#ansibleinventory) | Inventory | Hosts, groups, nesting and shared vars for servers you already have. | `{{ name }}-inventory.ini` |
 | [`ansible/group-vars`](#ansiblegroup-vars) | Group vars | Variables for one inventory group. | `group_vars/{{ group }}{% if layout == "dir" %}/main{% endif %}.yml` |
@@ -99,6 +103,72 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `region` | yes |  | `fsn1` |  |  |
 | `size` | yes |  | `cx22` |  |  |
 | `os_image` | yes | `ubuntu-24.04` |  | `ubuntu-24.04` (Ubuntu 24.04)<br>`ubuntu-22.04` (Ubuntu 22.04)<br>`debian-12` (Debian 12)<br>`fedora-44` (Fedora 44)<br>`rocky-9` (Rocky Linux 9)<br>`alma-9` (AlmaLinux 9) | Any image slug the provider accepts; the list is a shortcut. |
+| `count` | no | `1` |  |  |  |
+
+## `terraform/aws`
+
+| Property | Value |
+|-|-|
+| Title | AWS EC2 Instance |
+| Description | Terraform for one or more AWS EC2 instances. |
+| Output paths | `{{ name }}-aws.tf` |
+| Template fallbacks | Declares an `aws` provider in the chosen region, a `data.aws_ami.<name>` lookup of the newest image matching `os_image` from `image_owner`, and resource `aws_instance.<name>` tagged `<name>-${count.index}` |
+
+| Field | Required | Default | Example | Options | Description |
+|-|-|-|-|-|-|
+| `region` | yes |  | `us-east-1` |  |  |
+| `size` | yes |  | `t3.small` |  |  |
+| `os_image` | yes | `ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*` |  | `ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*` (Ubuntu 24.04)<br>`ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*` (Ubuntu 22.04) | Any image slug the provider accepts; the list is a shortcut. |
+| `count` | no | `1` |  |  |  |
+| `image_owner` | no | `099720109477` |  |  | AWS account that publishes the image; 099720109477 is Canonical. |
+
+## `terraform/google`
+
+| Property | Value |
+|-|-|
+| Title | Google Compute Engine Instance |
+| Description | Terraform for one or more Google Compute Engine instances. |
+| Output paths | `{{ name }}-google.tf` |
+| Template fallbacks | Declares a `google` provider for `project` in the zone given as `region`, and resource `google_compute_instance.<name>` named `<name>-${count.index}` on the default network with a public IP |
+
+| Field | Required | Default | Example | Options | Description |
+|-|-|-|-|-|-|
+| `region` | yes |  | `europe-west1-b` |  |  |
+| `size` | yes |  | `e2-medium` |  |  |
+| `os_image` | yes | `ubuntu-os-cloud/ubuntu-2404-lts-amd64` |  | `ubuntu-os-cloud/ubuntu-2404-lts-amd64` (Ubuntu 24.04)<br>`ubuntu-os-cloud/ubuntu-2204-lts` (Ubuntu 22.04)<br>`debian-cloud/debian-12` (Debian 12)<br>`rocky-linux-cloud/rocky-linux-9` (Rocky Linux 9) | Any image slug the provider accepts; the list is a shortcut. |
+| `count` | no | `1` |  |  |  |
+| `project` | yes |  | `my-project` |  |  |
+
+## `terraform/scaleway`
+
+| Property | Value |
+|-|-|
+| Title | Scaleway Instance |
+| Description | Terraform for one or more Scaleway instances with public IPs. |
+| Output paths | `{{ name }}-scaleway.tf` |
+| Template fallbacks | Requires the `scaleway/scaleway` provider in the zone given as `region`; resources `scaleway_instance_ip.<name>` and `scaleway_instance_server.<name>` named `<name>-${count.index}` |
+
+| Field | Required | Default | Example | Options | Description |
+|-|-|-|-|-|-|
+| `region` | yes |  | `fr-par-1` |  |  |
+| `size` | yes |  | `DEV1-S` |  |  |
+| `os_image` | yes | `ubuntu_noble` |  | `ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debian_bookworm` (Debian 12)<br>`rockylinux_9` (Rocky Linux 9) | Any image slug the provider accepts; the list is a shortcut. |
+| `count` | no | `1` |  |  |  |
+
+## `terraform/linode`
+
+| Property | Value |
+|-|-|
+| Title | Linode Instance |
+| Description | Terraform for one or more Linode instances. |
+| Output paths | `{{ name }}-linode.tf` |
+| Template fallbacks | Requires the `linode/linode` provider and declares variables `linode_token` (sensitive) and `ssh_public_key`; resource `linode_instance.<name>` labelled `<name>-${count.index}` |
+
+| Field | Required | Default | Example | Options | Description |
+|-|-|-|-|-|-|
+| `region` | yes |  | `eu-central` |  |  |
+| `size` | yes |  | `g6-standard-1` |  |  |
+| `os_image` | yes | `linode/ubuntu24.04` |  | `linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
 
 ## `ansible/k8s-bootstrap`

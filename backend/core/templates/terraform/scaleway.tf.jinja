@@ -1,0 +1,23 @@
+terraform {
+  required_providers {
+    scaleway = {
+      source = "scaleway/scaleway"
+    }
+  }
+}
+
+provider "scaleway" {
+  zone = "{{ region }}"
+}
+
+resource "scaleway_instance_ip" "{{ name }}" {
+  count = {{ count }}
+}
+
+resource "scaleway_instance_server" "{{ name }}" {
+  count = {{ count }}
+  name  = "{{ name }}-${count.index}"
+  type  = "{{ size }}"
+  image = "{{ os_image }}"
+  ip_id = scaleway_instance_ip.{{ name }}[count.index].id
+}

@@ -178,7 +178,13 @@
       "label": "From registry URL",
       "summary": "Load and render any registry item",
       "writes": "defined by the item"
-    }
+    },
+    "server": {
+      "label": "Cloud server",
+      "summary": "Terraform for one or more servers at the provider of your choice",
+      "writes": "<name>-<provider>.tf"
+    },
+    "close": "Close"
   },
   "editor": {
     "header": {
@@ -258,7 +264,9 @@
       "playbook": "The file name, without .yml.",
       "role": "Writes {path}. Use this name in a playbook.",
       "k8s": "Also the default app label, so a Deployment and Service with the same name find each other."
-    }
+    },
+    "provider": "Provider",
+    "providerHelp": "Every Terraform item in the registry is listed here. For another provider, load its registry item from Custom."
   },
   "inventory": {
     "hostsTitle": "Hosts ({count})",
@@ -626,9 +634,6 @@
     "wholeNumber": "Enter a whole number",
     "atLeastOne": "Must be at least 1",
     "pathRequired": "Path is required",
-    "regionRequired": "Region is required",
-    "sizeRequired": "Size is required",
-    "osImageRequired": "OS image is required",
     "hostsRequired": "Hosts is required",
     "k8sVersionRequired": "Kubernetes version is required",
     "groupNameRequired": "Group name is required",
@@ -653,7 +658,9 @@
     "addImport": "Import at least one playbook",
     "timezoneRequired": "Timezone is required",
     "rolesPathRequired": "Roles path is required",
-    "roleNameFormat": "Letters, digits, _ . and - only"
+    "roleNameFormat": "Letters, digits, _ . and - only",
+    "fieldRequired": "This field is required",
+    "providerRequired": "Choose a provider"
   },
   "errors": {
     "notConfigured": "NEXT_PUBLIC_KIKX_API_URL is not set. Point it at your kikx backend (see web/.env.example).",

@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useErrorText } from "@/lib/i18n/use-error-text";
 import { DashboardHeader, type View } from "@/components/builder/dashboard-header";
 import { ComponentCatalog } from "@/components/builder/catalog/component-catalog";
+import { CatalogSheet } from "@/components/builder/catalog/catalog-sheet";
 import { ComponentEditor } from "@/components/builder/editor/component-editor";
 import { CustomComponentPanel } from "@/components/builder/editor/custom-component-panel";
 import { buildFormContext } from "@/components/builder/editor/form-context";
@@ -107,15 +108,19 @@ export function Dashboard() {
       )}
 
       <div
-        className="grid gap-6 md:grid-cols-[200px_minmax(0,1fr)] md:items-start xl:grid-cols-[200px_minmax(0,1fr)_280px]"
+        className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:items-start xl:grid-cols-[200px_minmax(0,1fr)_280px]"
         hidden={view !== "build"}
       >
         <aside
           data-tour="catalog"
-          className="md:sticky md:top-6 md:row-span-2 md:max-h-[calc(100vh-3rem)] md:overflow-y-auto xl:row-span-1"
+          className="hidden lg:sticky lg:top-6 lg:row-span-2 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto xl:row-span-1"
         >
           <ComponentCatalog components={components} selected={selection.kind} onSelect={(kind) => select(kind)} />
         </aside>
+
+        <div className="lg:hidden">
+          <CatalogSheet components={components} selected={selection.kind} onSelect={(kind) => select(kind)} />
+        </div>
 
         <div ref={editorTop} data-tour="editor" className="min-w-0 scroll-mt-6">
           {selection.kind === "custom" ? (
@@ -145,7 +150,7 @@ export function Dashboard() {
           )}
         </div>
 
-        <aside data-tour="project" className="md:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1">
+        <aside data-tour="project" className="lg:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1">
           <ProjectPanel
             activeId={editing?.id ?? null}
             issuesFor={issuesFor}
