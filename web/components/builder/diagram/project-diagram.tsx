@@ -15,6 +15,7 @@ import { useTheme } from "next-themes";
 import { Download, LoaderCircle, Maximize2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
+import { DiagramIllustration } from "@/components/illustrations/illustrations";
 import { DiagramNode } from "@/components/builder/diagram/diagram-node";
 import { LaneNode } from "@/components/builder/diagram/lane-node";
 import { RoutedEdge } from "@/components/builder/diagram/routed-edge";
@@ -48,7 +49,12 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
   const { nodes, edges } = useDiagramElements(layout, hovered);
 
   if (components.length === 0) {
-    return <EmptyState className="h-[560px]">Add a component to see the architecture start forming.</EmptyState>;
+    return (
+      <EmptyState className="h-[560px] gap-4">
+        <DiagramIllustration className="h-28" />
+        Add a component to see the architecture start forming.
+      </EmptyState>
+    );
   }
 
   const layoutKey = layout

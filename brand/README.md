@@ -21,6 +21,8 @@ project.
 | `kikx-app-icon.svg` | App icon: white mark on a black rounded square |
 | `kikx.ico` | Windows icon, 16 to 256 px; embedded in `kikx.exe` |
 | `kikx-social.png` | Repository social preview, 1280 × 640 |
+| `kikx-og-web.png` | Link preview for the dashboard, 1200 × 630 |
+| `kikx-og-docs.png` | Link preview for the docs, 1200 × 630 |
 | `png/` | The mark and app icon rendered at common sizes |
 
 The SVG files are the masters. Everything else is generated from them:
@@ -31,7 +33,7 @@ make -C brand social FONT_DIR=/path/to/geist
 ```
 
 `make` renders `png/` and `kikx.ico` and copies the icons into the dashboard, the docs and the CLI.
-`social` redraws the social preview and needs the Geist Regular and Bold `.ttf` files.
+`social` redraws the social and link previews and needs the Geist Regular and Bold `.ttf` files.
 
 ## Colour
 

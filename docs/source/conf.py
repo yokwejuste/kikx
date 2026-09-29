@@ -1,3 +1,5 @@
+import os
+
 from pygments.lexers.shell import BashLexer
 
 project = "kikx"
@@ -5,7 +7,14 @@ html_title = "kikx"
 author = "Steve Yonkeu"
 copyright = "2026 Steve Yonkeu"
 
-extensions = ["myst_parser", "sphinx_design", "sphinx_copybutton"]
+extensions = ["myst_parser", "sphinx_design", "sphinx_copybutton", "sphinxext.opengraph"]
+
+ogp_site_url = os.environ.get("KIKX_DOCS_URL") or os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+ogp_site_name = "kikx"
+ogp_image = "_static/kikx-og.png"
+ogp_image_alt = "kikx docs"
+ogp_social_cards = {"enable": False}
+ogp_custom_meta_tags = ['<meta name="twitter:card" content="summary_large_image">']
 
 copybutton_prompt_text = r"\$ |>>> "
 copybutton_prompt_is_regexp = True
@@ -99,5 +108,11 @@ gettext_uuid = False
 gettext_location = False
 
 
+def localize_site_url(app, config):
+    if config.ogp_site_url and config.language != "en":
+        config.ogp_site_url = f"{config.ogp_site_url.rstrip('/')}/{config.language}/"
+
+
 def setup(app):
     app.add_lexer("dotenv", BashLexer)
+    app.connect("config-inited", localize_site_url)

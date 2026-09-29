@@ -5,7 +5,7 @@ import Link from "next/link";
 import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { KikxMark } from "@/components/common/kikx-mark";
+import { NotFoundIllustration } from "@/components/illustrations/illustrations";
 
 async function fetchJoke(): Promise<string> {
   const response = await fetch("https://icanhazdadjoke.com/", {
@@ -42,7 +42,7 @@ export default function NotFound() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-24 text-center">
       <div className="flex flex-col items-center gap-2">
-        <KikxMark className="mb-4 size-12" />
+        <NotFoundIllustration className="mb-4 h-32" />
         <p className="font-mono text-sm text-muted-foreground">404</p>
         <h1 className="text-3xl font-semibold tracking-tight text-balance">
           This route hasn&apos;t been vendored

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { EmptyProjectIllustration } from "@/components/illustrations/illustrations";
 import {
   Dialog,
   DialogContent,
@@ -70,9 +71,12 @@ export function ProjectPanel({
 
       <div className="max-h-[60vh] overflow-auto p-2">
         {components.length === 0 ? (
-          <p className="px-2 py-6 text-center text-sm text-muted-foreground">
-            Nothing yet. Most projects start with an <span className="font-medium text-foreground">Inventory</span>.
-          </p>
+          <div className="flex flex-col items-center gap-3 px-2 py-6 text-center text-sm text-muted-foreground">
+            <EmptyProjectIllustration className="h-16" />
+            <p>
+              Nothing yet. Most projects start with an <span className="font-medium text-foreground">Inventory</span>.
+            </p>
+          </div>
         ) : (
           <div className="flex flex-col gap-3">
             {byStage.map(({ stage, items }) => (

@@ -28,7 +28,10 @@ install:
 	cp kikx.ico ../web/app/favicon.ico
 	cp png/kikx-app-icon-192.png ../web/public/kikx-icon-192.png
 	cp png/kikx-app-icon-512.png ../web/public/kikx-icon-512.png
+	cp kikx-og-web.png ../web/app/opengraph-image.png
+	cp kikx-og-web.png ../web/app/twitter-image.png
 	cp kikx-favicon.svg ../docs/_static/kikx-favicon.svg
+	cp kikx-og-docs.png ../docs/_static/kikx-og.png
 	cp png/kikx-app-icon-180.png ../docs/_static/kikx-apple-icon.png
 	mkdir -p ../cli/assets
 	cp kikx.ico ../cli/assets/kikx.ico

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PreviewIllustration } from "@/components/illustrations/illustrations";
 import { FileWarning, LoaderCircle } from "lucide-react";
 import { FileContent } from "@/components/builder/preview/file-content";
 import type { RenderedFile } from "@/lib/api/client";
@@ -23,7 +24,7 @@ export function YamlPreview({
 
   if (!files || files.length === 0) {
     return (
-      <div className="flex h-28 flex-col items-center justify-center gap-1 rounded-lg border border-dashed px-6 text-center text-sm text-muted-foreground">
+      <div className="flex min-h-28 flex-col items-center justify-center gap-2 rounded-lg border border-dashed px-6 py-5 text-center text-sm text-muted-foreground">
         {status === "loading" ? (
           <>
             <LoaderCircle className="size-4 animate-spin" />
@@ -32,7 +33,10 @@ export function YamlPreview({
         ) : status === "error" ? (
           <span className="text-destructive">{error ?? "Couldn't render this component."}</span>
         ) : (
-          <span>The preview appears as soon as the required fields are filled in.</span>
+          <>
+            <PreviewIllustration className="h-14" />
+            <span>The preview appears as soon as the required fields are filled in.</span>
+          </>
         )}
       </div>
     );

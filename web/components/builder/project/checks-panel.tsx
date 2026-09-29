@@ -1,8 +1,9 @@
 "use client";
 
-import { CircleCheck, FolderCog } from "lucide-react";
+import { FolderCog } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
+import { ChecksClearIllustration, ChecksEmptyIllustration } from "@/components/illustrations/illustrations";
 import { SEVERITY } from "@/components/builder/project/severity";
 import { describeComponent } from "@/lib/registry/catalog";
 import type { AddedComponent } from "@/lib/project/context";
@@ -25,14 +26,17 @@ export function ChecksPanel({
 
   if (components.length === 0) {
     return (
-      <EmptyState className="h-64">Add components and kikx will check how they fit together.</EmptyState>
+      <EmptyState className="h-64 gap-4">
+        <ChecksEmptyIllustration className="h-24" />
+        Add components and kikx will check how they fit together.
+      </EmptyState>
     );
   }
 
   if (issues.length === 0) {
     return (
-      <EmptyState className="h-64">
-        <CircleCheck className="size-5 text-foreground" />
+      <EmptyState className="h-64 gap-4">
+        <ChecksClearIllustration className="h-24" />
         <p>No conflicts found — hosts, groups, playbooks and manifests all line up.</p>
       </EmptyState>
     );
