@@ -73,6 +73,18 @@ export function ComponentFormFields({
             description={help("description")}
           />
         )}
+        {kind === "ansiblecfg" && (
+          <>
+            <FormField
+              label="Inventory file"
+              registration={reg("inventory")}
+              error={errors.inventory}
+              placeholder={example("inventory")}
+              description={help("inventory")}
+            />
+            <FormField label="Roles path" registration={reg("rolesPath")} error={errors.rolesPath} />
+          </>
+        )}
         {kind === "commonrole" && (
           <FormField label="Timezone" registration={reg("timezone")} error={errors.timezone} description={help("timezone")} />
         )}

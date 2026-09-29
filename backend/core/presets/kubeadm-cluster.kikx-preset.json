@@ -1,0 +1,109 @@
+{
+  "name": "kubeadm-cluster",
+  "title": "Kubernetes cluster with kubeadm",
+  "description": "Hetzner servers bootstrapped into a three-node control plane and three workers.",
+  "project": {
+    "name": "k8s-cluster",
+    "namespace": "default",
+    "outputDir": "infra"
+  },
+  "components": [
+    {
+      "reference": "terraform/hetzner",
+      "name": "control-plane",
+      "fields": {
+        "region": "fsn1",
+        "size": "cx22",
+        "os_image": "ubuntu-24.04",
+        "count": "3"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "terraform/hetzner",
+      "name": "workers",
+      "fields": {
+        "region": "fsn1",
+        "size": "cx32",
+        "os_image": "ubuntu-24.04",
+        "count": "3"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/inventory",
+      "name": "cluster",
+      "fields": {
+        "hosts": "[{\"group\": \"k8s_control_plane\", \"members\": [{\"name\": \"cp-01\", \"ansible_host\": \"203.0.113.11\", \"ansible_user\": null, \"ansible_port\": null, \"vars\": {\"kube_bootstrap\": \"true\"}}, {\"name\": \"cp-02\", \"ansible_host\": \"203.0.113.12\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"cp-03\", \"ansible_host\": \"203.0.113.13\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"k8s_workers\", \"members\": [{\"name\": \"worker-01\", \"ansible_host\": \"203.0.113.21\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"worker-02\", \"ansible_host\": \"203.0.113.22\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"worker-03\", \"ansible_host\": \"203.0.113.23\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"k8s\", \"children\": [\"k8s_control_plane\", \"k8s_workers\"], \"vars\": {\"ansible_user\": \"deploy\"}}]"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/config",
+      "name": "ansible",
+      "fields": {
+        "inventory": "cluster-inventory.ini"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/group-vars",
+      "name": "k8s",
+      "fields": {
+        "group": "k8s",
+        "vars": "{\"kube_version\": \"1.31\", \"pod_network_cidr\": \"10.244.0.0/16\"}"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/k8s-bootstrap",
+      "name": "cluster",
+      "fields": {
+        "hosts": "k8s",
+        "k8s_version": "1.31"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/role",
+      "name": "kube_control_plane",
+      "fields": {
+        "description": ""
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/role",
+      "name": "kube_worker",
+      "fields": {
+        "description": ""
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/role",
+      "name": "calico",
+      "fields": {
+        "description": ""
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/playbook",
+      "name": "k8s",
+      "fields": {
+        "plays": "[{\"name\": \"Control plane\", \"hosts\": \"k8s_control_plane\", \"become\": true, \"tags\": [\"k8s\"], \"roles\": [\"kube_control_plane\", \"calico\"]}, {\"name\": \"Workers\", \"hosts\": \"k8s_workers\", \"become\": true, \"tags\": [\"k8s\"], \"roles\": [\"kube_worker\"]}]",
+        "folder": "playbooks"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/site",
+      "name": "site",
+      "fields": {
+        "playbooks": "[{\"name\": \"Kubernetes\", \"path\": \"playbooks/k8s.yml\"}]"
+      },
+      "labels": {}
+    }
+  ]
+}

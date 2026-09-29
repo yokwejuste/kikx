@@ -264,6 +264,20 @@ pub fn all() -> Vec<RegistryItem> {
                 include_str!("../../templates/ansible/site.yml.jinja"),
             )],
         ),
+        item(
+            "ansible",
+            "config",
+            "Ansible config",
+            "ansible.cfg pointing Ansible at your inventory and roles, so playbooks in subfolders find them.",
+            vec![
+                field("inventory").example("platform-inventory.ini"),
+                field("roles_path").default_value("roles"),
+            ],
+            vec![file(
+                "ansible.cfg",
+                include_str!("../../templates/ansible/ansible-cfg.jinja"),
+            )],
+        ),
     ]
 }
 

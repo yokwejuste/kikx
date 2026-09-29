@@ -11,6 +11,7 @@ export const REFERENCES = {
   site: "ansible/site",
   commonrole: "ansible/common-role",
   role: "ansible/role",
+  ansiblecfg: "ansible/config",
 } as const;
 
 export type ComponentKind = keyof typeof REFERENCES;

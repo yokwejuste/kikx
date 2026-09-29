@@ -106,8 +106,19 @@ export interface ProjectDefaults {
   defaultProjectName: string;
 }
 
+export interface PresetSummary {
+  name: string;
+  title: string;
+  description: string;
+  componentCount: number;
+}
+
 export const api = {
   registry: () => request<RegistryResponse>("/api/registry"),
+
+  presets: () => request<{ presets: PresetSummary[] }>("/api/presets").then((body) => body.presets),
+
+  preset: (name: string) => request<unknown>(`/api/presets/${encodeURIComponent(name)}`),
 
   config: () => request<ProjectDefaults>("/api/config"),
 

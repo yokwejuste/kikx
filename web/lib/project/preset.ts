@@ -1,6 +1,8 @@
+import { api } from "@/lib/api/client";
 import { downloadBlob } from "@/lib/download";
 import { toRenderRequest, type FormValues } from "@/lib/forms/component-forms";
-import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
+import { componentId, type AddedComponent, type ProjectDetails } from "@/lib/project/context";
+import { projectDefaults } from "@/lib/registry/store";
 
 export interface PresetComponent {
   reference: string;
@@ -31,7 +33,7 @@ export function toPresetComponent(defaultNamespace: string, values: FormValues):
 }
 
 export function presetFileName(details: ProjectDetails): string {
-  return `${details.name || "kikx-project"}.kikx-preset.json`;
+  return `${details.name || projectDefaults().defaultProjectName}.kikx-preset.json`;
 }
 
 function buildPresetManifest(details: ProjectDetails, components: AddedComponent[]) {
@@ -52,22 +54,58 @@ export function downloadPreset(details: ProjectDetails, components: AddedCompone
   downloadBlob(new Blob([JSON.stringify(manifest, null, 2)], { type: "application/json" }), presetFileName(details));
 }
 
-interface PresetManifest {
+export interface PresetManifest {
   name?: string;
   project?: Partial<ProjectDetails>;
   components: PresetComponent[];
 }
 
-export function parsePresetManifest(text: string): PresetManifest {
-  const parsed = JSON.parse(text);
-  if (!parsed || typeof parsed !== "object" || !Array.isArray(parsed.components)) {
-    throw new Error("That file isn't a kikx preset — it has no components list.");
+export function toPresetManifest(parsed: unknown): PresetManifest {
+  const manifest = parsed as { name?: string; project?: Partial<ProjectDetails>; components?: unknown };
+  if (!manifest || typeof manifest !== "object" || !Array.isArray(manifest.components)) {
+    throw new Error("That isn't a kikx preset — it has no components list.");
   }
-  const components: PresetComponent[] = parsed.components.map((c: Partial<PresetComponent>, i: number) => {
+  const components: PresetComponent[] = manifest.components.map((c: Partial<PresetComponent>, i: number) => {
     if (typeof c?.reference !== "string" || typeof c?.name !== "string") {
       throw new Error(`Component #${i + 1} is missing a reference or name.`);
     }
     return { reference: c.reference, name: c.name, fields: c.fields ?? {}, labels: c.labels ?? {} };
   });
-  return { name: parsed.name, project: parsed.project, components };
+  return { name: manifest.name, project: manifest.project, components };
+}
+
+export function parsePresetManifest(text: string): PresetManifest {
+  return toPresetManifest(JSON.parse(text));
+}
+
+export async function loadPresetManifest(
+  manifest: PresetManifest,
+  fallbackName: string,
+): Promise<{ details: ProjectDetails; components: AddedComponent[] }> {
+  const defaults = projectDefaults();
+  const namespace = manifest.project?.namespace || defaults.defaultNamespace;
+  const components = await Promise.all(
+    manifest.components.map(async (recipe): Promise<AddedComponent> => {
+      const rendered = await api.render({
+        reference: recipe.reference,
+        name: recipe.name,
+        fields: recipe.fields,
+        labels: Object.entries(recipe.labels).map(([key, value]) => ({ key, value })),
+        defaultNamespace: namespace,
+      });
+      return {
+        id: componentId(recipe),
+        recipe,
+        files: rendered.files.map((f) => ({ fileName: f.path, component: rendered.component, content: f.content })),
+      };
+    }),
+  );
+  return {
+    details: {
+      name: manifest.project?.name || manifest.name || fallbackName,
+      namespace,
+      outputDir: manifest.project?.outputDir || defaults.defaultOutputDir,
+    },
+    components,
+  };
 }

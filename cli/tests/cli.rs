@@ -384,7 +384,7 @@ fn setup_with_non_url_reference_fails() {
         .args(["setup", "./not-a-url"])
         .assert()
         .failure()
-        .stderr(contains("isn't a URL"));
+        .stderr(contains("isn't a template name, a URL"));
 }
 
 #[test]
@@ -617,4 +617,29 @@ fn add_ansible_inventory_with_children_and_vars_groups() {
     assert!(text.contains("[platform:children]"));
     assert!(text.contains("[platform:vars]"));
     assert!(text.contains("ansible_user=ops-admin"));
+}
+
+#[test]
+fn presets_lists_the_built_in_templates() {
+    kikx()
+        .arg("presets")
+        .assert()
+        .success()
+        .stdout(contains("k8s-web-app"))
+        .stdout(contains("multi-tier-platform"));
+}
+
+#[test]
+fn setup_accepts_a_template_name() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["setup", "web-and-database"])
+        .assert()
+        .success();
+
+    let config = std::fs::read_to_string(tmp.path().join("kikx.toml")).unwrap();
+    assert!(config.contains("web-and-database"));
+    assert!(tmp.path().join("infra/ansible.cfg").exists());
+    assert!(tmp.path().join("infra/site.yml").exists());
 }

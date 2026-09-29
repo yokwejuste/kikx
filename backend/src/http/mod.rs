@@ -44,6 +44,8 @@ pub fn build_router(allowed_origins: AllowedOrigins) -> Router {
         .route("/api/components", get(handlers::list_components))
         .route("/api/registry", get(handlers::registry))
         .route("/api/config", get(handlers::config))
+        .route("/api/presets", get(handlers::presets))
+        .route("/api/presets/{name}", get(handlers::preset))
         .route("/api/registry/inspect", get(handlers::registry_inspect))
         .route("/api/render", post(handlers::render_component))
         .layer(cors)

@@ -19,6 +19,7 @@ import {
   siteFormSchema,
   commonRoleFormSchema,
   roleFormSchema,
+  ansibleConfigFormSchema,
   type PlayValues,
 } from "@/lib/forms/schemas";
 
@@ -35,6 +36,7 @@ export const schemas = {
   site: siteFormSchema,
   commonrole: commonRoleFormSchema,
   role: roleFormSchema,
+  ansiblecfg: ansibleConfigFormSchema,
 } satisfies Record<ComponentKind, z.ZodTypeAny>;
 
 export type FormValues = z.infer<(typeof schemas)[keyof typeof schemas]>;
@@ -83,6 +85,8 @@ export function defaultsFor(kind: ComponentKind): FormValues {
       return { component: kind, name: "", timezone: str("timezone") };
     case "role":
       return { component: kind, name: "", description: str("description") };
+    case "ansiblecfg":
+      return { component: kind, name: "ansible", inventory: str("inventory"), rolesPath: str("roles_path") };
   }
 }
 
@@ -153,6 +157,8 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
       return { ...base, fields: { timezone: values.timezone } };
     case "role":
       return { ...base, fields: { description: values.description ?? "" } };
+    case "ansiblecfg":
+      return { ...base, fields: { inventory: values.inventory ?? "", roles_path: values.rolesPath } };
     case "inventory":
       return { ...base, fields: { hosts: JSON.stringify(buildInventoryGroups(values.hosts, values.groups)) } };
   }
@@ -234,5 +240,12 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
       return { component: kind, name: recipe.name, timezone: str(f.timezone, "timezone") };
     case "role":
       return { component: kind, name: recipe.name, description: f.description ?? "" };
+    case "ansiblecfg":
+      return {
+        component: kind,
+        name: recipe.name,
+        inventory: f.inventory ?? "",
+        rolesPath: str(f.roles_path, "roles_path"),
+      };
   }
 }

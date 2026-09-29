@@ -22,6 +22,7 @@ impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let (status, code) = match self.0.kind {
             OpsErrorKind::NotInitialized => (StatusCode::NOT_FOUND, "not_initialized"),
+            OpsErrorKind::NotFound => (StatusCode::NOT_FOUND, "not_found"),
             OpsErrorKind::AlreadyExists => (StatusCode::CONFLICT, "already_exists"),
             OpsErrorKind::InvalidComponent | OpsErrorKind::MissingField => {
                 (StatusCode::BAD_REQUEST, "invalid_request")

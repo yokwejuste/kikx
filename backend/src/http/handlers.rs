@@ -1,11 +1,13 @@
-use axum::extract::Query;
+use anyhow::anyhow;
+use axum::extract::{Path, Query};
 use axum::Json;
 use kikx_core::ops::{self, OpsError, OpsErrorKind};
+use kikx_core::presets::{self, PresetManifest};
 use kikx_core::registry;
 
 use super::dto::{
-    ComponentsResponse, ConfigResponse, RegistryInspectQuery, RegistryItemDto, RegistryResponse,
-    RenderRequest, RenderResponse,
+    ComponentsResponse, ConfigResponse, PresetsResponse, RegistryInspectQuery, RegistryItemDto,
+    RegistryResponse, RenderRequest, RenderResponse,
 };
 use super::error::ApiError;
 
@@ -33,6 +35,22 @@ pub async fn registry() -> Json<RegistryResponse> {
 
 pub async fn config() -> Json<ConfigResponse> {
     Json(ConfigResponse::current())
+}
+
+pub async fn presets() -> Json<PresetsResponse> {
+    Json(PresetsResponse {
+        presets: presets::templates().into_iter().map(Into::into).collect(),
+    })
+}
+
+pub async fn preset(Path(name): Path<String>) -> Result<Json<PresetManifest>, ApiError> {
+    presets::template(&name).map(Json).ok_or_else(|| {
+        OpsError::new(
+            OpsErrorKind::NotFound,
+            anyhow!("no preset template named `{name}`"),
+        )
+        .into()
+    })
 }
 
 pub async fn registry_inspect(

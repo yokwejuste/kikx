@@ -21,5 +21,5 @@ fn resolves_local_file() {
 #[test]
 fn unknown_reference_errors_with_helpful_text() {
     let err = resolve_preset("not-a-real-thing").unwrap_err();
-    assert!(err.to_string().contains("preset manifest"));
+    assert!(err.to_string().contains("kikx presets"));
 }

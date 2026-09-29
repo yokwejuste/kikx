@@ -226,6 +226,13 @@ export const commonRoleFormSchema = z.object({
   timezone: z.string().min(1, "Timezone is required"),
 });
 
+export const ansibleConfigFormSchema = z.object({
+  component: z.literal("ansiblecfg"),
+  name: z.string().min(1, "Name is required"),
+  inventory: z.string().optional(),
+  rolesPath: z.string().min(1, "Roles path is required"),
+});
+
 export const roleFormSchema = z.object({
   component: z.literal("role"),
   name: z

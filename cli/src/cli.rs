@@ -16,10 +16,17 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Commands {
+    #[command(about = "Create kikx.toml in the current directory")]
     Init(InitArgs),
+    #[command(about = "Render a component and write its files into the project")]
     Add(AddArgs),
+    #[command(about = "List the built-in components with their fields")]
     List,
+    #[command(about = "List the built-in preset templates")]
+    Presets,
+    #[command(about = "Bootstrap a new project from a preset template, file or URL")]
     Setup(SetupArgs),
+    #[command(about = "Vendor a preset template, file or URL into an existing project")]
     Apply(ApplyArgs),
 }
 

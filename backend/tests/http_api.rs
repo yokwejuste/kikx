@@ -42,6 +42,7 @@ async fn list_components_returns_all_builtins() {
             "ansible/role",
             "ansible/playbook",
             "ansible/site",
+            "ansible/config",
         ]
     );
 }

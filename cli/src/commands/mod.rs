@@ -2,6 +2,7 @@ pub mod add;
 pub mod apply;
 pub mod init;
 pub mod list;
+pub mod presets;
 pub mod setup;
 
 use std::path::PathBuf;

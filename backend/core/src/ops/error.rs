@@ -3,6 +3,7 @@ use std::fmt;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum OpsErrorKind {
     NotInitialized,
+    NotFound,
     AlreadyExists,
     InvalidComponent,
     MissingField,

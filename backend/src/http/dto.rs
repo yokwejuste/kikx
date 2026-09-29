@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use kikx_core::config;
 use kikx_core::ops::{CommonFields, RenderOutcome, RenderParams};
+use kikx_core::presets::PresetManifest;
 use kikx_core::registry::{FieldSpec, RegistryItem};
 use serde::{Deserialize, Serialize};
 
@@ -88,6 +89,32 @@ impl From<RegistryItem> for RegistryItemDto {
 #[serde(rename_all = "camelCase")]
 pub struct RegistryResponse {
     pub items: Vec<RegistryItemDto>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PresetSummaryDto {
+    pub name: String,
+    pub title: String,
+    pub description: String,
+    pub component_count: usize,
+}
+
+impl From<PresetManifest> for PresetSummaryDto {
+    fn from(manifest: PresetManifest) -> Self {
+        Self {
+            component_count: manifest.components.len(),
+            name: manifest.name,
+            title: manifest.title,
+            description: manifest.description,
+        }
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PresetsResponse {
+    pub presets: Vec<PresetSummaryDto>,
 }
 
 #[derive(Serialize)]

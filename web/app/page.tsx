@@ -10,15 +10,18 @@ import { FolderOpen, Sparkles, Waypoints } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
-import { componentId, useProject, type AddedComponent } from "@/lib/project/context";
+import { useProject } from "@/lib/project/context";
 import { initFormSchema, type InitFormValues } from "@/lib/forms/schemas";
 import { api, ApiClientError } from "@/lib/api/client";
-import { parsePresetManifest } from "@/lib/project/preset";
+import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetManifest } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
+import { TemplateGallery } from "@/components/home/template-gallery";
 
 const SNIPPET = [
   { cmd: "kikx init --name <project>" },
+  { cmd: "kikx presets" },
+  { cmd: "kikx setup <template>" },
   { cmd: "kikx list" },
   { cmd: "kikx add <category>/<component> --name <name> --set key=value" },
   { cmd: "kikx apply ./<project>.kikx-preset.json" },
@@ -36,45 +39,23 @@ function HomeContent() {
   const defaults = projectDefaults();
   const router = useRouter();
   const { setDetails, reset, loadProject } = useProject();
-  const [opening, setOpening] = useState(false);
+  const [opening, setOpening] = useState<string | null>(null);
 
-  async function openPreset(file: File) {
-    setOpening(true);
+  async function open(label: string, manifest: () => Promise<PresetManifest>, fallbackName: string) {
+    setOpening(label);
     try {
-      const manifest = parsePresetManifest(await file.text());
-      const namespace = manifest.project?.namespace || defaults.defaultNamespace;
-      const components: AddedComponent[] = [];
-      for (const recipe of manifest.components) {
-        const rendered = await api.render({
-          reference: recipe.reference,
-          name: recipe.name,
-          fields: recipe.fields,
-          labels: Object.entries(recipe.labels).map(([key, value]) => ({ key, value })),
-          defaultNamespace: namespace,
-        });
-        components.push({
-          id: componentId(recipe),
-          recipe,
-          files: rendered.files.map((f) => ({ fileName: f.path, component: rendered.component, content: f.content })),
-        });
-      }
-      loadProject(
-        {
-          name: manifest.project?.name || manifest.name || file.name.replace(/\.kikx-preset\.json$|\.json$/, ""),
-          namespace,
-          outputDir: manifest.project?.outputDir || defaults.defaultOutputDir,
-        },
-        components,
-      );
+      const { details, components } = await loadPresetManifest(await manifest(), fallbackName);
+      loadProject(details, components);
       router.push("/build");
     } catch (error) {
       toast.error(
         error instanceof ApiClientError || error instanceof Error ? error.message : "Couldn't open that preset",
       );
     } finally {
-      setOpening(false);
+      setOpening(null);
     }
   }
+
   const form = useForm<InitFormValues>({
     resolver: zodResolver(initFormSchema),
     defaultValues: { name: "", namespace: defaults.defaultNamespace, dir: defaults.defaultOutputDir },
@@ -122,6 +103,11 @@ function HomeContent() {
           </div>
         </div>
 
+        <TemplateGallery
+          opening={opening}
+          onSelect={(name) => open(name, async () => toPresetManifest(await api.preset(name)), name)}
+        />
+
         <div className="w-full rounded-xl border bg-card p-6 text-left">
           <h2 className="text-sm font-medium">Or build it here</h2>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -159,7 +145,7 @@ function HomeContent() {
           <span className="flex items-center gap-3">
             <FolderOpen className="size-4 text-muted-foreground" />
             <span>
-              <span className="font-medium">{opening ? "Opening preset…" : "Open a preset"}</span>
+              <span className="font-medium">{opening === "file" ? "Opening preset…" : "Open a preset"}</span>
               <span className="block text-muted-foreground">
                 Continue from a <code className="font-mono">.kikx-preset.json</code> you downloaded earlier.
               </span>
@@ -169,10 +155,12 @@ function HomeContent() {
             type="file"
             accept=".json,application/json"
             className="sr-only"
-            disabled={opening}
+            disabled={opening !== null}
             onChange={(e) => {
               const file = e.target.files?.[0];
-              if (file) openPreset(file);
+              if (file) {
+                open("file", async () => parsePresetManifest(await file.text()), file.name.replace(/\.kikx-preset\.json$|\.json$/, ""));
+              }
               e.target.value = "";
             }}
           />

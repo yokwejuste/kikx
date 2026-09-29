@@ -1,5 +1,6 @@
 {
   "name": "multi-tier-platform",
+  "title": "Multi-tier platform",
   "description": "A storefront platform: edge load balancers, web/app tiers, PostgreSQL primary + replicas, Redis, monitoring and a Kubernetes cluster.",
   "project": {
     "name": "multi-tier-platform",
@@ -23,6 +24,14 @@
       "name": "platform",
       "fields": {
         "hosts": "[{\"group\": \"lb\", \"members\": [{\"name\": \"lb-01\", \"ansible_host\": \"192.0.2.11\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"lb-02\", \"ansible_host\": \"192.0.2.12\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"web\", \"members\": [{\"name\": \"web-01\", \"ansible_host\": \"192.0.2.21\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"web-02\", \"ansible_host\": \"192.0.2.22\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"web-03\", \"ansible_host\": \"192.0.2.23\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"app\", \"members\": [{\"name\": \"app-01\", \"ansible_host\": \"192.0.2.31\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"app-02\", \"ansible_host\": \"192.0.2.32\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"app-03\", \"ansible_host\": \"192.0.2.33\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"db_primary\", \"members\": [{\"name\": \"db-01\", \"ansible_host\": \"198.51.100.11\", \"ansible_user\": null, \"ansible_port\": null, \"vars\": {\"postgres_role\": \"primary\"}}]}, {\"group\": \"db_replicas\", \"members\": [{\"name\": \"db-02\", \"ansible_host\": \"198.51.100.12\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"db-03\", \"ansible_host\": \"198.51.100.13\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"cache\", \"members\": [{\"name\": \"cache-01\", \"ansible_host\": \"198.51.100.21\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"monitoring\", \"members\": [{\"name\": \"mon-01\", \"ansible_host\": \"198.51.100.31\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"cache-01\", \"ansible_host\": null, \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"k8s_control_plane\", \"members\": [{\"name\": \"cp-01\", \"ansible_host\": \"203.0.113.11\", \"ansible_user\": null, \"ansible_port\": null, \"vars\": {\"kube_bootstrap\": \"true\"}}, {\"name\": \"cp-02\", \"ansible_host\": \"203.0.113.12\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"cp-03\", \"ansible_host\": \"203.0.113.13\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"k8s_workers\", \"members\": [{\"name\": \"worker-01\", \"ansible_host\": \"203.0.113.21\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"worker-02\", \"ansible_host\": \"203.0.113.22\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"worker-03\", \"ansible_host\": \"203.0.113.23\", \"ansible_user\": null, \"ansible_port\": null}, {\"name\": \"worker-04\", \"ansible_host\": \"203.0.113.24\", \"ansible_user\": null, \"ansible_port\": null}]}, {\"group\": \"frontend\", \"children\": [\"lb\", \"web\"]}, {\"group\": \"db\", \"children\": [\"db_primary\", \"db_replicas\"]}, {\"group\": \"k8s\", \"children\": [\"k8s_control_plane\", \"k8s_workers\"]}, {\"group\": \"platform\", \"children\": [\"frontend\", \"app\", \"db\", \"cache\", \"monitoring\", \"k8s\"], \"vars\": {\"ansible_user\": \"deploy\", \"ansible_python_interpreter\": \"/usr/bin/python3\"}}]"
+      },
+      "labels": {}
+    },
+    {
+      "reference": "ansible/config",
+      "name": "ansible",
+      "fields": {
+        "inventory": "platform-inventory.ini"
       },
       "labels": {}
     },

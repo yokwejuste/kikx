@@ -1,4 +1,4 @@
-import { Boxes, Cloud, Cog, FileCode2, ListOrdered, Network, Package, Rocket, ScrollText } from "lucide-react";
+import { Settings2, Boxes, Cloud, Cog, FileCode2, ListOrdered, Network, Package, Rocket, ScrollText } from "lucide-react";
 import { groupVarsPath } from "@/lib/ansible/group-vars";
 import { parseInventoryEntries } from "@/lib/ansible/inventory";
 import { hostPatterns, playbookPath, playsFromRecipe, siteImportsFromRecipe } from "@/lib/ansible/playbook";
@@ -39,7 +39,9 @@ export interface ArchitectureGraph {
 
 function laneFor(component: AddedComponent): LaneId {
   const { reference } = component.recipe;
-  if (reference === REFERENCES.inventory || reference === REFERENCES.groupvars) return "inventory";
+  if ([REFERENCES.inventory, REFERENCES.groupvars, REFERENCES.ansiblecfg].includes(reference as never)) {
+    return "inventory";
+  }
   if (reference === REFERENCES.playbook || reference === REFERENCES.site || reference === REFERENCES.ansible) {
     return "playbooks";
   }
@@ -143,6 +145,16 @@ export function buildArchitectureGraph(components: AddedComponent[]): Architectu
     if (reference === REFERENCES.ansible) {
       addNode(component.id, lane, { label: name, description: "K8s bootstrap playbook", icon: Rocket, kind: "process" });
       if (fields.hosts) hostTargets.push({ id: component.id, hosts: fields.hosts });
+      continue;
+    }
+
+    if (reference === REFERENCES.ansiblecfg) {
+      addNode(component.id, lane, {
+        label: "ansible.cfg",
+        description: `roles_path: ${fields.roles_path || "—"}`,
+        icon: Settings2,
+        kind: "data",
+      });
       continue;
     }
 
