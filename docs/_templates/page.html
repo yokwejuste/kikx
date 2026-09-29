@@ -24,6 +24,8 @@
 {% endblock site_meta %}
 
 {% block content %}
+<div class="page-actions">
+<a class="try-kikx" href="{{ app_url }}">{{ _("Try kikx") }}</a>
 <nav class="language-switcher" aria-label="Language">
   {%- for code, label in language_switcher %}
   {%- if language == default_language %}
@@ -42,6 +44,7 @@
   </a>
   {%- endfor %}
 </nav>
+</div>
 {{ body }}
 {% endblock content %}
 

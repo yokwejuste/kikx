@@ -89,6 +89,7 @@ html_context = {
         ["fr", "Français"],
     ],
     "default_language": "en",
+    "app_url": os.environ.get("KIKX_APP_URL", "/"),
 }
 html_sidebars = {
     "**": [

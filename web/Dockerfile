@@ -6,6 +6,7 @@ WORKDIR /docs
 COPY docs/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 ARG KIKX_DOCS_URL
+ARG KIKX_APP_URL
 COPY docs/ .
 RUN make html-all
 
