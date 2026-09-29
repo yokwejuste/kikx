@@ -53,7 +53,7 @@ export function ComponentFormFields({
               ? "Becomes <name>-inventory.ini."
               : kind === "playbook"
                 ? "The file name, without .yml."
-                : kind === "commonrole"
+                : kind === "commonrole" || kind === "role"
                   ? "Writes roles/<name>/ — use this name in a playbook."
                   : isK8s
                     ? "Also the default app label, so a Deployment and Service with the same name find each other."
@@ -68,6 +68,14 @@ export function ComponentFormFields({
             error={errors.folder}
             placeholder="playbooks"
             description="Where the file goes. Leave empty for the project root."
+          />
+        )}
+        {kind === "role" && (
+          <FormField
+            label="Description"
+            registration={reg("description")}
+            error={errors.description}
+            placeholder="What this role sets up (optional)"
           />
         )}
         {kind === "commonrole" && (

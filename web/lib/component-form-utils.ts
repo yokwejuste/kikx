@@ -14,6 +14,7 @@ import {
   playbookFormSchema,
   siteFormSchema,
   commonRoleFormSchema,
+  roleFormSchema,
   type ComponentKind,
   type PlayValues,
 } from "@/lib/schemas";
@@ -31,6 +32,7 @@ export const schemas = {
   playbook: playbookFormSchema,
   site: siteFormSchema,
   commonrole: commonRoleFormSchema,
+  role: roleFormSchema,
 };
 
 export const REFERENCES: Record<ComponentKind, string> = {
@@ -45,6 +47,7 @@ export const REFERENCES: Record<ComponentKind, string> = {
   playbook: "ansible/playbook",
   site: "ansible/site",
   commonrole: "ansible/common-role",
+  role: "ansible/role",
 };
 
 export function kindForReference(reference: string): ComponentKind | null {
@@ -65,6 +68,7 @@ type GroupVarsValues = z.infer<typeof groupVarsFormSchema>;
 type PlaybookValues = z.infer<typeof playbookFormSchema>;
 type SiteValues = z.infer<typeof siteFormSchema>;
 type CommonRoleValues = z.infer<typeof commonRoleFormSchema>;
+type RoleValues = z.infer<typeof roleFormSchema>;
 export type FormValues =
   | DeploymentValues
   | ServiceValues
@@ -76,10 +80,11 @@ export type FormValues =
   | GroupVarsValues
   | PlaybookValues
   | SiteValues
-  | CommonRoleValues;
+  | CommonRoleValues
+  | RoleValues;
 
 export function emptyPlay(): PlayValues {
-  return { name: "", hosts: "", roles: [], tags: [], become: true };
+  return { name: "", hosts: "", roles: [], tags: [], become: true, conditions: {}, preTasks: "", postTasks: "" };
 }
 
 export function defaultsFor(kind: ComponentKind): FormValues {
@@ -106,13 +111,15 @@ export function defaultsFor(kind: ComponentKind): FormValues {
         groups: [],
       };
     case "groupvars":
-      return { component: "groupvars", group: "", mode: "fields", vars: [{ key: "", value: "" }], yaml: "" };
+      return { component: "groupvars", group: "", mode: "fields", layout: "file", vars: [{ key: "", value: "" }], yaml: "" };
     case "playbook":
       return { component: "playbook", name: "", folder: "playbooks", plays: [emptyPlay()] };
     case "site":
       return { component: "site", name: "site", imports: [] };
     case "commonrole":
       return { component: "commonrole", name: "common", timezone: "UTC" };
+    case "role":
+      return { component: "role", name: "", description: "" };
   }
 }
 
@@ -125,6 +132,8 @@ export function extractAvailableRoleNames(
       (c) =>
         c.recipe.reference.startsWith("ansible/") &&
         !["ansible/inventory", "ansible/group-vars", "ansible/playbook", "ansible/site"].includes(c.recipe.reference) &&
+        // a skeleton or common role always writes several files; anything else is a one-file playbook
+
         c.files.length > 1,
     )
     .map((c) => c.recipe.name);
@@ -153,16 +162,38 @@ function parseJson<T>(raw: string | undefined, fallback: T): T {
   }
 }
 
+/** A play as the playbook template takes it: roles are plain names or `{ role, when }`. */
+interface RenderedPlay {
+  name?: string;
+  hosts?: string;
+  become?: boolean;
+  tags?: string[];
+  roles?: (string | { role: string; when?: string })[];
+  pre_tasks?: string;
+  post_tasks?: string;
+}
+
 export function playsFromRecipe(recipe: PresetComponent): PlayValues[] {
-  const plays = parseJson<PlayValues[] | null>(recipe.fields.plays, null);
+  const plays = parseJson<RenderedPlay[] | null>(recipe.fields.plays, null);
   if (Array.isArray(plays)) {
-    return plays.map((p) => ({
-      name: p.name ?? recipe.name,
-      hosts: p.hosts ?? "",
-      roles: p.roles ?? [],
-      tags: p.tags ?? [],
-      become: p.become ?? true,
-    }));
+    return plays.map((p) => {
+      const conditions: Record<string, string> = {};
+      const roles = (p.roles ?? []).map((r) => {
+        if (typeof r === "string") return r;
+        if (r.when) conditions[r.role] = r.when;
+        return r.role;
+      });
+      return {
+        name: p.name ?? recipe.name,
+        hosts: p.hosts ?? "",
+        roles,
+        tags: p.tags ?? [],
+        become: p.become ?? true,
+        conditions,
+        preTasks: p.pre_tasks ?? "",
+        postTasks: p.post_tasks ?? "",
+      };
+    });
   }
   return [
     {
@@ -171,8 +202,26 @@ export function playsFromRecipe(recipe: PresetComponent): PlayValues[] {
       roles: parseJson<string[]>(recipe.fields.roles, []),
       tags: [],
       become: true,
+      conditions: {},
+      preTasks: "",
+      postTasks: "",
     },
   ];
+}
+
+function toRenderedPlay(play: PlayValues, fallbackName: string): RenderedPlay {
+  return {
+    name: play.name || fallbackName,
+    hosts: play.hosts,
+    become: play.become,
+    tags: play.tags,
+    roles: play.roles.map((role) => {
+      const when = play.conditions?.[role]?.trim();
+      return when ? { role, when } : role;
+    }),
+    ...(play.preTasks?.trim() ? { pre_tasks: stripYamlDocumentMarker(play.preTasks) } : {}),
+    ...(play.postTasks?.trim() ? { post_tasks: stripYamlDocumentMarker(play.postTasks) } : {}),
+  };
 }
 
 function stripYamlDocumentMarker(yaml: string): string {
@@ -182,6 +231,7 @@ function stripYamlDocumentMarker(yaml: string): string {
 export function toRenderRequest(defaultNamespace: string, values: FormValues): RenderRequest {
   if (values.component === "groupvars") {
     const fields: Record<string, string> = { group: values.group };
+    if (values.layout === "dir") fields.layout = "dir";
     if (values.mode === "yaml") {
       fields.yaml = stripYamlDocumentMarker(values.yaml ?? "");
     } else {
@@ -189,7 +239,9 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
       for (const v of values.vars) if (v.key) vars[v.key] = v.value;
       fields.vars = JSON.stringify(vars);
     }
-    return { reference: REFERENCES.groupvars, name: values.group, defaultNamespace, fields };
+    // The folder layout gets its own name so both layouts can coexist as separate components.
+    const name = values.layout === "dir" ? `${values.group}/main` : values.group;
+    return { reference: REFERENCES.groupvars, name, defaultNamespace, fields };
   }
 
   const base: RenderRequest = { reference: REFERENCES[values.component], name: values.name, defaultNamespace };
@@ -234,7 +286,7 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
       return {
         ...base,
         fields: {
-          plays: JSON.stringify(values.plays.map((p) => ({ ...p, name: p.name || values.name }))),
+          plays: JSON.stringify(values.plays.map((p) => toRenderedPlay(p, values.name))),
           ...(values.folder ? { folder: values.folder.replace(/\/+$/, "") } : {}),
         },
       };
@@ -242,6 +294,8 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
       return { ...base, fields: { playbooks: JSON.stringify(values.imports) } };
     case "commonrole":
       return { ...base, fields: { timezone: values.timezone } };
+    case "role":
+      return { ...base, fields: { description: values.description ?? "" } };
     case "inventory":
       return { ...base, fields: { hosts: JSON.stringify(buildInventoryGroups(values.hosts, values.groups)) } };
   }
@@ -307,12 +361,13 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
       return { component: kind, name: recipe.name, hosts, groups };
     }
     case "groupvars": {
-      if (f.yaml) return { component: kind, group: f.group ?? recipe.name, mode: "yaml", vars: [], yaml: f.yaml };
+      const layout = f.layout === "dir" ? "dir" : "file";
+      if (f.yaml) return { component: kind, group: f.group ?? recipe.name, mode: "yaml", layout, vars: [], yaml: f.yaml };
       const vars = Object.entries(parseJson<Record<string, unknown>>(f.vars, {})).map(([key, value]) => ({
         key,
         value: String(value),
       }));
-      return { component: kind, group: f.group ?? recipe.name, mode: "fields", vars, yaml: "" };
+      return { component: kind, group: f.group ?? recipe.name, mode: "fields", layout, vars, yaml: "" };
     }
     case "playbook":
       return { component: kind, name: recipe.name, folder: f.folder ?? "", plays: playsFromRecipe(recipe) };
@@ -324,5 +379,7 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
       };
     case "commonrole":
       return { component: kind, name: recipe.name, timezone: f.timezone ?? "UTC" };
+    case "role":
+      return { component: kind, name: recipe.name, description: f.description ?? "" };
   }
 }

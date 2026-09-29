@@ -164,6 +164,8 @@ export const groupVarsFormSchema = z
     component: z.literal("groupvars"),
     group: groupName,
     mode: z.enum(["fields", "yaml"]),
+    /** "file" → group_vars/<group>.yml, "dir" → group_vars/<group>/main.yml */
+    layout: z.enum(["file", "dir"]).default("file"),
     // Rows are only checked in key/value mode — a blank starter row mustn't block YAML mode.
     vars: z.array(z.object({ key: z.string(), value: z.string() })),
     yaml: z.string().optional(),
@@ -190,6 +192,10 @@ const playSchema = z.object({
   roles: z.array(z.string()).min(1, "Add at least one role"),
   tags: z.array(z.string()).default([]),
   become: z.boolean().default(true),
+  /** role name → `when:` condition; roles without one render as plain names */
+  conditions: z.record(z.string()).default({}),
+  preTasks: z.string().optional(),
+  postTasks: z.string().optional(),
 });
 export type PlayValues = z.infer<typeof playSchema>;
 
@@ -223,6 +229,15 @@ export const commonRoleFormSchema = z.object({
   timezone: z.string().min(1, "Timezone is required"),
 });
 
+export const roleFormSchema = z.object({
+  component: z.literal("role"),
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .regex(/^[A-Za-z0-9_.-]+$/, "Letters, digits, _ . and - only"),
+  description: z.string().optional(),
+});
+
 export type ComponentKind =
   | "deployment"
   | "service"
@@ -234,4 +249,5 @@ export type ComponentKind =
   | "groupvars"
   | "playbook"
   | "site"
-  | "commonrole";
+  | "commonrole"
+  | "role";

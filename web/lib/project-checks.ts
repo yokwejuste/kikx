@@ -11,6 +11,8 @@ export interface ProjectIssue {
   detail?: string;
   /** Components the issue is about — "Fix" opens the first one. */
   componentIds: string[];
+  /** A one-click fix the Checks view can offer. */
+  action?: { type: "scaffold-roles"; roles: string[] };
 }
 
 const SEVERITY_ORDER: Record<IssueSeverity, number> = { error: 0, warning: 1, info: 2 };
@@ -200,6 +202,22 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
   }
 
   // Group vars.
+  const layoutsByGroup = new Map<string, AddedComponent[]>();
+  for (const gv of components.filter((c) => c.recipe.reference === "ansible/group-vars")) {
+    const group = gv.recipe.fields.group ?? gv.recipe.name;
+    layoutsByGroup.set(group, [...(layoutsByGroup.get(group) ?? []), gv]);
+  }
+  for (const [group, list] of layoutsByGroup) {
+    if (list.length < 2) continue;
+    push({
+      id: `gv-layouts:${group}`,
+      severity: "warning",
+      title: `Group "${group}" has both group_vars/${group}.yml and group_vars/${group}/main.yml`,
+      detail: "Ansible loads and merges both, so a key set twice depends on load order. Keep one layout.",
+      componentIds: list.map((c) => c.id),
+    });
+  }
+
   for (const gv of components.filter((c) => c.recipe.reference === "ansible/group-vars")) {
     const group = gv.recipe.fields.group ?? gv.recipe.name;
     if (hasInventory && !allGroups.has(group)) {
@@ -258,8 +276,9 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
         id: `ext-roles:${pb.id}`,
         severity: "info",
         title: `${pb.recipe.name} uses ${externalRoles.size} role${externalRoles.size > 1 ? "s" : ""} kikx doesn't vendor`,
-        detail: `${Array.from(externalRoles).join(", ")} — these must already exist under roles/ in your repo.`,
+        detail: `${Array.from(externalRoles).join(", ")} — they must already exist under roles/ in your repo, or scaffold empty ones here.`,
         componentIds: [pb.id],
+        action: { type: "scaffold-roles", roles: Array.from(externalRoles) },
       });
     }
   }

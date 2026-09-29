@@ -403,6 +403,56 @@ mod tests {
     }
 
     #[test]
+    fn playbook_renders_conditional_roles_and_pre_post_tasks() {
+        let plays = r#"[{
+            "name":"Database tier","hosts":"db","become":true,"tags":["db"],
+            "pre_tasks":"- name: Annotate start\n  ansible.builtin.include_role:\n    name: monitoring_annotate\n",
+            "roles":["db_repos",{"role":"db_tls","when":"db_tls_enabled | default(false)"},"postgres"],
+            "post_tasks":"- name: Annotate finish\n  ansible.builtin.debug:\n    msg: done\n"
+        }]"#;
+        let content = render("ansible/playbook", "db", &[("plays", plays)])
+            .files
+            .remove(0)
+            .content;
+
+        assert_eq!(
+            content,
+            "---\n- name: Database tier\n  hosts: db\n  become: true\n  tags: [db]\n  pre_tasks:\n    - name: Annotate start\n      ansible.builtin.include_role:\n        name: monitoring_annotate\n  roles:\n    - db_repos\n    - role: db_tls\n      when: db_tls_enabled | default(false)\n    - postgres\n  post_tasks:\n    - name: Annotate finish\n      ansible.builtin.debug:\n        msg: done\n"
+        );
+    }
+
+    #[test]
+    fn group_vars_can_use_the_directory_layout() {
+        let outcome = render(
+            "ansible/group-vars",
+            "all",
+            &[("group", "all"), ("layout", "dir"), ("yaml", "tz: UTC")],
+        );
+        assert_eq!(outcome.files[0].path, PathBuf::from("group_vars/all/main.yml"));
+    }
+
+    #[test]
+    fn role_skeleton_renders_four_files() {
+        let outcome = render("ansible/role", "kube_worker", &[]);
+        let paths: Vec<String> = outcome
+            .files
+            .iter()
+            .map(|f| f.path.display().to_string())
+            .collect();
+        assert_eq!(
+            paths,
+            vec![
+                "roles/kube_worker/tasks/main.yml",
+                "roles/kube_worker/defaults/main.yml",
+                "roles/kube_worker/handlers/main.yml",
+                "roles/kube_worker/meta/main.yml",
+            ]
+        );
+        assert!(outcome.files[0].content.contains("{{ inventory_hostname }}"));
+        assert!(outcome.files[3].content.contains("description: The kube_worker role"));
+    }
+
+    #[test]
     fn rejects_two_files_rendering_to_the_same_path() {
         let item_json = r#"{"name":"dup","category":"acme","files":[{"path":"same.txt","template":"a"},{"path":"same.txt","template":"b"}]}"#;
         let tmp = tempfile::tempdir().unwrap();

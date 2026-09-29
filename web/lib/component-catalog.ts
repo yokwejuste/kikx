@@ -3,6 +3,7 @@ import {
   Braces,
   Cloud,
   Cog,
+  FolderCog,
   Globe,
   ListOrdered,
   ListTree,
@@ -61,6 +62,7 @@ export const CATALOG: CatalogStage[] = [
     entries: [
       { kind: "playbook", label: "Playbook", summary: "One or more plays: group → roles", icon: ScrollText, writes: "<folder>/<name>.yml" },
       { kind: "site", label: "Site playbook", summary: "Imports your playbooks in order", icon: ListOrdered, writes: "<name>.yml" },
+      { kind: "role", label: "Role skeleton", summary: "An empty role to fill in", icon: FolderCog, writes: "roles/<name>/…" },
       { kind: "commonrole", label: "Common role", summary: "A starter host-hygiene role", icon: Cog, writes: "roles/<name>/…" },
       { kind: "ansible", label: "K8s bootstrap", summary: "Installs containerd + kubeadm", icon: Rocket, writes: "<name>-k8s-bootstrap.yml" },
     ],
@@ -99,6 +101,9 @@ export function catalogStage(kind: CatalogKind): CatalogStage {
 export function describeComponent(recipe: PresetComponent): { kind: CatalogKind; kindLabel: string; icon: LucideIcon; title: string } {
   const kind = kindForReference(recipe.reference) ?? "custom";
   const entry = catalogEntry(kind);
-  const title = kind === "groupvars" ? `group_vars/${recipe.fields.group ?? recipe.name}` : recipe.name;
+  const title =
+    kind === "groupvars"
+      ? `group_vars/${recipe.fields.group ?? recipe.name}${recipe.fields.layout === "dir" ? "/main" : ""}`
+      : recipe.name;
   return { kind, kindLabel: kind === "custom" ? recipe.reference : entry.label, icon: entry.icon, title };
 }

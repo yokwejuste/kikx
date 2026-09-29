@@ -11,10 +11,25 @@
 {%- if play.tags %}
   tags: [{{ play.tags | join(", ") }}]
 {%- endif %}
+{%- if play.pre_tasks %}
+  pre_tasks:
+    {{ play.pre_tasks | trim | indent(4) }}
+{%- endif %}
   roles:
 {% for role in play.roles -%}
+{% if role is mapping -%}
+{{ "    - role: " ~ role.role }}
+{% if role.when -%}
+{{ "      when: " ~ role.when }}
+{% endif -%}
+{% else -%}
 {{ "    - " ~ role }}
+{% endif -%}
 {% endfor -%}
+{% if play.post_tasks -%}
+{{ "  post_tasks:" }}
+    {{ play.post_tasks | trim | indent(4) }}
+{% endif -%}
 {% endfor -%}
 {% else -%}
 - name: {{ name }}

@@ -136,9 +136,14 @@ pub fn all() -> Vec<RegistryItem> {
             title: "Group Vars".to_string(),
             description: "Shared variables for one Ansible inventory group (group_vars/<group>.yml)."
                 .to_string(),
-            fields: vec![required_field("group"), field("vars"), field("yaml")],
+            fields: vec![
+                required_field("group"),
+                field("vars"),
+                field("yaml"),
+                field("layout"),
+            ],
             files: vec![file(
-                "group_vars/{{ group }}.yml",
+                "group_vars/{{ group }}{% if layout == \"dir\" %}/main{% endif %}.yml",
                 include_str!("../../templates/ansible/group-vars.yml.jinja"),
             )],
         },
@@ -164,6 +169,31 @@ pub fn all() -> Vec<RegistryItem> {
                 file(
                     "roles/{{ name }}/templates/motd.j2",
                     include_str!("../../templates/ansible/common-role/templates/motd.j2.jinja"),
+                ),
+            ],
+        },
+        RegistryItem {
+            name: "role".to_string(),
+            category: "ansible".to_string(),
+            title: "Role Skeleton".to_string(),
+            description: "An empty role (tasks, defaults, handlers, meta) to fill in — for roles a playbook uses but the repo doesn't have yet.".to_string(),
+            fields: vec![defaulted_field("description", "")],
+            files: vec![
+                file(
+                    "roles/{{ name }}/tasks/main.yml",
+                    include_str!("../../templates/ansible/role/tasks/main.yml.jinja"),
+                ),
+                file(
+                    "roles/{{ name }}/defaults/main.yml",
+                    include_str!("../../templates/ansible/role/defaults/main.yml.jinja"),
+                ),
+                file(
+                    "roles/{{ name }}/handlers/main.yml",
+                    include_str!("../../templates/ansible/role/handlers/main.yml.jinja"),
+                ),
+                file(
+                    "roles/{{ name }}/meta/main.yml",
+                    include_str!("../../templates/ansible/role/meta/main.yml.jinja"),
                 ),
             ],
         },

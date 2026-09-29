@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleAlert, CircleCheck, Info, TriangleAlert } from "lucide-react";
+import { CircleAlert, CircleCheck, FolderCog, Info, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { describeComponent } from "@/lib/component-catalog";
 import type { AddedComponent } from "@/lib/project-context";
@@ -17,10 +17,12 @@ export function ChecksPanel({
   issues,
   components,
   onOpen,
+  onScaffoldRoles,
 }: {
   issues: ProjectIssue[];
   components: AddedComponent[];
   onOpen: (component: AddedComponent) => void;
+  onScaffoldRoles: (roles: string[]) => void;
 }) {
   const byId = new Map(components.map((c) => [c.id, c]));
 
@@ -69,6 +71,12 @@ export function ChecksPanel({
                     </div>
                   </div>
                   <div className="flex shrink-0 flex-wrap gap-1.5 pl-7 sm:pl-0">
+                    {issue.action?.type === "scaffold-roles" && (
+                      <Button type="button" size="sm" onClick={() => onScaffoldRoles(issue.action!.roles)}>
+                        <FolderCog />
+                        Scaffold {issue.action.roles.length} role{issue.action.roles.length > 1 ? "s" : ""}
+                      </Button>
+                    )}
                     {issue.componentIds
                       .filter((id, i, all) => all.indexOf(id) === i)
                       .map((id) => byId.get(id))

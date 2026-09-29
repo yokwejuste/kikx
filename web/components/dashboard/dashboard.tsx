@@ -24,6 +24,8 @@ import {
   playsFromRecipe,
 } from "@/lib/component-form-utils";
 import { downloadProjectZip } from "@/lib/download";
+import { api, ApiClientError } from "@/lib/api-client";
+import { toast } from "sonner";
 
 type View = "build" | "diagram" | "checks";
 
@@ -35,7 +37,7 @@ interface Selection {
 }
 
 export function Dashboard() {
-  const { details, components } = useProject();
+  const { details, components, saveComponent } = useProject();
   const [view, setView] = useState<View>("build");
   const [selection, setSelection] = useState<Selection>({ kind: "inventory", editingId: null, nonce: 0 });
   const [downloading, setDownloading] = useState(false);
@@ -80,6 +82,24 @@ export function Dashboard() {
     });
   };
   const openComponent = (component: AddedComponent) => select(describeComponent(component.recipe).kind, component.id);
+
+  const scaffoldRoles = async (roles: string[]) => {
+    try {
+      for (const role of roles) {
+        const recipe = { reference: "ansible/role", name: role, fields: { description: "" }, labels: {} };
+        const rendered = await api.render({ ...recipe, labels: [], defaultNamespace: details.namespace });
+        saveComponent(
+          recipe,
+          rendered.files.map((f) => ({ fileName: f.path, component: rendered.component, content: f.content })),
+        );
+      }
+      toast.success(`Scaffolded ${roles.length} role${roles.length > 1 ? "s" : ""}`, {
+        description: "Empty tasks/defaults/handlers/meta — open one to see its files.",
+      });
+    } catch (error) {
+      toast.error(error instanceof ApiClientError ? error.message : "Couldn't scaffold those roles");
+    }
+  };
   const attention = issueCounts.error + issueCounts.warning;
 
   return (
@@ -143,7 +163,7 @@ export function Dashboard() {
       </div>
 
       {view === "diagram" && <ProjectDiagram onOpen={openComponent} />}
-      {view === "checks" && <ChecksPanel issues={issues} components={components} onOpen={openComponent} />}
+      {view === "checks" && <ChecksPanel issues={issues} components={components} onOpen={openComponent} onScaffoldRoles={scaffoldRoles} />}
 
       <div
         className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)_280px] lg:items-start"

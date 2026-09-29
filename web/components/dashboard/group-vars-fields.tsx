@@ -17,6 +17,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
   const errors = form.formState.errors as Record<string, { message?: string } | undefined>;
   const mode = ((useWatch({ control: form.control, name: "mode" as never }) as unknown as Mode | undefined) ?? "fields");
   const group = useWatch({ control: form.control, name: "group" as never }) as unknown as string;
+  const layout = useWatch({ control: form.control, name: "layout" as never }) as unknown as "file" | "dir" | undefined;
 
   const switchTo = (next: Mode) => {
     if (next === mode) return;
@@ -64,9 +65,24 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
           ))}
         </datalist>
         <p className="text-xs text-muted-foreground">
-          Writes <code className="font-mono">group_vars/{group || "<group>"}.yml</code>
+          Writes{" "}
+          <code className="font-mono">
+            group_vars/{group || "<group>"}
+            {layout === "dir" ? "/main" : ""}.yml
+          </code>
           {groupNames.length === 0 && " — add an Inventory to pick from its groups."}
         </p>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            className="size-4 rounded border-input accent-primary"
+            checked={layout === "dir"}
+            onChange={(e) =>
+              form.setValue("layout" as never, (e.target.checked ? "dir" : "file") as never, { shouldDirty: true })
+            }
+          />
+          Folder layout (<code className="font-mono text-xs">group_vars/{group || "<group>"}/main.yml</code>)
+        </label>
         <FieldError errors={[errors.group]} />
       </Field>
 

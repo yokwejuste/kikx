@@ -73,6 +73,7 @@ async fn list_components_returns_all_builtins() {
             "ansible/inventory",
             "ansible/group-vars",
             "ansible/common-role",
+            "ansible/role",
             "ansible/playbook",
             "ansible/site",
         ]
