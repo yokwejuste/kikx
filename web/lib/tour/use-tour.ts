@@ -24,11 +24,15 @@ function markSeen(name: TourName) {
 
 type Translate = ReturnType<typeof useTranslations<"tour">>;
 
+function visibleTarget(target: string): Element | undefined {
+  return Array.from(document.querySelectorAll(tourTarget(target))).find((element) => element.getClientRects().length > 0);
+}
+
 function presentSteps(name: TourName, t: Translate): DriveStep[] {
   const steps = TOURS[name]
-    .filter((target) => document.querySelector(tourTarget(target)))
+    .filter((target) => visibleTarget(target))
     .map((target) => ({
-      element: tourTarget(target),
+      element: () => visibleTarget(target) ?? document.body,
       popover: { title: t(`${name}.${target}.title`), description: t(`${name}.${target}.description`) },
     }));
   return steps.map((step, index) =>

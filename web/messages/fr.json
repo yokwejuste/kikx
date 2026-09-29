@@ -178,7 +178,13 @@
       "label": "Depuis une URL de registre",
       "summary": "Charger et générer n'importe quel élément de registre",
       "writes": "défini par l'élément"
-    }
+    },
+    "server": {
+      "label": "Serveur cloud",
+      "summary": "Terraform pour un ou plusieurs serveurs chez le fournisseur de votre choix",
+      "writes": "<name>-<provider>.tf"
+    },
+    "close": "Fermer"
   },
   "editor": {
     "header": {
@@ -258,7 +264,9 @@
       "playbook": "Le nom du fichier, sans .yml.",
       "role": "Écrit {path}. Utilisez ce nom dans un playbook.",
       "k8s": "C'est aussi le label app par défaut : un Deployment et un Service portant le même nom se trouvent automatiquement."
-    }
+    },
+    "provider": "Fournisseur",
+    "providerHelp": "Tous les éléments Terraform du registre sont listés ici. Pour un autre fournisseur, chargez son élément de registre depuis Personnalisé."
   },
   "inventory": {
     "hostsTitle": "Hôtes ({count})",
@@ -626,9 +634,6 @@
     "wholeNumber": "Saisissez un nombre entier",
     "atLeastOne": "La valeur doit être d'au moins 1",
     "pathRequired": "Le chemin est obligatoire",
-    "regionRequired": "La région est obligatoire",
-    "sizeRequired": "La taille est obligatoire",
-    "osImageRequired": "L'image système est obligatoire",
     "hostsRequired": "Les hôtes sont obligatoires",
     "k8sVersionRequired": "La version de Kubernetes est obligatoire",
     "groupNameRequired": "Le nom du groupe est obligatoire",
@@ -653,7 +658,9 @@
     "addImport": "Importez au moins un playbook",
     "timezoneRequired": "Le fuseau horaire est obligatoire",
     "rolesPathRequired": "Le chemin des rôles est obligatoire",
-    "roleNameFormat": "Lettres, chiffres, _ . et - uniquement"
+    "roleNameFormat": "Lettres, chiffres, _ . et - uniquement",
+    "fieldRequired": "Ce champ est obligatoire",
+    "providerRequired": "Choisissez un fournisseur"
   },
   "errors": {
     "notConfigured": "NEXT_PUBLIC_KIKX_API_URL n'est pas défini. Faites-le pointer vers votre backend kikx (voir web/.env.example).",

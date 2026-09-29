@@ -36,6 +36,10 @@ export function registryItem(reference: string): RegistryItem | undefined {
   return current().items.get(reference);
 }
 
+export function registryItemsIn(category: string): RegistryItem[] {
+  return Array.from(current().items.values()).filter((item) => item.category === category);
+}
+
 export function fieldSpec(reference: string, name: string): FieldSpec | undefined {
   return registryItem(reference)?.fields.find((f) => f.name === name);
 }

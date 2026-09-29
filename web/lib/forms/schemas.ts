@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { validationMessage as m } from "@/lib/i18n/localized-error";
+import { registryItem } from "@/lib/registry/store";
 
 const IPV4_RE = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
 const HOSTNAME_RE = /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$/;
@@ -62,23 +63,20 @@ export const ingressFormSchema = z.object({
   port: port(),
 });
 
-const serverFields = {
-  name: z.string().min(1, m("nameRequired")),
-  region: z.string().min(1, m("regionRequired")),
-  size: z.string().min(1, m("sizeRequired")),
-  osImage: z.string().min(1, m("osImageRequired")),
-  count: atLeastOne(),
-};
-
-export const digitalOceanFormSchema = z.object({
-  component: z.literal("digitalocean"),
-  ...serverFields,
-});
-
-export const hetznerFormSchema = z.object({
-  component: z.literal("hetzner"),
-  ...serverFields,
-});
+export const serverFormSchema = z
+  .object({
+    component: z.literal("server"),
+    name: z.string().min(1, m("nameRequired")),
+    provider: z.string().min(1, m("providerRequired")),
+    fields: z.record(z.string(), z.string()),
+  })
+  .superRefine((values, context) => {
+    for (const spec of registryItem(values.provider)?.fields ?? []) {
+      if (spec.required && !(values.fields[spec.name] ?? "").trim()) {
+        context.addIssue({ code: "custom", path: ["fields", spec.name], message: m("fieldRequired") });
+      }
+    }
+  });
 
 export const ansibleFormSchema = z.object({
   component: z.literal("ansible"),

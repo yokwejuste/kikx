@@ -43,8 +43,7 @@ export const CATALOG: CatalogStage[] = [
   {
     id: "provision",
     entries: [
-      { kind: "hetzner", icon: Cloud },
-      { kind: "digitalocean", icon: Cloud },
+      { kind: "server", icon: Cloud },
     ],
   },
   {
@@ -85,7 +84,7 @@ const BY_KIND = new Map(CATALOG.flatMap((stage) => stage.entries.map((slot) => [
 
 export function catalogEntry(kind: CatalogKind): CatalogEntry {
   const { slot } = BY_KIND.get(kind)!;
-  if (kind === "custom") return { ...slot, label: "", summary: "", writes: null };
+  if (kind === "custom" || kind === "server") return { ...slot, label: "", summary: "", writes: null };
   const reference = REFERENCES[kind];
   const item = registryItem(reference);
   return {
@@ -104,5 +103,7 @@ export function describeComponent(recipe: PresetComponent): { kind: CatalogKind;
   const kind = kindForReference(recipe.reference) ?? "custom";
   const entry = catalogEntry(kind);
   const title = kind === "groupvars" ? groupVarsPath(recipe.fields.group ?? recipe.name, recipe.fields.layout) : recipe.name;
-  return { kind, kindLabel: kind === "custom" ? recipe.reference : entry.label, icon: entry.icon, title };
+  const kindLabel =
+    kind === "custom" ? recipe.reference : kind === "server" ? (registryItem(recipe.reference)?.title ?? recipe.reference) : entry.label;
+  return { kind, kindLabel, icon: entry.icon, title };
 }

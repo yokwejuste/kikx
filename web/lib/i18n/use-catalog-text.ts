@@ -13,8 +13,8 @@ export function useCatalogText() {
     const pick = (key: string, fallback: string) => (registry.has(key) ? registry(key) : fallback);
     const entry = (kind: CatalogKind) => {
       const base = catalogEntry(kind);
-      if (kind === "custom") {
-        return { ...base, label: t("custom.label"), summary: t("custom.summary"), writes: t("custom.writes") };
+      if (kind === "custom" || kind === "server") {
+        return { ...base, label: t(`${kind}.label`), summary: t(`${kind}.summary`), writes: t(`${kind}.writes`) };
       }
       return {
         ...base,
@@ -23,15 +23,22 @@ export function useCatalogText() {
         writes: base.writes ?? t("custom.writes"),
       };
     };
+    const itemName = (reference: string) => reference.split("/").pop() ?? reference;
     return {
       stage: (id: StageId) => ({ label: t(`stages.${id}.label`), hint: t(`stages.${id}.hint`) }),
       entry,
       describe: (recipe: PresetComponent) => {
         const described = describeComponent(recipe);
-        return described.kind === "custom" ? described : { ...described, kindLabel: entry(described.kind).label };
+        if (described.kind === "custom") return described;
+        if (described.kind === "server") {
+          return { ...described, kindLabel: pick(`${itemName(recipe.reference)}.title`, described.kindLabel) };
+        }
+        return { ...described, kindLabel: entry(described.kind).label };
       },
-      fieldHelp: (kind: CatalogKind, field: string, fallback: string | null | undefined) =>
+      fieldHelp: (kind: CatalogKind | string, field: string, fallback: string | null | undefined) =>
         pick(`${kind}.fields.${field}`, fallback ?? "") || undefined,
+      provider: (reference: string, fallback: string) => pick(`${itemName(reference)}.title`, fallback),
+      providerKey: itemName,
       preset: (name: string, field: "title" | "description", fallback: string) => pick(`presets.${name}.${field}`, fallback),
     };
   }, [t, registry]);

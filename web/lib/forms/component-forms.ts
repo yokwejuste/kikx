@@ -4,14 +4,13 @@ import { groupVarsRecord } from "@/lib/ansible/group-vars";
 import { playsFromRecipe, siteImportsFromRecipe, stripYamlDocumentMarker, toRenderedPlay } from "@/lib/ansible/playbook";
 import type { RenderRequest } from "@/lib/api/client";
 import type { PresetComponent } from "@/lib/project/preset";
-import { kindForReference, REFERENCES, type ComponentKind } from "@/lib/registry/references";
-import { fieldDefault, fieldNumber } from "@/lib/registry/store";
+import { kindForReference, REFERENCES, SERVER_CATEGORY, type ComponentKind } from "@/lib/registry/references";
+import { fieldDefault, fieldNumber, registryItem, registryItemsIn } from "@/lib/registry/store";
 import {
   deploymentFormSchema,
   serviceFormSchema,
   ingressFormSchema,
-  digitalOceanFormSchema,
-  hetznerFormSchema,
+  serverFormSchema,
   ansibleFormSchema,
   inventoryFormSchema,
   groupVarsFormSchema,
@@ -27,8 +26,7 @@ export const schemas = {
   deployment: deploymentFormSchema,
   service: serviceFormSchema,
   ingress: ingressFormSchema,
-  digitalocean: digitalOceanFormSchema,
-  hetzner: hetznerFormSchema,
+  server: serverFormSchema,
   ansible: ansibleFormSchema,
   inventory: inventoryFormSchema,
   groupvars: groupVarsFormSchema,
@@ -45,7 +43,21 @@ export function emptyPlay(): PlayValues {
   return { name: "", hosts: "", roles: [], tags: [], become: true, conditions: {}, preTasks: "", postTasks: "" };
 }
 
+export function serverProviders() {
+  return registryItemsIn(SERVER_CATEGORY).sort((a, b) => a.title.localeCompare(b.title));
+}
+
+export function serverFieldDefaults(provider: string, current: Record<string, string> = {}): Record<string, string> {
+  return Object.fromEntries(
+    (registryItem(provider)?.fields ?? []).map((spec) => [spec.name, current[spec.name] ?? spec.default ?? ""]),
+  );
+}
+
 export function defaultsFor(kind: ComponentKind): FormValues {
+  if (kind === "server") {
+    const provider = serverProviders()[0]?.reference ?? "";
+    return { component: kind, name: "", provider, fields: serverFieldDefaults(provider) };
+  }
   const ref = REFERENCES[kind];
   const num = (field: string) => fieldNumber(ref, field) as number;
   const str = (field: string) => fieldDefault(ref, field) ?? "";
@@ -56,9 +68,6 @@ export function defaultsFor(kind: ComponentKind): FormValues {
       return { component: kind, name: "", namespace: "", labels: [], port: num("port"), targetPort: fieldNumber(ref, "target_port") };
     case "ingress":
       return { component: kind, name: "", namespace: "", labels: [], host: str("host"), path: str("path"), service: str("service"), port: num("port") };
-    case "digitalocean":
-    case "hetzner":
-      return { component: kind, name: "", region: str("region"), size: str("size"), osImage: str("os_image"), count: num("count") };
     case "ansible":
       return { component: kind, name: "", hosts: str("hosts"), k8sVersion: str("k8s_version") };
     case "inventory":
@@ -105,6 +114,11 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
     return { reference: REFERENCES.groupvars, name, defaultNamespace, fields };
   }
 
+  if (values.component === "server") {
+    const fields = Object.fromEntries(Object.entries(values.fields).filter(([, value]) => value.trim() !== ""));
+    return { reference: values.provider, name: values.name, defaultNamespace, fields };
+  }
+
   const base: RenderRequest = { reference: REFERENCES[values.component], name: values.name, defaultNamespace };
 
   switch (values.component) {
@@ -134,12 +148,6 @@ export function toRenderRequest(defaultNamespace: string, values: FormValues): R
         path: values.path,
         service: values.service || undefined,
         port: values.port,
-      };
-    case "digitalocean":
-    case "hetzner":
-      return {
-        ...base,
-        fields: { region: values.region, size: values.size, os_image: values.osImage, count: values.count.toString() },
       };
     case "ansible":
       return { ...base, fields: { hosts: values.hosts, k8s_version: values.k8sVersion } };
@@ -204,16 +212,8 @@ export function recipeToFormValues(recipe: PresetComponent): FormValues | null {
         service: f.service ?? "",
         port: num(f.port, "port"),
       };
-    case "digitalocean":
-    case "hetzner":
-      return {
-        component: kind,
-        name: recipe.name,
-        region: f.region ?? "",
-        size: f.size ?? "",
-        osImage: str(f.os_image, "os_image"),
-        count: num(f.count, "count"),
-      };
+    case "server":
+      return { component: kind, name: recipe.name, provider: recipe.reference, fields: serverFieldDefaults(recipe.reference, f) };
     case "ansible":
       return { component: kind, name: recipe.name, hosts: f.hosts ?? "", k8sVersion: f.k8s_version ?? "" };
     case "inventory": {
