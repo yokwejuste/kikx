@@ -73,8 +73,8 @@ msgstr "Cette commande écrit les quatre fichiers sous `roles/nginx/`. `meta/mai
 msgid "`defaults/main.yml` starts with a single `nginx_enabled: true`. Dashes in the role name become underscores in the variable and in `role_name`."
 msgstr "`defaults/main.yml` commence avec un unique `nginx_enabled: true`. Les tirets du nom du rôle deviennent des tirets bas dans la variable et dans `role_name`."
 
-msgid "`kikx add` won't overwrite a role you've already started filling in. It stops with `already exists — pass --force to overwrite`, so only pass `--force` if you want the empty skeleton back."
-msgstr "`kikx add` n'écrase pas un rôle que vous avez déjà commencé à remplir. Il s'arrête avec `already exists — pass --force to overwrite` ; ne passez donc `--force` que si vous voulez retrouver le squelette vide."
+msgid "`kikx add` won't overwrite a role you've already started filling in. It stops with `already exists. Pass --force to overwrite`, so only pass `--force` if you want the empty skeleton back."
+msgstr "`kikx add` n'écrase pas un rôle que vous avez déjà commencé à remplir. Il s'arrête avec `already exists. Pass --force to overwrite` ; ne passez donc `--force` que si vous voulez retrouver le squelette vide."
 
 msgid "See also"
 msgstr "Voir aussi"

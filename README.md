@@ -21,7 +21,6 @@ no runtime package to upgrade, no black box to debug later.
 
 </div>
 
----
 
 Instead of installing a hidden dependency or generating output you have to trust blindly, `kikx`
 renders a template with the values you gave it and writes the result into your project: plain
@@ -123,7 +122,7 @@ kikx ships ready-made preset templates. List them with `kikx presets`, or pick o
 dashboard's home page under "Start from a template".
 
 | Template | What you get |
-|---|---|
+|-|-|
 | `k8s-web-app` | A frontend and an API behind ingresses, plus a background worker |
 | `single-server` | One DigitalOcean droplet configured by Ansible: inventory, common role, playbook, site |
 | `kubeadm-cluster` | Hetzner servers bootstrapped into a three-node control plane and three workers |
@@ -156,7 +155,7 @@ CLI, the HTTP API or the dashboard. The registry is also where each field's defa
 allowed choices live, so no client repeats them.
 
 | Reference | What it renders |
-|---|---|
+|-|-|
 | `ansible/inventory` | An `.ini` inventory. Hosts can sit in several groups; groups can nest with `:children` and share vars with `:vars` |
 | `ansible/group-vars` | `group_vars/<group>.yml` or `group_vars/<group>/main.yml`, as key/value pairs or raw YAML |
 | `ansible/playbook` | A playbook with one or more plays, each with its group, ordered roles, per-role `when:`, tags, `become`, and `pre_tasks`/`post_tasks` |
@@ -247,12 +246,12 @@ flowchart LR
 
     Disk[("Your project\nkikx.toml + infra/")]
 
-    Term -- "kikx init / add / list / setup / apply" --> CLI
-    Browser -- "build, preview, check, download" --> Web
-    Web -- "HTTP + JSON (registry, config, render)" --> Backend
-    CLI --> Core
-    Backend --> Core
-    Core -- "reads / writes" --> Disk
+    Term ==>|"kikx init / add / list / setup / apply"| CLI
+    Browser ==>|"build, preview, check, download"| Web
+    Web ==>|"HTTP + JSON (registry, config, render)"| Backend
+    CLI ==> Core
+    Backend ==> Core
+    Core ==>|"reads / writes"| Disk
 ```
 
 - **`cli/`**: the `kikx` binary (`init`, `add`, `list`, `setup`, `apply`). It talks straight to

@@ -1,4 +1,3 @@
----
 {% for p in playbooks -%}
 - name: {{ p.name }}
   import_playbook: {{ p.path }}

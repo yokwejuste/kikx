@@ -14,7 +14,7 @@ project.
 ## Files
 
 | File | Use |
-|---|---|
+|-|-|
 | `kikx-mark.svg` | The mark in black, on light backgrounds |
 | `kikx-mark-white.svg` | The mark in white, on dark backgrounds |
 | `kikx-favicon.svg` | Browser icon; follows the system light or dark theme |
@@ -38,7 +38,7 @@ make -C brand social FONT_DIR=/path/to/geist
 kikx is black and white. There is no accent colour.
 
 | Name | Hex | Use |
-|---|---|---|
+|-|-|-|
 | Ink | `#0a0a0a` | The mark, text and dark backgrounds |
 | Paper | `#fafafa` | The mark on dark backgrounds |
 | White | `#ffffff` | Light backgrounds |

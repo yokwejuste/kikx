@@ -7,7 +7,7 @@ kikx <COMMAND>
 ```
 
 | Command | Purpose | Reads `kikx.toml` | Writes `kikx.toml` |
-|---|---|---|---|
+|-|-|-|-|
 | [`init`](#kikx-init) | Create a project | no | yes |
 | [`add`](#kikx-add) | Render one component into the output directory | yes | no |
 | [`list`](#kikx-list) | Print the built-in components | no | no |
@@ -18,7 +18,7 @@ kikx <COMMAND>
 Global options:
 
 | Option | Effect |
-|---|---|
+|-|-|
 | `-h`, `--help` | Print help |
 | `-V`, `--version` | Print the version, for example `kikx 0.0.1` |
 
@@ -50,7 +50,7 @@ Options:
 ## Exit status
 
 | Status | Cause |
-|---|---|
+|-|-|
 | `0` | Success |
 | `1` | Operation error. The message is printed to stderr as `Error: <message>`, followed by `Caused by:` lines when present |
 | `2` | Argument parsing error, for example a missing required option, a `--label` or `--set` value without `=`, or a number out of range |
@@ -64,21 +64,21 @@ kikx init [OPTIONS]
 Writes `kikx.toml` in the current directory and creates the output directory.
 
 | Option | Type | Default | Description |
-|---|---|---|---|
-| `--name <NAME>` | string | name of the current directory, or `kikx-project` when it has none | Project name, stored as `project.name` |
-| `--dir <DIR>` | path | `k8s` | Output directory, stored as `project.output_dir` |
-| `--namespace <NAMESPACE>` | string | `default` | Default namespace, stored as `project.default_namespace` |
-| `--force` | flag | off | Overwrite an existing `kikx.toml` |
+|-|-|-|-|
+| `-n`, `--name <NAME>` | string | name of the current directory, or `kikx-project` when it has none | Project name, stored as `project.name` |
+| `-d`, `--dir <DIR>` | path | `k8s` | Output directory, stored as `project.output_dir` |
+| `-N`, `--namespace <NAMESPACE>` | string | `default` | Default namespace, stored as `project.default_namespace` |
+| `-f`, `--force` | flag | off | Overwrite an existing `kikx.toml` |
 
 | Condition | Result |
-|---|---|
-| `kikx.toml` exists, no `--force` | Exit `1`: ``kikx.toml already exists in <dir> — pass --force to overwrite`` |
+|-|-|
+| `kikx.toml` exists, no `--force` | Exit `1`: ``kikx.toml already exists in <dir>. Pass --force to overwrite`` |
 | `kikx.toml` exists, `--force` | `kikx.toml` is replaced. Files already in the output directory are kept |
 
 Output on success:
 
 ```
-Initialized kikx project `demo` — vendor components with `kikx add <category>/<component>` (see `kikx list`)
+Initialized kikx project `demo`. Vendor components with `kikx add <category>/<component>` (see `kikx list`)
 ```
 
 ## `kikx add`
@@ -90,36 +90,36 @@ kikx add [OPTIONS] --name <NAME> <REFERENCE>
 Renders one component with the project's `default_namespace` and writes its files under the project's `output_dir`.
 
 | Argument | Description |
-|---|---|
+|-|-|
 | `<REFERENCE>` | Built-in reference (`k8s/deployment`), URL, or local path to a `registry-item.json`. See [Registry item format](registry-item-format.md#reference-resolution) |
 
 | Option | Type | Default | Sets field |
-|---|---|---|---|
-| `--name <NAME>` | string | required | `name` in the template context |
-| `--image <IMAGE>` | string | registry default | `image` |
-| `--replicas <REPLICAS>` | unsigned 32-bit integer | registry default | `replicas` |
-| `--port <PORT>` | integer `0`–`65535` | registry default | `port` |
-| `--target-port <TARGET_PORT>` | integer `0`–`65535` | registry default | `target_port` |
-| `--namespace <NAMESPACE>` | string | `project.default_namespace` | `namespace` |
-| `--host <HOST>` | string | registry default | `host` |
-| `--path <PATH>` | string | registry default | `path` |
-| `--service <SERVICE>` | string | registry default | `service` |
-| `--label <KEY=VALUE>` | key/value, repeatable | `app=<name>` | an entry of `labels` |
-| `--set <KEY=VALUE>` | key/value, repeatable | — | field `KEY` |
-| `--force` | flag | off | Overwrite existing files |
+|-|-|-|-|
+| `-n`, `--name <NAME>` | string | required | `name` in the template context |
+| `-i`, `--image <IMAGE>` | string | registry default | `image` |
+| `-r`, `--replicas <REPLICAS>` | unsigned 32-bit integer | registry default | `replicas` |
+| `-p`, `--port <PORT>` | integer `0` to `65535` | registry default | `port` |
+| `-t`, `--target-port <TARGET_PORT>` | integer `0` to `65535` | registry default | `target_port` |
+| `-N`, `--namespace <NAMESPACE>` | string | `project.default_namespace` | `namespace` |
+| `-H`, `--host <HOST>` | string | registry default | `host` |
+| `-P`, `--path <PATH>` | string | registry default | `path` |
+| `-S`, `--service <SERVICE>` | string | registry default | `service` |
+| `-l`, `--label <KEY=VALUE>` | key/value, repeatable | `app=<name>` | an entry of `labels` |
+| `-s`, `--set <KEY=VALUE>` | key/value, repeatable |  | field `KEY` |
+| `-f`, `--force` | flag | off | Overwrite existing files |
 
 Field precedence, highest first: `--set`, the dedicated option (`--image`, `--port`, …), the registry default. A later `--set` for the same key wins over an earlier one. `--label app=<value>` replaces the default `app` label.
 
 The dedicated options set their field on any component. A field the component does not declare is still passed to the template.
 
 | Condition | Result |
-|---|---|
-| No `kikx.toml` in the current directory | Exit `1`: ``no kikx.toml found in <dir> — run `kikx init` first`` |
-| Unknown reference | Exit `1`: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json `` |
-| Required field missing with no default | Exit `1`: `--<field> is required for <reference>` |
-| Rendered path is absolute | Exit `1`: ``refusing to write `<path>` — absolute paths are not allowed`` |
-| Rendered path leaves the output directory | Exit `1`: ``refusing to write `<path>` — it escapes the target directory`` |
-| A target file exists, no `--force` | Exit `1`: `<path> already exists — pass --force to overwrite`. No file is written |
+|-|-|
+| No `kikx.toml` in the current directory | Exit `1`: ``no kikx.toml found in <dir>. Run `kikx init` first`` |
+| Unknown reference | Exit `1`: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json `` |
+| Required field missing with no default | Exit `1`: ``field `<field>` is required for <reference>`` |
+| Rendered path is absolute | Exit `1`: ``refusing to write `<path>`: absolute paths are not allowed`` |
+| Rendered path leaves the output directory | Exit `1`: ``refusing to write `<path>`: it escapes the target directory`` |
+| A target file exists, no `--force` | Exit `1`: `<path> already exists. Pass --force to overwrite`. No file is written |
 | Template error | Exit `1` with the template engine message |
 
 Output on success, one line per file:
@@ -147,7 +147,7 @@ Each field line shows, when present: `required`, `default <value>` (omitted for 
 ```
 Available components:
 
-  k8s/deployment — Pods running one container image.
+  k8s/deployment: Pods running one container image.
       --set image=…  (required; e.g. nginx:1.27)
       --set replicas=…  (default 1)
       --set port=…  (default 80)
@@ -166,19 +166,19 @@ Prints every built-in preset template with its name, title, component count and 
 ```
 Preset templates:
 
-  k8s-web-app — Kubernetes web app (7 components)
+  k8s-web-app: Kubernetes web app (7 components)
       A web frontend and an API behind ingresses, plus a background worker.
 
-  single-server — Single server with Ansible (7 components)
+  single-server: Single server with Ansible (7 components)
       One DigitalOcean droplet, configured by a common role through a site playbook.
 
-  kubeadm-cluster — Kubernetes cluster with kubeadm (11 components)
+  kubeadm-cluster: Kubernetes cluster with kubeadm (11 components)
       Hetzner servers bootstrapped into a three-node control plane and three workers.
 
-  web-and-database — Web servers and a database (13 components)
+  web-and-database: Web servers and a database (13 components)
       Existing servers split into a web tier and a PostgreSQL primary with a replica.
 
-  multi-tier-platform — Multi-tier platform (35 components)
+  multi-tier-platform: Multi-tier platform (35 components)
       A storefront platform: edge load balancers, web/app tiers, PostgreSQL primary + replicas, Redis, monitoring and a Kubernetes cluster.
 
 Start one with `kikx setup <name>`, or add it to a project with `kikx apply <name>`.
@@ -195,25 +195,25 @@ kikx setup [OPTIONS] <REFERENCE>
 Renders every component of a preset into the preset's output directory, then writes `kikx.toml`.
 
 | Argument | Description |
-|---|---|
+|-|-|
 | `<REFERENCE>` | Template name (see [`kikx presets`](#kikx-presets)), URL (`http://` or `https://`) or local path to a preset file. See [Preset format](preset-format.md#location) |
 
 | Option | Type | Default | Description |
-|---|---|---|---|
-| `--force` | flag | off | Overwrite an existing `kikx.toml` and existing files |
+|-|-|-|-|
+| `-f`, `--force` | flag | off | Overwrite an existing `kikx.toml` and existing files |
 
 Values taken from the preset's `project` object:
 
 | `kikx.toml` key | From | When `project` is absent |
-|---|---|---|
+|-|-|-|
 | `name` | `project.name`, else the current directory name | current directory name |
 | `default_namespace` | `project.namespace` (default `default`) | `default` |
 | `output_dir` | `project.outputDir` (default `k8s`) | `k8s` |
 
 | Condition | Result |
-|---|---|
+|-|-|
 | `kikx.toml` exists, no `--force` | Exit `1`, nothing written |
-| Reference is not a template name, a URL or an existing file | Exit `1`: `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates `` |
+| Reference is not a template name, a URL or an existing file | Exit `1`: `` `<reference>` isn't a template name, a URL or an existing local file. Run `kikx presets` to see the templates `` |
 | Preset does not parse | Exit `1`: `<reference> is not a valid kikx preset manifest` |
 | Two components render the same path | Exit `1`: ``two files rendered to the same path: `<path>` `` |
 | A target file exists, no `--force` | Exit `1`, no file and no `kikx.toml` written |
@@ -221,7 +221,7 @@ Values taken from the preset's `project` object:
 Output on success:
 
 ```
-Initialized kikx project `multi-tier-platform` — wrote 77 file(s) to /home/user/demo/infra
+Initialized kikx project `multi-tier-platform`: wrote 77 file(s) to /home/user/demo/infra
   /home/user/demo/infra/edge-hetzner.tf
   ...
 ```
@@ -241,13 +241,13 @@ kikx apply [OPTIONS] <REFERENCE>
 Renders every component of a preset into the current directory, or into `--into`. Never reads or writes `kikx.toml`. The namespace is `project.namespace` from the preset, else `default`. The preset's `project.outputDir` is not used.
 
 | Argument | Description |
-|---|---|
+|-|-|
 | `<REFERENCE>` | Template name, URL or local path to a preset file |
 
 | Option | Type | Default | Description |
-|---|---|---|---|
-| `--into <INTO>` | path | current directory | Directory to write into, joined to the current directory |
-| `--force` | flag | off | Overwrite existing files |
+|-|-|-|-|
+| `-i`, `--into <INTO>` | path | current directory | Directory to write into, joined to the current directory |
+| `-f`, `--force` | flag | off | Overwrite existing files |
 
 Error conditions are those of [`setup`](#kikx-setup), except the `kikx.toml` check.
 

@@ -6,7 +6,7 @@ pub fn run() -> Result<()> {
     for template in presets::templates() {
         println!();
         println!(
-            "  {} — {} ({} components)",
+            "  {}: {} ({} components)",
             template.name,
             template.title,
             template.components.len()

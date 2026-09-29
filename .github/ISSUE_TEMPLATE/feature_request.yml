@@ -14,7 +14,7 @@ body:
     id: proposal
     attributes:
       label: Proposed shape
-      description: A new registry component, a CLI flag, a dashboard change — whatever form this would take.
+      description: A new registry component, a CLI flag, a dashboard change, whatever form this would take.
     validations:
       required: false
 

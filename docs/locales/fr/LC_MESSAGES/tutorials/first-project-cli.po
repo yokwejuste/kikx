@@ -223,8 +223,8 @@ msgstr "Vérifier avec Ansible"
 msgid "Now make sure Ansible agrees. Move into the output directory:"
 msgstr "Assurez-vous maintenant qu'Ansible est d'accord. Placez-vous dans le répertoire de sortie :"
 
-msgid "Ask Ansible to draw the inventory. `uvx` fetches `ansible-core` the first time, which takes a moment:"
-msgstr "Demandez à Ansible de dessiner l'inventaire. `uvx` récupère `ansible-core` la première fois, ce qui prend un moment :"
+msgid "Ask Ansible which hosts the `platform` group contains. `uvx` fetches `ansible-core` the first time, which takes a moment:"
+msgstr "Demandez à Ansible quels hôtes contient le groupe `platform`. `uvx` récupère `ansible-core` la première fois, ce qui prend un moment :"
 
 msgid "Ask what Ansible knows about `db-01`:"
 msgstr "Demandez ce qu'Ansible sait de `db-01` :"

@@ -32,10 +32,10 @@ This gives one `web1` row in groups `web` and `monitored`, with the address and 
 ### Warnings you may see
 
 | Warning | What to do |
-|---|---|
-| `Line N: "…" is outside any [group] section — skipped.` | Put the host under a `[group]` header, or ignore it if you didn't need it. |
-| `web1: ansible_host is "192.0.2.10" in one group but "192.0.2.11" in [db] — kept the first.` | The same name points at two machines. Rename one of the hosts, or fix the address after the import. |
-| `web1 has no ansible_host — Ansible will try to resolve the name itself.` | Fine if the name resolves in DNS. Otherwise, add an address in the host row. |
+|-|-|
+| `Line N: "…" is outside any [group] section, so it was skipped.` | Put the host under a `[group]` header, or ignore it if you didn't need it. |
+| `web1: ansible_host is "192.0.2.10" in one group but "192.0.2.11" in [db]. Kept the first.` | The same name points at two machines. Rename one of the hosts, or fix the address after the import. |
+| `web1 has no ansible_host. Ansible will try to resolve the name itself.` | Fine if the name resolves in DNS. Otherwise, add an address in the host row. |
 
 Comment lines starting with `#` or `;` are ignored and aren't kept.
 

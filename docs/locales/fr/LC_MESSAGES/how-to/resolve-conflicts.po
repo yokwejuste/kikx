@@ -25,8 +25,8 @@ msgstr "Un fichier existe déjà"
 msgid "A project allows only one component per file. If the component you're saving would write a file another component already writes, the dashboard shows the conflict before it saves:"
 msgstr "Un projet n'autorise qu'un seul composant par fichier. Si le composant que vous enregistrez écrirait un fichier déjà écrit par un autre composant, le tableau de bord affiche le conflit avant d'enregistrer :"
 
-msgid "With the form still open, the save bar warns you: *Saving replaces `<file>` — currently from `<component>`*."
-msgstr "Tant que le formulaire est ouvert, la barre d'enregistrement vous avertit : *Saving replaces `<file>` — currently from `<component>`*."
+msgid "With the form still open, the save bar warns you: *Saving replaces `<file>`, currently from `<component>`*."
+msgstr "Tant que le formulaire est ouvert, la barre d'enregistrement vous avertit : *Saving replaces `<file>`, currently from `<component>`*."
 
 msgid "When you click **Add to project** or **Save changes**, a dialog opens titled **This file already exists** (or **N files already exist**)."
 msgstr "Lorsque vous cliquez sur « Add to project » ou « Save changes », une boîte de dialogue s'ouvre avec le titre « This file already exists » (ou « N files already exist »)."
@@ -58,8 +58,8 @@ msgstr "La même chose avec la CLI"
 msgid "The CLI refuses instead of asking, and writes nothing:"
 msgstr "La CLI refuse au lieu de demander, et n'écrit rien :"
 
-msgid "`kikx add` and `kikx apply` stop with `<file> already exists — pass --force to overwrite`. Re-run with `--force` to overwrite. The files you don't re-render stay on disk."
-msgstr "`kikx add` et `kikx apply` s'arrêtent avec `<file> already exists — pass --force to overwrite`. Relancez avec `--force` pour écraser. Les fichiers dont vous n'effectuez pas de nouveau rendu restent sur le disque."
+msgid "`kikx add` and `kikx apply` stop with `<file> already exists. Pass --force to overwrite`. Re-run with `--force` to overwrite. The files you don't re-render stay on disk."
+msgstr "`kikx add` et `kikx apply` s'arrêtent avec `<file> already exists. Pass --force to overwrite`. Relancez avec `--force` pour écraser. Les fichiers dont vous n'effectuez pas de nouveau rendu restent sur le disque."
 
 msgid "A preset where two components render the same path stops with ``two files rendered to the same path: `<file>` ``. Rename one of them in the preset."
 msgstr "Un preset dans lequel deux composants rendent le même chemin s'arrête avec ``two files rendered to the same path: `<file>` ``. Renommez l'un d'eux dans le preset."

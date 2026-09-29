@@ -9,7 +9,7 @@ The `kikx` CLI is released from a git tag. Pushing a tag that matches `v*.*.*` r
 3. Builds the CLI in release mode for every platform and publishes the archives on a GitHub Release.
 
 | Platform | Target | Asset |
-|---|---|---|
+|-|-|-|
 | macOS, Apple silicon | `aarch64-apple-darwin` | `kikx-<version>-macos-arm64.tar.gz` |
 | macOS, Intel | `x86_64-apple-darwin` | `kikx-<version>-macos-x64.tar.gz` |
 | Linux, x64 | `x86_64-unknown-linux-gnu` | `kikx-<version>-linux-x64.tar.gz` |

@@ -44,7 +44,6 @@ kikx add ansible/role --name nginx --set 'description=Serves the storefront'
 This writes the four files under `roles/nginx/`. `meta/main.yml` gets the description:
 
 ```yaml
----
 galaxy_info:
   role_name: nginx
   description: Serves the storefront
@@ -53,7 +52,7 @@ dependencies: []
 
 `defaults/main.yml` starts with a single `nginx_enabled: true`. Dashes in the role name become underscores in the variable and in `role_name`.
 
-`kikx add` won't overwrite a role you've already started filling in. It stops with `already exists — pass --force to overwrite`, so only pass `--force` if you want the empty skeleton back.
+`kikx add` won't overwrite a role you've already started filling in. It stops with `already exists. Pass --force to overwrite`, so only pass `--force` if you want the empty skeleton back.
 
 ## See also
 

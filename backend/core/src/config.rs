@@ -40,7 +40,7 @@ impl KikxConfig {
         let path = Self::config_path(cwd);
         let text = std::fs::read_to_string(&path).with_context(|| {
             format!(
-                "no {CONFIG_FILE_NAME} found in {} — run `kikx init` first",
+                "no {CONFIG_FILE_NAME} found in {}. Run `kikx init` first",
                 cwd.display()
             )
         })?;

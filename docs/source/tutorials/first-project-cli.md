@@ -26,7 +26,7 @@ You need:
 Download the archive for your platform from the [kikx releases page](https://github.com/yokwejuste/kikx/releases):
 
 | Platform | Archive |
-|---|---|
+|-|-|
 | macOS, Apple silicon | `kikx-<version>-macos-arm64.tar.gz` |
 | macOS, Intel | `kikx-<version>-macos-x64.tar.gz` |
 | Linux, x64 | `kikx-<version>-linux-x64.tar.gz` |
@@ -65,7 +65,7 @@ kikx init --name platform --dir infra
 You should see:
 
 ```text
-Initialized kikx project `platform` — vendor components with `kikx add <category>/<component>` (see `kikx list`)
+Initialized kikx project `platform`. Vendor components with `kikx add <category>/<component>` (see `kikx list`)
 ```
 
 kikx created two things: a `kikx.toml` file and an empty `infra/` directory. Look at the file:
@@ -93,7 +93,7 @@ The output lists every component kikx knows, with the values each one accepts. T
 first looks like this:
 
 ```text
-  ansible/inventory — Hosts, groups, nesting and shared vars for servers you already have.
+  ansible/inventory: Hosts, groups, nesting and shared vars for servers you already have.
       --set hosts=…  (required)
       --set default_user=…  (default root)
       --set default_port=…  (default 22)
@@ -184,10 +184,8 @@ cat infra/group_vars/web.yml infra/group_vars/db/main.yml
 ```
 
 ```yaml
----
 http_port: 8080
 server_name: www.example.com
----
 postgres:
   version: 16
   max_connections: 200
@@ -217,7 +215,6 @@ cat infra/playbooks/services.yml
 ```
 
 ```yaml
----
 - name: Web tier
   hosts: web
   become: true
@@ -257,7 +254,6 @@ cat infra/site.yml
 ```
 
 ```yaml
----
 - name: Services
   import_playbook: playbooks/services.yml
 ```
@@ -288,8 +284,7 @@ cat infra/roles/nginx/tasks/main.yml
 ```
 
 ```yaml
----
-- name: Placeholder — replace with the real tasks for nginx
+- name: Placeholder, replace with the real tasks for nginx
   ansible.builtin.debug:
     msg: "nginx ran on {{ inventory_hostname }}"
 ```
@@ -427,22 +422,18 @@ Now make sure Ansible agrees. Move into the output directory:
 cd infra
 ```
 
-Ask Ansible to draw the inventory. `uvx` fetches `ansible-core` the first time, which takes a
+Ask Ansible which hosts the `platform` group contains. `uvx` fetches `ansible-core` the first time, which takes a
 moment:
 
 ```bash
-uvx --from ansible-core ansible-inventory -i platform-inventory.ini --graph
+uvx --from ansible-core ansible -i platform-inventory.ini platform --list-hosts
 ```
 
 ```text
-@all:
-  |--@ungrouped:
-  |--@platform:
-  |  |--@web:
-  |  |  |--web-01
-  |  |  |--web-02
-  |  |--@db:
-  |  |  |--db-01
+  hosts (3):
+    web-01
+    web-02
+    db-01
 ```
 
 Ask what Ansible knows about `db-01`:
@@ -491,12 +482,12 @@ playbook: site.yml
 
   play #1 (web): Web tier	TAGS: [web]
     tasks:
-      nginx : Placeholder — replace with the real tasks for nginx	TAGS: [web]
+      nginx : Placeholder, replace with the real tasks for nginx	TAGS: [web]
 
   play #2 (db): Database tier	TAGS: [db]
     tasks:
-      postgres : Placeholder — replace with the real tasks for postgres	TAGS: [db]
-      backups : Placeholder — replace with the real tasks for backups	TAGS: [db]
+      postgres : Placeholder, replace with the real tasks for postgres	TAGS: [db]
+      backups : Placeholder, replace with the real tasks for backups	TAGS: [db]
 ```
 
 Both plays, in order, each on its group, with the conditional `backups` role in place.
@@ -511,7 +502,7 @@ kikx add k8s/deployment --name web --image nginx:1.27 --replicas 3
 ```
 
 ```text
-Error: …/platform/infra/web-deployment.yaml already exists — pass --force to overwrite
+Error: …/platform/infra/web-deployment.yaml already exists. Pass --force to overwrite
 ```
 
 kikx never overwrites a file you might have edited without being told to. Tell it:

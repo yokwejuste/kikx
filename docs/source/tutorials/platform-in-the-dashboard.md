@@ -122,7 +122,6 @@ The database servers need some nested settings. In the left column, under **Inve
 The preview shows `group_vars/db/main.yml`:
 
 ```yaml
----
 postgres:
   version: 16
   max_connections: 200
@@ -163,7 +162,6 @@ backups_enabled | default(true)
 The preview shows `playbooks/services.yml`:
 
 ```yaml
----
 - name: Web tier
   hosts: web
   become: true
@@ -194,7 +192,6 @@ Under **Configure**, click **Site playbook**.
 The preview shows `site.yml`:
 
 ```yaml
----
 - name: Services
   import_playbook: playbooks/services.yml
 ```
@@ -258,7 +255,7 @@ vendor**.
 Click **Scaffold 3 roles**. A notification says **Scaffolded 3 roles**, and the page now reads:
 
 ```text
-No conflicts found — hosts, groups, playbooks and manifests all line up.
+No conflicts found. Hosts, groups, playbooks and manifests all line up.
 ```
 
 Click the **Build** tab. The **Project** panel lists `nginx`, `postgres` and `backups` under
@@ -266,8 +263,7 @@ Click the **Build** tab. The **Project** panel lists `nginx`, `postgres` and `ba
 four files, and click `roles/postgres/tasks/main.yml` to read it:
 
 ```yaml
----
-- name: Placeholder — replace with the real tasks for postgres
+- name: Placeholder, replace with the real tasks for postgres
   ansible.builtin.debug:
     msg: "postgres ran on {{ inventory_hostname }}"
 ```
@@ -385,7 +381,7 @@ kikx setup ./platform.kikx-preset.json
 kikx lists the 17 files it wrote. The first line reads:
 
 ```text
-Initialized kikx project `platform` — wrote 17 file(s) to …/rebuilt/infra
+Initialized kikx project `platform`: wrote 17 file(s) to …/rebuilt/infra
 ```
 
 They're the same files as in the zip.

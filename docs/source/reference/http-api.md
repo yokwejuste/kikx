@@ -5,12 +5,12 @@ The `kikx-backend` HTTP API, built from `backend/`. It is stateless, renders onl
 Base URL: `http://127.0.0.1:4000` by default. All paths are under `/api`.
 
 | Method | Path | Request | Response |
-|---|---|---|---|
-| `GET` | [`/api/health`](#get-apihealth) | — | `text/plain` |
-| `GET` | [`/api/components`](#get-apicomponents) | — | `ComponentsResponse` |
-| `GET` | [`/api/registry`](#get-apiregistry) | — | `RegistryResponse` |
-| `GET` | [`/api/config`](#get-apiconfig) | — | `ConfigResponse` |
-| `GET` | [`/api/presets`](#get-apipresets) | — | `PresetsResponse` |
+|-|-|-|-|
+| `GET` | [`/api/health`](#get-apihealth) |  | `text/plain` |
+| `GET` | [`/api/components`](#get-apicomponents) |  | `ComponentsResponse` |
+| `GET` | [`/api/registry`](#get-apiregistry) |  | `RegistryResponse` |
+| `GET` | [`/api/config`](#get-apiconfig) |  | `ConfigResponse` |
+| `GET` | [`/api/presets`](#get-apipresets) |  | `PresetsResponse` |
 | `GET` | [`/api/presets/{name}`](#get-apipresetsname) | path `name` | Preset manifest |
 | `GET` | [`/api/registry/inspect`](#get-apiregistryinspect) | query `ref` | `RegistryItem` |
 | `POST` | [`/api/render`](#post-apirender) | `RenderRequest` JSON | `RenderResponse` |
@@ -36,7 +36,7 @@ Response `200`:
 ```
 
 | Key | Type |
-|---|---|
+|-|-|
 | `components` | array of strings |
 
 ## `GET /api/registry`
@@ -52,13 +52,13 @@ Response `200`:
 The example shows the first item only. The full content is listed in [Components](components.md).
 
 | Key | Type |
-|---|---|
+|-|-|
 | `items` | array of [`RegistryItem`](#registryitem) |
 
 ### `RegistryItem`
 
 | Key | Type | Description |
-|---|---|---|
+|-|-|-|
 | `name` | string | Component name |
 | `category` | string | Component category |
 | `title` | string | Display title, `""` when unset |
@@ -70,7 +70,7 @@ The example shows the first item only. The full content is listed in [Components
 ### `Field`
 
 | Key | Type | Description |
-|---|---|---|
+|-|-|-|
 | `name` | string | Field name |
 | `required` | boolean | Rendering fails when no value and no default |
 | `default` | string or `null` | Value used when none is supplied |
@@ -89,7 +89,7 @@ Response `200`:
 ```
 
 | Key | Type |
-|---|---|
+|-|-|
 | `defaultNamespace` | string |
 | `defaultOutputDir` | string |
 | `defaultProjectName` | string |
@@ -105,13 +105,13 @@ Response `200`:
 ```
 
 | Key | Type |
-|---|---|
+|-|-|
 | `presets` | array of [`PresetSummary`](#presetsummary) |
 
 ### `PresetSummary`
 
 | Key | Type | Description |
-|---|---|---|
+|-|-|-|
 | `name` | string | Template name, accepted by `GET /api/presets/{name}`, `kikx setup` and `kikx apply` |
 | `title` | string | Display title, `""` when unset |
 | `description` | string | One-line description, `""` when unset |
@@ -122,7 +122,7 @@ Response `200`:
 Returns one built-in template as a preset manifest, in the [Preset format](preset-format.md#manifest). Every key is present: `fields` and `labels` are `{}` when the template leaves them out, and `project.name` is `null` when unset. The dashboard renders each component through [`POST /api/render`](#post-apirender) to open it.
 
 | Path parameter | Description |
-|---|---|
+|-|-|
 | `name` | Template name, as listed by [`GET /api/presets`](#get-apipresets) |
 
 Request:
@@ -138,7 +138,7 @@ Response `200`, shortened to the first component:
 ```
 
 | Condition | Status | Body |
-|---|---|---|
+|-|-|-|
 | No template with that name | `404` | ``{"code":"not_found","error":"no preset template named `nope`"}`` |
 
 ## `GET /api/registry/inspect`
@@ -146,7 +146,7 @@ Response `200`, shortened to the first component:
 Resolves one reference and returns its [`RegistryItem`](#registryitem).
 
 | Query parameter | Required | Description |
-|---|---|---|
+|-|-|-|
 | `ref` | yes | Built-in reference, URL, or path to a `registry-item.json`. A relative path is resolved against the backend's working directory. See [Registry item format](registry-item-format.md#reference-resolution) |
 
 Request:
@@ -162,8 +162,8 @@ Response `200`:
 ```
 
 | Condition | Status | Body |
-|---|---|---|
-| Unknown reference | `400` | `` {"code":"invalid_request","error":"`nope/thing` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json"} `` |
+|-|-|-|
+| Unknown reference | `400` | `` {"code":"invalid_request","error":"`nope/thing` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json"} `` |
 | URL fetch fails | `400` | `{"code":"invalid_request","error":"failed to fetch registry item from <url>"}` |
 | File or response is not a registry item | `400` | `{"code":"invalid_request","error":"<ref> is not a valid registry item"}` |
 | `ref` missing | `400` | `text/plain`: ``Failed to deserialize query string: missing field `ref` `` |
@@ -177,20 +177,20 @@ Request headers: `Content-Type: application/json`.
 ### `RenderRequest`
 
 | Key | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `reference` | string | yes | — | Component reference |
-| `name` | string | yes | — | `name` in the template context |
+|-|-|-|-|-|
+| `reference` | string | yes |  | Component reference |
+| `name` | string | yes |  | `name` in the template context |
 | `fields` | object of string to string | no | `{}` | Field values |
 | `labels` | array of `{key, value}` | no | `[]` | Labels. `app` defaults to `name` |
 | `defaultNamespace` | string | no | `default` | Namespace used when no `namespace` field is supplied |
-| `image` | string | no | — | Sets field `image` |
-| `replicas` | unsigned 32-bit integer | no | — | Sets field `replicas` |
-| `port` | integer `0`–`65535` | no | — | Sets field `port` |
-| `targetPort` | integer `0`–`65535` | no | — | Sets field `target_port` |
-| `namespace` | string | no | — | Sets field `namespace` |
-| `host` | string | no | — | Sets field `host` |
-| `path` | string | no | — | Sets field `path` |
-| `service` | string | no | — | Sets field `service` |
+| `image` | string | no |  | Sets field `image` |
+| `replicas` | unsigned 32-bit integer | no |  | Sets field `replicas` |
+| `port` | integer `0` to `65535` | no |  | Sets field `port` |
+| `targetPort` | integer `0` to `65535` | no |  | Sets field `target_port` |
+| `namespace` | string | no |  | Sets field `namespace` |
+| `host` | string | no |  | Sets field `host` |
+| `path` | string | no |  | Sets field `path` |
+| `service` | string | no |  | Sets field `service` |
 
 A key in `fields` wins over the top-level key that sets the same field. Unknown top-level keys are ignored.
 
@@ -209,14 +209,14 @@ Response `200`:
 ### `RenderResponse`
 
 | Key | Type | Description |
-|---|---|---|
+|-|-|-|
 | `component` | string | Component name, without category |
 | `files` | array of `{path, content}` | Rendered path, relative, and file content |
 
 ### Errors
 
 | Condition | Status | Content type | Body |
-|---|---|---|---|
+|-|-|-|-|
 | Unknown or invalid reference | `400` | JSON | `{"code":"invalid_request","error":"..."}` |
 | Required field missing | `400` | JSON | `{"code":"invalid_request","error":"--image is required for k8s/deployment"}` |
 | Two files render to the same path | `400` | JSON | ``{"code":"invalid_request","error":"custom/dup has two files that both render to `a.txt`"}`` |
@@ -234,7 +234,7 @@ Errors raised by kikx use this JSON body, with `content-type: application/json`:
 ```
 
 | `code` | Status |
-|---|---|
+|-|-|
 | `invalid_request` | `400` |
 | `not_found` | `404` |
 | `not_initialized` | `404` |
@@ -246,7 +246,7 @@ Errors raised by kikx use this JSON body, with `content-type: application/json`:
 ## CORS
 
 | Setting | Value |
-|---|---|
+|-|-|
 | Allowed methods | `GET`, `POST` |
 | Allowed request headers | `content-type` |
 | Allowed origins, `KIKX_ALLOWED_ORIGINS` empty | Any origin whose host is `localhost`, `127.0.0.1` or `[::1]`, any scheme and port |

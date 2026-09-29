@@ -55,8 +55,8 @@ msgstr "Le fichier, relativement au répertoire courant"
 msgid "Anything else"
 msgstr "Tout le reste"
 
-msgid "Error: `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
-msgstr "Erreur : `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
+msgid "Error: `` `<reference>` isn't a template name, a URL or an existing local file. Run `kikx presets` to see the templates ``"
+msgstr "Erreur : `` `<reference>` isn't a template name, a URL or an existing local file. Run `kikx presets` to see the templates ``"
 
 msgid "A template name wins over a local file with the same name. Use `./<name>` to load the file instead."
 msgstr "Un nom de template l'emporte sur un fichier local du même nom. Utilisez `./<name>` pour charger le fichier à la place."
@@ -127,8 +127,6 @@ msgstr "tableau de [Composant](#component)"
 msgid "yes"
 msgstr "oui"
 
-msgid "—"
-msgstr "—"
 
 msgid "Components, rendered in order"
 msgstr "Composants, rendus dans l'ordre"

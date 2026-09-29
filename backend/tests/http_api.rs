@@ -83,7 +83,10 @@ async fn render_deployment_without_image_is_bad_request() {
     .await;
     assert_eq!(status, StatusCode::BAD_REQUEST);
     assert_eq!(body["code"], "invalid_request");
-    assert!(body["error"].as_str().unwrap().contains("--image"));
+    assert!(body["error"]
+        .as_str()
+        .unwrap()
+        .contains("field `image` is required"));
 }
 
 #[tokio::test]
@@ -176,7 +179,10 @@ async fn render_ansible_inventory_without_hosts_is_bad_request() {
     )
     .await;
     assert_eq!(status, StatusCode::BAD_REQUEST);
-    assert!(body["error"].as_str().unwrap().contains("--hosts"));
+    assert!(body["error"]
+        .as_str()
+        .unwrap()
+        .contains("field `hosts` is required"));
 }
 
 #[tokio::test]

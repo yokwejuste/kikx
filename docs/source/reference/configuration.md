@@ -9,11 +9,11 @@ The backend and dashboard settings only matter when you run your own instance, f
 `kikx-backend` options:
 
 | Flag | Environment variable | Type | Default | Description |
-|---|---|---|---|---|
-| `--port <PORT>` | `KIKX_PORT` | integer `0`–`65535` | `4000` | Port to listen on |
+|-|-|-|-|-|
+| `--port <PORT>` | `KIKX_PORT` | integer `0` to `65535` | `4000` | Port to listen on |
 | `--bind <BIND>` | `KIKX_BIND` | host or IP address | `127.0.0.1` | Address to bind |
 | `--allow-origin <ALLOW_ORIGIN>` | `KIKX_ALLOWED_ORIGINS` | comma-separated list of origins | empty | Browser origins allowed by CORS. Empty allows any loopback origin. See [HTTP API](http-api.md#cors) |
-| `-h`, `--help` | — | — | — | Print help |
+| `-h`, `--help` |  |  |  | Print help |
 
 `kikx-backend` has no `--version` option.
 
@@ -55,7 +55,7 @@ KIKX_ALLOWED_ORIGINS="https://a.example.com, https://b.example.com"
 Exit status `1`, message on stderr:
 
 | Condition | Message |
-|---|---|
+|-|-|
 | Origin is not a valid header value | ``Error: invalid --allow-origin value `<origin>` `` |
 | Address cannot be bound | `Error: failed to bind <bind>:<port>` |
 
@@ -64,10 +64,10 @@ An invalid flag value exits with status `2`.
 ## Dashboard
 
 | Variable | Required | Description |
-|---|---|---|
+|-|-|-|
 | `NEXT_PUBLIC_KIKX_API_URL` | yes | Base URL of the backend, without `/api` |
 
-Read by Next.js from `web/.env.local` or the environment. When unset, every API call fails with code `not_configured` and the message ``NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.example).``
+Read by Next.js from `web/.env.local` or the environment. When unset, every API call fails with code `not_configured` and the message ``NEXT_PUBLIC_KIKX_API_URL is not set. Point it at your kikx backend (see web/.env.example).``
 
 `web/.env.example`:
 
@@ -91,8 +91,8 @@ output_dir = "infra"
 ```
 
 | Key | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `project.name` | string | yes | — | Project name |
+|-|-|-|-|-|
+| `project.name` | string | yes |  | Project name |
 | `project.default_namespace` | string | no | `default` | `namespace` in the template context when no `namespace` field is supplied |
 | `project.output_dir` | string | no | `k8s` | Directory, relative to `kikx.toml`, that rendered paths are joined to |
 
@@ -103,7 +103,7 @@ A missing `[project]` table or `name` key fails with `failed to parse <path>/kik
 Compiled into `kikx-core` (`backend/core/src/config.rs`) and served by [`GET /api/config`](http-api.md#get-apiconfig).
 
 | Constant | Value | `/api/config` key | Used for |
-|---|---|---|---|
+|-|-|-|-|
 | `DEFAULT_NAMESPACE` | `default` | `defaultNamespace` | `kikx init --namespace`, `kikx.toml`, presets, `/api/render` `defaultNamespace` |
 | `DEFAULT_OUTPUT_DIR` | `k8s` | `defaultOutputDir` | `kikx init --dir`, `kikx.toml`, preset `project.outputDir`, `kikx setup` |
 | `DEFAULT_PROJECT_NAME` | `kikx-project` | `defaultProjectName` | Project name when the current directory has no name |

@@ -145,8 +145,8 @@ msgstr "Valeur par défaut"
 msgid "Description"
 msgstr "Description"
 
-msgid "`--name <NAME>`"
-msgstr "`--name <NAME>`"
+msgid "`-n`, `--name <NAME>`"
+msgstr "`-n`, `--name <NAME>`"
 
 msgid "string"
 msgstr "chaîne"
@@ -157,8 +157,8 @@ msgstr "nom du répertoire courant, ou `kikx-project` s'il n'en a pas"
 msgid "Project name, stored as `project.name`"
 msgstr "Nom du projet, enregistré dans `project.name`"
 
-msgid "`--dir <DIR>`"
-msgstr "`--dir <DIR>`"
+msgid "`-d`, `--dir <DIR>`"
+msgstr "`-d`, `--dir <DIR>`"
 
 msgid "path"
 msgstr "chemin"
@@ -169,8 +169,8 @@ msgstr "`k8s`"
 msgid "Output directory, stored as `project.output_dir`"
 msgstr "Répertoire de sortie, enregistré dans `project.output_dir`"
 
-msgid "`--namespace <NAMESPACE>`"
-msgstr "`--namespace <NAMESPACE>`"
+msgid "`-N`, `--namespace <NAMESPACE>`"
+msgstr "`-N`, `--namespace <NAMESPACE>`"
 
 msgid "`default`"
 msgstr "`default`"
@@ -178,8 +178,8 @@ msgstr "`default`"
 msgid "Default namespace, stored as `project.default_namespace`"
 msgstr "Namespace par défaut, enregistré dans `project.default_namespace`"
 
-msgid "`--force`"
-msgstr "`--force`"
+msgid "`-f`, `--force`"
+msgstr "`-f`, `--force`"
 
 msgid "flag"
 msgstr "option sans valeur"
@@ -199,8 +199,8 @@ msgstr "Résultat"
 msgid "`kikx.toml` exists, no `--force`"
 msgstr "`kikx.toml` existe, sans `--force`"
 
-msgid "Exit `1`: ``kikx.toml already exists in <dir> — pass --force to overwrite``"
-msgstr "Sortie `1` : ``kikx.toml already exists in <dir> — pass --force to overwrite``"
+msgid "Exit `1`: ``kikx.toml already exists in <dir>. Pass --force to overwrite``"
+msgstr "Sortie `1` : ``kikx.toml already exists in <dir>. Pass --force to overwrite``"
 
 msgid "`kikx.toml` exists, `--force`"
 msgstr "`kikx.toml` existe, avec `--force`"
@@ -235,8 +235,8 @@ msgstr "obligatoire"
 msgid "`name` in the template context"
 msgstr "`name` dans le contexte du template"
 
-msgid "`--image <IMAGE>`"
-msgstr "`--image <IMAGE>`"
+msgid "`-i`, `--image <IMAGE>`"
+msgstr "`-i`, `--image <IMAGE>`"
 
 msgid "registry default"
 msgstr "valeur par défaut du registre"
@@ -244,8 +244,8 @@ msgstr "valeur par défaut du registre"
 msgid "`image`"
 msgstr "`image`"
 
-msgid "`--replicas <REPLICAS>`"
-msgstr "`--replicas <REPLICAS>`"
+msgid "`-r`, `--replicas <REPLICAS>`"
+msgstr "`-r`, `--replicas <REPLICAS>`"
 
 msgid "unsigned 32-bit integer"
 msgstr "entier non signé 32 bits"
@@ -253,17 +253,17 @@ msgstr "entier non signé 32 bits"
 msgid "`replicas`"
 msgstr "`replicas`"
 
-msgid "`--port <PORT>`"
-msgstr "`--port <PORT>`"
+msgid "`-p`, `--port <PORT>`"
+msgstr "`-p`, `--port <PORT>`"
 
-msgid "integer `0`–`65535`"
-msgstr "entier `0`–`65535`"
+msgid "integer `0` to `65535`"
+msgstr "entier `0` à `65535`"
 
 msgid "`port`"
 msgstr "`port`"
 
-msgid "`--target-port <TARGET_PORT>`"
-msgstr "`--target-port <TARGET_PORT>`"
+msgid "`-t`, `--target-port <TARGET_PORT>`"
+msgstr "`-t`, `--target-port <TARGET_PORT>`"
 
 msgid "`target_port`"
 msgstr "`target_port`"
@@ -274,26 +274,26 @@ msgstr "`project.default_namespace`"
 msgid "`namespace`"
 msgstr "`namespace`"
 
-msgid "`--host <HOST>`"
-msgstr "`--host <HOST>`"
+msgid "`-H`, `--host <HOST>`"
+msgstr "`-H`, `--host <HOST>`"
 
 msgid "`host`"
 msgstr "`host`"
 
-msgid "`--path <PATH>`"
-msgstr "`--path <PATH>`"
+msgid "`-P`, `--path <PATH>`"
+msgstr "`-P`, `--path <PATH>`"
 
 msgid "`path`"
 msgstr "`path`"
 
-msgid "`--service <SERVICE>`"
-msgstr "`--service <SERVICE>`"
+msgid "`-S`, `--service <SERVICE>`"
+msgstr "`-S`, `--service <SERVICE>`"
 
 msgid "`service`"
 msgstr "`service`"
 
-msgid "`--label <KEY=VALUE>`"
-msgstr "`--label <KEY=VALUE>`"
+msgid "`-l`, `--label <KEY=VALUE>`"
+msgstr "`-l`, `--label <KEY=VALUE>`"
 
 msgid "key/value, repeatable"
 msgstr "clé/valeur, répétable"
@@ -304,11 +304,9 @@ msgstr "`app=<name>`"
 msgid "an entry of `labels`"
 msgstr "une entrée de `labels`"
 
-msgid "`--set <KEY=VALUE>`"
-msgstr "`--set <KEY=VALUE>`"
+msgid "`-s`, `--set <KEY=VALUE>`"
+msgstr "`-s`, `--set <KEY=VALUE>`"
 
-msgid "—"
-msgstr "—"
 
 msgid "field `KEY`"
 msgstr "champ `KEY`"
@@ -325,38 +323,38 @@ msgstr "Les options dédiées définissent leur champ sur n'importe quel composa
 msgid "No `kikx.toml` in the current directory"
 msgstr "Aucun `kikx.toml` dans le répertoire courant"
 
-msgid "Exit `1`: ``no kikx.toml found in <dir> — run `kikx init` first``"
-msgstr "Sortie `1` : ``no kikx.toml found in <dir> — run `kikx init` first``"
+msgid "Exit `1`: ``no kikx.toml found in <dir>. Run `kikx init` first``"
+msgstr "Sortie `1` : ``no kikx.toml found in <dir>. Run `kikx init` first``"
 
 msgid "Unknown reference"
 msgstr "Référence inconnue"
 
-msgid "Exit `1`: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
-msgstr "Sortie `1` : `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
+msgid "Exit `1`: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
+msgstr "Sortie `1` : `` `<reference>` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json ``"
 
 msgid "Required field missing with no default"
 msgstr "Champ obligatoire absent sans valeur par défaut"
 
-msgid "Exit `1`: `--<field> is required for <reference>`"
-msgstr "Sortie `1` : `--<field> is required for <reference>`"
+msgid "Exit `1`: ``field `<field>` is required for <reference>``"
+msgstr "Sortie `1` : ``field `<field>` is required for <reference>``"
 
 msgid "Rendered path is absolute"
 msgstr "Le chemin rendu est absolu"
 
-msgid "Exit `1`: ``refusing to write `<path>` — absolute paths are not allowed``"
-msgstr "Sortie `1` : ``refusing to write `<path>` — absolute paths are not allowed``"
+msgid "Exit `1`: ``refusing to write `<path>`: absolute paths are not allowed``"
+msgstr "Sortie `1` : ``refusing to write `<path>`: absolute paths are not allowed``"
 
 msgid "Rendered path leaves the output directory"
 msgstr "Le chemin rendu sort du répertoire de sortie"
 
-msgid "Exit `1`: ``refusing to write `<path>` — it escapes the target directory``"
-msgstr "Sortie `1` : ``refusing to write `<path>` — it escapes the target directory``"
+msgid "Exit `1`: ``refusing to write `<path>`: it escapes the target directory``"
+msgstr "Sortie `1` : ``refusing to write `<path>`: it escapes the target directory``"
 
 msgid "A target file exists, no `--force`"
 msgstr "Un fichier cible existe, sans `--force`"
 
-msgid "Exit `1`: `<path> already exists — pass --force to overwrite`. No file is written"
-msgstr "Sortie `1` : `<path> already exists — pass --force to overwrite`. Aucun fichier n'est écrit"
+msgid "Exit `1`: `<path> already exists. Pass --force to overwrite`. No file is written"
+msgstr "Sortie `1` : `<path> already exists. Pass --force to overwrite`. Aucun fichier n'est écrit"
 
 msgid "Template error"
 msgstr "Erreur de template"
@@ -442,8 +440,8 @@ msgstr "Sortie `1`, rien n'est écrit"
 msgid "Reference is not a template name, a URL or an existing file"
 msgstr "La référence n'est ni un nom de template, ni une URL, ni un fichier existant"
 
-msgid "Exit `1`: `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
-msgstr "Sortie `1` : `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
+msgid "Exit `1`: `` `<reference>` isn't a template name, a URL or an existing local file. Run `kikx presets` to see the templates ``"
+msgstr "Sortie `1` : `` `<reference>` isn't a template name, a URL or an existing local file. Run `kikx presets` to see the templates ``"
 
 msgid "Preset does not parse"
 msgstr "Le preset ne peut pas être analysé"
@@ -472,8 +470,8 @@ msgstr "Effectue le rendu de chaque composant d'un preset dans le répertoire co
 msgid "Template name, URL or local path to a preset file"
 msgstr "Nom de template, URL ou chemin local vers un fichier de preset"
 
-msgid "`--into <INTO>`"
-msgstr "`--into <INTO>`"
+msgid "`-i`, `--into <INTO>`"
+msgstr "`-i`, `--into <INTO>`"
 
 msgid "current directory"
 msgstr "répertoire courant"

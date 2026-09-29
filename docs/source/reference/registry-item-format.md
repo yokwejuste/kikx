@@ -7,37 +7,37 @@ A registry item describes one component: its fields and the files it renders. Bu
 A component reference is resolved in this order:
 
 | Step | Condition | Result |
-|---|---|---|
+|-|-|-|
 | 1 | The part after the last `/` equals a built-in name | That built-in component |
 | 2 | Starts with `http://` or `https://` | JSON fetched with HTTP `GET` |
 | 3 | Names an existing local file | JSON read from the file |
-| 4 | Otherwise | Error: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file — run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json `` |
+| 4 | Otherwise | Error: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json `` |
 
 Step 1 applies to URLs and paths too: `https://example.com/items/role` and `./items/deployment` resolve to the built-ins `ansible/role` and `k8s/deployment`. The category is not compared: `other/deployment` resolves to `k8s/deployment`.
 
 Relative paths are resolved against the working directory of the CLI or backend process.
 
 | Failure | Message |
-|---|---|
+|-|-|
 | URL fetch fails | `failed to fetch registry item from <url>` |
 | JSON does not match the schema | `<reference> is not a valid registry item` |
 
 ## Item
 
 | Key | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `name` | string | yes | — | Component name |
-| `category` | string | yes | — | Category. The reference is `<category>/<name>` |
+|-|-|-|-|-|
+| `name` | string | yes |  | Component name |
+| `category` | string | yes |  | Category. The reference is `<category>/<name>` |
 | `title` | string | no | `""` | Display title |
 | `description` | string | no | `""` | One-line description |
 | `fields` | array of [Field](#field) | no | `[]` | Declared fields |
-| `files` | array of [File](#file) | yes | — | Files to render, in order |
+| `files` | array of [File](#file) | yes |  | Files to render, in order |
 
 ## Field
 
 | Key | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `name` | string | yes | — | Field name, and template variable name |
+|-|-|-|-|-|
+| `name` | string | yes |  | Field name, and template variable name |
 | `required` | boolean | no | `false` | Rendering fails when no value is supplied and `default` is absent |
 | `default` | string | no | absent | Value used when none is supplied |
 | `description` | string | no | absent | Help text |
@@ -47,14 +47,14 @@ Relative paths are resolved against the working directory of the CLI or backend 
 ## Option
 
 | Key | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `value` | string | yes | — | Option value |
+|-|-|-|-|-|
+| `value` | string | yes |  | Option value |
 | `label` | string | no | `""` | Display label. The HTTP API returns `value` when empty |
 
 ## File
 
 | Key | Type | Required | Description |
-|---|---|---|---|
+|-|-|-|-|
 | `path` | string | yes | Output path template, relative to the target directory |
 | `template` | string | yes | File content template |
 
@@ -63,7 +63,7 @@ Relative paths are resolved against the working directory of the CLI or backend 
 ## Template context
 
 | Variable | Type | Value |
-|---|---|---|
+|-|-|-|
 | `name` | string | Component name: `--name`, the preset component `name`, or the render request `name` |
 | `namespace` | string | Supplied `namespace` field, else the default namespace |
 | `labels` | map of string to string | Supplied labels, with `app` set to `name` unless supplied |
@@ -73,21 +73,21 @@ Relative paths are resolved against the working directory of the CLI or backend 
 The default namespace is:
 
 | Caller | Default namespace |
-|---|---|
+|-|-|
 | `kikx add` | `project.default_namespace` from `kikx.toml` |
 | `kikx setup`, `kikx apply` | `project.namespace` from the preset, else `default` |
 | `POST /api/render` | `defaultNamespace` from the request, else `default` |
 
 A declared field named `namespace` has no effect: its `default` is not applied.
 
-A required field with no supplied value and no `default` fails with `--<field> is required for <category>/<name>`.
+A required field with no supplied value and no `default` fails with ``field `<field>` is required for <category>/<name>``.
 
 ## JSON-valued fields
 
 Every supplied value and default is a string. A value whose first non-whitespace character is `[` or `{` is parsed as JSON:
 
 | Value | Template receives |
-|---|---|
+|-|-|
 | `[1, 2]` | list |
 | `{"a": 1}` | map, keys iterated in alphabetical order |
 | `[1, 2` (invalid JSON) | the original string |
@@ -98,12 +98,12 @@ Every supplied value and default is a string. A value whose first non-whitespace
 Checked when files are written by `kikx add`, `kikx setup` and `kikx apply`. `POST /api/render` does not write and applies only the duplicate check within one item.
 
 | Rule | Error |
-|---|---|
+|-|-|
 | Two files of one item render to the same path | `` <category>/<name> has two files that both render to `<path>` `` |
 | Two files of one run render to the same path (`setup`, `apply`) | `` two files rendered to the same path: `<path>` `` |
-| Path is absolute | `` refusing to write `<path>` — absolute paths are not allowed `` |
-| Path, read left to right, climbs above the target directory at any `..` | `` refusing to write `<path>` — it escapes the target directory `` |
-| Target file exists and `--force` is not passed | `<path> already exists — pass --force to overwrite` |
+| Path is absolute | `` refusing to write `<path>`: absolute paths are not allowed `` |
+| Path, read left to right, climbs above the target directory at any `..` | `` refusing to write `<path>`: it escapes the target directory `` |
+| Target file exists and `--force` is not passed | `<path> already exists. Pass --force to overwrite` |
 
 All checks run before the first file is written. Parent directories are created as needed.
 
