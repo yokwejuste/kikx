@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Manage group vars as YAML or a folder"
+msgstr "Gérer les group vars en YAML ou en dossier"
+
+msgid "Use this to give an inventory group its variables, either as simple key/value pairs or as raw YAML. You can write them to `group_vars/<group>.yml` or to `group_vars/<group>/main.yml`."
+msgstr "Suivez ce guide pour attribuer ses variables à un groupe d'inventaire, soit sous forme de simples paires clé/valeur, soit en YAML brut. Vous pouvez les écrire dans `group_vars/<group>.yml` ou dans `group_vars/<group>/main.yml`."
+
+msgid "In the dashboard"
+msgstr "Dans le tableau de bord"
+
+msgid "In **Build**, pick **Group vars** under the Inventory stage."
+msgstr "Dans « Build », choisissez « Group vars » sous l'étape Inventory."
+
+msgid "In **Group**, type the group name, or pick one from your inventory's groups. `all` is always offered."
+msgstr "Dans « Group », saisissez le nom du groupe ou choisissez-en un parmi les groupes de votre inventaire. `all` est toujours proposé."
+
+msgid "Choose how to enter the variables with the toggle next to **Variables**:"
+msgstr "Choisissez comment saisir les variables avec le sélecteur situé à côté de « Variables » :"
+
+msgid "**Key / value**: one row per variable. Click **Add variable** for more."
+msgstr "« Key / value » : une ligne par variable. Cliquez sur « Add variable » pour en ajouter."
+
+msgid "**YAML**: paste anything YAML, including lists and nested maps. It's written as-is, which makes it the easiest way to bring over an existing `group_vars` file."
+msgstr "« YAML » : collez n'importe quel YAML, y compris des listes et des maps imbriquées. Il est écrit tel quel, ce qui en fait le moyen le plus simple de reprendre un fichier `group_vars` existant."
+
+msgid "For the folder layout, tick **Folder layout (`group_vars/<group>/main.yml`)**. The line under **Group** shows the path that will be written."
+msgstr "Pour la disposition en dossier, cochez « Folder layout (`group_vars/<group>/main.yml`) ». La ligne sous « Group » indique le chemin qui sera écrit."
+
+msgid "Click **Add to project**."
+msgstr "Cliquez sur « Add to project »."
+
+msgid "When you switch from **Key / value** to **YAML**, your rows are copied into the YAML box. Switching back only works when every line is a flat `key: value`. If the YAML has nested values, the dashboard keeps you in YAML mode so nothing is lost."
+msgstr "Lorsque vous passez de « Key / value » à « YAML », vos lignes sont copiées dans la zone YAML. Le retour en arrière ne fonctionne que si chaque ligne est un simple `key: value`. Si le YAML contient des valeurs imbriquées, le tableau de bord vous maintient en mode YAML pour que rien ne soit perdu."
+
+msgid "With the CLI"
+msgstr "Avec la CLI"
+
+msgid "Pass key/value pairs as a JSON map in `vars`:"
+msgstr "Passez les paires clé/valeur sous forme de map JSON dans `vars` :"
+
+msgid "This writes `group_vars/web.yml`:"
+msgstr "Cette commande écrit `group_vars/web.yml` :"
+
+msgid "For nested data, pass raw YAML in `yaml`, and add `layout=dir` for the folder layout:"
+msgstr "Pour des données imbriquées, passez du YAML brut dans `yaml`, et ajoutez `layout=dir` pour la disposition en dossier :"
+
+msgid "This writes `group_vars/db/main.yml`. `--name` is required but doesn't affect the path, which comes from `group` and `layout`."
+msgstr "Cette commande écrit `group_vars/db/main.yml`. `--name` est obligatoire mais n'a aucun effet sur le chemin, qui dépend de `group` et de `layout`."
+
+msgid "Move a group to the folder layout"
+msgstr "Passer un groupe à la disposition en dossier"
+
+msgid "If you want to add more files next to `main.yml` later, such as a `vault.yml`, move the group to the folder layout:"
+msgstr "Si vous souhaitez ajouter plus tard d'autres fichiers à côté de `main.yml`, comme un `vault.yml`, passez le groupe à la disposition en dossier :"
+
+msgid "Open the existing group vars component, tick **Folder layout**, and click **Save changes**."
+msgstr "Ouvrez le composant group vars existant, cochez « Folder layout » et cliquez sur « Save changes »."
+
+msgid "With the CLI, re-run `kikx add` with `--set layout=dir`, then delete the old `group_vars/<group>.yml` yourself. The CLI never removes files."
+msgstr "Avec la CLI, relancez `kikx add` avec `--set layout=dir`, puis supprimez vous-même l'ancien `group_vars/<group>.yml`. La CLI ne supprime jamais de fichiers."
+
+msgid "When both layouts exist"
+msgstr "Quand les deux dispositions coexistent"
+
+msgid "If a project has both `group_vars/web.yml` and `group_vars/web/main.yml`, **Checks** shows:"
+msgstr "Si un projet contient à la fois `group_vars/web.yml` et `group_vars/web/main.yml`, « Checks » affiche :"
+
+msgid "Group \"web\" has both group_vars/web.yml and group_vars/web/main.yml"
+msgstr "Group \"web\" has both group_vars/web.yml and group_vars/web/main.yml"
+
+msgid "Ansible loads and merges both files, so a key set in both depends on load order. Fix it by keeping one layout: open one of the components from the check, move its variables into the other, then remove it."
+msgstr "Ansible charge et fusionne les deux fichiers : la valeur d'une clé définie dans les deux dépend donc de l'ordre de chargement. Corrigez le problème en ne gardant qu'une disposition : ouvrez l'un des composants depuis la vérification, déplacez ses variables dans l'autre, puis supprimez-le."
+
+msgid "**Checks** also warns when:"
+msgstr "« Checks » vous avertit également lorsque :"
+
+msgid "a group vars file targets a group that no inventory defines, which is usually a typo;"
+msgstr "un fichier de group vars vise un groupe qu'aucun inventaire ne définit, ce qui est généralement une faute de frappe ;"
+
+msgid "a key is set both in group vars and in the inventory's `[group:vars]`, where the group vars value wins."
+msgstr "une clé est définie à la fois dans les group vars et dans la section `[group:vars]` de l'inventaire, auquel cas la valeur des group vars l'emporte."
+
+msgid "See [Resolve file conflicts and checks](resolve-conflicts.md)."
+msgstr "Consultez [Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md)."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Components reference](../reference/components.md)"
+msgstr "[Composants](../reference/components.md)"
+
+msgid "[Import an existing Ansible inventory](import-an-inventory.md)"
+msgstr "[Importer un inventaire Ansible existant](import-an-inventory.md)"
+

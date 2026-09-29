@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "The registry as single source of truth"
+msgstr "Le registre, source unique de vérité"
+
+msgid "Every kikx component, whether you add it from the terminal, through the HTTP API or in the dashboard, is resolved through the same registry. The registry is not just a list of templates. It is where each component's fields are declared, together with their defaults, examples, allowed choices and the paths its files render to. This page explains why that information lives in one place and what that buys you."
+msgstr "Chaque composant kikx, que vous l'ajoutiez depuis le terminal, via l'API HTTP ou dans le tableau de bord, est résolu à travers le même registre. Le registre n'est pas une simple liste de templates. C'est là que sont déclarés les champs de chaque composant, avec leurs valeurs par défaut, leurs exemples, les choix autorisés et les chemins vers lesquels ses fichiers sont rendus. Cette page explique pourquoi ces informations vivent en un seul endroit et ce que cela vous apporte."
+
+msgid "What a registry item holds"
+msgstr "Ce que contient un élément de registre"
+
+msgid "A registry item describes one component: a category and a name (together the reference, such as `k8s/deployment`), a title and description, a list of fields, and a list of files. Each field can be marked required and can carry a default, a human description, an example value and a set of options. Each file is a pair of templates: one for the output path and one for the content. The exact shape is in the [registry item format reference](../reference/registry-item-format.md)."
+msgstr "Un élément de registre décrit un composant : une catégorie et un nom (qui forment ensemble la référence, comme `k8s/deployment`), un titre et une description, une liste de champs et une liste de fichiers. Chaque champ peut être marqué comme obligatoire et porter une valeur par défaut, une description lisible, une valeur d'exemple et un ensemble d'options. Chaque fichier est une paire de templates : l'un pour le chemin de sortie, l'autre pour le contenu. La structure exacte figure dans la [référence du format des éléments de registre](../reference/registry-item-format.md)."
+
+msgid "The built-in items are defined in Rust in `backend/core/src/registry/builtin.rs`, with their templates compiled into the binary from `backend/core/templates/`. A custom item is the same structure written as JSON."
+msgstr "Les éléments intégrés sont définis en Rust dans `backend/core/src/registry/builtin.rs`, et leurs templates sont compilés dans le binaire depuis `backend/core/templates/`. Un élément personnalisé a la même structure, écrite en JSON."
+
+msgid "Why one source"
+msgstr "Pourquoi une seule source"
+
+msgid "The alternative, and the natural thing to drift into, is for each client to know a little about each component. The CLI hardcodes that replicas default to 1, the dashboard's form pre-fills a port of 80, a help text somewhere says the Hetzner image is `ubuntu-24.04`. Each copy is reasonable on its own, and together they are a guarantee that the values will disagree the first time one of them changes. The disagreement is also invisible: the dashboard preview and the CLI output would simply differ, and nobody would know which one was right."
+msgstr "L'alternative, vers laquelle on glisse naturellement, consiste à ce que chaque client connaisse un peu chaque composant. La CLI code en dur que le nombre de réplicas vaut 1 par défaut, le formulaire du tableau de bord pré-remplit un port 80, un texte d'aide quelque part indique que l'image Hetzner est `ubuntu-24.04`. Chaque copie est raisonnable prise isolément ; ensemble, elles garantissent que les valeurs divergeront dès que l'une d'elles changera. Et cette divergence est invisible : l'aperçu du tableau de bord et le résultat de la CLI différeraient tout simplement, sans que personne ne sache lequel a raison."
+
+msgid "kikx avoids that by making the registry the only place any of these values are written. The renderer applies defaults from the registry. The CLI's help and the dashboard's forms describe what the registry says. When a default changes, it changes in one line of `builtin.rs`, and every front end reflects it the next time it asks."
+msgstr "kikx évite ce piège en faisant du registre le seul endroit où ces valeurs sont écrites. Le moteur de rendu applique les valeurs par défaut du registre. L'aide de la CLI et les formulaires du tableau de bord décrivent ce que dit le registre. Lorsqu'une valeur par défaut change, elle change sur une seule ligne de `builtin.rs`, et chaque interface en tient compte la prochaine fois qu'elle interroge le registre."
+
+msgid "The same applies to project-level defaults: the default namespace, the default output directory and the fallback project name are constants in `kikx-core`'s config module, used by `kikx init` for its flag defaults and served to the dashboard rather than repeated in it."
+msgstr "Il en va de même pour les valeurs par défaut au niveau du projet : le namespace par défaut, le répertoire de sortie par défaut et le nom de projet de repli sont des constantes du module de configuration de `kikx-core`. `kikx init` s'en sert pour les valeurs par défaut de ses options, et elles sont servies au tableau de bord au lieu d'y être recopiées."
+
+msgid "How each client reads it"
+msgstr "Comment chaque client le lit"
+
+msgid "The CLI links `kikx-core` directly, so it reads the registry in-process. `kikx list` walks the built-in items and prints each field with whatever the registry declares for it: whether it is required, its default, an example, and its allowed values. The `--replicas` help text doesn't state a number; it points you at `kikx list`."
+msgstr "La CLI est liée directement à `kikx-core` ; elle lit donc le registre dans le même processus. `kikx list` parcourt les éléments intégrés et affiche chaque champ avec tout ce que le registre déclare pour lui : s'il est obligatoire, sa valeur par défaut, un exemple et ses valeurs autorisées. Le texte d'aide de `--replicas` n'indique aucun nombre ; il vous renvoie vers `kikx list`."
+
+msgid "The backend exposes the registry over HTTP. `/api/registry` returns every built-in item with its field specs and its output path templates, `/api/config` returns the project defaults, and `/api/registry/inspect` returns the field schema for any single reference, including ones that aren't built in. The [HTTP API reference](../reference/http-api.md) lists the payloads."
+msgstr "Le backend expose le registre en HTTP. `/api/registry` renvoie tous les éléments intégrés avec les spécifications de leurs champs et les templates de leurs chemins de sortie, `/api/config` renvoie les valeurs par défaut du projet, et `/api/registry/inspect` renvoie le schéma des champs de n'importe quelle référence, y compris celles qui ne sont pas intégrées. La [référence de l'API HTTP](../reference/http-api.md) détaille les charges utiles."
+
+msgid "The dashboard fetches `/api/registry` and `/api/config` once when it starts and keeps them as a snapshot for the session (in `web/lib/registry/store.ts`). Everything that needs a value asks the snapshot: form defaults come from each field's default, placeholders from its example, dropdowns and suggestion lists from its options, and the component's title and description in the catalog come from the item itself. Even the \"writes\" hint the catalog shows under each component, such as `<name>-deployment.yaml`, is derived from the registry's path template rather than typed out."
+msgstr "Le tableau de bord récupère `/api/registry` et `/api/config` une seule fois au démarrage et les conserve comme un instantané pour la session (dans `web/lib/registry/store.ts`). Tout ce qui a besoin d'une valeur interroge cet instantané : les valeurs par défaut des formulaires proviennent de la valeur par défaut de chaque champ, les textes indicatifs de son exemple, les listes déroulantes et les listes de suggestions de ses options, et le titre comme la description du composant dans le catalogue proviennent de l'élément lui-même. Même l'indication « writes » que le catalogue affiche sous chaque composant, par exemple `<name>-deployment.yaml`, est dérivée du template de chemin du registre au lieu d'être saisie à la main."
+
+msgid "What the dashboard does keep locally is structure, not values: a map from its own form kinds to registry references, the order of the catalog stages, and how each kind's form is laid out. Those are presentation decisions. No default, example or option value is repeated in the web code."
+msgstr "Ce que le tableau de bord conserve localement relève de la structure, pas des valeurs : une correspondance entre ses propres types de formulaires et les références du registre, l'ordre des étapes du catalogue, et la disposition du formulaire de chaque type. Ce sont des décisions de présentation. Aucune valeur par défaut, aucun exemple ni aucune option n'est répété dans le code web."
+
+msgid "Custom registry items"
+msgstr "Éléments de registre personnalisés"
+
+msgid "Because the registry item is a plain data structure, the set of components isn't closed. Any `registry-item.json`, as a local file or a URL, can be passed where a built-in reference would go: `kikx add ./item.json --name x`, the `ref` parameter of `/api/registry/inspect`, or the dashboard's \"From registry URL\" entry. kikx fetches or reads the JSON, and from then on the item is rendered exactly like a built-in one, with its own field defaults and path templates."
+msgstr "Comme l'élément de registre est une simple structure de données, l'ensemble des composants n'est pas fermé. N'importe quel `registry-item.json`, sous forme de fichier local ou d'URL, peut être passé là où irait une référence intégrée : `kikx add ./item.json --name x`, le paramètre `ref` de `/api/registry/inspect`, ou l'entrée « From registry URL » du tableau de bord. kikx récupère ou lit le JSON, et à partir de là l'élément est rendu exactement comme un élément intégré, avec ses propres valeurs par défaut de champs et ses propres templates de chemins."
+
+msgid "This is what makes a kikx release unnecessary for a new component. A team can keep its own items in a repository or behind a URL and use them alongside the built-ins. The dashboard's custom panel reads the item's field list through the inspect endpoint and pre-fills defaults from it, so a custom item gets the same \"the registry decides\" treatment as a built-in one."
+msgstr "C'est ce qui rend inutile une nouvelle version de kikx pour ajouter un composant. Une équipe peut conserver ses propres éléments dans un dépôt ou derrière une URL et les utiliser aux côtés des éléments intégrés. Le panneau personnalisé du tableau de bord lit la liste des champs de l'élément via le point d'accès inspect et en pré-remplit les valeurs par défaut : un élément personnalisé bénéficie ainsi du même principe, « c'est le registre qui décide », qu'un élément intégré."
+
+msgid "Resolution checks built-ins first, and it matches on the last segment of the reference. That is why `k8s/deployment` and `deployment` both resolve to the same built-in. It also means a custom reference whose final path segment is exactly a built-in name (a URL ending in `/deployment`, or an extension-less file called `role`) resolves to the built-in rather than to the file. Naming custom items with a `.json` extension, as the convention suggests, avoids the collision."
+msgstr "La résolution consulte d'abord les éléments intégrés, et elle compare le dernier segment de la référence. C'est pourquoi `k8s/deployment` et `deployment` se résolvent tous deux vers le même élément intégré. Cela signifie aussi qu'une référence personnalisée dont le dernier segment de chemin correspond exactement au nom d'un élément intégré (une URL se terminant par `/deployment`, ou un fichier sans extension nommé `role`) se résout vers l'élément intégré et non vers le fichier. Nommer les éléments personnalisés avec l'extension `.json`, comme le veut la convention, évite cette collision."
+
+msgid "Related"
+msgstr "Voir aussi"
+
+msgid "[Render your own component from a registry item](../how-to/custom-registry-item.md)"
+msgstr "[Générer votre propre composant depuis un élément de registre](../how-to/custom-registry-item.md)"
+
+msgid "[Components reference](../reference/components.md) for the built-in fields and defaults."
+msgstr "[Référence des composants](../reference/components.md) pour les champs et valeurs par défaut des éléments intégrés."
+
+msgid "[How rendering works](rendering.md) for how field values and defaults are combined."
+msgstr "[Comment fonctionne le rendu](rendering.md) pour la façon dont les valeurs des champs et les valeurs par défaut sont combinées."
+

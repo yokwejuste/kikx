@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Run the dashboard and backend"
+msgstr "Lancer le tableau de bord et le backend"
+
+msgid "The dashboard (`web/`) is a Next.js app that renders everything through the kikx backend (`backend/`). You need both running."
+msgstr "Le tableau de bord (`web/`) est une application Next.js qui effectue tout son rendu via le backend kikx (`backend/`). Les deux doivent être lancés."
+
+msgid "Start both with the defaults"
+msgstr "Démarrer les deux avec les valeurs par défaut"
+
+msgid "In one terminal:"
+msgstr "Dans un premier terminal :"
+
+msgid "It prints `kikx-backend listening on http://127.0.0.1:4000`."
+msgstr "Il affiche `kikx-backend listening on http://127.0.0.1:4000`."
+
+msgid "In a second terminal:"
+msgstr "Dans un second terminal :"
+
+msgid "Open `http://localhost:3000`."
+msgstr "Ouvrez `http://localhost:3000`."
+
+msgid "The backend loads `.env` from the directory you start it in, so run `cargo run` from inside `backend/`."
+msgstr "Le backend charge `.env` depuis le répertoire dans lequel vous le démarrez : lancez donc `cargo run` depuis `backend/`."
+
+msgid "Use a different port or address"
+msgstr "Utiliser un autre port ou une autre adresse"
+
+msgid "Edit `backend/.env`:"
+msgstr "Modifiez `backend/.env` :"
+
+msgid "Then point the dashboard at it in `web/.env.local`:"
+msgstr "Puis faites pointer le tableau de bord vers cette adresse dans `web/.env.local` :"
+
+msgid "Restart `npm run dev` after changing `web/.env.local`. Next.js reads `NEXT_PUBLIC_*` variables when it starts."
+msgstr "Relancez `npm run dev` après avoir modifié `web/.env.local`. Next.js lit les variables `NEXT_PUBLIC_*` au démarrage."
+
+msgid "Flags override the file for a single run:"
+msgstr "Les options de ligne de commande remplacent le fichier le temps d'une exécution :"
+
+msgid "Allow a non-local browser origin"
+msgstr "Autoriser une origine de navigateur non locale"
+
+msgid "With `KIKX_ALLOWED_ORIGINS` empty, the backend accepts any loopback origin (`localhost`, `127.0.0.1`, `[::1]`) on any port. Any other origin is refused."
+msgstr "Lorsque `KIKX_ALLOWED_ORIGINS` est vide, le backend accepte toute origine de boucle locale (`localhost`, `127.0.0.1`, `[::1]`) sur n'importe quel port. Toute autre origine est refusée."
+
+msgid "If you open the dashboard from another host name, list every origin that should work, comma-separated:"
+msgstr "Si vous ouvrez le tableau de bord depuis un autre nom d'hôte, listez chaque origine autorisée, séparées par des virgules :"
+
+msgid "Once you set a list, only those exact origins are allowed. Loopback is no longer allowed automatically, so add it back if you still need it."
+msgstr "Dès que vous définissez une liste, seules ces origines exactes sont autorisées. La boucle locale n'est plus autorisée automatiquement : ajoutez-la de nouveau si vous en avez encore besoin."
+
+msgid "The backend has no authentication. Keep it bound to `127.0.0.1` unless you trust everything that can reach the port."
+msgstr "Le backend n'a pas d'authentification. Laissez-le lié à `127.0.0.1`, sauf si vous faites confiance à tout ce qui peut atteindre le port."
+
+msgid "Check it's working"
+msgstr "Vérifier que tout fonctionne"
+
+msgid "This returns `ok`. If the dashboard shows **Can't reach the kikx backend**, check that `NEXT_PUBLIC_KIKX_API_URL` matches the backend's address and that the dashboard's origin is allowed. Then click **Try again**."
+msgstr "Cette commande renvoie `ok`. Si le tableau de bord affiche « Can't reach the kikx backend », vérifiez que `NEXT_PUBLIC_KIKX_API_URL` correspond à l'adresse du backend et que l'origine du tableau de bord est autorisée. Cliquez ensuite sur « Try again »."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Configuration reference](../reference/configuration.md)"
+msgstr "[Configuration](../reference/configuration.md)"
+
+msgid "[HTTP API reference](../reference/http-api.md)"
+msgstr "[API HTTP](../reference/http-api.md)"
+
+msgid "[How the pieces fit together](../explanation/project-layout.md)"
+msgstr "[Comment les éléments s'articulent](../explanation/project-layout.md)"
+

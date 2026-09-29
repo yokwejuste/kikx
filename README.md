@@ -24,12 +24,12 @@ files sitting next to your other code. Edit them, delete them, check them into g
 else. There's no registry lock-in and no generated-code comment telling you not to touch the file.
 
 <p align="center">
-  <img alt="Starting from a template, editing a playbook, tracing the architecture and checking the project" src="docs/content/assets/kikx-demo.gif" width="900">
+  <img alt="Starting from a template, editing a playbook, tracing the architecture and checking the project" src="docs/source/images/kikx-demo.gif" width="900">
 </p>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/content/assets/builder-dark.png">
-  <img alt="The kikx builder editing a multi-play Kubernetes playbook in a 35-component, 77-file project" src="docs/content/assets/builder-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/source/images/builder-dark.png">
+  <img alt="The kikx builder editing a multi-play Kubernetes playbook in a 35-component, 77-file project" src="docs/source/images/builder-light.png">
 </picture>
 
 <sub>The builder with the <a href="backend/core/presets/multi-tier-platform.kikx-preset.json">multi-tier-platform template</a>
@@ -37,9 +37,10 @@ loaded: 35 components, 77 files. Stages on the left, the editor in the middle, t
 
 ## Documentation
 
-Full documentation lives in `docs/`, in [English](docs/content/en/README.md) and
-[French](docs/content/fr/README.md), organised with [Diátaxis](https://diataxis.fr): tutorials, how-to
-guides, reference and explanation.
+Full documentation lives in `docs/`, organised with [Diátaxis](https://diataxis.fr): tutorials, how-to
+guides, reference and explanation. It is built with Sphinx and the Furo theme, the same toolchain as
+the Diátaxis site. The source pages are in English, starting at [docs/source/index.md](docs/source/index.md).
+The French translation lives in gettext catalogues under `docs/locales/fr/`, managed with sphinx-intl.
 
 ## Table of contents
 
@@ -208,8 +209,8 @@ Hover a node to trace its connections, click it to edit, or **Export to draw.io*
 refining it by hand. The export keeps the swimlanes and every edge's waypoints.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/content/assets/architecture-dark.png">
-  <img alt="Architecture diagram of the multi-tier platform example: 47 nodes and 49 routed edges across five swimlanes" src="docs/content/assets/architecture-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/source/images/architecture-dark.png">
+  <img alt="Architecture diagram of the multi-tier platform example: 47 nodes and 49 routed edges across five swimlanes" src="docs/source/images/architecture-light.png">
 </picture>
 
 ## Presets: setup vs. apply
@@ -314,12 +315,23 @@ cd backend/core && cargo test && cargo clippy --all-targets -- -D warnings && ca
 cd web && npm install && npx tsc --noEmit && npm run lint && npm run build
 ```
 
-The documentation site is built with MkDocs from `docs/`:
+The documentation is built with Sphinx from `docs/`. `html` and `html-fr` treat warnings as errors,
+`update-po` refreshes the French catalogues after the English pages change, and `serve` rebuilds on save:
 
 ```bash
 pip install -r docs/requirements.txt
-mkdocs serve -f docs/mkdocs.yml
-mkdocs build --strict -f docs/mkdocs.yml
+make -C docs html
+make -C docs html-fr
+make -C docs update-po
+make -C docs serve
+```
+
+The same builds without make:
+
+```bash
+sphinx-build -W -b html docs/source docs/build/html
+sphinx-build -W -b html -D language=fr docs/source docs/build/html/fr
+sphinx-autobuild docs/source docs/build/html
 ```
 
 ## Releasing

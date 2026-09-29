@@ -1,0 +1,243 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Your first project with the CLI"
+msgstr "Votre premier projet avec la CLI"
+
+msgid "In this tutorial you'll build a small infrastructure project from an empty directory, using only the `kikx` command line. By the end you'll have:"
+msgstr "Dans ce tutoriel, vous allez construire un petit projet d'infrastructure à partir d'un répertoire vide, en utilisant uniquement la ligne de commande `kikx`. À la fin, vous aurez :"
+
+msgid "an Ansible inventory with two groups of servers and a parent group;"
+msgstr "un inventaire Ansible avec deux groupes de serveurs et un groupe parent ;"
+
+msgid "group vars for both groups;"
+msgstr "des group vars pour les deux groupes ;"
+
+msgid "a playbook with two plays, one of them running a role only when a condition holds;"
+msgstr "un playbook avec deux plays, dont l'un n'exécute un rôle que si une condition est remplie ;"
+
+msgid "a `site.yml` entry point and the three roles the playbook needs;"
+msgstr "un point d'entrée `site.yml` et les trois rôles dont le playbook a besoin ;"
+
+msgid "an `ansible.cfg` that tells Ansible where the inventory and roles are;"
+msgstr "un `ansible.cfg` qui indique à Ansible où se trouvent l'inventaire et les rôles ;"
+
+msgid "a Kubernetes Deployment and a Service that selects it;"
+msgstr "un Deployment Kubernetes et un Service qui le sélectionne ;"
+
+msgid "and you'll have checked with Ansible itself that the inventory loads and the playbooks parse."
+msgstr "et vous aurez vérifié avec Ansible lui-même que l'inventaire se charge et que les playbooks sont analysés sans erreur."
+
+msgid "It takes about fifteen minutes."
+msgstr "Comptez environ quinze minutes."
+
+msgid "Before you start"
+msgstr "Avant de commencer"
+
+msgid "You need:"
+msgstr "Il vous faut :"
+
+msgid "a checkout of the kikx repository;"
+msgstr "une copie locale du dépôt kikx ;"
+
+msgid "a Rust toolchain (`cargo`);"
+msgstr "une chaîne d'outils Rust (`cargo`) ;"
+
+msgid "[uv](https://docs.astral.sh/uv/), which you'll use at the end to run Ansible without installing it."
+msgstr "[uv](https://docs.astral.sh/uv/), que vous utiliserez à la fin pour exécuter Ansible sans l'installer."
+
+msgid "Install kikx"
+msgstr "Installer kikx"
+
+msgid "From the root of your kikx checkout, build and install the CLI:"
+msgstr "Depuis la racine de votre copie de kikx, compilez et installez la CLI :"
+
+msgid "The last lines of the output end with:"
+msgstr "Vous devriez voir la sortie se terminer par ces lignes :"
+
+msgid "Check that it runs:"
+msgstr "Vérifiez qu'elle fonctionne :"
+
+msgid "Create the project"
+msgstr "Créer le projet"
+
+msgid "Make a new, empty directory for the project and move into it. Everything else in this tutorial happens inside it."
+msgstr "Créez un nouveau répertoire vide pour le projet et placez-vous dedans. Tout le reste de ce tutoriel se passe à l'intérieur."
+
+msgid "You should see:"
+msgstr "Vous devriez voir :"
+
+msgid "kikx created two things: a `kikx.toml` file and an empty `infra/` directory. Look at the file:"
+msgstr "kikx a créé deux choses : un fichier `kikx.toml` et un répertoire `infra/` vide. Regardez le fichier :"
+
+msgid "`output_dir` is where every file you add from now on will be written."
+msgstr "`output_dir` est le répertoire de sortie : chaque fichier que vous ajouterez désormais y sera écrit."
+
+msgid "See what you can add"
+msgstr "Voir ce que vous pouvez ajouter"
+
+msgid "The output lists every component kikx knows, with the values each one accepts. The part you'll use first looks like this:"
+msgstr "La sortie liste tous les composants que kikx connaît, avec les valeurs que chacun accepte. Vous devriez voir la partie que vous utiliserez en premier sous cette forme :"
+
+msgid "Every component is added the same way: `kikx add <category>/<name> --name <name>`, with `--set key=value` for its values."
+msgstr "Tous les composants s'ajoutent de la même façon : `kikx add <category>/<name> --name <name>`, avec `--set key=value` pour leurs valeurs."
+
+msgid "Add an inventory"
+msgstr "Ajouter un inventaire"
+
+msgid "Your platform has two web servers and one database server. Add an inventory that puts them in a `web` group and a `db` group, nests both under a `platform` group, and connects as the `deploy` user:"
+msgstr "Votre plateforme compte deux serveurs web et un serveur de base de données. Ajoutez un inventaire qui les place dans un groupe `web` et un groupe `db`, imbrique ces deux groupes dans un groupe `platform`, et se connecte avec l'utilisateur `deploy` :"
+
+msgid "kikx tells you which file it wrote. It prints the full path; it's shortened here:"
+msgstr "kikx vous indique le fichier qu'il a écrit. Il affiche le chemin complet, abrégé ici :"
+
+msgid "Open it:"
+msgstr "Ouvrez-le :"
+
+msgid "This is a plain Ansible inventory. Nothing in it points back to kikx: it's yours to edit, and it stays valid if you never run kikx again. [Vendoring real files](../explanation/vendoring.md) explains why kikx works this way."
+msgstr "C'est un inventaire Ansible ordinaire. Rien dedans ne renvoie à kikx : il vous appartient, vous pouvez le modifier, et il reste valide même si vous ne relancez jamais kikx. [Vendoriser de vrais fichiers](../explanation/vendoring.md) explique pourquoi kikx fonctionne ainsi."
+
+msgid "Add group vars"
+msgstr "Ajouter des group vars"
+
+msgid "Give the `web` group two simple values:"
+msgstr "Donnez deux valeurs simples au groupe `web` :"
+
+msgid "The database settings are nested, so pass them as raw YAML instead, and put them in a folder:"
+msgstr "Les réglages de la base de données sont imbriqués : passez-les plutôt en YAML brut, et placez-les dans un dossier :"
+
+msgid "Look at both files:"
+msgstr "Regardez les deux fichiers :"
+
+msgid "The `group_vars/` folder sits right next to the inventory, which is where Ansible looks for it."
+msgstr "Le dossier `group_vars/` se trouve juste à côté de l'inventaire, là où Ansible le cherche."
+
+msgid "Add a playbook with two plays"
+msgstr "Ajouter un playbook avec deux plays"
+
+msgid "Now say what runs where. One playbook, `services`, gets two plays: `nginx` on the web servers, and `postgres` then `backups` on the database server. The `backups` role only runs when `backups_enabled` is true, which it is unless someone turns it off:"
+msgstr "Indiquez maintenant ce qui s'exécute et où. Un seul playbook, `services`, reçoit deux plays : `nginx` sur les serveurs web, puis `postgres` et `backups` sur le serveur de base de données. Le rôle `backups` ne s'exécute que si `backups_enabled` est vrai, ce qui est le cas tant que personne ne le désactive :"
+
+msgid "Each play targets a group from your inventory. `become: true` is written because you didn't turn it off."
+msgstr "Chaque play cible un groupe de votre inventaire. `become: true` est écrit parce que vous ne l'avez pas désactivé."
+
+msgid "Add the site playbook"
+msgstr "Ajouter le playbook site"
+
+msgid "`site.yml` is the single entry point that imports your playbooks in order:"
+msgstr "`site.yml` est le point d'entrée unique qui importe vos playbooks dans l'ordre :"
+
+msgid "Add the roles"
+msgstr "Ajouter les rôles"
+
+msgid "The playbook runs three roles that don't exist yet. Add an empty skeleton for each:"
+msgstr "Le playbook exécute trois rôles qui n'existent pas encore. Ajoutez un squelette vide pour chacun :"
+
+msgid "Each command writes four files. For `nginx`:"
+msgstr "Chaque commande écrit quatre fichiers. Pour `nginx`, vous devriez voir :"
+
+msgid "Look at the task file:"
+msgstr "Regardez le fichier de tâches :"
+
+msgid "kikx gives you the structure; the tasks are yours to write. The placeholder is a working task, so the project is runnable straight away."
+msgstr "kikx vous fournit la structure ; c'est à vous d'écrire les tâches. La tâche provisoire fonctionne, si bien que le projet est exécutable tout de suite."
+
+msgid "Add an Ansible config"
+msgstr "Ajouter une configuration Ansible"
+
+msgid "The playbook lives in `playbooks/`, but the roles live in `roles/` at the top of `infra/`. Ansible looks for roles next to the playbook, so it wouldn't find them on its own. An `ansible.cfg` tells it where they are, and which inventory to use:"
+msgstr "Le playbook se trouve dans `playbooks/`, mais les rôles se trouvent dans `roles/`, à la racine de `infra/`. Ansible cherche les rôles à côté du playbook : il ne les trouverait donc pas tout seul. Un `ansible.cfg` lui indique où ils sont, ainsi que l'inventaire à utiliser :"
+
+msgid "`roles_path` kept its default, `roles`."
+msgstr "`roles_path` a conservé sa valeur par défaut, `roles`."
+
+msgid "Add a Deployment and a Service"
+msgstr "Ajouter un Deployment et un Service"
+
+msgid "The platform also runs a web app on Kubernetes. Add a Deployment with two replicas of `nginx:1.27`, and a Service with the same name:"
+msgstr "La plateforme exécute aussi une application web sur Kubernetes. Ajoutez un Deployment avec deux réplicas de `nginx:1.27`, et un Service du même nom :"
+
+msgid "Look at the two manifests:"
+msgstr "Regardez les deux manifestes :"
+
+msgid "Notice `app: web` in both: the pods carry that label and the Service selects it, because both default to the name you gave them. The namespace, `default`, comes from `kikx.toml`."
+msgstr "Remarquez `app: web` dans les deux : les pods portent ce label et le Service le sélectionne, car les deux prennent par défaut le nom que vous leur avez donné. Le namespace, `default`, vient de `kikx.toml`."
+
+msgid "Look at the whole project"
+msgstr "Examiner le projet complet"
+
+msgid "Twenty ordinary files, and a `kikx.toml` next to them."
+msgstr "Vingt fichiers ordinaires, et un `kikx.toml` à côté."
+
+msgid "Check it with Ansible"
+msgstr "Vérifier avec Ansible"
+
+msgid "Now make sure Ansible agrees. Move into the output directory:"
+msgstr "Assurez-vous maintenant qu'Ansible est d'accord. Placez-vous dans le répertoire de sortie :"
+
+msgid "Ask Ansible to draw the inventory. `uvx` fetches `ansible-core` the first time, which takes a moment:"
+msgstr "Demandez à Ansible de dessiner l'inventaire. `uvx` récupère `ansible-core` la première fois, ce qui prend un moment :"
+
+msgid "Ask what Ansible knows about `db-01`:"
+msgstr "Demandez ce qu'Ansible sait de `db-01` :"
+
+msgid "The host picked up its address from the inventory, the interpreter from `[platform:vars]`, and the `postgres` settings from `group_vars/db/main.yml`."
+msgstr "L'hôte a récupéré son adresse depuis l'inventaire, l'interpréteur depuis `[platform:vars]`, et les réglages `postgres` depuis `group_vars/db/main.yml`."
+
+msgid "Finally, check that the playbooks parse and find their roles. You're in the directory that holds `ansible.cfg`, so Ansible already knows the inventory and the roles path:"
+msgstr "Enfin, vérifiez que les playbooks sont analysés sans erreur et trouvent leurs rôles. Vous êtes dans le répertoire qui contient `ansible.cfg` : Ansible connaît donc déjà l'inventaire et le chemin des rôles :"
+
+msgid "List the tasks each play would run:"
+msgstr "Listez les tâches que chaque play exécuterait :"
+
+msgid "Both plays, in order, each on its group, with the conditional `backups` role in place."
+msgstr "Vous devriez voir les deux plays, dans l'ordre, chacun sur son groupe, avec le rôle conditionnel `backups` à sa place."
+
+msgid "Change something"
+msgstr "Modifier quelque chose"
+
+msgid "Go back to the project root and scale the web app to three replicas by adding the Deployment again:"
+msgstr "Revenez à la racine du projet et passez l'application web à trois réplicas en ajoutant de nouveau le Deployment :"
+
+msgid "kikx never overwrites a file you might have edited without being told to. Tell it:"
+msgstr "kikx n'écrase jamais, sans qu'on le lui demande, un fichier que vous avez pu modifier. Demandez-le-lui :"
+
+msgid "What you've done"
+msgstr "Ce que vous avez fait"
+
+msgid "You created a kikx project, added an inventory, group vars, a two-play playbook with a role condition, a site playbook, three role skeletons, an Ansible config and a Kubernetes Deployment and Service, then confirmed with Ansible that the inventory resolves and the playbooks parse. Every file is plain and editable, and none of them depends on kikx."
+msgstr "Vous avez créé un projet kikx, ajouté un inventaire, des group vars, un playbook à deux plays avec une condition de rôle, un playbook site, trois squelettes de rôles, une configuration Ansible ainsi qu'un Deployment et un Service Kubernetes, puis vous avez confirmé avec Ansible que l'inventaire se résout et que les playbooks sont analysés sans erreur. Chaque fichier est ordinaire et modifiable, et aucun ne dépend de kikx."
+
+msgid "Next, try [Build an Ansible platform in the dashboard](platform-in-the-dashboard.md) to build the same kind of project visually, with checks that catch mistakes as you go."
+msgstr "Essayez ensuite [Construire une plateforme Ansible dans le tableau de bord](platform-in-the-dashboard.md) pour construire le même genre de projet visuellement, avec des vérifications qui repèrent les erreurs au fur et à mesure."
+
+msgid "When you want to know more:"
+msgstr "Pour aller plus loin :"
+
+msgid "start the next project from a ready-made template: [Start from a template](../how-to/presets.md#start-from-a-template);"
+msgstr "démarrer le prochain projet depuis un template prêt à l'emploi : [Démarrer depuis un template](../how-to/presets.md#start-from-a-template) ;"
+
+msgid "every command and flag: [CLI reference](../reference/cli.md);"
+msgstr "toutes les commandes et options : [CLI](../reference/cli.md) ;"
+
+msgid "every component and the values it accepts: [Components reference](../reference/components.md);"
+msgstr "tous les composants et les valeurs qu'ils acceptent : [Composants](../reference/components.md) ;"
+
+msgid "why kikx writes files instead of installing a package: [Vendoring real files](../explanation/vendoring.md);"
+msgstr "pourquoi kikx écrit des fichiers au lieu d'installer un paquet : [Vendoriser de vrais fichiers](../explanation/vendoring.md) ;"
+
+msgid "how a component becomes a file: [How rendering works](../explanation/rendering.md)."
+msgstr "comment un composant devient un fichier : [Comment fonctionne le rendu](../explanation/rendering.md)."
+

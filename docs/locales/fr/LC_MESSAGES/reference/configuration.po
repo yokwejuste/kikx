@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Settings read by the backend, the dashboard and the CLI."
+msgstr "Réglages lus par le backend, le tableau de bord et la CLI."
+
+msgid "Backend"
+msgstr "Backend"
+
+msgid "`kikx-backend` options:"
+msgstr "Options de `kikx-backend` :"
+
+msgid "Flag"
+msgstr "Option"
+
+msgid "Environment variable"
+msgstr "Variable d'environnement"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Default"
+msgstr "Valeur par défaut"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "`--port <PORT>`"
+msgstr "`--port <PORT>`"
+
+msgid "`KIKX_PORT`"
+msgstr "`KIKX_PORT`"
+
+msgid "integer `0`–`65535`"
+msgstr "entier `0`–`65535`"
+
+msgid "`4000`"
+msgstr "`4000`"
+
+msgid "Port to listen on"
+msgstr "Port d'écoute"
+
+msgid "`--bind <BIND>`"
+msgstr "`--bind <BIND>`"
+
+msgid "`KIKX_BIND`"
+msgstr "`KIKX_BIND`"
+
+msgid "host or IP address"
+msgstr "hôte ou adresse IP"
+
+msgid "`127.0.0.1`"
+msgstr "`127.0.0.1`"
+
+msgid "Address to bind"
+msgstr "Adresse de liaison"
+
+msgid "`--allow-origin <ALLOW_ORIGIN>`"
+msgstr "`--allow-origin <ALLOW_ORIGIN>`"
+
+msgid "`KIKX_ALLOWED_ORIGINS`"
+msgstr "`KIKX_ALLOWED_ORIGINS`"
+
+msgid "comma-separated list of origins"
+msgstr "liste d'origines séparées par des virgules"
+
+msgid "empty"
+msgstr "vide"
+
+msgid "Browser origins allowed by CORS. Empty allows any loopback origin. See [HTTP API](http-api.md#cors)"
+msgstr "Origines de navigateur autorisées par CORS. Vide autorise toute origine de boucle locale. Voir [API HTTP](http-api.md#cors)"
+
+msgid "`-h`, `--help`"
+msgstr "`-h`, `--help`"
+
+msgid "—"
+msgstr "—"
+
+msgid "Print help"
+msgstr "Affiche l'aide"
+
+msgid "`kikx-backend` has no `--version` option."
+msgstr "`kikx-backend` n'a pas d'option `--version`."
+
+msgid "`--allow-origin` accepts a comma-separated list and can be repeated. Each origin is trimmed; empty entries are dropped."
+msgstr "`--allow-origin` accepte une liste séparée par des virgules et peut être répétée. Les espaces autour de chaque origine sont supprimés ; les entrées vides sont ignorées."
+
+msgid "On start the backend prints:"
+msgstr "Au démarrage, le backend affiche :"
+
+msgid "Precedence"
+msgstr "Priorité"
+
+msgid "Highest first:"
+msgstr "De la plus haute à la plus basse :"
+
+msgid "Command-line flag."
+msgstr "Option de ligne de commande."
+
+msgid "Environment variable set in the process environment."
+msgstr "Variable d'environnement définie dans l'environnement du processus."
+
+msgid "Environment variable from a `.env` file."
+msgstr "Variable d'environnement issue d'un fichier `.env`."
+
+msgid "Built-in default."
+msgstr "Valeur par défaut intégrée."
+
+msgid "The `.env` file is loaded with `dotenvy` from the working directory, or from the nearest parent directory that has one. It never overrides a variable already set in the environment. A line that `dotenvy` cannot parse, for example an unquoted value containing a space, stops loading at that line without an error; that line and every line after it are ignored."
+msgstr "Le fichier `.env` est chargé avec `dotenvy` depuis le répertoire de travail, ou depuis le répertoire parent le plus proche qui en contient un. Il n'écrase jamais une variable déjà définie dans l'environnement. Une ligne que `dotenvy` ne sait pas analyser, par exemple une valeur sans guillemets contenant une espace, arrête le chargement à cette ligne sans erreur ; cette ligne et toutes les suivantes sont ignorées."
+
+msgid "`backend/.env.example`:"
+msgstr "`backend/.env.example` :"
+
+msgid "A list with spaces must be quoted:"
+msgstr "Une liste contenant des espaces doit être entre guillemets :"
+
+msgid "Startup errors"
+msgstr "Erreurs au démarrage"
+
+msgid "Exit status `1`, message on stderr:"
+msgstr "Code de sortie `1`, message sur stderr :"
+
+msgid "Condition"
+msgstr "Condition"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Origin is not a valid header value"
+msgstr "L'origine n'est pas une valeur d'en-tête valide"
+
+msgid "``Error: invalid --allow-origin value `<origin>` ``"
+msgstr "``Error: invalid --allow-origin value `<origin>` ``"
+
+msgid "Address cannot be bound"
+msgstr "L'adresse ne peut pas être liée"
+
+msgid "`Error: failed to bind <bind>:<port>`"
+msgstr "`Error: failed to bind <bind>:<port>`"
+
+msgid "An invalid flag value exits with status `2`."
+msgstr "Une valeur d'option invalide se termine avec le code `2`."
+
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+msgid "Variable"
+msgstr "Variable"
+
+msgid "Required"
+msgstr "Obligatoire"
+
+msgid "`NEXT_PUBLIC_KIKX_API_URL`"
+msgstr "`NEXT_PUBLIC_KIKX_API_URL`"
+
+msgid "yes"
+msgstr "oui"
+
+msgid "Base URL of the backend, without `/api`"
+msgstr "URL de base du backend, sans `/api`"
+
+msgid "Read by Next.js from `web/.env.local` or the environment. When unset, every API call fails with code `not_configured` and the message ``NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.example).``"
+msgstr "Lue par Next.js depuis `web/.env.local` ou l'environnement. Lorsqu'elle n'est pas définie, chaque appel à l'API échoue avec le code `not_configured` et le message ``NEXT_PUBLIC_KIKX_API_URL is not set — point it at your kikx backend (see web/.env.example).``"
+
+msgid "`web/.env.example`:"
+msgstr "`web/.env.example` :"
+
+msgid "CLI"
+msgstr "CLI"
+
+msgid "The CLI reads no environment variables. It reads `kikx.toml` from the current directory for [`kikx add`](cli.md#kikx-add)."
+msgstr "La CLI ne lit aucune variable d'environnement. Elle lit `kikx.toml` depuis le répertoire courant pour [`kikx add`](cli.md#kikx-add)."
+
+msgid "`kikx.toml`"
+msgstr "`kikx.toml`"
+
+msgid "Written by [`kikx init`](cli.md#kikx-init) and [`kikx setup`](cli.md#kikx-setup), read by [`kikx add`](cli.md#kikx-add). TOML, one table."
+msgstr "Écrit par [`kikx init`](cli.md#kikx-init) et [`kikx setup`](cli.md#kikx-setup), lu par [`kikx add`](cli.md#kikx-add). Format TOML, une seule table."
+
+msgid "Key"
+msgstr "Clé"
+
+msgid "`project.name`"
+msgstr "`project.name`"
+
+msgid "string"
+msgstr "chaîne"
+
+msgid "Project name"
+msgstr "Nom du projet"
+
+msgid "`project.default_namespace`"
+msgstr "`project.default_namespace`"
+
+msgid "no"
+msgstr "non"
+
+msgid "`default`"
+msgstr "`default`"
+
+msgid "`namespace` in the template context when no `namespace` field is supplied"
+msgstr "`namespace` dans le contexte du template lorsqu'aucun champ `namespace` n'est fourni"
+
+msgid "`project.output_dir`"
+msgstr "`project.output_dir`"
+
+msgid "`k8s`"
+msgstr "`k8s`"
+
+msgid "Directory, relative to `kikx.toml`, that rendered paths are joined to"
+msgstr "Répertoire, relatif à `kikx.toml`, auquel les chemins rendus sont joints"
+
+msgid "A missing `[project]` table or `name` key fails with `failed to parse <path>/kikx.toml`."
+msgstr "Une table `[project]` ou une clé `name` absente échoue avec `failed to parse <path>/kikx.toml`."
+
+msgid "Project defaults"
+msgstr "Valeurs par défaut du projet"
+
+msgid "Compiled into `kikx-core` (`backend/core/src/config.rs`) and served by [`GET /api/config`](http-api.md#get-apiconfig)."
+msgstr "Compilées dans `kikx-core` (`backend/core/src/config.rs`) et servies par [`GET /api/config`](http-api.md#get-apiconfig)."
+
+msgid "Constant"
+msgstr "Constante"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "`/api/config` key"
+msgstr "Clé de `/api/config`"
+
+msgid "Used for"
+msgstr "Utilisée pour"
+
+msgid "`DEFAULT_NAMESPACE`"
+msgstr "`DEFAULT_NAMESPACE`"
+
+msgid "`defaultNamespace`"
+msgstr "`defaultNamespace`"
+
+msgid "`kikx init --namespace`, `kikx.toml`, presets, `/api/render` `defaultNamespace`"
+msgstr "`kikx init --namespace`, `kikx.toml`, presets, `defaultNamespace` de `/api/render`"
+
+msgid "`DEFAULT_OUTPUT_DIR`"
+msgstr "`DEFAULT_OUTPUT_DIR`"
+
+msgid "`defaultOutputDir`"
+msgstr "`defaultOutputDir`"
+
+msgid "`kikx init --dir`, `kikx.toml`, preset `project.outputDir`, `kikx setup`"
+msgstr "`kikx init --dir`, `kikx.toml`, `project.outputDir` d'un preset, `kikx setup`"
+
+msgid "`DEFAULT_PROJECT_NAME`"
+msgstr "`DEFAULT_PROJECT_NAME`"
+
+msgid "`kikx-project`"
+msgstr "`kikx-project`"
+
+msgid "`defaultProjectName`"
+msgstr "`defaultProjectName`"
+
+msgid "Project name when the current directory has no name"
+msgstr "Nom du projet lorsque le répertoire courant n'a pas de nom"
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Run the dashboard and backend](../how-to/run-the-dashboard.md)"
+msgstr "[Lancer le tableau de bord et le backend](../how-to/run-the-dashboard.md)"
+
+msgid "[How the pieces fit together](../explanation/project-layout.md)"
+msgstr "[Comment les éléments s'articulent](../explanation/project-layout.md)"
+

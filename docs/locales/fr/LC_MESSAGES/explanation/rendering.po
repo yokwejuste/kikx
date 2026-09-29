@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "How rendering works"
+msgstr "Comment fonctionne le rendu"
+
+msgid "Rendering is the step between \"I want a Deployment called `api` running this image\" and a file on disk. It is the same code whether the request comes from `kikx add`, from a preset, or from the dashboard's live preview: `render_component` in `backend/core/src/ops/add.rs`. This page walks through what it does and why each decision was made. For the exact field names of each component, see the [components reference](../reference/components.md)."
+msgstr "Le rendu est l'étape qui sépare « je veux un Deployment nommé `api` qui exécute cette image » d'un fichier sur le disque. Le code est le même, que la demande provienne de `kikx add`, d'un preset ou de l'aperçu en direct du tableau de bord : `render_component` dans `backend/core/src/ops/add.rs`. Cette page décrit ce qu'il fait et la raison de chacun de ses choix. Pour les noms exacts des champs de chaque composant, consultez la [référence des composants](../reference/components.md)."
+
+msgid "Resolving the reference"
+msgstr "Résoudre la référence"
+
+msgid "The first question is which registry item you mean. kikx tries three things in order. If the reference names a built-in component, that item is used; only the last segment is compared, so `k8s/deployment` and `deployment` are the same thing. Otherwise, if the reference starts with `http://` or `https://`, kikx fetches it and parses the body as a registry item. Otherwise, if it names an existing local file, kikx reads that. Anything else is an error that points you at `kikx list`."
+msgstr "La première question est de savoir de quel élément de registre il s'agit. kikx essaie trois choses, dans l'ordre. Si la référence désigne un composant intégré, c'est cet élément qui est utilisé ; seul le dernier segment est comparé, si bien que `k8s/deployment` et `deployment` désignent la même chose. Sinon, si la référence commence par `http://` ou `https://`, kikx la récupère et interprète le corps de la réponse comme un élément de registre. Sinon, si elle désigne un fichier local existant, kikx le lit. Dans tous les autres cas, c'est une erreur qui vous renvoie vers `kikx list`."
+
+msgid "Built-ins go first so that the common case never touches the network or the filesystem, and so a typo in a built-in name fails quickly with a helpful message instead of an attempt to open a file. URLs and files share one loader, which is also what presets use, so \"a reference is a built-in name, a URL or a path\" means the same thing everywhere in kikx. The [registry page](registry.md) covers why custom items matter."
+msgstr "Les éléments intégrés passent en premier pour que le cas courant ne sollicite jamais ni le réseau ni le système de fichiers, et pour qu'une faute de frappe dans un nom intégré échoue rapidement avec un message utile plutôt que par une tentative d'ouverture de fichier. URL et fichiers partagent un même chargeur, celui qu'utilisent aussi les presets : « une référence est un nom intégré, une URL ou un chemin » a donc le même sens partout dans kikx. La [page sur le registre](registry.md) explique pourquoi les éléments personnalisés comptent."
+
+msgid "Building the context"
+msgstr "Construire le contexte"
+
+msgid "Rendering produces a template context: a map of names to values that the templates can use. It always contains `name`, which you must supply, and `namespace`, which is the value you passed if you passed one and otherwise the project's default namespace. For `kikx add` that default comes from `kikx.toml`; for `setup` and `apply` it comes from the preset's project block; over HTTP it is the request's `defaultNamespace`."
+msgstr "Le rendu produit un contexte de template : une table associant des noms à des valeurs que les templates peuvent utiliser. Il contient toujours `name`, que vous devez fournir, et `namespace`, qui prend la valeur que vous avez passée le cas échéant, et sinon le namespace par défaut du projet. Pour `kikx add`, cette valeur par défaut provient de `kikx.toml` ; pour `setup` et `apply`, du bloc projet du preset ; en HTTP, du champ `defaultNamespace` de la requête."
+
+msgid "Then kikx walks the item's declared fields. For each one it takes your value if you gave one, and falls back to the registry default if you didn't. A required field with neither is an error, named after the flag you'd use to supply it. Explicit values always beat defaults, and the defaults are only ever the registry's, never a client's."
+msgstr "kikx parcourt ensuite les champs déclarés par l'élément. Pour chacun, il prend votre valeur si vous en avez fourni une, et se replie sur la valeur par défaut du registre dans le cas contraire. Un champ obligatoire dépourvu des deux provoque une erreur, qui mentionne l'option permettant de le fournir. Les valeurs explicites l'emportent toujours sur les valeurs par défaut, et les valeurs par défaut sont exclusivement celles du registre, jamais celles d'un client."
+
+msgid "Values you supply that the item doesn't declare are still added to the context. Declared fields exist to give clients defaults, examples and validation, not to restrict what a template can see, so a custom item can use extra values without listing every one."
+msgstr "Les valeurs que vous fournissez sans que l'élément les déclare sont tout de même ajoutées au contexte. Les champs déclarés servent à fournir aux clients des valeurs par défaut, des exemples et une validation, pas à restreindre ce qu'un template peut voir : un élément personnalisé peut donc utiliser des valeurs supplémentaires sans devoir toutes les énumérer."
+
+msgid "Labels are handled alongside fields. You can set any labels you like, and if you don't set `app` it defaults to the component name. That one default is why a Deployment and a Service with the same name select each other without further configuration."
+msgstr "Les labels sont traités en même temps que les champs. Vous pouvez définir tous les labels que vous voulez, et si vous ne définissez pas `app`, il prend par défaut le nom du composant. C'est grâce à cette seule valeur par défaut qu'un Deployment et un Service portant le même nom se sélectionnent mutuellement sans autre configuration."
+
+msgid "Named flags and `--set`"
+msgstr "Options nommées et `--set`"
+
+msgid "The CLI offers two ways to give a value. A handful of common fields have their own flags (`--image`, `--replicas`, `--port`, `--target-port`, `--namespace`, `--host`, `--path`, `--service`), and every field can be set with `--set key=value`. The HTTP API mirrors this: the same common fields are top-level properties of a render request, and everything else goes in a `fields` map."
+msgstr "La CLI propose deux façons de fournir une valeur. Quelques champs courants disposent de leur propre option (`--image`, `--replicas`, `--port`, `--target-port`, `--namespace`, `--host`, `--path`, `--service`), et tout champ peut être défini avec `--set key=value`. L'API HTTP suit le même principe : ces mêmes champs courants sont des propriétés de premier niveau d'une requête de rendu, et tout le reste va dans une table `fields`."
+
+msgid "Both routes feed a single list. Named values go in first and `--set` values are appended after them, and when the list is turned into the context the later entry for a key replaces the earlier one. So if you pass both `--image nginx` and `--set image=caddy`, the rendered image is `caddy`; the same holds for a top-level `image` versus `fields.image` over HTTP. The named flags exist for convenience and type checking (a port has to be a number), and `--set` is the general mechanism that always has the last word."
+msgstr "Les deux voies alimentent une liste unique. Les valeurs nommées y entrent d'abord, les valeurs `--set` sont ajoutées à leur suite, et lorsque la liste est convertie en contexte, la dernière entrée pour une clé remplace les précédentes. Si vous passez à la fois `--image nginx` et `--set image=caddy`, l'image rendue est donc `caddy` ; il en va de même en HTTP pour un `image` de premier niveau face à `fields.image`. Les options nommées existent pour le confort et la vérification de type (un port doit être un nombre), tandis que `--set` est le mécanisme général, qui a toujours le dernier mot."
+
+msgid "JSON-valued fields"
+msgstr "Champs à valeur JSON"
+
+msgid "Every value arrives as a string, from a flag, a preset or an HTTP body. That keeps the interface uniform, but some components need structure: an inventory is a list of groups with members and vars, a playbook is a list of plays with roles and conditions. Rather than invent a second input format, kikx looks at each value as it goes into the context. If it starts with `[` or `{` and parses as JSON, the template receives the parsed list or map. Otherwise it receives the string."
+msgstr "Toute valeur arrive sous forme de chaîne, qu'elle provienne d'une option, d'un preset ou d'un corps HTTP. Cela garde l'interface uniforme, mais certains composants ont besoin de structure : un inventaire est une liste de groupes avec leurs membres et leurs variables, un playbook une liste de plays avec leurs rôles et leurs conditions. Plutôt que d'inventer un second format d'entrée, kikx examine chaque valeur au moment où elle entre dans le contexte. Si elle commence par `[` ou `{` et s'interprète comme du JSON, le template reçoit la liste ou la table correspondante. Sinon, il reçoit la chaîne."
+
+msgid "This keeps presets as simple string maps, lets the dashboard send structured data as a JSON string, and lets the CLI accept it with `--set hosts='[...]'`. The rule applies to registry defaults too, so a custom item can declare a JSON default. The trade-off is that a plain string value that happens to be valid JSON beginning with a bracket or brace becomes structured; in practice field values like images, hostnames and ports never look like that."
+msgstr "Les presets restent ainsi de simples tables de chaînes, le tableau de bord peut envoyer des données structurées sous forme de chaîne JSON, et la CLI les accepte avec `--set hosts='[...]'`. La règle s'applique aussi aux valeurs par défaut du registre, si bien qu'un élément personnalisé peut déclarer une valeur par défaut en JSON. La contrepartie est qu'une simple chaîne qui se trouve être du JSON valide commençant par un crochet ou une accolade devient structurée ; en pratique, des valeurs de champs comme des images, des noms d'hôtes ou des ports n'ont jamais cette forme."
+
+msgid "Templates"
+msgstr "Templates"
+
+msgid "Templates are [minijinja](https://github.com/mitsuhiko/minijinja), a Rust implementation of Jinja2. Jinja was the obvious choice for a tool whose main audience writes Ansible, which already uses it, and minijinja makes it available without a Python runtime. Trailing newlines are kept so rendered files end the way their templates do."
+msgstr "Les templates utilisent [minijinja](https://github.com/mitsuhiko/minijinja), une implémentation de Jinja2 en Rust. Jinja s'imposait pour un outil dont le public principal écrit de l'Ansible, qui l'utilise déjà, et minijinja le rend disponible sans environnement d'exécution Python. Les sauts de ligne finaux sont conservés, de sorte que les fichiers rendus se terminent comme leurs templates."
+
+msgid "Both halves of a registry file are templates. The content is rendered with the context, and so is the path, which is how `{{ name }}-deployment.yaml`, an optional playbook folder, and the choice between `group_vars/<group>.yml` and `group_vars/<group>/main.yml` all come from the registry rather than from client code. If two files of one item render to the same path, rendering fails: that is a broken item, not a situation to resolve silently."
+msgstr "Les deux moitiés d'un fichier de registre sont des templates. Le contenu est rendu avec le contexte, et le chemin aussi : c'est ainsi que `{{ name }}-deployment.yaml`, un dossier de playbook facultatif et le choix entre `group_vars/<group>.yml` et `group_vars/<group>/main.yml` proviennent tous du registre plutôt que du code client. Si deux fichiers d'un même élément sont rendus vers le même chemin, le rendu échoue : c'est le signe d'un élément défectueux, pas d'une situation à résoudre en silence."
+
+msgid "Null versus missing in the inventory"
+msgstr "Null ou absent dans l'inventaire"
+
+msgid "The inventory component has one subtle rule worth understanding. It takes a `default_user` and a `default_port` (defaulting to `root` and `22`) that are written onto hosts that don't set their own. The question is what \"don't set\" means."
+msgstr "Le composant d'inventaire obéit à une règle subtile qui mérite d'être comprise. Il accepte un `default_user` et un `default_port` (valant par défaut `root` et `22`), écrits sur les hôtes qui ne définissent pas les leurs. Toute la question est de savoir ce que signifie « ne pas définir »."
+
+msgid "If a host entry has no `ansible_user` key at all, the default is written, so a quick inventory of a few servers gets `ansible_user=root ansible_port=22` on every line with no extra effort. If the host sets `ansible_user` to a value, that value is written. And if the host sets `ansible_user` to `null` (or an empty string), nothing is written for it at all, not even the default. The same applies to `ansible_port`."
+msgstr "Si une entrée d'hôte n'a aucune clé `ansible_user`, la valeur par défaut est écrite : un inventaire rapide de quelques serveurs obtient ainsi `ansible_user=root ansible_port=22` sur chaque ligne sans effort supplémentaire. Si l'hôte donne une valeur à `ansible_user`, c'est cette valeur qui est écrite. Et si l'hôte définit `ansible_user` à `null` (ou à une chaîne vide), rien n'est écrit pour lui, pas même la valeur par défaut. Il en va de même pour `ansible_port`."
+
+msgid "The reason for the third case is Ansible's variable precedence. A host variable written inline in the inventory beats a group variable. If kikx always wrote a default user onto every host, a `[all:vars]` block or a `group_vars/all.yml` saying `ansible_user=ops` would be silently overridden by `ansible_user=root` on each host line, which is exactly the kind of bug that is hard to spot. Explicit `null` is how a caller says \"I have nothing to say about this host's user; let the group decide\". The dashboard uses this: a host whose user or port field is left empty is sent with `null`, and when a host belongs to several groups only its first appearance carries connection details, the rest being bare names, so the same variables aren't repeated or re-defaulted."
+msgstr "Ce troisième cas s'explique par l'ordre de priorité des variables d'Ansible. Une variable d'hôte écrite directement dans l'inventaire l'emporte sur une variable de groupe. Si kikx écrivait systématiquement un utilisateur par défaut sur chaque hôte, un bloc `[all:vars]` ou un fichier `group_vars/all.yml` indiquant `ansible_user=ops` serait discrètement écrasé par `ansible_user=root` sur chaque ligne d'hôte, exactement le genre de bogue difficile à repérer. Un `null` explicite est la façon dont l'appelant dit : « je n'ai rien à dire sur l'utilisateur de cet hôte ; laissez le groupe décider ». Le tableau de bord s'en sert : un hôte dont le champ utilisateur ou port est laissé vide est envoyé avec `null`, et lorsqu'un hôte appartient à plusieurs groupes, seule sa première apparition porte les informations de connexion, les suivantes n'étant que de simples noms, afin que les mêmes variables ne soient ni répétées ni remises à leur valeur par défaut."
+
+msgid "Path safety"
+msgstr "Sécurité des chemins"
+
+msgid "Rendered paths come from templates, and templates can come from a URL you don't control. Before kikx writes anything to disk, it checks every rendered path. Absolute paths are refused. Paths are walked component by component, and any `..` that would climb above the output directory is refused. Two files rendering to the same path across a whole preset are refused too. Only then does kikx check for existing files and write."
+msgstr "Les chemins rendus proviennent de templates, et ces templates peuvent venir d'une URL que vous ne contrôlez pas. Avant d'écrire quoi que ce soit sur le disque, kikx vérifie chaque chemin rendu. Les chemins absolus sont refusés. Les chemins sont parcourus segment par segment, et tout `..` qui remonterait au-dessus du répertoire de sortie est refusé. Deux fichiers rendus vers le même chemin dans l'ensemble d'un preset sont également refusés. Ce n'est qu'ensuite que kikx vérifie les fichiers existants et écrit."
+
+msgid "These checks run when kikx writes, which is the CLI's `add`, `setup` and `apply`. The HTTP API only renders and returns content, so it doesn't apply them; the dashboard puts the rendered paths into the zip you download."
+msgstr "Ces vérifications ont lieu lorsque kikx écrit, c'est-à-dire lors des commandes `add`, `setup` et `apply` de la CLI. L'API HTTP se contente d'effectuer le rendu et de renvoyer le contenu, elle ne les applique donc pas ; le tableau de bord place les chemins rendus dans le zip que vous téléchargez."
+
+msgid "One writer per file"
+msgstr "Un seul auteur par fichier"
+
+msgid "A file can have only one content, so kikx insists that a file has only one owner. On the command line this shows up as the refusal to overwrite without `--force`, and as the rejection of a preset where two components render to the same path."
+msgstr "Un fichier ne peut avoir qu'un seul contenu ; kikx exige donc qu'il n'ait qu'un seul propriétaire. En ligne de commande, cela se traduit par le refus d'écraser un fichier sans `--force`, et par le rejet d'un preset dans lequel deux composants sont rendus vers le même chemin."
+
+msgid "The dashboard enforces it more precisely because it knows which component produced which file. Each component is identified by its reference and name. When you save a component whose files collide with files another component already owns, the conflict dialog shows the owner and a diff, and confirming replaces the previous owner: that component is removed from the project, not just the colliding file. Saving a component with the same reference and name as an existing one replaces it in place."
+msgstr "Le tableau de bord l'applique plus finement, car il sait quel composant a produit quel fichier. Chaque composant est identifié par sa référence et son nom. Lorsque vous enregistrez un composant dont les fichiers entrent en collision avec des fichiers appartenant déjà à un autre composant, la boîte de dialogue de conflit affiche le propriétaire et un diff, et confirmer remplace l'ancien propriétaire : ce composant est retiré du projet, pas seulement le fichier en collision. Enregistrer un composant de même référence et de même nom qu'un composant existant le remplace sur place."
+
+msgid "Removing the whole previous owner can feel heavy-handed, but the alternatives are worse. Keeping the old component while dropping one of its files would leave a component whose recipe no longer matches its output, and it would come back the next time the project is re-rendered from a preset. Keeping both would make the download depend on ordering, and the Checks view flags exactly that case as an error because only the last writer would survive. Replacing the owner keeps the project's recipe and its files telling the same story. See [Resolve file conflicts and checks](../how-to/resolve-conflicts.md)."
+msgstr "Retirer l'ancien propriétaire en entier peut sembler brutal, mais les alternatives sont pires. Conserver l'ancien composant en supprimant l'un de ses fichiers laisserait un composant dont la recette ne correspond plus à ce qu'il produit, et le fichier reviendrait au prochain rendu du projet depuis un preset. Conserver les deux rendrait le téléchargement dépendant de l'ordre, et la vue « Checks » signale justement ce cas comme une erreur, puisque seul le dernier auteur survivrait. Remplacer le propriétaire garantit que la recette du projet et ses fichiers racontent la même histoire. Voir [Résoudre les conflits de fichiers et les vérifications](../how-to/resolve-conflicts.md)."
+
+msgid "Related"
+msgstr "Voir aussi"
+
+msgid "[Vendoring real files](vendoring.md) for why the output is written once and then owned by you."
+msgstr "[Vendoriser de vrais fichiers](vendoring.md) pour comprendre pourquoi le résultat est écrit une seule fois puis vous appartient."
+
+msgid "[Registry item format](../reference/registry-item-format.md) for the templates' inputs."
+msgstr "[Format des éléments de registre](../reference/registry-item-format.md) pour les entrées des templates."
+
+msgid "[CLI reference](../reference/cli.md) for every flag mentioned here."
+msgstr "[Référence de la CLI](../reference/cli.md) pour toutes les options mentionnées ici."
+

@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Write a multi-play playbook with role conditions"
+msgstr "Écrire un playbook à plusieurs plays avec des conditions de rôle"
+
+msgid "Use this when one playbook file has to run different roles on different groups, or when a role should only run under a condition."
+msgstr "Suivez ce guide lorsqu'un même fichier de playbook doit exécuter des rôles différents sur des groupes différents, ou lorsqu'un rôle ne doit s'exécuter que sous une condition."
+
+msgid "In the dashboard"
+msgstr "Dans le tableau de bord"
+
+msgid "In **Build**, pick **Playbook** under the Configure stage."
+msgstr "Dans « Build », choisissez « Playbook » sous l'étape Configure."
+
+msgid "Fill in **Name**. Set **Folder** to `playbooks` if you keep playbooks in a subfolder. Leave it empty to write the file at the project root."
+msgstr "Renseignez « Name ». Réglez « Folder » sur `playbooks` si vous rangez vos playbooks dans un sous-dossier. Laissez-le vide pour écrire le fichier à la racine du projet."
+
+msgid "For the first play, fill in:"
+msgstr "Pour le premier play, renseignez :"
+
+msgid "**Name**: what the play does, for example `Prepare every host`."
+msgstr "« Name » : ce que fait le play, par exemple `Prepare every host`."
+
+msgid "**Runs on (hosts)**: an inventory group, `all`, or a pattern such as `web:db`. The suggestions come from your inventory's groups."
+msgstr "« Runs on (hosts) » : un groupe d'inventaire, `all`, ou un motif comme `web:db`. Les suggestions proviennent des groupes de votre inventaire."
+
+msgid "**Roles, in the order they run**: type each role name and press Enter. Roles already in the project, or used by other playbooks, are suggested."
+msgstr "« Roles, in the order they run » : saisissez le nom de chaque rôle et appuyez sur Entrée. Les rôles déjà présents dans le projet, ou utilisés par d'autres playbooks, sont suggérés."
+
+msgid "To make a role conditional, expand **Role conditions (`when:`)** and type a Jinja expression next to that role, for example `enable_tls | default(false)`. Leave it empty to always run the role."
+msgstr "Pour rendre un rôle conditionnel, dépliez « Role conditions (`when:`) » et saisissez une expression Jinja à côté de ce rôle, par exemple `enable_tls | default(false)`. Laissez le champ vide pour toujours exécuter le rôle."
+
+msgid "To run tasks around the roles, expand **Pre-tasks & post-tasks**. Paste a YAML list of tasks under **Before the roles** or **After the roles**. It's written as-is."
+msgstr "Pour exécuter des tâches autour des rôles, dépliez « Pre-tasks & post-tasks ». Collez une liste YAML de tâches sous « Before the roles » ou « After the roles ». Elle est écrite telle quelle."
+
+msgid "Optionally, add **Tags (optional)** and clear **Run as root (become)** if the play shouldn't escalate."
+msgstr "Si besoin, ajoutez des « Tags (optional) » et décochez « Run as root (become) » si le play ne doit pas élever ses privilèges."
+
+msgid "Click **Add play** for the next play. Use the arrows on a play to reorder it."
+msgstr "Cliquez sur « Add play » pour le play suivant. Utilisez les flèches d'un play pour le réordonner."
+
+msgid "Click **Add to project**."
+msgstr "Cliquez sur « Add to project »."
+
+msgid "The preview shows the rendered YAML as you type. If a play targets a group that isn't in the inventory, **Checks** warns you."
+msgstr "L'aperçu affiche le YAML rendu au fil de la saisie. Si un play vise un groupe absent de l'inventaire, « Checks » vous avertit."
+
+msgid "With the CLI"
+msgstr "Avec la CLI"
+
+msgid "Pass the plays as a JSON list in the `plays` field:"
+msgstr "Passez les plays sous forme de liste JSON dans le champ `plays` :"
+
+msgid "This writes `playbooks/web.yml`:"
+msgstr "Cette commande écrit `playbooks/web.yml` :"
+
+msgid "A few rules for the JSON:"
+msgstr "Quelques règles pour le JSON :"
+
+msgid "A role is either a plain name (`\"nginx\"`) or an object (`{\"role\": \"certbot\", \"when\": \"...\"}`) when it needs a condition."
+msgstr "Un rôle est soit un simple nom (`\"nginx\"`), soit un objet (`{\"role\": \"certbot\", \"when\": \"...\"}`) lorsqu'il a besoin d'une condition."
+
+msgid "`become` defaults to `true`. With `\"become\": false`, the play has no `become:` line at all."
+msgstr "`become` vaut `true` par défaut. Avec `\"become\": false`, le play n'a aucune ligne `become:`."
+
+msgid "`pre_tasks` and `post_tasks` are YAML strings. Keep them at zero indentation, and kikx indents them under the play."
+msgstr "`pre_tasks` et `post_tasks` sont des chaînes YAML. Gardez-les sans indentation : kikx les indente sous le play."
+
+msgid "Use `plays`, even for a single play. The older `--set hosts=... --set roles=[...]` form still works, but it writes a single play named after the component, with no tags and no role conditions."
+msgstr "Utilisez `plays`, même pour un seul play. L'ancienne forme `--set hosts=... --set roles=[...]` fonctionne toujours, mais elle n'écrit qu'un seul play nommé d'après le composant, sans tags ni conditions sur les rôles."
+
+msgid "In a preset"
+msgstr "Dans un preset"
+
+msgid "In a preset, the same JSON goes in as a string value of `fields.plays`. This is exactly what the dashboard writes when you click **Download preset**:"
+msgstr "Dans un preset, le même JSON est placé comme valeur de type chaîne de `fields.plays`. C'est exactement ce qu'écrit le tableau de bord lorsque vous cliquez sur « Download preset » :"
+
+msgid "Next steps"
+msgstr "Étapes suivantes"
+
+msgid "[Scaffold the roles your playbooks use](scaffold-roles.md)"
+msgstr "[Générer les rôles utilisés par vos playbooks](scaffold-roles.md)"
+
+msgid "[Wire playbooks together with a site playbook](site-playbook.md)"
+msgstr "[Relier les playbooks avec un playbook site](site-playbook.md)"
+
+msgid "[Components reference](../reference/components.md)"
+msgstr "[Composants](../reference/components.md)"
+
+msgid "[Preset format](../reference/preset-format.md)"
+msgstr "[Format des presets](../reference/preset-format.md)"
+

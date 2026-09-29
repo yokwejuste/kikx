@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Preset format"
+msgstr "Format des presets"
+
+msgid "A preset is a JSON file listing components and their field values. It is read by [`kikx setup`](cli.md#kikx-setup) and [`kikx apply`](cli.md#kikx-apply), and written and read by the dashboard. kikx also ships [built-in templates](#built-in-templates) in this format. Schema source: `backend/core/src/presets/manifest.rs`."
+msgstr "Un preset est un fichier JSON qui liste des composants et les valeurs de leurs champs. Il est lu par [`kikx setup`](cli.md#kikx-setup) et [`kikx apply`](cli.md#kikx-apply), et écrit et lu par le tableau de bord. kikx fournit aussi des [templates intégrés](#built-in-templates) dans ce format. Source du schéma : `backend/core/src/presets/manifest.rs`."
+
+msgid "The dashboard names the file `<project name>.kikx-preset.json`, or `kikx-project.kikx-preset.json` when the project has no name. The CLI accepts any file name."
+msgstr "Le tableau de bord nomme le fichier `<project name>.kikx-preset.json`, ou `kikx-project.kikx-preset.json` lorsque le projet n'a pas de nom. La CLI accepte n'importe quel nom de fichier."
+
+msgid "Location"
+msgstr "Emplacement"
+
+msgid "A reference is checked in this order:"
+msgstr "Une référence est vérifiée dans cet ordre :"
+
+msgid "Reference"
+msgstr "Référence"
+
+msgid "Loaded from"
+msgstr "Chargée depuis"
+
+msgid "Name of a [built-in template](#built-in-templates)"
+msgstr "Nom d'un [template intégré](#built-in-templates)"
+
+msgid "The template embedded in `kikx-core`"
+msgstr "Le template embarqué dans `kikx-core`"
+
+msgid "Starts with `http://` or `https://`"
+msgstr "Commence par `http://` ou `https://`"
+
+msgid "HTTP `GET`"
+msgstr "HTTP `GET`"
+
+msgid "Existing local file"
+msgstr "Fichier local existant"
+
+msgid "The file, relative to the current directory"
+msgstr "Le fichier, relativement au répertoire courant"
+
+msgid "Anything else"
+msgstr "Tout le reste"
+
+msgid "Error: `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
+msgstr "Erreur : `` `<reference>` isn't a template name, a URL or an existing local file — run `kikx presets` to see the templates ``"
+
+msgid "A template name wins over a local file with the same name. Use `./<name>` to load the file instead."
+msgstr "Un nom de template l'emporte sur un fichier local du même nom. Utilisez `./<name>` pour charger le fichier à la place."
+
+msgid "Manifest"
+msgstr "Manifeste"
+
+msgid "Key"
+msgstr "Clé"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Required"
+msgstr "Obligatoire"
+
+msgid "Default"
+msgstr "Valeur par défaut"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "`name`"
+msgstr "`name`"
+
+msgid "string"
+msgstr "chaîne"
+
+msgid "no"
+msgstr "non"
+
+msgid "`\"\"`"
+msgstr "`\"\"`"
+
+msgid "Preset name. For a built-in template, the name that `setup` and `apply` accept. Not used when rendering"
+msgstr "Nom du preset. Pour un template intégré, le nom qu'acceptent `setup` et `apply`. Non utilisé lors du rendu"
+
+msgid "`title`"
+msgstr "`title`"
+
+msgid "Display title, shown by `kikx presets` and the dashboard template gallery. Not used when rendering"
+msgstr "Titre affiché par `kikx presets` et par la galerie de templates du tableau de bord. Non utilisé lors du rendu"
+
+msgid "`description`"
+msgstr "`description`"
+
+msgid "Preset description. Not used when rendering"
+msgstr "Description du preset. Non utilisée lors du rendu"
+
+msgid "`project`"
+msgstr "`project`"
+
+msgid "[Project](#project)"
+msgstr "[Projet](#project)"
+
+msgid "absent"
+msgstr "absent"
+
+msgid "Project settings"
+msgstr "Réglages du projet"
+
+msgid "`components`"
+msgstr "`components`"
+
+msgid "array of [Component](#component)"
+msgstr "tableau de [Composant](#component)"
+
+msgid "yes"
+msgstr "oui"
+
+msgid "—"
+msgstr "—"
+
+msgid "Components, rendered in order"
+msgstr "Composants, rendus dans l'ordre"
+
+msgid "Unknown keys are ignored."
+msgstr "Les clés inconnues sont ignorées."
+
+msgid "Project"
+msgstr "Projet"
+
+msgid "Used by"
+msgstr "Utilisée par"
+
+msgid "name of the current directory"
+msgstr "nom du répertoire courant"
+
+msgid "`setup`: `project.name` in `kikx.toml`"
+msgstr "`setup` : `project.name` dans `kikx.toml`"
+
+msgid "`namespace`"
+msgstr "`namespace`"
+
+msgid "`default`"
+msgstr "`default`"
+
+msgid "`setup` and `apply`: default namespace for every component; `setup`: `project.default_namespace`"
+msgstr "`setup` et `apply` : namespace par défaut de chaque composant ; `setup` : `project.default_namespace`"
+
+msgid "`outputDir`"
+msgstr "`outputDir`"
+
+msgid "`k8s`"
+msgstr "`k8s`"
+
+msgid "`setup`: output directory and `project.output_dir`. Ignored by `apply`"
+msgstr "`setup` : répertoire de sortie et `project.output_dir`. Ignorée par `apply`"
+
+msgid "When `project` is absent, `setup` uses the current directory name, `default` and `k8s`, and `apply` uses `default`."
+msgstr "Lorsque `project` est absent, `setup` utilise le nom du répertoire courant, `default` et `k8s`, et `apply` utilise `default`."
+
+msgid "Component"
+msgstr "Composant"
+
+msgid "`reference`"
+msgstr "`reference`"
+
+msgid "Component reference. See [Registry item format](registry-item-format.md#reference-resolution)"
+msgstr "Référence du composant. Voir [Format des éléments de registre](registry-item-format.md#reference-resolution)"
+
+msgid "`name` in the template context"
+msgstr "`name` dans le contexte du template"
+
+msgid "`fields`"
+msgstr "`fields`"
+
+msgid "object of string to string"
+msgstr "objet de chaîne vers chaîne"
+
+msgid "`{}`"
+msgstr "`{}`"
+
+msgid "Field values. Every value must be a JSON string"
+msgstr "Valeurs des champs. Chaque valeur doit être une chaîne JSON"
+
+msgid "`labels`"
+msgstr "`labels`"
+
+msgid "Labels. `app` defaults to `name`"
+msgstr "Labels. `app` vaut `name` par défaut"
+
+msgid "A field listed in [Components](components.md) as JSON-valued is stored as a string containing JSON, for example `\"hosts\": \"[{\\\"group\\\": \\\"web\\\"}]\"`. A non-string value fails with `<reference> is not a valid kikx preset manifest` and ``invalid type: integer `8080`, expected a string``."
+msgstr "Un champ indiqué comme à valeur JSON dans [Composants](components.md) est stocké sous forme de chaîne contenant du JSON, par exemple `\"hosts\": \"[{\\\"group\\\": \\\"web\\\"}]\"`. Une valeur qui n'est pas une chaîne échoue avec `<reference> is not a valid kikx preset manifest` et ``invalid type: integer `8080`, expected a string``."
+
+msgid "A `namespace` key in `fields` overrides the project namespace for that component."
+msgstr "Une clé `namespace` dans `fields` remplace le namespace du projet pour ce composant."
+
+msgid "Minimal example"
+msgstr "Exemple minimal"
+
+msgid "`kikx setup` writes `k8s/web-service.yaml` and:"
+msgstr "`kikx setup` écrit `k8s/web-service.yaml` et :"
+
+msgid "Full example"
+msgstr "Exemple complet"
+
+msgid "`kikx setup` writes these files under `infra/`:"
+msgstr "`kikx setup` écrit ces fichiers sous `infra/` :"
+
+msgid "A larger preset with 35 components is the [`multi-tier-platform`](#built-in-templates) template."
+msgstr "Un preset plus grand, de 35 composants, est le template [`multi-tier-platform`](#built-in-templates)."
+
+msgid "Built-in templates"
+msgstr "Templates intégrés"
+
+msgid "kikx ships five presets, embedded in `kikx-core` at build time. Their source files are in `backend/core/presets/`, one `<name>.kikx-preset.json` per template. They are listed by [`kikx presets`](cli.md#kikx-presets) and [`GET /api/presets`](http-api.md#get-apipresets), and shown on the dashboard home page under **Start from a template**."
+msgstr "kikx fournit cinq presets, embarqués dans `kikx-core` à la compilation. Leurs fichiers sources se trouvent dans `backend/core/presets/`, un `<name>.kikx-preset.json` par template. Ils sont listés par [`kikx presets`](cli.md#kikx-presets) et [`GET /api/presets`](http-api.md#get-apipresets), et affichés sur la page d'accueil du tableau de bord sous « Start from a template »."
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Components"
+msgstr "Composants"
+
+msgid "Output directory"
+msgstr "Répertoire de sortie"
+
+msgid "Namespace"
+msgstr "Namespace"
+
+msgid "Contents"
+msgstr "Contenu"
+
+msgid "`k8s-web-app`"
+msgstr "`k8s-web-app`"
+
+msgid "Kubernetes web app"
+msgstr "Kubernetes web app"
+
+msgid "7"
+msgstr "7"
+
+msgid "`web`"
+msgstr "`web`"
+
+msgid "A web frontend and an API behind ingresses, plus a background worker."
+msgstr "A web frontend and an API behind ingresses, plus a background worker."
+
+msgid "`single-server`"
+msgstr "`single-server`"
+
+msgid "Single server with Ansible"
+msgstr "Single server with Ansible"
+
+msgid "`infra`"
+msgstr "`infra`"
+
+msgid "One DigitalOcean droplet, configured by a common role through a site playbook."
+msgstr "One DigitalOcean droplet, configured by a common role through a site playbook."
+
+msgid "`kubeadm-cluster`"
+msgstr "`kubeadm-cluster`"
+
+msgid "Kubernetes cluster with kubeadm"
+msgstr "Kubernetes cluster with kubeadm"
+
+msgid "11"
+msgstr "11"
+
+msgid "Hetzner servers bootstrapped into a three-node control plane and three workers."
+msgstr "Hetzner servers bootstrapped into a three-node control plane and three workers."
+
+msgid "`web-and-database`"
+msgstr "`web-and-database`"
+
+msgid "Web servers and a database"
+msgstr "Web servers and a database"
+
+msgid "13"
+msgstr "13"
+
+msgid "Existing servers split into a web tier and a PostgreSQL primary with a replica."
+msgstr "Existing servers split into a web tier and a PostgreSQL primary with a replica."
+
+msgid "`multi-tier-platform`"
+msgstr "`multi-tier-platform`"
+
+msgid "Multi-tier platform"
+msgstr "Multi-tier platform"
+
+msgid "35"
+msgstr "35"
+
+msgid "`shop`"
+msgstr "`shop`"
+
+msgid "A storefront platform: edge load balancers, web/app tiers, PostgreSQL primary + replicas, Redis, monitoring and a Kubernetes cluster."
+msgstr "A storefront platform: edge load balancers, web/app tiers, PostgreSQL primary + replicas, Redis, monitoring and a Kubernetes cluster."
+
+msgid "Every template that contains Ansible components also contains an [`ansible/config`](components.md#ansibleconfig) component, so `ansible-playbook site.yml` finds the inventory and the roles from the output directory."
+msgstr "Chaque template qui contient des composants Ansible contient aussi un composant [`ansible/config`](components.md#ansibleconfig) : `ansible-playbook site.yml` trouve ainsi l'inventaire et les rôles depuis le répertoire de sortie."
+
+msgid "A template is an ordinary preset: rendering it gives editable files with no link back to the template."
+msgstr "Un template est un preset ordinaire : son rendu donne des fichiers modifiables, sans aucun lien vers le template."
+
+msgid "Rendering rules"
+msgstr "Règles de rendu"
+
+msgid "All components are rendered before any file is written. The run stops with no file written when:"
+msgstr "Le rendu de tous les composants est effectué avant l'écriture du moindre fichier. L'exécution s'arrête sans écrire aucun fichier lorsque :"
+
+msgid "a component fails to render;"
+msgstr "le rendu d'un composant échoue ;"
+
+msgid "two components render the same path;"
+msgstr "deux composants sont rendus vers le même chemin ;"
+
+msgid "a rendered path is absolute or leaves the target directory;"
+msgstr "un chemin rendu est absolu ou sort du répertoire cible ;"
+
+msgid "a target file exists and `--force` is not passed."
+msgstr "un fichier cible existe et `--force` n'est pas passé."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Share a project as a preset](../how-to/presets.md)"
+msgstr "[Partager un projet sous forme de preset](../how-to/presets.md)"
+
+msgid "[Vendoring real files](../explanation/vendoring.md)"
+msgstr "[Vendoriser de vrais fichiers](../explanation/vendoring.md)"
+

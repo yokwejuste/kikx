@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:40+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: kikx contributors\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Vendoring real files"
+msgstr "Vendoriser de vrais fichiers"
+
+msgid "kikx has one central idea: the infrastructure it produces for you should be ordinary files in your repository, not something that lives behind a dependency. When you add an inventory, a playbook, a role or a Kubernetes Deployment, kikx renders a template once and writes the result next to the rest of your code. From that moment on the file is yours. This page explains why kikx works that way, what you give up in exchange, and when the model fits."
+msgstr "kikx repose sur une idée centrale : l'infrastructure qu'il produit pour vous doit prendre la forme de fichiers ordinaires dans votre dépôt, et non de quelque chose qui vit derrière une dépendance. Lorsque vous ajoutez un inventaire, un playbook, un rôle ou un Deployment Kubernetes, kikx effectue le rendu d'un template une seule fois et écrit le résultat à côté du reste de votre code. Dès cet instant, le fichier vous appartient. Cette page explique pourquoi kikx fonctionne ainsi, ce à quoi vous renoncez en échange, et dans quels cas ce modèle convient."
+
+msgid "The problem with hidden infrastructure"
+msgstr "Le problème de l'infrastructure cachée"
+
+msgid "Infrastructure tooling usually reaches you in one of two shapes. The first is a dependency: an Ansible collection, a Helm chart, a Terraform module. You pin a version, pass it variables, and the real logic stays inside a package you don't read. The second is a generator that produces output and then expects to keep owning it, often with a header asking you not to edit the file because the next run will overwrite it."
+msgstr "Les outils d'infrastructure vous parviennent généralement sous l'une de deux formes. La première est une dépendance : une collection Ansible, un chart Helm, un module Terraform. Vous figez une version, vous lui passez des variables, et la logique réelle reste enfermée dans un paquet que vous ne lisez pas. La seconde est un générateur qui produit un résultat puis entend en rester propriétaire, souvent avec un en-tête vous demandant de ne pas modifier le fichier parce que la prochaine exécution l'écrasera."
+
+msgid "Both shapes work well while your needs match the author's. They get uncomfortable the day you need one more line the abstraction didn't anticipate. With a dependency you end up forking it, wrapping it, or adding a variable upstream and waiting. With an owning generator you either stop running the generator or keep patching its output after every run. In both cases the thing you actually deploy is one step removed from the thing you can see and change."
+msgstr "Ces deux formes fonctionnent bien tant que vos besoins coïncident avec ceux de l'auteur. Elles deviennent inconfortables le jour où il vous faut une ligne de plus que l'abstraction n'avait pas prévue. Avec une dépendance, vous finissez par la forker, l'envelopper, ou ajouter une variable en amont et attendre. Avec un générateur propriétaire, soit vous cessez de l'exécuter, soit vous corrigez son résultat après chaque exécution. Dans les deux cas, ce que vous déployez réellement se trouve à un pas de ce que vous pouvez voir et modifier."
+
+msgid "Infrastructure files are also unusually worth reading. An inventory tells you which hosts exist, a `group_vars` file tells you what they're configured with, a Service manifest tells you what traffic goes where. Hiding those behind a package makes the most important facts about a system harder to find, review and debug."
+msgstr "Les fichiers d'infrastructure méritent en outre tout particulièrement d'être lus. Un inventaire vous dit quels hôtes existent, un fichier `group_vars` avec quoi ils sont configurés, un manifeste de Service où va le trafic. Cacher ces fichiers derrière un paquet rend les faits les plus importants d'un système plus difficiles à trouver, à relire et à déboguer."
+
+msgid "What kikx does instead"
+msgstr "Ce que fait kikx à la place"
+
+msgid "kikx treats a template as a starting point, not a contract. `kikx add` resolves a component from the registry, fills in your values and the registry's defaults, renders the template, and writes plain files into the project's output directory. Nothing in those files refers back to kikx. There is no runtime package, no lock file entry for the component, and no marker in the output. The project's only kikx-specific file is `kikx.toml`, which records the project name, the default namespace and the output directory so later `add` commands know where to write."
+msgstr "kikx considère un template comme un point de départ, pas comme un contrat. `kikx add` résout un composant depuis le registre, y injecte vos valeurs et les valeurs par défaut du registre, effectue le rendu du template et écrit de simples fichiers dans le répertoire de sortie du projet. Rien dans ces fichiers ne renvoie à kikx. Il n'y a ni paquet d'exécution, ni entrée de fichier de verrouillage pour le composant, ni marqueur dans le résultat. Le seul fichier propre à kikx dans le projet est `kikx.toml`, qui enregistre le nom du projet, le namespace par défaut et le répertoire de sortie, afin que les commandes `add` suivantes sachent où écrire."
+
+msgid "This is the same trade that \"copy the source into your project\" UI libraries make: the tool is a fast, consistent way to get good first versions of files, and after that it gets out of the way. You can edit the rendered playbook, delete a task from a role, rename a manifest, or stop using kikx entirely, and nothing breaks."
+msgstr "C'est le même compromis que celui des bibliothèques d'interface qui vous font « copier le code source dans votre projet » : l'outil offre un moyen rapide et cohérent d'obtenir de bonnes premières versions de fichiers, puis il s'efface. Vous pouvez modifier le playbook rendu, supprimer une tâche d'un rôle, renommer un manifeste ou cesser complètement d'utiliser kikx : rien ne casse."
+
+msgid "The trade-offs you accept"
+msgstr "Les compromis que vous acceptez"
+
+msgid "Owning the files means owning their drift. Once a playbook is in your repository it evolves with your system, and kikx doesn't track how far it has moved from the template it came from. There is no diff against upstream and no three-way merge."
+msgstr "Posséder les fichiers, c'est aussi assumer leur dérive. Une fois qu'un playbook est dans votre dépôt, il évolue avec votre système, et kikx ne mesure pas à quel point il s'est éloigné du template dont il est issu. Il n'existe ni diff par rapport à l'amont, ni fusion à trois voies."
+
+msgid "It also means nobody pulls upgrades for you. If a template improves in a later kikx release, your existing files don't change. That is deliberate: an infrastructure file changing underneath you because a tool was upgraded is exactly the kind of surprise vendoring exists to prevent. But it does mean adopting an improvement is a conscious act."
+msgstr "Cela signifie aussi que personne ne récupère les mises à jour à votre place. Si un template s'améliore dans une version ultérieure de kikx, vos fichiers existants ne changent pas. C'est délibéré : un fichier d'infrastructure qui change sous vos pieds parce qu'un outil a été mis à jour est précisément le genre de surprise que la vendorisation vise à éviter. Mais adopter une amélioration devient alors un acte conscient."
+
+msgid "The act kikx gives you for that is re-rendering. `add`, `setup` and `apply` all refuse to write over an existing file, and they check every target before writing any of them, so a conflict on one file of a four-file role stops the whole component before anything is written. Passing `--force` re-renders the component with the values you give it and overwrites the files. That is a clean way to regenerate something you haven't customised, and a blunt one for something you have: `--force` replaces the file, it doesn't merge your edits into the new version. Version control is what makes this safe. Re-render, look at the diff, keep what you want."
+msgstr "L'outil que kikx vous donne pour cela est un nouveau rendu. `add`, `setup` et `apply` refusent tous d'écraser un fichier existant, et ils vérifient chaque cible avant d'écrire quoi que ce soit : un conflit sur un seul fichier d'un rôle qui en compte quatre arrête donc tout le composant avant la moindre écriture. Passer `--force` refait le rendu du composant avec les valeurs que vous fournissez et écrase les fichiers. C'est une manière propre de régénérer quelque chose que vous n'avez pas personnalisé, et une manière brutale pour quelque chose que vous avez modifié : `--force` remplace le fichier, il ne fusionne pas vos modifications dans la nouvelle version. C'est le contrôle de version qui rend l'opération sûre. Refaites le rendu, examinez le diff, gardez ce qui vous convient."
+
+msgid "Presets follow the same philosophy. A preset is a recipe (components and their field values), not a bundle of pre-rendered output, so `kikx setup` and `kikx apply` render every component fresh from the registry each time they run. See [Share a project as a preset](../how-to/presets.md)."
+msgstr "Les presets suivent la même philosophie. Un preset est une recette (des composants et les valeurs de leurs champs), pas un lot de fichiers déjà rendus : `kikx setup` et `kikx apply` refont donc le rendu de chaque composant depuis le registre à chaque exécution. Voir [Partager un projet sous forme de preset](../how-to/presets.md)."
+
+msgid "When vendoring is the right model"
+msgstr "Quand la vendorisation est le bon modèle"
+
+msgid "Vendoring fits best when the files are small, readable and likely to be customised, which describes most of what kikx produces: inventories, group vars, playbooks, role skeletons and single manifests. These are files people already expect to read and edit by hand, and a good starting version saves time without taking anything away."
+msgstr "La vendorisation convient le mieux lorsque les fichiers sont petits, lisibles et susceptibles d'être personnalisés, ce qui décrit l'essentiel de ce que produit kikx : inventaires, group vars, playbooks, squelettes de rôles et manifestes isolés. Ce sont des fichiers que l'on s'attend déjà à lire et à modifier à la main, et une bonne version de départ fait gagner du temps sans rien retirer."
+
+msgid "It fits less well for large bodies of logic that you want someone else to maintain, such as a full-featured community role or a complex Helm chart with its own release cadence. Those are better consumed as dependencies, and nothing stops a kikx project from doing both: a vendored playbook can happily run a role installed from Ansible Galaxy. kikx's own role components reflect this split. `ansible/role` gives you an empty skeleton, and generating the contents of your roles is explicitly out of scope; the tasks are yours to write."
+msgstr "Elle convient moins bien aux grands ensembles de logique dont vous souhaitez confier la maintenance à quelqu'un d'autre, comme un rôle communautaire complet ou un chart Helm complexe doté de son propre rythme de publication. Ceux-là gagnent à être consommés comme des dépendances, et rien n'empêche un projet kikx de faire les deux : un playbook vendorisé peut très bien exécuter un rôle installé depuis Ansible Galaxy. Les composants de rôle de kikx reflètent d'ailleurs ce partage. `ansible/role` vous fournit un squelette vide, et générer le contenu de vos rôles est explicitement hors du périmètre : les tâches, c'est à vous de les écrire."
+
+msgid "Related"
+msgstr "Voir aussi"
+
+msgid "[How rendering works](rendering.md) for what happens between your values and the written file."
+msgstr "[Comment fonctionne le rendu](rendering.md) : ce qui se passe entre vos valeurs et le fichier écrit."
+
+msgid "[Resolve file conflicts and checks](../how-to/resolve-conflicts.md) for what to do when a file already exists."
+msgstr "[Résoudre les conflits de fichiers et les vérifications](../how-to/resolve-conflicts.md) : que faire lorsqu'un fichier existe déjà."
+
+msgid "[CLI reference](../reference/cli.md) for `--force`, `setup`, `apply` and `--into`."
+msgstr "[Référence de la CLI](../reference/cli.md) : `--force`, `setup`, `apply` et `--into`."
+
