@@ -23,19 +23,30 @@ renders a template with the values you gave it and writes the result into your p
 files sitting next to your other code. Edit them, delete them, check them into git like anything
 else. There's no registry lock-in and no generated-code comment telling you not to touch the file.
 
+<p align="center">
+  <img alt="Starting from a template, editing a playbook, tracing the architecture and checking the project" src="docs/content/assets/kikx-demo.gif" width="900">
+</p>
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/builder-dark.png">
-  <img alt="The kikx builder editing a multi-play Kubernetes playbook in a 34-component, 76-file project" src="docs/builder-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/content/assets/builder-dark.png">
+  <img alt="The kikx builder editing a multi-play Kubernetes playbook in a 35-component, 77-file project" src="docs/content/assets/builder-light.png">
 </picture>
 
-<sub>The builder with the bundled <a href="examples/multi-tier-platform.kikx-preset.json">multi-tier platform example</a>
-loaded: 34 components, 76 files. Stages on the left, the editor in the middle, the project on the right.</sub>
+<sub>The builder with the <a href="backend/core/presets/multi-tier-platform.kikx-preset.json">multi-tier-platform template</a>
+loaded: 35 components, 77 files. Stages on the left, the editor in the middle, the project on the right.</sub>
+
+## Documentation
+
+Full documentation lives in `docs/`, in [English](docs/content/en/README.md) and
+[French](docs/content/fr/README.md), organised with [Diátaxis](https://diataxis.fr): tutorials, how-to
+guides, reference and explanation.
 
 ## Table of contents
 
+- [Documentation](#documentation)
 - [Concept](#concept)
 - [Quick start](#quick-start)
-- [Try the example project](#try-the-example-project)
+- [Start from a template](#start-from-a-template)
 - [Available components](#available-components)
 - [The dashboard](#the-dashboard)
 - [Architecture diagram](#architecture-diagram)
@@ -103,32 +114,37 @@ cd web && npm install && npm run dev
 Open `http://localhost:3000`, give your project a name, and start adding components, or open a
 preset you downloaded earlier.
 
-## Try the example project
+## Start from a template
 
-[`examples/multi-tier-platform.kikx-preset.json`](examples/multi-tier-platform.kikx-preset.json)
-describes a realistic storefront platform:
-- edge load balancers, web and app tiers;
-- a PostgreSQL primary with replicas, a Redis cache and monitoring;
-- a three-node Kubernetes control plane with four workers, running the storefront, API and worker
-  deployments.
+kikx ships ready-made preset templates. List them with `kikx presets`, or pick one on the
+dashboard's home page under "Start from a template".
+
+| Template | What you get |
+|---|---|
+| `k8s-web-app` | A frontend and an API behind ingresses, plus a background worker |
+| `single-server` | One DigitalOcean droplet configured by Ansible: inventory, common role, playbook, site |
+| `kubeadm-cluster` | Hetzner servers bootstrapped into a three-node control plane and three workers |
+| `web-and-database` | Existing servers split into a web tier and a PostgreSQL primary with a replica |
+| `multi-tier-platform` | Load balancers, web and app tiers, PostgreSQL, Redis, monitoring and a Kubernetes cluster |
 
 ```bash
 mkdir demo && cd demo
-kikx setup ../examples/multi-tier-platform.kikx-preset.json
+kikx setup multi-tier-platform
 ```
 
-That writes 76 files:
+The largest one writes 77 files:
 - a Terraform resource;
-- a 13-group inventory with nested `:children` and shared `:vars`;
+- a 13-group inventory with nested `:children` and shared `:vars`, and an `ansible.cfg`;
 - four `group_vars` files;
 - six playbooks, with 10 plays between them;
 - a `site.yml` that imports them in order;
 - 14 roles;
 - 7 Kubernetes manifests.
 
-The generated inventory resolves with `ansible-inventory --graph`, and `site.yml` passes
-`ansible-playbook --syntax-check` (the common role uses `community.general`). You can also open
-the same file from the dashboard's home page to explore it visually.
+From the output folder, the inventory resolves with `ansible-inventory --graph` and `site.yml`
+passes `ansible-playbook --syntax-check` (the common role uses `community.general`). Templates are
+ordinary presets in [`backend/core/presets/`](backend/core/presets), so they are a good starting
+point for writing your own.
 
 ## Available components
 
@@ -178,7 +194,7 @@ required.
 ## Architecture diagram
 
 The Architecture view is drawn from what you've added, not a static picture. Nodes sit in
-swimlanes (Provision → Inventory → Playbooks → Roles → Deploy). A layered layout engine (ELK)
+swimlanes (Provision → Inventory → Playbooks → Roles → Deploy, plus Custom for registry items). A layered layout engine (ELK)
 routes the edges at right angles around nodes, keeps crossings down and places labels where they
 don't cover anything. An edge only exists when kikx finds a real relationship:
 - a group including a child group;
@@ -192,8 +208,8 @@ Hover a node to trace its connections, click it to edit, or **Export to draw.io*
 refining it by hand. The export keeps the swimlanes and every edge's waypoints.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
-  <img alt="Architecture diagram of the multi-tier platform example: 46 nodes and 49 routed edges across five swimlanes" src="docs/architecture-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/content/assets/architecture-dark.png">
+  <img alt="Architecture diagram of the multi-tier platform example: 47 nodes and 49 routed edges across five swimlanes" src="docs/content/assets/architecture-light.png">
 </picture>
 
 ## Presets: setup vs. apply
@@ -296,6 +312,14 @@ cd backend && cargo test && cargo clippy --all-targets -- -D warnings && cargo f
 cd backend/core && cargo test && cargo clippy --all-targets -- -D warnings && cargo fmt --check
 
 cd web && npm install && npx tsc --noEmit && npm run lint && npm run build
+```
+
+The documentation site is built with MkDocs from `docs/`:
+
+```bash
+pip install -r docs/requirements.txt
+mkdocs serve -f docs/mkdocs.yml
+mkdocs build --strict -f docs/mkdocs.yml
 ```
 
 ## Releasing
