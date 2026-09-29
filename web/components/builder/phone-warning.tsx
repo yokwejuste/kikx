@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import { Link2, Smartphone } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -32,24 +32,37 @@ function wasDismissed() {
   }
 }
 
-function rememberDismissal() {
+const dismissalListeners = new Set<() => void>();
+let dismissedThisPage = false;
+
+function subscribeDismissal(onChange: () => void) {
+  dismissalListeners.add(onChange);
+  return () => {
+    dismissalListeners.delete(onChange);
+  };
+}
+
+function isDismissed() {
+  return dismissedThisPage || wasDismissed();
+}
+
+function dismiss() {
+  dismissedThisPage = true;
   try {
     window.sessionStorage.setItem(DISMISSED_KEY, "1");
-  } catch {
-    return;
-  }
+  } catch {}
+  dismissalListeners.forEach((listener) => listener());
+}
+
+export function usePhoneWarningOpen() {
+  const isPhone = useSyncExternalStore(subscribe, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+  const dismissed = useSyncExternalStore(subscribeDismissal, isDismissed, () => true);
+  return isPhone && !dismissed;
 }
 
 export function PhoneWarning() {
   const t = useTranslations("phone");
-  const isPhone = useSyncExternalStore(subscribe, () => window.matchMedia(PHONE_QUERY).matches, () => false);
-  const [dismissed, setDismissed] = useState(false);
-  const open = isPhone && !dismissed && !wasDismissed();
-
-  const dismiss = () => {
-    rememberDismissal();
-    setDismissed(true);
-  };
+  const open = usePhoneWarningOpen();
 
   const copyLink = async () => {
     try {

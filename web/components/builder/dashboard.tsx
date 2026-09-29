@@ -22,6 +22,7 @@ import { toPresetComponent } from "@/lib/project/preset";
 import { defaultsFor, type FormValues } from "@/lib/forms/component-forms";
 import { api } from "@/lib/api/client";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
+import { usePhoneWarningOpen } from "@/components/builder/phone-warning";
 
 interface Selection {
   kind: CatalogKind;
@@ -56,7 +57,8 @@ export function Dashboard() {
     return counts;
   }, [issues]);
   const context = useMemo(() => buildFormContext(components), [components]);
-  useFirstVisitTour("builder", Boolean(details));
+  const phoneWarningOpen = usePhoneWarningOpen();
+  useFirstVisitTour("builder", Boolean(details) && !phoneWarningOpen);
 
   useEffect(() => {
     saveBuilderState({ view, kind: selection.kind, editingId: selection.editingId });
