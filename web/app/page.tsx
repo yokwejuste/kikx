@@ -199,7 +199,6 @@ function HomeContent() {
                 registration={form.register("name")}
                 error={form.formState.errors.name}
                 placeholder="my-app"
-                autoFocus
               />
               <FormField
                 label={t("build.namespace")}
