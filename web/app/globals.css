@@ -140,6 +140,24 @@
   --xy-minimap-mask-background-color: color-mix(in oklab, var(--foreground) 6%, transparent);
 }
 
+@keyframes kikx-edge-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.kikx-edge-flow {
+  pointer-events: none;
+  stroke-dasharray: 0.1 11.9;
+  animation: kikx-edge-flow 1.1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kikx-edge-flow {
+    display: none;
+  }
+}
+
 .kikx-flow-panel {
   overflow: hidden;
   border: 1px solid var(--border);
