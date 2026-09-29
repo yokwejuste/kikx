@@ -268,8 +268,14 @@ p.pronunciation {
     white-space: nowrap;
 }
 
-.try-kikx:hover {
+.page-actions a.try-kikx:hover,
+.page-actions a.try-kikx:focus-visible {
+    background: var(--color-foreground-secondary);
     color: var(--color-background-primary);
-    opacity: 0.85;
+    text-decoration: none;
+}
+
+.page-actions a.try-kikx {
+    transition: background-color 150ms;
 }
 
