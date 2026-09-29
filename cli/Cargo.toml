@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Steve Yonkeu <steve@yokwejuste.me>"]
 license = "MIT"
+description = "Vendor real, editable infrastructure files into your project"
+repository = "https://github.com/yokwejuste/kikx"
 
 [[bin]]
 name = "kikx"
@@ -23,3 +25,6 @@ assert_cmd = "2"
 predicates = "3"
 tempfile = "3"
 serde_yaml_ng = "0.10"
+
+[target.'cfg(windows)'.build-dependencies]
+winresource = "0.1"

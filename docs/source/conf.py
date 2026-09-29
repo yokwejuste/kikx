@@ -84,6 +84,7 @@ pygments_style = "bw"
 pygments_dark_style = "bw"
 templates_path = ["../_templates"]
 html_static_path = ["../_static"]
+html_favicon = "../_static/kikx-favicon.svg"
 html_css_files = ["kikx.css"]
 html_context = {
     "language_switcher": [

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Waypoints } from "lucide-react";
+import { KikxMark } from "@/components/common/kikx-mark";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 export function SiteHeader() {
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b px-6">
-      <Link href="/" className="text-sm font-semibold tracking-tight">
+      <Link href="/" className="flex items-center gap-2 text-base font-semibold tracking-tight">
+        <KikxMark className="size-5" />
         kikx
       </Link>
       <nav className="flex items-center gap-1">

@@ -2,6 +2,7 @@
 
 {% block site_meta %}
 {{ super()|replace("<!-- Generated with Sphinx " ~ sphinx_version ~ " and Furo " ~ furo_version ~ " -->", "") }}
+<link rel="apple-touch-icon" href="{{ pathto('_static/kikx-apple-icon.png', 1) }}">
 {% endblock site_meta %}
 
 {% block content %}
