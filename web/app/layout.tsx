@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "driver.js/dist/driver.css";
 import "./globals.css";
@@ -15,10 +16,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "kikx",
-  description: "Vendor real, editable infrastructure files into your project",
-};
+const DESCRIPTION = "Build real, editable infrastructure files in your browser: Ansible, Kubernetes and Terraform you own.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  const protocol = requestHeaders.get("x-forwarded-proto") ?? (host?.startsWith("localhost") ? "http" : "https");
+  return {
+    metadataBase: host ? new URL(`${protocol}://${host}`) : undefined,
+    title: "kikx",
+    description: DESCRIPTION,
+    openGraph: { title: "kikx", description: DESCRIPTION, siteName: "kikx", type: "website" },
+    twitter: { card: "summary_large_image", title: "kikx", description: DESCRIPTION },
+  };
+}
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

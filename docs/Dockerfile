@@ -5,6 +5,7 @@ RUN apt-get update \
 WORKDIR /docs
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+ARG KIKX_DOCS_URL
 COPY . .
 RUN make html-all
 

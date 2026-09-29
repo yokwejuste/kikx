@@ -93,6 +93,14 @@ environment variables take precedence over the file.
 |---|---|
 | `NEXT_PUBLIC_KIKX_API_URL` | URL of the running backend. Required; the dashboard explains what's missing if it isn't set |
 
+Link previews use the address the dashboard is served from, read from the request, so they need no setting.
+
+**Docs.** Optional, at build time.
+
+| Variable | Meaning |
+|---|---|
+| `KIKX_DOCS_URL` | Public URL of the docs, used for absolute link-preview URLs. On Read the Docs its canonical URL is used instead. Unset, the preview tags use relative paths |
+
 **Project defaults** (default namespace, output directory, fallback project name) are declared once
 in `kikx-core` and served at `/api/config`, so the CLI, API and dashboard always agree.
 
