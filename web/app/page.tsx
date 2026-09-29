@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { ArrowRight, Copy, FolderOpen, History, Sparkles, Trash2, Waypoints } from "lucide-react";
+import { ArrowRight, Copy, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
 import { CopyButton } from "@/components/common/copy-button";
 import { pluralize } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -134,10 +134,17 @@ function HomeContent() {
                     </span>
                   </span>
                 </Link>
-                <span className="flex gap-2">
-                  <Button type="button" variant="ghost" size="sm" onClick={() => setConfirmingDiscard(true)}>
-                    <Trash2 className="size-4" />
-                    Discard
+                <span className="flex items-center gap-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label={`Discard ${details.name}`}
+                    title={`Discard ${details.name}`}
+                    className="text-muted-foreground hover:text-foreground"
+                    onClick={() => setConfirmingDiscard(true)}
+                  >
+                    <X className="size-4" />
                   </Button>
                   <Button asChild size="sm">
                     <Link href="/build">
