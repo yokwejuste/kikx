@@ -137,6 +137,13 @@
   "builder": {
     "noDetails": "Aucun détail de projet pour l'instant.",
     "goBack": "Revenir pour les renseigner",
+    "start": {
+      "title": "Votre projet est vide",
+      "body": "Voici le parcours habituel : suivez les étapes dans l'ordre. Choisissez-en une pour ouvrir son éditeur, ou parcourez le catalogue complet.",
+      "optional": "Facultatif",
+      "add": "Ajouter {label}",
+      "templates": "Ou partir d'un modèle"
+    },
     "header": {
       "namespace": "Namespace Kubernetes par défaut",
       "outputDir": "Dossier de sortie",
