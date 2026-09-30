@@ -10,6 +10,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
 import { downloadProjectZip } from "@/lib/project/archive";
+import { loadDownloadRecord, recordDownload } from "@/lib/project/downloads";
+import { StorageStatus } from "@/components/builder/project/storage-status";
 import { cn } from "@/lib/utils";
 
 export type View = "build" | "diagram" | "checks";
@@ -47,11 +49,13 @@ export function DashboardHeader({
 }) {
   const t = useTranslations("builder.header");
   const [downloading, setDownloading] = useState(false);
+  const [lastDownload, setLastDownload] = useState(loadDownloadRecord);
 
   const download = async () => {
     setDownloading(true);
     try {
       await downloadProjectZip(details, components);
+      setLastDownload(recordDownload(details, components));
     } finally {
       setDownloading(false);
     }
@@ -69,6 +73,7 @@ export function DashboardHeader({
             {details.outputDir}/
           </Badge>
         </div>
+        <StorageStatus details={details} components={components} lastDownload={lastDownload} />
       </div>
 
       <div className="flex flex-wrap items-center gap-2">

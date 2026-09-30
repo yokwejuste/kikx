@@ -143,7 +143,13 @@
       },
       "download": "Download .zip",
       "zipping": "Zipping…",
-      "startOver": "Start over"
+      "startOver": "Start over",
+      "storage": {
+        "browser": "Saved in this browser · not on disk yet",
+        "downloaded": "Downloaded {time}",
+        "changed": "Changes since last download",
+        "hint": "This project is kept only in this browser's storage, not on a server or on your disk. Clearing your browser data removes it, so download it to keep a copy."
+      }
     },
     "customNotice": "<code>{reference}</code> is a custom registry item. Load it again below with the same name to render it again.",
     "scaffolded": "Scaffolded {count, plural, one {# role} other {# roles}}",

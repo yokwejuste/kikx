@@ -201,7 +201,8 @@ required.
   - a Service or Ingress pointing at nothing
   - roles the project doesn't vendor, with one-click scaffolding
 - **Nothing touches disk until you download.** The project lives in the browser tab. Download it
-  as a `.zip`, or as a preset for `kikx setup` / `kikx apply`.
+  as a `.zip`, or as a preset for `kikx setup` / `kikx apply`. A line in the header says whether
+  the project is only in this browser, when you last downloaded it, or has changed since.
 
 ## Architecture diagram
 
