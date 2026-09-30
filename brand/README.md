@@ -2,8 +2,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="kikx-mark-white.svg">
-    <img alt="The kikx mark" src="kikx-mark.svg" width="128">
+    <source media="(prefers-color-scheme: dark)" srcset="images/svg/kikx-mark-white.svg">
+    <img alt="The kikx mark" src="images/svg/kikx-mark.svg" width="128">
   </picture>
 </p>
 
@@ -13,20 +13,22 @@ project.
 
 ## Files
 
-| File | Use |
+| Path | Use |
 |-|-|
-| `kikx-mark.svg` | The mark in black, on light backgrounds |
-| `kikx-mark-white.svg` | The mark in white, on dark backgrounds |
-| `kikx-favicon.svg` | Browser icon; follows the system light or dark theme |
-| `kikx-app-icon.svg` | App icon: white mark on a black rounded square |
-| `kikx.ico` | Windows icon, 16 to 256 px; embedded in `kikx.exe` |
-| `kikx-social.png` | Repository social preview, 1280 × 640 |
-| `kikx-og-web.png` | Link preview for the dashboard, 1200 × 630 |
-| `kikx-og-docs.png` | Link preview for the docs, 1200 × 630 |
-| `png/` | The mark and app icon rendered at common sizes |
-| `kikx-brand-guide.pdf` | Brand guidelines with measurements, built from `guide/brand-guide.html` |
+| `images/svg/kikx-mark.svg` | The mark in black, on light backgrounds |
+| `images/svg/kikx-mark-white.svg` | The mark in white, on dark backgrounds |
+| `images/svg/kikx-favicon.svg` | Browser icon; follows the system light or dark theme |
+| `images/svg/kikx-app-icon.svg` | App icon: white mark on a black rounded square |
+| `images/png/` | The mark and app icon rendered at common sizes |
+| `images/ico/kikx.ico` | Windows icon, 16 to 256 px; embedded in `kikx.exe` |
+| `images/social/kikx-social.png` | Repository social preview, 1280 × 640 |
+| `images/social/kikx-og-web.png` | Link preview for the dashboard, 1200 × 630 |
+| `images/social/kikx-og-docs.png` | Link preview for the docs, 1200 × 630 |
+| `kikx-brand-guide.pdf` | Brand guidelines with measurements |
+| `guide/brand-guide.html` | Source of the brand guidelines PDF |
+| `scripts/social.py` | Draws the social and link previews |
 
-The SVG files are the masters. Everything else is generated from them:
+The SVG files in `images/svg/` are the masters. Everything else is generated from them:
 
 ```bash
 make -C brand
@@ -34,13 +36,13 @@ make -C brand social FONT_DIR=/path/to/geist
 make -C brand guide
 ```
 
-`make` renders `png/` and `kikx.ico` and copies the icons into the dashboard, the docs and the CLI.
+`make` renders `images/png/` and `images/ico/kikx.ico` and copies the icons into the dashboard, the docs and the CLI.
 `social` redraws the social and link previews and needs the Geist Regular and Bold `.ttf` files.
 `guide` renders `kikx-brand-guide.pdf` with headless Chrome (`CHROME=/path/to/chrome` to override).
 
 ## Colour
 
-kikx is black and white. There is no accent colour.
+kikx uses `#0a0a0a` & `#fafafa` only. There is no accent colour.
 
 | Name | Hex | Use |
 |-|-|-|

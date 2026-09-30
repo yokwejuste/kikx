@@ -28,6 +28,6 @@ def render(mark_path, bold_font, regular_font, width, height, title, tagline, ou
     image.save(out, optimize=True)
 
 
-mark_path, bold_font, regular_font = sys.argv[1:4]
+mark_path, bold_font, regular_font, out_dir = sys.argv[1:5]
 for name, width, height, title, tagline in CARDS:
-    render(mark_path, bold_font, regular_font, width, height, title, tagline, Path(name))
+    render(mark_path, bold_font, regular_font, width, height, title, tagline, Path(out_dir) / name)
