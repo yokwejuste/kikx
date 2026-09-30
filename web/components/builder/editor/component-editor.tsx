@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ComponentFormFields } from "@/components/builder/editor/component-form-fields";
 import type { FormContext } from "@/components/builder/editor/form-context";
 import { EditorHeader } from "@/components/builder/editor/editor-header";
+import { EditorIssues, type EditorChecks } from "@/components/builder/editor/editor-issues";
 import { SaveBar } from "@/components/builder/editor/save-bar";
 import { FileConflictDialog } from "@/components/builder/conflicts/file-conflict-dialog";
 import { YamlPreview } from "@/components/builder/preview/yaml-preview";
@@ -32,12 +33,14 @@ export function ComponentEditor({
   kind,
   editing,
   context,
+  checks,
   onSaved,
   onStartNew,
 }: {
   kind: ComponentKind;
   editing: AddedComponent | null;
   context: FormContext;
+  checks: EditorChecks;
   onSaved: (id: string) => void;
   onStartNew: () => void;
 }) {
@@ -111,6 +114,7 @@ export function ComponentEditor({
       }}
     >
       <EditorHeader kind={kind} editing={editing} previewFiles={preview.files} onStartNew={onStartNew} />
+      {editing && <EditorIssues checks={checks} currentId={editing.id} />}
 
       {draft.restoredAt !== null && (
         <div className="flex flex-wrap items-center gap-2 border-b bg-muted/40 px-6 py-2.5 text-sm">

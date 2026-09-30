@@ -144,6 +144,7 @@ export function Dashboard() {
               kind={selection.kind}
               editing={editing}
               context={context}
+              checks={{ issues: issuesFor.get(editing?.id ?? "") ?? [], onOpen: openComponent, onScaffoldRoles: scaffoldRoles }}
               onSaved={(id) => select(selection.kind, id)}
               onStartNew={() => select(selection.kind)}
             />

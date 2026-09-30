@@ -209,6 +209,9 @@
       "attention": "Some fields need attention",
       "attentionHint": "They're highlighted in the form."
     },
+    "checks": {
+      "title": "{count, plural, one {# check flags this component} other {# checks flag this component}}"
+    },
     "draft": {
       "restored": "Restored your unsaved draft from {date}.",
       "discard": "Discard draft"
