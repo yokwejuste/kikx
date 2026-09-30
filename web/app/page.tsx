@@ -22,6 +22,7 @@ import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
 import { TemplateGallery } from "@/components/home/template-gallery";
 import { KikxMark } from "@/components/common/kikx-mark";
+import { HelpTip } from "@/components/common/help-tip";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
 
 const SNIPPET = [
@@ -207,11 +208,13 @@ function HomeContent() {
               />
               <FormField
                 label={t("build.namespace")}
+                help="namespace"
                 registration={form.register("namespace")}
                 error={form.formState.errors.namespace}
               />
               <FormField
                 label={t("build.outputDir")}
+                help="outputDir"
                 registration={form.register("dir")}
                 error={form.formState.errors.dir}
               />
@@ -230,6 +233,7 @@ function HomeContent() {
             </span>
             <span>
               <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
+              <HelpTip term="preset" className="ml-1" />
               <span className="block text-muted-foreground">
                 {t.rich("preset.body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
               </span>

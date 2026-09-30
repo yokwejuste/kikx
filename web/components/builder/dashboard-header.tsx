@@ -6,6 +6,7 @@ import { Download } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { HelpTip } from "@/components/common/help-tip";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
@@ -65,9 +66,11 @@ export function DashboardHeader({
           <Badge variant="brand" className="font-mono text-xs font-normal" title={t("namespace")}>
             ns: {details.namespace}
           </Badge>
+          <HelpTip term="namespace" />
           <Badge variant="brand" className="font-mono text-xs font-normal" title={t("outputDir")}>
             {details.outputDir}/
           </Badge>
+          <HelpTip term="outputDir" />
         </div>
       </div>
 

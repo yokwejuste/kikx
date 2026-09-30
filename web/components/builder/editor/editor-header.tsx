@@ -3,6 +3,8 @@ import { useTranslations } from "next-intl";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { HelpTip } from "@/components/common/help-tip";
+import { KIND_TERMS } from "@/lib/glossary/terms";
 import type { AddedComponent, ProjectFile } from "@/lib/project/context";
 import type { ComponentKind } from "@/lib/registry/references";
 
@@ -47,6 +49,7 @@ export function EditorHeader({
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-2">
+        <HelpTip term={KIND_TERMS[kind]} />
         <Badge variant="secondary" className="max-w-56 truncate font-mono text-xs font-normal" title={writes}>
           → {writes}
         </Badge>
