@@ -9,20 +9,21 @@ import type { AddedComponent } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
 
 const OPEN_STAGES_KEY = "kikx:catalog:stages";
+const ADVANCED_STAGES_KEY = "kikx:catalog:advanced";
 
 type OpenStages = Partial<Record<StageId, boolean>>;
 
-function readOpenStages(): OpenStages {
+function readStages(key: string): OpenStages {
   try {
-    return JSON.parse(window.localStorage.getItem(OPEN_STAGES_KEY) ?? "{}") as OpenStages;
+    return JSON.parse(window.localStorage.getItem(key) ?? "{}") as OpenStages;
   } catch {
     return {};
   }
 }
 
-function writeOpenStages(stages: OpenStages) {
+function writeStages(key: string, stages: OpenStages) {
   try {
-    window.localStorage.setItem(OPEN_STAGES_KEY, JSON.stringify(stages));
+    window.localStorage.setItem(key, JSON.stringify(stages));
   } catch {}
 }
 
@@ -48,7 +49,8 @@ export function ComponentCatalog({
   const text = useCatalogText();
   const baseId = useId();
   const selectedStage = catalogStage(selected).id;
-  const [openStages, setOpenStages] = useState<OpenStages>(() => ({ ...readOpenStages(), [selectedStage]: true }));
+  const [openStages, setOpenStages] = useState<OpenStages>(() => ({ ...readStages(OPEN_STAGES_KEY), [selectedStage]: true }));
+  const [advancedStages, setAdvancedStages] = useState<OpenStages>(() => readStages(ADVANCED_STAGES_KEY));
   const [seenStage, setSeenStage] = useState(selectedStage);
   if (seenStage !== selectedStage) {
     setSeenStage(selectedStage);
@@ -58,7 +60,14 @@ export function ComponentCatalog({
   const toggle = (id: StageId) =>
     setOpenStages((current) => {
       const next = { ...current, [id]: !(current[id] ?? false) };
-      writeOpenStages(next);
+      writeStages(OPEN_STAGES_KEY, next);
+      return next;
+    });
+
+  const toggleAdvanced = (id: StageId) =>
+    setAdvancedStages((current) => {
+      const next = { ...current, [id]: !(current[id] ?? false) };
+      writeStages(ADVANCED_STAGES_KEY, next);
       return next;
     });
 
@@ -75,6 +84,11 @@ export function ComponentCatalog({
         const stageText = text.stage(stage.id);
         const open = openStages[stage.id] ?? false;
         const panelId = `${baseId}-${stage.id}`;
+        const advanced = stage.entries.filter((e) => e.advanced);
+        const inUse = advanced.some((e) => e.kind === selected || (counts.get(e.kind) ?? 0) > 0);
+        const showAdvanced = inUse || (advancedStages[stage.id] ?? false);
+        const advancedId = `${panelId}-advanced`;
+        const visible = showAdvanced ? stage.entries : stage.entries.filter((e) => !e.advanced);
         return (
           <div key={stage.id} className="flex flex-col gap-1">
             <button
@@ -100,8 +114,8 @@ export function ComponentCatalog({
             </button>
             <div id={panelId} hidden={!open}>
               <p className="mb-1 px-2 pl-9 text-xs leading-snug text-muted-foreground">{stageText.hint}</p>
-              <ul className="flex flex-col">
-                {stage.entries.map(({ kind }) => {
+              <ul id={advancedId} className="flex flex-col">
+                {visible.map(({ kind }) => {
                   const entry = text.entry(kind);
                   const count = counts.get(entry.kind) ?? 0;
                   const active = entry.kind === selected;
@@ -128,6 +142,18 @@ export function ComponentCatalog({
                   );
                 })}
               </ul>
+              {advanced.length > 0 && !inUse && (
+                <button
+                  type="button"
+                  aria-expanded={showAdvanced}
+                  aria-controls={advancedId}
+                  onClick={() => toggleAdvanced(stage.id)}
+                  className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1 text-left text-xs text-muted-foreground hover:bg-muted/50 hover:text-foreground pointer-coarse:min-h-10"
+                >
+                  <ChevronDown className={cn("size-4 shrink-0 transition-transform", !showAdvanced && "-rotate-90")} />
+                  {showAdvanced ? t("fewer") : t("more", { count: advanced.length })}
+                </button>
+              )}
             </div>
           </div>
         );

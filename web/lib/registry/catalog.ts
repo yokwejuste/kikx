@@ -24,6 +24,7 @@ export type CatalogKind = ComponentKind | "custom";
 interface CatalogSlot {
   kind: CatalogKind;
   icon: LucideIcon;
+  advanced?: true;
 }
 
 interface CatalogEntry extends CatalogSlot {
@@ -59,9 +60,9 @@ export const CATALOG: CatalogStage[] = [
       { kind: "playbook", icon: ScrollText },
       { kind: "site", icon: ListOrdered },
       { kind: "role", icon: FolderCog },
-      { kind: "commonrole", icon: Cog },
-      { kind: "ansiblecfg", icon: Settings2 },
-      { kind: "ansible", icon: Rocket },
+      { kind: "commonrole", icon: Cog, advanced: true },
+      { kind: "ansiblecfg", icon: Settings2, advanced: true },
+      { kind: "ansible", icon: Rocket, advanced: true },
     ],
   },
   {

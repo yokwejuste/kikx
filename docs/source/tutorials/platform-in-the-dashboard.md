@@ -203,7 +203,7 @@ Click **Add to project**. The **Project** panel now reads **4 components · 4 fi
 The playbook lives in `playbooks/`, and its roles will live in `roles/` at the top of `infra/`.
 Ansible looks for roles next to the playbook, so it needs an `ansible.cfg` that points at them.
 
-Under **Configure**, click **Ansible config**. The editor switches to **New ansible config**, and
+Under **Configure**, click **Show more**, then **Ansible config**. The editor switches to **New ansible config**, and
 **Name** already says `ansible`.
 
 1. In **Inventory file**, type `platform-inventory.ini`. The field shows it in grey before you type;
