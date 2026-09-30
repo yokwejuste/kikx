@@ -103,8 +103,8 @@ msgstr "Les deux commandes acceptent aussi une URL :"
 msgid "Open a preset in the dashboard"
 msgstr "Ouvrir un preset dans le tableau de bord"
 
-msgid "Go to the home page. If you're in the builder, click **Start over** in the header."
-msgstr "Allez sur la page d'accueil. Si vous êtes dans le constructeur, cliquez sur « Start over » dans l'en-tête."
+msgid "Go to the home page. If you're in the builder, click **Home** in the header."
+msgstr "Allez sur la page d'accueil. Si vous êtes dans le constructeur, cliquez sur « Accueil » dans l'en-tête."
 
 msgid "Click **Open a preset** and pick the `.kikx-preset.json` file."
 msgstr "Cliquez sur « Open a preset » et sélectionnez le fichier `.kikx-preset.json`."

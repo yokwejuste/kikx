@@ -143,7 +143,8 @@
       },
       "download": "Télécharger le .zip",
       "zipping": "Compression…",
-      "startOver": "Recommencer"
+      "home": "Accueil",
+      "homeHint": "Retour à la page d'accueil. Votre projet reste enregistré dans ce navigateur."
     },
     "customNotice": "<code>{reference}</code> est un élément de registre personnalisé. Chargez-le de nouveau ci-dessous avec le même nom pour le régénérer.",
     "scaffolded": "{count, plural, one {# rôle créé} other {# rôles créés}}",

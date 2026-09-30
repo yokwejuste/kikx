@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Download } from "lucide-react";
+import { Download, House } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -86,8 +86,13 @@ export function DashboardHeader({
           <Download />
           {downloading ? t("zipping") : t("download")}
         </Button>
-        <Link href="/" className="flex items-center px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-10">
-          {t("startOver")}
+        <Link
+          href="/"
+          title={t("homeHint")}
+          className="flex items-center gap-1.5 px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-10"
+        >
+          <House className="size-4" />
+          {t("home")}
         </Link>
       </div>
     </div>

@@ -143,7 +143,8 @@
       },
       "download": "Download .zip",
       "zipping": "Zipping…",
-      "startOver": "Start over"
+      "home": "Home",
+      "homeHint": "Back to the home page. Your project stays saved in this browser."
     },
     "customNotice": "<code>{reference}</code> is a custom registry item. Load it again below with the same name to render it again.",
     "scaffolded": "Scaffolded {count, plural, one {# role} other {# roles}}",
