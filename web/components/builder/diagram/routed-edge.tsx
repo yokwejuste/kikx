@@ -87,7 +87,7 @@ export function RoutedEdge({ id, data }: EdgeProps) {
             style={{ transform: `translate(${labelPosition.x}px, ${labelPosition.y}px)` }}
             className={cn(
               "pointer-events-none absolute rounded border bg-card px-1.5 text-[10px] leading-4 whitespace-nowrap",
-              emphasis === "focus" ? "border-primary text-foreground" : "text-muted-foreground",
+              emphasis === "focus" ? "border-brand text-foreground" : "text-muted-foreground",
             )}
           >
             {label}

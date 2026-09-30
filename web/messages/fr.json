@@ -26,7 +26,7 @@
     "retry": "Réessayer"
   },
   "home": {
-    "intro": "Générez de vrais fichiers d'infrastructure modifiables directement dans votre projet : inventaires Ansible, group vars et playbooks, manifestes Kubernetes et Terraform. Aucune dépendance cachée, seulement des fichiers simples qui vous appartiennent.",
+    "intro": "Générez de vrais fichiers d'infrastructure modifiables directement dans votre projet : inventaires Ansible, group vars et playbooks, manifestes Kubernetes et Terraform. Aucune dépendance cachée, seulement des <accent>fichiers simples</accent> qui vous appartiennent.",
     "pronounce": {
       "label": "Écouter la prononciation de kikx",
       "hint": "Se prononce « kicking »"

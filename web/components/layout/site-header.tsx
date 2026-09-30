@@ -7,6 +7,7 @@ import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { TourButton } from "@/components/layout/tour-button";
 import { GithubLink } from "@/components/layout/github-link";
+import { NavLink } from "@/components/layout/nav-link";
 
 export async function SiteHeader() {
   const t = await getTranslations("header");
@@ -27,15 +28,15 @@ export async function SiteHeader() {
           <BookOpen className="size-4" />
           <span className="hidden sm:inline">{t("docs")}</span>
         </a>
-        <Link
+        <NavLink
           href="/flow"
           data-tour="data-flow"
           aria-label={t("dataFlow")}
-          className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground sm:px-3 pointer-coarse:min-h-10"
+          className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm sm:px-3 pointer-coarse:min-h-10"
         >
           <Waypoints className="size-4" />
           <span className="hidden sm:inline">{t("dataFlow")}</span>
-        </Link>
+        </NavLink>
         <TourButton />
         <GithubLink />
         <LanguageSwitcher />

@@ -175,7 +175,7 @@ export function DataFlow() {
           labelStyle: { fill: "var(--muted-foreground)", fontSize: 11 },
           labelBgStyle: { fill: "var(--card)" },
           style: {
-            stroke: active ? "var(--primary)" : "var(--border)",
+            stroke: active ? "var(--brand)" : "var(--border)",
             strokeWidth: active ? 2 : 1.5,
           },
         };

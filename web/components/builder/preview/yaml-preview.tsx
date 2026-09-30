@@ -59,7 +59,7 @@ export function YamlPreview({
               onClick={() => setActive(index)}
               className={cn(
                 "inline-flex items-center gap-1 rounded-md px-2 py-1 font-mono text-xs transition-colors",
-                index === active ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground",
+                index === active ? "bg-volt-soft text-volt-soft-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
               {conflictPaths.has(file.path) && <FileWarning className="size-3" />}
