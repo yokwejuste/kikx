@@ -2,6 +2,7 @@
 
 import { Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { CodeView } from "@/components/common/code-view";
 import { CopyButton } from "@/components/common/copy-button";
 import type { RenderedFile } from "@/lib/api/client";
 
@@ -20,7 +21,11 @@ export function FileContent({ file }: { file: RenderedFile }) {
           {t("copy")}
         </CopyButton>
       </div>
-      <pre className="max-h-[28rem] overflow-auto p-4 font-mono text-xs leading-relaxed">{file.content}</pre>
+      <CodeView
+        code={file.content}
+        path={file.path}
+        className="max-h-[28rem] overflow-auto p-4 font-mono text-xs leading-relaxed"
+      />
     </div>
   );
 }

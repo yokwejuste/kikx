@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CodeList } from "@/components/common/code-list";
+import { CodeView } from "@/components/common/code-view";
 import type { FileConflict } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
 
@@ -55,7 +56,11 @@ function ConflictRow({ conflict }: { conflict: FileConflict }) {
           ).map(([label, content]) => (
             <div key={label} className="min-w-0 overflow-hidden rounded-md border bg-muted/30">
               <div className="border-b bg-muted/40 px-2 py-1 text-[11px] font-medium text-muted-foreground">{label}</div>
-              <pre className="max-h-56 overflow-auto p-2 font-mono text-[11px] leading-relaxed">{content}</pre>
+              <CodeView
+                code={content}
+                path={conflict.fileName}
+                className="max-h-56 overflow-auto p-2 font-mono text-[11px] leading-relaxed"
+              />
             </div>
           ))}
         </div>

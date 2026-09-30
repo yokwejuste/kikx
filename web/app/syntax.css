@@ -1,0 +1,40 @@
+:root {
+  --syntax-foreground: var(--foreground);
+  --syntax-background: transparent;
+  --syntax-token-keyword: var(--brand);
+  --syntax-token-function: var(--brand);
+  --syntax-token-link: var(--brand);
+  --syntax-token-string: var(--foreground);
+  --syntax-token-string-expression: var(--foreground);
+  --syntax-token-parameter: var(--foreground);
+  --syntax-token-constant: color-mix(in oklab, var(--volt-deep) 75%, var(--foreground));
+  --syntax-token-comment: var(--muted-foreground);
+  --syntax-token-punctuation: var(--muted-foreground);
+  --syntax-token-inserted: var(--brand);
+  --syntax-token-deleted: var(--destructive);
+  --syntax-token-changed: var(--brand);
+  --terminal-ink: #0a0a0a;
+  --terminal-paper: #fafafa;
+  --terminal-prompt: var(--volt);
+}
+
+.dark {
+  --syntax-token-constant: color-mix(in oklab, var(--volt) 70%, var(--foreground));
+}
+
+.syntax {
+  color: var(--syntax-foreground);
+  background: var(--syntax-background);
+  tab-size: 2;
+}
+
+.terminal {
+  background: var(--terminal-ink);
+  color: var(--terminal-paper);
+  border-color: color-mix(in oklab, var(--terminal-paper) 12%, transparent);
+}
+
+.terminal-prompt {
+  color: var(--terminal-prompt);
+  user-select: none;
+}

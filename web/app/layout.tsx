@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import "driver.js/dist/driver.css";
 import "./globals.css";
+import "./syntax.css";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/components/layout/site-header";
 
