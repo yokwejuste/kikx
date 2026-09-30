@@ -14,13 +14,13 @@ export function useCatalogText() {
     const entry = (kind: CatalogKind) => {
       const base = catalogEntry(kind);
       if (kind === "custom" || kind === "server") {
-        return { ...base, label: t(`${kind}.label`), summary: t(`${kind}.summary`), writes: t(`${kind}.writes`) };
+        return { ...base, label: t(`${kind}.label`), summary: t(`${kind}.summary`), writes: t.raw(`${kind}.writes`) };
       }
       return {
         ...base,
         label: pick(`${kind}.title`, base.label),
         summary: pick(`${kind}.description`, base.summary),
-        writes: base.writes ?? t("custom.writes"),
+        writes: base.writes ?? t.raw("custom.writes"),
       };
     };
     const itemName = (reference: string) => reference.split("/").pop() ?? reference;
