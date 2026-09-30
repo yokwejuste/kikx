@@ -99,6 +99,11 @@ export function catalogStage(kind: CatalogKind): CatalogStage {
   return BY_KIND.get(kind)!.stage;
 }
 
+export function stagesForReferences(references: string[]): StageId[] {
+  const present = new Set(references.map((reference) => catalogStage(kindForReference(reference) ?? "custom").id));
+  return CATALOG.map((stage) => stage.id).filter((id) => present.has(id));
+}
+
 export function describeComponent(recipe: PresetComponent): { kind: CatalogKind; kindLabel: string; icon: LucideIcon; title: string } {
   const kind = kindForReference(recipe.reference) ?? "custom";
   const entry = catalogEntry(kind);
