@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import { ChevronDown, CircleCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { CatalogEntryButton } from "@/components/builder/catalog/catalog-entry-button";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { CATALOG, catalogStage, describeComponent, type CatalogKind, type StageId } from "@/lib/registry/catalog";
 import type { AddedComponent } from "@/lib/project/context";
@@ -105,25 +106,17 @@ export function ComponentCatalog({
                   const entry = text.entry(kind);
                   const count = counts.get(entry.kind) ?? 0;
                   const active = entry.kind === selected;
-                  const Icon = entry.icon;
                   return (
                     <li key={entry.kind}>
-                      <button
-                        type="button"
-                        onClick={() => onSelect(entry.kind)}
-                        aria-current={active ? "true" : undefined}
-                        title={entry.summary}
-                        className={cn(
-                          "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors pointer-coarse:min-h-10",
-                          active
-                            ? "bg-volt-soft font-medium text-volt-soft-foreground"
-                            : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
-                        )}
-                      >
-                        <Icon className="size-4 shrink-0" />
-                        <span className="min-w-0 flex-1 truncate">{entry.label}</span>
-                        <CountBadge count={count} />
-                      </button>
+                      <CatalogEntryButton
+                        icon={entry.icon}
+                        label={entry.label}
+                        summary={entry.summary}
+                        writes={entry.writes}
+                        active={active}
+                        badge={<CountBadge count={count} />}
+                        onSelect={() => onSelect(entry.kind)}
+                      />
                     </li>
                   );
                 })}
