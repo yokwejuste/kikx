@@ -55,6 +55,7 @@ h3 {
 }
 
 .sidebar-tree .current-page > .reference {
+    box-shadow: inset 2px 0 0 var(--color-brand-primary);
     color: var(--color-foreground-primary);
     font-weight: 700;
 }
@@ -279,3 +280,36 @@ p.pronunciation {
     transition: background-color 150ms;
 }
 
+body[data-theme="dark"] .kikx-mark-ball {
+    fill: var(--color-brand-primary);
+}
+
+body[data-theme="dark"] .try-kikx,
+body[data-theme="dark"] .try-kikx:visited {
+    background: var(--color-brand-primary);
+    color: var(--color-background-primary);
+}
+
+body[data-theme="dark"] .page-actions a.try-kikx:hover,
+body[data-theme="dark"] .page-actions a.try-kikx:focus-visible {
+    background: color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-foreground-primary));
+    color: var(--color-background-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) .kikx-mark-ball {
+        fill: var(--color-brand-primary);
+    }
+
+    body:not([data-theme="light"]) .try-kikx,
+    body:not([data-theme="light"]) .try-kikx:visited {
+        background: var(--color-brand-primary);
+        color: var(--color-background-primary);
+    }
+
+    body:not([data-theme="light"]) .page-actions a.try-kikx:hover,
+    body:not([data-theme="light"]) .page-actions a.try-kikx:focus-visible {
+        background: color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-foreground-primary));
+        color: var(--color-background-primary);
+    }
+}
