@@ -202,6 +202,9 @@
       "attention": "Certains champs demandent votre attention",
       "attentionHint": "Ils sont mis en évidence dans le formulaire."
     },
+    "checks": {
+      "title": "{count, plural, one {# point signalé sur ce composant} other {# points signalés sur ce composant}}"
+    },
     "draft": {
       "restored": "Brouillon non enregistré restauré, datant du {date}.",
       "discard": "Abandonner le brouillon"

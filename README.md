@@ -191,7 +191,7 @@ required.
   exist in your repo.
 - **Conflicts are caught, not written.** A project can't have two writers for one file. The
   conflict dialog shows who owns the file and a side-by-side diff before replacing. The Checks
-  view cross-checks components for:
+  view cross-checks components, and each editor shows its component's findings with the same fixes:
   - a host with two addresses
   - a host var silently overriding a group var
   - a key set in both group_vars and the inventory
