@@ -45,10 +45,9 @@
     "copyCommands": "Copy commands",
     "build": {
       "title": "Or build it here",
-      "body": "Fill in your project's details, add the components you need, and download the result. Nothing is read from or written to your machine until you hit download.",
+      "body": "Name your project, add the components you need, and download the result. Nothing is read from or written to your machine until you hit download.",
       "projectName": "Project name",
-      "namespace": "Default namespace",
-      "outputDir": "Output directory",
+      "settingsHint": "The default namespace and output directory are set for you. Click their badges in the builder to change them.",
       "start": "Start building"
     },
     "preset": {
@@ -134,8 +133,8 @@
     "noDetails": "No project details yet.",
     "goBack": "Go back and fill them in",
     "header": {
-      "namespace": "Default Kubernetes namespace",
-      "outputDir": "Output directory",
+      "editNamespace": "Change the default namespace (currently {value})",
+      "editOutputDir": "Change the output directory (currently {value})",
       "tabs": {
         "build": "Build",
         "diagram": "Architecture",
@@ -144,6 +143,16 @@
       "download": "Download .zip",
       "zipping": "Zipping…",
       "startOver": "Start over"
+    },
+    "settings": {
+      "title": "Project settings",
+      "body": "These apply to the whole project.",
+      "namespace": "Default Kubernetes namespace",
+      "namespaceHint": "Components already in the project keep {previous}. New components, and ones you open and save again, use the new namespace.",
+      "outputDir": "Output directory",
+      "outputDirHint": "The folder your files are written to inside the .zip.",
+      "cancel": "Cancel",
+      "save": "Save"
     },
     "customNotice": "<code>{reference}</code> is a custom registry item. Load it again below with the same name to render it again.",
     "scaffolded": "Scaffolded {count, plural, one {# role} other {# roles}}",

@@ -45,10 +45,9 @@
     "copyCommands": "Copier les commandes",
     "build": {
       "title": "Ou créez-le ici",
-      "body": "Renseignez les détails de votre projet, ajoutez les composants dont vous avez besoin, puis téléchargez le résultat. Rien n'est lu ni écrit sur votre machine avant le téléchargement.",
+      "body": "Nommez votre projet, ajoutez les composants dont vous avez besoin, puis téléchargez le résultat. Rien n'est lu ni écrit sur votre machine avant le téléchargement.",
       "projectName": "Nom du projet",
-      "namespace": "Namespace par défaut",
-      "outputDir": "Dossier de sortie",
+      "settingsHint": "Le namespace par défaut et le dossier de sortie sont définis pour vous. Cliquez sur leurs badges dans l'éditeur pour les modifier.",
       "start": "Commencer"
     },
     "preset": {
@@ -134,8 +133,8 @@
     "noDetails": "Aucun détail de projet pour l'instant.",
     "goBack": "Revenir pour les renseigner",
     "header": {
-      "namespace": "Namespace Kubernetes par défaut",
-      "outputDir": "Dossier de sortie",
+      "editNamespace": "Modifier le namespace par défaut (actuellement {value})",
+      "editOutputDir": "Modifier le dossier de sortie (actuellement {value})",
       "tabs": {
         "build": "Construire",
         "diagram": "Architecture",
@@ -144,6 +143,16 @@
       "download": "Télécharger le .zip",
       "zipping": "Compression…",
       "startOver": "Recommencer"
+    },
+    "settings": {
+      "title": "Paramètres du projet",
+      "body": "Ils s'appliquent à tout le projet.",
+      "namespace": "Namespace Kubernetes par défaut",
+      "namespaceHint": "Les composants déjà présents gardent {previous}. Les nouveaux composants, et ceux que vous rouvrez puis enregistrez, utilisent le nouveau namespace.",
+      "outputDir": "Dossier de sortie",
+      "outputDirHint": "Le dossier dans lequel vos fichiers sont écrits à l'intérieur du .zip.",
+      "cancel": "Annuler",
+      "save": "Enregistrer"
     },
     "customNotice": "<code>{reference}</code> est un élément de registre personnalisé. Chargez-le de nouveau ci-dessous avec le même nom pour le régénérer.",
     "scaffolded": "{count, plural, one {# rôle créé} other {# rôles créés}}",
