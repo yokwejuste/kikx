@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="brand/kikx-mark-white.svg">
-  <img alt="kikx" src="brand/kikx-mark.svg" width="96">
+  <source media="(prefers-color-scheme: dark)" srcset="brand/images/svg/kikx-mark-white.svg">
+  <img alt="kikx" src="brand/images/svg/kikx-mark.svg" width="96">
 </picture>
 
 # kikx
@@ -305,4 +305,4 @@ This is a local, single-user dev tool with no auth.
 
 ## License
 
-kikx is released under the [MIT License](LICENSE). The name and logo are described in [brand/](brand/README.md).
+kikx is released under the [MIT License](LICENSE). The name and logo are described in [brand/](brand/).
