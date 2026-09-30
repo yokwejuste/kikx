@@ -115,6 +115,7 @@ function HomeContent() {
                   </Button>
                   <Button
                     type="button"
+                    variant="destructive"
                     size="sm"
                     onClick={() => {
                       reset();
@@ -147,7 +148,7 @@ function HomeContent() {
                   >
                     <X className="size-4" />
                   </Button>
-                  <Button asChild size="sm">
+                  <Button asChild variant="outline" size="sm">
                     <Link href="/build">
                       {t("resume.continue")}
                       <ArrowRight className="size-4" />

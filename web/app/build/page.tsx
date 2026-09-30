@@ -15,7 +15,7 @@ export default function BuildPage() {
     return (
       <main className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center">
         <p className="text-muted-foreground">{t("noDetails")}</p>
-        <Link href="/" className="text-sm underline underline-offset-4">
+        <Link href="/" className="text-sm text-brand underline underline-offset-4">
           {t("goBack")}
         </Link>
       </main>

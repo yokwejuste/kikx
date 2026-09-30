@@ -74,7 +74,7 @@ export function ChecksPanel({
                   </div>
                   <div className="flex shrink-0 flex-wrap gap-1.5 pl-7 sm:pl-0">
                     {issue.action?.type === "scaffold-roles" && (
-                      <Button type="button" size="sm" onClick={() => onScaffoldRoles(issue.action!.roles)}>
+                      <Button type="button" variant="secondary" size="sm" onClick={() => onScaffoldRoles(issue.action!.roles)}>
                         <FolderCog />
                         {t("scaffold", { count: issue.action.roles.length })}
                       </Button>

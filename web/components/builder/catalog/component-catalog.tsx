@@ -87,7 +87,7 @@ export function ComponentCatalog({
               <span
                 className={cn(
                   "flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold",
-                  stageCount > 0 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
+                  stageCount > 0 ? "bg-foreground text-background" : "bg-muted text-muted-foreground",
                 )}
               >
                 {stageCount > 0 ? <CircleCheck className="size-3" /> : stageIndex + 1}

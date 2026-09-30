@@ -46,7 +46,7 @@ export default function NotFound() {
       <div className="flex flex-col items-center gap-2">
         <NotFoundIllustration className="mb-4 h-32" />
         <p className="font-mono text-sm text-muted-foreground">404</p>
-        <h1 className="text-3xl font-semibold tracking-tight text-balance">{t("title")}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-balance">{t.rich("title", { accent: (chunks) => <span className="text-brand">{chunks}</span> })}</h1>
         <p className="text-sm text-muted-foreground">{t("body")}</p>
       </div>
 
