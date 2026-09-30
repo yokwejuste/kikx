@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 const VARIANTS = {
   divider: { details: "border-t", summary: "px-3", hint: "truncate" },
   dashed: { details: "rounded-md border border-dashed", summary: "px-2.5", hint: "" },
+  section: { details: "rounded-xl border border-dashed text-left", summary: "px-4 py-3 text-sm", hint: "" },
 };
 
 export function Disclosure({
