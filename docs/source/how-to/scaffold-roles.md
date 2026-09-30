@@ -33,7 +33,7 @@ Skip this for roles that already exist under `roles/` in your repo, or that come
 3. Optionally fill in **Description**, which goes into `meta/main.yml`.
 4. Click **Add to project**.
 
-For a role with real starter tasks (base packages, timezone, swap, motd), pick **Common role** instead.
+For a role with real starter tasks (base packages, timezone, swap, motd), pick **Common role** instead; it sits under **Show more** in the Configure stage.
 
 ## Scaffold a role with the CLI
 

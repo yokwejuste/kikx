@@ -189,6 +189,8 @@
       "summary": "Terraform pour un ou plusieurs serveurs chez le fournisseur de votre choix",
       "writes": "<name>-<provider>.tf"
     },
+    "more": "Afficher plus ({count})",
+    "fewer": "Afficher moins",
     "close": "Fermer"
   },
   "editor": {

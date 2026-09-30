@@ -183,7 +183,9 @@ required.
 ## The dashboard
 
 - **Stages, in order.** Components are grouped as Provision → Inventory → Configure → Deploy, with
-  a count and a tick per stage, so you can see what's still missing.
+  a count and a tick per stage, so you can see what's still missing. Configure shows the essentials
+  (playbook, site playbook, role) first; **Show more** reveals the rest, and it stays open once you
+  use one of them.
 - **One editor with a live preview.** Output re-renders as you type. Any component can be reopened
   and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
 - **Bring what you have.** Import an existing `inventory.ini` (hosts listed in several groups are
