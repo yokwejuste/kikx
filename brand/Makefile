@@ -1,5 +1,6 @@
 RSVG      ?= rsvg-convert
 PYTHON    ?= python3
+CHROME    ?= /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 FONT_DIR  ?=
 ICON_SIZES = 16 32 48 64 128 180 192 256 512
 MARK_SIZES = 64 128 256 512
@@ -36,4 +37,7 @@ install:
 	mkdir -p ../cli/assets
 	cp kikx.ico ../cli/assets/kikx.ico
 
-.PHONY: all png ico social install
+guide:
+	"$(CHROME)" --headless=new --disable-gpu --no-pdf-header-footer --virtual-time-budget=15000 --print-to-pdf=kikx-brand-guide.pdf "file://$(CURDIR)/guide/brand-guide.html"
+
+.PHONY: all png ico social install guide

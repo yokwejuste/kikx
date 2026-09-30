@@ -24,16 +24,19 @@ project.
 | `kikx-og-web.png` | Link preview for the dashboard, 1200 × 630 |
 | `kikx-og-docs.png` | Link preview for the docs, 1200 × 630 |
 | `png/` | The mark and app icon rendered at common sizes |
+| `kikx-brand-guide.pdf` | Brand guidelines with measurements, built from `guide/brand-guide.html` |
 
 The SVG files are the masters. Everything else is generated from them:
 
 ```bash
 make -C brand
 make -C brand social FONT_DIR=/path/to/geist
+make -C brand guide
 ```
 
 `make` renders `png/` and `kikx.ico` and copies the icons into the dashboard, the docs and the CLI.
 `social` redraws the social and link previews and needs the Geist Regular and Bold `.ttf` files.
+`guide` renders `kikx-brand-guide.pdf` with headless Chrome (`CHROME=/path/to/chrome` to override).
 
 ## Colour
 
