@@ -3,6 +3,7 @@ use self_update::backends::github::Update;
 use self_update::cargo_crate_version;
 
 use crate::cli::UpgradeArgs;
+use crate::style::{hint, paint, success};
 
 const PLATFORM: Option<&str> = if cfg!(all(target_os = "macos", target_arch = "aarch64")) {
     Some("macos-arm64")
@@ -64,22 +65,29 @@ pub fn run(args: UpgradeArgs) -> Result<()> {
             .map(|release| release.version().to_string()),
     };
     let Some(target) = target else {
-        println!("kikx {current} is the latest version.");
+        anstream::println!("kikx {current} is the latest version.");
         return Ok(());
     };
     if target == current {
-        println!("kikx {current} is already installed.");
+        anstream::println!("kikx {current} is already installed.");
         return Ok(());
     }
     if args.check {
-        println!(
-            "kikx {target} is available (you have {current}). Run `kikx upgrade` to install it."
+        anstream::println!(
+            "kikx {target} is available (you have {current}). {}",
+            paint(hint(), "Run `kikx upgrade` to install it.")
         );
         return Ok(());
     }
 
-    println!("Upgrading kikx {current} to {target}");
+    anstream::println!(
+        "{} kikx {current} to {target}",
+        paint(success(), "Upgrading")
+    );
     let status = updater.update().context("the upgrade failed")?;
-    println!("kikx is now {}.", status.version());
+    anstream::println!(
+        "{}",
+        paint(success(), format!("kikx is now {}.", status.version()))
+    );
     Ok(())
 }

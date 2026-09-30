@@ -9,6 +9,19 @@ say() {
   printf '%s\n' "$*"
 }
 
+if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+  case "${COLORTERM:-}" in
+    truecolor | 24bit) volt="$(printf '\033[1;38;2;200;240;49m')" ;;
+    *) volt="$(printf '\033[1;38;5;191m')" ;;
+  esac
+  dim="$(printf '\033[2m')"
+  reset="$(printf '\033[0m')"
+else
+  volt=""
+  dim=""
+  reset=""
+fi
+
 fail() {
   printf 'kikx install: %s\n' "$*" >&2
   exit 1
@@ -57,24 +70,24 @@ fi
 workdir="$(mktemp -d)"
 trap 'rm -rf "$workdir"' EXIT INT TERM
 
-say "Downloading kikx ${number} for ${os} ${arch}"
+say "${volt}Downloading${reset} kikx ${number} for ${os} ${arch}"
 curl -fsSL "$url" -o "${workdir}/kikx.tar.gz" || fail "could not download ${url}"
 tar -xzf "${workdir}/kikx.tar.gz" -C "$workdir"
 [ -f "${workdir}/${name}/kikx" ] || fail "the archive does not contain kikx"
 
 mkdir -p "$INSTALL_DIR" 2>/dev/null || true
 if [ "${use_sudo:-}" = "yes" ]; then
-  say "Installing to ${INSTALL_DIR} (sudo may ask for your password)"
+  say "${volt}Installing${reset} to ${INSTALL_DIR} ${dim}(sudo may ask for your password)${reset}"
   sudo install -m 0755 "${workdir}/${name}/kikx" "${INSTALL_DIR}/kikx"
 else
   install -m 0755 "${workdir}/${name}/kikx" "${INSTALL_DIR}/kikx"
 fi
 
-say "Installed $("${INSTALL_DIR}/kikx" --version) to ${INSTALL_DIR}/kikx"
+say "${volt}Installed $("${INSTALL_DIR}/kikx" --version)${reset} to ${INSTALL_DIR}/kikx"
 
 case ":${PATH}:" in
   *":${INSTALL_DIR}:"*)
-    say "Run kikx to get started."
+    say "${dim}Run kikx to get started.${reset}"
     exit 0
     ;;
 esac
@@ -110,10 +123,10 @@ esac
 mkdir -p "$(dirname "$profile")"
 touch "$profile"
 if grep -qsF "$line" "$profile"; then
-  say "${profile} already adds ${INSTALL_DIR} to your PATH."
+  say "${dim}${profile} already adds ${INSTALL_DIR} to your PATH.${reset}"
 else
   printf '\n%s\n' "$line" >>"$profile"
-  say "Added ${INSTALL_DIR} to your PATH in ${profile}."
+  say "${volt}Added${reset} ${INSTALL_DIR} to your PATH in ${profile}."
 fi
-say "Open a new terminal, or run: source ${profile}"
-say "Then run kikx to get started."
+say "${dim}Open a new terminal, or run: source ${profile}${reset}"
+say "${dim}Then run kikx to get started.${reset}"

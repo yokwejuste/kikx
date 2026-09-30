@@ -1,11 +1,17 @@
 use anyhow::Result;
 use kikx_core::registry;
 
+use crate::style::{heading, hint, paint, volt};
+
 pub fn run() -> Result<()> {
-    println!("Available components:");
+    anstream::println!("{}", paint(heading(), "Available components:"));
     for item in registry::builtin::all() {
-        println!();
-        println!("  {}: {}", item.reference(), item.description);
+        anstream::println!();
+        anstream::println!(
+            "  {}: {}",
+            paint(volt(), item.reference()),
+            paint(hint(), &item.description)
+        );
         for field in &item.fields {
             let mut notes: Vec<String> = Vec::new();
             if field.required {
@@ -24,12 +30,18 @@ pub fn run() -> Result<()> {
             let notes = if notes.is_empty() {
                 String::new()
             } else {
-                format!("  ({})", notes.join("; "))
+                format!("  {}", paint(hint(), format!("({})", notes.join("; "))))
             };
-            println!("      --set {}=…{notes}", field.name);
+            anstream::println!("      --set {}=…{notes}", field.name);
         }
     }
-    println!();
-    println!("You can also `kikx add <url>` or `kikx add <path-to-registry-item.json>`.");
+    anstream::println!();
+    anstream::println!(
+        "{}",
+        paint(
+            hint(),
+            "You can also `kikx add <url>` or `kikx add <path-to-registry-item.json>`."
+        )
+    );
     Ok(())
 }
