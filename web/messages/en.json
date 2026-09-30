@@ -614,7 +614,7 @@
     }
   },
   "notFound": {
-    "title": "This route hasn't been vendored",
+    "title": "This route hasn't been <accent>vendored</accent>",
     "body": "There's no page here. While you find your way back, here's a dad joke:",
     "jokeFailed": "Couldn't even fetch a joke. That's a 404 on a 404.",
     "another": "Another one",

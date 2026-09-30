@@ -30,7 +30,7 @@ myst_heading_anchors = 4
 API_CHANGES = ["added", "changed", "deprecated", "removed"]
 
 
-def monochrome(background, foreground, muted, surface, border):
+def monochrome(background, foreground, muted, surface, border, accent):
     colors = {
         "color-background-primary": background,
         "color-background-secondary": background,
@@ -42,10 +42,11 @@ def monochrome(background, foreground, muted, surface, border):
         "color-foreground-secondary": muted,
         "color-foreground-muted": muted,
         "color-foreground-border": border,
-        "color-brand-primary": foreground,
-        "color-brand-content": foreground,
-        "color-brand-visited": foreground,
-        "color-link-underline": border,
+        "color-brand-primary": accent,
+        "color-brand-content": accent,
+        "color-brand-visited": accent,
+        "color-link-underline": accent,
+        "color-link-underline--visited": accent,
         "color-code-background": surface,
         "color-code-foreground": foreground,
         "color-inline-code-background": surface,
@@ -73,8 +74,8 @@ html_theme_options = {
     "source_repository": "https://github.com/yokwejuste/kikx/",
     "source_branch": "main",
     "source_directory": "docs/source/",
-    "light_css_variables": monochrome("#ffffff", "#0a0a0a", "#737373", "#f5f5f5", "#e5e5e5"),
-    "dark_css_variables": monochrome("#0a0a0a", "#fafafa", "#a1a1a1", "#262626", "#2e2e2e"),
+    "light_css_variables": monochrome("#ffffff", "#0a0a0a", "#737373", "#f5f5f5", "#e5e5e5", "#4d6b00"),
+    "dark_css_variables": monochrome("#0a0a0a", "#fafafa", "#a1a1a1", "#262626", "#2e2e2e", "#c8f031"),
 }
 pygments_style = "bw"
 pygments_dark_style = "bw"

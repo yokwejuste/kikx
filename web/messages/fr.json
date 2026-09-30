@@ -614,7 +614,7 @@
     }
   },
   "notFound": {
-    "title": "Cette route n'a pas été intégrée",
+    "title": "Cette route n'a pas été <accent>intégrée</accent>",
     "body": "Il n'y a pas de page ici. Pendant que vous retrouvez votre chemin, voici une blague (en anglais) :",
     "jokeFailed": "Impossible même de récupérer une blague. C'est une 404 sur une 404.",
     "another": "Une autre",
