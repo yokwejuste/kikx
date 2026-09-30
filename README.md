@@ -305,4 +305,4 @@ This is a local, single-user dev tool with no auth.
 
 ## License
 
-kikx is released under the [MIT License](LICENSE). The name and logo are described in [brand/](brand/README.md).
+kikx is released under the [MIT License](LICENSE). The name and logo are described in [brand/](brand/).
