@@ -21,7 +21,7 @@ The last step also uses the `kikx` CLI. If you haven't installed it yet,
 ## Open the dashboard
 
 Open the kikx dashboard in your browser. You should see the kikx home page with a form headed
-**Or build it here**. Above it, **Start from a template** offers ready-made projects; in this
+**Blank project**. Above it, **Start from a template** offers ready-made projects; in this
 tutorial you'll start from an empty one instead.
 
 To work on kikx itself with a local copy of the dashboard, see [Run kikx locally](../contributing/run-locally.md).

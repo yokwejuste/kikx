@@ -43,8 +43,12 @@
       "discarded": "{name} abandonné"
     },
     "copyCommands": "Copier les commandes",
+    "cli": {
+      "title": "Vous préférez le terminal ?",
+      "hint": "les mêmes étapes avec la CLI kikx"
+    },
     "build": {
-      "title": "Ou créez-le ici",
+      "title": "Projet vierge",
       "body": "Renseignez les détails de votre projet, ajoutez les composants dont vous avez besoin, puis téléchargez le résultat. Rien n'est lu ni écrit sur votre machine avant le téléchargement.",
       "projectName": "Nom du projet",
       "namespace": "Namespace par défaut",
@@ -75,15 +79,15 @@
         "description": "kikx génère de vrais fichiers d'infrastructure pour Ansible, Kubernetes et Terraform, qui vous appartiennent et se modifient comme n'importe quel code. Cette visite prend une minute."
       },
       "cli": {
-        "title": "La même chose, dans votre terminal",
-        "description": "Tout ce qui se trouve ici existe aussi dans la CLI kikx. Voici les commandes que vous lanceriez."
+        "title": "Vous préférez le terminal ?",
+        "description": "Tout ce qui se trouve ici existe aussi dans la CLI kikx. Ouvrez cette section pour voir les commandes que vous lanceriez."
       },
       "templates": {
         "title": "Partir d'un modèle",
         "description": "Ouvrez un projet complet, d'un serveur unique à un cluster kubeadm ou une plateforme multi-niveaux, et adaptez-le."
       },
       "new-project": {
-        "title": "Ou partir de zéro",
+        "title": "Ou partir d'un projet vierge",
         "description": "Nommez le projet, choisissez un namespace et un dossier de sortie, puis ajoutez les composants un par un."
       },
       "open-preset": {

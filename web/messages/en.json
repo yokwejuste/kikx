@@ -43,8 +43,12 @@
       "discarded": "Discarded {name}"
     },
     "copyCommands": "Copy commands",
+    "cli": {
+      "title": "Prefer the terminal?",
+      "hint": "the same steps with the kikx CLI"
+    },
     "build": {
-      "title": "Or build it here",
+      "title": "Blank project",
       "body": "Fill in your project's details, add the components you need, and download the result. Nothing is read from or written to your machine until you hit download.",
       "projectName": "Project name",
       "namespace": "Default namespace",
@@ -75,15 +79,15 @@
         "description": "kikx renders real infrastructure files for Ansible, Kubernetes and Terraform that you own and edit like any other code. This tour takes a minute."
       },
       "cli": {
-        "title": "The same thing, in your terminal",
-        "description": "Everything here is also in the kikx CLI. These are the commands you would run."
+        "title": "Prefer the terminal?",
+        "description": "Everything here is also in the kikx CLI. Open this to see the commands you would run."
       },
       "templates": {
         "title": "Start from a template",
         "description": "Open a complete project, from a single server to a kubeadm cluster or a multi-tier platform, and adapt it."
       },
       "new-project": {
-        "title": "Or start from scratch",
+        "title": "Or start from a blank project",
         "description": "Name the project, pick a namespace and an output folder, then add components one by one."
       },
       "open-preset": {
