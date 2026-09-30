@@ -25,6 +25,6 @@ export function useEdgeEmphasis(id: string): Emphasis {
 }
 
 export function edgeColor(tone: GraphEdge["tone"], emphasis: Emphasis): string {
-  if (emphasis === "focus") return "var(--primary)";
+  if (emphasis === "focus") return "var(--brand)";
   return tone === "structure" ? "var(--muted-foreground)" : "var(--foreground)";
 }

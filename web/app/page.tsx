@@ -96,7 +96,9 @@ function HomeContent() {
             </h1>
             <PronounceButton />
           </div>
-          <p className="max-w-md text-balance text-muted-foreground">{t("intro")}</p>
+          <p className="max-w-md text-balance text-muted-foreground">
+            {t.rich("intro", { accent: (chunks) => <span className="kikx-highlight">{chunks}</span> })}
+          </p>
         </div>
 
         {details && (
@@ -130,7 +132,9 @@ function HomeContent() {
             ) : (
               <>
                 <Link href="/build" className="flex min-w-48 flex-1 items-center gap-3 hover:underline-offset-4">
-                  <History className="size-4 shrink-0 text-muted-foreground" />
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
+                    <History className="size-4" />
+                  </span>
                   <span>
                     <span className="font-medium">{t("resume.continueTitle", { name: details.name })}</span>
                     <span className="block text-muted-foreground">{t("resume.kept", { count: components.length })}</span>
@@ -160,17 +164,17 @@ function HomeContent() {
           </div>
         )}
 
-        <div data-tour="cli" className="w-full overflow-hidden rounded-xl border bg-card text-left shadow-sm">
-          <div className="flex items-center gap-1.5 border-b bg-muted/40 py-1.5 pr-1.5 pl-4">
-            <span className="size-2.5 rounded-full bg-muted-foreground/20" />
-            <span className="size-2.5 rounded-full bg-muted-foreground/20" />
-            <span className="size-2.5 rounded-full bg-muted-foreground/20" />
+        <div data-tour="cli" className="terminal w-full overflow-hidden rounded-xl border text-left shadow-sm">
+          <div className="flex items-center gap-1.5 border-b border-(--terminal-paper)/10 py-1.5 pr-1.5 pl-4">
+            <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
+            <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
+            <span className="size-2.5 rounded-full bg-volt" />
             <CopyButton
               text={SNIPPET.map((line) => line.cmd).join("\n")}
               size="icon"
               aria-label={t("copyCommands")}
               title={t("copyCommands")}
-              className="ml-auto size-7 text-muted-foreground hover:text-foreground"
+              className="ml-auto size-7 text-(--terminal-paper)/60 hover:bg-(--terminal-paper)/10 hover:text-(--terminal-paper) dark:hover:bg-(--terminal-paper)/10"
             >
               <Copy className="size-3.5" />
             </CopyButton>
@@ -178,7 +182,7 @@ function HomeContent() {
           <div className="flex flex-col gap-2.5 p-4 font-mono text-sm">
             {SNIPPET.map((line) => (
               <div key={line.cmd} className="flex gap-2">
-                <span className="select-none text-muted-foreground">$</span>
+                <span aria-hidden className="terminal-prompt select-none">$</span>
                 <span className="min-w-0 flex-1 break-words">{line.cmd}</span>
               </div>
             ))}
@@ -219,9 +223,11 @@ function HomeContent() {
           </form>
         </div>
 
-        <label data-tour="open-preset" className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:bg-muted/40">
+        <label data-tour="open-preset" className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:border-brand/40 hover:bg-muted/40">
           <span className="flex items-center gap-3">
-            <FolderOpen className="size-4 text-muted-foreground" />
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
+              <FolderOpen className="size-4" />
+            </span>
             <span>
               <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
               <span className="block text-muted-foreground">
@@ -246,7 +252,7 @@ function HomeContent() {
 
         <Link
           href="/flow"
-          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+          className="flex items-center gap-1.5 text-sm text-brand underline-offset-4 hover:underline"
         >
           <Waypoints className="size-4" />
           {t("dataFlowLink")}

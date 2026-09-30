@@ -2,6 +2,7 @@ use anyhow::Result;
 use kikx_core::ops::{self, SetupParams};
 
 use crate::cli::SetupArgs;
+use crate::style::{paint, success};
 
 pub fn run(args: SetupArgs) -> Result<()> {
     let cwd = super::current_dir()?;
@@ -14,14 +15,15 @@ pub fn run(args: SetupArgs) -> Result<()> {
         },
     )?;
 
-    println!(
-        "Initialized kikx project `{}`: wrote {} file(s) to {}",
+    anstream::println!(
+        "{} kikx project `{}`: wrote {} file(s) to {}",
+        paint(success(), "Initialized"),
         outcome.project_name,
         outcome.files_written.len(),
         outcome.output_dir.display()
     );
     for path in outcome.files_written {
-        println!("  {}", path.display());
+        anstream::println!("  {}", path.display());
     }
     Ok(())
 }

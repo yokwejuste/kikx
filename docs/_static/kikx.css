@@ -2,6 +2,22 @@
 
 body {
     --font-stack: "Source Serif 4", Georgia, serif;
+    --kikx-volt: #c8f031;
+    --kikx-ink: #0a0a0a;
+    --kikx-paper: #fafafa;
+    --kikx-terminal-muted: #a1a1a1;
+    --kikx-terminal-border: #2e2e2e;
+    --kikx-tint: color-mix(in srgb, var(--kikx-volt) 30%, white);
+}
+
+body[data-theme="dark"] {
+    --kikx-tint: color-mix(in srgb, var(--kikx-volt) 16%, var(--kikx-ink));
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+        --kikx-tint: color-mix(in srgb, var(--kikx-volt) 16%, var(--kikx-ink));
+    }
 }
 
 .sidebar-drawer,
@@ -44,6 +60,10 @@ h3 {
 .kikx-mark {
     height: 1.9rem;
     width: 1.9rem;
+}
+
+.kikx-mark-ball {
+    fill: var(--color-brand-primary);
 }
 
 .sidebar-tree .toctree-l1 > .reference {
@@ -116,7 +136,7 @@ input.sidebar-search {
     background: none;
     border: none;
     border-radius: 0;
-    border-top: 2px solid var(--color-foreground-primary);
+    border-top: 2px solid var(--color-brand-primary);
     box-shadow: none !important;
 }
 
@@ -142,6 +162,7 @@ hr.docutils {
 }
 
 .toc-tree li.scroll-current > .reference {
+    box-shadow: inset 2px 0 0 var(--color-brand-primary);
     color: var(--color-foreground-primary);
     font-weight: 700;
 }
@@ -208,15 +229,68 @@ a:hover {
 }
 
 .admonition[class] {
-    border-left-color: var(--color-foreground-primary);
+    border-left-color: var(--color-brand-primary);
 }
 
 .admonition[class] > .admonition-title {
-    background-color: var(--color-background-hover);
+    background-color: var(--kikx-tint);
 }
 
 .admonition[class] > .admonition-title::before {
-    background-color: var(--color-foreground-primary);
+    background-color: var(--color-brand-primary);
+}
+
+body :is(div.highlight-bash, div.highlight-console, div.highlight-shell, div.highlight-sh, div.highlight-shell-session) {
+    & .highlight,
+    & .highlight pre {
+        background: var(--kikx-ink);
+        color: var(--kikx-paper);
+    }
+
+    & .highlight {
+        border: 1px solid var(--kikx-terminal-border);
+        border-radius: 0.4rem;
+    }
+
+    & .highlight span {
+        color: var(--kikx-paper);
+    }
+
+    & .highlight :is(.gp, .k, .kc, .kd, .kn, .kp, .kr, .kt, .nb, .nf, .ow) {
+        color: var(--kikx-volt);
+    }
+
+    & .highlight :is(.gp, .k, .kd, .kn, .kr, .ow) {
+        font-weight: 700;
+    }
+
+    & .highlight :is(.nv, .m, .mi, .mf, .mh, .mo, .se, .si) {
+        color: #b5d94a;
+    }
+
+    & .highlight :is(.c, .c1, .ch, .cm, .cs, .o, .p) {
+        color: var(--kikx-terminal-muted);
+    }
+
+    & .highlight :is(.c, .c1, .ch, .cm, .cs) {
+        font-style: italic;
+    }
+
+    & .highlight .go {
+        color: #d4d4d4;
+    }
+
+    & button.copybtn {
+        background: var(--kikx-ink);
+        border-color: var(--kikx-terminal-border);
+        color: var(--kikx-terminal-muted);
+    }
+
+    & button.copybtn:hover,
+    & button.copybtn.success {
+        border-color: var(--kikx-volt);
+        color: var(--kikx-volt);
+    }
 }
 
 
@@ -259,9 +333,9 @@ p.pronunciation {
 
 .try-kikx,
 .try-kikx:visited {
-    background: var(--color-foreground-primary);
+    background: var(--kikx-volt);
     border-radius: 999px;
-    color: var(--color-background-primary);
+    color: var(--kikx-ink);
     font-size: 0.8125rem;
     font-weight: 700;
     padding: 0.35rem 0.9rem;
@@ -271,45 +345,11 @@ p.pronunciation {
 
 .page-actions a.try-kikx:hover,
 .page-actions a.try-kikx:focus-visible {
-    background: var(--color-foreground-secondary);
-    color: var(--color-background-primary);
+    background: color-mix(in srgb, var(--kikx-volt) 85%, var(--kikx-ink));
+    color: var(--kikx-ink);
     text-decoration: none;
 }
 
 .page-actions a.try-kikx {
     transition: background-color 150ms;
-}
-
-body[data-theme="dark"] .kikx-mark-ball {
-    fill: var(--color-brand-primary);
-}
-
-body[data-theme="dark"] .try-kikx,
-body[data-theme="dark"] .try-kikx:visited {
-    background: var(--color-brand-primary);
-    color: var(--color-background-primary);
-}
-
-body[data-theme="dark"] .page-actions a.try-kikx:hover,
-body[data-theme="dark"] .page-actions a.try-kikx:focus-visible {
-    background: color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-foreground-primary));
-    color: var(--color-background-primary);
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) .kikx-mark-ball {
-        fill: var(--color-brand-primary);
-    }
-
-    body:not([data-theme="light"]) .try-kikx,
-    body:not([data-theme="light"]) .try-kikx:visited {
-        background: var(--color-brand-primary);
-        color: var(--color-background-primary);
-    }
-
-    body:not([data-theme="light"]) .page-actions a.try-kikx:hover,
-    body:not([data-theme="light"]) .page-actions a.try-kikx:focus-visible {
-        background: color-mix(in srgb, var(--color-brand-primary) 80%, var(--color-foreground-primary));
-        color: var(--color-background-primary);
-    }
 }

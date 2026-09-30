@@ -34,15 +34,19 @@ export function TemplateGallery({
               disabled={opening !== null}
               onClick={() => onSelect(preset.name)}
               className={cn(
-                "flex h-full w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left transition-colors hover:bg-muted/40 disabled:opacity-60",
-                opening === preset.name && "border-primary",
+                "flex h-full w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left transition-colors hover:border-brand/40 hover:bg-muted/40 disabled:opacity-60",
+                opening === preset.name && "border-brand",
               )}
             >
               <span className="flex items-center gap-2 text-sm font-medium">
                 {opening === preset.name ? (
-                  <LoaderCircle className="size-4 animate-spin" />
+                  <span className="flex size-6 items-center justify-center rounded-md bg-volt-soft text-volt-soft-foreground">
+                    <LoaderCircle className="size-3.5 animate-spin" />
+                  </span>
                 ) : (
-                  <LayoutTemplate className="size-4 text-muted-foreground" />
+                  <span className="flex size-6 items-center justify-center rounded-md bg-volt-soft text-volt-soft-foreground">
+                    <LayoutTemplate className="size-3.5" />
+                  </span>
                 )}
                 {text.preset(preset.name, "title", preset.title)}
               </span>

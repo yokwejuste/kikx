@@ -2,6 +2,7 @@ use anyhow::Result;
 use kikx_core::ops::{self, ApplyParams};
 
 use crate::cli::ApplyArgs;
+use crate::style::{paint, success};
 
 pub fn run(args: ApplyArgs) -> Result<()> {
     let cwd = super::current_dir()?;
@@ -15,9 +16,13 @@ pub fn run(args: ApplyArgs) -> Result<()> {
         },
     )?;
 
-    println!("Vendored {} file(s):", outcome.files_written.len());
+    anstream::println!(
+        "{} {} file(s):",
+        paint(success(), "Vendored"),
+        outcome.files_written.len()
+    );
     for path in outcome.files_written {
-        println!("  {}", path.display());
+        anstream::println!("  {}", path.display());
     }
     Ok(())
 }

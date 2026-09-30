@@ -106,7 +106,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
                 onClick={() => switchTo(m)}
                 className={cn(
                   "rounded-md px-2.5 py-1 transition-colors",
-                  mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+                  mode === m ? "bg-volt-soft text-volt-soft-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {t(`modes.${m}`)}

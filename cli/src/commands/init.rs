@@ -2,6 +2,7 @@ use anyhow::Result;
 use kikx_core::ops::{self, InitParams};
 
 use crate::cli::InitArgs;
+use crate::style::{hint, paint, success};
 
 pub fn run(args: InitArgs) -> Result<()> {
     let cwd = super::current_dir()?;
@@ -15,9 +16,14 @@ pub fn run(args: InitArgs) -> Result<()> {
         },
     )?;
 
-    println!(
-        "Initialized kikx project `{}`. Vendor components with `kikx add <category>/<component>` (see `kikx list`)",
-        outcome.project_name
+    anstream::println!(
+        "{} kikx project `{}`. {}",
+        paint(success(), "Initialized"),
+        outcome.project_name,
+        paint(
+            hint(),
+            "Vendor components with `kikx add <category>/<component>` (see `kikx list`)"
+        )
     );
     Ok(())
 }

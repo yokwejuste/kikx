@@ -43,6 +43,8 @@
   --color-volt-deep: var(--volt-deep);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-volt-soft: var(--volt-soft);
+  --color-volt-soft-foreground: var(--volt-soft-foreground);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -59,14 +61,14 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: var(--volt);
+  --primary-foreground: #0a0a0a;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent: var(--volt-soft);
+  --accent-foreground: var(--volt-soft-foreground);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -79,8 +81,8 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: var(--volt);
+  --sidebar-primary-foreground: #0a0a0a;
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
@@ -89,6 +91,8 @@
   --volt-deep: #4d6b00;
   --brand: var(--volt-deep);
   --brand-foreground: #fafafa;
+  --volt-soft: color-mix(in srgb, var(--volt) 30%, white);
+  --volt-soft-foreground: #0a0a0a;
 }
 
 .dark {
@@ -104,8 +108,8 @@
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent: var(--volt-soft);
+  --accent-foreground: var(--volt-soft-foreground);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
@@ -125,6 +129,8 @@
   --sidebar-ring: var(--volt);
   --brand: var(--volt);
   --brand-foreground: #0a0a0a;
+  --volt-soft: color-mix(in srgb, var(--volt) 16%, #0a0a0a);
+  --volt-soft-foreground: #fafafa;
 }
 
 @layer base {
@@ -194,6 +200,16 @@
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
+.kikx-tour .driver-popover-title::before {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 3px;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  background: var(--brand);
+}
+
 .kikx-tour .driver-popover-title {
   font-family: inherit;
   font-size: 15px;
@@ -211,7 +227,7 @@
 }
 
 .kikx-tour .driver-popover-progress-text {
-  color: var(--muted-foreground);
+  color: var(--brand);
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 12px;
 }
@@ -240,11 +256,12 @@
   border-color: var(--primary);
   background: var(--primary);
   color: var(--primary-foreground);
+  font-weight: 600;
 }
 
 .kikx-tour .driver-popover-footer .driver-popover-next-btn:hover {
-  background: var(--primary);
-  opacity: 0.9;
+  border-color: color-mix(in oklab, var(--primary) 88%, black);
+  background: color-mix(in oklab, var(--primary) 88%, black);
 }
 
 .kikx-tour .driver-popover-close-btn {
@@ -269,6 +286,11 @@
 
 .kikx-tour .driver-popover-arrow-side-bottom.driver-popover-arrow {
   border-bottom-color: var(--popover);
+}
+
+.driver-active .driver-active-element {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
 }
 
 @media (pointer: coarse) {

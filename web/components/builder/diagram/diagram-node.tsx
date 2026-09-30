@@ -14,13 +14,18 @@ export const DiagramNode = memo(function DiagramNode({ id, data }: NodeProps) {
       className={cn(
         "flex cursor-pointer flex-col justify-center gap-1 rounded-lg border bg-card px-3 shadow-sm transition-[opacity,box-shadow] duration-150",
         kind === "data" && "border-dashed",
-        emphasis === "focus" && "border-primary ring-2 ring-primary/30",
+        emphasis === "focus" && "border-brand ring-2 ring-brand/30",
         emphasis === "dim" && "opacity-30",
       )}
     >
       <Handle type="target" position={Position.Left} className="!opacity-0" isConnectable={false} />
       <div className="flex min-w-0 items-center gap-2">
-        <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
+        <span
+          className={cn(
+            "flex size-6 shrink-0 items-center justify-center rounded-md",
+            emphasis === "focus" ? "bg-volt-soft text-volt-soft-foreground" : "bg-muted text-muted-foreground",
+          )}
+        >
           <Icon className="size-3.5" />
         </span>
         <span className="truncate font-mono text-xs font-medium">{label}</span>

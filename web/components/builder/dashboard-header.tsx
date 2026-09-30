@@ -62,10 +62,10 @@ export function DashboardHeader({
       <div className="flex min-w-0 items-center gap-3">
         <h1 className="truncate text-lg font-semibold tracking-tight">{details.name}</h1>
         <div className="hidden items-center gap-1.5 sm:flex">
-          <Badge variant="secondary" className="font-mono text-xs font-normal" title={t("namespace")}>
+          <Badge variant="brand" className="font-mono text-xs font-normal" title={t("namespace")}>
             ns: {details.namespace}
           </Badge>
-          <Badge variant="secondary" className="font-mono text-xs font-normal" title={t("outputDir")}>
+          <Badge variant="brand" className="font-mono text-xs font-normal" title={t("outputDir")}>
             {details.outputDir}/
           </Badge>
         </div>

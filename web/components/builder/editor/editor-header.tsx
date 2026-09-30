@@ -30,7 +30,7 @@ export function EditorHeader({
   return (
     <div className="flex flex-col gap-3 border-b px-6 py-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="flex min-w-0 gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
           <Icon className="size-4" />
         </div>
         <div className="min-w-0">

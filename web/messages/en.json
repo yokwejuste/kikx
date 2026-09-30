@@ -26,7 +26,7 @@
     "retry": "Try again"
   },
   "home": {
-    "intro": "Render real, editable infrastructure files straight into your project: Ansible inventories, group vars and playbooks, Kubernetes manifests and Terraform. No hidden dependency, just plain files you own.",
+    "intro": "Render real, editable infrastructure files straight into your project: Ansible inventories, group vars and playbooks, Kubernetes manifests and Terraform. No hidden dependency, just <accent>plain files</accent> you own.",
     "pronounce": {
       "label": "Hear how to say kikx",
       "hint": "Pronounced “kicking”"

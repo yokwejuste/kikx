@@ -31,7 +31,7 @@ export function LanguageSwitcher() {
           onClick={() => choose(locale)}
           className={cn(
             "rounded px-1.5 py-0.5 text-xs font-medium uppercase transition-colors pointer-coarse:min-h-9 pointer-coarse:min-w-9",
-            locale === current ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground",
+            locale === current ? "bg-volt-soft text-volt-soft-foreground" : "text-muted-foreground hover:text-foreground",
           )}
         >
           {locale}

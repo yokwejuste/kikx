@@ -21,7 +21,7 @@ export const FlowNode = memo(function FlowNode({ data }: NodeProps) {
       className={cn(
         "w-56 rounded-xl border bg-card px-4 py-3 shadow-sm transition-all duration-300",
         kind === "data" && "border-dashed",
-        active ? "border-primary shadow-md ring-2 ring-primary/30" : "border-border",
+        active ? "border-brand shadow-md ring-2 ring-brand/30" : "border-border",
       )}
     >
       {handles.target && <Handle type="target" position={Position.Left} className="!bg-muted-foreground" />}
