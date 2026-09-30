@@ -71,7 +71,7 @@ kikx apply https://example.com/platform.kikx-preset.json --into infra
 
 ## Open a preset in the dashboard
 
-1. Go to the home page. If you're in the builder, click **Start over** in the header.
+1. Go to the home page. If you're in the builder, click **Home** in the header.
 2. Click **Open a preset** and pick the `.kikx-preset.json` file.
 
 The dashboard re-renders every component through the backend, then opens the builder with the project loaded. If a component can't render, for example a custom registry item the backend can't reach, the preset doesn't open and an error names the problem.
