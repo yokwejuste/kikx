@@ -1,6 +1,10 @@
 import os
+import sys
+from pathlib import Path
 
 from pygments.lexers.shell import BashLexer
+
+sys.path.insert(0, str(Path(__file__).parent / "_pygments"))
 
 project = "kikx"
 html_title = "kikx"
@@ -22,7 +26,7 @@ copybutton_remove_prompts = True
 
 source_suffix = {".md": "markdown"}
 master_doc = "index"
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "_pygments", "Thumbs.db", ".DS_Store"]
 
 myst_enable_extensions = ["colon_fence", "attrs_block"]
 myst_heading_anchors = 4
@@ -77,8 +81,8 @@ html_theme_options = {
     "light_css_variables": monochrome("#ffffff", "#0a0a0a", "#737373", "#f5f5f5", "#e5e5e5", "#4d6b00"),
     "dark_css_variables": monochrome("#0a0a0a", "#fafafa", "#a1a1a1", "#262626", "#2e2e2e", "#c8f031"),
 }
-pygments_style = "bw"
-pygments_dark_style = "bw"
+pygments_style = "kikx_style.KikxLightStyle"
+pygments_dark_style = "kikx_style.KikxDarkStyle"
 templates_path = ["../_templates"]
 html_static_path = ["../_static"]
 html_favicon = "../_static/kikx-favicon.svg"
