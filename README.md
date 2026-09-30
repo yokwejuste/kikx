@@ -202,8 +202,8 @@ required.
   - `site.yml` importing a missing playbook
   - a Service or Ingress pointing at nothing
   - roles the project doesn't vendor, with one-click scaffolding
-- **Nothing touches disk until you download.** The project lives in the browser tab. Download it
-  as a `.zip`, or as a preset for `kikx setup` / `kikx apply`.
+- **Nothing touches disk until you export.** The project lives in the browser tab. The **Export**
+  menu gives you a `.zip` of plain files, a preset, or the `kikx setup` / `kikx apply` command.
 
 ## Architecture diagram
 

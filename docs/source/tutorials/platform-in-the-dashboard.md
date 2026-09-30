@@ -290,8 +290,8 @@ the same view looks like this:
 
 ## Download the project
 
-Click **Download .zip** at the top right. Your browser saves `platform.zip`. Unzip it into an empty
-directory and look inside:
+Open **Export** at the top right and choose **Files (.zip)**. Your browser saves `platform.zip`.
+Unzip it into an empty directory and look inside:
 
 ```bash
 unzip platform.zip -d platform
@@ -359,9 +359,8 @@ playbook: site.yml
 
 ## Download the preset
 
-Go back to the dashboard and the **Build** tab. At the bottom of the **Project** panel, click
-**Download preset**. Your browser saves `platform.kikx-preset.json`, and the button is replaced by
-two commands:
+Go back to the dashboard, open **Export** and choose **Preset (.kikx-preset.json)**. Your browser
+saves `platform.kikx-preset.json`. **Export** > **CLI command** shows the two commands that run it:
 
 ```text
 kikx setup ./platform.kikx-preset.json

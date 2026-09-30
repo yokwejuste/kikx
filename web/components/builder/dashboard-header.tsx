@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { Download, House } from "lucide-react";
+import { House } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ExportMenu } from "@/components/builder/export/export-menu";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
-import { downloadProjectZip } from "@/lib/project/archive";
 import { cn } from "@/lib/utils";
 
 export type View = "build" | "diagram" | "checks";
@@ -46,16 +44,6 @@ export function DashboardHeader({
   issueCounts: IssueCounts;
 }) {
   const t = useTranslations("builder.header");
-  const [downloading, setDownloading] = useState(false);
-
-  const download = async () => {
-    setDownloading(true);
-    try {
-      await downloadProjectZip(details, components);
-    } finally {
-      setDownloading(false);
-    }
-  };
 
   return (
     <div className="flex flex-col gap-4 border-b pb-5 lg:flex-row lg:items-center lg:justify-between">
@@ -82,10 +70,7 @@ export function DashboardHeader({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Button data-tour="download" type="button" disabled={components.length === 0 || downloading} onClick={download}>
-          <Download />
-          {downloading ? t("zipping") : t("download")}
-        </Button>
+        <ExportMenu details={details} components={components} />
         <Link
           href="/"
           title={t("homeHint")}
