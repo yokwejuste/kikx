@@ -1,7 +1,7 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="brand/images/svg/kikx-mark-white.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="brand/images/svg/kikx-mark-kicked.svg">
   <img alt="kikx" src="brand/images/svg/kikx-mark.svg" width="96">
 </picture>
 
