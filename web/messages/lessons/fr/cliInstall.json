@@ -1,0 +1,79 @@
+{
+  "title": "Installation et premier projet",
+  "description": "Installez la CLI kikx, créez un projet avec kikx init, trouvez des composants avec kikx list et intégrez leurs fichiers avec kikx add.",
+  "outcomes": [
+    "Savoir ce que fait le script d'installation avant de le lancer",
+    "Créer kikx.toml avec kikx init et lire ce qu'il contient",
+    "Lire kikx list pour trouver un composant et ses champs",
+    "Intégrer des fichiers avec kikx add et ses options name et set",
+    "Comprendre pourquoi kikx refuse d'écraser un fichier qui vous appartient"
+  ],
+  "chapters": {
+    "install": "Installer la CLI",
+    "init": "Démarrer un projet",
+    "list": "Trouver un composant",
+    "add": "Intégrer des fichiers",
+    "again": "Relancer la commande"
+  },
+  "checks": {
+    "service": "Vous avez lancé kikx add {serviceComponent} pour {name} avec {portSet}",
+    "role": "Vous avez lancé kikx add {roleComponent} nommé {roleName} avec {timezoneSet}"
+  },
+  "recap": [
+    "Le script d'installation télécharge le binaire kikx adapté à votre système. Lisez-le, puis lancez-le dans votre propre terminal.",
+    "kikx init écrit kikx.toml : le nom du projet, son espace de noms par défaut et le dossier où vont les fichiers.",
+    "kikx list affiche chaque composant avec ses champs, ses valeurs par défaut et des exemples.",
+    "kikx add rend un composant avec le vrai moteur et écrit des fichiers ordinaires dans votre dossier de sortie.",
+    "kikx n'écrase jamais un fichier existant, sauf si vous ajoutez l'option force."
+  ],
+  "steps": {
+    "intro": "Utilisons kikx depuis un terminal. Cette page est un terminal d'entraînement : je tape de vraies commandes kikx, le vrai moteur kikx rend les fichiers, et rien ne touche votre machine.",
+    "terminal": "Les commandes s'écrivent ici. Je les tape lettre par lettre, puis vous voyez exactement ce qu'affiche la CLI.",
+    "files": "Les fichiers écrits par les commandes apparaissent de ce côté. Cliquez sur l'un d'eux pour le lire.",
+    "install": "D'abord, installer kikx. Sur macOS et Linux, cette seule ligne suffit.",
+    "installNotice": "Le terminal d'entraînement ne lance pas l'installeur : il modifierait votre machine, pas cette page.",
+    "installWhat": "Le script trouve la dernière version de kikx pour votre système, télécharge le binaire et le place dans votre PATH. Rien d'autre n'est installé, et vous pouvez lire le script avant.",
+    "copy": "Chaque commande a un bouton de copie. Utilisez-le pour lancer la commande pour de vrai dans votre propre terminal.",
+    "init": "Tout projet kikx commence par kikx init. Je lui donne un nom ; sans nom, kikx prend celui du dossier.",
+    "initialized": "kikx confirme le projet et rappelle la suite.",
+    "toml": "Il a écrit un seul fichier : kikx.toml, à la racine du projet.",
+    "tomlName": "name est le nom de projet que vous avez donné.",
+    "tomlNamespace": "default_namespace sert aux composants Kubernetes quand vous n'en précisez pas.",
+    "tomlOutput": "output_dir est le dossier où arrive chaque fichier intégré.",
+    "outputDir": "kikx a créé ce dossier tout de suite, vide pour l'instant : {outputDir}.",
+    "list": "Quels composants pouvez-vous ajouter ? kikx list les affiche tous.",
+    "listItem": "Chaque entrée est de la forme catégorie/composant, la référence à passer à kikx add, avec une courte description.",
+    "listFields": "En dessous, les champs que vous pouvez remplir, chacun marqué obligatoire ou avec sa valeur par défaut et un exemple.",
+    "listOthers": "Ce sont les mêmes composants que dans l'application : ce que vous voyez ici, l'éditeur le propose aussi.",
+    "add": "Intégrons un Deployment Kubernetes. {flagName} lui donne un nom, et {flagSet} remplit un champ, ici l'image qu'il exécute.",
+    "vendored": "Vendored signifie que les fichiers sont maintenant dans votre projet, rendus et prêts à être commités.",
+    "deploymentFile": "Voici le fichier, nommé d'après le composant.",
+    "imageLine": "L'image choisie est dans le fichier. Les champs omis ont pris leur valeur par défaut, comme un seul réplica.",
+    "yours": "Ce sont des fichiers ordinaires. Modifiez-les dans votre éditeur et commitez-les ; kikx n'en garde aucune copie et ne synchronise rien ensuite.",
+    "addService": "À vous. Cliquez dans le terminal et ajoutez un Service pour la même application : kikx add {serviceComponent} {flagName} {name} {flagSet} {portSet}, puis appuyez sur Entrée.",
+    "serviceFile": "Un deuxième fichier. Le Service et le Deployment portent le même nom, {name}, et se retrouvent ainsi.",
+    "rerun": "Et si je relance la première commande ?",
+    "refused": "kikx s'arrête au lieu d'écraser un fichier que vous avez peut-être modifié. Ajoutez {flagForce} seulement si vous voulez la version neuve.",
+    "addRole": "À vous. Ajoutez un rôle Ansible avec un réglage : kikx add {roleComponent} {flagName} {roleName} {flagSet} {timezoneSet}.",
+    "roleFiles": "Un composant peut écrire plusieurs fichiers : le rôle a des tâches, des valeurs par défaut, des handlers et un modèle.",
+    "timezoneLine": "Et la valeur choisie se retrouve dans ses tâches.",
+    "done": "Voilà la boucle de la CLI : init une fois, list pour explorer, add pour ce dont vous avez besoin. Copiez n'importe quelle commande pour l'essayer pour de vrai."
+  },
+  "demo": {
+    "project": "shop",
+    "outputDir": "infra",
+    "component": "k8s/deployment",
+    "imageField": "image=…",
+    "name": "web",
+    "imageSet": "image=nginx:1.27",
+    "image": "nginx:1.27",
+    "deploymentFile": "web-deployment.yaml",
+    "serviceComponent": "k8s/service",
+    "portSet": "port=80",
+    "serviceFile": "web-service.yaml",
+    "roleComponent": "ansible/common-role",
+    "roleName": "common",
+    "timezoneSet": "timezone=Europe/Paris",
+    "timezone": "Europe/Paris"
+  }
+}

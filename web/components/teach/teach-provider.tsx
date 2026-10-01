@@ -14,6 +14,11 @@ import { prefersReducedMotion } from "@/lib/dom/motion";
 import { loadSpeed, saveSpeed } from "@/lib/teach/speed";
 import { markCompleted } from "@/lib/teach/progress";
 import { blockTours } from "@/lib/tour/use-tour";
+import { textOf } from "@/lib/teach/steps";
+import { flagWords } from "@/lib/teach/cli/spec";
+import { cliSession } from "@/lib/teach/cli/session";
+import { loadMode, saveMode } from "@/lib/teach/mode";
+import type { TeachMode } from "@/lib/teach/types";
 
 interface TeachContextValue {
   start: (lessonId: string) => void;
@@ -45,10 +50,12 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
   const [lessonId, setLessonId] = useState<string | null>(null);
   const [view, setView] = useState<LessonView | null>(null);
   const [keepable, setKeepable] = useState(false);
+  const modeBefore = useRef<TeachMode | null>(null);
 
   const finish = useCallback((keep: boolean, then?: string) => {
     player.current?.stop();
     player.current = null;
+    if (modeBefore.current) saveMode(modeBefore.current);
     const returnPath = endSandbox(keep);
     if (keep && !then) {
       blockTours(false);
@@ -65,17 +72,24 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
       if (!lesson || player.current) return;
       const sandbox = beginSandbox(window.location.pathname);
       if (!sandbox) return;
-      setKeepable(!sandbox.hadProject);
+      setKeepable(lesson.mode === "app" && !sandbox.hadProject);
+      modeBefore.current = loadMode();
       blockTours(true);
       reset();
+      cliSession.reset();
       const demoValues = t.has(`lessons.${id}.demo`) ? (t.raw(`lessons.${id}.demo`) as Record<string, string>) : {};
+      const values = { ...flagWords(), ...demoValues };
       const lessonPlayer = new LessonPlayer(lesson, {
-        say: (key) => t(`lessons.${id}.steps.${key}`, demoValues),
+        say: (key) => t(`lessons.${id}.steps.${key}`, values),
         chapter: (key) => t(`lessons.${id}.chapters.${key}`),
-        check: (key) => t(`lessons.${id}.checks.${key}`),
+        check: (key) => t(`lessons.${id}.checks.${key}`, values),
         praise: () => t("praise"),
         text: (ref) =>
-          "literal" in ref ? ref.literal : "demo" in ref ? t(`lessons.${id}.demo.${ref.demo}`) : projectDefaults().defaultProjectName,
+          textOf(
+            ref,
+            (key) => t(`lessons.${id}.demo.${key}`),
+            () => projectDefaults().defaultProjectName,
+          ),
         navigate: (path) => router.push(path),
         reducedMotion: prefersReducedMotion(),
         speed: loadSpeed(),

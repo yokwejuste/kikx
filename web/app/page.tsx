@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useErrorText } from "@/lib/i18n/use-error-text";
 import { PronounceButton } from "@/components/common/pronounce-button";
-import { AppWindow, ArrowRight, FolderOpen, History, Sparkles, SquareTerminal, Waypoints, X } from "lucide-react";
+import { ArrowRight, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
@@ -19,7 +19,8 @@ import { api } from "@/lib/api/client";
 import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetManifest } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
+import { ModeTabs, ModeTabsList } from "@/components/teach/mode-tabs";
 import { TemplateGallery } from "@/components/home/template-gallery";
 import { CliTerminal } from "@/components/home/cli-terminal";
 import { KikxMark } from "@/components/common/kikx-mark";
@@ -150,17 +151,8 @@ function HomeContent() {
           </div>
         )}
 
-        <Tabs defaultValue="app" className="w-full gap-8">
-          <TabsList data-tour="cli" variant="pill" className="self-center">
-            <TabsTrigger value="app">
-              <AppWindow />
-              {t("mode.app")}
-            </TabsTrigger>
-            <TabsTrigger value="cli">
-              <SquareTerminal />
-              {t("mode.cli")}
-            </TabsTrigger>
-          </TabsList>
+        <ModeTabs className="w-full gap-8">
+          <ModeTabsList data-tour="cli" className="self-center" />
 
           <TabsContent value="app" className="flex flex-col items-center gap-10">
             <TemplateGallery
@@ -220,7 +212,7 @@ function HomeContent() {
             <p className="text-sm text-muted-foreground">{t("cli.body")}</p>
             <CliTerminal />
           </TabsContent>
-        </Tabs>
+        </ModeTabs>
 
         <Link
           href="/flow"

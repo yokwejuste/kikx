@@ -25,6 +25,7 @@ const scaffold = teachTarget("issue-scaffold");
 
 export const firstProject: Lesson = {
   id: "firstProject",
+  mode: "app",
   level: "basics",
   icon: "sparkles",
   steps: [

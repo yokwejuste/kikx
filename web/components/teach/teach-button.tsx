@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react";
 import {
+  ArrowLeftRight,
+  CircleArrowUp,
   CircleCheck,
   Cloud,
   FileInput,
@@ -11,6 +13,7 @@ import {
   ShieldCheck,
   Ship,
   Sparkles,
+  SquareTerminal,
   type LucideIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -19,7 +22,9 @@ import { IconTile } from "@/components/common/icon-tile";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useTeach } from "@/components/teach/teach-provider";
-import { LESSONS, lessonMinutes } from "@/lib/teach/lessons";
+import { lessonMinutes, lessonsFor } from "@/lib/teach/lessons";
+import { useTeachMode } from "@/lib/teach/mode";
+import { ModeTabs, ModeTabsList } from "@/components/teach/mode-tabs";
 import { loadCompleted } from "@/lib/teach/progress";
 import type { LessonIcon, LessonLevel } from "@/lib/teach/types";
 import { Hint } from "@/components/common/hint";
@@ -33,6 +38,9 @@ const LESSON_ICONS: Record<LessonIcon, LucideIcon> = {
   kubernetes: Ship,
   cloud: Cloud,
   import: FileInput,
+  terminal: SquareTerminal,
+  sync: ArrowLeftRight,
+  upgrade: CircleArrowUp,
 };
 
 const LEVELS: LessonLevel[] = ["basics", "further"];
@@ -40,6 +48,7 @@ const LEVELS: LessonLevel[] = ["basics", "further"];
 export function TeachButton() {
   const t = useTranslations("teach");
   const { start, active } = useTeach();
+  const mode = useTeachMode();
   const [open, setOpen] = useState(false);
   const [completed, setCompleted] = useState<string[]>([]);
   const chosen = useRef<string | null>(null);
@@ -75,10 +84,13 @@ export function TeachButton() {
       >
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
-          <DialogDescription>{t("body")}</DialogDescription>
+          <DialogDescription>{t(`body.${mode}`)}</DialogDescription>
         </DialogHeader>
+        <ModeTabs>
+          <ModeTabsList />
+        </ModeTabs>
         {LEVELS.map((level) => {
-          const lessons = LESSONS.filter((lesson) => lesson.level === level);
+          const lessons = lessonsFor(mode).filter((lesson) => lesson.level === level);
           if (lessons.length === 0) return null;
           return (
             <section key={level} className="flex flex-col gap-2">
@@ -132,7 +144,7 @@ export function TeachButton() {
             </section>
           );
         })}
-        <Hint>{t("sandbox")}</Hint>
+        <Hint>{t(`sandbox.${mode}`)}</Hint>
       </DialogContent>
     </Dialog>
   );

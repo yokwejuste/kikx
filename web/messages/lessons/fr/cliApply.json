@@ -1,0 +1,63 @@
+{
+  "title": "L'application et la CLI ensemble",
+  "description": "Intégrez à un projet un preset exporté depuis l'application avec kikx apply, voyez la différence avec kikx setup, et relancez la commande sans risque.",
+  "outcomes": [
+    "Savoir ce que contient un preset exporté depuis l'application",
+    "Intégrer un preset à un projet existant avec kikx apply",
+    "Choisir entre kikx setup et kikx apply",
+    "Relancer une commande sans risque, et appliquer dans un dossier à part pour comparer"
+  ],
+  "chapters": {
+    "export": "Exporter depuis l'application",
+    "apply": "Appliquer le preset",
+    "versus": "Setup ou apply",
+    "rerun": "Relancer sans risque"
+  },
+  "checks": {
+    "applied": "Vous avez appliqué {presetFile} dans {outputDir}",
+    "staged": "Vous avez appliqué {presetFile} dans {staging}"
+  },
+  "recap": [
+    "Un preset est un seul fichier JSON qui liste les réglages du projet et chaque composant avec ses valeurs.",
+    "kikx apply rend un preset dans un dossier d'un projet existant et ne touche pas à kikx.toml.",
+    "kikx setup crée un nouveau projet à partir d'un preset et refuse de tourner là où kikx.toml existe déjà.",
+    "Les deux vérifient chaque fichier avant d'écrire : une commande refusée n'écrit rien du tout.",
+    "Appliquer dans un dossier à part permet de comparer un preset avec ce que vous avez, sans risque."
+  ],
+  "steps": {
+    "intro": "Beaucoup conçoivent un projet dans l'application et le gardent dans un dépôt avec la CLI. Faisons passer un projet de l'une à l'autre.",
+    "appTab": "Nous commençons dans l'application.",
+    "open": "J'ouvre le modèle {template}, comme si vous aviez construit ce projet vous-même.",
+    "export": "Exporter fait sortir le projet de l'application.",
+    "presetOption": "Preset enregistre tout le projet dans un seul fichier {presetFile}. C'est celui que lit la CLI.",
+    "exported": "Disons que vous l'avez téléchargé dans votre dépôt. Le voici, seul pour l'instant.",
+    "presetFile": "Un preset est du JSON ordinaire : vous pouvez le lire, le relire et le commiter.",
+    "presetJson": "Il contient les réglages du projet et la liste des composants, chacun avec les valeurs saisies dans l'application.",
+    "init": "Ce dépôt a déjà un projet kikx, alors je commence par kikx init.",
+    "apply": "À vous. Intégrez le preset dans le dossier {outputDir} : kikx apply {presetPath} {flagInto} {outputDir}.",
+    "vendored": "kikx a rendu chaque composant du preset avec le vrai moteur et liste chaque fichier écrit.",
+    "applied": "Les mêmes fichiers que le zip de l'application, maintenant dans votre projet.",
+    "setupTry": "Et kikx setup avec le même fichier ?",
+    "setupRefused": "setup refuse : il crée un nouveau projet, et celui-ci a déjà un kikx.toml.",
+    "versus": "Donc : setup pour démarrer un nouveau projet à partir d'un preset, apply pour ajouter un preset à un projet existant. apply ne modifie jamais kikx.toml.",
+    "rerun": "Et si vous relancez le même apply, par exemple après avoir modifié les fichiers ?",
+    "nothingWritten": "kikx vérifie chaque fichier avant d'écrire quoi que ce soit. Un fichier existe, alors il s'arrête et n'écrit rien, pas même les fichiers qui n'existent pas encore.",
+    "force": "{flagForce} les écraserait tous. Pour comparer plutôt, appliquez dans un dossier à part.",
+    "staging": "À vous. Appliquez le même preset dans un nouveau dossier : kikx apply {presetPath} {flagInto} {staging}.",
+    "stagingFolder": "Une copie neuve se trouve dans {staging}. Comparez-la avec {outputDir} grâce à diff ou à votre éditeur, puis gardez ce que vous voulez.",
+    "done": "L'application et la CLI partagent les presets : concevez dans l'une, intégrez avec l'autre, et relancez sans craindre de perdre vos modifications.",
+    "presetComponent": "Chaque composant indique sa référence dans le registre, celle que vous passeriez à kikx add, puis son nom et ses valeurs.",
+    "tomlKept": "apply n'a écrit que des fichiers. kikx.toml est toujours celui créé par kikx init.",
+    "tomlName": "Même nom, {project}, et non celui enregistré dans le preset.",
+    "lsStaging": "Les deux dossiers contiennent maintenant les mêmes fichiers.",
+    "diff": "Dans votre propre terminal, diff avec l'option récursive entre {outputDir} et {staging} montre chaque ligne modifiée depuis le premier apply."
+  },
+  "demo": {
+    "template": "single-server",
+    "presetFile": "single-server.kikx-preset.json",
+    "presetPath": "./single-server.kikx-preset.json",
+    "project": "shop",
+    "outputDir": "infra",
+    "staging": "staging"
+  }
+}

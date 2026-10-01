@@ -49,6 +49,45 @@ msgstr "Ouvrez un projet tout prêt, repérez ce qu'il a ajouté, ouvrez l'un de
 msgid "[Start this lesson](teach:template)"
 msgstr "[Lancer cette leçon](teach:template)"
 
+msgid "Lessons with the CLI"
+msgstr "Leçons avec la CLI"
+
+msgid "Pick **With the CLI** at the top of the **Teach me** list, or on the home page, to see the lessons for the command line. They open a practice terminal with the project files next to it. kikx types each command letter by letter and the real kikx engine prints the output and writes the files, but everything stays in your browser tab. When it is your turn, click the terminal, type the command and press Enter; **Show me** types it for you. Every command has a copy button so you can run it for real in your own terminal."
+msgstr "Choisissez « Avec la CLI » en haut de la liste « Apprends-moi », ou sur la page d'accueil, pour voir les leçons en ligne de commande. Elles ouvrent un terminal d'entraînement avec les fichiers du projet à côté. kikx tape chaque commande lettre par lettre et le vrai moteur kikx affiche la sortie et écrit les fichiers, mais tout reste dans votre onglet. Quand c'est à vous, cliquez dans le terminal, tapez la commande et appuyez sur Entrée ; « Montre-moi » la tape pour vous. Chaque commande a un bouton de copie pour la lancer pour de vrai dans votre propre terminal."
+
+msgid "Install and your first project"
+msgstr "Installation et premier projet"
+
+msgid "What the install script does, `kikx init` and what `kikx.toml` holds, `kikx list`, then `kikx add` with `--name` and `--set` and the files it writes."
+msgstr "Ce que fait le script d'installation, `kikx init` et le contenu de `kikx.toml`, `kikx list`, puis `kikx add` avec `--name` et `--set` et les fichiers qu'il écrit."
+
+msgid "[Start this lesson](teach:cliInstall)"
+msgstr "[Lancer cette leçon](teach:cliInstall)"
+
+msgid "`kikx presets`, `kikx setup` with a template, the project it creates, and how to change the files you now own."
+msgstr "`kikx presets`, `kikx setup` avec un modèle, le projet qu'il crée, et comment modifier les fichiers qui vous appartiennent désormais."
+
+msgid "[Start this lesson](teach:cliTemplate)"
+msgstr "[Lancer cette leçon](teach:cliTemplate)"
+
+msgid "App and CLI together"
+msgstr "L'application et la CLI ensemble"
+
+msgid "A preset exported from the app, `kikx apply`, the difference between `setup` and `apply`, and how to run a command again safely."
+msgstr "Un preset exporté depuis l'application, `kikx apply`, la différence entre `setup` et `apply`, et comment relancer une commande sans risque."
+
+msgid "[Start this lesson](teach:cliApply)"
+msgstr "[Lancer cette leçon](teach:cliApply)"
+
+msgid "Keep kikx up to date"
+msgstr "Garder kikx à jour"
+
+msgid "`kikx --version`, `kikx upgrade --check`, `kikx upgrade`, and why an upgrade never touches `kikx.toml` or your files."
+msgstr "`kikx --version`, `kikx upgrade --check`, `kikx upgrade`, et pourquoi une mise à jour ne touche jamais `kikx.toml` ni vos fichiers."
+
+msgid "[Start this lesson](teach:cliUpgrade)"
+msgstr "[Lancer cette leçon](teach:cliUpgrade)"
+
 msgid "While a lesson plays"
 msgstr "Pendant une leçon"
 

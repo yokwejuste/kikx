@@ -37,8 +37,8 @@ export function presetFileName(details: ProjectDetails): string {
   return `${details.name || projectDefaults().defaultProjectName}.kikx-preset.json`;
 }
 
-function buildPresetManifest(details: ProjectDetails, components: AddedComponent[]) {
-  return {
+export function presetJson(details: ProjectDetails, recipes: PresetComponent[]): string {
+  const manifest = {
     name: details.name,
     description: "",
     project: {
@@ -46,13 +46,14 @@ function buildPresetManifest(details: ProjectDetails, components: AddedComponent
       namespace: details.namespace,
       outputDir: details.outputDir,
     },
-    components: components.map((c) => c.recipe),
+    components: recipes,
   };
+  return JSON.stringify(manifest, null, 2);
 }
 
 export function downloadPreset(details: ProjectDetails, components: AddedComponent[]) {
-  const manifest = buildPresetManifest(details, components);
-  downloadBlob(new Blob([JSON.stringify(manifest, null, 2)], { type: "application/json" }), presetFileName(details));
+  const json = presetJson(details, components.map((c) => c.recipe));
+  downloadBlob(new Blob([json], { type: "application/json" }), presetFileName(details));
 }
 
 export interface PresetManifest {

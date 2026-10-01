@@ -34,6 +34,7 @@ const inventory: LessonStep[] = [
 
 export const terraform: Lesson = {
   id: "terraform",
+  mode: "app",
   level: "further",
   icon: "cloud",
   steps: [

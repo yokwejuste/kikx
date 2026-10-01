@@ -1,0 +1,63 @@
+{
+  "title": "Garder kikx à jour",
+  "description": "Vérifiez votre version de kikx, voyez si une version plus récente existe, mettez à jour sur place, et apprenez ce qu'une mise à jour remplace et ce qu'elle ne touche jamais.",
+  "outcomes": [
+    "Connaître votre version de kikx avec l'option version",
+    "Savoir si une version plus récente existe sans l'installer",
+    "Mettre kikx à jour sur place avec kikx upgrade",
+    "Savoir qu'une mise à jour ne touche jamais kikx.toml ni vos fichiers"
+  ],
+  "chapters": {
+    "project": "Un projet à garder",
+    "version": "Votre version",
+    "check": "Chercher une version",
+    "upgrade": "Mettre à jour",
+    "untouched": "Ce qui ne change pas"
+  },
+  "checks": {
+    "checked": "Vous avez lancé kikx upgrade avec l'option check",
+    "upgraded": "Vous avez lancé kikx upgrade"
+  },
+  "recap": [
+    "L'option version affiche le kikx installé.",
+    "kikx upgrade avec l'option check indique seulement si une version plus récente existe.",
+    "kikx upgrade télécharge depuis GitHub la version pour votre système et remplace le binaire kikx.",
+    "Elle ne touche jamais kikx.toml ni aucun fichier intégré : ils sont à vous.",
+    "Une nouvelle version change ce que rendront les prochains add, setup et apply, jamais ce que vous avez déjà."
+  ],
+  "steps": {
+    "intro": "kikx publie de nouvelles versions avec de nouveaux composants et des corrections. Cette machine d'entraînement a l'avant-dernière version installée : mettons-la à jour.",
+    "setup": "D'abord, un projet, pour voir ce qu'une mise à jour lui fait. J'en crée un à partir du modèle {template}.",
+    "files": "Gardez un œil sur ces fichiers pendant la mise à jour.",
+    "version": "Quel kikx avez-vous ? {flagVersion} vous le dit.",
+    "versionLine": "C'est la version installée, lue depuis les versions GitHub pour cette machine d'entraînement.",
+    "releases": "Chaque version est publiée sur GitHub avec un binaire pour chaque système. kikx upgrade lit cette liste.",
+    "check": "À vous. Demandez si une version plus récente existe, sans l'installer : kikx upgrade {flagCheck}.",
+    "checkLine": "Elle compare votre version à la dernière publiée et s'arrête là.",
+    "checkWhy": "Pratique dans un script ou avant une journée chargée : rien ne change tant que vous ne l'avez pas décidé.",
+    "upgrade": "À vous. Installez-la : tapez kikx upgrade et appuyez sur Entrée.",
+    "upgraded": "kikx a téléchargé la version pour votre système et remplacé son propre binaire. Relancez l'option version quand vous voulez pour le confirmer.",
+    "replaces": "C'est tout ce qu'elle remplace : le programme kikx lui-même, à l'endroit où il était installé.",
+    "untouched": "Votre projet n'a pas changé du tout. Mêmes fichiers, même contenu.",
+    "tomlSame": "kikx.toml est exactement comme avant. Une mise à jour ne modifie jamais un projet.",
+    "newTemplates": "Une nouvelle version peut rendre des composants différemment. Cela ne concerne que les prochains add, setup ou apply. Pour profiter d'un changement, rendez de nouveau un composant avec {flagForce}, ou appliquez dans un dossier à part et comparez.",
+    "again": "Relancez kikx upgrade : elle indique que vous êtes à jour.",
+    "latest": "Rien à faire.",
+    "pin": "Besoin d'une version précise, par exemple celle de votre équipe ? kikx upgrade {flagVersion} suivi d'un numéro de version installe exactement celle-là, plus ancienne ou plus récente.",
+    "done": "Vous connaissez votre version, savez chercher une nouvelle version, mettre à jour, et que vos fichiers n'en font jamais partie.",
+    "why": "Mettre à jour de temps en temps apporte de nouveaux composants, de nouveaux modèles et des corrections dans le rendu des fichiers.",
+    "help": "kikx avec l'option help liste toutes les commandes.",
+    "helpUpgrade": "upgrade en fait partie, intégrée à kikx lui-même : aucun gestionnaire de paquets n'est nécessaire.",
+    "confirm": "Vérifions avec l'option version.",
+    "confirmLine": "La nouvelle version est celle qui tourne désormais.",
+    "reinstall": "Relancer le script d'installation fait le même travail, si vous préférez.",
+    "filesSame": "Chaque fichier intégré est intact lui aussi, comme site.yml.",
+    "pinCheck": "Ajoutez l'option check pour voir ce que donnerait l'épinglage avant de le faire.",
+    "pinLine": "Sans l'option check, kikx installerait cette version à la place."
+  },
+  "demo": {
+    "template": "single-server",
+    "siteFile": "site.yml",
+    "pinned": "0.1.0"
+  }
+}

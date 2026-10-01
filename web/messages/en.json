@@ -810,8 +810,14 @@
   "teach": {
     "button": "Teach me",
     "title": "Teach me",
-    "body": "Pick a lesson. kikx drives the page itself: it moves the pointer, types and clicks while it explains. Pause any time to take over.",
-    "sandbox": "Your current project is set aside during the lesson and restored afterwards.",
+    "body": {
+      "app": "Pick a lesson. kikx drives the page itself: it moves the pointer, types and clicks while it explains. Pause any time to take over.",
+      "cli": "Pick a lesson. kikx types real commands into a practice terminal and shows the files they write, while it explains. Pause any time and type your own."
+    },
+    "sandbox": {
+      "app": "Your current project is set aside during the lesson and restored afterwards.",
+      "cli": "Commands run on the real kikx engine, but the files stay in this browser tab. Nothing touches your machine."
+    },
     "minutes": "{count, plural, one {about # min} other {about # min}}",
     "region": "Lesson",
     "progress": "Step {step} of {total}",
@@ -851,6 +857,20 @@
       "Aligning the stars"
     ],
     "waitingWord": "{word}…"
+  },
+  "learnCli": {
+    "title": "Practice terminal",
+    "body": "Type kikx commands and see the files they write. They run on the real kikx engine; the files stay in this browser tab.",
+    "prompt": "Command",
+    "placeholder": "Type a kikx command, like kikx list, and press Enter",
+    "copy": "Copy this command",
+    "reset": "Start over",
+    "files": "Files",
+    "noFiles": "No files yet. Start with kikx init or kikx setup.",
+    "pickFile": "Pick a file to read it.",
+    "notices": {
+      "foreign": "This practice terminal runs kikx commands, plus ls, cat and clear. Copy this one to run it in your own terminal."
+    }
   },
   "formatting": {
     "yamlProblem": "Line {line}: {reason}",

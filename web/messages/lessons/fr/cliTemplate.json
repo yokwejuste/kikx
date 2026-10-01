@@ -1,0 +1,75 @@
+{
+  "title": "Partir d'un modèle",
+  "description": "Listez les modèles intégrés avec kikx presets, créez un projet complet avec kikx setup, puis explorez et modifiez les fichiers qui vous appartiennent.",
+  "outcomes": [
+    "Lire la liste des modèles avec kikx presets",
+    "Créer un projet complet en une commande avec kikx setup",
+    "Vous repérer dans les fichiers écrits par un modèle",
+    "Savoir que les fichiers sont à vous, et comment rendre de nouveau un composant"
+  ],
+  "chapters": {
+    "presets": "Choisir un modèle",
+    "setup": "Créer le projet",
+    "files": "Explorer les fichiers",
+    "own": "Se l'approprier"
+  },
+  "checks": {
+    "setup": "Vous avez lancé kikx setup {template}",
+    "retimed": "Vous avez rendu de nouveau {roleName} avec {timezoneSet} et l'option force"
+  },
+  "recap": [
+    "kikx presets liste les modèles intégrés, avec le nombre de composants que chacun ajoute.",
+    "kikx setup crée kikx.toml et écrit tous les fichiers du modèle d'un coup.",
+    "Les fichiers arrivent dans le dossier de sortie, rangés comme les outils l'attendent.",
+    "Ensuite, les fichiers sont à vous : modifiez-les, commitez-les, kikx ne les synchronise jamais.",
+    "Rendre de nouveau un composant avec l'option force remplace seulement ses fichiers, modifications comprises."
+  ],
+  "steps": {
+    "intro": "Partir de rien fonctionne, mais kikx fournit aussi des modèles : des projets complets à créer en une seule commande.",
+    "presets": "kikx presets les liste.",
+    "templateLine": "Chaque modèle a un nom, un titre, le nombre de composants qu'il ajoute et une courte description. Nous utiliserons {template}.",
+    "pick": "Ce sont les mêmes modèles que sur la page d'accueil de l'application : vous pouvez commencer d'un côté ou de l'autre.",
+    "setup": "À vous. Cliquez dans le terminal, tapez kikx setup {template} et appuyez sur Entrée.",
+    "initialized": "Une seule commande a créé le projet et écrit tous les fichiers du modèle dans le dossier de sortie.",
+    "tree": "Les voici : du code d'infrastructure, un inventaire, des group vars, un rôle et des playbooks, rangés comme Ansible et Terraform l'attendent.",
+    "openToml": "kikx.toml reprend les réglages du modèle.",
+    "tomlName": "Même le nom du projet vient du modèle. Changez-le ici quand vous voulez.",
+    "openSite": "site.yml est le point d'entrée côté Ansible.",
+    "siteLine": "Chaque ligne import_playbook lance un playbook, dans l'ordre.",
+    "openInventory": "L'inventaire liste les serveurs auxquels parlent les playbooks.",
+    "inventoryLine": "Le modèle fournit un hôte d'exemple, {host}. Remplacez-le par votre propre serveur avant de lancer quoi que ce soit.",
+    "ls": "Ce sont des fichiers ordinaires sur le disque, donc les outils habituels fonctionnent, comme ls.",
+    "own": "C'est l'idée clé : kikx intègre des fichiers. Une fois écrits, ils vous appartiennent et kikx n'y touche plus de lui-même.",
+    "editing": "Pour changer quelque chose, modifiez le fichier dans votre éditeur. Ou demandez à kikx de rendre de nouveau un composant avec d'autres valeurs.",
+    "retime": "À vous. Rendez de nouveau le rôle common avec un autre fuseau horaire : kikx add {roleComponent} {flagName} {roleName} {flagSet} {timezoneSet} {flagForce}.",
+    "overwritten": "Avec {flagForce}, kikx remplace les fichiers du rôle par un rendu neuf.",
+    "timezoneLine": "Le nouveau fuseau horaire est dans les tâches.",
+    "force": "Utilisez {flagForce} avec prudence : il remplace tout le fichier, donc vos modifications manuelles disparaissent. Commitez d'abord et le diff montrera ce qui a changé.",
+    "done": "Vous avez créé un projet complet à partir d'un modèle, vous vous y êtes repéré et vous l'avez modifié. Ensuite, voyez comment l'application et la CLI travaillent ensemble.",
+    "openTerraform": "Commençons par les serveurs. Le fichier Terraform crée le droplet que le reste du projet configure.",
+    "regionLine": "Ses réglages viennent du modèle, comme la région {region}. Adaptez-les à votre compte.",
+    "openGroupVars": "group_vars contient les réglages partagés par tous les hôtes d'un groupe, chargés par Ansible grâce au nom du fichier.",
+    "groupVarLine": "Ici, le modèle définit {groupVar} pour le groupe app.",
+    "openPlaybook": "Le playbook indique quels hôtes configurer et quels rôles y lancer.",
+    "playbookLine": "Il lance le rôle {roleName}, que le modèle a aussi écrit sous roles.",
+    "cat": "Et cat affiche un fichier, ici la configuration Ansible qui relie l'inventaire et les rôles."
+  },
+  "demo": {
+    "template": "single-server",
+    "outputDir": "infra",
+    "siteFile": "site.yml",
+    "siteLine": "import_playbook",
+    "inventoryFile": "app-inventory.ini",
+    "host": "app-01",
+    "roleComponent": "ansible/common-role",
+    "roleName": "common",
+    "timezoneSet": "timezone=Europe/Paris",
+    "timezone": "Europe/Paris",
+    "terraformFile": "app-digitalocean.tf",
+    "region": "nyc3",
+    "groupVarsFile": "app.yml",
+    "groupVar": "app_port",
+    "playbookFile": "bootstrap.yml",
+    "configFile": "infra/ansible.cfg"
+  }
+}

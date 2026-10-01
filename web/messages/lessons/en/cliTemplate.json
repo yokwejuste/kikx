@@ -1,0 +1,75 @@
+{
+  "title": "Start from a template",
+  "description": "List the built-in templates with kikx presets, create a whole project with kikx setup, then explore and change the files you now own.",
+  "outcomes": [
+    "Read the template list from kikx presets",
+    "Create a full project in one command with kikx setup",
+    "Find your way around the files a template writes",
+    "Know that the files are yours, and how to re-render one component"
+  ],
+  "chapters": {
+    "presets": "Pick a template",
+    "setup": "Set up the project",
+    "files": "Explore the files",
+    "own": "Make it yours"
+  },
+  "checks": {
+    "setup": "You ran kikx setup {template}",
+    "retimed": "You re-rendered {roleName} with {timezoneSet} and the force option"
+  },
+  "recap": [
+    "kikx presets lists the built-in templates, with how many components each one adds.",
+    "kikx setup creates kikx.toml and writes every file of the template in one go.",
+    "The files land in the output folder, laid out the way the tools expect them.",
+    "From then on the files are yours: edit them, commit them, kikx never syncs them back.",
+    "Re-rendering one component with the force option replaces just its files, edits included."
+  ],
+  "steps": {
+    "intro": "Starting from nothing is fine, but kikx also ships templates: complete projects you can start from in one command.",
+    "presets": "kikx presets lists them.",
+    "templateLine": "Each template has a name, a title, the number of components it adds and a short description. We'll use {template}.",
+    "pick": "These are the same templates as on the home page of the app, so you can start in either place.",
+    "setup": "Your turn. Click the terminal, type kikx setup {template} and press Enter.",
+    "initialized": "One command created the project and wrote every file of the template into the output folder.",
+    "tree": "Here they are: infrastructure code, an inventory, group vars, a role and playbooks, all laid out the way Ansible and Terraform expect.",
+    "openToml": "kikx.toml takes its settings from the template.",
+    "tomlName": "Even the project name comes from it. Change it here whenever you like.",
+    "openSite": "site.yml is the entry point of the Ansible side.",
+    "siteLine": "Each import_playbook line runs a playbook in order.",
+    "openInventory": "The inventory lists the servers the playbooks talk to.",
+    "inventoryLine": "The template ships an example host, {host}. Replace it with your own server before you run anything.",
+    "ls": "Files are plain files on disk, so the usual tools work, like ls.",
+    "own": "This is the key idea: kikx vendors files. Once written, they belong to you and kikx never touches them again on its own.",
+    "editing": "To change something, edit the file in your editor. Or ask kikx to render one component again with new values.",
+    "retime": "Your turn. Re-render the common role with a new timezone: kikx add {roleComponent} {flagName} {roleName} {flagSet} {timezoneSet} {flagForce}.",
+    "overwritten": "With {flagForce}, kikx replaces the role's files with a fresh render.",
+    "timezoneLine": "The new timezone is in the tasks.",
+    "force": "Use {flagForce} with care: it replaces the whole file, so any hand edits in it are gone. Commit first and the diff shows what changed.",
+    "done": "You started a full project from a template, found your way around it and changed it. Next, see how the app and the CLI work together.",
+    "openTerraform": "Start with the servers. The Terraform file creates the droplet the rest of the project configures.",
+    "regionLine": "Its settings came from the template, like the region {region}. Change them to suit your account.",
+    "openGroupVars": "group_vars holds settings shared by every host in a group, loaded by Ansible because of the file name.",
+    "groupVarLine": "Here the template sets {groupVar} for the app group.",
+    "openPlaybook": "The playbook says which hosts to configure and which roles to run on them.",
+    "playbookLine": "It runs the {roleName} role, which the template also wrote under roles.",
+    "cat": "And cat prints a file, here the Ansible config that ties the inventory and the roles together."
+  },
+  "demo": {
+    "template": "single-server",
+    "outputDir": "infra",
+    "siteFile": "site.yml",
+    "siteLine": "import_playbook",
+    "inventoryFile": "app-inventory.ini",
+    "host": "app-01",
+    "roleComponent": "ansible/common-role",
+    "roleName": "common",
+    "timezoneSet": "timezone=Europe/Paris",
+    "timezone": "Europe/Paris",
+    "terraformFile": "app-digitalocean.tf",
+    "region": "nyc3",
+    "groupVarsFile": "app.yml",
+    "groupVar": "app_port",
+    "playbookFile": "bootstrap.yml",
+    "configFile": "infra/ansible.cfg"
+  }
+}
