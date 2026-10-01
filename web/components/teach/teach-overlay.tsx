@@ -26,6 +26,7 @@ import { LESSON_SPEEDS } from "@/lib/teach/speed";
 import { frameRect, glide, trackRect } from "@/lib/dom/track-rect";
 import { cssVar, readNumber, TOKENS } from "@/lib/theme/tokens";
 import { highlightRect } from "@/lib/teach/dom";
+import { siteHeaderBottom } from "@/lib/layout/site-header";
 import { placeCard, type CardSide } from "@/lib/teach/placement";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/common/hint";
@@ -50,10 +51,11 @@ function useFollowTarget(target: HTMLElement | null) {
 
   useEffect(() => {
     const padding = readNumber(TOKENS.teachRingPadding);
+    const margin = readNumber(TOKENS.teachCardMargin);
     const room = {
       gap: readNumber(TOKENS.teachCardGap),
-      margin: readNumber(TOKENS.teachCardMargin),
-      header: readNumber(TOKENS.teachCardHeader),
+      margin,
+      header: siteHeaderBottom() + margin,
       arrowInset: readNumber(TOKENS.teachArrowInset),
     };
     return trackRect(

@@ -27,6 +27,7 @@ import { fieldFormat } from "@/lib/registry/store";
 import { toPresetComponent } from "@/lib/project/preset";
 import { defaultsFor, type FormValues } from "@/lib/forms/component-forms";
 import { api } from "@/lib/api/client";
+import { siteHeaderBottom } from "@/lib/layout/site-header";
 import { closeTour, useFirstVisitTour } from "@/lib/tour/use-tour";
 import { usePhoneWarningOpen } from "@/components/builder/phone-warning";
 
@@ -94,7 +95,7 @@ export function Dashboard() {
     setView("build");
     requestAnimationFrame(() => {
       const top = editorTop.current?.getBoundingClientRect().top ?? 0;
-      if (top < 0) editorTop.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (top < siteHeaderBottom()) editorTop.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   };
   const openComponent = (component: AddedComponent) => select(describeComponent(component.recipe).kind, component.id);
@@ -146,7 +147,7 @@ export function Dashboard() {
       >
         <aside
           data-tour="catalog"
-          className="hidden lg:sticky lg:top-6 lg:row-span-2 lg:block lg:max-h-sticky lg:overflow-y-auto xl:row-span-1"
+          className="hidden lg:sticky lg:top-sticky-offset lg:row-span-2 lg:block lg:max-h-sticky lg:overflow-y-auto xl:row-span-1"
         >
           <ComponentCatalog components={components} selected={starting ? null : selection.kind} onSelect={(kind) => select(kind)} />
         </aside>
@@ -187,7 +188,7 @@ export function Dashboard() {
           )}
         </div>
 
-        <aside data-tour="project" className="flex flex-col gap-3 lg:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1 2xl:hidden">
+        <aside data-tour="project" className="flex flex-col gap-3 lg:col-start-2 xl:sticky xl:top-sticky-offset xl:col-start-3 xl:row-start-1 2xl:hidden">
           <GettingStarted issueCounts={issueCounts} onSelect={(kind) => select(kind)} onShowChecks={() => setView("checks")} />
           <ProjectPanel {...projectPanel} />
         </aside>

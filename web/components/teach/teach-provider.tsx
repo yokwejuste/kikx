@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { TeachOverlay } from "@/components/teach/teach-overlay";
 import { useProject } from "@/lib/project/context";
+import { loadStoredProject } from "@/lib/project/storage";
 import { projectDefaults } from "@/lib/registry/store";
 import { docsHref } from "@/lib/i18n/docs";
 import { LESSONS, nextLesson } from "@/lib/teach/lessons";
@@ -26,6 +27,8 @@ interface TeachContextValue {
 }
 
 const TEACH_PARAM = "teach";
+const HOME_PATH = "/";
+const BUILDER_PATH = "/build";
 
 const TeachContext = createContext<TeachContextValue | null>(null);
 
@@ -63,7 +66,7 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
       setView(null);
       return;
     }
-    window.location.assign(then ? withLesson(returnPath, then) : returnPath);
+    window.location.assign(then ? withLesson(returnPath, then) : loadStoredProject()?.details ? BUILDER_PATH : HOME_PATH);
   }, []);
 
   const start = useCallback(

@@ -88,7 +88,8 @@
   --spacing-dialog-tall: 85vh;
   --spacing-panel-list: 60vh;
   --spacing-dialog-list: 50vh;
-  --spacing-sticky: calc(100vh - 3rem);
+  --spacing-sticky: calc(100dvh - var(--header-height) - 3rem);
+  --spacing-sticky-offset: calc(var(--header-height) + 1.5rem);
   --spacing-below-header: calc(100dvh - var(--header-height));
   --spacing-header: var(--header-height);
   --spacing-tab-fill: calc(100% - 1px);
@@ -195,6 +196,7 @@
   --motion-card-enter-offset: 6px;
   --motion-ripple-duration: 500ms;
   --motion-press-duration: 220ms;
+  --z-header: 40;
   --z-teach-shield: 100;
   --z-teach-ring: 101;
   --z-teach-pointer: 102;
@@ -207,7 +209,6 @@
   --teach-arrow-inset: 24px;
   --teach-card-gap: 14px;
   --teach-card-margin: 16px;
-  --teach-card-header: 72px;
   --tour-stage-padding: 12px;
   --tour-stage-radius: 16px;
   --tour-card-width: 340px;
@@ -258,6 +259,7 @@
   }
   html {
     @apply font-sans;
+    scroll-padding-top: var(--header-height);
   }
 }
 
@@ -614,6 +616,10 @@
 
 @utility flex-viewer {
   flex: var(--viewer-grow);
+}
+
+@utility z-header {
+  z-index: var(--z-header);
 }
 
 @utility z-teach-shield {

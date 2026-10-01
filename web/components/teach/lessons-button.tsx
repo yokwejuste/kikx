@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GraduationCap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,18 @@ export function LessonsButton({ mode, openOnArrival = false }: { mode: TeachMode
   const t = useTranslations("teach");
   const { active } = useTeach();
   const [open, setOpen] = useState(false);
+  const teaching = useRef(active);
 
   useEffect(() => {
-    if (!openOnArrival || new URLSearchParams(window.location.search).has(LESSON_PARAM)) return;
+    teaching.current = active;
+  }, [active]);
+
+  useEffect(() => {
+    if (!openOnArrival || teaching.current || new URLSearchParams(window.location.search).has(LESSON_PARAM)) return;
     saveMode(mode);
-    const frame = requestAnimationFrame(() => setOpen(true));
+    const frame = requestAnimationFrame(() => {
+      if (!teaching.current) setOpen(true);
+    });
     return () => cancelAnimationFrame(frame);
   }, [mode, openOnArrival]);
 
@@ -37,7 +44,7 @@ export function LessonsButton({ mode, openOnArrival = false }: { mode: TeachMode
         <GraduationCap />
         {t("chooseLesson")}
       </Button>
-      <LessonPicker open={open} onOpenChange={setOpen} />
+      <LessonPicker open={open && !active} onOpenChange={setOpen} only={mode} />
     </>
   );
 }
