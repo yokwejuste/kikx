@@ -46,8 +46,8 @@ msgstr "un play liste un rôle que le projet vendorise (« runs ») ;"
 msgid "an Ingress's backend service is a Service in the project (\"routes to\");"
 msgstr "le service backend d'un Ingress est un Service du projet (« routes to ») ;"
 
-msgid "a Service's `app` selector matches a Deployment's `app` label (\"selects\")."
-msgstr "le sélecteur `app` d'un Service correspond au label `app` d'un Deployment (« selects »)."
+msgid "a Service's `app` selector matches the `app` label of a Deployment's pods, which is the Deployment's name (\"selects\")."
+msgstr "le sélecteur `app` d'un Service correspond au label `app` des pods d'un Deployment, c'est-à-dire au nom du Deployment (« selects »)."
 
 msgid "A play targeting `all` connects to every top-level group when no group is literally called `all`, since that is what Ansible would do."
 msgstr "Un play qui cible `all` est relié à tous les groupes de premier niveau lorsqu'aucun groupe ne s'appelle littéralement `all`, puisque c'est ce que ferait Ansible."

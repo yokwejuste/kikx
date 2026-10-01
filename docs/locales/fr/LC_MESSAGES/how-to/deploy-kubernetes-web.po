@@ -124,14 +124,14 @@ msgstr "Le port vers lequel le Service transmet le trafic. Il doit être égal a
 msgid "Make the selector match the pods"
 msgstr "Faire correspondre le sélecteur aux pods"
 
-msgid "A Service finds its pods through its labels: every label on a Service becomes part of its selector. By default the selector is `app: <Service name>`, which is why a Deployment and a Service with the same name find each other."
-msgstr "Un Service trouve ses pods grâce à ses labels : chaque label d'un Service fait partie de son sélecteur. Par défaut, le sélecteur est `app: <nom du Service>`, c'est pourquoi un Deployment et un Service du même nom se trouvent."
+msgid "A Service finds its pods through its selector, `app: <value>`, where the value is the Service's `app` label. That label defaults to the Service name, which is why a Deployment and a Service with the same name find each other."
+msgstr "Un Service trouve ses pods grâce à son sélecteur, `app: <valeur>`, où la valeur est le label `app` du Service. Ce label vaut par défaut le nom du Service, c'est pourquoi un Deployment et un Service du même nom se trouvent."
 
 msgid "If the Service has a different name, for example `frontend`, its selector is `app: frontend` and it selects nothing. To keep the name, open the Service, click **Add label**, enter `app` as the key and the Deployment's name as the value, then click **Save changes**."
 msgstr "Si le Service a un autre nom, par exemple `frontend`, son sélecteur est `app: frontend` et il ne sélectionne rien. Pour garder ce nom, ouvrez le Service, cliquez sur **Ajouter un label**, saisissez `app` comme clé et le nom du Deployment comme valeur, puis cliquez sur **Enregistrer**."
 
-msgid "Don't add other labels to a Service. The pods only carry the `app` label, so any extra label in the selector stops it from matching them."
-msgstr "N'ajoutez pas d'autres labels à un Service. Les pods ne portent que le label `app`, donc tout label en plus dans le sélecteur l'empêche de les trouver."
+msgid "Other labels, such as `tier: web`, are written to the Service's `metadata.labels` only. They don't change the selector, so they never stop the Service from finding its pods."
+msgstr "Les autres labels, comme `tier: web`, sont écrits uniquement dans les `metadata.labels` du Service. Ils ne changent pas le sélecteur et n'empêchent donc jamais le Service de trouver ses pods."
 
 msgid "Add the Ingress"
 msgstr "Ajouter l'Ingress"
@@ -199,8 +199,8 @@ msgstr "Réparer un Service ou un Ingress qui ne pointe vers rien"
 msgid "Kubernetes accepts a Service that selects no pods and an Ingress whose Service doesn't exist, but no traffic gets through. The **Checks** tab reads all components together and warns about both:"
 msgstr "Kubernetes accepte un Service qui ne sélectionne aucun pod et un Ingress dont le Service n'existe pas, mais aucun trafic ne passe. L'onglet **Vérifications** lit tous les composants ensemble et signale les deux cas :"
 
-msgid "**Service frontend selects app=frontend, but no deployment has that label.** Its endpoints would be empty and every request would fail."
-msgstr "**Le Service frontend sélectionne app=frontend, mais aucun Deployment n'a ce label.** Ses endpoints seraient vides et chaque requête échouerait."
+msgid "**Service frontend selects app=frontend, but no deployment's pods carry those labels.** Its endpoints would be empty and every request would fail."
+msgstr "**Le Service frontend sélectionne app=frontend, mais aucun pod de Deployment ne porte ces labels.** Ses endpoints seraient vides et chaque requête échouerait."
 
 msgid "**Ingress shop routes to service \"shop\", which isn't in the project.**"
 msgstr "**L'Ingress shop route vers le service « shop », qui n'est pas dans le projet.**"

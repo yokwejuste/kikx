@@ -22,7 +22,8 @@ An edge exists only when kikx can find a real relationship in the values you ent
 - a site playbook imports a playbook at a path that one of your playbooks renders to ("imports");
 - a play lists a role that the project vendors ("runs");
 - an Ingress's backend service is a Service in the project ("routes to");
-- a Service's `app` selector matches a Deployment's `app` label ("selects").
+- a Service's `app` selector matches the `app` label of a Deployment's pods, which is the
+  Deployment's name ("selects").
 
 A play targeting `all` connects to every top-level group when no group is literally called `all`,
 since that is what Ansible would do.

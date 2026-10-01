@@ -65,7 +65,7 @@ Open **Checks** from the header, or click **Review** in the **Project** panel. E
 | `<key> is set in both [<g>:vars] and group_vars/<g>.yml` | Keep the key in one place. The group vars file wins. |
 | `Play "<name>" targets "<group>", which isn't in the inventory` | Correct **Runs on (hosts)**, or add the group to the inventory. Otherwise the play matches no hosts. |
 | `site.yml imports <path>, which this project doesn't produce` | Ignore it if the playbook already exists in your repo. Otherwise, add that playbook or fix the path. |
-| `Service <name> selects app=<name>, but no deployment has that label` | Give the Deployment the same name as the Service, or set the same `app` label on both. |
+| `Service <name> selects app=<name>, but no deployment's pods carry those labels` | Give the Deployment the same name as the Service, or set the Service's `app` label to the Deployment's name. |
 | `Ingress <name> routes to service "<svc>", which isn't in the project` | Add a Service with that name, or correct **Backend service**. |
 
 ### Notes

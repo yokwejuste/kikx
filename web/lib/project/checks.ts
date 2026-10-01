@@ -9,6 +9,7 @@ import {
 } from "@/lib/ansible/playbook";
 import type { FieldFormat } from "@/lib/api/client";
 import type { LocalizedMessage } from "@/lib/i18n/localized-error";
+import { formatLabels, podLabels, selects, serviceSelector } from "@/lib/k8s/labels";
 import { parseAddress, parseRange, rangesOverlap, type IpRange } from "@/lib/net/ip";
 import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
@@ -365,15 +366,18 @@ export function checkProject(components: AddedComponent[], fieldFormat: FieldFor
   }
 
   const services = byReference(REFERENCES.service);
-  const podApps = new Set(byReference(REFERENCES.deployment).map((d) => d.recipe.labels.app ?? d.recipe.name));
+  const pods = byReference(REFERENCES.deployment).map((d) => podLabels(d.recipe));
   const serviceNames = new Set(services.map((s) => s.recipe.name));
   for (const svc of services) {
-    const selector = svc.recipe.labels.app ?? svc.recipe.name;
-    if (!podApps.has(selector)) {
+    const selector = serviceSelector(svc.recipe);
+    if (!pods.some((labels) => selects(selector, labels))) {
       push({
         id: `svc-selector:${svc.id}`,
         severity: "warning",
-        title: { key: "checks.issues.serviceSelector.title", values: { service: svc.recipe.name, selector } },
+        title: {
+          key: "checks.issues.serviceSelector.title",
+          values: { service: svc.recipe.name, selector: formatLabels(selector) },
+        },
         detail: { key: "checks.issues.serviceSelector.detail" },
         componentIds: [svc.id],
       });

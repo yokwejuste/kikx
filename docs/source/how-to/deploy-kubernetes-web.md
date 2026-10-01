@@ -69,16 +69,16 @@ spreads traffic across the pods that are alive.
 
 ### Make the selector match the pods
 
-A Service finds its pods through its labels: every label on a Service becomes part of its
-selector. By default the selector is `app: <Service name>`, which is why a Deployment and a Service
-with the same name find each other.
+A Service finds its pods through its selector, `app: <value>`, where the value is the Service's
+`app` label. That label defaults to the Service name, which is why a Deployment and a Service with
+the same name find each other.
 
 If the Service has a different name, for example `frontend`, its selector is `app: frontend` and it
 selects nothing. To keep the name, open the Service, click **Add label**, enter `app` as the key
 and the Deployment's name as the value, then click **Save changes**.
 
-Don't add other labels to a Service. The pods only carry the `app` label, so any extra label in
-the selector stops it from matching them.
+Other labels, such as `tier: web`, are written to the Service's `metadata.labels` only. They don't
+change the selector, so they never stop the Service from finding its pods.
 
 ## Add the Ingress
 
@@ -115,8 +115,8 @@ doesn't check ports for you, so compare them in the previews.
 Kubernetes accepts a Service that selects no pods and an Ingress whose Service doesn't exist, but
 no traffic gets through. The **Checks** tab reads all components together and warns about both:
 
-- **Service frontend selects app=frontend, but no deployment has that label.** Its endpoints would
-  be empty and every request would fail.
+- **Service frontend selects app=frontend, but no deployment's pods carry those labels.** Its
+  endpoints would be empty and every request would fail.
 - **Ingress shop routes to service "shop", which isn't in the project.**
 
 The editor of a flagged component also shows how many checks flag it. To fix a warning:

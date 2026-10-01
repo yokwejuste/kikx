@@ -3,11 +3,17 @@ kind: Service
 metadata:
   name: {{ name }}
   namespace: {{ namespace }}
+{%- if labels | length > 1 %}
+  labels:
+{%- for key in labels %}
+    {{ key }}: {{ labels[key] }}
+{%- endfor %}
+{%- endif %}
 spec:
   selector:
-{% for key in labels %}
-    {{ key }}: {{ labels[key] }}
-{% endfor %}
+
+    app: {{ labels.app }}
+
   ports:
     - port: {{ port }}
       targetPort: {{ target_port | default(port) }}

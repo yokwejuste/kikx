@@ -1,7 +1,38 @@
 mod common;
 
 use common::{try_render, write_file};
-use kikx_core::ops::{CommonFields, OpsErrorKind};
+use kikx_core::ops::{render_component, CommonFields, OpsErrorKind, RenderParams};
+
+fn render_service(labels: &[(&str, &str)]) -> String {
+    let outcome = render_component(RenderParams {
+        reference: "k8s/service".to_string(),
+        name: "web".to_string(),
+        fields: vec![("port".to_string(), "80".to_string())],
+        labels: labels
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect(),
+        default_namespace: "default".to_string(),
+    })
+    .unwrap();
+    outcome.files[0].content.clone()
+}
+
+#[test]
+fn service_without_extra_labels_keeps_its_output() {
+    assert_eq!(
+        render_service(&[]),
+        "apiVersion: v1\nkind: Service\nmetadata:\n  name: web\n  namespace: default\nspec:\n  selector:\n\n    app: web\n\n  ports:\n    - port: 80\n      targetPort: 80\n      protocol: TCP\n"
+    );
+}
+
+#[test]
+fn service_selects_only_the_app_label_and_keeps_extra_labels_as_metadata() {
+    assert_eq!(
+        render_service(&[("tier", "web"), ("app", "shop")]),
+        "apiVersion: v1\nkind: Service\nmetadata:\n  name: web\n  namespace: default\n  labels:\n    app: shop\n    tier: web\nspec:\n  selector:\n\n    app: shop\n\n  ports:\n    - port: 80\n      targetPort: 80\n      protocol: TCP\n"
+    );
+}
 
 #[test]
 fn rejects_two_files_rendering_to_the_same_path() {

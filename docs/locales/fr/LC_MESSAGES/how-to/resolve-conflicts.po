@@ -151,11 +151,11 @@ msgstr "`site.yml imports <path>, which this project doesn't produce`"
 msgid "Ignore it if the playbook already exists in your repo. Otherwise, add that playbook or fix the path."
 msgstr "Ignorez l'avertissement si le playbook existe déjà dans votre dépôt. Sinon, ajoutez ce playbook ou corrigez le chemin."
 
-msgid "`Service <name> selects app=<name>, but no deployment has that label`"
-msgstr "`Service <name> selects app=<name>, but no deployment has that label`"
+msgid "`Service <name> selects app=<name>, but no deployment's pods carry those labels`"
+msgstr "`Service <name> selects app=<name>, but no deployment's pods carry those labels`"
 
-msgid "Give the Deployment the same name as the Service, or set the same `app` label on both."
-msgstr "Donnez au Deployment le même nom que le Service, ou définissez le même label `app` sur les deux."
+msgid "Give the Deployment the same name as the Service, or set the Service's `app` label to the Deployment's name."
+msgstr "Donnez au Deployment le même nom que le Service, ou mettez le nom du Deployment dans le label `app` du Service."
 
 msgid "`Ingress <name> routes to service \"<svc>\", which isn't in the project`"
 msgstr "`Ingress <name> routes to service \"<svc>\", which isn't in the project`"
