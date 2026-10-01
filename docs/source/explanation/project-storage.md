@@ -67,16 +67,18 @@ reach a point you want to keep.
 ## The Teach me sandbox
 
 A **Teach me** lesson builds its own project, so it needs an empty builder. When a lesson starts,
-kikx copies your project, its drafts and its builder state aside into the tab's session storage
-and clears them. The lesson then works on a fresh project.
+kikx copies your project, its drafts and its builder state aside in local storage, under a key of
+its own, and clears them. The lesson then works on a fresh project.
 
 When the lesson ends, through **Back to my project**, the stop button or {kbd}`Esc`, kikx deletes
 the lesson's project and puts yours back. Reloading the page in the middle of a lesson does the
 same. If you had no project before the lesson, **Keep this project** keeps the one the lesson built
 instead.
 
-Session storage belongs to the tab. Finish or stop a lesson in the tab you started it in rather
-than closing that tab, or the copy of your project set aside for the lesson is lost with it.
+The copy outlives the tab. If you close the tab in the middle of a lesson, or the browser quits,
+the next page of kikx you open puts your project back. While the lesson is still running in
+another tab, other tabs leave the copy alone, and you can't start a second lesson until that one
+ends.
 
 CLI lessons and the practice terminal work the same way: the files they write stay in that tab
 and are never saved to your disk. See [Practice the CLI in your browser](../how-to/practice-cli-in-browser.md).

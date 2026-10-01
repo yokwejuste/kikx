@@ -88,7 +88,8 @@ once.
 
 A lesson runs on an empty project. Before it starts, kikx sets your current project and its unsaved
 drafts aside. When the lesson ends, **Back to my project** puts them back, and so does stopping the
-lesson or reloading the page halfway through. If you had no project, **Keep this project** keeps
-the one the lesson built.
+lesson, reloading the page or closing the tab halfway through: the next page of kikx you open
+puts your project back. If you had no project, **Keep this project** keeps the one the lesson
+built.
 
 Nothing is downloaded during a lesson: it opens the **Export** menu only to show you what is in it.
