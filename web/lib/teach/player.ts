@@ -67,6 +67,7 @@ export class LessonPlayer {
   private step = 0;
   private caption: string | null = null;
   private target: HTMLElement | null = null;
+  private targetRef: Target | null = null;
   private clicks = 0;
   private stopped = false;
   private skipping = false;
@@ -298,9 +299,18 @@ export class LessonPlayer {
       await this.wait(SCROLL_SETTLE_MS, false);
     }
     this.target = reached;
+    this.targetRef = target;
     this.emit();
     if (!this.env.reducedMotion) await this.wait(CURSOR_MOVE_MS, false);
     return reached;
+  }
+
+  private refindTarget(): void {
+    if (!this.target || this.target.isConnected || !this.targetRef) return;
+    const replacement = this.find(this.targetRef);
+    if (!replacement) return;
+    this.target = replacement;
+    this.emit();
   }
 
   private async read(): Promise<void> {
@@ -341,6 +351,7 @@ export class LessonPlayer {
       if (this.stopped) throw new Stopped();
       if (skippable && this.skipping) return;
       await sleep(TICK_MS);
+      this.refindTarget();
       if (this.status === "playing") remaining -= scaled ? TICK_MS * this.speed : TICK_MS;
     }
     if (this.stopped) throw new Stopped();
