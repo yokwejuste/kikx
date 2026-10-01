@@ -71,6 +71,7 @@ export function DashboardHeader({
           ).map(([setting, label, value]) => (
             <Badge key={setting} asChild variant="brand" className="font-mono text-xs font-normal">
               <button
+                data-teach={`setting-${setting}`}
                 type="button"
                 aria-label={label}
                 title={label}

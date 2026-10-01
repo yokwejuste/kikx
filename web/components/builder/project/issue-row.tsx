@@ -33,7 +33,7 @@ export function IssueRow({
   const action = issue.action;
 
   return (
-    <li className={cn("flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between", className)}>
+    <li data-teach="issue-row" className={cn("flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between", className)}>
       <div className="flex min-w-0 gap-3">
         <Icon className={cn("mt-0.5 size-4 shrink-0", tone)} />
         <div className="min-w-0">

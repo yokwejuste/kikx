@@ -1,17 +1,92 @@
 {
   "title": "Déployer sur Kubernetes",
-  "description": "Bientôt disponible.",
+  "description": "Faites tourner une application sur Kubernetes : un Deployment pour les pods, un Service devant eux et un Ingress qui fait entrer le trafic web, avec les labels et les ports qui relient le tout.",
   "outcomes": [
-    "Bientôt disponible."
+    "Choisir le namespace de vos fichiers Kubernetes",
+    "Décrire un Deployment : image, réplicas, port et labels",
+    "Placer un Service devant et faire correspondre son sélecteur",
+    "Diriger un nom d'hôte vers le Service avec un Ingress",
+    "Repérer un Service ou un Ingress qui ne pointe vers rien"
   ],
   "chapters": {
-    "start": "Déployer sur Kubernetes"
+    "namespace": "Namespace",
+    "deployment": "Deployment",
+    "service": "Service et sélecteurs",
+    "ingress": "Ingress",
+    "review": "Architecture et vérifications"
+  },
+  "steps": {
+    "intro": "Mettons une application web sur Kubernetes. Nous allons écrire trois fichiers qui forment une chaîne : un Ingress envoie le trafic à un Service, qui l'envoie aux pods d'un Deployment. La plupart des déploiements cassés ont un maillon cassé dans cette chaîne, alors regardons les maillons de près.",
+    "name": "D'abord, un nouveau projet.",
+    "start": "On commence.",
+    "namespaceBadge": "Vous voyez ce badge dans l'en-tête ? C'est le namespace par défaut du projet. Un namespace est un dossier dans le cluster : un nom n'a besoin d'être unique qu'à l'intérieur de son namespace, et les équipes s'en servent pour séparer applications et environnements.",
+    "namespaceWhy": "Réglez-le avant d'ajouter quoi que ce soit. Chaque fichier Kubernetes que kikx écrit prend ce namespace, sauf si le composant en définit un autre.",
+    "namespaceTask": "À vous : cliquez sur le badge ns, remplacez le namespace par shop-prod et enregistrez.",
+    "namespaceType": "Saisissez le nouveau namespace et enregistrez.",
+    "namespaceScope": "Seuls le Deployment, le Service et l'Ingress l'utilisent. Les inventaires, les playbooks et Terraform l'ignorent. Si vous le changez plus tard, les composants déjà ajoutés gardent l'ancienne valeur jusqu'à ce que vous les rouvriez et les enregistriez.",
+    "deployment": "Passons au Deployment. Il indique à Kubernetes quel conteneur lancer et combien de copies garder en vie. Si un pod plante ou qu'un nœud tombe, Kubernetes en démarre un nouveau pour revenir à ce nombre.",
+    "deploymentName": "Le nom compte plus qu'il n'y paraît : kikx s'en sert aussi comme label app sur chaque pod, app: shop. Retenez ce label, le Service en aura besoin.",
+    "image": "L'image est ce qui tourne dans chaque pod. Fixez une version plutôt que latest : tous les pods exécutent le même code, et revenir en arrière consiste à reprendre la version précédente.",
+    "replicas": "Les réplicas sont le nombre de pods identiques qui tournent en même temps. Avec trois, l'un peut tomber ou être mis à jour pendant que les deux autres continuent de servir.",
+    "containerPort": "Le port est celui sur lequel l'application écoute dans le conteneur. Il est écrit containerPort, et le Service devra envoyer le trafic exactement sur ce numéro.",
+    "namespaceField": "Ce champ Namespace permet de changer de namespace pour ce seul composant. Vide, il reprend celui du projet que nous venons de régler.",
+    "labels": "Les labels sont des étiquettes clé et valeur. Des labels en plus, comme tier: web, aident à filtrer avec kubectl et à regrouper dans les tableaux de bord.",
+    "appLine": "Dans l'aperçu, app: shop apparaît trois fois : sur le Deployment, dans son sélecteur et sur le modèle de pod. C'est ainsi que le Deployment retrouve ses propres pods.",
+    "containerPortLine": "Et voici containerPort 8080. Gardez ce numéro en tête.",
+    "addDeployment": "Ajoutons le Deployment.",
+    "service": "Les pods vont et viennent, et chaque nouveau pod reçoit une nouvelle adresse IP. Un Service leur donne un nom et une adresse stables, et répartit le trafic entre les pods en vie.",
+    "serviceName": "J'appelle ce Service frontend, un nom différent de celui du Deployment. Regardez ce que ça donne.",
+    "servicePort": "Le port est celui qu'appellent les autres applications : frontend sur le port 80.",
+    "targetPort": "Le port cible est celui vers lequel le Service transmet. Il doit être égal au containerPort, 8080, sinon les connexions sont refusées.",
+    "serviceSelector": "Voilà le piège. Le sélecteur indique app: frontend, car kikx prend par défaut le nom du Service. Or nos pods portent le label app: shop. Ce Service ne sélectionne rien.",
+    "addService": "Kubernetes accepterait ce fichier sans broncher. Ajoutons-le quand même et voyons si kikx le remarque.",
+    "checks": "Les vérifications lisent tous les composants ensemble, comme le ferait le cluster.",
+    "issue": "Le voilà : le Service frontend sélectionne app=frontend, mais aucun deployment n'a ce label. Il n'aurait aucun endpoint et chaque requête échouerait. La même vérification prévient quand un Ingress pointe vers un Service absent du projet.",
+    "fixTask": "À vous : corrigez-le sans renommer. Ouvrez le Service depuis cet avertissement, ajoutez le label app avec la valeur shop, puis enregistrez. L'avertissement doit disparaître de l'onglet des vérifications.",
+    "fixOpen": "J'ouvre le Service depuis l'avertissement.",
+    "fixLabel": "J'ajoute le label app: shop. Un Service sélectionne les pods d'après ses labels, ce label remplace donc le sélecteur par défaut.",
+    "fixed": "Le sélecteur indique maintenant app: shop et l'avertissement a disparu. Nom, labels et sélecteur doivent concorder, sinon le trafic ne va nulle part.",
+    "ingress": "Dernier maillon : l'Ingress. Un Service n'est joignable qu'à l'intérieur du cluster. Un Ingress permet au contrôleur d'entrée du cluster de lui envoyer le trafic HTTP venu de l'extérieur, selon le nom d'hôte et le chemin.",
+    "ingressName": "Donnons-lui le nom de l'application.",
+    "ingressTask": "Laissé vide, le service cible prend le nom de l'Ingress, shop, et aucun Service ne s'appelle ainsi. À vous : mettez l'hôte à shop.example.com et le service cible à frontend. Laissez le chemin à /, qui couvre toutes les URL de cet hôte, et le port à 80, celui du Service.",
+    "ingressHost": "L'hôte est le domaine que les gens saisiront. Votre DNS doit le faire pointer vers le contrôleur d'entrée du cluster.",
+    "ingressBackend": "Le service cible se désigne par son nom. Il doit correspondre exactement, alors choisissez-le dans les suggestions.",
+    "hostLine": "La règle commence par l'hôte : les requêtes pour shop.example.com arrivent ici.",
+    "backendLine": "Et elles partent vers le Service nommé frontend, sur le port 80. Port de l'Ingress 80, port du Service 80, port cible 8080, containerPort 8080 : chaque étape doit concorder avec la suivante.",
+    "addIngress": "Ajoutons l'Ingress.",
+    "diagram": "L'Architecture dessine la chaîne que nous venons de construire.",
+    "diagramRead": "L'Ingress dirige vers le Service, et le Service sélectionne le Deployment. Une flèche manquante ici, c'est un maillon cassé.",
+    "checksClear": "Et les vérifications n'ont plus rien à signaler.",
+    "build": "Retour au constructeur.",
+    "done": "Voilà une application complète sur Kubernetes : un Deployment, un Service dont le sélecteur correspond à ses pods, et un Ingress qui pointe vers le Service, le tout dans un seul namespace. Exportez le projet et appliquez-le avec kubectl apply."
+  },
+  "checks": {
+    "namespaceSaved": "Le namespace du projet est shop-prod",
+    "selectorMatches": "Plus aucun avertissement dans les vérifications",
+    "host": "L'hôte est shop.example.com",
+    "backend": "Le service cible est frontend"
   },
   "recap": [
-    "Bientôt disponible."
+    "Le namespace du projet s'applique à chaque Deployment, Service et Ingress, sauf si un composant définit le sien.",
+    "Un Deployment garde en marche un nombre de pods identiques issus d'une image, avec le label app à son nom.",
+    "Un Service trouve les pods grâce à son sélecteur ; si les labels ne correspondent pas, il ne mène nulle part.",
+    "Les ports s'enchaînent : de l'Ingress au port du Service, du port cible du Service au containerPort.",
+    "Un Ingress dirige un hôte et un chemin vers un Service par son nom, et les vérifications préviennent quand ce Service manque."
   ],
-  "steps": {
-    "intro": "Bientôt disponible.",
-    "done": "Bientôt disponible."
+  "demo": {
+    "namespace": "shop-prod",
+    "app": "shop",
+    "image": "nginx:1.27",
+    "replicas": "3",
+    "containerPort": "8080",
+    "labelKey": "tier",
+    "labelValue": "web",
+    "appLine": "app: shop",
+    "containerPortLine": "containerPort: 8080",
+    "service": "frontend",
+    "serviceSelectorLine": "app: frontend",
+    "host": "shop.example.com",
+    "hostLine": "host: shop.example.com",
+    "backendLine": "name: frontend"
   }
 }
