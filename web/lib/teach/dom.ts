@@ -1,5 +1,7 @@
+import { siteHeaderBottom } from "@/lib/layout/site-header";
+import { readNumber, TOKENS } from "@/lib/theme/tokens";
+
 const CAPTION_CLEARANCE = 200;
-const HEADER_CLEARANCE = 72;
 
 type EditorElement = HTMLElement & { value: string };
 export type TypingTarget = HTMLInputElement | HTMLTextAreaElement | EditorElement;
@@ -43,7 +45,7 @@ export function openDrawer(): HTMLElement | null {
 
 export function isComfortablyVisible(element: Element): boolean {
   const rect = element.getBoundingClientRect();
-  return rect.top >= HEADER_CLEARANCE && rect.bottom <= window.innerHeight - CAPTION_CLEARANCE;
+  return rect.top >= siteHeaderBottom() + readNumber(TOKENS.teachCardMargin) && rect.bottom <= window.innerHeight - CAPTION_CLEARANCE;
 }
 
 function pointerInit(element: Element, buttons: number): PointerEventInit {

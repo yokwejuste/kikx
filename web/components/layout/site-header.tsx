@@ -14,7 +14,10 @@ export async function SiteHeader() {
   const t = await getTranslations("header");
   const locale = await getLocale();
   return (
-    <header className="flex h-header shrink-0 items-center justify-between gap-2 border-b px-4 sm:px-6">
+    <header
+      data-site-header
+      className="sticky top-0 z-header flex h-header shrink-0 items-center justify-between gap-2 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 sm:px-6"
+    >
       <Link href="/" aria-label={t("home")} className="flex items-center gap-2 text-base font-semibold tracking-tight">
         <KikxMark className="size-5" />
         <span className="hidden sm:inline">kikx</span>
