@@ -1,4 +1,4 @@
-import { frameRect, rectOf, trackRect } from "@/lib/dom/track-rect";
+import { frameRect, glide, rectOf, trackRect } from "@/lib/dom/track-rect";
 
 const GLOW_CLASS = "kikx-tour-glow";
 
@@ -7,8 +7,12 @@ let glow: HTMLDivElement | null = null;
 let untrack: (() => void) | null = null;
 
 export function glowAround(element: Element | undefined, padding: number, radius: number): void {
+  const moved = glow && element && element !== target;
   target = element ?? null;
-  if (glow) return;
+  if (glow) {
+    if (moved) glide(glow);
+    return;
+  }
   glow = document.createElement("div");
   glow.className = GLOW_CLASS;
   glow.setAttribute("aria-hidden", "true");

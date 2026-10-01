@@ -101,7 +101,3 @@ export function highlightRect(element: HTMLElement | null): DOMRect | null {
 export function releaseFocus(): void {
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
 }
-
-export function prefersReducedMotion(): boolean {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
