@@ -1,27 +1,21 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { IconButton } from "@/components/common/icon-button";
-
-const noopSubscribe = () => () => {};
-
-function useMounted() {
-  return useSyncExternalStore(noopSubscribe, () => true, () => false);
-}
+import { useColorMode } from "@/lib/theme/use-color-mode";
 
 export function ThemeToggle() {
   const t = useTranslations("header");
-  const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useMounted();
+  const { setTheme } = useTheme();
+  const mode = useColorMode();
 
   return (
     <IconButton
-      icon={mounted && resolvedTheme === "dark" ? Sun : Moon}
+      icon={mode === "dark" ? Sun : Moon}
       label={t("theme")}
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      onClick={() => setTheme(mode === "dark" ? "light" : "dark")}
     />
   );
 }

@@ -11,7 +11,7 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useTheme } from "next-themes";
+import { useColorMode } from "@/lib/theme/use-color-mode";
 import { useTranslations } from "next-intl";
 import { Download, Maximize2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,7 @@ function FitWhenReady({ layoutKey }: { layoutKey: string }) {
 }
 
 export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent) => void }) {
-  const { resolvedTheme } = useTheme();
+  const colorMode = useColorMode();
   const t = useTranslations("diagram");
   const { details, components } = useProject();
   const graph = useMemo(() => buildArchitectureGraph(components, t), [components, t]);
@@ -118,7 +118,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
               edges={edges}
               nodeTypes={nodeTypes}
               edgeTypes={edgeTypes}
-              colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+              colorMode={colorMode}
               fitView
               fitViewOptions={{ padding: 0.08 }}
               minZoom={0.1}
