@@ -118,6 +118,7 @@ The dedicated options set their field on any component. A field the component do
 | No `kikx.toml` in the current directory | Exit `1`: ``no kikx.toml found in <dir>. Run `kikx init` first`` |
 | Unknown reference | Exit `1`: `` `<reference>` isn't a built-in component, and isn't a URL or existing local file. Run `kikx list` to see built-ins, or pass a URL/path to a registry-item.json `` |
 | Required field missing with no default | Exit `1`: ``field `<field>` is required for <reference>`` |
+| A field with a [format](registry-item-format.md#field) has an invalid value | Exit `1`: ``field `<field>` of <reference>: <reason>``, where the reason names the corrected value when there is one. No file is written |
 | Rendered path is absolute | Exit `1`: ``refusing to write `<path>`: absolute paths are not allowed`` |
 | Rendered path leaves the output directory | Exit `1`: ``refusing to write `<path>`: it escapes the target directory`` |
 | A target file exists, no `--force` | Exit `1`: `<path> already exists. Pass --force to overwrite`. No file is written |
@@ -143,7 +144,7 @@ kikx list
 
 Prints every built-in component with its fields. Takes no options besides `--help`. Does not need `kikx.toml`.
 
-Each field line shows, when present: `required`, `default <value>` (omitted for an empty default), `e.g. <example>`, `one of <options>`.
+Each field line shows, when present: `required`, `default <value>` (omitted for an empty default), `e.g. <example>`, `format <format>`, `one of <options>`.
 
 ```
 Available components:

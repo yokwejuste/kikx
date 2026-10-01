@@ -7,6 +7,14 @@ variable "do_token" {
 provider "digitalocean" {
   token = var.do_token
 }
+{%- if private_network %}
+
+resource "digitalocean_vpc" "{{ name }}" {
+  name     = "{{ name }}-network"
+  region   = "{{ region }}"
+  ip_range = "{{ private_network }}"
+}
+{%- endif %}
 
 resource "digitalocean_droplet" "{{ name }}" {
   count  = {{ count }}
@@ -14,4 +22,8 @@ resource "digitalocean_droplet" "{{ name }}" {
   region = "{{ region }}"
   size   = "{{ size }}"
   image  = "{{ os_image }}"
+{%- if private_network %}
+
+  vpc_uuid = digitalocean_vpc.{{ name }}.id
+{%- endif %}
 }

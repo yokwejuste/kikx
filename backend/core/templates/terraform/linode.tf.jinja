@@ -20,6 +20,19 @@ variable "ssh_public_key" {
 provider "linode" {
   token = var.linode_token
 }
+{%- if private_network %}
+
+resource "linode_vpc" "{{ name }}" {
+  label  = "{{ name }}-network"
+  region = "{{ region }}"
+}
+
+resource "linode_vpc_subnet" "{{ name }}" {
+  vpc_id = linode_vpc.{{ name }}.id
+  label  = "{{ name }}-subnet"
+  ipv4   = "{{ private_network }}"
+}
+{%- endif %}
 
 resource "linode_instance" "{{ name }}" {
   count           = {{ count }}
@@ -28,4 +41,15 @@ resource "linode_instance" "{{ name }}" {
   type            = "{{ size }}"
   image           = "{{ os_image }}"
   authorized_keys = [var.ssh_public_key]
+{%- if private_network %}
+
+  interface {
+    purpose = "public"
+  }
+
+  interface {
+    purpose   = "vpc"
+    subnet_id = linode_vpc_subnet.{{ name }}.id
+  }
+{%- endif %}
 }

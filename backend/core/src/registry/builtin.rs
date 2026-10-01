@@ -1,4 +1,4 @@
-use super::item::{FieldSpec, RegistryFile, RegistryItem};
+use super::item::{FieldFormat, FieldSpec, RegistryFile, RegistryItem};
 
 fn field(name: &str) -> FieldSpec {
     FieldSpec::new(name)
@@ -89,8 +89,19 @@ fn server_fields(region: &str, size: &str, images: &[(&str, &str)]) -> Vec<Field
             .options(images)
             .describe("Any image slug the provider accepts; the list is a shortcut."),
         field("count").default_value("1"),
+        field("private_network")
+            .format(FieldFormat::Cidr)
+            .example("10.10.0.0/16")
+            .describe("Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network."),
     ]
 }
+
+const HETZNER_NETWORK_ZONES: &[(&str, &str)] = &[
+    ("eu-central", "Europe (fsn1, nbg1, hel1)"),
+    ("us-east", "US East (ash)"),
+    ("us-west", "US West (hil)"),
+    ("ap-southeast", "Asia Pacific (sin)"),
+];
 
 pub fn all() -> Vec<RegistryItem> {
     vec![
@@ -155,7 +166,14 @@ pub fn all() -> Vec<RegistryItem> {
             "hetzner",
             "Hetzner Cloud Server",
             "Terraform for one or more Hetzner Cloud servers.",
-            server_fields("fsn1", "cx22", HETZNER_IMAGES),
+            [
+                server_fields("fsn1", "cx22", HETZNER_IMAGES),
+                vec![field("network_zone")
+                    .default_value(HETZNER_NETWORK_ZONES[0].0)
+                    .options(HETZNER_NETWORK_ZONES)
+                    .describe("Network zone of the private network; it must contain the server location.")],
+            ]
+            .concat(),
             vec![file(
                 "{{ name }}-hetzner.tf",
                 include_str!("../../templates/terraform/hetzner.tf.jinja"),

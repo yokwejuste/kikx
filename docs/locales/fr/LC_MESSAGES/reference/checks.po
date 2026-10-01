@@ -133,8 +133,8 @@ msgstr "[`not-imported:<playbook>`](#not-imported)"
 msgid "`ansible/playbook`, `ansible/site`"
 msgstr "`ansible/playbook`, `ansible/site`"
 
-msgid "In ID patterns, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>` and `<ingress>` are the dashboard's internal component IDs."
-msgstr "Dans les modèles d'ID, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>` et `<ingress>` sont les identifiants internes des composants dans le tableau de bord."
+msgid "In ID patterns, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>`, `<ingress>`, `<component>` and `<other component>` are the dashboard's internal component IDs."
+msgstr "Dans les modèles d'ID, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>`, `<ingress>`, `<component>` et `<other component>` sont les identifiants internes des composants dans le tableau de bord."
 
 msgid "Definitions"
 msgstr "Définitions"
@@ -409,3 +409,47 @@ msgstr "[Résoudre les conflits de fichiers et les vérifications](../how-to/res
 msgid "[Scaffold the roles your playbooks use](../how-to/scaffold-roles.md)"
 msgstr "[Générer les rôles utilisés par vos playbooks](../how-to/scaffold-roles.md)"
 
+msgid "[`shared-addr:<address>`](#shared-addr)"
+msgstr "[`shared-addr:<address>`](#shared-addr)"
+
+msgid "[`range-overlap:<component>:<field>:<other component>:<other field>`](#range-overlap)"
+msgstr "[`range-overlap:<component>:<field>:<other component>:<other field>`](#range-overlap)"
+
+msgid "any component with a `cidr` field"
+msgstr "tout composant ayant un champ `cidr`"
+
+msgid "Normalised address"
+msgstr "Adresse normalisée"
+
+msgid "An `ansible_host` that is an IPv4 or IPv6 address, in canonical form (IPv6 compressed and lowercase); any other value lowercased"
+msgstr "Un `ansible_host` qui est une adresse IPv4 ou IPv6, sous forme canonique (IPv6 compressée et en minuscules) ; toute autre valeur est mise en minuscules"
+
+msgid "Range fields"
+msgstr "Champs de plage"
+
+msgid "Non-empty fields whose registry [`format`](registry-item-format.md#field) is `cidr` and whose value is a valid range"
+msgstr "Champs non vides dont le [`format`](registry-item-format.md#field) dans le registre est `cidr` et dont la valeur est une plage valide"
+
+msgid "`shared-addr`"
+msgstr "`shared-addr`"
+
+msgid "Two or more different host names have the same normalised address, in one or several inventories. One issue per address"
+msgstr "Deux noms d'hôtes différents ou plus ont la même adresse normalisée, dans un ou plusieurs inventaires. Un problème par adresse"
+
+msgid "`<count> hosts share the address <address>: <hosts>`"
+msgstr "`<count> hosts share the address <address>: <hosts>`"
+
+msgid "`Different host names pointing at one machine run the same plays on it twice. Give each host its own address, or keep a single host.`"
+msgstr "`Different host names pointing at one machine run the same plays on it twice. Give each host its own address, or keep a single host.`"
+
+msgid "`range-overlap`"
+msgstr "`range-overlap`"
+
+msgid "Range fields of two different components overlap, that is one range contains the first address of the other. One issue per pair of fields"
+msgstr "Les champs de plage de deux composants différents se chevauchent, c'est-à-dire qu'une plage contient la première adresse de l'autre. Un problème par paire de champs"
+
+msgid "`<first name> (<first range>) and <second name> (<second range>) use overlapping networks`"
+msgstr "`<first name> (<first range>) and <second name> (<second range>) use overlapping networks`"
+
+msgid "`Overlapping private networks cannot be peered or routed to each other. Fine if they never need to talk; otherwise pick ranges that do not overlap.`"
+msgstr "`Overlapping private networks cannot be peered or routed to each other. Fine if they never need to talk; otherwise pick ranges that do not overlap.`"

@@ -21,6 +21,8 @@ Issues are listed in this order.
 | [`addr:<host>:<address>`](#addr) | `error` | `ansible/inventory` |
 | [`empty-child:<inventory>:<group>:<child>`](#empty-child) | `warning` | `ansible/inventory` |
 | [`override:<inventory>:<host>:<key>:<group>`](#override) | `warning` | `ansible/inventory` |
+| [`shared-addr:<address>`](#shared-addr) | `warning` | `ansible/inventory` |
+| [`range-overlap:<component>:<field>:<other component>:<other field>`](#range-overlap) | `warning` | any component with a `cidr` field |
 | [`gv-layouts:<group>`](#gv-layouts) | `warning` | `ansible/group-vars` |
 | [`gv-group:<group-vars>`](#gv-group) | `warning` | `ansible/group-vars`, `ansible/inventory` |
 | [`gv-shadow:<group-vars>:<inventory>:<key>`](#gv-shadow) | `warning` | `ansible/group-vars`, `ansible/inventory` |
@@ -32,7 +34,7 @@ Issues are listed in this order.
 | [`ext-roles:<playbook>`](#ext-roles) | `info` | `ansible/playbook` |
 | [`not-imported:<playbook>`](#not-imported) | `info` | `ansible/playbook`, `ansible/site` |
 
-In ID patterns, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>` and `<ingress>` are the dashboard's internal component IDs.
+In ID patterns, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service>`, `<ingress>`, `<component>` and `<other component>` are the dashboard's internal component IDs.
 
 ## Definitions
 
@@ -41,6 +43,8 @@ In ID patterns, `<inventory>`, `<group-vars>`, `<playbook>`, `<site>`, `<service
 | Inventory entries | The parsed `hosts` field of an `ansible/inventory` component. See [Components](components.md#hosts) |
 | Known groups | `all`, `ungrouped`, and every `group` and `children` name in every inventory |
 | Addressed hosts | Host names that have an `ansible_host` in any inventory |
+| Normalised address | An `ansible_host` that is an IPv4 or IPv6 address, in canonical form (IPv6 compressed and lowercase); any other value lowercased |
+| Range fields | Non-empty fields whose registry [`format`](registry-item-format.md#field) is `cidr` and whose value is a valid range |
 | Group of a group-vars component | Its `group` field, else its component name |
 | Plays | The parsed `plays` field of an `ansible/playbook` component, else one play from its `hosts` and `roles` fields |
 | Play targets | The play's `hosts` split on `:` and `,`, trimmed, with a leading `!` or `&` removed, empty parts dropped |
@@ -94,6 +98,24 @@ Checks that compare against the inventory ([`gv-group`](#gv-group), [`play-hosts
 | Trigger | A host sets `ansible_user` or `ansible_port` to a non-empty value, and its group or an ancestor group sets the same key in `vars` to a different value |
 | Title | `<host> sets <key>=<host value>, overriding [<group>:vars] <key>=<group value>` |
 | Detail | `Host vars win over group vars. Clear <key> on the host if the group value is the one you want.` |
+
+## `shared-addr`
+
+| | |
+|-|-|
+| Severity | `warning` |
+| Trigger | Two or more different host names have the same normalised address, in one or several inventories. One issue per address |
+| Title | `<count> hosts share the address <address>: <hosts>` |
+| Detail | `Different host names pointing at one machine run the same plays on it twice. Give each host its own address, or keep a single host.` |
+
+## `range-overlap`
+
+| | |
+|-|-|
+| Severity | `warning` |
+| Trigger | Range fields of two different components overlap, that is one range contains the first address of the other. One issue per pair of fields |
+| Title | `<first name> (<first range>) and <second name> (<second range>) use overlapping networks` |
+| Detail | `Overlapping private networks cannot be peered or routed to each other. Fine if they never need to talk; otherwise pick ranges that do not overlap.` |
 
 ## `gv-layouts`
 

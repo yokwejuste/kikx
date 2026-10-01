@@ -7,6 +7,20 @@ variable "hcloud_token" {
 provider "hcloud" {
   token = var.hcloud_token
 }
+{%- if private_network %}
+
+resource "hcloud_network" "{{ name }}" {
+  name     = "{{ name }}-network"
+  ip_range = "{{ private_network }}"
+}
+
+resource "hcloud_network_subnet" "{{ name }}" {
+  network_id   = hcloud_network.{{ name }}.id
+  type         = "cloud"
+  network_zone = "{{ network_zone }}"
+  ip_range     = "{{ private_network }}"
+}
+{%- endif %}
 
 resource "hcloud_server" "{{ name }}" {
   count       = {{ count }}
@@ -14,4 +28,12 @@ resource "hcloud_server" "{{ name }}" {
   location    = "{{ region }}"
   server_type = "{{ size }}"
   image       = "{{ os_image }}"
+{%- if private_network %}
+
+  network {
+    network_id = hcloud_network.{{ name }}.id
+  }
+
+  depends_on = [hcloud_network_subnet.{{ name }}]
+{%- endif %}
 }

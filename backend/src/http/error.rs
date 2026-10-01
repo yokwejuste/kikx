@@ -26,9 +26,9 @@ impl IntoResponse for ApiError {
             OpsErrorKind::NotInitialized => (StatusCode::NOT_FOUND, "not_initialized"),
             OpsErrorKind::NotFound => (StatusCode::NOT_FOUND, "not_found"),
             OpsErrorKind::AlreadyExists => (StatusCode::CONFLICT, "already_exists"),
-            OpsErrorKind::InvalidComponent | OpsErrorKind::MissingField => {
-                (StatusCode::BAD_REQUEST, "invalid_request")
-            }
+            OpsErrorKind::InvalidComponent
+            | OpsErrorKind::MissingField
+            | OpsErrorKind::InvalidField => (StatusCode::BAD_REQUEST, "invalid_request"),
             OpsErrorKind::Io | OpsErrorKind::Other => {
                 (StatusCode::INTERNAL_SERVER_ERROR, "internal")
             }
