@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 17:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Change project settings in the app"
+msgstr "Modifier les paramètres du projet dans l'app"
+
+msgid "A project in the app has three settings: its name, a default Kubernetes namespace and an output directory. You set the name when you start the project. This guide shows how to change the other two, how to get back to the home page, and how to start over."
+msgstr "Dans l'app, un projet a trois paramètres : son nom, un namespace Kubernetes par défaut et un dossier de sortie. Vous fixez le nom au démarrage du projet. Ce guide montre comment modifier les deux autres, comment revenir à la page d'accueil et comment repartir de zéro."
+
+msgid "Change the default namespace or the output directory"
+msgstr "Modifier le namespace par défaut ou le dossier de sortie"
+
+msgid "The builder header shows two badges next to the project name, for example `ns: default` and `infra/`."
+msgstr "L'en-tête du constructeur affiche deux badges à côté du nom du projet, par exemple `ns: default` et `infra/`."
+
+msgid "Click either badge. The **Project settings** dialog opens, with the cursor in the field you clicked."
+msgstr "Cliquez sur l'un des badges. La boîte de dialogue **Paramètres du projet** s'ouvre, avec le curseur dans le champ correspondant."
+
+msgid "Change **Default Kubernetes namespace**, **Output directory**, or both. Neither can be empty."
+msgstr "Modifiez **Namespace Kubernetes par défaut**, **Dossier de sortie**, ou les deux. Aucun ne peut être vide."
+
+msgid "Click **Save**, or **Cancel** to leave both as they were."
+msgstr "Cliquez sur **Enregistrer**, ou sur **Annuler** pour les laisser tels quels."
+
+msgid "The badges show the new values straight away."
+msgstr "Les badges affichent immédiatement les nouvelles valeurs."
+
+msgid "What changes for existing and new components"
+msgstr "Ce qui change pour les composants existants et nouveaux"
+
+msgid "**Output directory** applies to the whole project at once. It's the folder your files go into inside the `.zip`, and the `output_dir` the zip's `kikx.toml` and the preset carry. The **Project** panel summary shows the new folder. You don't need to save any component again."
+msgstr "Le **Dossier de sortie** s'applique à tout le projet d'un coup. C'est le dossier où vont vos fichiers dans le `.zip`, et l'`output_dir` que portent le `kikx.toml` du zip et le preset. Le résumé du panneau **Projet** affiche le nouveau dossier. Vous n'avez besoin de réenregistrer aucun composant."
+
+msgid "**Default Kubernetes namespace** works differently, because each component is rendered when you save it:"
+msgstr "Le **Namespace Kubernetes par défaut** fonctionne autrement, car chaque composant est généré au moment où vous l'enregistrez :"
+
+msgid "components already in the project keep the namespace they were rendered with;"
+msgstr "les composants déjà présents dans le projet gardent le namespace avec lequel ils ont été générés ;"
+
+msgid "new components use the new namespace;"
+msgstr "les nouveaux composants utilisent le nouveau namespace ;"
+
+msgid "an existing component switches to the new namespace when you open it and click **Save changes** again."
+msgstr "un composant existant passe au nouveau namespace quand vous l'ouvrez et cliquez à nouveau sur **Enregistrer**."
+
+msgid "When the project already has components, the dialog reminds you of this under the field as soon as you type a different namespace."
+msgstr "Quand le projet contient déjà des composants, la boîte de dialogue vous le rappelle sous le champ dès que vous saisissez un autre namespace."
+
+msgid "A Kubernetes component whose own **Namespace** field is filled in always uses that value. Leave the field empty to follow the project default."
+msgstr "Un composant Kubernetes dont le champ **Namespace** est rempli utilise toujours cette valeur. Laissez le champ vide pour suivre la valeur par défaut du projet."
+
+msgid "The **Files (.zip)** export contains the files exactly as they were rendered, so an existing component you haven't saved again still has the old namespace there."
+msgstr "L'export **Fichiers (.zip)** contient les fichiers exactement tels qu'ils ont été générés : un composant existant que vous n'avez pas réenregistré y garde donc l'ancien namespace."
+
+msgid "A preset is different. It stores the project namespace and each component's field values, not the rendered files. When you reopen the preset in the app, or run it with `kikx setup` or `kikx apply`, every component is rendered again with the new namespace."
+msgstr "Un preset est différent. Il stocke le namespace du projet et les valeurs des champs de chaque composant, pas les fichiers générés. Quand vous rouvrez le preset dans l'app, ou le lancez avec `kikx setup` ou `kikx apply`, chaque composant est de nouveau généré avec le nouveau namespace."
+
+msgid "The zip's `kikx.toml` also records the new namespace as `default_namespace`, so later `kikx add` commands use it. See [`kikx.toml`](../reference/configuration.md#kikxtoml)."
+msgstr "Le `kikx.toml` du zip enregistre aussi le nouveau namespace dans `default_namespace`, si bien que les commandes `kikx add` suivantes l'utilisent. Voir [`kikx.toml`](../reference/configuration.md#kikxtoml)."
+
+msgid "[Start the Kubernetes lesson](teach:kubernetes) to see the namespace badge in use."
+msgstr "[Lancez la leçon Kubernetes](teach:kubernetes) pour voir le badge du namespace en action."
+
+msgid "Go back to the home page"
+msgstr "Revenir à la page d'accueil"
+
+msgid "Click **Home** at the right of the builder header. Your project stays saved in this browser, and the home page shows a card at the top: **Continue** followed by the project name, with how many components it has. Click **Continue** to return to the builder where you left it."
+msgstr "Cliquez sur **Accueil** à droite de l'en-tête du constructeur. Votre projet reste enregistré dans ce navigateur, et la page d'accueil affiche une carte en haut : **Reprendre** suivi du nom du projet, avec son nombre de composants. Cliquez sur **Reprendre** pour retrouver le constructeur là où vous l'avez laissé."
+
+msgid "Start over"
+msgstr "Repartir de zéro"
+
+msgid "You can only keep one project at a time in the app. Starting a new one replaces it."
+msgstr "L'app ne conserve qu'un projet à la fois. En démarrer un nouveau le remplace."
+
+msgid "To discard the current project without starting another:"
+msgstr "Pour abandonner le projet actuel sans en démarrer un autre :"
+
+msgid "On the home page, click the close icon (**×**) on the **Continue** card."
+msgstr "Sur la page d'accueil, cliquez sur l'icône de fermeture (**×**) de la carte **Reprendre**."
+
+msgid "The card asks **Discard** followed by the project name, and says that its components and unsaved drafts are removed from this browser."
+msgstr "La carte demande **Abandonner** suivi du nom du projet, et précise que ses composants et brouillons non enregistrés seront supprimés de ce navigateur."
+
+msgid "Click **Discard**, or **Keep** to change your mind."
+msgstr "Cliquez sur **Abandonner**, ou sur **Conserver** si vous changez d'avis."
+
+msgid "A notification confirms the project was discarded. There's no undo, so export the project first if you might want it back. See [Export and reopen a project in the app](export-and-reopen-web.md)."
+msgstr "Une notification confirme l'abandon du projet. Il n'y a pas de retour en arrière : exportez d'abord le projet si vous pourriez en avoir besoin. Voir [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
+
+msgid "These also replace the current project, without asking:"
+msgstr "Ces actions remplacent aussi le projet actuel, sans confirmation :"
+
+msgid "clicking **Start building** under **Blank project**;"
+msgstr "cliquer sur **Commencer** sous **Projet vierge** ;"
+
+msgid "clicking a card under **Start from a template**;"
+msgstr "cliquer sur une carte sous **Partir d'un modèle** ;"
+
+msgid "opening a file with **Open a preset**."
+msgstr "ouvrir un fichier avec **Ouvrir un preset**."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Edit components in the app](edit-components-web.md)"
+msgstr "[Modifier des composants dans l'app](edit-components-web.md)"
+
+msgid "[Configuration](../reference/configuration.md)"
+msgstr "[Configuration](../reference/configuration.md)"
