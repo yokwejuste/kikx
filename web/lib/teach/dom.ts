@@ -1,6 +1,7 @@
 import { siteHeaderBottom } from "@/lib/layout/site-header";
 import { readNumber, TOKENS } from "@/lib/theme/tokens";
 
+const MOUSE_POINTER_ID = 1;
 const CAPTION_CLEARANCE = 200;
 
 type EditorElement = HTMLElement & { value: string };
@@ -59,6 +60,7 @@ function pointerInit(element: Element, buttons: number): PointerEventInit {
     buttons,
     clientX: rect.left + rect.width / 2,
     clientY: rect.top + rect.height / 2,
+    pointerId: MOUSE_POINTER_ID,
     pointerType: "mouse",
     isPrimary: true,
   };
