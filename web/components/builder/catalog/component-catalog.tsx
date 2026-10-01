@@ -140,6 +140,7 @@ export function ComponentCatalog({
               </ul>
               {advanced.length > 0 && !inUse && (
                 <button
+                  data-teach={`more-${stage.id}`}
                   type="button"
                   aria-expanded={showAdvanced}
                   aria-controls={advancedId}

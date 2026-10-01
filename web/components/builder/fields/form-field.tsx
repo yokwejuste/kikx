@@ -24,7 +24,7 @@ export function FormField({
         {label}
         <HelpTip term={help} className="-my-1" />
       </FieldLabel>
-      <Input aria-invalid={!!error} {...registration} {...inputProps} />
+      <Input data-teach={`field-${registration.name}`} aria-invalid={!!error} {...registration} {...inputProps} />
       {description && <p className="text-xs text-muted-foreground">{description}</p>}
       <FieldError errors={[error]} />
     </Field>

@@ -58,7 +58,7 @@ export function PlaysFields({
       </ol>
       <FieldError errors={[errors.plays]} />
 
-      <Button type="button" variant="outline" size="sm" className="w-fit" onClick={() => plays.append(emptyPlay())}>
+      <Button data-teach="add-play" type="button" variant="outline" size="sm" className="w-fit" onClick={() => plays.append(emptyPlay())}>
         <Plus />
         {t("add")}
       </Button>
