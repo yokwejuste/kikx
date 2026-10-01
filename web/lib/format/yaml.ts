@@ -1,6 +1,6 @@
 import { parseDocument, type ErrorCode } from "yaml";
 
-export type YamlReason =
+type YamlReason =
   | "duplicateKey"
   | "tabIndent"
   | "badIndent"

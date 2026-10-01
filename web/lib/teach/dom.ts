@@ -32,7 +32,7 @@ export function findElement(selector: string, text?: string, visible = true): HT
   return null;
 }
 
-export function findVisible(selector: string, text?: string): HTMLElement | null {
+function findVisible(selector: string, text?: string): HTMLElement | null {
   return findElement(selector, text);
 }
 

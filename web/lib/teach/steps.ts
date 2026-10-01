@@ -47,12 +47,6 @@ export const type = (
   value: TextRef,
   options: Narration & { enter?: boolean; instant?: boolean } = {},
 ): LessonStep => ({ kind: "type", target, value, ...options });
-export const choose = (target: Target, value: TextRef, options: Narration = {}): LessonStep => ({
-  kind: "choose",
-  target,
-  value,
-  ...options,
-});
 export const key = (name: string): LessonStep => ({ kind: "key", key: name });
 export const run = (command: TextRef, options: Narration = {}): LessonStep => ({ kind: "run", command, ...options });
 export const exportPreset = (preset: TextRef, options: Narration = {}): LessonStep => ({ kind: "export", preset, ...options });

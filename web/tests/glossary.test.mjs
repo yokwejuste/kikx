@@ -7,7 +7,7 @@ function read(path) {
 }
 
 function glossaryPages() {
-  const block = read("../lib/glossary/terms.ts").match(/export const GLOSSARY = \{([^}]*)\}/)[1];
+  const block = read("../lib/glossary/terms.ts").match(/const GLOSSARY = \{([^}]*)\}/)[1];
   return Object.fromEntries([...block.matchAll(/(\w+): "([^"]+)"/g)].map(([, term, page]) => [term, page]));
 }
 

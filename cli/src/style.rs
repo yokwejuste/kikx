@@ -8,8 +8,7 @@ const VOLT_ANSI256: Ansi256Color = Ansi256Color(191);
 
 fn supports_truecolor() -> bool {
     std::env::var("COLORTERM")
-        .map(|value| matches!(value.to_ascii_lowercase().as_str(), "truecolor" | "24bit"))
-        .unwrap_or(false)
+        .is_ok_and(|value| matches!(value.to_ascii_lowercase().as_str(), "truecolor" | "24bit"))
 }
 
 fn volt_color() -> Color {

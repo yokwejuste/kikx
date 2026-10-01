@@ -134,6 +134,7 @@ cd cli && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && ca
 
 cd backend && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
 cd backend/core && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targets && cargo fmt --check
+cargo machete
 
 cd web && npm install && npx tsc --noEmit && npm run lint && npm run build
 ```

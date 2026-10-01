@@ -21,8 +21,7 @@ pub fn apply_bundle(target_dir: &Path, params: ApplyParams) -> Result<ApplyOutco
     let default_namespace = manifest
         .project
         .as_ref()
-        .map(|p| p.namespace.clone())
-        .unwrap_or_else(config::default_namespace);
+        .map_or_else(config::default_namespace, |p| p.namespace.clone());
     let rendered = render_manifest(&manifest, &default_namespace)?;
 
     let base = match &params.into {

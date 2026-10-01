@@ -14,13 +14,13 @@ export const REFERENCES = {
 
 export const SERVER_CATEGORY = "terraform";
 
-export type FixedKind = keyof typeof REFERENCES;
+type FixedKind = keyof typeof REFERENCES;
 
 export type ComponentKind = FixedKind | "server";
 
 export const K8S_KINDS = new Set<ComponentKind>(["deployment", "service", "ingress"]);
 
-export function isServerReference(reference: string): boolean {
+function isServerReference(reference: string): boolean {
   return reference.startsWith(`${SERVER_CATEGORY}/`);
 }
 
