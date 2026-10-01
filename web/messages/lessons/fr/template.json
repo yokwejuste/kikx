@@ -1,30 +1,71 @@
 {
-  "title": "Partir d'un modèle",
-  "description": "Ouvrez un projet tout prêt, faites le tour et voyez comment l'adapter.",
+  "title": "Explorer un modèle",
+  "description": "Ouvrez un projet tout prêt, lisez-le étape par étape, suivez-le sur le schéma, modifiez une valeur et regardez les fichiers se mettre à jour.",
   "outcomes": [
-    "Ouvrir un modèle et voir ce qu'il contient",
-    "Modifier n'importe lequel de ses composants",
-    "Le vérifier et l'exporter"
+    "Lire une carte de modèle et savoir ce qu'elle va ajouter",
+    "Retrouver n'importe quel composant et ses fichiers depuis le panneau du projet",
+    "Ouvrir des composants depuis le schéma d'architecture",
+    "Modifier une valeur, suivre l'aperçu et l'enregistrer"
   ],
   "chapters": {
-    "open": "Ouvrir un modèle",
+    "choose": "Choisir un modèle",
+    "project": "Lire le projet",
+    "architecture": "Suivre le schéma",
+    "edit": "L'adapter",
     "review": "Vérifier et exporter"
   },
-  "recap": [
-    "Les modèles sont des projets complets à adapter.",
-    "Chaque composant reste modifiable, avec un aperçu en direct.",
-    "Vérifications et Architecture donnent la vue d'ensemble avant d'exporter."
-  ],
   "steps": {
-    "intro": "Les modèles sont des projets complets que vous pouvez ouvrir et adapter. Ouvrons-en un.",
-    "open": "Chaque carte indique les étapes couvertes par le modèle. Prenons le premier.",
-    "project": "Tout ce que le modèle a ajouté est listé ici, regroupé par étape.",
-    "edit": "Ouvrez n'importe quel composant pour le modifier.",
-    "preview": "Le formulaire contient ses réglages, et l'aperçu montre les fichiers qu'il écrit.",
-    "checks": "Vérifications confirme que le modèle est cohérent avant toute modification.",
-    "diagram": "Architecture montre comment les parties se connectent : serveurs, groupes, plays et services.",
-    "build": "Retour à l'éditeur.",
-    "export": "Exporter emporte tout le projet : fichiers simples, preset ou commande CLI.",
-    "done": "À vous : ouvrez un modèle pour de vrai, ou construisez le vôtre de zéro."
+    "intro": "Un modèle est un projet complet et fonctionnel, dont on part au lieu d'une page blanche. Ouvrons-en un et décortiquons-le, pour savoir exactement ce qu'il contient et comment le modifier.",
+    "gallery": "Les modèles se trouvent sur la page d'accueil. Ils sont fournis par le backend de kikx : la liste s'enrichit à chaque nouveau modèle, et la CLI lit exactement la même.",
+    "card": "Chaque carte décrit ce que le modèle construit. Les badges indiquent les étapes couvertes : Provisionner crée les serveurs, Inventaire les liste, Configurer les prépare avec Ansible. Celui-ci couvre les trois.",
+    "count": "La dernière ligne donne l'identifiant du modèle, celui qu'on passe à la CLI, et le nombre de composants ajoutés. Sept composants, ce sont sept éléments à ouvrir et modifier.",
+    "open": "Ouvrir un modèle le copie dans un nouveau projet. Plus aucun lien avec le modèle : désormais, chaque fichier vous appartient.",
+    "panel": "Le panneau du projet liste tout ce que le modèle a ajouté, regroupé par étape dans l'ordre de construction : provisionner, puis l'inventaire, puis la configuration.",
+    "provision": "Provisionner contient le droplet DigitalOcean. C'est du code Terraform qui crée le serveur lui-même, avant même qu'Ansible n'y touche.",
+    "files": "La flèche à côté d'un composant liste les fichiers qu'il écrit. La plupart en écrivent un seul ; un rôle écrit tout un dossier.",
+    "viewFile": "Cliquez sur un fichier pour le lire sans quitter l'éditeur.",
+    "fileDialog": "Voici exactement ce que kikx écrira dans votre dossier de projet. Ici, il est en lecture seule : on le modifie via le formulaire du composant, et le fichier suit.",
+    "inventoryStage": "Inventaire contient la liste des serveurs et leurs group vars : les réglages partagés par tous les serveurs du groupe app, comme le port sur lequel l'application écoute.",
+    "configureStage": "Configurer regroupe la partie Ansible : le fichier de configuration, le rôle common, le playbook bootstrap, et site.yml, le point d'entrée unique qui lance le tout.",
+    "openGroupVars": "À vous : ouvrez le composant group vars depuis le panneau du projet.",
+    "groupVarsForm": "Le formulaire présente les réglages sous forme de clés et de valeurs. Tous les serveurs du groupe les reçoivent : on change un port une fois, pas serveur par serveur.",
+    "diagram": "Voyons maintenant le même projet en image. Architecture dessine chaque composant et leurs relations.",
+    "lanes": "Chaque couloir est une étape : provisionnement, inventaire, playbooks et rôles. Survolez un nœud : tout ce qu'il touche s'éclaire, le reste s'estompe.",
+    "edges": "Une flèche n'apparaît que si kikx trouve un vrai lien dans vos valeurs. Ici, le playbook cible le groupe app et lance le rôle common.",
+    "nodeClick": "Un nœud sert aussi de raccourci : un clic ouvre le composant dans l'éditeur.",
+    "playbookOpen": "Et voilà : le playbook est ouvert, prêt à être modifié. Inutile de le chercher dans le panneau.",
+    "backToDiagram": "Retour au schéma.",
+    "openRole": "À vous : cliquez sur le rôle common dans le schéma pour l'ouvrir.",
+    "timezone": "Le rôle common prépare chaque serveur : paquets de base, fuseau horaire, swap et message d'accueil. Son fuseau horaire est UTC pour l'instant.",
+    "currentLine": "Voici où atterrit cette valeur, dans le fichier de tâches du rôle. L'aperçu utilise les mêmes gabarits que la CLI.",
+    "changeTimezone": "À vous : passez le fuseau horaire à Europe/Paris et regardez l'aperçu.",
+    "changedLine": "L'aperçu a rendu la nouvelle ligne aussitôt. Rien n'est encore enregistré : vous pouvez essayer des valeurs librement et revenir en arrière.",
+    "save": "Enregistrez la modification pour la garder dans le projet.",
+    "checks": "Avant d'exporter, ouvrez Vérifications. Elles lisent tous les composants ensemble et cherchent ce qui ne concorde pas.",
+    "checksWhy": "Ce modèle est propre. Si vous renommiez le groupe app sans ses group vars, ou si un playbook visait un groupe inexistant, les Vérifications vous le signaleraient ici.",
+    "export": "Quand tout vous convient, Exporter emporte le projet.",
+    "exportOptions": "Trois sorties possibles : les fichiers en zip, un preset qui rouvre ce projet tel quel plus tard, ou la commande CLI qui le génère sur votre machine.",
+    "done": "Vous avez ouvert un modèle, l'avez lu étape par étape, suivi sur le schéma, modifié une valeur et vérifié. Continuez à adapter celui-ci, ou lancez le vôtre."
+  },
+  "checks": {
+    "groupVarsOpen": "Le composant group vars est ouvert",
+    "roleOpen": "Le rôle common est ouvert",
+    "typed": "Le champ fuseau horaire affiche la nouvelle valeur",
+    "previewed": "L'aperçu montre le nouveau fuseau horaire"
+  },
+  "recap": [
+    "Les cartes de modèle indiquent les étapes couvertes et le nombre de composants obtenus.",
+    "Le panneau du projet regroupe les composants par étape et montre les fichiers que chacun écrit.",
+    "Architecture montre les vrais liens entre composants ; un clic sur un nœud l'ouvre.",
+    "Chaque modification s'affiche en direct dans l'aperçu ; enregistrez pour la garder.",
+    "Les Vérifications repèrent les liens cassés avant l'export."
+  ],
+  "demo": {
+    "template": "single-server",
+    "groupVars": "group_vars/app",
+    "playbook": "bootstrap",
+    "role": "common",
+    "current": "UTC",
+    "timezone": "Europe/Paris"
   }
 }

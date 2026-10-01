@@ -42,6 +42,7 @@ export function ComponentRow({
     <li className={cn("group rounded-lg", active && "bg-volt-soft text-volt-soft-foreground")}>
       <div className="flex items-center gap-1 pr-1">
         <button
+          data-teach="component-files"
           type="button"
           aria-label={open ? t("hideFiles") : t("showFiles")}
           aria-expanded={open}
@@ -88,6 +89,7 @@ export function ComponentRow({
           {component.files.map((file) => (
             <li key={file.fileName}>
               <button
+                data-teach="component-file"
                 type="button"
                 onClick={() => onView(file)}
                 className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-muted-foreground hover:bg-muted/60 hover:text-foreground"

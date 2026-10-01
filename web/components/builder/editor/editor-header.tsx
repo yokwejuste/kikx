@@ -35,7 +35,7 @@ export function EditorHeader({
       <div className="flex min-w-0 gap-3">
         <IconTile icon={Icon} size="lg" />
         <div className="min-w-0">
-          <h2 className="truncate text-sm font-medium">
+          <h2 data-teach="editor-title" className="truncate text-sm font-medium">
             {editing
               ? t.rich("editing", {
                   label: entry.label,
