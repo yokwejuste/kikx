@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ComponentFormFields } from "@/components/builder/editor/component-form-fields";
 import type { FormContext } from "@/components/builder/editor/form-context";
 import { EditorHeader } from "@/components/builder/editor/editor-header";
+import { EditorIssues, type EditorChecks } from "@/components/builder/editor/editor-issues";
 import { SaveBar } from "@/components/builder/editor/save-bar";
 import { FileConflictDialog } from "@/components/builder/conflicts/file-conflict-dialog";
 import { YamlPreview } from "@/components/builder/preview/yaml-preview";
@@ -25,6 +26,7 @@ import { api } from "@/lib/api/client";
 import { componentId, useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
 import { defaultsFor, recipeToFormValues, schemas, toRenderRequest, type FormValues } from "@/lib/forms/component-forms";
 import { toPresetComponent, type PresetComponent } from "@/lib/project/preset";
+import { describeComponent, nextCatalogKind, type CatalogKind } from "@/lib/registry/catalog";
 import type { ComponentKind } from "@/lib/registry/references";
 import { projectDefaults } from "@/lib/registry/store";
 
@@ -32,21 +34,25 @@ export function ComponentEditor({
   kind,
   editing,
   context,
+  checks,
   onSaved,
   onStartNew,
+  onNext,
 }: {
   kind: ComponentKind;
   editing: AddedComponent | null;
   context: FormContext;
+  checks: EditorChecks;
   onSaved: (id: string) => void;
   onStartNew: () => void;
+  onNext: (kind: CatalogKind) => void;
 }) {
   const t = useTranslations("editor");
   const format = useFormatter();
   const text = useCatalogText();
   const errorText = useErrorText();
   const validationText = useValidationText();
-  const { details, saveComponent, findConflicts } = useProject();
+  const { details, components, saveComponent, findConflicts } = useProject();
   const namespace = details?.namespace ?? projectDefaults().defaultNamespace;
 
   const [initial] = useState<FormValues>(() => {
@@ -69,10 +75,12 @@ export function ComponentEditor({
     draft.settle();
     const displaced = saveComponent(recipe, files, editing?.id);
     const { title } = text.describe(recipe);
+    const next = editing ? null : nextCatalogKind(kind, components.map((c) => describeComponent(c.recipe).kind));
     toast.success(editing ? t("toasts.saved", { title }) : t("toasts.added", { title }), {
       description: displaced.length
         ? t("toasts.replaced", { count: displaced.length })
         : t("toasts.files", { count: files.length }),
+      action: next ? { label: t("toasts.next", { label: text.entry(next).label }), onClick: () => onNext(next) } : undefined,
     });
     onSaved(componentId(recipe));
   };
@@ -111,6 +119,7 @@ export function ComponentEditor({
       }}
     >
       <EditorHeader kind={kind} editing={editing} previewFiles={preview.files} onStartNew={onStartNew} />
+      {editing && <EditorIssues checks={checks} currentId={editing.id} />}
 
       {draft.restoredAt !== null && (
         <div className="flex flex-wrap items-center gap-2 border-b bg-muted/40 px-6 py-2.5 text-sm">

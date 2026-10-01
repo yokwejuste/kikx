@@ -17,6 +17,7 @@ import {
 import { groupVarsPath } from "@/lib/ansible/group-vars";
 import type { PresetComponent } from "@/lib/project/preset";
 import { kindForReference, REFERENCES, type ComponentKind } from "@/lib/registry/references";
+import { nextStep } from "@/lib/registry/next-step";
 import { registryItem, writesHint } from "@/lib/registry/store";
 
 export type CatalogKind = ComponentKind | "custom";
@@ -24,6 +25,7 @@ export type CatalogKind = ComponentKind | "custom";
 interface CatalogSlot {
   kind: CatalogKind;
   icon: LucideIcon;
+  advanced?: true;
 }
 
 interface CatalogEntry extends CatalogSlot {
@@ -59,9 +61,9 @@ export const CATALOG: CatalogStage[] = [
       { kind: "playbook", icon: ScrollText },
       { kind: "site", icon: ListOrdered },
       { kind: "role", icon: FolderCog },
-      { kind: "commonrole", icon: Cog },
-      { kind: "ansiblecfg", icon: Settings2 },
-      { kind: "ansible", icon: Rocket },
+      { kind: "commonrole", icon: Cog, advanced: true },
+      { kind: "ansiblecfg", icon: Settings2, advanced: true },
+      { kind: "ansible", icon: Rocket, advanced: true },
     ],
   },
   {
@@ -97,6 +99,19 @@ export function catalogEntry(kind: CatalogKind): CatalogEntry {
 
 export function catalogStage(kind: CatalogKind): CatalogStage {
   return BY_KIND.get(kind)!.stage;
+}
+
+export function stagesForReferences(references: string[]): StageId[] {
+  const present = new Set(references.map((reference) => catalogStage(kindForReference(reference) ?? "custom").id));
+  return CATALOG.map((stage) => stage.id).filter((id) => present.has(id));
+}
+
+const FLOW = CATALOG.filter((stage) => stage.id !== "custom").map((stage) =>
+  stage.entries.filter((slot) => !slot.advanced).map((slot) => slot.kind),
+);
+
+export function nextCatalogKind(added: CatalogKind, present: Iterable<CatalogKind>): CatalogKind | null {
+  return nextStep(FLOW, new Set([...present, added]), added);
 }
 
 export function describeComponent(recipe: PresetComponent): { kind: CatalogKind; kindLabel: string; icon: LucideIcon; title: string } {

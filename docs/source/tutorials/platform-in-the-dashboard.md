@@ -21,20 +21,15 @@ The last step also uses the `kikx` CLI. If you haven't installed it yet,
 ## Open the dashboard
 
 Open the kikx dashboard in your browser. You should see the kikx home page with a form headed
-**Or build it here**. Above it, **Start from a template** offers ready-made projects; in this
+**Blank project**. Above it, **Start from a template** offers ready-made projects; in this
 tutorial you'll start from an empty one instead.
 
 To work on kikx itself with a local copy of the dashboard, see [Run kikx locally](../contributing/run-locally.md).
 
 ## Create the project
 
-Fill in the form:
-
-- **Project name**: `platform`
-- **Default namespace**: leave it as `default`
-- **Output directory**: `infra`
-
-Click **Start building**.
+In **Project name**, type `platform` and click **Start building**. The default namespace and output
+directory are filled in for you; you can change either later from the builder.
 
 You're now in the builder. It has three columns: the stages on the left (Provision, Inventory,
 Configure, Deploy, Custom), the editor in the middle, and the **Project** panel on the right, which
@@ -44,7 +39,8 @@ larger project:
 ![The builder: stages on the left, the editor in the middle, the project on the right](../images/builder-light.png)
 
 Above the columns you see the project name, the badges `ns: default` and `infra/`, and three tabs:
-**Build**, **Architecture** and **Checks**.
+**Build**, **Architecture** and **Checks**. Click either badge to change the default namespace or
+the output directory. This tutorial keeps both as they are.
 
 ## Import an inventory
 
@@ -203,7 +199,7 @@ Click **Add to project**. The **Project** panel now reads **4 components · 4 fi
 The playbook lives in `playbooks/`, and its roles will live in `roles/` at the top of `infra/`.
 Ansible looks for roles next to the playbook, so it needs an `ansible.cfg` that points at them.
 
-Under **Configure**, click **Ansible config**. The editor switches to **New ansible config**, and
+Under **Configure**, click **Show more**, then **Ansible config**. The editor switches to **New ansible config**, and
 **Name** already says `ansible`.
 
 1. In **Inventory file**, type `platform-inventory.ini`. The field shows it in grey before you type;
@@ -290,8 +286,8 @@ the same view looks like this:
 
 ## Download the project
 
-Click **Download .zip** at the top right. Your browser saves `platform.zip`. Unzip it into an empty
-directory and look inside:
+Open **Export** at the top right and choose **Files (.zip)**. Your browser saves `platform.zip`.
+Unzip it into an empty directory and look inside:
 
 ```bash
 unzip platform.zip -d platform
@@ -359,9 +355,8 @@ playbook: site.yml
 
 ## Download the preset
 
-Go back to the dashboard and the **Build** tab. At the bottom of the **Project** panel, click
-**Download preset**. Your browser saves `platform.kikx-preset.json`, and the button is replaced by
-two commands:
+Go back to the dashboard, open **Export** and choose **Preset (.kikx-preset.json)**. Your browser
+saves `platform.kikx-preset.json`. **Export** > **CLI command** shows the two commands that run it:
 
 ```text
 kikx setup ./platform.kikx-preset.json
