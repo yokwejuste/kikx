@@ -1,17 +1,81 @@
 {
   "title": "Provisionner des serveurs avec Terraform",
-  "description": "Bientôt disponible.",
+  "description": "Décrivez des serveurs cloud sous forme de fichiers Terraform, lisez ce que kikx écrit et voyez comment ces serveurs rejoignent votre inventaire.",
   "outcomes": [
-    "Bientôt disponible."
+    "Savoir quand provisionner et quand s'en passer",
+    "Choisir un fournisseur et remplir région, taille, image et nombre",
+    "Lire le fichier .tf généré ligne par ligne",
+    "Relier les serveurs provisionnés à un inventaire et les voir dans Architecture"
   ],
   "chapters": {
-    "start": "Provisionner des serveurs avec Terraform"
+    "start": "Pourquoi provisionner d'abord",
+    "server": "Décrire un serveur",
+    "file": "Lire le fichier Terraform",
+    "second": "Un deuxième serveur",
+    "inventory": "Des serveurs à l'inventaire"
+  },
+  "steps": {
+    "intro": "Cette leçon porte sur la toute première étape d'un projet : créer les machines elles-mêmes. Je pilote, et vous prendrez la main deux fois.",
+    "why": "Terraform crée des serveurs chez un fournisseur cloud ; Ansible les configure ensuite. Les machines doivent exister avant qu'on puisse y installer quoi que ce soit, c'est pourquoi le provisionnement vient en premier. Si vos serveurs existent déjà, il suffit de sauter cette étape.",
+    "name": "On part d'un projet vierge.",
+    "start": "Commencer ouvre l'éditeur.",
+    "optional": "Le panneau de départ présente les étapes dans l'ordre. Le provisionnement est marqué facultatif pour la raison évoquée : rien d'autre ne dépend de la création des serveurs par kikx.",
+    "addServer": "Ajoutons un serveur cloud.",
+    "serverName": "Le nom compte plus qu'il n'y paraît. Il devient le nom de la ressource Terraform, le nom du fichier et le préfixe de chaque machine créée par Terraform.",
+    "provider": "Ensuite, le fournisseur : là où le serveur va tourner.",
+    "providerList": "Cette liste n'est pas écrite en dur. Elle reprend chaque élément Terraform du registre kikx : un nouveau fournisseur ajouté au registre apparaît ici sans nouvelle version.",
+    "providerFields": "Chaque fournisseur demande ses propres champs. Changer de fournisseur les réinitialise, car les valeurs de l'un ont rarement un sens chez l'autre.",
+    "region": "La région est le centre de données où tourne le serveur. Choisissez-en une proche de vos utilisateurs pour réduire la latence, ou dans un pays précis quand les données doivent y rester. L'exemple affiché est une valeur acceptée par ce fournisseur.",
+    "size": "La taille est le type de machine : le nombre de processeurs et la mémoire que vous payez. Les noms varient selon le fournisseur, et vous pourrez redimensionner plus tard en changeant cette seule valeur.",
+    "image": "L'image système est l'OS installé au premier démarrage. La liste n'est qu'un raccourci : toute image acceptée par ce fournisseur fonctionne.",
+    "count": "Le nombre indique combien de machines identiques créer à partir de cette description. Une seule suffit pour l'instant.",
+    "preview": "Voici le fichier que kikx génère en direct pendant que vous tapez. C'est du Terraform ordinaire que vous pouvez lire, relire et versionner.",
+    "token": "Le jeton d'API est déclaré comme variable sensible et n'est jamais écrit dans le fichier. Vous le fournissez au moment de l'apply, par une variable d'environnement ou un fichier tfvars ignoré par git.",
+    "resource": "Voici le serveur lui-même : une ressource, nommée d'après le composant.",
+    "names": "Chaque machine reçoit le nom du composant suivi de son index, à partir de zéro : ce serveur devient donc web-0. Retenez ce nom, c'est ainsi que l'inventaire le retrouve.",
+    "location": "Et voici la région saisie. Chaque fournisseur la nomme à sa façon, kikx fait la correspondance pour vous.",
+    "add": "Ajoutons le serveur au projet.",
+    "secondWhy": "Un vrai projet a rarement une seule machine. Une base de données vit en général à part des serveurs web, et rien ne vous empêche de la placer chez un autre fournisseur : chaque fichier porte son propre bloc provider et son propre jeton.",
+    "secondTask": "À vous : ajoutez un deuxième serveur cloud nommé db chez DigitalOcean, donnez-lui une région et une taille, puis ajoutez-le. Bloqué ? Appuyez sur Montre-moi.",
+    "rows": "Les deux serveurs font maintenant partie du projet, chacun dans son propre fichier .tf. Terraform lit ensemble tous les fichiers du dossier : un seul apply les crée tous.",
+    "handover": "Terraform crée les machines, mais Ansible doit savoir où elles se trouvent. kikx ne lit pas l'état Terraform : après l'apply, Terraform vous donne l'adresse de chaque serveur, et vous la reportez dans un inventaire.",
+    "addresses": "Nommez chaque hôte comme le fait Terraform, web-0, web-1 et ainsi de suite, et placez-les dans un groupe portant le nom du serveur. kikx s'appuie sur ces noms pour relier les deux.",
+    "inventoryTask": "À vous : ajoutez un inventaire nommé hosts, avec un hôte web-0 à l'adresse 203.0.113.10 dans le groupe web, puis ajoutez-le au projet.",
+    "diagram": "Ouvrons maintenant Architecture pour voir comment kikx relie les éléments.",
+    "serverNode": "Les serveurs provisionnés se trouvent dans la colonne Provisionnement, avec leur région et leur taille en dessous.",
+    "edge": "Cette flèche indique que le serveur web provisionne le groupe web. kikx la trace parce que le groupe porte le nom du serveur et que son hôte, web-0, suit le nommage de Terraform.",
+    "groupNode": "Voici le groupe de votre inventaire, dans la colonne Inventaire, avec son nombre d'hôtes.",
+    "fallback": "Le serveur db n'a pas encore de groupe à lui, alors kikx le relie aux groupes de premier niveau. Ajoutez un groupe db à l'inventaire et la flèche devient précise.",
+    "build": "Retour à l'éditeur.",
+    "done": "Vous connaissez maintenant toute la boucle de provisionnement : décrire les serveurs, lire le Terraform, l'appliquer, puis lister les machines dans un inventaire pour qu'Ansible les configure."
+  },
+  "checks": {
+    "secondAdded": "Un serveur nommé db fait partie du projet",
+    "secondProvider": "Il tourne chez DigitalOcean",
+    "inventoryAdded": "Un inventaire nommé hosts fait partie du projet",
+    "hostListed": "Il contient l'hôte web-0"
   },
   "recap": [
-    "Bientôt disponible."
+    "Le provisionnement est facultatif : sautez-le si vos serveurs existent déjà.",
+    "Les fournisseurs viennent du registre ; chacun demande sa propre région, sa taille et son image.",
+    "Les jetons restent hors du fichier, sous forme de variables sensibles fournies à l'apply.",
+    "Les machines prennent le nom du serveur suivi d'un index, ce qui permet à kikx de les relier aux groupes de l'inventaire.",
+    "Architecture montre chaque serveur dans la colonne Provisionnement et trace ce qu'il provisionne."
   ],
-  "steps": {
-    "intro": "Bientôt disponible.",
-    "done": "Bientôt disponible."
+  "demo": {
+    "server": "web",
+    "provider": "Hetzner",
+    "region": "fsn1",
+    "size": "cx22",
+    "token": "hcloud_token",
+    "resource": "resource \"hcloud_server\"",
+    "second": "db",
+    "secondProvider": "DigitalOcean",
+    "secondRegion": "ams3",
+    "secondSize": "s-1vcpu-2gb",
+    "inventory": "hosts",
+    "host": "web-0",
+    "address": "203.0.113.10",
+    "group": "web"
   }
 }
