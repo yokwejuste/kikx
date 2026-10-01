@@ -14,7 +14,7 @@ export function TagInputField({
       control={form.control}
       name={name as never}
       render={({ field }) => (
-        <TagInput value={(field.value as string[] | undefined) ?? []} onChange={field.onChange} {...props} />
+        <TagInput value={(field.value as string[] | undefined) ?? []} onChange={field.onChange} name={name} {...props} />
       )}
     />
   );

@@ -300,6 +300,15 @@
   --xy-controls-button-border-color: var(--border);
   --xy-minimap-background-color: var(--card);
   --xy-minimap-mask-background-color: var(--flow-mask);
+  --xy-attribution-background-color: transparent;
+}
+
+.kikx-flow .react-flow__attribution a {
+  color: var(--muted-foreground);
+}
+
+.kikx-flow .react-flow__attribution a:hover {
+  color: var(--foreground);
 }
 
 .react-flow__edge-path.kikx-edge {

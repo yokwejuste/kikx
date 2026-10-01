@@ -13,6 +13,7 @@ export function TagInput({
   invalid,
   ordered,
   className,
+  name,
   "aria-label": ariaLabel,
 }: {
   value: string[];
@@ -22,6 +23,7 @@ export function TagInput({
   invalid?: boolean;
   ordered?: boolean;
   className?: string;
+  name?: string;
   "aria-label"?: string;
 }) {
   const t = useTranslations("fields");
@@ -102,7 +104,9 @@ export function TagInput({
         ))}
         <input
           ref={inputRef}
+          name={name}
           value={text}
+          autoComplete="off"
           aria-label={ariaLabel}
           aria-autocomplete="list"
           aria-controls={listId}

@@ -37,6 +37,7 @@ function yamlToVars(yaml: string): KeyValue[] | null {
 export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<FormValues>; groupNames: string[] }) {
   const t = useTranslations("groupVars");
   const listId = useId();
+  const groupInputId = useId();
   const errors = form.formState.errors as FieldErrors;
   const mode = ((useWatch({ control: form.control, name: "mode" as never }) as unknown as Mode | undefined) ?? "fields");
   const group = useWatch({ control: form.control, name: "group" as never }) as unknown as string;
@@ -62,8 +63,9 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
   return (
     <>
       <Field data-teach="groupvars-group" data-invalid={!!errors.group} className="max-w-sm">
-        <FieldLabel>{t("group")}</FieldLabel>
+        <FieldLabel htmlFor={groupInputId}>{t("group")}</FieldLabel>
         <RowInput
+          id={groupInputId}
           list={listId}
           placeholder={groupNames[0] ?? "all"}
           invalid={!!errors.group}
@@ -81,6 +83,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
+            name="layout"
             className="size-4 rounded border-input accent-primary"
             checked={layout === "dir"}
             onChange={(e) =>

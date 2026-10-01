@@ -322,6 +322,7 @@ export function TeachOverlay({
                 <Gauge className="size-3.5" />
                 <span className="sr-only">{t("speed")}</span>
                 <select
+                  name="speed"
                   value={view.speed}
                   onChange={(event) => onSpeed(Number(event.target.value))}
                   className="rounded-md bg-transparent py-1 tabular-nums hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"

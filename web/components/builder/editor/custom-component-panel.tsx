@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Eye, PackagePlus, Search } from "lucide-react";
@@ -24,6 +24,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
   const t = useTranslations("custom");
   const errorText = useErrorText();
   const { details, saveComponent } = useProject();
+  const fieldId = useId();
   const [reference, setReference] = useState("");
   const [item, setItem] = useState<RegistryItem | null>(null);
   const [name, setName] = useState("");
@@ -85,6 +86,8 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
       <div className="flex flex-col gap-6">
         <div className="flex gap-2">
           <Input
+            name="reference"
+            aria-label={t("placeholder")}
             placeholder={t("placeholder")}
             value={reference}
             onChange={(e) => setReference(e.target.value)}
@@ -109,16 +112,18 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Field>
-                <FieldLabel>{t("name")}</FieldLabel>
-                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="my-thing" />
+                <FieldLabel htmlFor={`${fieldId}-name`}>{t("name")}</FieldLabel>
+                <Input id={`${fieldId}-name`} name="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="my-thing" />
               </Field>
               {item.fields.map((field) => (
                 <Field key={field.name}>
-                  <FieldLabel>
+                  <FieldLabel htmlFor={`${fieldId}-${field.name}`}>
                     {field.name}
                     {field.required && <span className="text-destructive"> *</span>}
                   </FieldLabel>
                   <Input
+                    id={`${fieldId}-${field.name}`}
+                    name={field.name}
                     value={values[field.name] ?? ""}
                     placeholder={field.default ?? undefined}
                     onChange={(e) => setValues((v) => ({ ...v, [field.name]: e.target.value }))}

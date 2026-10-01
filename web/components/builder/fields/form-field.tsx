@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -19,13 +20,14 @@ export function FormField({
   help?: GlossaryTerm;
   registration: UseFormRegisterReturn;
 } & Omit<React.ComponentProps<"input">, "name" | "onChange" | "onBlur" | "ref">) {
+  const inputId = useId();
   return (
     <Field data-invalid={!!error}>
-      <FieldLabel>
+      <FieldLabel htmlFor={inputId}>
         {label}
         <HelpTip term={help} className="-my-1" />
       </FieldLabel>
-      <Input data-teach={`field-${registration.name}`} aria-invalid={!!error} {...registration} {...inputProps} />
+      <Input id={inputId} data-teach={`field-${registration.name}`} aria-invalid={!!error} {...registration} {...inputProps} />
       {description && <Hint>{description}</Hint>}
       <FieldError errors={[error]} />
     </Field>

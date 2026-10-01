@@ -63,6 +63,7 @@ function RoleConditions({ form, index, play }: { form: UseFormReturn<FormValues>
                     <label key={role} className="grid items-center gap-2 text-xs sm:grid-cols-label-field">
                       <span className="truncate font-mono text-foreground">{role}</span>
                       <Input
+                        name={`${field.name}.${role}`}
                         value={conditions[role] ?? ""}
                         placeholder={t("placeholder")}
                         className="font-mono text-xs"
