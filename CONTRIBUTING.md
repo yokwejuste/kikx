@@ -98,7 +98,7 @@ Link previews use the address the dashboard is served from, read from the reques
 **Docs.** The dashboard image builds the docs and serves them at `/docs/` (French at `/docs/fr/`), so
 there is no separate docs deployment. The image is built from the repository root: in Coolify, set
 the base directory to `/` and the Dockerfile to `/web/Dockerfile`, with watch paths `web/**` and `docs/**`.
-Run `npm run docs` in `web/` to build them into `web/public/docs` for local development.
+`npm run dev` in `web/` builds them into `web/public/docs` when they are missing or older than `docs/`, using `uv`; run `npm run docs` to rebuild them by hand.
 
 | Build variable | Meaning |
 |-|-|

@@ -6,7 +6,7 @@ const cssImports = (text: string) =>
 const config: KnipConfig = {
   entry: ["tests/**/*.test.mjs", "tests/support/*.mjs", "lib/i18n/request.ts"],
   project: ["**/*.{ts,tsx,mjs,css}"],
-  ignoreBinaries: ["make"],
+  ignoreBinaries: ["uv"],
   compilers: { css: cssImports },
 };
 
