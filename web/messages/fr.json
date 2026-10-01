@@ -294,6 +294,8 @@
     "size": "Taille",
     "osImage": "Image système",
     "count": "Nombre",
+    "privateNetwork": "Réseau privé",
+    "networkZone": "Zone réseau",
     "key": "clé",
     "value": "valeur",
     "removeRow": "Supprimer la ligne",
@@ -604,6 +606,14 @@
       },
       "ingressBackend": {
         "title": "L'Ingress {ingress} route vers le service « {backend} », qui n'est pas dans le projet"
+      },
+      "sharedAddress": {
+        "title": "{count} hôtes partagent l'adresse {address} : {hosts}",
+        "detail": "Des noms d'hôte différents qui pointent vers la même machine y exécutent deux fois les mêmes plays. Donnez à chaque hôte sa propre adresse, ou gardez un seul hôte."
+      },
+      "rangeOverlap": {
+        "title": "{first} ({firstRange}) et {second} ({secondRange}) utilisent des réseaux qui se chevauchent",
+        "detail": "Des réseaux privés qui se chevauchent ne peuvent être ni appairés ni routés entre eux. Sans importance s'ils n'ont jamais à communiquer ; sinon, choisissez des plages distinctes."
       }
     }
   },
@@ -783,7 +793,11 @@
     "rolesPathRequired": "Le chemin des rôles est obligatoire",
     "roleNameFormat": "Lettres, chiffres, _ . et - uniquement",
     "fieldRequired": "Ce champ est obligatoire",
-    "providerRequired": "Choisissez un fournisseur"
+    "providerRequired": "Choisissez un fournisseur",
+    "addressRange": "Saisissez une seule adresse, pas une plage : {address}",
+    "ipInvalid": "Saisissez une adresse IPv4 ou IPv6 valide",
+    "cidrInvalid": "Saisissez une plage au format adresse/longueur de préfixe, comme dans l'exemple",
+    "cidrNotNetwork": "Cette plage commence à {network} ; saisissez plutôt cette valeur"
   },
   "errors": {
     "notConfigured": "NEXT_PUBLIC_KIKX_API_URL n'est pas défini. Faites-le pointer vers votre backend kikx (voir web/.env.example).",
@@ -815,14 +829,17 @@
       "title": "Droplet DigitalOcean",
       "description": "Terraform pour un ou plusieurs droplets DigitalOcean",
       "fields": {
-        "os_image": "N'importe quel identifiant d'image accepté par le fournisseur ; la liste n'est qu'un raccourci."
+        "os_image": "N'importe quel identifiant d'image accepté par le fournisseur ; la liste n'est qu'un raccourci.",
+        "private_network": "Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur."
       }
     },
     "hetzner": {
       "title": "Serveur Hetzner Cloud",
       "description": "Terraform pour un ou plusieurs serveurs Hetzner Cloud",
       "fields": {
-        "os_image": "N'importe quel identifiant d'image accepté par le fournisseur ; la liste n'est qu'un raccourci."
+        "os_image": "N'importe quel identifiant d'image accepté par le fournisseur ; la liste n'est qu'un raccourci.",
+        "private_network": "Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur.",
+        "network_zone": "Zone réseau du réseau privé ; elle doit contenir l'emplacement du serveur."
       }
     },
     "ansible": {
@@ -883,6 +900,26 @@
       "multi-tier-platform": {
         "title": "Plateforme multi-niveaux",
         "description": "Une plateforme de boutique en ligne : load balancers en bordure, niveaux web et applicatif, PostgreSQL principal avec réplicas, Redis, supervision et un cluster Kubernetes."
+      }
+    },
+    "aws": {
+      "fields": {
+        "private_network": "Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur."
+      }
+    },
+    "google": {
+      "fields": {
+        "private_network": "Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur."
+      }
+    },
+    "scaleway": {
+      "fields": {
+        "private_network": "Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur."
+      }
+    },
+    "linode": {
+      "fields": {
+        "private_network": "Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur."
       }
     }
   },

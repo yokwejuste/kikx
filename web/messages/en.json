@@ -294,6 +294,8 @@
     "size": "Size",
     "osImage": "OS image",
     "count": "Count",
+    "privateNetwork": "Private network",
+    "networkZone": "Network zone",
     "key": "key",
     "value": "value",
     "removeRow": "Remove row",
@@ -604,6 +606,14 @@
       },
       "ingressBackend": {
         "title": "Ingress {ingress} routes to service \"{backend}\", which isn't in the project"
+      },
+      "sharedAddress": {
+        "title": "{count} hosts share the address {address}: {hosts}",
+        "detail": "Different host names pointing at one machine run the same plays on it twice. Give each host its own address, or keep a single host."
+      },
+      "rangeOverlap": {
+        "title": "{first} ({firstRange}) and {second} ({secondRange}) use overlapping networks",
+        "detail": "Overlapping private networks cannot be peered or routed to each other. Fine if they never need to talk; otherwise pick ranges that do not overlap."
       }
     }
   },
@@ -783,7 +793,11 @@
     "rolesPathRequired": "Roles path is required",
     "roleNameFormat": "Letters, digits, _ . and - only",
     "fieldRequired": "This field is required",
-    "providerRequired": "Choose a provider"
+    "providerRequired": "Choose a provider",
+    "addressRange": "Enter one address, not a range: {address}",
+    "ipInvalid": "Enter a valid IPv4 or IPv6 address",
+    "cidrInvalid": "Enter a range as address/prefix length, like the example",
+    "cidrNotNetwork": "This range starts at {network}; enter that instead"
   },
   "errors": {
     "notConfigured": "NEXT_PUBLIC_KIKX_API_URL is not set. Point it at your kikx backend (see web/.env.example).",
