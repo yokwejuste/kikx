@@ -17,7 +17,8 @@ import { ChecksPanel } from "@/components/builder/project/checks-panel";
 import { GettingStarted } from "@/components/builder/project/getting-started";
 import type { IssueCounts } from "@/components/builder/project/severity";
 import { EmptyProjectStart } from "@/components/builder/start/empty-project-start";
-import { ProjectDiagram } from "@/components/builder/diagram/project-diagram";
+import dynamic from "next/dynamic";
+import { Spinner } from "@/components/common/spinner";
 import { useProject, type AddedComponent } from "@/lib/project/context";
 import { CATALOG, describeComponent, type CatalogKind } from "@/lib/registry/catalog";
 import { loadBuilderState, saveBuilderState } from "@/lib/project/drafts";
@@ -25,8 +26,20 @@ import { checkProject, issuesByComponent } from "@/lib/project/checks";
 import { toPresetComponent } from "@/lib/project/preset";
 import { defaultsFor, type FormValues } from "@/lib/forms/component-forms";
 import { api } from "@/lib/api/client";
-import { useFirstVisitTour } from "@/lib/tour/use-tour";
+import { closeTour, useFirstVisitTour } from "@/lib/tour/use-tour";
 import { usePhoneWarningOpen } from "@/components/builder/phone-warning";
+
+const ProjectDiagram = dynamic(
+  () => import("@/components/builder/diagram/project-diagram").then((module) => module.ProjectDiagram),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[620px] items-center justify-center rounded-xl border">
+        <Spinner className="text-muted-foreground" />
+      </div>
+    ),
+  },
+);
 
 interface Selection {
   kind: CatalogKind;
@@ -62,7 +75,9 @@ export function Dashboard() {
   }, [issues]);
   const context = useMemo(() => buildFormContext(components), [components]);
   const phoneWarningOpen = usePhoneWarningOpen();
-  useFirstVisitTour("builder", Boolean(details) && !phoneWarningOpen);
+  useFirstVisitTour("builder", Boolean(details) && !phoneWarningOpen && view === "build");
+
+  useEffect(() => closeTour, [view]);
 
   useEffect(() => {
     saveBuilderState({ view, kind: selection.kind, editingId: selection.editingId });
