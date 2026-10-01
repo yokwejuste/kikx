@@ -12,7 +12,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint --max-warnings 0",
     "docs": "make -C ../docs html-all && rm -rf public/docs && cp -R ../docs/build/html public/docs",
     "test": "node --test tests/*.test.mjs",
     "lint:unused": "knip"
