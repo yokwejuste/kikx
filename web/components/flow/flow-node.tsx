@@ -2,6 +2,7 @@ import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
 
 export interface FlowNodeData {
   [key: string]: unknown;
@@ -36,7 +37,7 @@ export const FlowNode = memo(function FlowNode({ data }: NodeProps) {
         </div>
         <span className="text-sm font-medium">{label}</span>
       </div>
-      <p className="mt-1.5 text-xs leading-snug text-muted-foreground">{description}</p>
+      <Hint className="mt-1.5 leading-snug">{description}</Hint>
       {handles.source && <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />}
     </div>
   );

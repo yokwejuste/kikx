@@ -15,6 +15,7 @@ import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
 import { downloadProjectZip } from "@/lib/project/archive";
 import { downloadPreset } from "@/lib/project/preset";
 import { recordDownload, type DownloadRecord } from "@/lib/project/downloads";
+import { Hint } from "@/components/common/hint";
 
 function ExportOption({
   icon: Icon,
@@ -32,7 +33,7 @@ function ExportOption({
       <Icon className="mt-0.5 text-muted-foreground" />
       <span className="flex flex-col gap-0.5">
         <span className="font-medium">{title}</span>
-        <span className="text-xs text-muted-foreground">{description}</span>
+        <Hint as="span">{description}</Hint>
       </span>
     </DropdownMenuItem>
   );
@@ -72,7 +73,7 @@ export function ExportMenu({
       <DropdownMenu modal={false}>
         <span title={empty ? t("empty") : undefined} className="inline-flex">
           <DropdownMenuTrigger asChild>
-            <Button data-tour="download" type="button" disabled={empty || zipping}>
+            <Button data-tour="download" disabled={empty || zipping}>
               <Download />
               {zipping ? t("zipping") : t("trigger")}
               <ChevronDown />

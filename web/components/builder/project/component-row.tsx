@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { ChevronRight, FileCode2, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { IconButton } from "@/components/common/icon-button";
 import { SEVERITY } from "@/components/builder/project/severity";
 import { useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
 import type { ProjectIssue } from "@/lib/project/checks";
@@ -67,13 +67,12 @@ export function ComponentRow({
           </span>
           <IssueMark issues={issues} />
         </button>
-        <Button
+        <IconButton
           data-teach="component-remove"
-          type="button"
-          variant="ghost"
-          size="icon-xs"
-          aria-label={t("remove", { title })}
-          className="shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-destructive focus-visible:opacity-100 pointer-coarse:opacity-100"
+          icon={Trash2}
+          size="xs"
+          label={t("remove", { title })}
+          className="shrink-0 opacity-0 group-hover:opacity-100 hover:text-destructive focus-visible:opacity-100 pointer-coarse:opacity-100"
           onClick={() => {
             const removed = removeComponent(component.id);
             if (!removed) return;
@@ -81,9 +80,7 @@ export function ComponentRow({
               action: { label: t("undo"), onClick: () => restoreComponent(removed) },
             });
           }}
-        >
-          <Trash2 />
-        </Button>
+        />
       </div>
       {open && (
         <ul className="mb-1 ml-7 flex flex-col border-l pl-2">

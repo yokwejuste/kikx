@@ -22,6 +22,8 @@ import { useTeach } from "@/components/teach/teach-provider";
 import { LESSONS, lessonMinutes } from "@/lib/teach/lessons";
 import { loadCompleted } from "@/lib/teach/progress";
 import type { LessonIcon, LessonLevel } from "@/lib/teach/types";
+import { Hint } from "@/components/common/hint";
+import { SectionLabel } from "@/components/common/section-label";
 
 const LESSON_ICONS: Record<LessonIcon, LucideIcon> = {
   sparkles: Sparkles,
@@ -52,7 +54,6 @@ export function TeachButton() {
     >
       <DialogTrigger asChild>
         <Button
-          type="button"
           variant="ghost"
           size="sm"
           disabled={active}
@@ -81,7 +82,7 @@ export function TeachButton() {
           if (lessons.length === 0) return null;
           return (
             <section key={level} className="flex flex-col gap-2">
-              <h3 className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{t(`levels.${level}`)}</h3>
+              <SectionLabel as="h3">{t(`levels.${level}`)}</SectionLabel>
               <ul className="grid gap-2 sm:grid-cols-2">
                 {lessons.map((lesson) => {
                   const outcomes = t.raw(`lessons.${lesson.id}.outcomes`) as string[];
@@ -115,12 +116,12 @@ export function TeachButton() {
                           </Badge>
                         </span>
                         <span className="flex flex-col gap-1 pl-11">
-                          <span className="text-xs font-medium text-muted-foreground">{t("youLearn")}</span>
+                          <Hint as="span" className="font-medium">{t("youLearn")}</Hint>
                           {outcomes.map((outcome) => (
-                            <span key={outcome} className="flex gap-1.5 text-xs text-muted-foreground">
+                            <Hint as="span" key={outcome} className="flex gap-1.5">
                               <span aria-hidden>·</span>
                               {outcome}
-                            </span>
+                            </Hint>
                           ))}
                         </span>
                       </button>
@@ -131,7 +132,7 @@ export function TeachButton() {
             </section>
           );
         })}
-        <p className="text-xs text-muted-foreground">{t("sandbox")}</p>
+        <Hint>{t("sandbox")}</Hint>
       </DialogContent>
     </Dialog>
   );

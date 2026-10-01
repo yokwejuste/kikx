@@ -4,14 +4,16 @@ import { useId } from "react";
 import { useWatch, type UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Datalist } from "@/components/builder/fields/datalist";
+import { RowInput } from "@/components/builder/fields/row-input";
 import { KeyValueFields } from "@/components/builder/fields/key-value-fields";
 import type { FieldErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { codeTag } from "@/components/common/rich-tags";
 
 type Mode = "fields" | "yaml";
 type KeyValue = { key: string; value: string };
@@ -61,21 +63,21 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
     <>
       <Field data-teach="groupvars-group" data-invalid={!!errors.group} className="max-w-sm">
         <FieldLabel>{t("group")}</FieldLabel>
-        <Input
+        <RowInput
           list={listId}
           placeholder={groupNames[0] ?? "all"}
-          aria-invalid={!!errors.group}
-          className="font-mono"
-          {...form.register("group" as never)}
+          invalid={!!errors.group}
+          mono
+          registration={form.register("group" as never)}
         />
         <Datalist id={listId} options={["all", ...groupNames]} />
-        <p className="text-xs text-muted-foreground">
+        <Hint>
           {t.rich("writes", {
             path: `group_vars/${group || "<group>"}${layout === "dir" ? "/main" : ""}.yml`,
-            code: (chunks) => <code className="font-mono">{chunks}</code>,
+            code: codeTag,
           })}
           {groupNames.length === 0 && ` ${t("noInventory")}`}
-        </p>
+        </Hint>
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
@@ -134,9 +136,9 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
               className="min-h-48 font-mono text-xs"
               {...form.register("yaml" as never)}
             />
-            <p className="text-xs text-muted-foreground">
+            <Hint>
               {t("yamlHelp")}
-            </p>
+            </Hint>
             <FieldError errors={[errors.yaml]} />
           </Field>
         )}

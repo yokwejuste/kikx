@@ -4,9 +4,9 @@ import { useFieldArray, type UseFormReturn } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { RemoveButton } from "@/components/builder/fields/row-actions";
+import { RowInput } from "@/components/builder/fields/row-input";
 import type { FieldErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 
@@ -35,13 +35,12 @@ export function KeyValueFields({
       <div className="flex flex-col gap-2">
         {rows.fields.map((field, index) => (
           <div key={field.id} className="flex gap-2">
-            <Input placeholder={keyPlaceholder ?? t("key")} {...form.register(`${name}.${index}.key` as never)} />
-            <Input placeholder={valuePlaceholder ?? t("value")} {...form.register(`${name}.${index}.value` as never)} />
-            <RemoveButton aria-label={t("removeRow")} onClick={() => rows.remove(index)} />
+            <RowInput placeholder={keyPlaceholder ?? t("key")} registration={form.register(`${name}.${index}.key` as never)} />
+            <RowInput placeholder={valuePlaceholder ?? t("value")} registration={form.register(`${name}.${index}.value` as never)} />
+            <RemoveButton label={t("removeRow")} onClick={() => rows.remove(index)} />
           </div>
         ))}
         <Button
-          type="button"
           variant="outline"
           size="sm"
           className="w-fit gap-1.5"

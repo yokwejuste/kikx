@@ -12,6 +12,7 @@ import type { FieldErrors } from "@/components/builder/fields/field-errors";
 import { serverFieldDefaults, serverProviders, type FormValues } from "@/lib/forms/component-forms";
 import { registryItem } from "@/lib/registry/store";
 import type { FieldSpec } from "@/lib/api/client";
+import { Hint } from "@/components/common/hint";
 
 function camel(name: string) {
   return name.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase());
@@ -87,7 +88,7 @@ export function ServerFields({ form, errors }: { form: UseFormReturn<FormValues>
             ))}
           </SelectContent>
         </Select>
-        <p className="text-xs text-muted-foreground">{t("providerHelp")}</p>
+        <Hint>{t("providerHelp")}</Hint>
       </Field>
       {specs.map((spec) => (
         <ServerField

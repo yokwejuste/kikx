@@ -24,8 +24,10 @@ import { TemplateGallery } from "@/components/home/template-gallery";
 import { CliTerminal } from "@/components/home/cli-terminal";
 import { KikxMark } from "@/components/common/kikx-mark";
 import { IconTile } from "@/components/common/icon-tile";
+import { IconButton } from "@/components/common/icon-button";
 import { HelpTip } from "@/components/common/help-tip";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
+import { codeTag } from "@/components/common/rich-tags";
 
 export default function Home() {
   return (
@@ -105,11 +107,10 @@ function HomeContent() {
                   </span>
                 </span>
                 <span className="flex gap-2">
-                  <Button type="button" variant="ghost" size="sm" onClick={() => setConfirmingDiscard(false)}>
+                  <Button variant="ghost" size="sm" onClick={() => setConfirmingDiscard(false)}>
                     {t("resume.keep")}
                   </Button>
                   <Button
-                    type="button"
                     variant="destructive"
                     size="sm"
                     onClick={() => {
@@ -132,17 +133,11 @@ function HomeContent() {
                   </span>
                 </Link>
                 <span className="flex items-center gap-1">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    aria-label={t("resume.discardLabel", { name: details.name })}
-                    title={t("resume.discardLabel", { name: details.name })}
-                    className="text-muted-foreground hover:text-foreground"
+                  <IconButton
+                    icon={X}
+                    label={t("resume.discardLabel", { name: details.name })}
                     onClick={() => setConfirmingDiscard(true)}
-                  >
-                    <X className="size-4" />
-                  </Button>
+                  />
                   <Button asChild variant="outline" size="sm">
                     <Link href="/build">
                       {t("resume.continue")}
@@ -200,7 +195,7 @@ function HomeContent() {
                   <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
                   <HelpTip term="preset" className="ml-1" />
                   <span className="block text-muted-foreground">
-                    {t.rich("preset.body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
+                    {t.rich("preset.body", { code: codeTag })}
                   </span>
                 </span>
               </span>

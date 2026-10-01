@@ -10,6 +10,8 @@ import { STAGE_TERMS } from "@/lib/glossary/terms";
 import { CATALOG, catalogStage, describeComponent, type CatalogKind, type StageId } from "@/lib/registry/catalog";
 import type { AddedComponent } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { SectionLabel } from "@/components/common/section-label";
 
 const OPEN_STAGES_KEY = "kikx:catalog:stages";
 const ADVANCED_STAGES_KEY = "kikx:catalog:advanced";
@@ -110,14 +112,14 @@ export function ComponentCatalog({
               >
                 {stageCount > 0 ? <CircleCheck className="size-3" /> : stageIndex + 1}
               </span>
-              <span className="min-w-0 flex-1 truncate text-xs font-semibold tracking-wide uppercase">{stageText.label}</span>
+              <SectionLabel as="span" className="min-w-0 flex-1 truncate text-foreground">{stageText.label}</SectionLabel>
               <CountBadge count={stageCount} />
               <ChevronDown
                 className={cn("size-4 shrink-0 text-muted-foreground transition-transform", !open && "-rotate-90")}
               />
             </button>
             <div id={panelId} hidden={!open}>
-              <p className="mb-1 px-2 pl-9 text-xs leading-snug text-muted-foreground">{stageText.hint} <HelpTip term={STAGE_TERMS[stage.id]} className="-my-1" /></p>
+              <Hint className="mb-1 px-2 pl-9 leading-snug">{stageText.hint} <HelpTip term={STAGE_TERMS[stage.id]} className="-my-1" /></Hint>
               <ul id={advancedId} className="flex flex-col">
                 {visible.map(({ kind }) => {
                   const entry = text.entry(kind);

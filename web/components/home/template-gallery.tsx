@@ -9,6 +9,7 @@ import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { api } from "@/lib/api/client";
 import { stagesForReferences } from "@/lib/registry/catalog";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
 
 export function TemplateGallery({
   opening,
@@ -59,9 +60,9 @@ export function TemplateGallery({
                   </Badge>
                 ))}
               </span>
-              <span className="mt-auto font-mono text-xs text-muted-foreground">
+              <Hint as="span" className="mt-auto font-mono">
                 {preset.name} · {t("components", { count: preset.componentCount })}
-              </span>
+              </Hint>
             </button>
           </li>
         ))}

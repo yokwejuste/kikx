@@ -20,7 +20,6 @@ export function TourButton() {
 
   return (
     <Button
-      type="button"
       variant="ghost"
       size="sm"
       data-tour="tour-button"

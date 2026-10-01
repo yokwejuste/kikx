@@ -85,10 +85,10 @@ export function PhoneWarning() {
           <DialogDescription>{t("body")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex-col gap-2 sm:flex-col">
-          <Button type="button" onClick={dismiss} className="w-full">
+          <Button onClick={dismiss} className="w-full">
             {t("continue")}
           </Button>
-          <Button type="button" variant="outline" onClick={copyLink} className="w-full">
+          <Button variant="outline" onClick={copyLink} className="w-full">
             <Link2 />
             {t("copyLink")}
           </Button>

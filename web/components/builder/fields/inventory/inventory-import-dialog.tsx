@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { parseInventoryIni, type ParsedInventory } from "@/lib/ansible/inventory";
+import { codeTag } from "@/components/common/rich-tags";
 
 const FORMAT_HINT = `[<group>]
 <host> ansible_host=<address> <key>=<value>
@@ -41,7 +42,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
       }}
     >
       <DialogTrigger asChild>
-        <Button data-teach="inventory-import" type="button" variant="outline" size="sm">
+        <Button data-teach="inventory-import" variant="outline" size="sm">
           <ClipboardPaste />
           {t("trigger")}
         </Button>
@@ -50,7 +51,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            {t.rich("body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
+            {t.rich("body", { code: codeTag })}
           </DialogDescription>
         </DialogHeader>
 
@@ -97,12 +98,11 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
         )}
 
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+          <Button variant="outline" onClick={() => setOpen(false)}>
             {t("cancel")}
           </Button>
           <Button
             data-teach="inventory-replace"
-            type="button"
             disabled={!parsed || parsed.hosts.length === 0}
             onClick={() => {
               if (!parsed) return;

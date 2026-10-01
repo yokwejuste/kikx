@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { EmptyProjectIllustration } from "@/components/illustrations/illustrations";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { CATALOG, type CatalogKind } from "@/lib/registry/catalog";
+import { SectionLabel } from "@/components/common/section-label";
 
 export function EmptyProjectStart({ onSelect }: { onSelect: (kind: CatalogKind) => void }) {
   const t = useTranslations("builder.start");
@@ -34,13 +35,12 @@ export function EmptyProjectStart({ onSelect }: { onSelect: (kind: CatalogKind) 
                 <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
                   {index + 1}
                 </span>
-                <span className="text-xs font-semibold tracking-wide uppercase">{stageText.label}</span>
+                <SectionLabel as="span" className="text-foreground">{stageText.label}</SectionLabel>
                 {stage.id === "provision" && <Badge variant="outline">{t("optional")}</Badge>}
               </div>
               <p className="flex-1 text-sm text-muted-foreground">{stageText.hint}</p>
               <Button
                 data-teach={`start-${stage.id}`}
-                type="button"
                 variant="outline"
                 size="sm"
                 className="self-start"

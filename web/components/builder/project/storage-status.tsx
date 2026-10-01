@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
 import { projectFingerprint, type DownloadRecord } from "@/lib/project/downloads";
+import { Hint } from "@/components/common/hint";
 
 export function StorageStatus({
   details,
@@ -26,8 +27,8 @@ export function StorageStatus({
       : t("changed");
 
   return (
-    <span className="min-w-0 truncate text-xs text-muted-foreground" title={t("hint")}>
+    <Hint as="span" className="min-w-0 truncate" title={t("hint")}>
       {label}
-    </span>
+    </Hint>
   );
 }

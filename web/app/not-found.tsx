@@ -62,7 +62,7 @@ export default function NotFound() {
       </div>
 
       <div className="flex gap-2">
-        <Button type="button" variant="outline" onClick={() => setAttempt((n) => n + 1)} disabled={loading}>
+        <Button variant="outline" onClick={() => setAttempt((n) => n + 1)} disabled={loading}>
           <RefreshCw className="size-4" />
           {t("another")}
         </Button>

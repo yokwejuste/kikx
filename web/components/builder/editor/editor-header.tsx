@@ -53,7 +53,7 @@ export function EditorHeader({
           → {writes}
         </Badge>
         {editing && (
-          <Button type="button" variant="outline" size="sm" onClick={onStartNew}>
+          <Button variant="outline" size="sm" onClick={onStartNew}>
             <Plus />
             {t("startNew")}
           </Button>

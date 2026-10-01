@@ -17,6 +17,7 @@ import { CodeList } from "@/components/common/code-list";
 import { CodeView } from "@/components/common/code-view";
 import type { FileConflict } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
 
 function ConflictRow({ conflict }: { conflict: FileConflict }) {
   const t = useTranslations("conflicts");
@@ -36,17 +37,17 @@ function ConflictRow({ conflict }: { conflict: FileConflict }) {
       >
         <ChevronRight className={cn("size-3.5 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")} />
         <code className="min-w-0 flex-1 truncate font-mono text-xs">{conflict.fileName}</code>
-        <span className="shrink-0 text-xs text-muted-foreground">
+        <Hint as="span" className="shrink-0">
           {identical ? t("same") : t("differs")}
-        </span>
+        </Hint>
       </button>
-      <p className="px-3 pb-2 pl-8 text-xs text-muted-foreground">
+      <Hint className="px-3 pb-2 pl-8">
         {t.rich("writtenBy", {
           kind: owner.kindLabel,
           title: owner.title,
           strong: (chunks) => <span className="font-medium text-foreground">{chunks}</span>,
         })}
-      </p>
+      </Hint>
       {open && (
         <div data-teach="conflict-diff" className="grid gap-2 border-t p-2 sm:grid-cols-2">
           {(
@@ -107,12 +108,12 @@ export function FileConflictDialog({
         </ul>
 
         {collateral.length > 0 && (
-          <p className="rounded-lg border border-dashed p-3 text-xs text-muted-foreground">
+          <Hint className="rounded-lg border border-dashed p-3">
             {t.rich("collateral", {
               count: owners.size,
               files: () => <CodeList items={collateral} className="text-foreground" />,
             })}
-          </p>
+          </Hint>
         )}
 
         <DialogFooter>

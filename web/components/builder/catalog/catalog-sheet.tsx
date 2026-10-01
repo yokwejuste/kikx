@@ -28,7 +28,7 @@ export function CatalogSheet({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button type="button" variant="outline" data-tour="catalog" className="w-full justify-start gap-2 pointer-coarse:h-10">
+        <Button variant="outline" data-tour="catalog" className="w-full justify-start gap-2 pointer-coarse:h-10">
           <PanelLeftOpen className="size-4 text-muted-foreground" />
           <span className="text-muted-foreground">{t("nav")}</span>
           {entry && Icon && (

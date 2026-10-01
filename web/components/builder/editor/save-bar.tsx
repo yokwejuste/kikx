@@ -4,6 +4,7 @@ import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { Button } from "@/components/ui/button";
 import { CodeList } from "@/components/common/code-list";
 import type { FileConflict } from "@/lib/project/context";
+import { Hint } from "@/components/common/hint";
 
 export function SaveBar({
   isEditing,
@@ -37,19 +38,19 @@ export function SaveBar({
         </p>
       )}
       <div className="flex flex-wrap items-center gap-2">
-        <Button data-teach="save" type="button" disabled={saving} onClick={onSave}>
+        <Button data-teach="save" disabled={saving} onClick={onSave}>
           {isEditing ? <Save /> : <PackagePlus />}
           {saving ? t("rendering") : isEditing ? t("save") : t("add")}
         </Button>
         {dirty && (
-          <Button type="button" variant="ghost" onClick={onReset}>
+          <Button variant="ghost" onClick={onReset}>
             <Undo2 />
             {isEditing ? t("discard") : t("reset")}
           </Button>
         )}
-        <span className="ml-auto hidden text-xs text-muted-foreground sm:inline">
+        <Hint as="span" className="ml-auto hidden sm:inline">
           {isEditing && !dirty ? t("clean") : dirty ? t("draftKept") : t("shortcut")}
-        </span>
+        </Hint>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { ArrowRight, ChevronDown, X } from "lucide-react";
 import { DoneMark } from "@/components/common/done-mark";
 import { ProgressBar } from "@/components/common/progress-bar";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
+import { IconButton } from "@/components/common/icon-button";
 import type { IssueCounts } from "@/components/builder/project/severity";
 import { useProject } from "@/lib/project/context";
 import { gettingStarted, type GettingStartedItem } from "@/lib/project/getting-started";
@@ -12,6 +12,7 @@ import { updateGettingStarted, useGettingStartedFlags } from "@/lib/project/gett
 import { describeComponent, type CatalogKind } from "@/lib/registry/catalog";
 import { usePointAt } from "@/lib/tour/use-tour";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
 
 export function GettingStarted({
   issueCounts,
@@ -48,21 +49,12 @@ export function GettingStarted({
           className="flex flex-1 items-center gap-2 text-left"
         >
           <h2 className="text-sm font-medium">{t("title")}</h2>
-          <span className="ml-auto text-xs text-muted-foreground tabular-nums">
+          <Hint as="span" className="ml-auto tabular-nums">
             {t("progress", { done: progress.done, total: progress.total })}
-          </span>
+          </Hint>
           <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", flags.collapsed && "-rotate-90")} />
         </button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-xs"
-          aria-label={t("dismiss")}
-          title={t("dismiss")}
-          onClick={() => updateGettingStarted(project, { dismissed: true })}
-        >
-          <X />
-        </Button>
+        <IconButton icon={X} size="xs" label={t("dismiss")} onClick={() => updateGettingStarted(project, { dismissed: true })} />
       </div>
       <ProgressBar value={progress.done} max={progress.total} className="mx-4" />
       {flags.collapsed ? (
@@ -85,7 +77,7 @@ export function GettingStarted({
                   <DoneMark done={false} className="mt-0.5" />
                   <span className="flex min-w-0 flex-1 flex-col">
                     <span className="text-sm">{t(`items.${item.step}.label`)}</span>
-                    <span className="text-xs text-muted-foreground">{t(`items.${item.step}.hint`)}</span>
+                    <Hint as="span">{t(`items.${item.step}.hint`)}</Hint>
                   </span>
                   <ArrowRight className="mt-0.5 size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
                 </button>

@@ -91,7 +91,6 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
             className="font-mono text-sm"
           />
           <Button
-            type="button"
             variant="outline"
             disabled={!reference || loadMutation.isPending}
             onClick={() => loadMutation.mutate()}
@@ -130,7 +129,6 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
 
             <div className="flex gap-2 border-t pt-6">
               <Button
-                type="button"
                 variant="outline"
                 disabled={!name || previewMutation.isPending}
                 onClick={() => previewMutation.mutate()}
@@ -139,7 +137,6 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
                 {previewMutation.isPending ? t("rendering") : t("preview")}
               </Button>
               <Button
-                type="button"
                 disabled={!name || addMutation.isPending}
                 onClick={() => addMutation.mutate()}
               >

@@ -2,14 +2,15 @@
 
 import type { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FieldError } from "@/components/ui/field";
 import { RemoveButton } from "@/components/builder/fields/row-actions";
+import { RowInput } from "@/components/builder/fields/row-input";
 import { TagInputField } from "@/components/builder/fields/tag-input-field";
 import type { RowErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { InventoryGroupValues } from "@/lib/forms/schemas";
+import { Hint } from "@/components/common/hint";
 
 
 export function GroupRow({
@@ -35,14 +36,14 @@ export function GroupRow({
   return (
     <div data-teach="group-row" className="grid gap-2 rounded-lg border p-2 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_minmax(0,1.2fr)_2rem]">
       <div className="flex flex-col gap-1">
-        <Input
+        <RowInput
           placeholder={t("namePlaceholder")}
-          aria-label={t("nameLabel")}
-          aria-invalid={!!errors?.name}
-          className="font-mono"
-          {...form.register(`groups.${index}.name` as never)}
+          label={t("nameLabel")}
+          invalid={!!errors?.name}
+          mono
+          registration={form.register(`groups.${index}.name` as never)}
         />
-        <span className="px-1 text-xs text-muted-foreground">{membership}</span>
+        <Hint as="span" className="px-1">{membership}</Hint>
       </div>
       <TagInputField
         form={form}
@@ -59,7 +60,7 @@ export function GroupRow({
         className="min-h-8 resize-none self-start py-1 font-mono"
         {...form.register(`groups.${index}.vars` as never)}
       />
-      <RemoveButton aria-label={t("remove")} onClick={onRemove} />
+      <RemoveButton label={t("remove")} onClick={onRemove} />
       <FieldError className="text-xs sm:col-span-4" errors={[errors?.name, errors?.children]} />
     </div>
   );

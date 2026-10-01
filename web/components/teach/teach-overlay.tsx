@@ -9,7 +9,6 @@ import {
   Gauge,
   GraduationCap,
   Hand,
-  LoaderCircle,
   MousePointer2,
   Pause,
   Play,
@@ -18,6 +17,7 @@ import {
 } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { IconButton } from "@/components/common/icon-button";
 import { DoneMark } from "@/components/common/done-mark";
 import { IconTile } from "@/components/common/icon-tile";
 import { ProgressBar } from "@/components/common/progress-bar";
@@ -25,6 +25,8 @@ import { CURSOR_MOVE_MS, type LessonView } from "@/lib/teach/player";
 import { LESSON_SPEEDS } from "@/lib/teach/speed";
 import { frameRect, trackRect } from "@/lib/dom/track-rect";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { Spinner } from "@/components/common/spinner";
 
 const RING_PADDING = 6;
 const HEADER_ROOM = 80;
@@ -85,7 +87,7 @@ function WaitingWords() {
 
   return (
     <p aria-live="polite" className="flex items-center gap-2 text-muted-foreground">
-      <LoaderCircle className="size-4 shrink-0 animate-spin motion-reduce:animate-none" />
+      <Spinner className="shrink-0 motion-reduce:animate-none" />
       {t("waitingWord", { word: words[index] })}
     </p>
   );
@@ -187,17 +189,17 @@ export function TeachOverlay({
           <span className="flex min-w-0 flex-1 flex-col">
             <span className="truncate font-medium">{done ? t("doneTitle") : practising ? t("yourTurn") : title}</span>
             {view.chapter && !done && (
-              <span className="truncate text-xs text-muted-foreground">
+              <Hint as="span" className="truncate">
                 {t("chapter", { index: view.chapter.index, total: view.chapter.total, title: view.chapter.title })}
-              </span>
+              </Hint>
             )}
           </span>
           {view.chapter && !done ? (
             <ChapterDots index={view.chapter.index} total={view.chapter.total} />
           ) : (
-            <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+            <Hint as="span" className="shrink-0 tabular-nums">
               {t("progress", { step: view.step, total: view.total })}
-            </span>
+            </Hint>
           )}
         </div>
 
@@ -232,22 +234,22 @@ export function TeachOverlay({
           </ul>
         )}
 
-        {notice && <p className="text-xs text-muted-foreground">{notice}</p>}
+        {notice && <Hint>{notice}</Hint>}
 
         <ProgressBar value={view.step} max={view.total} />
 
         {done ? (
           <div className="flex flex-wrap items-center justify-end gap-2">
             {keepable && (
-              <Button type="button" variant="ghost" onClick={() => onFinish(true)}>
+              <Button variant="ghost" onClick={() => onFinish(true)}>
                 {t("keep")}
               </Button>
             )}
-            <Button type="button" variant={upNext ? "outline" : "default"} onClick={() => onFinish(false)}>
+            <Button variant={upNext ? "outline" : "default"} onClick={() => onFinish(false)}>
               {t("back")}
             </Button>
             {upNext && (
-              <Button type="button" onClick={() => onFinish(false, upNext.id)}>
+              <Button onClick={() => onFinish(false, upNext.id)}>
                 {t("nextLesson", { title: upNext.title })}
                 <ArrowRight />
               </Button>
@@ -256,23 +258,23 @@ export function TeachOverlay({
         ) : (
           <div className="flex flex-wrap items-center gap-1">
             {practising ? (
-              <Button type="button" size="sm" onClick={onShowMe}>
+              <Button size="sm" onClick={onShowMe}>
                 <MousePointer2 />
                 {t("showMe")}
               </Button>
             ) : playing ? (
-              <Button type="button" variant="outline" size="sm" onClick={onPause}>
+              <Button variant="outline" size="sm" onClick={onPause}>
                 <Pause />
                 {t("pause")}
               </Button>
             ) : (
-              <Button type="button" size="sm" onClick={onResume}>
+              <Button size="sm" onClick={onResume}>
                 <Play />
                 {t("play")}
               </Button>
             )}
             {!practising && (
-              <Button type="button" variant="ghost" size="sm" disabled={!playing} onClick={onNext}>
+              <Button variant="ghost" size="sm" disabled={!playing} onClick={onNext}>
                 <SkipForward />
                 {t("next")}
               </Button>
@@ -300,17 +302,7 @@ export function TeachOverlay({
                 ))}
               </select>
             </label>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground"
-              aria-label={t("stop")}
-              title={t("stop")}
-              onClick={() => onFinish(false)}
-            >
-              <X />
-            </Button>
+            <IconButton icon={X} size="sm" label={t("stop")} onClick={() => onFinish(false)} />
           </div>
         )}
       </section>
