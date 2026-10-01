@@ -16,14 +16,14 @@ export function CatalogSheet({
   onSelect,
 }: {
   components: AddedComponent[];
-  selected: CatalogKind;
+  selected: CatalogKind | null;
   onSelect: (kind: CatalogKind) => void;
 }) {
   const t = useTranslations("catalog");
   const text = useCatalogText();
   const [open, setOpen] = useState(false);
-  const entry = text.entry(selected);
-  const Icon = entry.icon;
+  const entry = selected ? text.entry(selected) : null;
+  const Icon = entry?.icon;
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -31,9 +31,13 @@ export function CatalogSheet({
         <Button type="button" variant="outline" data-tour="catalog" className="w-full justify-start gap-2 pointer-coarse:h-10">
           <PanelLeftOpen className="size-4 text-muted-foreground" />
           <span className="text-muted-foreground">{t("nav")}</span>
-          <span className="text-muted-foreground" aria-hidden="true">·</span>
-          <Icon className="size-4" />
-          <span className="min-w-0 truncate">{entry.label}</span>
+          {entry && Icon && (
+            <>
+              <span className="text-muted-foreground" aria-hidden="true">·</span>
+              <Icon className="size-4" />
+              <span className="min-w-0 truncate">{entry.label}</span>
+            </>
+          )}
         </Button>
       </SheetTrigger>
       <SheetContent closeLabel={t("close")}>

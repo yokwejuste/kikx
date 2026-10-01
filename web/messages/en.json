@@ -138,6 +138,13 @@
   "builder": {
     "noDetails": "No project details yet.",
     "goBack": "Go back and fill them in",
+    "start": {
+      "title": "Your project is empty",
+      "body": "Here's the usual path: work through the stages in order. Pick one to open its editor, or browse the full catalog.",
+      "optional": "Optional",
+      "add": "Add {label}",
+      "templates": "Or start from a template"
+    },
     "header": {
       "namespace": "Default Kubernetes namespace",
       "outputDir": "Output directory",

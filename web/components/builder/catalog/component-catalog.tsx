@@ -43,17 +43,17 @@ export function ComponentCatalog({
   onSelect,
 }: {
   components: AddedComponent[];
-  selected: CatalogKind;
+  selected: CatalogKind | null;
   onSelect: (kind: CatalogKind) => void;
 }) {
   const t = useTranslations("catalog");
   const text = useCatalogText();
   const baseId = useId();
-  const selectedStage = catalogStage(selected).id;
-  const [openStages, setOpenStages] = useState<OpenStages>(() => ({ ...readStages(OPEN_STAGES_KEY), [selectedStage]: true }));
+  const selectedStage = selected ? catalogStage(selected).id : null;
+  const [openStages, setOpenStages] = useState<OpenStages>(() => ({ ...readStages(OPEN_STAGES_KEY), ...(selectedStage && { [selectedStage]: true }) }));
   const [advancedStages, setAdvancedStages] = useState<OpenStages>(() => readStages(ADVANCED_STAGES_KEY));
   const [seenStage, setSeenStage] = useState(selectedStage);
-  if (seenStage !== selectedStage) {
+  if (selectedStage && seenStage !== selectedStage) {
     setSeenStage(selectedStage);
     setOpenStages((current) => ({ ...current, [selectedStage]: true }));
   }
