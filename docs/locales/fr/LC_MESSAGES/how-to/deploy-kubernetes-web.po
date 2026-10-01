@@ -1,0 +1,251 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 17:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Deploy an app to Kubernetes in the app"
+msgstr "Déployer une application sur Kubernetes dans l'app"
+
+msgid "The **Deploy** stage of the builder writes Kubernetes manifests. This page shows how to put an app on Kubernetes with three components that work as a chain: an Ingress sends web traffic to a Service, and the Service sends it to the pods of a Deployment. Most broken deployments are a broken link in that chain, so the page also shows how to spot one and fix it."
+msgstr "L'étape **Déployer** de l'éditeur écrit des manifestes Kubernetes. Cette page montre comment mettre une application sur Kubernetes avec trois composants qui forment une chaîne : un Ingress envoie le trafic web à un Service, et le Service l'envoie aux pods d'un Deployment. La plupart des déploiements cassés ont un maillon cassé dans cette chaîne, donc la page montre aussi comment le repérer et le réparer."
+
+msgid "[Start this lesson](teach:kubernetes)"
+msgstr "[Lancer cette leçon](teach:kubernetes)"
+
+msgid "Set the project namespace first"
+msgstr "Définir d'abord le namespace du projet"
+
+msgid "Every Deployment, Service and Ingress goes into a Kubernetes namespace. The project has a default one, shown on the `ns:` badge above the builder columns."
+msgstr "Chaque Deployment, Service et Ingress va dans un namespace Kubernetes. Le projet en a un par défaut, affiché sur le badge `ns:` au-dessus des colonnes de l'éditeur."
+
+msgid "Click the `ns:` badge. The **Project settings** dialog opens."
+msgstr "Cliquez sur le badge `ns:`. La fenêtre **Paramètres du projet** s'ouvre."
+
+msgid "In **Default Kubernetes namespace**, type the namespace, for example `shop-prod`."
+msgstr "Dans **Namespace Kubernetes par défaut**, tapez le namespace, par exemple `shop-prod`."
+
+msgid "Click **Save**."
+msgstr "Cliquez sur **Enregistrer**."
+
+msgid "Set it before you add components. Components already in the project keep the namespace they were saved with. New components, and ones you open and save again, use the new one. Inventories, playbooks and Terraform ignore the namespace."
+msgstr "Définissez-le avant d'ajouter des composants. Les composants déjà présents gardent le namespace avec lequel ils ont été enregistrés. Les nouveaux composants, et ceux que vous rouvrez puis enregistrez, utilisent le nouveau. Les inventaires, les playbooks et Terraform ignorent le namespace."
+
+msgid "Override the namespace for one component"
+msgstr "Changer le namespace d'un seul composant"
+
+msgid "Each Deployment, Service and Ingress also has a **Namespace** field. Left empty, it shows `project default` and the component uses the project namespace. Type a value to put that one component somewhere else."
+msgstr "Chaque Deployment, Service et Ingress a aussi un champ **Namespace**. Vide, il affiche `celui du projet` et le composant utilise le namespace du projet. Tapez une valeur pour placer ce composant ailleurs."
+
+msgid "Keep the three components of one app in the same namespace. A Service only selects pods in its own namespace, and an Ingress only routes to a Service in its own namespace."
+msgstr "Gardez les trois composants d'une application dans le même namespace. Un Service ne sélectionne que les pods de son namespace, et un Ingress ne route que vers un Service de son namespace."
+
+msgid "Add the Deployment"
+msgstr "Ajouter le Deployment"
+
+msgid "The Deployment says which container to run and how many copies to keep alive."
+msgstr "Le Deployment indique quel conteneur lancer et combien de copies garder en vie."
+
+msgid "Under **Deploy**, click **Deployment**."
+msgstr "Sous **Déployer**, cliquez sur **Deployment**."
+
+msgid "Fill in the fields:"
+msgstr "Remplissez les champs :"
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "What to enter"
+msgstr "Quoi saisir"
+
+msgid "**Name**"
+msgstr "**Nom**"
+
+msgid "The app name, for example `shop`. Also the `app` label on every pod."
+msgstr "Le nom de l'application, par exemple `shop`. C'est aussi le label `app` de chaque pod."
+
+msgid "**Image**"
+msgstr "**Image**"
+
+msgid "The container image, with a pinned tag such as `nginx:1.27` rather than `latest`."
+msgstr "L'image du conteneur, avec un tag fixé comme `nginx:1.27` plutôt que `latest`."
+
+msgid "**Port**"
+msgstr "**Port**"
+
+msgid "The port the app listens on inside the container. It is written as `containerPort`."
+msgstr "Le port sur lequel l'application écoute dans le conteneur. Il est écrit sous la forme `containerPort`."
+
+msgid "**Replicas**"
+msgstr "**Réplicas**"
+
+msgid "How many identical pods run at once. Three lets one die or be updated while two keep serving."
+msgstr "Combien de pods identiques tournent en même temps. Avec trois, l'un peut tomber ou être mis à jour pendant que les deux autres continuent de servir."
+
+msgid "Optionally, click **Add label** to add labels such as `tier` = `web`. They help you filter with `kubectl` and are written on the Deployment."
+msgstr "Si vous le souhaitez, cliquez sur **Ajouter un label** pour ajouter des labels comme `tier` = `web`. Ils servent à filtrer avec `kubectl` et sont écrits sur le Deployment."
+
+msgid "Click **Add to project**."
+msgstr "Cliquez sur **Ajouter au projet**."
+
+msgid "In the **Preview**, `app: shop` appears three times: on the Deployment, in its selector and on the pod template. The pods always carry `app: <Deployment name>`. Keep that label in mind: the Service needs it."
+msgstr "Dans l'**Aperçu**, `app: shop` apparaît trois fois : sur le Deployment, dans son sélecteur et sur le modèle de pod. Les pods portent toujours `app: <nom du Deployment>`. Retenez ce label : le Service en a besoin."
+
+msgid "Add the Service"
+msgstr "Ajouter le Service"
+
+msgid "Pods come and go, and each new one gets a new address. A Service gives them one stable name and spreads traffic across the pods that are alive."
+msgstr "Les pods vont et viennent, et chaque nouveau pod reçoit une nouvelle adresse. Un Service leur donne un nom stable et répartit le trafic entre les pods en vie."
+
+msgid "Under **Deploy**, click **Service**."
+msgstr "Sous **Déployer**, cliquez sur **Service**."
+
+msgid "The Service name. Use the Deployment's name, `shop`, unless you have a reason not to."
+msgstr "Le nom du Service. Reprenez le nom du Deployment, `shop`, sauf si vous avez une raison de ne pas le faire."
+
+msgid "The port other apps call, for example `80`."
+msgstr "Le port qu'appellent les autres applications, par exemple `80`."
+
+msgid "**Target port**"
+msgstr "**Port cible**"
+
+msgid "Where the Service forwards traffic. It must equal the Deployment's **Port**. Left empty, it uses the Service **Port**."
+msgstr "Le port vers lequel le Service transmet le trafic. Il doit être égal au **Port** du Deployment. Vide, il reprend le **Port** du Service."
+
+msgid "Make the selector match the pods"
+msgstr "Faire correspondre le sélecteur aux pods"
+
+msgid "A Service finds its pods through its labels: every label on a Service becomes part of its selector. By default the selector is `app: <Service name>`, which is why a Deployment and a Service with the same name find each other."
+msgstr "Un Service trouve ses pods grâce à ses labels : chaque label d'un Service fait partie de son sélecteur. Par défaut, le sélecteur est `app: <nom du Service>`, c'est pourquoi un Deployment et un Service du même nom se trouvent."
+
+msgid "If the Service has a different name, for example `frontend`, its selector is `app: frontend` and it selects nothing. To keep the name, open the Service, click **Add label**, enter `app` as the key and the Deployment's name as the value, then click **Save changes**."
+msgstr "Si le Service a un autre nom, par exemple `frontend`, son sélecteur est `app: frontend` et il ne sélectionne rien. Pour garder ce nom, ouvrez le Service, cliquez sur **Ajouter un label**, saisissez `app` comme clé et le nom du Deployment comme valeur, puis cliquez sur **Enregistrer**."
+
+msgid "Don't add other labels to a Service. The pods only carry the `app` label, so any extra label in the selector stops it from matching them."
+msgstr "N'ajoutez pas d'autres labels à un Service. Les pods ne portent que le label `app`, donc tout label en plus dans le sélecteur l'empêche de les trouver."
+
+msgid "Add the Ingress"
+msgstr "Ajouter l'Ingress"
+
+msgid "A Service is only reachable inside the cluster. An Ingress lets the cluster's ingress controller route outside HTTP traffic to it, by host name and path."
+msgstr "Un Service n'est joignable qu'à l'intérieur du cluster. Un Ingress permet au contrôleur d'ingress du cluster de lui router le trafic HTTP venant de l'extérieur, selon le nom d'hôte et le chemin."
+
+msgid "Under **Deploy**, click **Ingress**."
+msgstr "Sous **Déployer**, cliquez sur **Ingress**."
+
+msgid "Usually the app name."
+msgstr "En général, le nom de l'application."
+
+msgid "**Host**"
+msgstr "**Hôte**"
+
+msgid "The domain people type, for example `shop.example.com`. Left empty, it becomes `<name>.example.com`. Your DNS must point it at the ingress controller."
+msgstr "Le domaine que les gens tapent, par exemple `shop.example.com`. Vide, il devient `<name>.example.com`. Votre DNS doit le faire pointer vers le contrôleur d'ingress."
+
+msgid "**Path**"
+msgstr "**Chemin**"
+
+msgid "The URL prefix to route. `/` matches every URL on that host."
+msgstr "Le préfixe d'URL à router. `/` correspond à toutes les URL de cet hôte."
+
+msgid "**Backend service**"
+msgstr "**Service backend**"
+
+msgid "The Service to send traffic to, by name. Pick it from the suggestions, which list the Services in the project. Left empty, it uses the Ingress name."
+msgstr "Le Service vers lequel envoyer le trafic, par son nom. Choisissez-le dans les suggestions, qui listent les Services du projet. Vide, il reprend le nom de l'Ingress."
+
+msgid "The Service's **Port**, for example `80`."
+msgstr "Le **Port** du Service, par exemple `80`."
+
+msgid "Line up the ports"
+msgstr "Accorder les ports"
+
+msgid "Each hop must agree with the next:"
+msgstr "Chaque étape doit correspondre à la suivante :"
+
+msgid "From"
+msgstr "De"
+
+msgid "Must equal"
+msgstr "Doit être égal à"
+
+msgid "Ingress **Port**"
+msgstr "**Port** de l'Ingress"
+
+msgid "Service **Port**"
+msgstr "**Port** du Service"
+
+msgid "Service **Target port**"
+msgstr "**Port cible** du Service"
+
+msgid "Deployment **Port** (`containerPort`)"
+msgstr "**Port** du Deployment (`containerPort`)"
+
+msgid "For example: Ingress port 80, Service port 80, target port 8080, Deployment port 8080. The app doesn't check ports for you, so compare them in the previews."
+msgstr "Par exemple : port 80 pour l'Ingress, port 80 pour le Service, port cible 8080, port 8080 pour le Deployment. L'app ne vérifie pas les ports à votre place, alors comparez-les dans les aperçus."
+
+msgid "Fix a Service or Ingress that points at nothing"
+msgstr "Réparer un Service ou un Ingress qui ne pointe vers rien"
+
+msgid "Kubernetes accepts a Service that selects no pods and an Ingress whose Service doesn't exist, but no traffic gets through. The **Checks** tab reads all components together and warns about both:"
+msgstr "Kubernetes accepte un Service qui ne sélectionne aucun pod et un Ingress dont le Service n'existe pas, mais aucun trafic ne passe. L'onglet **Vérifications** lit tous les composants ensemble et signale les deux cas :"
+
+msgid "**Service frontend selects app=frontend, but no deployment has that label.** Its endpoints would be empty and every request would fail."
+msgstr "**Le Service frontend sélectionne app=frontend, mais aucun Deployment n'a ce label.** Ses endpoints seraient vides et chaque requête échouerait."
+
+msgid "**Ingress shop routes to service \"shop\", which isn't in the project.**"
+msgstr "**L'Ingress shop route vers le service « shop », qui n'est pas dans le projet.**"
+
+msgid "The editor of a flagged component also shows how many checks flag it. To fix a warning:"
+msgstr "L'éditeur d'un composant signalé indique aussi combien de vérifications le signalent. Pour corriger un avertissement :"
+
+msgid "Open the **Checks** tab. Next to the warning, click **Open** followed by the component name, for example **Open frontend**. The component opens in the editor."
+msgstr "Ouvrez l'onglet **Vérifications**. À côté de l'avertissement, cliquez sur **Ouvrir** suivi du nom du composant, par exemple **Ouvrir frontend**. Le composant s'ouvre dans l'éditeur."
+
+msgid "Fix the link:"
+msgstr "Réparez le lien :"
+
+msgid "For a Service, rename it to the Deployment's name, or add the label `app` with the Deployment's name as its value."
+msgstr "Pour un Service, renommez-le avec le nom du Deployment, ou ajoutez le label `app` avec le nom du Deployment comme valeur."
+
+msgid "For an Ingress, set **Backend service** to the name of a Service in the project."
+msgstr "Pour un Ingress, mettez dans **Service backend** le nom d'un Service du projet."
+
+msgid "Click **Save changes**. The warning disappears from **Checks**."
+msgstr "Cliquez sur **Enregistrer**. L'avertissement disparaît de **Vérifications**."
+
+msgid "The Ingress warning is fine if the Service already lives in your cluster and you don't manage it with kikx."
+msgstr "L'avertissement sur l'Ingress est sans importance si le Service existe déjà dans votre cluster et que vous ne le gérez pas avec kikx."
+
+msgid "See the chain in Architecture"
+msgstr "Voir la chaîne dans Architecture"
+
+msgid "Open the **Architecture** tab. In the **Deploy** lane, an arrow labelled **routes to** goes from the Ingress to its Service, and one labelled **selects** goes from the Service to the Deployment. A missing arrow means a broken link. When **Checks** shows **No conflicts found** and both arrows are there, export the project and apply it with `kubectl apply`."
+msgstr "Ouvrez l'onglet **Architecture**. Dans le couloir **Déploiement**, une flèche étiquetée **route vers** va de l'Ingress à son Service, et une autre étiquetée **sélectionne** va du Service au Deployment. Une flèche manquante signale un maillon cassé. Quand **Vérifications** affiche **Aucun conflit trouvé** et que les deux flèches sont là, exportez le projet et appliquez-le avec `kubectl apply`."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Let kikx show you](../tutorials/teach-me.md)"
+msgstr "[Laissez kikx vous montrer](../tutorials/teach-me.md)"
+
+msgid "[Components](../reference/components.md#k8sdeployment)"
+msgstr "[Composants](../reference/components.md#k8sdeployment)"
+
+msgid "[Checks](../reference/checks.md#svc-selector)"
+msgstr "[Vérifications](../reference/checks.md#svc-selector)"
+
+msgid "[Resolve file conflicts and checks](resolve-conflicts.md)"
+msgstr "[Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md)"
+
+msgid "[How the architecture diagram is drawn](../explanation/architecture-diagram.md)"
+msgstr "[Comment le diagramme d'architecture est dessiné](../explanation/architecture-diagram.md)"
