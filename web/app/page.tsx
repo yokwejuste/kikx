@@ -23,6 +23,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { ModeTabs, ModeTabsList } from "@/components/teach/mode-tabs";
 import { TemplateGallery } from "@/components/home/template-gallery";
 import { CliTerminal } from "@/components/home/cli-terminal";
+import { LessonChooser } from "@/components/teach/lesson-chooser";
 import { KikxMark } from "@/components/common/kikx-mark";
 import { IconTile } from "@/components/common/icon-tile";
 import { IconButton } from "@/components/common/icon-button";
@@ -155,6 +156,8 @@ function HomeContent() {
           <ModeTabsList data-tour="cli" className="self-center" />
 
           <TabsContent value="app" className="flex flex-col items-center gap-10">
+            <LessonChooser mode="app" compact levels={["basics"]} />
+
             <TemplateGallery
               opening={opening}
               onSelect={(name) => open(name, async () => toPresetManifest(await api.preset(name)), name)}
