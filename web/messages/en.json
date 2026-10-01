@@ -122,8 +122,8 @@
         "description": "Architecture draws how your components connect. Checks catches conflicts such as duplicate hosts, missing groups and unknown roles before you ship."
       },
       "download": {
-        "title": "Take the files",
-        "description": "Download everything as a .zip of plain files. Nothing touches your machine until you do."
+        "title": "Export your project",
+        "description": "Take plain files as a .zip, a preset to reopen here or run with kikx apply, or the CLI command. Nothing touches your machine until you do."
       }
     }
   },
@@ -153,8 +153,6 @@
         "diagram": "Architecture",
         "checks": "Checks"
       },
-      "download": "Download .zip",
-      "zipping": "Zipping…",
       "home": "Home",
       "homeHint": "Back to the home page. Your project stays saved in this browser."
     },
@@ -461,10 +459,27 @@
       "undo": "Undo"
     }
   },
-  "setup": {
-    "download": "Download preset",
-    "copy": "Copy {command}",
-    "explain": "<code>setup</code> bootstraps a new kikx project from this file. <code>apply</code> vendors it into a project you already have, with no kikx.toml and no backend required."
+  "export": {
+    "trigger": "Export",
+    "zipping": "Zipping…",
+    "empty": "Add a component to export your project.",
+    "zip": {
+      "title": "Files (.zip)",
+      "description": "Plain files to drop in your repo."
+    },
+    "preset": {
+      "title": "Preset (.kikx-preset.json)",
+      "description": "Reopen it here or run it with kikx apply."
+    },
+    "cli": {
+      "option": "CLI command",
+      "description": "Copy the kikx setup or kikx apply command.",
+      "title": "Run it with the CLI",
+      "needsPreset": "Both commands read the preset, so download <code>{file}</code> to the directory you run them from.",
+      "download": "Download preset",
+      "copy": "Copy {command}",
+      "explain": "<code>setup</code> bootstraps a new kikx project from this file. <code>apply</code> vendors it into a project you already have, with no kikx.toml and no backend required."
+    }
   },
   "checks": {
     "empty": "Add components and kikx will check how they fit together.",

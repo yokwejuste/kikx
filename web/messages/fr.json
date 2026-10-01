@@ -122,8 +122,8 @@
         "description": "L'architecture montre comment vos composants se relient. Les vérifications repèrent les conflits, comme les hôtes en double, les groupes manquants ou les rôles inconnus, avant la mise en production."
       },
       "download": {
-        "title": "Récupérer les fichiers",
-        "description": "Téléchargez le tout en .zip de fichiers simples. Rien ne touche votre machine avant cela."
+        "title": "Exporter votre projet",
+        "description": "Récupérez des fichiers simples en .zip, un preset à rouvrir ici ou à lancer avec kikx apply, ou la commande CLI. Rien ne touche votre machine avant cela."
       }
     }
   },
@@ -153,8 +153,6 @@
         "diagram": "Architecture",
         "checks": "Vérifications"
       },
-      "download": "Télécharger le .zip",
-      "zipping": "Compression…",
       "home": "Accueil",
       "homeHint": "Retour à la page d'accueil. Votre projet reste enregistré dans ce navigateur."
     },
@@ -461,10 +459,27 @@
       "undo": "Annuler"
     }
   },
-  "setup": {
-    "download": "Télécharger le preset",
-    "copy": "Copier {command}",
-    "explain": "<code>setup</code> initialise un nouveau projet kikx à partir de ce fichier. <code>apply</code> l'intègre à un projet existant, sans kikx.toml ni backend."
+  "export": {
+    "trigger": "Exporter",
+    "zipping": "Compression…",
+    "empty": "Ajoutez un composant pour exporter votre projet.",
+    "zip": {
+      "title": "Fichiers (.zip)",
+      "description": "Des fichiers simples à déposer dans votre dépôt."
+    },
+    "preset": {
+      "title": "Preset (.kikx-preset.json)",
+      "description": "Rouvrez-le ici ou lancez-le avec kikx apply."
+    },
+    "cli": {
+      "option": "Commande CLI",
+      "description": "Copiez la commande kikx setup ou kikx apply.",
+      "title": "Lancer avec la CLI",
+      "needsPreset": "Les deux commandes lisent le preset : téléchargez <code>{file}</code> dans le dossier où vous les lancez.",
+      "download": "Télécharger le preset",
+      "copy": "Copier {command}",
+      "explain": "<code>setup</code> initialise un nouveau projet kikx à partir de ce fichier. <code>apply</code> l'intègre à un projet existant, sans kikx.toml ni backend."
+    }
   },
   "checks": {
     "empty": "Ajoutez des composants et kikx vérifiera qu'ils s'accordent entre eux.",

@@ -24,11 +24,11 @@ The files are yours from then on. Nothing links them back to the template.
 ## Download a preset from the dashboard
 
 1. Build your project.
-2. At the bottom of the **Project** panel, click **Download preset**.
+2. Open **Export** in the header and choose **Preset (.kikx-preset.json)**.
 
-The browser saves `<project-name>.kikx-preset.json`. The panel then shows the two commands to run it, with copy buttons.
+The browser saves `<project-name>.kikx-preset.json`. **Export** > **CLI command** shows the two commands to run it, with copy buttons.
 
-**Download .zip** in the header is different. It gives you the rendered files themselves, not a recipe.
+**Export** > **Files (.zip)** is different. It gives you the rendered files themselves, not a recipe.
 
 ## Start a new project from a preset
 
