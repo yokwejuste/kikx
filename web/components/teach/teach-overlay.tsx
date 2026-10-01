@@ -23,16 +23,14 @@ import { IconTile } from "@/components/common/icon-tile";
 import { ProgressBar } from "@/components/common/progress-bar";
 import { CURSOR_MOVE_MS, type LessonView } from "@/lib/teach/player";
 import { LESSON_SPEEDS } from "@/lib/teach/speed";
-import { frameRect, glide, GLIDE_EASE, trackRect } from "@/lib/dom/track-rect";
+import { frameRect, glide, trackRect } from "@/lib/dom/track-rect";
+import { cssVar, readNumber, TOKENS } from "@/lib/theme/tokens";
 import { highlightRect } from "@/lib/teach/dom";
 import { placeCard, type CardSide } from "@/lib/teach/placement";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/common/hint";
 import { Spinner } from "@/components/common/spinner";
 
-const RING_PADDING = 6;
-const ARROW_SIZE = 16;
-const CARD_ROOM = { gap: 14, margin: 16, header: 72, arrowInset: 24 };
 const WORD_MS = 1100;
 
 const stopOutsideDismiss = (event: React.PointerEvent) => event.stopPropagation();
@@ -50,58 +48,53 @@ function useFollowTarget(target: HTMLElement | null) {
     targetRef.current = target;
   }, [target]);
 
-  useEffect(
-    () =>
-      trackRect(
-        () => highlightRect(targetRef.current),
-        (rect) => {
-          if (!ring.current) return;
-          ring.current.style.opacity = rect ? "1" : "0";
-          if (rect) frameRect(ring.current, rect, RING_PADDING);
-          if (bar.current && arrow.current) {
-            const box = rect && {
-              top: rect.top - RING_PADDING,
-              left: rect.left - RING_PADDING,
-              width: rect.width + RING_PADDING * 2,
-              height: rect.height + RING_PADDING * 2,
-            };
-            const viewport = { width: window.innerWidth, height: window.innerHeight };
-            const card = { width: bar.current.offsetWidth, height: bar.current.offsetHeight };
-            const placement = placeCard(box, card, viewport, side.current, CARD_ROOM);
-            side.current = placement.side;
-            bar.current.style.transform = `translate(${placement.left}px, ${placement.top}px)`;
-            bar.current.style.opacity = "1";
-            pointArrow(arrow.current, placement.side, placement.arrow);
-          }
-          if (!rect) return;
-          const point = targetRef.current?.getBoundingClientRect() ?? rect;
-          if (cursor.current) {
-            cursor.current.style.transform = `translate(${point.left + point.width / 2}px, ${point.top + point.height / 2}px)`;
-            cursor.current.style.opacity = "1";
-          }
-        },
-      ),
-    [],
-  );
+  useEffect(() => {
+    const padding = readNumber(TOKENS.teachRingPadding);
+    const room = {
+      gap: readNumber(TOKENS.teachCardGap),
+      margin: readNumber(TOKENS.teachCardMargin),
+      header: readNumber(TOKENS.teachCardHeader),
+      arrowInset: readNumber(TOKENS.teachArrowInset),
+    };
+    return trackRect(
+      () => highlightRect(targetRef.current),
+      (rect) => {
+        if (!ring.current) return;
+        ring.current.style.opacity = rect ? "1" : "0";
+        if (rect) frameRect(ring.current, rect, padding);
+        if (bar.current && arrow.current) {
+          const box = rect && {
+            top: rect.top - padding,
+            left: rect.left - padding,
+            width: rect.width + padding * 2,
+            height: rect.height + padding * 2,
+          };
+          const viewport = { width: window.innerWidth, height: window.innerHeight };
+          const card = { width: bar.current.offsetWidth, height: bar.current.offsetHeight };
+          const placement = placeCard(box, card, viewport, side.current, room);
+          side.current = placement.side;
+          bar.current.style.transform = `translate(${placement.left}px, ${placement.top}px)`;
+          bar.current.style.opacity = "1";
+          pointArrow(arrow.current, placement.side, placement.arrow);
+        }
+        if (!rect) return;
+        const point = targetRef.current?.getBoundingClientRect() ?? rect;
+        if (cursor.current) {
+          cursor.current.style.transform = `translate(${point.left + point.width / 2}px, ${point.top + point.height / 2}px)`;
+          cursor.current.style.opacity = "1";
+        }
+      },
+    );
+  }, []);
 
   return { cursor, ring, bar, arrow };
 }
 
-const ARROW_EDGES: Record<CardSide, { edge: "top" | "bottom" | "left" | "right"; along: "left" | "top"; borders: string }> = {
-  below: { edge: "top", along: "left", borders: "1px 0 0 1px" },
-  above: { edge: "bottom", along: "left", borders: "0 1px 1px 0" },
-  right: { edge: "left", along: "top", borders: "0 0 1px 1px" },
-  left: { edge: "right", along: "top", borders: "1px 1px 0 0" },
-};
-
 function pointArrow(arrow: HTMLSpanElement, side: CardSide | null, offset: number) {
   arrow.style.display = side ? "block" : "none";
   if (!side) return;
-  const { edge, along, borders } = ARROW_EDGES[side];
-  arrow.style.top = arrow.style.bottom = arrow.style.left = arrow.style.right = "";
-  arrow.style[edge] = `${-ARROW_SIZE / 2}px`;
-  arrow.style[along] = `${offset - ARROW_SIZE / 2}px`;
-  arrow.style.borderWidth = borders;
+  arrow.dataset.side = side;
+  arrow.style.setProperty("--arrow-offset", `${offset}px`);
 }
 
 function WaitingWords() {
@@ -176,33 +169,33 @@ export function TeachOverlay({
         <div
           aria-hidden
           onPointerDown={stopOutsideDismiss}
-          className="pointer-events-auto fixed inset-0 z-[100] cursor-progress"
+          className="pointer-events-auto fixed inset-0 z-teach-shield cursor-progress"
         />
       )}
 
       <div
         ref={ring}
         aria-hidden
-        className="pointer-events-none fixed top-0 left-0 z-[101] rounded-xl border-2 border-volt opacity-0 shadow-[0_0_0_4px_color-mix(in_oklab,var(--volt)_25%,transparent)] transition-opacity duration-300"
+        className="pointer-events-none fixed top-0 left-0 z-teach-ring rounded-xl border-2 border-volt opacity-0 shadow-halo transition-opacity duration-300"
       />
 
       {!done && !practising && (
         <div
           ref={cursor}
           aria-hidden
-          className="pointer-events-none fixed top-0 left-0 z-[102] opacity-0 motion-reduce:transition-none"
+          className="pointer-events-none fixed top-0 left-0 z-teach-pointer opacity-0 motion-reduce:transition-none"
           style={{
-            transform: "translate(50vw, 60vh)",
+            transform: cssVar(TOKENS.teachPointerStart),
             transitionProperty: "transform, opacity",
             transitionDuration: `${CURSOR_MOVE_MS / view.speed}ms`,
-            transitionTimingFunction: GLIDE_EASE,
+            transitionTimingFunction: cssVar(TOKENS.glideEase),
           }}
         >
           <span
-            key={view.clicks}
+            key={`ripple-${view.clicks}`}
             className={cn("absolute -top-4 -left-4 size-8 rounded-full bg-volt/40 opacity-0", view.clicks > 0 && "teach-ripple")}
           />
-          <span key={view.clicks} className={cn("relative -top-1 -left-1 block origin-top-left", view.clicks > 0 && "teach-press")}>
+          <span key={`press-${view.clicks}`} className={cn("relative -top-1 -left-1 block origin-top-left", view.clicks > 0 && "teach-press")}>
             <MousePointer2 className="size-7 fill-volt stroke-foreground drop-shadow-md" strokeWidth={1.5} />
           </span>
         </div>
@@ -214,14 +207,14 @@ export function TeachOverlay({
         aria-label={t("region")}
         onPointerDown={stopOutsideDismiss}
         style={{ opacity: 0 }}
-        className="pointer-events-auto fixed top-0 left-0 z-[103] w-[min(26rem,calc(100vw-2rem))] rounded-xl border border-brand/60 bg-card text-sm shadow-xl transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+        className="pointer-events-auto fixed top-0 left-0 z-teach-card w-teach-card rounded-xl border border-brand/60 bg-card text-sm shadow-xl transition-[transform,opacity] duration-300 ease-glide motion-reduce:transition-none"
       >
         <span
           ref={arrow}
           aria-hidden
-          className="absolute hidden size-4 rotate-45 border-brand/60 bg-card"
+          className="teach-arrow absolute hidden rotate-45 border-brand/60 bg-card"
         />
-        <div className="flex max-h-[70vh] flex-col gap-3 overflow-y-auto p-4">
+        <div className="flex max-h-teach-scroll flex-col gap-3 overflow-y-auto p-4">
           <div className="flex items-start gap-2">
             <IconTile icon={practising ? Hand : GraduationCap} />
             <span className="flex min-w-0 flex-1 flex-col">

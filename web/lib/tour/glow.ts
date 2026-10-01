@@ -6,7 +6,7 @@ let target: Element | null = null;
 let glow: HTMLDivElement | null = null;
 let untrack: (() => void) | null = null;
 
-export function glowAround(element: Element | undefined, padding: number, radius: number): void {
+export function glowAround(element: Element | undefined, padding: number): void {
   const moved = glow && element && element !== target;
   target = element ?? null;
   if (glow) {
@@ -16,7 +16,6 @@ export function glowAround(element: Element | undefined, padding: number, radius
   glow = document.createElement("div");
   glow.className = GLOW_CLASS;
   glow.setAttribute("aria-hidden", "true");
-  glow.style.borderRadius = `${radius}px`;
   document.body.append(glow);
   untrack = trackRect(
     () => rectOf(target),

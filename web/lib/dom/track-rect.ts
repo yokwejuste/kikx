@@ -1,4 +1,5 @@
 import { prefersReducedMotion } from "@/lib/dom/motion";
+import { cssVar, readNumber, TOKENS } from "@/lib/theme/tokens";
 
 export function rectOf(element: Element | null): DOMRect | null {
   return element?.isConnected ? element.getBoundingClientRect() : null;
@@ -20,14 +21,13 @@ export function frameRect(node: HTMLElement, rect: DOMRect, padding: number): vo
   node.style.height = `${rect.height + padding * 2}px`;
 }
 
-export const GLIDE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-const GLIDE_MS = 280;
-const FADE = "opacity 200ms";
+const GLIDE = `${cssVar(TOKENS.glideDuration)} ${cssVar(TOKENS.glideEase)}`;
+const FADE = `opacity ${cssVar(TOKENS.fadeDuration)}`;
 
 export function glide(node: HTMLElement): void {
   if (prefersReducedMotion()) return;
-  node.style.transition = ["transform", "width", "height"].map((property) => `${property} ${GLIDE_MS}ms ${GLIDE_EASE}`).concat(FADE).join(", ");
+  node.style.transition = ["transform", "width", "height"].map((property) => `${property} ${GLIDE}`).concat(FADE).join(", ");
   window.setTimeout(() => {
     node.style.transition = FADE;
-  }, GLIDE_MS);
+  }, readNumber(TOKENS.glideDuration));
 }

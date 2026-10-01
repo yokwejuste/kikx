@@ -45,7 +45,7 @@ export function ProjectFiles() {
   const content = selected ? machine.files[selected] : undefined;
 
   return (
-    <div className="flex min-h-[24rem] flex-col gap-3">
+    <div className="flex min-h-pane flex-col gap-3">
       <section data-teach="cli-files" className="flex min-h-0 flex-1 flex-col gap-2 rounded-xl border bg-card p-3">
         <SectionLabel as="h2">{t("files")}</SectionLabel>
         {nodes.length === 0 ? (
@@ -93,7 +93,7 @@ export function ProjectFiles() {
           </ul>
         )}
       </section>
-      <div data-teach="cli-viewer" className="flex min-h-0 flex-[1.4] flex-col">
+      <div data-teach="cli-viewer" className="flex min-h-0 flex-viewer flex-col">
         {selected && content !== undefined ? (
           <FileContent file={{ path: selected, content }} />
         ) : (

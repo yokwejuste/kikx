@@ -28,7 +28,7 @@ export function ProjectSheet({
           {t("open", { count: components.length })}
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" closeLabel={t("close")} className="w-[min(24rem,90vw)] pt-12">
+      <SheetContent side="right" closeLabel={t("close")} className="w-project-sheet pt-12">
         <SheetTitle className="sr-only">{t("title")}</SheetTitle>
         <GettingStarted
           issueCounts={panel.issueCounts}

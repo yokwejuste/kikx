@@ -22,7 +22,7 @@ export default function LearnCliPage() {
 function LearnCli() {
   const t = useTranslations("learnCli");
   return (
-    <main className="flex w-full flex-1 flex-col gap-4 px-4 py-4 sm:px-6 lg:h-[calc(100dvh-3.5rem)] lg:flex-none">
+    <main className="flex w-full flex-1 flex-col gap-4 px-4 py-4 sm:px-6 lg:h-below-header lg:flex-none">
       <div className="flex items-start gap-3">
         <IconTile icon={SquareTerminal} />
         <span className="flex min-w-0 flex-col">

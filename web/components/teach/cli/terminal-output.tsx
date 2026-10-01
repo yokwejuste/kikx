@@ -7,25 +7,25 @@ import type { OutputLine, Tone } from "@/lib/teach/cli/format";
 import type { CliEntry } from "@/lib/teach/cli/session";
 
 const TONES: Record<Tone, string> = {
-  success: "font-semibold text-(--terminal-prompt)",
+  success: "font-semibold text-terminal-prompt",
   heading: "font-semibold",
-  hint: "text-(--terminal-paper)/55",
-  volt: "text-(--terminal-prompt)",
-  error: "font-semibold text-red-400",
+  hint: "text-terminal-muted",
+  volt: "text-terminal-prompt",
+  error: "font-semibold text-terminal-error",
 };
 
 function TerminalLine({ line }: { line: OutputLine }) {
   const t = useTranslations("learnCli");
   if ("tip" in line) {
     return (
-      <p data-teach="cli-line" className="font-sans text-xs text-(--terminal-paper)/50">
+      <p data-teach="cli-line" className="font-sans text-xs text-terminal-muted">
         {t("tip", { name: line.tip })}
       </p>
     );
   }
   if ("notice" in line) {
     return (
-      <p data-teach="cli-line" className="font-sans text-(--terminal-paper)/70 italic">
+      <p data-teach="cli-line" className="font-sans text-terminal-foreground/70 italic">
         {t(`notices.${line.notice}`)}
       </p>
     );
@@ -48,7 +48,7 @@ export function TerminalEntry({ entry }: { entry: CliEntry }) {
       <PromptLine className="items-start">
         <span className="min-w-0 flex-1 break-words">
           {entry.command}
-          {entry.interrupted && <span className="text-(--terminal-paper)/50">^C</span>}
+          {entry.interrupted && <span className="text-terminal-muted">^C</span>}
         </span>
         {entry.command.trim() && !entry.interrupted && (
           <TerminalCopyButton
@@ -60,7 +60,7 @@ export function TerminalEntry({ entry }: { entry: CliEntry }) {
         )}
       </PromptLine>
       {entry.running ? (
-        <Spinner className="text-(--terminal-paper)/60 motion-reduce:animate-none" />
+        <Spinner className="text-terminal-muted motion-reduce:animate-none" />
       ) : (
         entry.lines.map((line, index) => <TerminalLine key={index} line={line} />)
       )}

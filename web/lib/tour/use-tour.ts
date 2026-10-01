@@ -5,34 +5,38 @@ import { driver, type Config, type DriveStep, type Driver, type PopoverDOM, type
 import { useTranslations } from "next-intl";
 import { TOURS, tourTarget, type TourName } from "@/lib/tour/steps";
 import { glowAround, stopGlow } from "@/lib/tour/glow";
-import { GLIDE_EASE } from "@/lib/dom/track-rect";
 import { prefersReducedMotion } from "@/lib/dom/motion";
+import { readNumber, readToken, TOKENS } from "@/lib/theme/tokens";
 
 const SEEN_PREFIX = "kikx.tour.seen.";
 const WAIT_FOR_TARGETS_MS = 2000;
-const STAGE_PADDING = 12;
-const STAGE_RADIUS = 16;
-const CARD_ENTER_MS = 240;
-const POPOVER_ROOM = 340 + STAGE_PADDING + 24;
-const LOOK = {
-  popoverClass: "kikx-tour",
-  overlayOpacity: 0.55,
-  stagePadding: STAGE_PADDING,
-  stageRadius: STAGE_RADIUS,
-  smoothScroll: true,
-  animate: false,
-  onHighlighted: (element?: Element) => glowAround(element, STAGE_PADDING, STAGE_RADIUS),
-  onPopoverRender: (popover: PopoverDOM) => {
-    if (prefersReducedMotion()) return;
-    popover.wrapper.animate(
-      [
-        { opacity: 0, transform: "translateY(6px)" },
-        { opacity: 1, transform: "none" },
-      ],
-      { duration: CARD_ENTER_MS, easing: GLIDE_EASE },
-    );
-  },
-};
+
+function look(): Config {
+  const stagePadding = readNumber(TOKENS.tourStagePadding);
+  return {
+    popoverClass: "kikx-tour",
+    overlayOpacity: readNumber(TOKENS.tourOverlayOpacity),
+    stagePadding,
+    stageRadius: readNumber(TOKENS.tourStageRadius),
+    smoothScroll: true,
+    animate: false,
+    onHighlighted: (element?: Element) => glowAround(element, stagePadding),
+    onPopoverRender: (popover: PopoverDOM) => {
+      if (prefersReducedMotion()) return;
+      popover.wrapper.animate(
+        [
+          { opacity: 0, transform: `translateY(${readToken(TOKENS.cardEnterOffset)})` },
+          { opacity: 1, transform: "none" },
+        ],
+        { duration: readNumber(TOKENS.cardEnterDuration), easing: readToken(TOKENS.glideEase) },
+      );
+    },
+  };
+}
+
+function popoverRoom(): number {
+  return readNumber(TOKENS.tourCardWidth) + readNumber(TOKENS.tourStagePadding) + readNumber(TOKENS.tourCardGap);
+}
 
 let activeTour: Driver | null = null;
 let blocked = false;
@@ -50,7 +54,7 @@ function launch(config: Config = {}): Driver | null {
   if (blocked) return null;
   activeTour?.destroy();
   const tour = driver({
-    ...LOOK,
+    ...look(),
     ...config,
     onDestroyed: () => {
       stopGlow();
@@ -87,8 +91,9 @@ function visibleTarget(target: string): Element | undefined {
 
 function roomiestSide(element: Element): Side {
   const rect = element.getBoundingClientRect();
-  if (window.innerWidth - rect.right >= POPOVER_ROOM) return "right";
-  if (rect.left >= POPOVER_ROOM) return "left";
+  const room = popoverRoom();
+  if (window.innerWidth - rect.right >= room) return "right";
+  if (rect.left >= room) return "left";
   return rect.top > window.innerHeight - rect.bottom ? "top" : "bottom";
 }
 

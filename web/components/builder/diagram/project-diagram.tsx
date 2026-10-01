@@ -59,7 +59,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
 
   if (components.length === 0) {
     return (
-      <EmptyState className="h-[560px] gap-4">
+      <EmptyState className="h-canvas gap-4">
         <DiagramIllustration className="h-28" />
         {t("empty")}
       </EmptyState>
@@ -94,7 +94,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
       <div
         className={cn(
           "relative overflow-hidden rounded-xl border bg-card transition-[height]",
-          expanded ? "h-[80vh]" : "h-[620px]",
+          expanded ? "h-canvas-expanded" : "h-canvas-tall",
         )}
       >
         {!layout && !failed && (

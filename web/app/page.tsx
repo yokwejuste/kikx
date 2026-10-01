@@ -74,14 +74,7 @@ function HomeContent() {
 
   return (
     <main className="relative flex flex-1 flex-col">
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black,transparent)]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, var(--border) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
+      <div className="kikx-dot-grid pointer-events-none absolute inset-0 -z-10" />
 
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center gap-10 px-6 py-24 text-center">
         <div data-tour="welcome" className="flex flex-col items-center gap-4">

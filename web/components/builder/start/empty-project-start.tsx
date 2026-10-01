@@ -32,7 +32,7 @@ export function EmptyProjectStart({ onSelect }: { onSelect: (kind: CatalogKind) 
           return (
             <li key={stage.id} className="flex flex-col gap-3 rounded-lg border p-4">
               <div className="flex items-center gap-2">
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted text-3xs font-semibold text-muted-foreground">
                   {index + 1}
                 </span>
                 <SectionLabel as="span" className="text-foreground">{stageText.label}</SectionLabel>

@@ -17,11 +17,11 @@ export function TerminalFrame({
 } & React.ComponentProps<"div">) {
   return (
     <div className={cn("terminal w-full overflow-hidden rounded-xl border text-left shadow-sm", className)} {...props}>
-      <div className="flex shrink-0 items-center gap-1.5 border-b border-(--terminal-paper)/10 py-1.5 pr-1.5 pl-4">
-        <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
-        <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
+      <div className="flex shrink-0 items-center gap-1.5 border-b border-terminal-border py-1.5 pr-1.5 pl-4">
+        <span className="size-2.5 rounded-full bg-terminal-dot" />
+        <span className="size-2.5 rounded-full bg-terminal-dot" />
         <span className="size-2.5 rounded-full bg-volt" />
-        {title && <span className="ml-2 truncate font-mono text-xs text-(--terminal-paper)/60">{title}</span>}
+        {title && <span className="ml-2 truncate font-mono text-xs text-terminal-muted">{title}</span>}
         <span className="ml-auto flex min-h-7 items-center gap-1">{actions}</span>
       </div>
       {children}
@@ -30,7 +30,7 @@ export function TerminalFrame({
 }
 
 export const terminalButtonClass =
-  "size-7 shrink-0 text-(--terminal-paper)/60 hover:bg-(--terminal-paper)/10 hover:text-(--terminal-paper) dark:hover:bg-(--terminal-paper)/10";
+  "size-7 shrink-0 text-terminal-muted hover:bg-terminal-hover hover:text-terminal-foreground dark:hover:bg-terminal-hover";
 
 export function TerminalButton({ className, ...props }: Omit<React.ComponentProps<typeof IconButton>, "size">) {
   return <IconButton size="sm" className={cn(terminalButtonClass, className)} {...props} />;

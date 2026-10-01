@@ -60,7 +60,7 @@ function RoleConditions({ form, index, play }: { form: UseFormReturn<FormValues>
               return (
                 <>
                   {play.roles.map((role) => (
-                    <label key={role} className="grid items-center gap-2 text-xs sm:grid-cols-[minmax(0,10rem)_1fr]">
+                    <label key={role} className="grid items-center gap-2 text-xs sm:grid-cols-label-field">
                       <span className="truncate font-mono text-foreground">{role}</span>
                       <Input
                         value={conditions[role] ?? ""}
@@ -186,7 +186,7 @@ export function PlayCard({
       <RoleConditions form={form} index={index} play={play} />
       <PrePostTasks form={form} index={index} play={play} />
 
-      <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-end">
+      <div className="grid gap-2 sm:grid-cols-fill-auto sm:items-end">
         <Captioned as="div" caption={t("tags")}>
           <TagInputField form={form} name={`plays.${index}.tags`} aria-label={t("tagsLabel")} placeholder={t("tagsPlaceholder")} />
         </Captioned>
