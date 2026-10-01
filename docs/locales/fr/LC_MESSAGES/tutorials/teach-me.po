@@ -115,8 +115,8 @@ msgstr "Si votre système demande de réduire les animations, le pointeur saute 
 msgid "Your project is safe"
 msgstr "Votre projet est en sécurité"
 
-msgid "A lesson runs on an empty project. Before it starts, kikx sets your current project and its unsaved drafts aside. When the lesson ends, **Back to my project** puts them back, and so does stopping the lesson or reloading the page halfway through. If you had no project, **Keep this project** keeps the one the lesson built."
-msgstr "Une leçon se déroule sur un projet vide. Avant de commencer, kikx met de côté votre projet actuel et ses brouillons non enregistrés. À la fin de la leçon, « Retour à mon projet » les remet en place, tout comme arrêter la leçon ou recharger la page en cours de route. Si vous n'aviez pas de projet, « Garder ce projet » conserve celui que la leçon a construit."
+msgid "A lesson runs on an empty project. Before it starts, kikx sets your current project and its unsaved drafts aside. When the lesson ends, **Back to my project** puts them back, and so does stopping the lesson, reloading the page or closing the tab halfway through: the next page of kikx you open puts your project back. If you had no project, **Keep this project** keeps the one the lesson built."
+msgstr "Une leçon se déroule sur un projet vide. Avant de commencer, kikx met de côté votre projet actuel et ses brouillons non enregistrés. À la fin de la leçon, « Retour à mon projet » les remet en place, tout comme arrêter la leçon, recharger la page ou fermer l'onglet en cours de route : la prochaine page de kikx que vous ouvrez remet votre projet en place. Si vous n'aviez pas de projet, « Garder ce projet » conserve celui que la leçon a construit."
 
 msgid "Nothing is downloaded during a lesson: it opens the **Export** menu only to show you what is in it."
 msgstr "Rien n'est téléchargé pendant une leçon : elle ouvre le menu « Exporter » uniquement pour vous montrer son contenu."

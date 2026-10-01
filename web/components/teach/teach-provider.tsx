@@ -10,11 +10,11 @@ import { projectDefaults } from "@/lib/registry/store";
 import { docsHref } from "@/lib/i18n/docs";
 import { LESSONS, nextLesson } from "@/lib/teach/lessons";
 import { LessonPlayer, type LessonView } from "@/lib/teach/player";
-import { beginSandbox, endSandbox, hasPendingSandbox } from "@/lib/teach/sandbox";
+import { beginSandbox, claimOrphanedSandbox, endSandbox, hasClaimedSandbox, SANDBOX_KEY } from "@/lib/teach/sandbox";
 import { prefersReducedMotion } from "@/lib/dom/motion";
 import { loadSpeed, saveSpeed } from "@/lib/teach/speed";
 import { markCompleted } from "@/lib/teach/progress";
-import { blockTours } from "@/lib/tour/use-tour";
+import { blockTours, markToursSeen } from "@/lib/tour/use-tour";
 import { textOf } from "@/lib/teach/steps";
 import { flagWords } from "@/lib/teach/cli/spec";
 import { cliSession } from "@/lib/teach/cli/session";
@@ -75,6 +75,7 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
       if (!lesson || player.current) return;
       const sandbox = beginSandbox(window.location.pathname);
       if (!sandbox) return;
+      markToursSeen();
       setKeepable(lesson.mode === "app" && !sandbox.hadProject);
       modeBefore.current = loadMode();
       blockTours(true);
@@ -116,18 +117,36 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (booted.current) return;
     booted.current = true;
-    if (hasPendingSandbox()) {
+    if (hasClaimedSandbox()) {
       endSandbox(false);
       window.location.reload();
       return;
     }
-    const url = new URL(window.location.href);
-    const requested = url.searchParams.get(TEACH_PARAM);
-    if (!requested) return;
-    url.searchParams.delete(TEACH_PARAM);
-    window.history.replaceState(window.history.state, "", url);
-    startRef.current(requested);
+    void claimOrphanedSandbox().then((claimed) => {
+      if (claimed) {
+        window.location.reload();
+        return;
+      }
+      const url = new URL(window.location.href);
+      const requested = url.searchParams.get(TEACH_PARAM);
+      if (!requested) return;
+      url.searchParams.delete(TEACH_PARAM);
+      window.history.replaceState(window.history.state, "", url);
+      startRef.current(requested);
+    });
   }, []);
+
+  useEffect(() => {
+    if (!lessonId) return;
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== SANDBOX_KEY || event.newValue !== null) return;
+      player.current?.stop();
+      player.current = null;
+      window.location.reload();
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [lessonId]);
 
   const playing = view?.status === "playing";
 

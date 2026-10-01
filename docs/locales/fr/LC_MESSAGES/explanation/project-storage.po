@@ -127,14 +127,14 @@ msgstr "Vous pouvez donc essayer l'application sans risque : rien ne change dans
 msgid "The Teach me sandbox"
 msgstr "Le bac à sable d'Apprends-moi"
 
-msgid "A **Teach me** lesson builds its own project, so it needs an empty builder. When a lesson starts, kikx copies your project, its drafts and its builder state aside into the tab's session storage and clears them. The lesson then works on a fresh project."
-msgstr "Une leçon **Apprends-moi** construit son propre projet : elle a besoin d'un constructeur vide. Au début d'une leçon, kikx copie votre projet, ses brouillons et l'état du constructeur dans le stockage de session de l'onglet, puis les efface. La leçon travaille ensuite sur un projet neuf."
+msgid "A **Teach me** lesson builds its own project, so it needs an empty builder. When a lesson starts, kikx copies your project, its drafts and its builder state aside in local storage, under a key of its own, and clears them. The lesson then works on a fresh project."
+msgstr "Une leçon **Apprends-moi** construit son propre projet : elle a besoin d'un constructeur vide. Au début d'une leçon, kikx copie votre projet, ses brouillons et l'état du constructeur dans le stockage local, sous une clé à part, puis les efface. La leçon travaille ensuite sur un projet neuf."
 
 msgid "When the lesson ends, through **Back to my project**, the stop button or {kbd}`Esc`, kikx deletes the lesson's project and puts yours back. Reloading the page in the middle of a lesson does the same. If you had no project before the lesson, **Keep this project** keeps the one the lesson built instead."
 msgstr "Quand la leçon se termine, par **Retour à mon projet**, le bouton d'arrêt ou {kbd}`Esc`, kikx supprime le projet de la leçon et remet le vôtre en place. Recharger la page en pleine leçon fait de même. Si vous n'aviez pas de projet avant la leçon, **Garder ce projet** conserve plutôt celui que la leçon a construit."
 
-msgid "Session storage belongs to the tab. Finish or stop a lesson in the tab you started it in rather than closing that tab, or the copy of your project set aside for the lesson is lost with it."
-msgstr "Le stockage de session appartient à l'onglet. Terminez ou arrêtez une leçon dans l'onglet où vous l'avez commencée plutôt que de fermer cet onglet, sinon la copie de votre projet mise de côté pour la leçon est perdue avec lui."
+msgid "The copy outlives the tab. If you close the tab in the middle of a lesson, or the browser quits, the next page of kikx you open puts your project back. While the lesson is still running in another tab, other tabs leave the copy alone, and you can't start a second lesson until that one ends."
+msgstr "La copie survit à l'onglet. Si vous fermez l'onglet en pleine leçon, ou si le navigateur se ferme, la prochaine page de kikx que vous ouvrez remet votre projet en place. Tant que la leçon tourne encore dans un autre onglet, les autres onglets ne touchent pas à la copie, et vous ne pouvez pas lancer une deuxième leçon avant la fin de celle-ci."
 
 msgid "CLI lessons and the practice terminal work the same way: the files they write stay in that tab and are never saved to your disk. See [Practice the CLI in your browser](../how-to/practice-cli-in-browser.md)."
 msgstr "Les leçons de la CLI et le terminal d'entraînement fonctionnent de la même façon : les fichiers qu'ils écrivent restent dans cet onglet et ne sont jamais enregistrés sur votre disque. Voir [S'entraîner à la CLI dans le navigateur](../how-to/practice-cli-in-browser.md)."
