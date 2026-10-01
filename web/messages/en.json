@@ -66,7 +66,8 @@
   "templates": {
     "title": "Start from a template",
     "body": "A complete, editable project to adapt instead of starting from an empty page.",
-    "components": "{count, plural, one {# component} other {# components}}"
+    "components": "{count, plural, one {# component} other {# components}}",
+    "covers": "Covers"
   },
   "tour": {
     "next": "Next",

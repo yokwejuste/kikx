@@ -66,7 +66,8 @@
   "templates": {
     "title": "Partir d'un modèle",
     "body": "Un projet complet et modifiable à adapter, plutôt que de partir d'une page vide.",
-    "components": "{count, plural, one {# composant} other {# composants}}"
+    "components": "{count, plural, one {# composant} other {# composants}}",
+    "covers": "Couvre"
   },
   "tour": {
     "next": "Suivant",
