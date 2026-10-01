@@ -972,7 +972,18 @@
       "Polissage des playbooks",
       "Alignement des étoiles"
     ],
-    "waitingWord": "{word}…"
+    "waitingWord": "{word}…",
+    "chooser": {
+      "app": {
+        "title": "Apprendre kikx dans l'app",
+        "body": "Choisissez une leçon : kikx pilote la page pendant qu'il explique. Votre projet est mis de côté puis restauré."
+      },
+      "cli": {
+        "title": "Apprendre la CLI kikx",
+        "body": "Choisissez une leçon : kikx tape les commandes pour vous pendant qu'il explique, puis vous rend le clavier."
+      },
+      "all": "Voir toutes les leçons"
+    }
   },
   "learnCli": {
     "title": "Terminal d'entraînement",
@@ -986,7 +997,8 @@
     "pickFile": "Choisissez un fichier pour le lire.",
     "notices": {
       "foreign": "Ce terminal d'entraînement lance les commandes kikx, ainsi que ls, cat et clear. Copiez celle-ci pour la lancer dans votre propre terminal."
-    }
+    },
+    "freeform": "Ou tapez simplement des commandes kikx dans le terminal ci-dessous."
   },
   "formatting": {
     "yamlProblem": "Ligne {line} : {reason}",

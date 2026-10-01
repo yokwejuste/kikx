@@ -6,6 +6,7 @@ import { RegistryGate } from "@/components/layout/registry-gate";
 import { IconTile } from "@/components/common/icon-tile";
 import { LessonTerminal } from "@/components/teach/cli/lesson-terminal";
 import { ProjectFiles } from "@/components/teach/cli/project-files";
+import { LessonChooser } from "@/components/teach/lesson-chooser";
 
 export default function LearnCliPage() {
   return (
@@ -26,6 +27,7 @@ function LearnCli() {
           <span className="text-sm text-muted-foreground">{t("body")}</span>
         </span>
       </div>
+      <LessonChooser mode="cli" compact note={t("freeform")} />
       <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-2">
         <LessonTerminal />
         <ProjectFiles />

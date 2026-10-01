@@ -1,66 +1,25 @@
 "use client";
 
 import { useRef, useState } from "react";
-import {
-  ArrowLeftRight,
-  CircleArrowUp,
-  CircleCheck,
-  Cloud,
-  FileInput,
-  GraduationCap,
-  LayoutTemplate,
-  ScrollText,
-  ShieldCheck,
-  Ship,
-  Sparkles,
-  SquareTerminal,
-  type LucideIcon,
-} from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/badge";
-import { IconTile } from "@/components/common/icon-tile";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useTeach } from "@/components/teach/teach-provider";
-import { lessonMinutes, lessonsFor } from "@/lib/teach/lessons";
-import { useTeachMode } from "@/lib/teach/mode";
+import { LessonCards } from "@/components/teach/lesson-cards";
 import { ModeTabs, ModeTabsList } from "@/components/teach/mode-tabs";
-import { loadCompleted } from "@/lib/teach/progress";
-import type { LessonIcon, LessonLevel } from "@/lib/teach/types";
+import { useTeachMode } from "@/lib/teach/mode";
 import { Hint } from "@/components/common/hint";
-import { SectionLabel } from "@/components/common/section-label";
-
-const LESSON_ICONS: Record<LessonIcon, LucideIcon> = {
-  sparkles: Sparkles,
-  template: LayoutTemplate,
-  playbook: ScrollText,
-  checks: ShieldCheck,
-  kubernetes: Ship,
-  cloud: Cloud,
-  import: FileInput,
-  terminal: SquareTerminal,
-  sync: ArrowLeftRight,
-  upgrade: CircleArrowUp,
-};
-
-const LEVELS: LessonLevel[] = ["basics", "further"];
 
 export function TeachButton() {
   const t = useTranslations("teach");
   const { start, active } = useTeach();
   const mode = useTeachMode();
   const [open, setOpen] = useState(false);
-  const [completed, setCompleted] = useState<string[]>([]);
   const chosen = useRef<string | null>(null);
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(next) => {
-        if (next) setCompleted(loadCompleted());
-        setOpen(next);
-      }}
-    >
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
@@ -89,61 +48,13 @@ export function TeachButton() {
         <ModeTabs>
           <ModeTabsList />
         </ModeTabs>
-        {LEVELS.map((level) => {
-          const lessons = lessonsFor(mode).filter((lesson) => lesson.level === level);
-          if (lessons.length === 0) return null;
-          return (
-            <section key={level} className="flex flex-col gap-2">
-              <SectionLabel as="h3">{t(`levels.${level}`)}</SectionLabel>
-              <ul className="grid gap-2 sm:grid-cols-2">
-                {lessons.map((lesson) => {
-                  const outcomes = t.raw(`lessons.${lesson.id}.outcomes`) as string[];
-                  const isDone = completed.includes(lesson.id);
-                  return (
-                    <li key={lesson.id}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          chosen.current = lesson.id;
-                          setOpen(false);
-                        }}
-                        className="flex h-full w-full flex-col gap-2 rounded-lg border p-3 text-left transition-colors hover:border-brand/40 hover:bg-muted/40"
-                      >
-                        <span className="flex items-start gap-3">
-                          <IconTile icon={LESSON_ICONS[lesson.icon]} />
-                          <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                            <span className="flex flex-wrap items-center gap-1.5 font-medium">
-                              {t(`lessons.${lesson.id}.title`)}
-                              {isDone && (
-                                <Badge variant="brand" className="gap-1 font-normal">
-                                  <CircleCheck className="size-3" />
-                                  {t("completed")}
-                                </Badge>
-                              )}
-                            </span>
-                            <span className="text-muted-foreground">{t(`lessons.${lesson.id}.description`)}</span>
-                          </span>
-                          <Badge variant="outline" className="shrink-0 font-normal text-muted-foreground">
-                            {t("minutes", { count: lessonMinutes(lesson) })}
-                          </Badge>
-                        </span>
-                        <span className="flex flex-col gap-1 pl-11">
-                          <Hint as="span" className="font-medium">{t("youLearn")}</Hint>
-                          {outcomes.map((outcome) => (
-                            <Hint as="span" key={outcome} className="flex gap-1.5">
-                              <span aria-hidden>·</span>
-                              {outcome}
-                            </Hint>
-                          ))}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          );
-        })}
+        <LessonCards
+          mode={mode}
+          onPick={(lessonId) => {
+            chosen.current = lessonId;
+            setOpen(false);
+          }}
+        />
         <Hint>{t(`sandbox.${mode}`)}</Hint>
       </DialogContent>
     </Dialog>

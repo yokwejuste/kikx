@@ -856,7 +856,18 @@
       "Polishing playbooks",
       "Aligning the stars"
     ],
-    "waitingWord": "{word}…"
+    "waitingWord": "{word}…",
+    "chooser": {
+      "app": {
+        "title": "Learn kikx in the app",
+        "body": "Pick a lesson and kikx drives the page while it explains. Your project is set aside and comes back afterwards."
+      },
+      "cli": {
+        "title": "Learn the kikx CLI",
+        "body": "Pick a lesson and kikx types the commands for you while it explains, then hands over the keyboard."
+      },
+      "all": "See all lessons"
+    }
   },
   "learnCli": {
     "title": "Practice terminal",
@@ -870,7 +881,8 @@
     "pickFile": "Pick a file to read it.",
     "notices": {
       "foreign": "This practice terminal runs kikx commands, plus ls, cat and clear. Copy this one to run it in your own terminal."
-    }
+    },
+    "freeform": "Or just type kikx commands in the terminal below."
   },
   "formatting": {
     "yamlProblem": "Line {line}: {reason}",
