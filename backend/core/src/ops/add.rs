@@ -7,7 +7,7 @@ use minijinja::{Environment, Value};
 use super::error::{OpsError, OpsErrorKind, OrKind};
 use super::manifest::write_all;
 use crate::config::KikxConfig;
-use crate::registry;
+use crate::registry::{self, FieldSpec, RegistryItem};
 
 pub struct RenderParams {
     pub reference: String,
@@ -37,6 +37,22 @@ fn field_value(raw: &str) -> Value {
         }
     }
     Value::from(raw)
+}
+
+fn checked_value(
+    item: &RegistryItem,
+    field: &FieldSpec,
+    value: String,
+) -> Result<String, OpsError> {
+    match field.format {
+        Some(format) if !value.trim().is_empty() => format.normalize(&value).map_err(|err| {
+            OpsError::new(
+                OpsErrorKind::InvalidField,
+                anyhow!("field `{}` of {}: {err}", field.name, item.reference()),
+            )
+        }),
+        _ => Ok(value),
+    }
 }
 
 pub fn render_component(params: RenderParams) -> Result<RenderOutcome, OpsError> {
@@ -70,6 +86,7 @@ pub fn render_component(params: RenderParams) -> Result<RenderOutcome, OpsError>
             .or_else(|| field.default.clone());
         match value {
             Some(value) => {
+                let value = checked_value(&item, field, value)?;
                 ctx.insert(field.name.clone(), field_value(&value));
             }
             None if field.required => {

@@ -9,6 +9,17 @@ terraform {
 provider "scaleway" {
   zone = "{{ region }}"
 }
+{%- if private_network %}
+
+resource "scaleway_vpc_private_network" "{{ name }}" {
+  name   = "{{ name }}-network"
+  region = "{{ (region | split("-"))[:-1] | join("-") }}"
+
+  ipv4_subnet {
+    subnet = "{{ private_network }}"
+  }
+}
+{%- endif %}
 
 resource "scaleway_instance_ip" "{{ name }}" {
   count = {{ count }}
@@ -20,4 +31,10 @@ resource "scaleway_instance_server" "{{ name }}" {
   type  = "{{ size }}"
   image = "{{ os_image }}"
   ip_id = scaleway_instance_ip.{{ name }}[count.index].id
+{%- if private_network %}
+
+  private_network {
+    pn_id = scaleway_vpc_private_network.{{ name }}.id
+  }
+{%- endif %}
 }

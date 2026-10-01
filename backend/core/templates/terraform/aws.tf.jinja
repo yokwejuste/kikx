@@ -11,11 +11,48 @@ data "aws_ami" "{{ name }}" {
     values = ["{{ os_image }}"]
   }
 }
+{%- if private_network %}
+
+resource "aws_vpc" "{{ name }}" {
+  cidr_block = "{{ private_network }}"
+
+  tags = {
+    Name = "{{ name }}"
+  }
+}
+
+resource "aws_internet_gateway" "{{ name }}" {
+  vpc_id = aws_vpc.{{ name }}.id
+}
+
+resource "aws_subnet" "{{ name }}" {
+  vpc_id                  = aws_vpc.{{ name }}.id
+  cidr_block              = "{{ private_network }}"
+  map_public_ip_on_launch = true
+}
+
+resource "aws_route_table" "{{ name }}" {
+  vpc_id = aws_vpc.{{ name }}.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.{{ name }}.id
+  }
+}
+
+resource "aws_route_table_association" "{{ name }}" {
+  subnet_id      = aws_subnet.{{ name }}.id
+  route_table_id = aws_route_table.{{ name }}.id
+}
+{%- endif %}
 
 resource "aws_instance" "{{ name }}" {
   count         = {{ count }}
   ami           = data.aws_ami.{{ name }}.id
   instance_type = "{{ size }}"
+{%- if private_network %}
+  subnet_id     = aws_subnet.{{ name }}.id
+{%- endif %}
 
   tags = {
     Name = "{{ name }}-${count.index}"

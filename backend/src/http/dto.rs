@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use kikx_core::config;
 use kikx_core::ops::{CommonFields, RenderOutcome, RenderParams};
 use kikx_core::presets::PresetManifest;
-use kikx_core::registry::{FieldSpec, RegistryItem};
+use kikx_core::registry::{FieldFormat, FieldSpec, RegistryItem};
 use serde::{Deserialize, Serialize};
 use utoipa::{IntoParams, ToSchema};
 
@@ -36,6 +36,7 @@ pub struct FieldSpecDto {
     pub description: Option<String>,
     pub example: Option<String>,
     pub options: Vec<FieldOptionDto>,
+    pub format: Option<FieldFormat>,
 }
 
 impl From<FieldSpec> for FieldSpecDto {
@@ -58,6 +59,7 @@ impl From<FieldSpec> for FieldSpecDto {
                     value: o.value,
                 })
                 .collect(),
+            format: f.format,
         }
     }
 }

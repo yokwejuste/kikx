@@ -338,6 +338,60 @@ fn add_terraform_missing_region_fails() {
         .stderr(contains("field `region` is required"));
 }
 
+fn add_server_with_private_network(
+    dir: &std::path::Path,
+    range: &str,
+) -> assert_cmd::assert::Assert {
+    kikx()
+        .current_dir(dir)
+        .args([
+            "add",
+            "terraform/hetzner",
+            "--name",
+            "worker",
+            "--set",
+            "region=fsn1",
+            "--set",
+            "size=cx22",
+            "--set",
+            &format!("private_network={range}"),
+        ])
+        .assert()
+}
+
+#[test]
+fn add_server_with_a_private_network_writes_the_range() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    add_server_with_private_network(tmp.path(), "10.30.0.0/16").success();
+
+    let text = std::fs::read_to_string(tmp.path().join("infra/worker-hetzner.tf")).unwrap();
+    assert!(text.contains("ip_range = \"10.30.0.0/16\""));
+    assert!(text.contains("network_id = hcloud_network.worker.id"));
+}
+
+#[test]
+fn add_server_with_an_invalid_private_network_fails() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    add_server_with_private_network(tmp.path(), "10.30.0.7/16")
+        .failure()
+        .stderr(contains("field `private_network` of terraform/hetzner"))
+        .stderr(contains("use `10.30.0.0/16`"));
+    add_server_with_private_network(tmp.path(), "10.30.0.0")
+        .failure()
+        .stderr(contains("is not a CIDR range"));
+    assert!(!tmp.path().join("infra/worker-hetzner.tf").exists());
+}
+
 #[test]
 fn add_custom_component_from_local_file() {
     let tmp = tempfile::tempdir().unwrap();

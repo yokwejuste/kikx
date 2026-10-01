@@ -7,6 +7,7 @@ pub enum OpsErrorKind {
     AlreadyExists,
     InvalidComponent,
     MissingField,
+    InvalidField,
     Io,
     Other,
 }

@@ -23,6 +23,9 @@ pub fn run() -> Result<()> {
             if let Some(example) = &field.example {
                 notes.push(format!("e.g. {example}"));
             }
+            if let Some(format) = field.format {
+                notes.push(format!("format {}", format.name()));
+            }
             if !field.options.is_empty() {
                 let values: Vec<&str> = field.options.iter().map(|o| o.value.as_str()).collect();
                 notes.push(format!("one of {}", values.join(", ")));
