@@ -41,7 +41,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
       }}
     >
       <DialogTrigger asChild>
-        <Button type="button" variant="outline" size="sm">
+        <Button data-teach="inventory-import" type="button" variant="outline" size="sm">
           <ClipboardPaste />
           {t("trigger")}
         </Button>
@@ -55,6 +55,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
         </DialogHeader>
 
         <Textarea
+          data-teach="inventory-ini"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={FORMAT_HINT}
@@ -78,7 +79,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
             />
           </label>
           {parsed && (
-            <p className="text-sm text-muted-foreground">
+            <p data-teach="inventory-counts" className="text-sm text-muted-foreground">
               {t("counts", { hosts: parsed.hosts.length, groups: parsed.groups.length })}
             </p>
           )}
@@ -100,6 +101,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
             {t("cancel")}
           </Button>
           <Button
+            data-teach="inventory-replace"
             type="button"
             disabled={!parsed || parsed.hosts.length === 0}
             onClick={() => {

@@ -38,7 +38,7 @@ export function PlaysFields({
 
       <Datalist id={hostsListId} options={["all", ...groupNames]} />
 
-      <ol className="flex flex-col gap-3">
+      <ol data-teach="plays" className="flex flex-col gap-3">
         {plays.fields.map((field, index) => (
           <PlayCard
             key={field.id}

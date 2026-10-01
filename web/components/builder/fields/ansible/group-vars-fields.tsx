@@ -100,6 +100,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
             {(["fields", "yaml"] as const).map((m) => (
               <button
                 key={m}
+                data-teach={`groupvars-${m}`}
                 type="button"
                 role="radio"
                 aria-checked={mode === m}
@@ -126,6 +127,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
         ) : (
           <Field data-invalid={!!errors.yaml}>
             <Textarea
+              data-teach="groupvars-yaml-text"
               spellCheck={false}
               aria-invalid={!!errors.yaml}
               placeholder={"key: value\nlist:\n  - item\nmap:\n  nested: value"}
