@@ -1,7 +1,8 @@
 "use client";
 
-import { Copy } from "lucide-react";
+import { Copy, type LucideIcon } from "lucide-react";
 import { CopyButton } from "@/components/common/copy-button";
+import { IconButton } from "@/components/common/icon-button";
 import { cn } from "@/lib/utils";
 
 export function TerminalFrame({
@@ -31,12 +32,17 @@ export function TerminalFrame({
 export const terminalButtonClass =
   "size-7 shrink-0 text-(--terminal-paper)/60 hover:bg-(--terminal-paper)/10 hover:text-(--terminal-paper) dark:hover:bg-(--terminal-paper)/10";
 
+export function TerminalButton({ className, ...props }: Omit<React.ComponentProps<typeof IconButton>, "size">) {
+  return <IconButton size="sm" className={cn(terminalButtonClass, className)} {...props} />;
+}
+
 export function TerminalCopyButton({
   text,
   label,
+  icon: Icon = Copy,
   className,
   ...props
-}: { text: string; label: string } & Omit<React.ComponentProps<typeof CopyButton>, "text" | "children">) {
+}: { label: string; icon?: LucideIcon } & Omit<React.ComponentProps<typeof CopyButton>, "children">) {
   return (
     <CopyButton
       text={text}
@@ -46,7 +52,7 @@ export function TerminalCopyButton({
       className={cn(terminalButtonClass, className)}
       {...props}
     >
-      <Copy className="size-3.5" />
+      <Icon className="size-3.5" />
     </CopyButton>
   );
 }

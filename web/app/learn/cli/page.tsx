@@ -4,9 +4,12 @@ import { SquareTerminal } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { RegistryGate } from "@/components/layout/registry-gate";
 import { IconTile } from "@/components/common/icon-tile";
+import { ResizableSplit } from "@/components/common/resizable-split";
 import { LessonTerminal } from "@/components/teach/cli/lesson-terminal";
 import { ProjectFiles } from "@/components/teach/cli/project-files";
 import { LessonChooser } from "@/components/teach/lesson-chooser";
+
+const SPLIT_KEY = "kikx-cli:split";
 
 export default function LearnCliPage() {
   return (
@@ -28,10 +31,13 @@ function LearnCli() {
         </span>
       </div>
       <LessonChooser mode="cli" compact note={t("freeform")} />
-      <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-2">
-        <LessonTerminal />
-        <ProjectFiles />
-      </div>
+      <ResizableSplit
+        storageKey={SPLIT_KEY}
+        label={t("resize")}
+        className="min-h-0 flex-1"
+        start={<LessonTerminal />}
+        end={<ProjectFiles />}
+      />
     </main>
   );
 }

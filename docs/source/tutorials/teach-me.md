@@ -36,6 +36,13 @@ everything stays in your browser tab. When it is your turn, click the terminal, 
 and press Enter; **Show me** types it for you. Every command has a copy button so you can run it for
 real in your own terminal.
 
+The practice terminal behaves like a shell. The up and down arrows recall earlier commands. Tab
+completes commands, flags, template and component names and file names; press it twice to list the
+choices. Ctrl+A, Ctrl+E, Ctrl+U, Ctrl+W and Ctrl+K edit the line, Ctrl+C cancels it and Ctrl+L
+clears the screen. The buttons above the terminal run the line, clear the screen, copy every
+command of the session as a script, and copy a link that replays the session in someone else's
+browser.
+
 ### Install and your first project
 
 What the install script does, `kikx init` and what `kikx.toml` holds, `kikx list`, then

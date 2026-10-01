@@ -1,4 +1,6 @@
 import { flagValue, hasFlag, keyValues, parseLine, type KikxCommand } from "./parse.ts";
+import { COMMANDS } from "./spec.ts";
+import { closestName } from "./suggest.ts";
 import { ancestors, baseName, escapes, joinPath, normalizePath } from "./paths.ts";
 import {
   addOutput,
@@ -15,6 +17,7 @@ import {
   readKikxToml,
   setupOutput,
   textLines,
+  tipOutput,
   upgradedOutput,
   usageOutput,
   versionOutput,
@@ -148,6 +151,7 @@ class Run {
   private machine: CliMachine;
   private readonly deps: EngineDeps;
   private readonly cwd: string;
+  tip: string | null = null;
 
   constructor(machine: CliMachine, deps: EngineDeps) {
     this.machine = machine;
@@ -197,6 +201,7 @@ class Run {
     }
     const text = this.machine.files[normalizePath(reference)];
     if (text === undefined) {
+      this.tip = closestName(reference, templates.map((template) => template.name));
       fail(`\`${reference}\` isn't a template name, a URL or an existing local file. Run \`kikx presets\` to see the templates`);
     }
     let parsed: unknown = null;
@@ -253,16 +258,28 @@ class Run {
       const value = flagValue(command, flag);
       return value === undefined ? [] : [[field, value]];
     });
-    const rendered = await this.deps.render({
-      reference: command.positional ?? "",
-      name: flagValue(command, "name") ?? "",
-      fields: Object.fromEntries([...common, ...keyValues(command, "set")]),
-      labels: Object.fromEntries(keyValues(command, "label")),
-      defaultNamespace: config.defaultNamespace,
-    });
+    const reference = command.positional ?? "";
+    const rendered = await this.deps
+      .render({
+        reference,
+        name: flagValue(command, "name") ?? "",
+        fields: Object.fromEntries([...common, ...keyValues(command, "set")]),
+        labels: Object.fromEntries(keyValues(command, "label")),
+        defaultNamespace: config.defaultNamespace,
+      })
+      .catch(async (error: unknown) => {
+        this.tip = await this.componentTip(reference);
+        throw error;
+      });
     const files = rendered.map((file) => ({ path: joinPath(config.outputDir, file.path), content: file.content }));
     const written = this.write(files, hasFlag(command, "force"));
     return this.result(addOutput(written.map(this.display)), written);
+  }
+
+  private async componentTip(reference: string): Promise<string | null> {
+    if (/^https?:\/\//.test(reference) || this.machine.files[normalizePath(reference)] !== undefined) return null;
+    const components = await this.deps.registry().catch(() => []);
+    return closestName(reference, components.map((component) => component.reference));
   }
 
   async list(): Promise<RunResult> {
@@ -335,6 +352,10 @@ export function compareVersions(left: string, right: string): number {
   return 0;
 }
 
+function subcommandTip(unknown: string | undefined): string | null {
+  return unknown === undefined ? null : closestName(unknown, [...COMMANDS.map((command) => command.name), "help"]);
+}
+
 export async function runLine(input: string, machine: CliMachine, deps: EngineDeps): Promise<RunResult> {
   const parsed = parseLine(input);
   const run = new Run(machine, deps);
@@ -345,7 +366,7 @@ export async function runLine(input: string, machine: CliMachine, deps: EngineDe
       case "help":
         return run.result(helpOutput());
       case "usage":
-        return run.result(usageOutput(parsed.message, parsed.details));
+        return run.result([...usageOutput(parsed.message, parsed.details), ...tipOutput(subcommandTip(parsed.unknown))]);
       case "foreign":
         return run.result([{ notice: "foreign" }]);
       case "shell":
@@ -366,6 +387,10 @@ export async function runLine(input: string, machine: CliMachine, deps: EngineDe
       }
     }
   } catch (error) {
-    return { machine, lines: errorOutput(error instanceof CliError ? error.message : deps.errorMessage(error)), written: [] };
+    return {
+      machine,
+      lines: [...errorOutput(error instanceof CliError ? error.message : deps.errorMessage(error)), ...tipOutput(run.tip)],
+      written: [],
+    };
   }
 }
