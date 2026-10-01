@@ -8,13 +8,28 @@ function shownText(element: HTMLElement): string {
   return element.textContent ?? "";
 }
 
-export function findVisible(selector: string, text?: string): HTMLElement | null {
+const DRAWER_TRIGGER = '[data-teach="project-drawer"]';
+const OPEN_DRAWER = '[data-slot="sheet-content"]';
+
+export function findElement(selector: string, text?: string, visible = true): HTMLElement | null {
   for (const element of document.querySelectorAll<HTMLElement>(selector)) {
     const disabled = element instanceof HTMLButtonElement && element.disabled;
     const matches = text === undefined || shownText(element).includes(text);
-    if (!disabled && matches && element.getClientRects().length > 0) return element;
+    if (!disabled && matches && (!visible || element.getClientRects().length > 0)) return element;
   }
   return null;
+}
+
+export function findVisible(selector: string, text?: string): HTMLElement | null {
+  return findElement(selector, text);
+}
+
+export function closedDrawerTrigger(): HTMLElement | null {
+  return document.querySelector(OPEN_DRAWER) ? null : findVisible(DRAWER_TRIGGER);
+}
+
+export function openDrawer(): HTMLElement | null {
+  return document.querySelector<HTMLElement>(OPEN_DRAWER);
 }
 
 export function isComfortablyVisible(element: Element): boolean {

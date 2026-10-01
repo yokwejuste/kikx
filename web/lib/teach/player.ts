@@ -1,5 +1,5 @@
 import type { Lesson, LessonStep, Target, TaskCheck, TextRef } from "@/lib/teach/types";
-import { findVisible, isComfortablyVisible, pressElement, pressKey, releaseFocus, setInputValue } from "@/lib/teach/dom";
+import { closedDrawerTrigger, findElement, isComfortablyVisible, openDrawer, pressElement, pressKey, releaseFocus, setInputValue } from "@/lib/teach/dom";
 
 export type LessonStatus = "playing" | "paused" | "task" | "lost" | "done";
 
@@ -49,6 +49,7 @@ const TASK_POLL_MS = 250;
 const PRAISE_MS = 1400;
 const FIND_TIMEOUT_MS = 10000;
 const OPTIONAL_TIMEOUT_MS = 1500;
+const REVEAL_AFTER_MS = 1200;
 const SCROLL_SETTLE_MS = 450;
 const WAITING_AFTER_MS = 600;
 const TYPE_MS = 70;
@@ -167,13 +168,14 @@ export class LessonPlayer {
         this.emit();
         return;
       case "go":
+        this.target = null;
+        this.targetRef = null;
         if (window.location.pathname !== step.path) {
           this.env.navigate(step.path);
           if (!(await this.until(() => window.location.pathname === step.path, FIND_TIMEOUT_MS))) throw new Lost();
         }
         return;
       case "say":
-        this.target = null;
         this.narrate(step);
         await this.read();
         return;
@@ -252,7 +254,7 @@ export class LessonPlayer {
   }
 
   private checkTask(checks: TaskCheck[]): LessonTaskCheck[] {
-    return checks.map((check) => ({ label: this.env.check(check.label), done: this.find(check.target) !== null }));
+    return checks.map((check) => ({ label: this.env.check(check.label), done: this.find(check.target, false) !== null }));
   }
 
   private narrate(step: { say?: string; learn?: string }): void {
@@ -281,15 +283,36 @@ export class LessonPlayer {
     }
   }
 
-  private find(target: Target): HTMLElement | null {
-    if (typeof target === "string") return findVisible(target);
-    return findVisible(target.selector, this.env.text(target.text));
+  private find(target: Target, visible = true): HTMLElement | null {
+    if (typeof target === "string") return findElement(target, undefined, visible);
+    return findElement(target.selector, this.env.text(target.text), visible);
+  }
+
+  private async locate(target: Target, timeout: number): Promise<HTMLElement | null> {
+    let element: HTMLElement | null = null;
+    const found = await this.until(() => (element = this.find(target)) !== null, timeout);
+    return found ? element : null;
+  }
+
+  private async reveal(target: Target, timeout: number): Promise<HTMLElement | null> {
+    const element = await this.locate(target, Math.min(REVEAL_AFTER_MS, timeout));
+    if (element) return element;
+    const trigger = closedDrawerTrigger();
+    if (!trigger) return this.locate(target, timeout - REVEAL_AFTER_MS);
+    this.click(trigger);
+    await this.wait(AFTER_ACTION_MS, false);
+    return this.locate(target, timeout);
   }
 
   private async reach(target: Target, optional = false): Promise<HTMLElement | null> {
-    let element: HTMLElement | null = null;
-    const found = await this.until(() => (element = this.find(target)) !== null, optional ? OPTIONAL_TIMEOUT_MS : FIND_TIMEOUT_MS);
-    if (!found || !element) {
+    let element = await this.reveal(target, optional ? OPTIONAL_TIMEOUT_MS : FIND_TIMEOUT_MS);
+    const drawer = openDrawer();
+    if (element && drawer && !drawer.contains(element)) {
+      pressKey("Escape");
+      await this.wait(AFTER_ACTION_MS, false);
+      element = await this.locate(target, FIND_TIMEOUT_MS);
+    }
+    if (!element) {
       if (optional) return null;
       throw new Lost();
     }
