@@ -42,6 +42,12 @@
       "discard": "Abandonner",
       "discarded": "{name} abandonné"
     },
+    "replace": {
+      "title": "Remplacer {name} ?",
+      "body": "{action, select, blank {Démarrer le projet vierge {target}} template {Ouvrir le modèle {target}} other {Ouvrir {target}}} le remplace. {count, plural, =0 {Ses brouillons non enregistrés seront supprimés} one {Son # composant et ses brouillons non enregistrés seront supprimés} other {Ses # composants et ses brouillons non enregistrés seront supprimés}} de ce navigateur.",
+      "export": "Télécharger le preset d'abord",
+      "confirm": "Remplacer"
+    },
     "copyCommands": "Copier les commandes",
     "cli": {
       "body": "Installez kikx, puis lancez les mêmes étapes dans votre dépôt. Copiez-les toutes avec le bouton."

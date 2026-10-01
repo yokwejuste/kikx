@@ -50,20 +50,21 @@ description, badges for the stages it covers (**Provision**, **Inventory**, **Co
 **Deploy**), its name and its number of components. Click a card to load the template and open it
 in the builder.
 
-Opening a template replaces the project you have in this browser. Export it first if you want to
-keep it. See [Start from a template in the app](../how-to/start-from-template-web.md).
+Opening a template replaces the project you have in this browser, after a confirmation on the
+[resume card](#resume-card). See [Start from a template in the app](../how-to/start-from-template-web.md).
 
 ### Blank project
 
 Type a **Project name** and click **Start building**. The default namespace and output directory are
 filled in from the registry defaults; change them later with the [settings badges](#project-settings-badges).
-Starting a blank project replaces the project you have in this browser.
+Starting a blank project replaces the project you have in this browser, after a confirmation on
+the [resume card](#resume-card).
 
 ### Open a preset
 
 **Open a preset** opens a `.kikx-preset.json` you exported earlier, from this browser or another
 one, and takes you to the builder. A file that isn't a kikx preset shows **Couldn't open that
-preset**. Like a template, it replaces the current project. See
+preset**. Like a template, it replaces the current project after a confirmation. See
 [Export and reopen a project in the app](../how-to/export-and-reopen-web.md#reopen-a-preset-in-the-app).
 
 ### Resume card
@@ -74,6 +75,10 @@ project name, with the number of components it has.
 - **Continue** opens the builder where you left off.
 - The close button (**Discard** followed by the project name) asks for confirmation. **Discard**
   removes the project and its unsaved drafts from this browser; **Keep** cancels.
+- Starting a blank project, or opening a template or a preset, turns the card into a confirmation:
+  **Replace** followed by the project name. **Download preset first** downloads the current
+  project as a `.kikx-preset.json`, **Replace** goes ahead, **Keep** cancels. Without a stored
+  project there is no card and no confirmation.
 
 At the bottom of the page, **See how data flows through kikx** opens the [Data flow](#data-flow)
 page.

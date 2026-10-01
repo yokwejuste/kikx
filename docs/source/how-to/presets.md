@@ -74,7 +74,7 @@ Only the dashboard can save a project as a preset. The CLI reads presets but nev
 
 The dashboard re-renders every component through the backend, then opens the builder with the project loaded. If a component can't render, for example a custom registry item the backend can't reach, the preset doesn't open and an error names the problem.
 
-Opening a preset replaces the project currently in the browser. Download what you have first if you want to keep it.
+Opening a preset replaces the project currently in the browser. If there is one, the home page asks first and offers **Download preset first** so you can keep it.
 :::
 
 :::{tab-item} With the CLI

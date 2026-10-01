@@ -302,8 +302,8 @@ discard the project after a confirmation.
 
 The browser keeps one project at a time, and only on this browser. Keep these in mind:
 
-- Starting a **Blank project** or a template replaces the project kept in the browser. Export a
-  preset first if you want to keep it.
+- Starting a **Blank project** or a template replaces the project kept in the browser. The home
+  page asks first, and its **Download preset first** button keeps a copy.
 - Clearing your browser data removes the project. So does using another browser or computer.
 - To get a project back in any of those cases, click **Open a preset** on the home page and pick the
   `.kikx-preset.json` you downloaded. The builder opens with every component in place.

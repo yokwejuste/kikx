@@ -52,8 +52,8 @@ msgstr "La carte affiche un indicateur de chargement pendant que l'app génère 
 msgid "The list comes from the backend, so it's the same list `kikx presets` prints. [Built-in templates](../reference/preset-format.md#built-in-templates) describes each one."
 msgstr "La liste vient du backend : c'est donc la même que celle qu'affiche `kikx presets`. [Templates intégrés](../reference/preset-format.md#built-in-templates) décrit chacun d'eux."
 
-msgid "Opening a template replaces the project kept in your browser, along with its unsaved drafts, without asking. If you want to keep the current project, export it first. See [Export and reopen a project in the app](export-and-reopen-web.md)."
-msgstr "Ouvrir un modèle remplace le projet conservé dans votre navigateur, ainsi que ses brouillons non enregistrés, sans confirmation. Si vous voulez garder le projet actuel, exportez-le d'abord. Voir [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
+msgid "Opening a template replaces the project kept in your browser, along with its unsaved drafts. If the browser already holds a project, the card at the top of the home page asks **Replace** followed by the project name first. Click **Download preset first** to keep a copy, then **Replace** to open the template, or **Keep** to stay on the current project. See [Export and reopen a project in the app](export-and-reopen-web.md)."
+msgstr "Ouvrir un modèle remplace le projet conservé dans votre navigateur, ainsi que ses brouillons non enregistrés. Si le navigateur contient déjà un projet, la carte en haut de la page d'accueil demande d'abord **Remplacer** suivi du nom du projet. Cliquez sur **Télécharger le preset d'abord** pour en garder une copie, puis sur **Remplacer** pour ouvrir le modèle, ou sur **Conserver** pour rester sur le projet actuel. Voir [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
 
 msgid "What opens"
 msgstr "Ce qui s'ouvre"

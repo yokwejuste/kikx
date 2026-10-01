@@ -9,14 +9,22 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useErrorText } from "@/lib/i18n/use-error-text";
 import { PronounceButton } from "@/components/common/pronounce-button";
-import { ArrowRight, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
+import { ArrowRight, Download, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
 import { useProject } from "@/lib/project/context";
 import { projectNameSchema, type ProjectNameValues } from "@/lib/forms/schemas";
 import { api } from "@/lib/api/client";
-import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetManifest } from "@/lib/project/preset";
+import {
+  downloadPreset,
+  loadPresetManifest,
+  parsePresetManifest,
+  toPresetManifest,
+  type PresetManifest,
+} from "@/lib/project/preset";
+import { loadStoredProject } from "@/lib/project/storage";
+import { ConfirmPrompt } from "@/components/common/confirm-prompt";
 import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
 import { TabsContent } from "@/components/ui/tabs";
@@ -29,6 +37,12 @@ import { IconButton } from "@/components/common/icon-button";
 import { HelpTip } from "@/components/common/help-tip";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
 import { codeTag } from "@/components/common/rich-tags";
+
+type ReplaceAction = "blank" | "template" | "file";
+
+type Pending =
+  | { kind: "discard" }
+  | { kind: "replace"; action: ReplaceAction; target: string; run: () => void };
 
 export default function Home() {
   return (
@@ -45,8 +59,16 @@ function HomeContent() {
   const router = useRouter();
   const { details, components, setDetails, reset, loadProject } = useProject();
   const [opening, setOpening] = useState<string | null>(null);
-  const [confirmingDiscard, setConfirmingDiscard] = useState(false);
+  const [pending, setPending] = useState<Pending | null>(null);
   useFirstVisitTour("home");
+
+  function confirmReplace(action: ReplaceAction, target: string, run: () => void) {
+    if (loadStoredProject()?.details) {
+      setPending({ kind: "replace", action, target, run });
+    } else {
+      run();
+    }
+  }
 
   async function open(label: string, manifest: () => Promise<PresetManifest>, fallbackName: string) {
     setOpening(label);
@@ -68,9 +90,55 @@ function HomeContent() {
   });
 
   function onSubmit(values: ProjectNameValues) {
-    reset();
-    setDetails({ name: values.name, namespace: defaults.defaultNamespace, outputDir: defaults.defaultOutputDir });
-    router.push("/build");
+    confirmReplace("blank", values.name, () => {
+      reset();
+      setDetails({ name: values.name, namespace: defaults.defaultNamespace, outputDir: defaults.defaultOutputDir });
+      router.push("/build");
+    });
+  }
+
+  function renderPrompt(prompt: Pending) {
+    const stored = loadStoredProject();
+    const storedDetails = stored?.details ?? details;
+    const storedComponents = stored?.components ?? components;
+    const name = storedDetails?.name ?? "";
+    const count = storedComponents.length;
+    if (prompt.kind === "discard") {
+      return (
+        <ConfirmPrompt
+          title={t("resume.confirmTitle", { name })}
+          body={t("resume.confirmBody", { count })}
+          cancelLabel={t("resume.keep")}
+          confirmLabel={t("resume.discard")}
+          onCancel={() => setPending(null)}
+          onConfirm={() => {
+            reset();
+            setPending(null);
+            toast.success(t("resume.discarded", { name }));
+          }}
+        />
+      );
+    }
+    return (
+      <ConfirmPrompt
+        title={t("replace.title", { name })}
+        body={t("replace.body", { action: prompt.action, target: prompt.target, count })}
+        cancelLabel={t("resume.keep")}
+        confirmLabel={t("replace.confirm")}
+        onCancel={() => setPending(null)}
+        onConfirm={() => {
+          setPending(null);
+          prompt.run();
+        }}
+      >
+        {storedDetails && (
+          <Button variant="outline" size="sm" onClick={() => downloadPreset(storedDetails, storedComponents)}>
+            <Download />
+            {t("replace.export")}
+          </Button>
+        )}
+      </ConfirmPrompt>
+    );
   }
 
   return (
@@ -91,34 +159,11 @@ function HomeContent() {
           </p>
         </div>
 
-        {details && (
+        {(pending || details) && (
           <div className="flex w-full flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4 text-left text-sm shadow-sm">
-            {confirmingDiscard ? (
-              <>
-                <span>
-                  <span className="font-medium">{t("resume.confirmTitle", { name: details.name })}</span>
-                  <span className="block text-muted-foreground">
-                    {t("resume.confirmBody", { count: components.length })}
-                  </span>
-                </span>
-                <span className="flex gap-2">
-                  <Button variant="ghost" size="sm" onClick={() => setConfirmingDiscard(false)}>
-                    {t("resume.keep")}
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => {
-                      reset();
-                      setConfirmingDiscard(false);
-                      toast.success(t("resume.discarded", { name: details.name }));
-                    }}
-                  >
-                    {t("resume.discard")}
-                  </Button>
-                </span>
-              </>
-            ) : (
+            {pending ? (
+              renderPrompt(pending)
+            ) : details ? (
               <>
                 <Link href="/build" className="flex min-w-48 flex-1 items-center gap-3 hover:underline-offset-4">
                   <IconTile icon={History} />
@@ -131,7 +176,7 @@ function HomeContent() {
                   <IconButton
                     icon={X}
                     label={t("resume.discardLabel", { name: details.name })}
-                    onClick={() => setConfirmingDiscard(true)}
+                    onClick={() => setPending({ kind: "discard" })}
                   />
                   <Button asChild variant="outline" size="sm">
                     <Link href="/build">
@@ -141,7 +186,7 @@ function HomeContent() {
                   </Button>
                 </span>
               </>
-            )}
+            ) : null}
           </div>
         )}
 
@@ -151,7 +196,11 @@ function HomeContent() {
           <TabsContent value="app" className="flex flex-col items-center gap-10">
             <TemplateGallery
               opening={opening}
-              onSelect={(name) => open(name, async () => toPresetManifest(await api.preset(name)), name)}
+              onSelect={(name, title) =>
+                confirmReplace("template", title, () =>
+                  open(name, async () => toPresetManifest(await api.preset(name)), name),
+                )
+              }
             />
 
             <div data-tour="new-project" className="w-full rounded-xl border bg-card p-6 text-left">
@@ -195,7 +244,9 @@ function HomeContent() {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
-                    open("file", async () => parsePresetManifest(await file.text()), file.name.replace(/\.kikx-preset\.json$|\.json$/, ""));
+                    confirmReplace("file", file.name, () =>
+                      open("file", async () => parsePresetManifest(await file.text()), file.name.replace(/\.kikx-preset\.json$|\.json$/, "")),
+                    );
                   }
                   e.target.value = "";
                 }}

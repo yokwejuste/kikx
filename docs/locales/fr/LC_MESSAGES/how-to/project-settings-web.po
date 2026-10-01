@@ -82,8 +82,8 @@ msgstr "Cliquez sur **Accueil** à droite de l'en-tête du constructeur. Votre p
 msgid "Start over"
 msgstr "Repartir de zéro"
 
-msgid "You can only keep one project at a time in the app. Starting a new one replaces it."
-msgstr "L'app ne conserve qu'un projet à la fois. En démarrer un nouveau le remplace."
+msgid "You can only keep one project at a time in the app. Starting a new one replaces it, after you confirm."
+msgstr "L'app ne conserve qu'un projet à la fois. En démarrer un nouveau le remplace, après votre confirmation."
 
 msgid "To discard the current project without starting another:"
 msgstr "Pour abandonner le projet actuel sans en démarrer un autre :"
@@ -100,8 +100,8 @@ msgstr "Cliquez sur **Abandonner**, ou sur **Conserver** si vous changez d'avis.
 msgid "A notification confirms the project was discarded. There's no undo, so export the project first if you might want it back. See [Export and reopen a project in the app](export-and-reopen-web.md)."
 msgstr "Une notification confirme l'abandon du projet. Il n'y a pas de retour en arrière : exportez d'abord le projet si vous pourriez en avoir besoin. Voir [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
 
-msgid "These also replace the current project, without asking:"
-msgstr "Ces actions remplacent aussi le projet actuel, sans confirmation :"
+msgid "These also replace the current project:"
+msgstr "Ces actions remplacent aussi le projet actuel :"
 
 msgid "clicking **Start building** under **Blank project**;"
 msgstr "cliquer sur **Commencer** sous **Projet vierge** ;"
@@ -111,6 +111,9 @@ msgstr "cliquer sur une carte sous **Partir d'un modèle** ;"
 
 msgid "opening a file with **Open a preset**."
 msgstr "ouvrir un fichier avec **Ouvrir un preset**."
+
+msgid "Each one asks first, on the same card: **Replace** followed by the project name. Click **Download preset first** to keep a copy, **Replace** to go ahead, or **Keep** to change your mind."
+msgstr "Chacune demande d'abord confirmation, sur la même carte : **Remplacer** suivi du nom du projet. Cliquez sur **Télécharger le preset d'abord** pour en garder une copie, sur **Remplacer** pour continuer, ou sur **Conserver** pour changer d'avis."
 
 msgid "See also"
 msgstr "Voir aussi"
