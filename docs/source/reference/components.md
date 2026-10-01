@@ -4,6 +4,8 @@ The thirteen built-in components of the kikx registry, generated from `GET /api/
 
 Every field value is a string. Every template also receives `name`, `namespace` and `labels`, described in [Registry item format](registry-item-format.md#template-context). Output paths are relative to the target directory and are rendered with the same context as the file content.
 
+Fields with a format are checked before rendering, and their value is normalised: `ip` takes one IPv4 or IPv6 address, and `cidr` takes a range in CIDR notation that starts on its boundary (`10.10.0.0/16`, not `10.10.0.5/16`). An invalid value fails rendering with an error that suggests the corrected value. An empty value is not checked.
+
 A reference resolves to a built-in when the part after its last `/` equals a built-in name. See [Registry item format](registry-item-format.md#reference-resolution).
 
 ## Summary
@@ -80,7 +82,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Title | DigitalOcean Droplet |
 | Description | Terraform for one or more DigitalOcean droplets. |
 | Output paths | `{{ name }}-digitalocean.tf` |
-| Template fallbacks | Declares variable `do_token` (sensitive) and a `digitalocean` provider; resource `digitalocean_droplet.<name>` named `<name>-${count.index}` |
+| Template fallbacks | Declares variable `do_token` (sensitive) and a `digitalocean` provider; resource `digitalocean_droplet.<name>` named `<name>-${count.index}`. With `private_network`, a `digitalocean_vpc.<name>` with that `ip_range`, set as each droplet's `vpc_uuid` |
 
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
@@ -88,6 +90,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `size` | yes |  | `s-2vcpu-4gb` |  |  |
 | `os_image` | yes | `ubuntu-24-04-x64` |  | `ubuntu-24-04-x64` (Ubuntu 24.04)<br>`ubuntu-22-04-x64` (Ubuntu 22.04)<br>`debian-13-x64` (Debian 13)<br>`fedora-44-x64` (Fedora 44)<br>`rockylinux-9-x64` (Rocky Linux 9)<br>`almalinux-9-x64` (AlmaLinux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
+| `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 
 ## `terraform/hetzner`
 
@@ -96,7 +99,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Title | Hetzner Cloud Server |
 | Description | Terraform for one or more Hetzner Cloud servers. |
 | Output paths | `{{ name }}-hetzner.tf` |
-| Template fallbacks | Declares variable `hcloud_token` (sensitive) and an `hcloud` provider; resource `hcloud_server.<name>` named `<name>-${count.index}` |
+| Template fallbacks | Declares variable `hcloud_token` (sensitive) and an `hcloud` provider; resource `hcloud_server.<name>` named `<name>-${count.index}`. With `private_network`, an `hcloud_network.<name>` and a cloud `hcloud_network_subnet.<name>` in `network_zone`, both covering the range, attached to every server |
 
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
@@ -104,6 +107,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `size` | yes |  | `cx22` |  |  |
 | `os_image` | yes | `ubuntu-24.04` |  | `ubuntu-24.04` (Ubuntu 24.04)<br>`ubuntu-22.04` (Ubuntu 22.04)<br>`debian-12` (Debian 12)<br>`fedora-44` (Fedora 44)<br>`rocky-9` (Rocky Linux 9)<br>`alma-9` (AlmaLinux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
+| `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
+| `network_zone` | no | `eu-central` |  | `eu-central` (Europe (fsn1, nbg1, hel1))<br>`us-east` (US East (ash))<br>`us-west` (US West (hil))<br>`ap-southeast` (Asia Pacific (sin)) | Network zone of the private network; it must contain the server location. |
 
 ## `terraform/aws`
 
@@ -112,7 +117,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Title | AWS EC2 Instance |
 | Description | Terraform for one or more AWS EC2 instances. |
 | Output paths | `{{ name }}-aws.tf` |
-| Template fallbacks | Declares an `aws` provider in the chosen region, a `data.aws_ami.<name>` lookup of the newest image matching `os_image` from `image_owner`, and resource `aws_instance.<name>` tagged `<name>-${count.index}` |
+| Template fallbacks | Declares an `aws` provider in the chosen region, a `data.aws_ami.<name>` lookup of the newest image matching `os_image` from `image_owner`, and resource `aws_instance.<name>` tagged `<name>-${count.index}`. With `private_network`, an `aws_vpc.<name>` and an `aws_subnet.<name>` covering the range, with an internet gateway and a default route, used as each instance's `subnet_id`; without it, instances use the default VPC |
 
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
@@ -120,6 +125,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `size` | yes |  | `t3.small` |  |  |
 | `os_image` | yes | `ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*` |  | `ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*` (Ubuntu 24.04)<br>`ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*` (Ubuntu 22.04) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
+| `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 | `image_owner` | no | `099720109477` |  |  | AWS account that publishes the image; 099720109477 is Canonical. |
 
 ## `terraform/google`
@@ -129,7 +135,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Title | Google Compute Engine Instance |
 | Description | Terraform for one or more Google Compute Engine instances. |
 | Output paths | `{{ name }}-google.tf` |
-| Template fallbacks | Declares a `google` provider for `project` in the zone given as `region`, and resource `google_compute_instance.<name>` named `<name>-${count.index}` on the default network with a public IP |
+| Template fallbacks | Declares a `google` provider for `project` in the zone given as `region`, and resource `google_compute_instance.<name>` named `<name>-${count.index}` on the default network with a public IP. With `private_network`, a `google_compute_network.<name>` without automatic subnets and a `google_compute_subnetwork.<name>` with that `ip_cidr_range` in the zone's region, used instead of the default network |
 
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
@@ -137,6 +143,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `size` | yes |  | `e2-medium` |  |  |
 | `os_image` | yes | `ubuntu-os-cloud/ubuntu-2404-lts-amd64` |  | `ubuntu-os-cloud/ubuntu-2404-lts-amd64` (Ubuntu 24.04)<br>`ubuntu-os-cloud/ubuntu-2204-lts` (Ubuntu 22.04)<br>`debian-cloud/debian-12` (Debian 12)<br>`rocky-linux-cloud/rocky-linux-9` (Rocky Linux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
+| `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 | `project` | yes |  | `my-project` |  |  |
 
 ## `terraform/scaleway`
@@ -146,7 +153,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Title | Scaleway Instance |
 | Description | Terraform for one or more Scaleway instances with public IPs. |
 | Output paths | `{{ name }}-scaleway.tf` |
-| Template fallbacks | Requires the `scaleway/scaleway` provider in the zone given as `region`; resources `scaleway_instance_ip.<name>` and `scaleway_instance_server.<name>` named `<name>-${count.index}` |
+| Template fallbacks | Requires the `scaleway/scaleway` provider in the zone given as `region`; resources `scaleway_instance_ip.<name>` and `scaleway_instance_server.<name>` named `<name>-${count.index}`. With `private_network`, a `scaleway_vpc_private_network.<name>` with that IPv4 subnet in the zone's region, attached to every server |
 
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
@@ -154,6 +161,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `size` | yes |  | `DEV1-S` |  |  |
 | `os_image` | yes | `ubuntu_noble` |  | `ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debian_bookworm` (Debian 12)<br>`rockylinux_9` (Rocky Linux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
+| `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 
 ## `terraform/linode`
 
@@ -162,7 +170,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Title | Linode Instance |
 | Description | Terraform for one or more Linode instances. |
 | Output paths | `{{ name }}-linode.tf` |
-| Template fallbacks | Requires the `linode/linode` provider and declares variables `linode_token` (sensitive) and `ssh_public_key`; resource `linode_instance.<name>` labelled `<name>-${count.index}` |
+| Template fallbacks | Requires the `linode/linode` provider and declares variables `linode_token` (sensitive) and `ssh_public_key`; resource `linode_instance.<name>` labelled `<name>-${count.index}`. With `private_network`, a `linode_vpc.<name>` and a `linode_vpc_subnet.<name>` with that `ipv4` range; each instance gets a public interface and one in the subnet |
 
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
@@ -170,6 +178,7 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `size` | yes |  | `g6-standard-1` |  |  |
 | `os_image` | yes | `linode/ubuntu24.04` |  | `linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
+| `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 
 ## `ansible/k8s-bootstrap`
 
