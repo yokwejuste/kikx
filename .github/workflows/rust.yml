@@ -1,0 +1,52 @@
+name: Rust
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - "cli/**"
+      - ".github/workflows/rust.yml"
+  pull_request:
+    paths:
+      - "backend/**"
+      - "cli/**"
+      - ".github/workflows/rust.yml"
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTDOCFLAGS: -D warnings
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - backend/core
+          - backend
+          - cli
+    defaults:
+      run:
+        working-directory: ${{ matrix.package }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-machete
+
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets --all-features -- -D warnings
+      - run: cargo doc --no-deps --all-features
+      - run: cargo machete
+      - run: cargo test --all-features

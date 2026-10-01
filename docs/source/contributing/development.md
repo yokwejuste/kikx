@@ -29,6 +29,11 @@ cd backend/core && cargo test && RUSTFLAGS="-D warnings" cargo clippy --all-targ
 
 Tests live in each package's `tests/` directory, never in the source files.
 
+Each package's `Cargo.toml` turns on the unused-code lints, so clippy with `-D warnings` fails on
+unused imports, variables and functions. [cargo-machete](https://github.com/bnjbvr/cargo-machete)
+reports dependencies a package no longer uses; run `cargo machete` from the repository root. The
+`Rust` workflow runs all of these checks on every pull request that touches `backend/` or `cli/`.
+
 ## Check the dashboard
 
 ```bash
