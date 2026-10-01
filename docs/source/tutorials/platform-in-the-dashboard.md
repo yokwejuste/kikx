@@ -28,13 +28,8 @@ To work on kikx itself with a local copy of the dashboard, see [Run kikx locally
 
 ## Create the project
 
-Fill in the form:
-
-- **Project name**: `platform`
-- **Default namespace**: leave it as `default`
-- **Output directory**: `infra`
-
-Click **Start building**.
+In **Project name**, type `platform` and click **Start building**. The default namespace and output
+directory are filled in for you; you can change either later from the builder.
 
 You're now in the builder. It has three columns: the stages on the left (Provision, Inventory,
 Configure, Deploy, Custom), the editor in the middle, and the **Project** panel on the right, which
@@ -44,7 +39,8 @@ larger project:
 ![The builder: stages on the left, the editor in the middle, the project on the right](../images/builder-light.png)
 
 Above the columns you see the project name, the badges `ns: default` and `infra/`, and three tabs:
-**Build**, **Architecture** and **Checks**.
+**Build**, **Architecture** and **Checks**. Click either badge to change the default namespace or
+the output directory. This tutorial keeps both as they are.
 
 ## Import an inventory
 

@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
 import { useProject } from "@/lib/project/context";
-import { initFormSchema, type InitFormValues } from "@/lib/forms/schemas";
+import { projectNameSchema, type ProjectNameValues } from "@/lib/forms/schemas";
 import { api } from "@/lib/api/client";
 import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetManifest } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
@@ -66,14 +66,14 @@ function HomeContent() {
     }
   }
 
-  const form = useForm<InitFormValues>({
-    resolver: zodResolver(initFormSchema),
-    defaultValues: { name: "", namespace: defaults.defaultNamespace, dir: defaults.defaultOutputDir },
+  const form = useForm<ProjectNameValues>({
+    resolver: zodResolver(projectNameSchema),
+    defaultValues: { name: "" },
   });
 
-  function onSubmit(values: InitFormValues) {
+  function onSubmit(values: ProjectNameValues) {
     reset();
-    setDetails({ name: values.name, namespace: values.namespace, outputDir: values.dir });
+    setDetails({ name: values.name, namespace: defaults.defaultNamespace, outputDir: defaults.defaultOutputDir });
     router.push("/build");
   }
 
@@ -179,17 +179,8 @@ function HomeContent() {
                 label={t("build.projectName")}
                 registration={form.register("name")}
                 error={form.formState.errors.name}
-                placeholder="my-app"
-              />
-              <FormField
-                label={t("build.namespace")}
-                registration={form.register("namespace")}
-                error={form.formState.errors.namespace}
-              />
-              <FormField
-                label={t("build.outputDir")}
-                registration={form.register("dir")}
-                error={form.formState.errors.dir}
+                placeholder={defaults.defaultProjectName}
+                description={t("build.settingsHint")}
               />
             </FieldGroup>
             <Button type="submit" size="lg" className="mt-6 h-11 w-full">
