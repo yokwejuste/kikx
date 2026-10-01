@@ -385,7 +385,7 @@
     "simple": "Valeurs simples",
     "addVar": "Ajouter une variable",
     "keyPlaceholder": "clé (par ex. app_port)",
-    "yamlHelp": "Collez des listes, des dictionnaires, n'importe quel YAML : il est écrit tel quel. Idéal pour reprendre un fichier group_vars existant.",
+    "yamlHelp": "Collez des listes, des dictionnaires, n'importe quel YAML. L'indentation et les espaces sont remis en ordre quand vous collez ou quittez le champ, vos commentaires sont conservés et les erreurs sont signalées pendant la saisie. Idéal pour reprendre un fichier group_vars existant.",
     "nested": "Ce YAML contient des valeurs imbriquées. Continuez à le modifier en YAML pour ne rien perdre."
   },
   "plays": {
@@ -967,5 +967,24 @@
       "Alignement des étoiles"
     ],
     "waitingWord": "{word}…"
+  },
+  "formatting": {
+    "yamlProblem": "Ligne {line} : {reason}",
+    "yamlReasons": {
+      "duplicateKey": "cette clé est déjà définie plus haut dans le même dictionnaire.",
+      "tabIndent": "indentez avec des espaces, pas des tabulations.",
+      "badIndent": "l'indentation ne s'aligne pas avec les lignes voisines.",
+      "missingChar": "il manque un guillemet ou un crochet fermant.",
+      "colonInValue": "cette valeur contient « : ». Mettez la valeur entre guillemets ou placez-la sur sa propre ligne indentée.",
+      "multipleDocs": "un seul document est autorisé ici. Retirez la ligne de séparation de document en trop.",
+      "badEscape": "cette séquence d'échappement n'est pas valide entre guillemets doubles.",
+      "syntax": "ce n'est pas du YAML valide."
+    },
+    "keyValue": {
+      "name": "« {key} » n'est pas un nom de variable valide. Utilisez des lettres, des chiffres et des tirets bas, sans commencer par un chiffre.",
+      "duplicate": "« {key} » est défini plusieurs fois. Seule la dernière valeur est conservée.",
+      "noEquals": "« {text} » n'a pas de « = ». Écrivez-le sous la forme clé=valeur.",
+      "noKey": "« {text} » a besoin d'un nom avant le « = »."
+    }
   }
 }

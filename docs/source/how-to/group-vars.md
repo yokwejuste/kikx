@@ -8,7 +8,7 @@ Use this to give an inventory group its variables, either as simple key/value pa
 2. In **Group**, type the group name, or pick one from your inventory's groups. `all` is always offered.
 3. Choose how to enter the variables with the toggle next to **Variables**:
    - **Key / value**: one row per variable. Click **Add variable** for more.
-   - **YAML**: paste anything YAML, including lists and nested maps. It's written as-is, which makes it the easiest way to bring over an existing `group_vars` file.
+   - **YAML**: paste anything YAML, including lists and nested maps. Your keys, order and comments are kept; only indentation and spacing are tidied when you paste or leave the editor, and mistakes such as a duplicate key or a tab used for indentation are underlined as you type. This makes it the easiest way to bring over an existing `group_vars` file.
 4. For the folder layout, tick **Folder layout (`group_vars/<group>/main.yml`)**. The line under **Group** shows the path that will be written.
 5. Click **Add to project**.
 

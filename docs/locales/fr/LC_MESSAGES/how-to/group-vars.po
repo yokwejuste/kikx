@@ -34,8 +34,8 @@ msgstr "Choisissez comment saisir les variables avec le sélecteur situé à cô
 msgid "**Key / value**: one row per variable. Click **Add variable** for more."
 msgstr "« Key / value » : une ligne par variable. Cliquez sur « Add variable » pour en ajouter."
 
-msgid "**YAML**: paste anything YAML, including lists and nested maps. It's written as-is, which makes it the easiest way to bring over an existing `group_vars` file."
-msgstr "« YAML » : collez n'importe quel YAML, y compris des listes et des maps imbriquées. Il est écrit tel quel, ce qui en fait le moyen le plus simple de reprendre un fichier `group_vars` existant."
+msgid "**YAML**: paste anything YAML, including lists and nested maps. Your keys, order and comments are kept; only indentation and spacing are tidied when you paste or leave the editor, and mistakes such as a duplicate key or a tab used for indentation are underlined as you type. This makes it the easiest way to bring over an existing `group_vars` file."
+msgstr "« YAML » : collez n'importe quel YAML, y compris des listes et des maps imbriquées. Vos clés, leur ordre et vos commentaires sont conservés ; seules l'indentation et les espaces sont remises en ordre quand vous collez ou quittez l'éditeur, et les erreurs comme une clé en double ou une tabulation utilisée pour indenter sont soulignées pendant la saisie. C'est donc le moyen le plus simple de reprendre un fichier `group_vars` existant."
 
 msgid "For the folder layout, tick **Folder layout (`group_vars/<group>/main.yml`)**. The line under **Group** shows the path that will be written."
 msgstr "Pour la disposition en dossier, cochez « Folder layout (`group_vars/<group>/main.yml`) ». La ligne sous « Group » indique le chemin qui sera écrit."

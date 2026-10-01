@@ -7,9 +7,11 @@ import { Disclosure } from "@/components/common/disclosure";
 import { RemoveButton } from "@/components/builder/fields/row-actions";
 import { RowInput } from "@/components/builder/fields/row-input";
 import { TagInputField } from "@/components/builder/fields/tag-input-field";
+import { KeyValueProblems } from "@/components/builder/fields/format/key-value-problems";
+import { useKeyValueField } from "@/lib/format/use-key-value-field";
 import type { RowErrors } from "@/components/builder/fields/field-errors";
 import { cn } from "@/lib/utils";
-import { parseKeyValuePairs } from "@/lib/ansible/inventory";
+import { parseKeyValuePairs } from "@/lib/format/key-value";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { InventoryHostValues } from "@/lib/forms/schemas";
 import { Hint } from "@/components/common/hint";
@@ -48,6 +50,7 @@ export function HostRow({
   const t = useTranslations("inventory.host");
   const summary = useConnectionSummary(host);
   const register = (field: keyof InventoryHostValues) => form.register(`hosts.${index}.${field}` as never);
+  const vars = useKeyValueField(form, `hosts.${index}.vars`, " ");
 
   return (
     <div data-teach="host-row" className="rounded-lg border">
@@ -95,9 +98,12 @@ export function HostRow({
             placeholder={t("varsPlaceholder")}
             label={t("varsLabel")}
             mono
+            invalid={vars.problems.length > 0}
             className="text-xs sm:col-span-3"
-            registration={register("vars")}
+            registration={vars.registration}
+            onPaste={vars.onPaste}
           />
+          <KeyValueProblems className="text-xs sm:col-span-3" problems={vars.problems} />
           <Hint className="sm:col-span-3">
             {t("inheritNote")}
           </Hint>

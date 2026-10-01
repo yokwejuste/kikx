@@ -1,5 +1,6 @@
 import type { InventoryGroupValues, InventoryHostValues } from "@/lib/forms/schemas";
 import type { LocalizedMessage } from "@/lib/i18n/localized-error";
+import { parseKeyValuePairs } from "@/lib/format/key-value";
 import { parseJson } from "@/lib/json";
 import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
@@ -21,32 +22,6 @@ export interface InventoryGroupEntry {
   members?: InventoryMember[];
   children?: string[];
   vars?: Record<string, string>;
-}
-
-export function parseKeyValuePairs(raw?: string): [string, string][] {
-  const pairs: [string, string][] = [];
-  let token = "";
-  let quote: string | null = null;
-  const flush = () => {
-    const eq = token.indexOf("=");
-    if (eq > 0) pairs.push([token.slice(0, eq).trim(), token.slice(eq + 1)]);
-    token = "";
-  };
-  for (const ch of raw ?? "") {
-    if (quote) {
-      token += ch;
-      if (ch === quote) quote = null;
-    } else if (ch === "'" || ch === '"') {
-      token += ch;
-      quote = ch;
-    } else if (/\s/.test(ch)) {
-      if (token) flush();
-    } else {
-      token += ch;
-    }
-  }
-  if (token) flush();
-  return pairs;
 }
 
 function formatKeyValuePairs(vars: Record<string, string> | undefined, separator = " "): string {
