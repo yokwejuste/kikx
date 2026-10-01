@@ -192,6 +192,16 @@
   animation: teach-ripple 500ms ease-out forwards;
 }
 
+@keyframes teach-press {
+  40% {
+    transform: scale(0.82);
+  }
+}
+
+.teach-press {
+  animation: teach-press 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @property --kikx-glow-angle {
   syntax: "<angle>";
   initial-value: 0deg;
@@ -231,7 +241,8 @@
     display: none;
   }
 
-  .teach-ripple {
+  .teach-ripple,
+  .teach-press {
     animation: none;
   }
 }
