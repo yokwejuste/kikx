@@ -17,6 +17,7 @@ import {
 import { groupVarsPath } from "@/lib/ansible/group-vars";
 import type { PresetComponent } from "@/lib/project/preset";
 import { kindForReference, REFERENCES, type ComponentKind } from "@/lib/registry/references";
+import { nextStep } from "@/lib/registry/next-step";
 import { registryItem, writesHint } from "@/lib/registry/store";
 
 export type CatalogKind = ComponentKind | "custom";
@@ -103,6 +104,14 @@ export function catalogStage(kind: CatalogKind): CatalogStage {
 export function stagesForReferences(references: string[]): StageId[] {
   const present = new Set(references.map((reference) => catalogStage(kindForReference(reference) ?? "custom").id));
   return CATALOG.map((stage) => stage.id).filter((id) => present.has(id));
+}
+
+const FLOW = CATALOG.filter((stage) => stage.id !== "custom").map((stage) =>
+  stage.entries.filter((slot) => !slot.advanced).map((slot) => slot.kind),
+);
+
+export function nextCatalogKind(added: CatalogKind, present: Iterable<CatalogKind>): CatalogKind | null {
+  return nextStep(FLOW, new Set([...present, added]), added);
 }
 
 export function describeComponent(recipe: PresetComponent): { kind: CatalogKind; kindLabel: string; icon: LucideIcon; title: string } {

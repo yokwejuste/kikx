@@ -213,7 +213,8 @@
       "files": "{count, plural, one {# fichier} other {# fichiers}} dans le projet.",
       "renderFailed": "Impossible de générer le composant",
       "attention": "Certains champs demandent votre attention",
-      "attentionHint": "Ils sont mis en évidence dans le formulaire."
+      "attentionHint": "Ils sont mis en évidence dans le formulaire.",
+      "next": "Suivant : {label}"
     },
     "checks": {
       "title": "{count, plural, one {# point signalé sur ce composant} other {# points signalés sur ce composant}}"

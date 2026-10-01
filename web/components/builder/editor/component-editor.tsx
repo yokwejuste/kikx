@@ -26,6 +26,7 @@ import { api } from "@/lib/api/client";
 import { componentId, useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
 import { defaultsFor, recipeToFormValues, schemas, toRenderRequest, type FormValues } from "@/lib/forms/component-forms";
 import { toPresetComponent, type PresetComponent } from "@/lib/project/preset";
+import { describeComponent, nextCatalogKind, type CatalogKind } from "@/lib/registry/catalog";
 import type { ComponentKind } from "@/lib/registry/references";
 import { projectDefaults } from "@/lib/registry/store";
 
@@ -36,6 +37,7 @@ export function ComponentEditor({
   checks,
   onSaved,
   onStartNew,
+  onNext,
 }: {
   kind: ComponentKind;
   editing: AddedComponent | null;
@@ -43,13 +45,14 @@ export function ComponentEditor({
   checks: EditorChecks;
   onSaved: (id: string) => void;
   onStartNew: () => void;
+  onNext: (kind: CatalogKind) => void;
 }) {
   const t = useTranslations("editor");
   const format = useFormatter();
   const text = useCatalogText();
   const errorText = useErrorText();
   const validationText = useValidationText();
-  const { details, saveComponent, findConflicts } = useProject();
+  const { details, components, saveComponent, findConflicts } = useProject();
   const namespace = details?.namespace ?? projectDefaults().defaultNamespace;
 
   const [initial] = useState<FormValues>(() => {
@@ -72,10 +75,12 @@ export function ComponentEditor({
     draft.settle();
     const displaced = saveComponent(recipe, files, editing?.id);
     const { title } = text.describe(recipe);
+    const next = editing ? null : nextCatalogKind(kind, components.map((c) => describeComponent(c.recipe).kind));
     toast.success(editing ? t("toasts.saved", { title }) : t("toasts.added", { title }), {
       description: displaced.length
         ? t("toasts.replaced", { count: displaced.length })
         : t("toasts.files", { count: files.length }),
+      action: next ? { label: t("toasts.next", { label: text.entry(next).label }), onClick: () => onNext(next) } : undefined,
     });
     onSaved(componentId(recipe));
   };

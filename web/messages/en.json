@@ -213,7 +213,8 @@
       "files": "{count, plural, one {# file} other {# files}} in the project.",
       "renderFailed": "Failed to render component",
       "attention": "Some fields need attention",
-      "attentionHint": "They're highlighted in the form."
+      "attentionHint": "They're highlighted in the form.",
+      "next": "Next: {label}"
     },
     "checks": {
       "title": "{count, plural, one {# check flags this component} other {# checks flag this component}}"

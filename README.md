@@ -186,7 +186,8 @@ required.
   a count and a tick per stage, so you can see what's still missing. Configure shows the essentials
   (playbook, site playbook, role) first; **Show more** reveals the rest, and it stays open once you
   use one of them. An empty project opens on a start panel that walks those stages, with a one-click
-  add per stage or a link back to templates.
+  add per stage or a link back to templates. After each add, the toast offers the next component in
+  that order, one click away.
 - **One editor with a live preview.** Output re-renders as you type. Any component can be reopened
   and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
 - **Bring what you have.** Import an existing `inventory.ini` (hosts listed in several groups are

@@ -151,6 +151,7 @@ export function Dashboard() {
               checks={{ issues: issuesFor.get(editing?.id ?? "") ?? [], onOpen: openComponent, onScaffoldRoles: scaffoldRoles }}
               onSaved={(id) => select(selection.kind, id)}
               onStartNew={() => select(selection.kind)}
+              onNext={(kind) => select(kind)}
             />
           )}
         </div>
