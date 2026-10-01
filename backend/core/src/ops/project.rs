@@ -19,10 +19,10 @@ pub(super) fn ensure_no_config(project_dir: &Path, force: bool) -> Result<(), Op
 }
 
 pub(super) fn dir_project_name(project_dir: &Path) -> String {
-    project_dir
-        .file_name()
-        .map(|n| n.to_string_lossy().to_string())
-        .unwrap_or_else(|| DEFAULT_PROJECT_NAME.to_string())
+    project_dir.file_name().map_or_else(
+        || DEFAULT_PROJECT_NAME.to_string(),
+        |n| n.to_string_lossy().to_string(),
+    )
 }
 
 pub(super) fn save_config(project_dir: &Path, project: ProjectConfig) -> Result<(), OpsError> {

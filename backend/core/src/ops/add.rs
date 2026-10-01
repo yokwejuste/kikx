@@ -71,7 +71,7 @@ pub fn render_component(params: RenderParams) -> Result<RenderOutcome, OpsError>
         Value::from(
             supplied
                 .get("namespace")
-                .map(|v| v.to_string())
+                .map(ToString::to_string)
                 .unwrap_or(params.default_namespace),
         ),
     );
@@ -82,7 +82,7 @@ pub fn render_component(params: RenderParams) -> Result<RenderOutcome, OpsError>
         }
         let value = supplied
             .get(field.name.as_str())
-            .map(|v| v.to_string())
+            .map(ToString::to_string)
             .or_else(|| field.default.clone());
         match value {
             Some(value) => {
