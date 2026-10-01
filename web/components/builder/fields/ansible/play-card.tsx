@@ -130,7 +130,7 @@ export function PlayCard({
   const register = (field: keyof PlayValues) => form.register(`plays.${index}.${field}` as never);
 
   return (
-    <li className="flex flex-col gap-3 rounded-lg border p-3">
+    <li data-teach="play-card" className="flex flex-col gap-3 rounded-lg border p-3">
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-medium text-muted-foreground">
           {play?.hosts ? t("headingOn", { number: index + 1, hosts: play.hosts }) : t("heading", { number: index + 1 })}

@@ -33,7 +33,7 @@ function writeStages(key: string, stages: OpenStages) {
 function CountBadge({ count }: { count: number }) {
   if (count === 0) return null;
   return (
-    <span className="rounded-full bg-volt-soft px-1.5 text-[10px] font-medium text-volt-soft-foreground tabular-nums">
+    <span data-teach="catalog-count" className="rounded-full bg-volt-soft px-1.5 text-[10px] font-medium text-volt-soft-foreground tabular-nums">
       {count}
     </span>
   );
