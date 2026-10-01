@@ -6,6 +6,7 @@ Tutorials are lessons. Each one takes you step by step through building a workin
 :maxdepth: 1
 
 first-project-cli
+first-project-web
 platform-in-the-dashboard
 teach-me
 ```

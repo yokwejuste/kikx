@@ -1,0 +1,383 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:28+0100\n"
+"PO-Revision-Date: 2026-10-01 17:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Your first project in the web app"
+msgstr "Votre premier projet dans l'application web"
+
+msgid "In this tutorial you'll build a small Ansible project in the kikx web app, without installing anything. By the end you'll have:"
+msgstr "Dans ce tutoriel, vous allez construire un petit projet Ansible dans l'application web de kikx, sans rien installer. À la fin, vous aurez :"
+
+msgid "an inventory with a web server and a database server, each in its own group;"
+msgstr "un inventaire avec un serveur web et un serveur de base de données, chacun dans son groupe ;"
+
+msgid "group vars for the `web` group;"
+msgstr "des group vars pour le groupe `web` ;"
+
+msgid "a playbook with one play that runs the `nginx` role on the web servers;"
+msgstr "un playbook avec un play qui exécute le rôle `nginx` sur les serveurs web ;"
+
+msgid "the `nginx` role itself, scaffolded for you when Checks notices it is missing;"
+msgstr "le rôle `nginx` lui-même, généré pour vous quand les vérifications remarquent qu'il manque ;"
+
+msgid "a `site.yml` entry point;"
+msgstr "un point d'entrée `site.yml` ;"
+
+msgid "and you'll have downloaded the project as plain files."
+msgstr "et vous aurez téléchargé le projet sous forme de fichiers simples."
+
+msgid "It takes about ten minutes. It is the browser twin of [Your first project with the CLI](first-project-cli.md)."
+msgstr "Comptez environ dix minutes. C'est le pendant, dans le navigateur, de [Votre premier projet avec la CLI](first-project-cli.md)."
+
+msgid "Prefer to watch first? The **Build your first project** lesson covers the same ground in about two minutes: kikx drives the page while a caption explains each step, and hands you the controls a few times. [Start this lesson](teach:firstProject)"
+msgstr "Vous préférez regarder d'abord ? La leçon **Construire votre premier projet** couvre le même terrain en deux minutes environ : kikx pilote la page pendant qu'une légende explique chaque étape, et vous passe la main à plusieurs reprises. [Lancer cette leçon](teach:firstProject)"
+
+msgid "Before you start"
+msgstr "Avant de commencer"
+
+msgid "You need a web browser on a computer. The builder uses a three-column layout, so a laptop or desktop screen works best."
+msgstr "Il vous faut un navigateur web sur un ordinateur. Le constructeur utilise une mise en page à trois colonnes : un écran d'ordinateur portable ou de bureau convient le mieux."
+
+msgid "Nothing is written to your disk while you work. The project lives in your browser until you export it."
+msgstr "Rien n'est écrit sur votre disque pendant que vous travaillez. Le projet reste dans votre navigateur jusqu'à ce que vous l'exportiez."
+
+msgid "Open the app"
+msgstr "Ouvrir l'application"
+
+msgid "Open the kikx web app in your browser. The first time you visit, a short tour starts on its own. Click **Next** to follow it, or close it; you can replay it any time with **Take the tour** in the top bar."
+msgstr "Ouvrez l'application web de kikx dans votre navigateur. Lors de votre première visite, une courte visite guidée démarre toute seule. Cliquez sur **Suivant** pour la suivre, ou fermez-la ; vous pouvez la relancer à tout moment avec **Faire la visite** dans la barre du haut."
+
+msgid "![The kikx home page with the In the app and With the CLI toggle, and the template cards below it](../images/web/first-project-home.png)"
+msgstr "![La page d'accueil de kikx avec le sélecteur Dans l'app / Avec la CLI, et les cartes de modèles en dessous](../images/web/first-project-home.png)"
+
+msgid "The kikx home page with the In the app and With the CLI toggle, and the template cards below it"
+msgstr "La page d'accueil de kikx avec le sélecteur Dans l'app / Avec la CLI, et les cartes de modèles en dessous"
+
+msgid "The home page has a toggle with two choices:"
+msgstr "La page d'accueil propose un sélecteur à deux choix :"
+
+msgid "**In the app**, selected, shows how to start a project here in the browser."
+msgstr "**Dans l'app**, sélectionné, montre comment démarrer un projet ici, dans le navigateur."
+
+msgid "**With the CLI** shows the commands you'd run in a terminal instead, with a **Copy commands** button. Use it when you'd rather work with the [CLI](first-project-cli.md)."
+msgstr "**Avec la CLI** montre à la place les commandes à lancer dans un terminal, avec un bouton **Copier les commandes**. Utilisez-le si vous préférez travailler avec la [CLI](first-project-cli.md)."
+
+msgid "Under **In the app** you'll find three ways to start:"
+msgstr "Sous **Dans l'app**, vous trouverez trois façons de commencer :"
+
+msgid "**Start from a template** lists ready-made projects, from a single server to a multi-tier platform. Click one to open it in the builder and adapt it."
+msgstr "**Partir d'un modèle** liste des projets prêts à l'emploi, d'un serveur unique à une plateforme multi-tiers. Cliquez sur l'un d'eux pour l'ouvrir dans le constructeur et l'adapter."
+
+msgid "**Blank project** starts from an empty page. This is what you'll use in this tutorial."
+msgstr "**Projet vierge** part d'une page vide. C'est ce que vous utiliserez dans ce tutoriel."
+
+msgid "**Open a preset** reopens a `.kikx-preset.json` file you downloaded earlier."
+msgstr "**Ouvrir un preset** rouvre un fichier `.kikx-preset.json` que vous avez téléchargé auparavant."
+
+msgid "The top bar also has **Docs**, **Data flow**, **Teach me**, **Take the tour**, the GitHub link, **EN** / **FR** to switch language, and a button to switch between light and dark themes."
+msgstr "La barre du haut contient aussi **Documentation**, **Flux de données**, **Apprends-moi**, **Faire la visite**, le lien GitHub, **EN** / **FR** pour changer de langue, et un bouton pour passer du thème clair au thème sombre."
+
+msgid "Name the project"
+msgstr "Nommer le projet"
+
+msgid "Under **Blank project**, type `shop` in **Project name** and click **Start building**."
+msgstr "Sous **Projet vierge**, tapez `shop` dans **Nom du projet** et cliquez sur **Commencer**."
+
+msgid "You're now in the builder. Its header shows the project name, `shop`, two badges, `ns: default` and `infra/`, and the note **Saved in this browser · not on disk yet**. The badges are the default Kubernetes namespace and the output directory; click either one to change it. This tutorial keeps both."
+msgstr "Vous êtes maintenant dans le constructeur. Son en-tête affiche le nom du projet, `shop`, deux badges, `ns: default` et `infra/`, et la mention **Enregistré dans ce navigateur · pas encore sur le disque**. Les badges sont le namespace Kubernetes par défaut et le dossier de sortie ; cliquez sur l'un ou l'autre pour le modifier. Ce tutoriel garde les deux."
+
+msgid "To the right of the header are three tabs, **Build**, **Architecture** and **Checks**, then the **Export** menu and a **Home** link back to the home page."
+msgstr "À droite de l'en-tête se trouvent trois onglets, **Construire**, **Architecture** et **Vérifications**, puis le menu **Exporter** et un lien **Accueil** qui ramène à la page d'accueil."
+
+msgid "A second tour starts the first time you open the builder. Follow it or close it."
+msgstr "Une deuxième visite guidée démarre la première fois que vous ouvrez le constructeur. Suivez-la ou fermez-la."
+
+msgid "Look at the start panel"
+msgstr "Découvrir le panneau de départ"
+
+msgid "The middle column says **Your project is empty** and lists the usual path, one stage per row: Provision (optional), Inventory, Configure, Deploy and Custom. Each row has a button that opens the right editor, such as **Add Inventory**. The same stages are in the left column, where you can open any component."
+msgstr "La colonne du milieu indique **Votre projet est vide** et liste le parcours habituel, une étape par ligne : Provisionner (facultatif), Inventaire, Configurer, Déployer et Personnalisé. Chaque ligne a un bouton qui ouvre le bon éditeur, comme **Ajouter Inventaire**. Les mêmes étapes figurent dans la colonne de gauche, d'où vous pouvez ouvrir n'importe quel composant."
+
+msgid "On the right, the **Getting started** checklist shows **0 of 5**:"
+msgstr "À droite, la liste **Premiers pas** affiche **0 sur 5** :"
+
+msgid "**List your servers**"
+msgstr "**Listez vos serveurs**"
+
+msgid "**Group settings**"
+msgstr "**Réglages de groupe**"
+
+msgid "**Configure with a playbook**"
+msgstr "**Configurez avec un playbook**"
+
+msgid "**Review checks**"
+msgstr "**Consultez les vérifications**"
+
+msgid "**Download your project**"
+msgstr "**Téléchargez votre projet**"
+
+msgid "It ticks itself as you go. Click an open step to jump to it. Once all five are done, the checklist goes away; you can also hide it with its close button. Under it, the **Project** panel says **Nothing yet. Most projects start with an Inventory.**"
+msgstr "Elle se coche toute seule au fil de votre travail. Cliquez sur une étape non faite pour vous y rendre. Une fois les cinq terminées, la liste disparaît ; vous pouvez aussi la masquer avec son bouton de fermeture. En dessous, le panneau **Projet** indique **Rien pour l'instant. La plupart des projets commencent par un Inventaire.**"
+
+msgid "Add an inventory"
+msgstr "Ajouter un inventaire"
+
+msgid "Click **Add Inventory**. The editor shows **New inventory**, and its **Name** field already says `shop`, the project name. The file will be `shop-inventory.ini`."
+msgstr "Cliquez sur **Ajouter Inventaire**. L'éditeur affiche **Nouveau composant : inventaire**, et son champ **Nom** contient déjà `shop`, le nom du projet. Le fichier sera `shop-inventory.ini`."
+
+msgid "Under **Hosts (1)**, fill in the first row:"
+msgstr "Sous **Hôtes (1)**, remplissez la première ligne :"
+
+msgid "**Host name**: `web1`"
+msgstr "**Nom de l'hôte** : `web1`"
+
+msgid "**Address**: `10.0.0.10`"
+msgstr "**Adresse** : `10.0.0.10`"
+
+msgid "**Groups**: type `web` and press Enter. It becomes a chip."
+msgstr "**Groupes** : tapez `web` et appuyez sur Entrée. Il devient une puce."
+
+msgid "Scroll down to **Preview**. It says **Updates as you type** and already shows the file:"
+msgstr "Faites défiler jusqu'à **Aperçu**. Il indique **Mis à jour pendant la saisie** et affiche déjà le fichier :"
+
+msgid "Now add the database server. Click **Add host** and fill in the new row:"
+msgstr "Ajoutez maintenant le serveur de base de données. Cliquez sur **Ajouter un hôte** et remplissez la nouvelle ligne :"
+
+msgid "**Host name**: `db1`"
+msgstr "**Nom de l'hôte** : `db1`"
+
+msgid "**Address**: `10.0.0.20`"
+msgstr "**Adresse** : `10.0.0.20`"
+
+msgid "**Groups**: type `db` and press Enter."
+msgstr "**Groupes** : tapez `db` et appuyez sur Entrée."
+
+msgid "The preview gains a second group as you type:"
+msgstr "L'aperçu gagne un second groupe pendant que vous tapez :"
+
+msgid "![The builder with two hosts in the inventory form and the live preview of shop-inventory.ini underneath](../images/web/first-project-builder.png)"
+msgstr "![Le constructeur avec deux hôtes dans le formulaire d'inventaire et l'aperçu en direct de shop-inventory.ini en dessous](../images/web/first-project-builder.png)"
+
+msgid "The builder with two hosts in the inventory form and the live preview of shop-inventory.ini underneath"
+msgstr "Le constructeur avec deux hôtes dans le formulaire d'inventaire et l'aperçu en direct de shop-inventory.ini en dessous"
+
+msgid "Click **Add to project**. A notification says **Added shop**, with a **Next: Group vars** button. The **Project** panel lists `shop` under **Inventory**, and the checklist ticks **List your servers**. The editor stays open as **Editing Inventory · shop**, so you can keep changing it and click **Save changes**."
+msgstr "Cliquez sur **Ajouter au projet**. Une notification indique **shop ajouté**, avec un bouton **Suivant : Group vars**. Le panneau **Projet** liste `shop` sous **Inventaire**, et la liste coche **Listez vos serveurs**. L'éditeur reste ouvert en **Modification : Inventaire · shop** : vous pouvez continuer à le modifier puis cliquer sur **Enregistrer**."
+
+msgid "Add group vars"
+msgstr "Ajouter des group vars"
+
+msgid "Group vars are settings shared by every host in a group. In the left column, under **Inventory**, click **Group vars** (or **Next: Group vars** in the notification). The editor switches to **New group vars**."
+msgstr "Les group vars sont des réglages partagés par tous les hôtes d'un groupe. Dans la colonne de gauche, sous **Inventaire**, cliquez sur **Group vars** (ou sur **Suivant : Group vars** dans la notification). L'éditeur passe à **Nouveau composant : group vars**."
+
+msgid "In **Group**, type `web`. The field suggests the groups from your inventory."
+msgstr "Dans **Groupe**, tapez `web`. Le champ propose les groupes de votre inventaire."
+
+msgid "Leave **Folder layout** unticked, so the file is `group_vars/web.yml`."
+msgstr "Laissez **Organisation en dossier** décochée, pour que le fichier soit `group_vars/web.yml`."
+
+msgid "Under **Variables**, keep **Key / value**. In the first row, type `http_port` as the key and `80` as the value."
+msgstr "Sous **Variables**, gardez **Clé / valeur**. Sur la première ligne, tapez `http_port` comme clé et `80` comme valeur."
+
+msgid "The preview shows `group_vars/web.yml`:"
+msgstr "L'aperçu affiche `group_vars/web.yml` :"
+
+msgid "Click **Add to project**. `group_vars/web` appears under **Inventory** in the **Project** panel, and the checklist ticks **Group settings**."
+msgstr "Cliquez sur **Ajouter au projet**. `group_vars/web` apparaît sous **Inventaire** dans le panneau **Projet**, et la liste coche **Réglages de groupe**."
+
+msgid "Add a playbook with a play and a role"
+msgstr "Ajouter un playbook avec un play et un rôle"
+
+msgid "In the left column, open **Configure** and click **Playbook**. The editor switches to **New playbook**."
+msgstr "Dans la colonne de gauche, ouvrez **Configurer** et cliquez sur **Playbook**. L'éditeur passe à **Nouveau composant : playbook**."
+
+msgid "In **Name**, type `web`. Leave **Folder** empty, so the file is `web.yml` at the top of the output directory."
+msgstr "Dans **Nom**, tapez `web`. Laissez **Dossier** vide, pour que le fichier soit `web.yml` à la racine du dossier de sortie."
+
+msgid "Under **Plays**, fill in **Play 1**:"
+msgstr "Sous **Plays**, remplissez **Play 1** :"
+
+msgid "**Name**: `Web servers`"
+msgstr "**Nom** : `Web servers`"
+
+msgid "**Runs on (hosts)**: `web`"
+msgstr "**S'exécute sur (hôtes)** : `web`"
+
+msgid "**Roles, in the order they run**: type `nginx` and press Enter. It becomes a numbered chip."
+msgstr "**Rôles, dans leur ordre d'exécution** : tapez `nginx` et appuyez sur Entrée. Il devient une puce numérotée."
+
+msgid "Leave **Run as root (become)** ticked. The heading now reads **Play 1 · runs on web**, and the preview shows `web.yml`:"
+msgstr "Laissez **Exécuter en root (become)** coché. Le titre indique maintenant **Play 1 · s'exécute sur web**, et l'aperçu affiche `web.yml` :"
+
+msgid "Click **Add to project**. `web` appears under **Configure**, and the checklist ticks **Configure with a playbook**."
+msgstr "Cliquez sur **Ajouter au projet**. `web` apparaît sous **Configurer**, et la liste coche **Configurez avec un playbook**."
+
+msgid "Let Checks catch the missing role"
+msgstr "Laisser les vérifications repérer le rôle manquant"
+
+msgid "The playbook names a role, `nginx`, but nothing in the project provides it. Ansible would stop with a \"role not found\" error. kikx notices at once: above the form, the editor now says **1 check flags this component**, with the note **web uses 1 role kikx doesn't vendor**."
+msgstr "Le playbook nomme un rôle, `nginx`, mais rien dans le projet ne le fournit. Ansible s'arrêterait avec une erreur « role not found ». kikx le remarque aussitôt : au-dessus du formulaire, l'éditeur indique maintenant **1 point signalé sur ce composant**, avec la remarque **web utilise 1 rôle que kikx ne fournit pas**."
+
+msgid "Click the **Checks** tab to see every note across the project. Under **Notes** you find the same one:"
+msgstr "Cliquez sur l'onglet **Vérifications** pour voir toutes les remarques du projet. Sous **Remarques**, vous retrouvez la même :"
+
+msgid "**web uses 1 role kikx doesn't vendor**"
+msgstr "**web utilise 1 rôle que kikx ne fournit pas**"
+
+msgid "*nginx: they must already exist under roles/ in your repo, or scaffold empty ones here.*"
+msgstr "*nginx : ils doivent déjà exister sous roles/ dans votre dépôt, ou créez ici des rôles vides.*"
+
+msgid "It has two buttons: **Scaffold 1 role** and **Open web**. Click **Scaffold 1 role**. A notification says **Scaffolded 1 role**, and the page now reads:"
+msgstr "Elle a deux boutons : **Créer 1 rôle** et **Ouvrir web**. Cliquez sur **Créer 1 rôle**. Une notification indique **1 rôle créé**, et la page affiche maintenant :"
+
+msgid "Click the **Build** tab. The **Project** panel lists `nginx` under **Configure**, a **Role skeleton · 4 files**. Click the arrow next to it to see its files, and click `roles/nginx/tasks/main.yml` to read it:"
+msgstr "Cliquez sur l'onglet **Construire**. Le panneau **Projet** liste `nginx` sous **Configurer**, un **Squelette de rôle · 4 fichiers**. Cliquez sur la flèche à côté pour voir ses fichiers, puis sur `roles/nginx/tasks/main.yml` pour le lire :"
+
+msgid "The role is empty but valid, so the playbook runs today. You write the real tasks when you're ready. [Checks reference](../reference/checks.md) lists everything Checks looks for."
+msgstr "Le rôle est vide mais valide : le playbook fonctionne dès aujourd'hui. Vous écrirez les vraies tâches quand vous serez prêt. [Vérifications](../reference/checks.md) liste tout ce que les vérifications contrôlent."
+
+msgid "Add the site playbook"
+msgstr "Ajouter le playbook site"
+
+msgid "`site.yml` is the single entry point that runs your playbooks in order. Under **Configure**, click **Site playbook**."
+msgstr "`site.yml` est le point d'entrée unique qui exécute vos playbooks dans l'ordre. Sous **Configurer**, cliquez sur **Playbook site**."
+
+msgid "In **Name**, type `site`."
+msgstr "Dans **Nom**, tapez `site`."
+
+msgid "Under **Imports, in run order**, next to **from this project:**, click the `web.yml` chip. A row appears with that path. Its name is filled in with the play's name, `Web servers`."
+msgstr "Sous **Imports, dans l'ordre d'exécution**, à côté de **de ce projet :**, cliquez sur la puce `web.yml`. Une ligne apparaît avec ce chemin. Son nom est rempli avec celui du play, `Web servers`."
+
+msgid "The preview shows `site.yml`:"
+msgstr "L'aperçu affiche `site.yml` :"
+
+msgid "Click **Add to project**. The **Project** panel now reads **5 components · 8 files in infra/**."
+msgstr "Cliquez sur **Ajouter au projet**. Le panneau **Projet** indique maintenant **5 composants · 8 fichiers dans infra/**."
+
+msgid "Look at the architecture"
+msgstr "Regarder l'architecture"
+
+msgid "Click the **Architecture** tab. kikx draws your project in swimlanes, left to right in the order things happen: **Inventory**, **Playbooks**, **Roles**."
+msgstr "Cliquez sur l'onglet **Architecture**. kikx dessine votre projet en couloirs, de gauche à droite dans l'ordre où les choses se passent : **Inventaire**, **Playbooks**, **Rôles**."
+
+msgid "![The Architecture tab: the web and db groups and the group vars in the Inventory lane, site.yml and web.yml in Playbooks, roles/nginx in Roles](../images/web/first-project-architecture.png)"
+msgstr "![L'onglet Architecture : les groupes web et db et les group vars dans le couloir Inventaire, site.yml et web.yml dans Playbooks, roles/nginx dans Rôles](../images/web/first-project-architecture.png)"
+
+msgid "The Architecture tab: the web and db groups and the group vars in the Inventory lane, site.yml and web.yml in Playbooks, roles/nginx in Roles"
+msgstr "L'onglet Architecture : les groupes web et db et les group vars dans le couloir Inventaire, site.yml et web.yml dans Playbooks, roles/nginx dans Rôles"
+
+msgid "You should see:"
+msgstr "Vous devriez voir :"
+
+msgid "`web` (**1 host**) with a **configures** edge to `group_vars/web`, and a **targets** edge to `web.yml`;"
+msgstr "`web` (**1 hôte**) avec une flèche **configure** vers `group_vars/web`, et une flèche **vise** vers `web.yml` ;"
+
+msgid "`db` (**1 host**), with no edges yet: no play runs on it;"
+msgstr "`db` (**1 hôte**), sans flèche pour l'instant : aucun play ne s'exécute dessus ;"
+
+msgid "`site.yml` (**Site playbook · entry point**) with an **imports** edge to `web.yml`;"
+msgstr "`site.yml` (**Playbook site · point d'entrée**) avec une flèche **importe** vers `web.yml` ;"
+
+msgid "`web.yml` (**1 play · 1 role**) with a **runs** edge to `roles/nginx`."
+msgstr "`web.yml` (**1 play · 1 rôle**) avec une flèche **exécute** vers `roles/nginx`."
+
+msgid "Hover a node to highlight its connections, and click one to open it in the editor. **Expand** makes the canvas taller, and **Export to draw.io** saves it as a file you can keep editing in [draw.io](../how-to/export-to-drawio.md)."
+msgstr "Survolez un nœud pour mettre ses liens en évidence, et cliquez dessus pour l'ouvrir dans l'éditeur. **Agrandir** rend le canevas plus haut, et **Exporter vers draw.io** l'enregistre dans un fichier que vous pouvez continuer à modifier dans [draw.io](../how-to/export-to-drawio.md)."
+
+msgid "Export the project"
+msgstr "Exporter le projet"
+
+msgid "Open **Export** at the top right. It has three choices:"
+msgstr "Ouvrez **Exporter** en haut à droite. Il propose trois choix :"
+
+msgid "**Files (.zip)**: plain files to drop in your repo."
+msgstr "**Fichiers (.zip)** : des fichiers simples à déposer dans votre dépôt."
+
+msgid "**Preset (.kikx-preset.json)**: the recipe for the project, to reopen here or run with `kikx apply`."
+msgstr "**Preset (.kikx-preset.json)** : la recette du projet, à rouvrir ici ou à lancer avec `kikx apply`."
+
+msgid "**CLI command**: a dialog, **Run it with the CLI**, with the commands that write the same files on your machine:"
+msgstr "**Commande CLI** : une boîte de dialogue, **Lancer avec la CLI**, avec les commandes qui écrivent les mêmes fichiers sur votre machine :"
+
+msgid "Both read the preset, so the dialog has a **Download preset** button too. `setup` starts a new kikx project from the file; `apply` adds the files to a repo you already have. [Share a project as a preset](../how-to/presets.md) explains the difference."
+msgstr "Les deux lisent le preset, c'est pourquoi la boîte de dialogue a aussi un bouton **Télécharger le preset**. `setup` démarre un nouveau projet kikx à partir du fichier ; `apply` ajoute les fichiers à un dépôt que vous avez déjà. [Partager un projet sous forme de preset](../how-to/presets.md) explique la différence."
+
+msgid "Choose **Files (.zip)**. Your browser saves `shop.zip`, and the header note changes to **Downloaded** with the time. The checklist's last step, **Download your project**, is now done, so the checklist goes away."
+msgstr "Choisissez **Fichiers (.zip)**. Votre navigateur enregistre `shop.zip`, et la mention de l'en-tête devient **Téléchargé** suivi de l'heure. La dernière étape de la liste, **Téléchargez votre projet**, est faite : la liste disparaît."
+
+msgid "Unzip it and look inside:"
+msgstr "Décompressez-le et regardez son contenu :"
+
+msgid "Every file you saw in the preview is in `infra/`, the output directory. `kikx.toml` records the project name, the default namespace and the output directory, so you can carry on with the CLI from this folder. None of the files depends on kikx: they're ordinary Ansible files that you own and edit."
+msgstr "Chaque fichier vu dans l'aperçu se trouve dans `infra/`, le dossier de sortie. `kikx.toml` enregistre le nom du projet, le namespace par défaut et le dossier de sortie, pour que vous puissiez continuer avec la CLI depuis ce dossier. Aucun fichier ne dépend de kikx : ce sont des fichiers Ansible ordinaires, qui vous appartiennent et que vous modifiez à votre guise."
+
+msgid "Now choose **Export** > **Preset (.kikx-preset.json)** as well. Your browser saves `shop.kikx-preset.json`. Keep it: it's how you get the project back into the app on another browser or computer."
+msgstr "Choisissez maintenant aussi **Exporter** > **Preset (.kikx-preset.json)**. Votre navigateur enregistre `shop.kikx-preset.json`. Gardez-le : c'est grâce à lui que vous retrouverez le projet dans l'application sur un autre navigateur ou un autre ordinateur."
+
+msgid "Come back to the project later"
+msgstr "Revenir au projet plus tard"
+
+msgid "Click **Home**. Your project stays saved in this browser, and the home page now starts with a card, **Continue shop**, saying that **5 components and any unsaved drafts are kept in this browser**. Click **Continue** to go back to the builder where you left off, or use the close button next to it to discard the project after a confirmation."
+msgstr "Cliquez sur **Accueil**. Votre projet reste enregistré dans ce navigateur, et la page d'accueil commence maintenant par une carte, **Reprendre shop**, qui indique que **5 composants et les brouillons non enregistrés sont conservés dans ce navigateur**. Cliquez sur **Reprendre** pour retrouver le constructeur là où vous l'avez laissé, ou utilisez le bouton de fermeture à côté pour abandonner le projet après confirmation."
+
+msgid "The browser keeps one project at a time, and only on this browser. Keep these in mind:"
+msgstr "Le navigateur garde un seul projet à la fois, et uniquement dans ce navigateur. Gardez ceci en tête :"
+
+msgid "Starting a **Blank project** or a template replaces the project kept in the browser. Export a preset first if you want to keep it."
+msgstr "Démarrer un **Projet vierge** ou un modèle remplace le projet conservé dans le navigateur. Exportez d'abord un preset si vous voulez le garder."
+
+msgid "Clearing your browser data removes the project. So does using another browser or computer."
+msgstr "Effacer les données du navigateur supprime le projet. Il en va de même si vous changez de navigateur ou d'ordinateur."
+
+msgid "To get a project back in any of those cases, click **Open a preset** on the home page and pick the `.kikx-preset.json` you downloaded. The builder opens with every component in place."
+msgstr "Pour retrouver un projet dans tous ces cas, cliquez sur **Ouvrir un preset** sur la page d'accueil et choisissez le `.kikx-preset.json` téléchargé. Le constructeur s'ouvre avec tous les composants en place."
+
+msgid "What you've done"
+msgstr "Ce que vous avez fait"
+
+msgid "You named a project, added an inventory with two hosts in two groups while watching the preview update, gave the `web` group a setting, and wrote a playbook whose play runs a role on that group. Checks caught the missing role and scaffolded it. You tied everything together with `site.yml`, read the architecture kikx drew, downloaded the files as a zip and saved a preset to reopen later."
+msgstr "Vous avez nommé un projet, ajouté un inventaire avec deux hôtes dans deux groupes en regardant l'aperçu se mettre à jour, donné un réglage au groupe `web`, et écrit un playbook dont le play exécute un rôle sur ce groupe. Les vérifications ont repéré le rôle manquant et l'ont généré. Vous avez tout relié avec `site.yml`, lu l'architecture dessinée par kikx, téléchargé les fichiers dans un zip et enregistré un preset à rouvrir plus tard."
+
+msgid "Next, try [Build an Ansible platform in the dashboard](platform-in-the-dashboard.md): a larger project with an imported inventory, two plays, a role condition and a warning to fix."
+msgstr "Ensuite, essayez [Construire une plateforme Ansible dans le tableau de bord](platform-in-the-dashboard.md) : un projet plus grand, avec un inventaire importé, deux plays, une condition de rôle et un avertissement à corriger."
+
+msgid "When you want to know more:"
+msgstr "Pour aller plus loin :"
+
+msgid "watch kikx build a project on its own: [Let kikx show you](teach-me.md);"
+msgstr "regarder kikx construire un projet tout seul : [Laissez kikx vous montrer](teach-me.md) ;"
+
+msgid "start from a ready-made project: [Start from a template in the app](../how-to/start-from-template-web.md);"
+msgstr "partir d'un projet prêt à l'emploi : [Partir d'un modèle dans l'app](../how-to/start-from-template-web.md) ;"
+
+msgid "change, rename or remove what you added: [Edit components in the app](../how-to/edit-components-web.md);"
+msgstr "modifier, renommer ou retirer ce que vous avez ajouté : [Modifier des composants dans l'app](../how-to/edit-components-web.md) ;"
+
+msgid "change the namespace or output directory: [Change project settings in the app](../how-to/project-settings-web.md);"
+msgstr "changer le namespace ou le dossier de sortie : [Modifier les paramètres du projet dans l'app](../how-to/project-settings-web.md) ;"
+
+msgid "every way to save and reopen a project: [Export and reopen a project in the app](../how-to/export-and-reopen-web.md);"
+msgstr "toutes les façons d'enregistrer et de rouvrir un projet : [Exporter et rouvrir un projet dans l'app](../how-to/export-and-reopen-web.md) ;"
+
+msgid "bring your own inventory: [Import an existing Ansible inventory](../how-to/import-an-inventory.md);"
+msgstr "apporter votre propre inventaire : [Importer un inventaire Ansible existant](../how-to/import-an-inventory.md) ;"
+
+msgid "more about missing roles: [Scaffold the roles your playbooks use](../how-to/scaffold-roles.md);"
+msgstr "en savoir plus sur les rôles manquants : [Générer les rôles utilisés par vos playbooks](../how-to/scaffold-roles.md) ;"
+
+msgid "why the project stays in the browser: [How the pieces fit together](../explanation/project-layout.md#the-dashboard-keeps-the-project-in-the-browser);"
+msgstr "pourquoi le projet reste dans le navigateur : [Comment les éléments s'articulent](../explanation/project-layout.md#the-dashboard-keeps-the-project-in-the-browser) ;"
+
+msgid "why kikx writes plain files: [Vendoring real files](../explanation/vendoring.md)."
+msgstr "pourquoi kikx écrit des fichiers simples : [Vendoriser de vrais fichiers](../explanation/vendoring.md)."
