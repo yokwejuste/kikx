@@ -56,7 +56,7 @@ With the CLI, you set a field with `--set <field>=<value>` on [`kikx add`](cli.m
 | Title | Service |
 | Description | A stable address for pods. |
 | Output paths | `{{ name }}-service.yaml` |
-| Template fallbacks | `target_port` unset: `targetPort` is `port`; `spec.selector` is `labels`, which includes `app: <name>` unless overridden |
+| Template fallbacks | `target_port` unset: `targetPort` is `port`; `spec.selector` is only `app: <labels.app>`, which defaults to `app: <name>`; when `labels` has keys other than `app`, all `labels` are written to `metadata.labels` |
 
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|

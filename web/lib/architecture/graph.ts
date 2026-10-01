@@ -3,6 +3,7 @@ import { groupVarsPath } from "@/lib/ansible/group-vars";
 import { parseInventoryEntries } from "@/lib/ansible/inventory";
 import { hostPatterns, playbookPath, playsFromRecipe, siteImportsFromRecipe } from "@/lib/ansible/playbook";
 import type { Translate } from "@/lib/i18n/localized-error";
+import { podLabels, selects, serviceSelector, type Labels } from "@/lib/k8s/labels";
 import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
 import type { FlowNodeData } from "@/components/flow/flow-node";
@@ -66,9 +67,9 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
   const siteImports: { id: string; paths: string[] }[] = [];
   const roleIdByName = new Map<string, string>();
   const playbookIdByPath = new Map<string, string>();
-  const deploymentIdByApp = new Map<string, string>();
+  const deployments: { id: string; labels: Labels }[] = [];
   const serviceIdByName = new Map<string, string>();
-  const services: { id: string; selector: string }[] = [];
+  const services: { id: string; selector: Labels }[] = [];
   const ingresses: { id: string; backend: string }[] = [];
   const groupMembers = new Map<string, string[]>();
   const inventories: { fileName: string; groups: string[]; children: Set<string> }[] = [];
@@ -76,7 +77,7 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
   const configs: { id: string; inventory: string }[] = [];
 
   for (const component of components) {
-    const { reference, name, fields, labels } = component.recipe;
+    const { reference, name, fields } = component.recipe;
     const lane = laneFor(component);
 
     if (reference === REFERENCES.inventory) {
@@ -198,10 +199,10 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
         icon: Package,
         kind: "process",
       });
-      if (kind === "deployment") deploymentIdByApp.set(labels.app ?? name, component.id);
+      if (kind === "deployment") deployments.push({ id: component.id, labels: podLabels(component.recipe) });
       if (kind === "service") {
         serviceIdByName.set(name, component.id);
-        services.push({ id: component.id, selector: labels.app ?? name });
+        services.push({ id: component.id, selector: serviceSelector(component.recipe) });
       }
       if (kind === "ingress") ingresses.push({ id: component.id, backend: fields.service || name });
       continue;
@@ -241,8 +242,9 @@ export function buildArchitectureGraph(components: AddedComponent[], t: Translat
     if (serviceId) addEdge(id, serviceId, t("edges.routesTo"));
   }
   for (const { id, selector } of services) {
-    const deploymentId = deploymentIdByApp.get(selector);
-    if (deploymentId) addEdge(id, deploymentId, t("edges.selects"));
+    for (const deployment of deployments) {
+      if (selects(selector, deployment.labels)) addEdge(id, deployment.id, t("edges.selects"));
+    }
   }
 
   const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "_");

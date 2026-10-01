@@ -260,8 +260,8 @@ msgstr "**Dans l'app :** **Déployer** > **Deployment**. Champs : **Nom**, **Ima
 msgid "`k8s/service`"
 msgstr "`k8s/service`"
 
-msgid "`target_port` unset: `targetPort` is `port`; `spec.selector` is `labels`, which includes `app: <name>` unless overridden"
-msgstr "`target_port` non défini : `targetPort` vaut `port` ; `spec.selector` vaut `labels`, qui inclut `app: <name>` sauf s'il est remplacé"
+msgid "`target_port` unset: `targetPort` is `port`; `spec.selector` is only `app: <labels.app>`, which defaults to `app: <name>`; when `labels` has keys other than `app`, all `labels` are written to `metadata.labels`"
+msgstr "`target_port` non défini : `targetPort` vaut `port` ; `spec.selector` vaut seulement `app: <labels.app>`, qui vaut par défaut `app: <name>` ; quand `labels` a d'autres clés que `app`, tous les `labels` sont écrits dans `metadata.labels`"
 
 msgid "`target_port`"
 msgstr "`target_port`"

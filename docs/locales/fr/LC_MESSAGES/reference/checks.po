@@ -337,14 +337,14 @@ msgstr "`Fine if the file already exists in your repo; otherwise add that playbo
 msgid "`svc-selector`"
 msgstr "`svc-selector`"
 
-msgid "A service's app label matches the app label of no `k8s/deployment` component"
-msgstr "Le label app d'un service ne correspond au label app d'aucun composant `k8s/deployment`"
+msgid "A service's selector, `app: <its app label>`, matches the pod labels, `app: <name>`, of no `k8s/deployment` component"
+msgstr "Le sélecteur d'un service, `app: <son label app>`, ne correspond aux labels de pod, `app: <name>`, d'aucun composant `k8s/deployment`"
 
-msgid "`Service <name> selects app=<label>, but no deployment has that label`"
-msgstr "`Service <name> selects app=<label>, but no deployment has that label`"
+msgid "`Service <name> selects <selector>, but no deployment's pods carry those labels`"
+msgstr "`Service <name> selects <selector>, but no deployment's pods carry those labels`"
 
-msgid "`Its endpoints will be empty. Name the deployment the same, or set the app label.`"
-msgstr "`Its endpoints will be empty. Name the deployment the same, or set the app label.`"
+msgid "`Its endpoints will be empty. Pods carry app=<deployment name>: name the deployment the same, or set the Service's app label to the deployment name.`"
+msgstr "`Its endpoints will be empty. Pods carry app=<deployment name>: name the deployment the same, or set the Service's app label to the deployment name.`"
 
 msgid "`ing-backend`"
 msgstr "`ing-backend`"

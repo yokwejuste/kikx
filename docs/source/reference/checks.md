@@ -169,9 +169,9 @@ Group-vars keys are read from `yaml` when set, as top-level lines matching `name
 | | |
 |-|-|
 | Severity | `warning` |
-| Trigger | A service's app label matches the app label of no `k8s/deployment` component |
-| Title | `Service <name> selects app=<label>, but no deployment has that label` |
-| Detail | `Its endpoints will be empty. Name the deployment the same, or set the app label.` |
+| Trigger | A service's selector, `app: <its app label>`, matches the pod labels, `app: <name>`, of no `k8s/deployment` component |
+| Title | `Service <name> selects <selector>, but no deployment's pods carry those labels` |
+| Detail | `Its endpoints will be empty. Pods carry app=<deployment name>: name the deployment the same, or set the Service's app label to the deployment name.` |
 
 ## `ing-backend`
 
