@@ -44,7 +44,7 @@ export function LessonsButton({ mode, openOnArrival = false }: { mode: TeachMode
         <GraduationCap />
         {t("chooseLesson")}
       </Button>
-      <LessonPicker open={open && !active} onOpenChange={setOpen} />
+      <LessonPicker open={open && !active} onOpenChange={setOpen} only={mode} />
     </>
   );
 }
