@@ -9,7 +9,6 @@ export const TOKENS = {
   teachArrowInset: "--teach-arrow-inset",
   teachCardGap: "--teach-card-gap",
   teachCardMargin: "--teach-card-margin",
-  teachCardHeader: "--teach-card-header",
   tourStagePadding: "--tour-stage-padding",
   tourStageRadius: "--tour-stage-radius",
   tourCardWidth: "--tour-card-width",
