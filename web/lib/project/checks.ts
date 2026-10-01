@@ -7,7 +7,9 @@ import {
   playsFromRecipe,
   siteImportsFromRecipe,
 } from "@/lib/ansible/playbook";
+import type { FieldFormat } from "@/lib/api/client";
 import type { LocalizedMessage } from "@/lib/i18n/localized-error";
+import { parseAddress, parseRange, rangesOverlap, type IpRange } from "@/lib/net/ip";
 import type { AddedComponent } from "@/lib/project/context";
 import { REFERENCES } from "@/lib/registry/references";
 
@@ -21,6 +23,8 @@ export interface ProjectIssue {
   componentIds: string[];
   action?: { type: "scaffold-roles"; roles: string[] };
 }
+
+export type FieldFormatLookup = (reference: string, field: string) => FieldFormat | null | undefined;
 
 const SEVERITY_ORDER: Record<IssueSeverity, number> = { error: 0, warning: 1, info: 2 };
 
@@ -81,7 +85,66 @@ function findCycle(entries: InventoryGroupEntry[]): string[] | null {
   return null;
 }
 
-export function checkProject(components: AddedComponent[]): ProjectIssue[] {
+function addressKey(address: string): string {
+  const parsed = parseAddress(address);
+  return parsed.ok ? parsed.address : address.trim().toLowerCase();
+}
+
+function sharedAddressIssues(hostsByAddress: Map<string, Map<string, Set<string>>>): ProjectIssue[] {
+  return Array.from(hostsByAddress)
+    .filter(([, hosts]) => hosts.size > 1)
+    .map(([address, hosts]) => ({
+      id: `shared-addr:${address}`,
+      severity: "warning" as const,
+      title: {
+        key: "checks.issues.sharedAddress.title",
+        values: { count: hosts.size, address, hosts: Array.from(hosts.keys()).join(", ") },
+      },
+      detail: { key: "checks.issues.sharedAddress.detail" },
+      componentIds: Array.from(new Set(Array.from(hosts.values()).flatMap((ids) => Array.from(ids)))),
+    }));
+}
+
+interface RangeField {
+  component: AddedComponent;
+  field: string;
+  range: IpRange;
+}
+
+function rangeFields(components: AddedComponent[], fieldFormat: FieldFormatLookup): RangeField[] {
+  return components.flatMap((component) =>
+    Object.entries(component.recipe.fields).flatMap(([field, value]) => {
+      if (!value || fieldFormat(component.recipe.reference, field) !== "cidr") return [];
+      const parsed = parseRange(value);
+      return parsed.ok ? [{ component, field, range: parsed.range }] : [];
+    }),
+  );
+}
+
+function rangeOverlapIssues(fields: RangeField[]): ProjectIssue[] {
+  return fields.flatMap((first, index) =>
+    fields
+      .slice(index + 1)
+      .filter((second) => second.component.id !== first.component.id && rangesOverlap(first.range, second.range))
+      .map((second) => ({
+        id: `range-overlap:${first.component.id}:${first.field}:${second.component.id}:${second.field}`,
+        severity: "warning" as const,
+        title: {
+          key: "checks.issues.rangeOverlap.title",
+          values: {
+            first: first.component.recipe.name,
+            firstRange: first.range.text,
+            second: second.component.recipe.name,
+            secondRange: second.range.text,
+          },
+        },
+        detail: { key: "checks.issues.rangeOverlap.detail" },
+        componentIds: [first.component.id, second.component.id],
+      })),
+  );
+}
+
+export function checkProject(components: AddedComponent[], fieldFormat: FieldFormatLookup): ProjectIssue[] {
   const issues: ProjectIssue[] = [];
   const push = (issue: ProjectIssue) => issues.push(issue);
   const byReference = (reference: string) => components.filter((c) => c.recipe.reference === reference);
@@ -105,6 +168,7 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
   const hasInventory = inventories.length > 0;
 
   const addressByHost = new Map<string, { address: string; component: AddedComponent }>();
+  const hostsByAddress = new Map<string, Map<string, Set<string>>>();
   for (const { component, entries, parents } of inventories) {
     const cycle = findCycle(entries);
     if (cycle) {
@@ -149,6 +213,9 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
           } else if (!seen) {
             addressByHost.set(member.name, { address, component });
           }
+          const hosts = hostsByAddress.get(addressKey(address)) ?? new Map<string, Set<string>>();
+          hosts.set(member.name, (hosts.get(member.name) ?? new Set<string>()).add(component.id));
+          hostsByAddress.set(addressKey(address), hosts);
         }
 
         for (const key of ["ansible_user", "ansible_port"] as const) {
@@ -173,6 +240,9 @@ export function checkProject(components: AddedComponent[]): ProjectIssue[] {
       }
     }
   }
+
+  sharedAddressIssues(hostsByAddress).forEach(push);
+  rangeOverlapIssues(rangeFields(components, fieldFormat)).forEach(push);
 
   if (inventories.length > 1) {
     push({

@@ -46,7 +46,7 @@ Every built-in component.
 Response `200`:
 
 ```json
-{"items":[{"name":"deployment","category":"k8s","title":"Deployment","description":"Pods running one container image.","reference":"k8s/deployment","fields":[{"name":"image","required":true,"default":null,"description":null,"example":"nginx:1.27","options":[]},{"name":"replicas","required":false,"default":"1","description":null,"example":null,"options":[]},{"name":"port","required":false,"default":"80","description":null,"example":null,"options":[]}],"files":["{{ name }}-deployment.yaml"]}]}
+{"items":[{"name":"deployment","category":"k8s","title":"Deployment","description":"Pods running one container image.","reference":"k8s/deployment","fields":[{"name":"image","required":true,"default":null,"description":null,"example":"nginx:1.27","options":[],"format":null},{"name":"replicas","required":false,"default":"1","description":null,"example":null,"options":[],"format":null},{"name":"port","required":false,"default":"80","description":null,"example":null,"options":[],"format":null}],"files":["{{ name }}-deployment.yaml"]}]}
 ```
 
 The example shows the first item only. The full content is listed in [Components](components.md).
@@ -77,6 +77,7 @@ The example shows the first item only. The full content is listed in [Components
 | `description` | string or `null` | Help text |
 | `example` | string or `null` | Example value |
 | `options` | array of `{value, label}` | Suggested values. `label` equals `value` when the registry item leaves it empty |
+| `format` | `"ip"`, `"cidr"` or `null` | Value format checked before rendering. See [Registry item format](registry-item-format.md#field) |
 
 ## `GET /api/config`
 
@@ -159,7 +160,7 @@ GET /api/registry/inspect?ref=k8s/service
 Response `200`:
 
 ```json
-{"name":"service","category":"k8s","title":"Service","description":"A stable address for pods.","reference":"k8s/service","fields":[{"name":"port","required":false,"default":"80","description":null,"example":null,"options":[]},{"name":"target_port","required":false,"default":null,"description":"Container port; defaults to the service port.","example":null,"options":[]}],"files":["{{ name }}-service.yaml"]}
+{"name":"service","category":"k8s","title":"Service","description":"A stable address for pods.","reference":"k8s/service","fields":[{"name":"port","required":false,"default":"80","description":null,"example":null,"options":[],"format":null},{"name":"target_port","required":false,"default":null,"description":"Container port; defaults to the service port.","example":null,"options":[],"format":null}],"files":["{{ name }}-service.yaml"]}
 ```
 
 | Condition | Status | Body |
@@ -220,6 +221,7 @@ Response `200`:
 |-|-|-|-|
 | Unknown or invalid reference | `400` | JSON | `{"code":"invalid_request","error":"..."}` |
 | Required field missing | `400` | JSON | `{"code":"invalid_request","error":"--image is required for k8s/deployment"}` |
+| A field with a format has an invalid value | `400` | JSON | ``{"code":"invalid_request","error":"field `private_network` of terraform/aws: `10.0.0.5/16` is not the start of its range; use `10.0.0.0/16`"}`` |
 | Two files render to the same path | `400` | JSON | ``{"code":"invalid_request","error":"custom/dup has two files that both render to `a.txt`"}`` |
 | Template syntax or render error | `500` | JSON | `{"code":"internal","error":"syntax error: unexpected end of block (in <string>:1)"}` |
 | Missing `Content-Type: application/json` | `415` | text | ``Expected request with `Content-Type: application/json` `` |

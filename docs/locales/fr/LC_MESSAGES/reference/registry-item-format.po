@@ -422,3 +422,11 @@ msgstr "[Comment fonctionne le rendu](../explanation/rendering.md)"
 msgid "[The registry as single source of truth](../explanation/registry.md)"
 msgstr "[Le registre, source unique de vérité](../explanation/registry.md)"
 
+msgid "`format`"
+msgstr "`format`"
+
+msgid "`ip` or `cidr`"
+msgstr "`ip` ou `cidr`"
+
+msgid "Value format, checked and normalised before rendering: `ip` is one IPv4 or IPv6 address, `cidr` is a range that starts on its boundary. Empty values are not checked"
+msgstr "Format de la valeur, vérifié et normalisé avant le rendu : `ip` est une seule adresse IPv4 ou IPv6, `cidr` une plage qui commence sur sa limite. Les valeurs vides ne sont pas vérifiées"

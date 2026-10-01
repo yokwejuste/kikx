@@ -10,7 +10,7 @@ import { docsHref } from "@/lib/i18n/docs";
 import { LESSONS, nextLesson } from "@/lib/teach/lessons";
 import { LessonPlayer, type LessonView } from "@/lib/teach/player";
 import { beginSandbox, endSandbox, hasPendingSandbox } from "@/lib/teach/sandbox";
-import { prefersReducedMotion } from "@/lib/teach/dom";
+import { prefersReducedMotion } from "@/lib/dom/motion";
 import { loadSpeed, saveSpeed } from "@/lib/teach/speed";
 import { markCompleted } from "@/lib/teach/progress";
 import { blockTours } from "@/lib/tour/use-tour";

@@ -23,7 +23,7 @@ import { IconTile } from "@/components/common/icon-tile";
 import { ProgressBar } from "@/components/common/progress-bar";
 import { CURSOR_MOVE_MS, type LessonView } from "@/lib/teach/player";
 import { LESSON_SPEEDS } from "@/lib/teach/speed";
-import { frameRect, trackRect } from "@/lib/dom/track-rect";
+import { frameRect, glide, GLIDE_EASE, trackRect } from "@/lib/dom/track-rect";
 import { highlightRect } from "@/lib/teach/dom";
 import { placeCard, type CardSide } from "@/lib/teach/placement";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,7 @@ function useFollowTarget(target: HTMLElement | null) {
   const targetRef = useRef(target);
 
   useEffect(() => {
+    if (ring.current && targetRef.current && target && target !== targetRef.current) glide(ring.current);
     targetRef.current = target;
   }, [target]);
 
@@ -189,18 +190,21 @@ export function TeachOverlay({
         <div
           ref={cursor}
           aria-hidden
-          className="pointer-events-none fixed top-0 left-0 z-[102] opacity-0 ease-out motion-reduce:transition-none"
+          className="pointer-events-none fixed top-0 left-0 z-[102] opacity-0 motion-reduce:transition-none"
           style={{
             transform: "translate(50vw, 60vh)",
             transitionProperty: "transform, opacity",
             transitionDuration: `${CURSOR_MOVE_MS / view.speed}ms`,
+            transitionTimingFunction: GLIDE_EASE,
           }}
         >
           <span
             key={view.clicks}
             className={cn("absolute -top-4 -left-4 size-8 rounded-full bg-volt/40 opacity-0", view.clicks > 0 && "teach-ripple")}
           />
-          <MousePointer2 className="relative -top-1 -left-1 size-7 fill-volt stroke-foreground drop-shadow-md" strokeWidth={1.5} />
+          <span key={view.clicks} className={cn("relative -top-1 -left-1 block origin-top-left", view.clicks > 0 && "teach-press")}>
+            <MousePointer2 className="size-7 fill-volt stroke-foreground drop-shadow-md" strokeWidth={1.5} />
+          </span>
         </div>
       )}
 
@@ -210,7 +214,7 @@ export function TeachOverlay({
         aria-label={t("region")}
         onPointerDown={stopOutsideDismiss}
         style={{ opacity: 0 }}
-        className="pointer-events-auto fixed top-0 left-0 z-[103] w-[min(26rem,calc(100vw-2rem))] rounded-xl border border-brand/60 bg-card text-sm shadow-xl transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none"
+        className="pointer-events-auto fixed top-0 left-0 z-[103] w-[min(26rem,calc(100vw-2rem))] rounded-xl border border-brand/60 bg-card text-sm shadow-xl transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
       >
         <span
           ref={arrow}
@@ -252,7 +256,11 @@ export function TeachOverlay({
           ) : view.waiting ? (
             <WaitingWords />
           ) : (
-            <p aria-live="polite" className="leading-relaxed">
+            <p
+              key={view.caption ?? ""}
+              aria-live="polite"
+              className="leading-relaxed animate-in duration-300 fade-in-0 slide-in-from-bottom-1 motion-reduce:animate-none"
+            >
               {view.caption}
             </p>
           )}

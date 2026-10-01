@@ -294,6 +294,8 @@
     "size": "Size",
     "osImage": "OS image",
     "count": "Count",
+    "privateNetwork": "Private network",
+    "networkZone": "Network zone",
     "key": "key",
     "value": "value",
     "removeRow": "Remove row",
@@ -383,7 +385,7 @@
     "simple": "Simple values",
     "addVar": "Add variable",
     "keyPlaceholder": "key (e.g. app_port)",
-    "yamlHelp": "Paste lists, maps, anything YAML: it's written as-is. Ideal for copying an existing group_vars file.",
+    "yamlHelp": "Paste lists, maps, anything YAML. Indentation and spacing are tidied when you paste or leave the box, your comments are kept, and mistakes are flagged as you type. Ideal for copying an existing group_vars file.",
     "nested": "This YAML has nested values. Keep editing it as YAML so nothing is lost."
   },
   "plays": {
@@ -604,6 +606,14 @@
       },
       "ingressBackend": {
         "title": "Ingress {ingress} routes to service \"{backend}\", which isn't in the project"
+      },
+      "sharedAddress": {
+        "title": "{count} hosts share the address {address}: {hosts}",
+        "detail": "Different host names pointing at one machine run the same plays on it twice. Give each host its own address, or keep a single host."
+      },
+      "rangeOverlap": {
+        "title": "{first} ({firstRange}) and {second} ({secondRange}) use overlapping networks",
+        "detail": "Overlapping private networks cannot be peered or routed to each other. Fine if they never need to talk; otherwise pick ranges that do not overlap."
       }
     }
   },
@@ -783,7 +793,11 @@
     "rolesPathRequired": "Roles path is required",
     "roleNameFormat": "Letters, digits, _ . and - only",
     "fieldRequired": "This field is required",
-    "providerRequired": "Choose a provider"
+    "providerRequired": "Choose a provider",
+    "addressRange": "Enter one address, not a range: {address}",
+    "ipInvalid": "Enter a valid IPv4 or IPv6 address",
+    "cidrInvalid": "Enter a range as address/prefix length, like the example",
+    "cidrNotNetwork": "This range starts at {network}; enter that instead"
   },
   "errors": {
     "notConfigured": "NEXT_PUBLIC_KIKX_API_URL is not set. Point it at your kikx backend (see web/.env.example).",
@@ -856,6 +870,25 @@
     "pickFile": "Pick a file to read it.",
     "notices": {
       "foreign": "This practice terminal runs kikx commands, plus ls, cat and clear. Copy this one to run it in your own terminal."
+    }
+  },
+  "formatting": {
+    "yamlProblem": "Line {line}: {reason}",
+    "yamlReasons": {
+      "duplicateKey": "this key is already set above in the same map.",
+      "tabIndent": "use spaces, not tabs, to indent.",
+      "badIndent": "the indentation does not line up with the lines around it.",
+      "missingChar": "a closing quote or bracket is missing.",
+      "colonInValue": "this value contains \": \". Quote the value or move it to its own indented line.",
+      "multipleDocs": "only one document is allowed here. Remove the extra document separator line.",
+      "badEscape": "this escape sequence is not valid inside double quotes.",
+      "syntax": "this is not valid YAML."
+    },
+    "keyValue": {
+      "name": "\"{key}\" is not a valid variable name. Use letters, digits and underscores, and do not start with a digit.",
+      "duplicate": "\"{key}\" is set more than once. Only the last value is kept.",
+      "noEquals": "\"{text}\" has no \"=\". Write it as key=value.",
+      "noKey": "\"{text}\" needs a name before the \"=\"."
     }
   }
 }

@@ -1,5 +1,17 @@
 import type { Lesson, LessonStep, Target, TaskCheck, TextRef } from "@/lib/teach/types";
-import { closedDrawerTrigger, findElement, isComfortablyVisible, openDrawer, pressElement, pressKey, releaseFocus, setInputValue } from "@/lib/teach/dom";
+import {
+  closedDrawerTrigger,
+  findElement,
+  isComfortablyVisible,
+  isTypingTarget,
+  openDrawer,
+  pressElement,
+  pressKey,
+  releaseFocus,
+  setInputValue,
+  type TypingTarget,
+} from "@/lib/teach/dom";
+import { readingTime, typingDelay } from "@/lib/teach/pacing";
 import { teachTarget } from "@/lib/teach/steps";
 import { cliSession } from "@/lib/teach/cli/session";
 import { commandMatches } from "@/lib/teach/cli/match";
@@ -55,16 +67,12 @@ const OPTIONAL_TIMEOUT_MS = 1500;
 const REVEAL_AFTER_MS = 1200;
 const SCROLL_SETTLE_MS = 450;
 const WAITING_AFTER_MS = 600;
-const TYPE_MS = 70;
+const PAGE_BEAT_MS = 600;
 const AFTER_ACTION_MS = 350;
 const RUN_TIMEOUT_MS = 30000;
 const CLI_INPUT = teachTarget("cli-input");
 
 export const CURSOR_MOVE_MS = 650;
-
-function readingTime(text: string): number {
-  return Math.min(9000, Math.max(2400, 1200 + text.length * 50));
-}
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -179,6 +187,7 @@ export class LessonPlayer {
         if (window.location.pathname !== step.path) {
           this.env.navigate(step.path);
           if (!(await this.until(() => window.location.pathname === step.path, FIND_TIMEOUT_MS))) throw new Lost();
+          await this.wait(PAGE_BEAT_MS, false);
         }
         return;
       case "say":
@@ -195,14 +204,16 @@ export class LessonPlayer {
         const element = await this.reach(step.target, step.optional);
         if (!element) return;
         if (step.say) await this.read();
+        const page = window.location.pathname;
         this.click(element);
         await this.wait(AFTER_ACTION_MS, false);
+        if (window.location.pathname !== page) await this.wait(PAGE_BEAT_MS, false);
         return;
       }
       case "type": {
         this.narrate(step);
         const element = await this.reach(step.target);
-        if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) throw new Lost();
+        if (!element || !isTypingTarget(element)) throw new Lost();
         this.click(element);
         await this.typeInto(element, this.env.text(step.value), step.instant);
         if (step.enter) pressKey("Enter");
@@ -310,7 +321,7 @@ export class LessonPlayer {
     pressElement(element);
   }
 
-  private async typeInto(element: HTMLInputElement | HTMLTextAreaElement, text: string, instant = false): Promise<void> {
+  private async typeInto(element: TypingTarget, text: string, instant = false): Promise<void> {
     if (instant || this.env.reducedMotion) {
       setInputValue(element, text);
       return;
@@ -318,7 +329,7 @@ export class LessonPlayer {
     setInputValue(element, "");
     for (let length = 1; length <= text.length; length++) {
       setInputValue(element, text.slice(0, length));
-      await this.wait(TYPE_MS, false);
+      await this.wait(typingDelay(text[length - 1], Math.random()), false);
     }
   }
 
@@ -356,14 +367,13 @@ export class LessonPlayer {
       throw new Lost();
     }
     const reached: HTMLElement = element;
-    if (!isComfortablyVisible(reached)) {
-      reached.scrollIntoView({ block: "center", behavior: this.env.reducedMotion ? "auto" : "smooth" });
-      await this.wait(SCROLL_SETTLE_MS, false);
-    }
+    const scrolls = !isComfortablyVisible(reached);
     this.target = reached;
     this.targetRef = target;
     this.emit();
-    if (!this.env.reducedMotion) await this.wait(CURSOR_MOVE_MS, false);
+    if (scrolls) reached.scrollIntoView({ block: "center", behavior: this.env.reducedMotion ? "auto" : "smooth" });
+    const settle = Math.max(scrolls ? SCROLL_SETTLE_MS : 0, this.env.reducedMotion ? 0 : CURSOR_MOVE_MS);
+    if (settle > 0) await this.wait(settle, false);
     return reached;
   }
 

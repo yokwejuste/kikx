@@ -373,7 +373,36 @@ async fn registry_exposes_field_metadata_and_output_paths() {
         .unwrap();
     assert!(!os_image["options"].as_array().unwrap().is_empty());
     assert_eq!(os_image["default"], os_image["options"][0]["value"]);
+    assert_eq!(os_image["format"], Value::Null);
+    let private_network = hetzner["fields"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|f| f["name"] == "private_network")
+        .unwrap();
+    assert_eq!(private_network["format"], "cidr");
     assert_eq!(hetzner["files"][0], "{{ name }}-hetzner.tf");
+}
+
+#[tokio::test]
+async fn render_with_a_malformed_range_is_bad_request() {
+    let (status, body) = send(
+        router(),
+        Method::POST,
+        "/api/render",
+        Some(json!({
+            "reference": "terraform/digitalocean",
+            "name": "edge",
+            "fields": { "region": "nyc3", "size": "s-1vcpu-1gb", "private_network": "10.40.0.9/16" },
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::BAD_REQUEST);
+    assert_eq!(body["code"], "invalid_request");
+    assert!(body["error"]
+        .as_str()
+        .unwrap()
+        .contains("use `10.40.0.0/16`"));
 }
 
 #[tokio::test]

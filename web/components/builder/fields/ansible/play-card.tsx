@@ -3,12 +3,12 @@
 import { Controller, type UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { FieldError } from "@/components/ui/field";
 import { Disclosure } from "@/components/common/disclosure";
 import { RowActions } from "@/components/builder/fields/row-actions";
 import { RowInput } from "@/components/builder/fields/row-input";
 import { TagInputField } from "@/components/builder/fields/tag-input-field";
+import { YamlField } from "@/components/builder/fields/format/yaml-field";
 import type { RowErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { PlayValues } from "@/lib/forms/schemas";
@@ -87,12 +87,13 @@ function PrePostTasks({ form, index, play }: { form: UseFormReturn<FormValues>; 
     <Disclosure variant="dashed" title={t("title")} hint={summary || t("none")}>
       <div className="grid gap-2 px-2.5 pb-2.5 sm:grid-cols-2">
         {(["preTasks", "postTasks"] as const).map((key) => (
-          <Captioned key={key} caption={key === "preTasks" ? t("before") : t("after")}>
-            <Textarea
-              spellCheck={false}
+          <Captioned as="div" key={key} caption={key === "preTasks" ? t("before") : t("after")}>
+            <YamlField
+              form={form}
+              name={`plays.${index}.${key}`}
+              label={key === "preTasks" ? t("before") : t("after")}
               placeholder={"- name: …\n  ansible.builtin.debug:\n    msg: …"}
-              className="min-h-24 font-mono text-xs text-foreground"
-              {...form.register(`plays.${index}.${key}` as never)}
+              className="min-h-24 text-foreground"
             />
           </Captioned>
         ))}

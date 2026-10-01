@@ -623,3 +623,17 @@ msgstr "[Générer votre propre composant depuis un élément de registre](../ho
 msgid "[How the pieces fit together](../explanation/project-layout.md)"
 msgstr "[Comment les éléments s'articulent](../explanation/project-layout.md)"
 
+msgid "`format`"
+msgstr "`format`"
+
+msgid "`\"ip\"`, `\"cidr\"` or `null`"
+msgstr "`\"ip\"`, `\"cidr\"` ou `null`"
+
+msgid "Value format checked before rendering. See [Registry item format](registry-item-format.md#field)"
+msgstr "Format de la valeur, vérifié avant le rendu. Voir [Format des éléments de registre](registry-item-format.md#field)"
+
+msgid "A field with a format has an invalid value"
+msgstr "Un champ qui a un format a une valeur invalide"
+
+msgid "``{\"code\":\"invalid_request\",\"error\":\"field `private_network` of terraform/aws: `10.0.0.5/16` is not the start of its range; use `10.0.0.0/16`\"}``"
+msgstr "``{\"code\":\"invalid_request\",\"error\":\"field `private_network` of terraform/aws: `10.0.0.5/16` is not the start of its range; use `10.0.0.0/16`\"}``"

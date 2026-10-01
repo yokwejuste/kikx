@@ -1,10 +1,19 @@
 const CAPTION_CLEARANCE = 200;
 const HEADER_CLEARANCE = 72;
 
+type EditorElement = HTMLElement & { value: string };
+export type TypingTarget = HTMLInputElement | HTMLTextAreaElement | EditorElement;
+
+function isEditor(element: HTMLElement): element is EditorElement {
+  return element.isContentEditable && typeof (element as Partial<EditorElement>).value === "string";
+}
+
+export function isTypingTarget(element: HTMLElement): element is TypingTarget {
+  return element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || isEditor(element);
+}
+
 function shownText(element: HTMLElement): string {
-  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
-    return element.value;
-  }
+  if (element instanceof HTMLSelectElement || isTypingTarget(element)) return element.value;
   return element.textContent ?? "";
 }
 
@@ -64,7 +73,11 @@ export function pressElement(element: HTMLElement): void {
   element.click();
 }
 
-export function setInputValue(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, value: string): void {
+export function setInputValue(element: TypingTarget | HTMLSelectElement, value: string): void {
+  if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement)) {
+    element.value = value;
+    return;
+  }
   const setter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(element), "value")?.set;
   setter?.call(element, value);
   element.dispatchEvent(new Event(element instanceof HTMLSelectElement ? "change" : "input", { bubbles: true }));
@@ -87,8 +100,4 @@ export function highlightRect(element: HTMLElement | null): DOMRect | null {
 
 export function releaseFocus(): void {
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
-}
-
-export function prefersReducedMotion(): boolean {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }

@@ -23,6 +23,7 @@ import { useProject, type AddedComponent } from "@/lib/project/context";
 import { CATALOG, describeComponent, type CatalogKind } from "@/lib/registry/catalog";
 import { loadBuilderState, saveBuilderState } from "@/lib/project/drafts";
 import { checkProject, issuesByComponent } from "@/lib/project/checks";
+import { fieldFormat } from "@/lib/registry/store";
 import { toPresetComponent } from "@/lib/project/preset";
 import { defaultsFor, type FormValues } from "@/lib/forms/component-forms";
 import { api } from "@/lib/api/client";
@@ -66,7 +67,7 @@ export function Dashboard() {
   const [selection, setSelection] = useState<Selection>(restored.selection);
   const editorTop = useRef<HTMLDivElement>(null);
 
-  const issues = useMemo(() => checkProject(components), [components]);
+  const issues = useMemo(() => checkProject(components, fieldFormat), [components]);
   const issuesFor = useMemo(() => issuesByComponent(issues), [issues]);
   const issueCounts = useMemo(() => {
     const counts: IssueCounts = { error: 0, warning: 0, info: 0 };

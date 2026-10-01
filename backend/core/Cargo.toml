@@ -17,6 +17,7 @@ toml = "1"
 anyhow = "1"
 ureq = "3"
 utoipa = { version = "6", optional = true }
+ipnet = "2"
 
 [features]
 openapi = ["dep:utoipa"]

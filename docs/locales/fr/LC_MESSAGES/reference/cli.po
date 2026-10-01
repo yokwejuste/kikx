@@ -374,8 +374,8 @@ msgstr "`kikx list`"
 msgid "Prints every built-in component with its fields. Takes no options besides `--help`. Does not need `kikx.toml`."
 msgstr "Affiche chaque composant intégré avec ses champs. N'accepte aucune option en dehors de `--help`. N'a pas besoin de `kikx.toml`."
 
-msgid "Each field line shows, when present: `required`, `default <value>` (omitted for an empty default), `e.g. <example>`, `one of <options>`."
-msgstr "Chaque ligne de champ indique, le cas échéant : `required`, `default <value>` (omis pour une valeur par défaut vide), `e.g. <example>`, `one of <options>`."
+msgid "Each field line shows, when present: `required`, `default <value>` (omitted for an empty default), `e.g. <example>`, `format <format>`, `one of <options>`."
+msgstr "Chaque ligne de champ indique, le cas échéant : `required`, `default <value>` (omis pour une valeur par défaut vide), `e.g. <example>`, `format <format>`, `one of <options>`."
 
 msgid "The full list is in [Components](components.md)."
 msgstr "La liste complète se trouve dans [Composants](components.md)."
@@ -556,3 +556,9 @@ msgstr "Installe plutôt cette version, par exemple `0.2.0`"
 
 msgid "When no newer release exists it prints `kikx <version> is the latest version.` Releases are published for macOS arm64 and x64, Linux x64 and arm64, and Windows x64; on other systems it stops with `no kikx release is published for this platform`. If the binary sits in a directory you cannot write to, such as `/usr/local/bin`, run it with `sudo`."
 msgstr "Lorsqu'aucune version plus récente n'existe, elle affiche `kikx <version> is the latest version.` Des versions sont publiées pour macOS arm64 et x64, Linux x64 et arm64, et Windows x64 ; sur les autres systèmes, elle s'arrête avec `no kikx release is published for this platform`. Si le binaire se trouve dans un répertoire où vous ne pouvez pas écrire, comme `/usr/local/bin`, lancez-la avec `sudo`."
+
+msgid "A field with a [format](registry-item-format.md#field) has an invalid value"
+msgstr "Un champ qui a un [format](registry-item-format.md#field) a une valeur invalide"
+
+msgid "Exit `1`: ``field `<field>` of <reference>: <reason>``, where the reason names the corrected value when there is one. No file is written"
+msgstr "Sortie `1` : ``field `<field>` of <reference>: <reason>``, où la raison indique la valeur corrigée quand il y en a une. Aucun fichier n'est écrit"

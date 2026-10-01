@@ -1,12 +1,29 @@
 import { z } from "zod";
 import { validationMessage as m } from "@/lib/i18n/localized-error";
 import { registryItem } from "@/lib/registry/store";
+import type { FieldFormat } from "@/lib/api/client";
+import { parseAddress, parseRange } from "@/lib/net/ip";
 
-const IPV4_RE = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
 const HOSTNAME_RE = /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$/;
+const NUMERIC_HOST_RE = /^[\d.]+$/;
 
-function isValidHostOrIp(value: string): boolean {
-  return IPV4_RE.test(value) || value.includes(":") || HOSTNAME_RE.test(value);
+function hostAddressIssue(value: string): string | null {
+  const address = parseAddress(value);
+  if (address.ok) return null;
+  if (address.reason === "range") return m("addressRange", { address: address.address });
+  if (value.includes(":") || NUMERIC_HOST_RE.test(value) || !HOSTNAME_RE.test(value)) return m("addressInvalid");
+  return null;
+}
+
+export function fieldFormatIssue(format: FieldFormat, value: string): string | null {
+  if (format === "ip") {
+    const address = parseAddress(value);
+    if (address.ok) return null;
+    return address.reason === "range" ? m("addressRange", { address: address.address }) : m("ipInvalid");
+  }
+  const range = parseRange(value);
+  if (range.ok) return null;
+  return range.reason === "notNetwork" ? m("cidrNotNetwork", { network: range.network }) : m("cidrInvalid");
 }
 
 export const projectNameSchema = z.object({
@@ -76,9 +93,12 @@ export const serverFormSchema = z
   })
   .superRefine((values, context) => {
     for (const spec of registryItem(values.provider)?.fields ?? []) {
-      if (spec.required && !(values.fields[spec.name] ?? "").trim()) {
+      const value = (values.fields[spec.name] ?? "").trim();
+      if (spec.required && !value) {
         context.addIssue({ code: "custom", path: ["fields", spec.name], message: m("fieldRequired") });
       }
+      const issue = value && spec.format ? fieldFormatIssue(spec.format, value) : null;
+      if (issue) context.addIssue({ code: "custom", path: ["fields", spec.name], message: issue });
     }
   });
 
@@ -98,7 +118,10 @@ const groupName = z
 const optionalHostOrIp = z
   .string()
   .optional()
-  .refine((v) => !v || isValidHostOrIp(v), m("addressInvalid"));
+  .superRefine((value, context) => {
+    const issue = value ? hostAddressIssue(value) : null;
+    if (issue) context.addIssue({ code: z.ZodIssueCode.custom, message: issue });
+  });
 
 const optionalSshPort = z.preprocess(
   (val) => (val === "" || val === undefined || val === null ? undefined : val),

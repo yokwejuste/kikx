@@ -1,15 +1,18 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { driver, type Config, type DriveStep, type Driver, type Side } from "driver.js";
+import { driver, type Config, type DriveStep, type Driver, type PopoverDOM, type Side } from "driver.js";
 import { useTranslations } from "next-intl";
 import { TOURS, tourTarget, type TourName } from "@/lib/tour/steps";
 import { glowAround, stopGlow } from "@/lib/tour/glow";
+import { GLIDE_EASE } from "@/lib/dom/track-rect";
+import { prefersReducedMotion } from "@/lib/dom/motion";
 
 const SEEN_PREFIX = "kikx.tour.seen.";
 const WAIT_FOR_TARGETS_MS = 2000;
 const STAGE_PADDING = 12;
 const STAGE_RADIUS = 16;
+const CARD_ENTER_MS = 240;
 const POPOVER_ROOM = 340 + STAGE_PADDING + 24;
 const LOOK = {
   popoverClass: "kikx-tour",
@@ -19,6 +22,16 @@ const LOOK = {
   smoothScroll: true,
   animate: false,
   onHighlighted: (element?: Element) => glowAround(element, STAGE_PADDING, STAGE_RADIUS),
+  onPopoverRender: (popover: PopoverDOM) => {
+    if (prefersReducedMotion()) return;
+    popover.wrapper.animate(
+      [
+        { opacity: 0, transform: "translateY(6px)" },
+        { opacity: 1, transform: "none" },
+      ],
+      { duration: CARD_ENTER_MS, easing: GLIDE_EASE },
+    );
+  },
 };
 
 let activeTour: Driver | null = null;

@@ -2,6 +2,20 @@ provider "google" {
   project = "{{ project }}"
   zone    = "{{ region }}"
 }
+{%- if private_network %}
+
+resource "google_compute_network" "{{ name }}" {
+  name                    = "{{ name }}-network"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "{{ name }}" {
+  name          = "{{ name }}-subnet"
+  network       = google_compute_network.{{ name }}.id
+  region        = "{{ (region | split("-"))[:-1] | join("-") }}"
+  ip_cidr_range = "{{ private_network }}"
+}
+{%- endif %}
 
 resource "google_compute_instance" "{{ name }}" {
   count        = {{ count }}
@@ -15,7 +29,11 @@ resource "google_compute_instance" "{{ name }}" {
   }
 
   network_interface {
+{%- if private_network %}
+    subnetwork = google_compute_subnetwork.{{ name }}.id
+{%- else %}
     network = "default"
+{%- endif %}
     access_config {}
   }
 }

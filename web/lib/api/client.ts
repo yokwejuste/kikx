@@ -70,6 +70,8 @@ export interface FieldOption {
   label: string;
 }
 
+export type FieldFormat = "ip" | "cidr";
+
 export interface FieldSpec {
   name: string;
   required: boolean;
@@ -77,6 +79,7 @@ export interface FieldSpec {
   description?: string | null;
   example?: string | null;
   options?: FieldOption[];
+  format?: FieldFormat | null;
 }
 
 export interface RegistryItem {

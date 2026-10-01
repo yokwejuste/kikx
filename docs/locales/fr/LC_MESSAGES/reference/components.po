@@ -290,8 +290,8 @@ msgstr "Backend service; defaults to the ingress name."
 msgid "`terraform/digitalocean`"
 msgstr "`terraform/digitalocean`"
 
-msgid "Declares variable `do_token` (sensitive) and a `digitalocean` provider; resource `digitalocean_droplet.<name>` named `<name>-${count.index}`"
-msgstr "Déclare la variable `do_token` (sensible) et un provider `digitalocean` ; ressource `digitalocean_droplet.<name>` nommée `<name>-${count.index}`"
+msgid "Declares variable `do_token` (sensitive) and a `digitalocean` provider; resource `digitalocean_droplet.<name>` named `<name>-${count.index}`. With `private_network`, a `digitalocean_vpc.<name>` with that `ip_range`, set as each droplet's `vpc_uuid`"
+msgstr "Déclare la variable `do_token` (sensible) et un provider `digitalocean` ; ressource `digitalocean_droplet.<name>` nommée `<name>-${count.index}`. Avec `private_network`, un `digitalocean_vpc.<name>` avec cet `ip_range`, défini comme `vpc_uuid` de chaque droplet"
 
 msgid "`region`"
 msgstr "`region`"
@@ -323,8 +323,8 @@ msgstr "`count`"
 msgid "`terraform/hetzner`"
 msgstr "`terraform/hetzner`"
 
-msgid "Declares variable `hcloud_token` (sensitive) and an `hcloud` provider; resource `hcloud_server.<name>` named `<name>-${count.index}`"
-msgstr "Déclare la variable `hcloud_token` (sensible) et un provider `hcloud` ; ressource `hcloud_server.<name>` nommée `<name>-${count.index}`"
+msgid "Declares variable `hcloud_token` (sensitive) and an `hcloud` provider; resource `hcloud_server.<name>` named `<name>-${count.index}`. With `private_network`, an `hcloud_network.<name>` and a cloud `hcloud_network_subnet.<name>` in `network_zone`, both covering the range, attached to every server"
+msgstr "Déclare la variable `hcloud_token` (sensible) et un provider `hcloud` ; ressource `hcloud_server.<name>` nommée `<name>-${count.index}`. Avec `private_network`, un `hcloud_network.<name>` et un `hcloud_network_subnet.<name>` de type cloud dans `network_zone`, couvrant tous deux la plage, rattachés à chaque serveur"
 
 msgid "`fsn1`"
 msgstr "`fsn1`"
@@ -824,8 +824,8 @@ msgstr "`{{ name }}-linode.tf`"
 msgid "`terraform/aws`"
 msgstr "`terraform/aws`"
 
-msgid "Declares an `aws` provider in the chosen region, a `data.aws_ami.<name>` lookup of the newest image matching `os_image` from `image_owner`, and resource `aws_instance.<name>` tagged `<name>-${count.index}`"
-msgstr "Déclare un provider `aws` dans la région choisie, une recherche `data.aws_ami.<name>` de l'image la plus récente correspondant à `os_image` publiée par `image_owner`, et la ressource `aws_instance.<name>` étiquetée `<name>-${count.index}`"
+msgid "Declares an `aws` provider in the chosen region, a `data.aws_ami.<name>` lookup of the newest image matching `os_image` from `image_owner`, and resource `aws_instance.<name>` tagged `<name>-${count.index}`. With `private_network`, an `aws_vpc.<name>` and an `aws_subnet.<name>` covering the range, with an internet gateway and a default route, used as each instance's `subnet_id`; without it, instances use the default VPC"
+msgstr "Déclare un provider `aws` dans la région choisie, une recherche `data.aws_ami.<name>` de l'image la plus récente correspondant à `os_image` publiée par `image_owner`, et la ressource `aws_instance.<name>` étiquetée `<name>-${count.index}`. Avec `private_network`, un `aws_vpc.<name>` et un `aws_subnet.<name>` couvrant la plage, avec une passerelle internet et une route par défaut, utilisé comme `subnet_id` de chaque instance ; sans lui, les instances utilisent le VPC par défaut"
 
 msgid "`us-east-1`"
 msgstr "`us-east-1`"
@@ -851,8 +851,8 @@ msgstr "AWS account that publishes the image; 099720109477 is Canonical."
 msgid "`terraform/google`"
 msgstr "`terraform/google`"
 
-msgid "Declares a `google` provider for `project` in the zone given as `region`, and resource `google_compute_instance.<name>` named `<name>-${count.index}` on the default network with a public IP"
-msgstr "Déclare un provider `google` pour `project` dans la zone indiquée par `region`, et la ressource `google_compute_instance.<name>` nommée `<name>-${count.index}` sur le réseau par défaut avec une IP publique"
+msgid "Declares a `google` provider for `project` in the zone given as `region`, and resource `google_compute_instance.<name>` named `<name>-${count.index}` on the default network with a public IP. With `private_network`, a `google_compute_network.<name>` without automatic subnets and a `google_compute_subnetwork.<name>` with that `ip_cidr_range` in the zone's region, used instead of the default network"
+msgstr "Déclare un provider `google` pour `project` dans la zone indiquée par `region`, et la ressource `google_compute_instance.<name>` nommée `<name>-${count.index}` sur le réseau par défaut avec une IP publique. Avec `private_network`, un `google_compute_network.<name>` sans sous-réseaux automatiques et un `google_compute_subnetwork.<name>` avec cet `ip_cidr_range` dans la région de la zone, utilisé à la place du réseau par défaut"
 
 msgid "`europe-west1-b`"
 msgstr "`europe-west1-b`"
@@ -875,8 +875,8 @@ msgstr "`my-project`"
 msgid "`terraform/scaleway`"
 msgstr "`terraform/scaleway`"
 
-msgid "Requires the `scaleway/scaleway` provider in the zone given as `region`; resources `scaleway_instance_ip.<name>` and `scaleway_instance_server.<name>` named `<name>-${count.index}`"
-msgstr "Nécessite le provider `scaleway/scaleway` dans la zone indiquée par `region` ; ressources `scaleway_instance_ip.<name>` et `scaleway_instance_server.<name>` nommées `<name>-${count.index}`"
+msgid "Requires the `scaleway/scaleway` provider in the zone given as `region`; resources `scaleway_instance_ip.<name>` and `scaleway_instance_server.<name>` named `<name>-${count.index}`. With `private_network`, a `scaleway_vpc_private_network.<name>` with that IPv4 subnet in the zone's region, attached to every server"
+msgstr "Nécessite le provider `scaleway/scaleway` dans la zone indiquée par `region` ; ressources `scaleway_instance_ip.<name>` et `scaleway_instance_server.<name>` nommées `<name>-${count.index}`. Avec `private_network`, un `scaleway_vpc_private_network.<name>` avec ce sous-réseau IPv4 dans la région de la zone, rattaché à chaque serveur"
 
 msgid "`fr-par-1`"
 msgstr "`fr-par-1`"
@@ -893,8 +893,8 @@ msgstr "`ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debia
 msgid "`terraform/linode`"
 msgstr "`terraform/linode`"
 
-msgid "Requires the `linode/linode` provider and declares variables `linode_token` (sensitive) and `ssh_public_key`; resource `linode_instance.<name>` labelled `<name>-${count.index}`"
-msgstr "Nécessite le provider `linode/linode` et déclare les variables `linode_token` (sensible) et `ssh_public_key` ; ressource `linode_instance.<name>` étiquetée `<name>-${count.index}`"
+msgid "Requires the `linode/linode` provider and declares variables `linode_token` (sensitive) and `ssh_public_key`; resource `linode_instance.<name>` labelled `<name>-${count.index}`. With `private_network`, a `linode_vpc.<name>` and a `linode_vpc_subnet.<name>` with that `ipv4` range; each instance gets a public interface and one in the subnet"
+msgstr "Nécessite le provider `linode/linode` et déclare les variables `linode_token` (sensible) et `ssh_public_key` ; ressource `linode_instance.<name>` étiquetée `<name>-${count.index}`. Avec `private_network`, un `linode_vpc.<name>` et un `linode_vpc_subnet.<name>` avec cette plage `ipv4` ; chaque instance reçoit une interface publique et une interface dans le sous-réseau"
 
 msgid "`eu-central`"
 msgstr "`eu-central`"
@@ -907,3 +907,24 @@ msgstr "`linode/ubuntu24.04`"
 
 msgid "`linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9)"
 msgstr "`linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9)"
+
+msgid "Fields with a format are checked before rendering, and their value is normalised: `ip` takes one IPv4 or IPv6 address, and `cidr` takes a range in CIDR notation that starts on its boundary (`10.10.0.0/16`, not `10.10.0.5/16`). An invalid value fails rendering with an error that suggests the corrected value. An empty value is not checked."
+msgstr "Les champs qui ont un format sont vérifiés avant le rendu, et leur valeur est normalisée : `ip` accepte une seule adresse IPv4 ou IPv6, et `cidr` une plage en notation CIDR qui commence sur sa limite (`10.10.0.0/16`, pas `10.10.0.5/16`). Une valeur invalide fait échouer le rendu avec une erreur qui propose la valeur corrigée. Une valeur vide n'est pas vérifiée."
+
+msgid "`private_network`"
+msgstr "`private_network`"
+
+msgid "`10.10.0.0/16`"
+msgstr "`10.10.0.0/16`"
+
+msgid "Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network."
+msgstr "Format `cidr`. Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur."
+
+msgid "`network_zone`"
+msgstr "`network_zone`"
+
+msgid "`eu-central` (Europe (fsn1, nbg1, hel1))<br>`us-east` (US East (ash))<br>`us-west` (US West (hil))<br>`ap-southeast` (Asia Pacific (sin))"
+msgstr "`eu-central` (Europe (fsn1, nbg1, hel1))<br>`us-east` (US East (ash))<br>`us-west` (US West (hil))<br>`ap-southeast` (Asia Pacific (sin))"
+
+msgid "Network zone of the private network; it must contain the server location."
+msgstr "Zone réseau du réseau privé ; elle doit contenir l'emplacement du serveur."

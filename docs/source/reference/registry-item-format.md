@@ -43,6 +43,7 @@ Relative paths are resolved against the working directory of the CLI or backend 
 | `description` | string | no | absent | Help text |
 | `example` | string | no | absent | Example value |
 | `options` | array of [Option](#option) | no | `[]` | Suggested values. Not enforced |
+| `format` | `ip` or `cidr` | no | absent | Value format, checked and normalised before rendering: `ip` is one IPv4 or IPv6 address, `cidr` is a range that starts on its boundary. Empty values are not checked |
 
 ## Option
 
