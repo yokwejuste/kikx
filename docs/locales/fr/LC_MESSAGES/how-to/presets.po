@@ -79,8 +79,8 @@ msgstr "Cliquez sur « Ouvrir un preset » et sélectionnez le fichier `.kikx-pr
 msgid "The dashboard re-renders every component through the backend, then opens the builder with the project loaded. If a component can't render, for example a custom registry item the backend can't reach, the preset doesn't open and an error names the problem."
 msgstr "Le tableau de bord effectue un nouveau rendu de chaque composant via le backend, puis ouvre le constructeur avec le projet chargé. Si le rendu d'un composant échoue, par exemple pour un élément de registre personnalisé que le backend ne peut pas atteindre, le preset ne s'ouvre pas et une erreur indique le problème."
 
-msgid "Opening a preset replaces the project currently in the browser. Download what you have first if you want to keep it."
-msgstr "Ouvrir un preset remplace le projet actuellement chargé dans le navigateur. Téléchargez d'abord ce que vous avez si vous voulez le conserver."
+msgid "Opening a preset replaces the project currently in the browser. If there is one, the home page asks first and offers **Download preset first** so you can keep it."
+msgstr "Ouvrir un preset remplace le projet actuellement chargé dans le navigateur. S'il y en a un, la page d'accueil demande d'abord confirmation et propose **Télécharger le preset d'abord** pour le conserver."
 
 msgid "In an empty directory:"
 msgstr "Dans un répertoire vide :"

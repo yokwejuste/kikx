@@ -76,8 +76,8 @@ msgstr "Préférences"
 msgid "**In the app** or **With the CLI**, the lesson speed, the lessons you've finished, the tours you've seen and the theme. The language is kept in a cookie."
 msgstr "**Dans l'app** ou **Avec la CLI**, la vitesse des leçons, les leçons terminées, les visites déjà vues et le thème. La langue est conservée dans un cookie."
 
-msgid "There is one project per browser. Starting a **Blank project**, opening a template or opening a preset replaces it, along with its drafts."
-msgstr "Il y a un seul projet par navigateur. Commencer un **Projet vierge**, ouvrir un modèle ou ouvrir un preset le remplace, avec ses brouillons."
+msgid "There is one project per browser. Starting a **Blank project**, opening a template or opening a preset replaces it, along with its drafts. When a project is already stored, the home page asks first."
+msgstr "Il y a un seul projet par navigateur. Commencer un **Projet vierge**, ouvrir un modèle ou ouvrir un preset le remplace, avec ses brouillons. Quand un projet est déjà enregistré, la page d'accueil demande d'abord confirmation."
 
 msgid "What can remove it"
 msgstr "Ce qui peut le supprimer"
@@ -91,8 +91,8 @@ msgstr "vous effacez les données du site ou les données de navigation de ce na
 msgid "you click the close button on the home page's resume card and confirm **Discard**;"
 msgstr "vous cliquez sur le bouton de fermeture de la carte de reprise de la page d'accueil et confirmez **Abandonner** ;"
 
-msgid "you start a blank project, or open a template or a preset, over it."
-msgstr "vous commencez un projet vierge, ou ouvrez un modèle ou un preset, par-dessus."
+msgid "you start a blank project, or open a template or a preset, over it, and confirm **Replace**."
+msgstr "vous commencez un projet vierge, ou ouvrez un modèle ou un preset, par-dessus, et confirmez **Remplacer**."
 
 msgid "The same project isn't visible:"
 msgstr "Le même projet n'est pas visible :"

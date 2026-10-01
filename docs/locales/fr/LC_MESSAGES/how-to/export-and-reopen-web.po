@@ -118,8 +118,8 @@ msgstr "Pendant que l'app génère chaque composant via le backend, le bouton in
 msgid "If the file isn't a preset, or a component can't render, nothing opens. A notification says **Couldn't open that preset** with the reason, for example *That isn't a kikx preset: it has no components list.*"
 msgstr "Si le fichier n'est pas un preset, ou si un composant ne peut pas être généré, rien ne s'ouvre. Une notification indique **Impossible d'ouvrir ce preset** avec la raison, par exemple *Ce n'est pas un preset kikx : il n'a pas de liste de composants.*"
 
-msgid "Opening a preset replaces the project kept in your browser, along with its unsaved drafts, without asking. Export the current project first if you want to keep it."
-msgstr "Ouvrir un preset remplace le projet conservé dans votre navigateur, ainsi que ses brouillons non enregistrés, sans confirmation. Exportez d'abord le projet actuel si vous voulez le garder."
+msgid "Opening a preset replaces the project kept in your browser, along with its unsaved drafts. If the browser already holds a project, the card at the top of the home page asks **Replace** followed by the project name first. Click **Download preset first** to keep a copy, then **Replace** to open the file, or **Keep** to stay on the current project."
+msgstr "Ouvrir un preset remplace le projet conservé dans votre navigateur, ainsi que ses brouillons non enregistrés. Si le navigateur contient déjà un projet, la carte en haut de la page d'accueil demande d'abord **Remplacer** suivi du nom du projet. Cliquez sur **Télécharger le preset d'abord** pour en garder une copie, puis sur **Remplacer** pour ouvrir le fichier, ou sur **Conserver** pour rester sur le projet actuel."
 
 msgid "The preset's project name, namespace and output directory come back with it. If the preset has no name, the app uses the file name."
 msgstr "Le nom du projet, le namespace et le dossier de sortie du preset reviennent avec lui. Si le preset n'a pas de nom, l'app utilise le nom du fichier."

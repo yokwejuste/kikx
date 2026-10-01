@@ -334,8 +334,8 @@ msgstr "Cliquez sur **Accueil**. Votre projet reste enregistré dans ce navigate
 msgid "The browser keeps one project at a time, and only on this browser. Keep these in mind:"
 msgstr "Le navigateur garde un seul projet à la fois, et uniquement dans ce navigateur. Gardez ceci en tête :"
 
-msgid "Starting a **Blank project** or a template replaces the project kept in the browser. Export a preset first if you want to keep it."
-msgstr "Démarrer un **Projet vierge** ou un modèle remplace le projet conservé dans le navigateur. Exportez d'abord un preset si vous voulez le garder."
+msgid "Starting a **Blank project** or a template replaces the project kept in the browser. The home page asks first, and its **Download preset first** button keeps a copy."
+msgstr "Démarrer un **Projet vierge** ou un modèle remplace le projet conservé dans le navigateur. La page d'accueil demande d'abord confirmation, et son bouton **Télécharger le preset d'abord** en garde une copie."
 
 msgid "Clearing your browser data removes the project. So does using another browser or computer."
 msgstr "Effacer les données du navigateur supprime le projet. Il en va de même si vous changez de navigateur ou d'ordinateur."

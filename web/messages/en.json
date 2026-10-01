@@ -42,6 +42,12 @@
       "discard": "Discard",
       "discarded": "Discarded {name}"
     },
+    "replace": {
+      "title": "Replace {name}?",
+      "body": "{action, select, blank {Starting the blank project {target}} template {Opening the {target} template} other {Opening {target}}} replaces it. {count, plural, =0 {Its unsaved drafts are} one {Its # component and unsaved drafts are} other {Its # components and unsaved drafts are}} removed from this browser.",
+      "export": "Download preset first",
+      "confirm": "Replace"
+    },
     "copyCommands": "Copy commands",
     "cli": {
       "body": "Install kikx, then run the same steps in your repo. Copy them all with the button."

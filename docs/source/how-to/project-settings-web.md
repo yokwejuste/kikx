@@ -40,7 +40,7 @@ Click **Home** at the right of the builder header. Your project stays saved in t
 
 ## Start over
 
-You can only keep one project at a time in the app. Starting a new one replaces it.
+You can only keep one project at a time in the app. Starting a new one replaces it, after you confirm.
 
 To discard the current project without starting another:
 
@@ -50,11 +50,13 @@ To discard the current project without starting another:
 
 A notification confirms the project was discarded. There's no undo, so export the project first if you might want it back. See [Export and reopen a project in the app](export-and-reopen-web.md).
 
-These also replace the current project, without asking:
+These also replace the current project:
 
 - clicking **Start building** under **Blank project**;
 - clicking a card under **Start from a template**;
 - opening a file with **Open a preset**.
+
+Each one asks first, on the same card: **Replace** followed by the project name. Click **Download preset first** to keep a copy, **Replace** to go ahead, or **Keep** to change your mind.
 
 ## See also
 

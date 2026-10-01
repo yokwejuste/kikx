@@ -18,8 +18,8 @@ The card shows a spinner while the app renders every component through the backe
 
 The list comes from the backend, so it's the same list `kikx presets` prints. [Built-in templates](../reference/preset-format.md#built-in-templates) describes each one.
 
-:::{warning}
-Opening a template replaces the project kept in your browser, along with its unsaved drafts, without asking. If you want to keep the current project, export it first. See [Export and reopen a project in the app](export-and-reopen-web.md).
+:::{note}
+Opening a template replaces the project kept in your browser, along with its unsaved drafts. If the browser already holds a project, the card at the top of the home page asks **Replace** followed by the project name first. Click **Download preset first** to keep a copy, then **Replace** to open the template, or **Keep** to stay on the current project. See [Export and reopen a project in the app](export-and-reopen-web.md).
 :::
 
 ## What opens

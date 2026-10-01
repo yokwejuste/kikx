@@ -139,20 +139,20 @@ msgstr "Partir d'un modèle"
 msgid "**Start from a template** lists the built-in templates. Each card shows the template's title and description, badges for the stages it covers (**Provision**, **Inventory**, **Configure**, **Deploy**), its name and its number of components. Click a card to load the template and open it in the builder."
 msgstr "**Partir d'un modèle** liste les modèles intégrés. Chaque carte affiche le titre et la description du modèle, des badges pour les étapes qu'il couvre (**Provisionner**, **Inventaire**, **Configurer**, **Déployer**), son nom et son nombre de composants. Cliquez sur une carte pour charger le modèle et l'ouvrir dans le constructeur."
 
-msgid "Opening a template replaces the project you have in this browser. Export it first if you want to keep it. See [Start from a template in the app](../how-to/start-from-template-web.md)."
-msgstr "Ouvrir un modèle remplace le projet présent dans ce navigateur. Exportez-le d'abord si vous voulez le garder. Voir [Partir d'un modèle dans l'app](../how-to/start-from-template-web.md)."
+msgid "Opening a template replaces the project you have in this browser, after a confirmation on the [resume card](#resume-card). See [Start from a template in the app](../how-to/start-from-template-web.md)."
+msgstr "Ouvrir un modèle remplace le projet présent dans ce navigateur, après une confirmation sur la [carte de reprise](#resume-card). Voir [Partir d'un modèle dans l'app](../how-to/start-from-template-web.md)."
 
 msgid "Blank project"
 msgstr "Projet vierge"
 
-msgid "Type a **Project name** and click **Start building**. The default namespace and output directory are filled in from the registry defaults; change them later with the [settings badges](#project-settings-badges). Starting a blank project replaces the project you have in this browser."
-msgstr "Saisissez un **Nom du projet** et cliquez sur **Commencer**. Le namespace par défaut et le dossier de sortie prennent les valeurs par défaut du registre ; modifiez-les ensuite avec les [badges de paramètres](#project-settings-badges). Commencer un projet vierge remplace le projet présent dans ce navigateur."
+msgid "Type a **Project name** and click **Start building**. The default namespace and output directory are filled in from the registry defaults; change them later with the [settings badges](#project-settings-badges). Starting a blank project replaces the project you have in this browser, after a confirmation on the [resume card](#resume-card)."
+msgstr "Saisissez un **Nom du projet** et cliquez sur **Commencer**. Le namespace par défaut et le dossier de sortie prennent les valeurs par défaut du registre ; modifiez-les ensuite avec les [badges de paramètres](#project-settings-badges). Commencer un projet vierge remplace le projet présent dans ce navigateur, après une confirmation sur la [carte de reprise](#resume-card)."
 
 msgid "Open a preset"
 msgstr "Ouvrir un preset"
 
-msgid "**Open a preset** opens a `.kikx-preset.json` you exported earlier, from this browser or another one, and takes you to the builder. A file that isn't a kikx preset shows **Couldn't open that preset**. Like a template, it replaces the current project. See [Export and reopen a project in the app](../how-to/export-and-reopen-web.md#reopen-a-preset-in-the-app)."
-msgstr "**Ouvrir un preset** ouvre un `.kikx-preset.json` exporté plus tôt, depuis ce navigateur ou un autre, et vous amène dans le constructeur. Un fichier qui n'est pas un preset kikx affiche **Impossible d'ouvrir ce preset**. Comme un modèle, il remplace le projet en cours. Voir [Exporter et rouvrir un projet dans l'app](../how-to/export-and-reopen-web.md#reopen-a-preset-in-the-app)."
+msgid "**Open a preset** opens a `.kikx-preset.json` you exported earlier, from this browser or another one, and takes you to the builder. A file that isn't a kikx preset shows **Couldn't open that preset**. Like a template, it replaces the current project after a confirmation. See [Export and reopen a project in the app](../how-to/export-and-reopen-web.md#reopen-a-preset-in-the-app)."
+msgstr "**Ouvrir un preset** ouvre un `.kikx-preset.json` exporté plus tôt, depuis ce navigateur ou un autre, et vous amène dans le constructeur. Un fichier qui n'est pas un preset kikx affiche **Impossible d'ouvrir ce preset**. Comme un modèle, il remplace le projet en cours après une confirmation. Voir [Exporter et rouvrir un projet dans l'app](../how-to/export-and-reopen-web.md#reopen-a-preset-in-the-app)."
 
 msgid "Resume card"
 msgstr "Carte de reprise"
@@ -165,6 +165,9 @@ msgstr "**Reprendre** ouvre le constructeur là où vous vous étiez arrêté."
 
 msgid "The close button (**Discard** followed by the project name) asks for confirmation. **Discard** removes the project and its unsaved drafts from this browser; **Keep** cancels."
 msgstr "Le bouton de fermeture (**Abandonner** suivi du nom du projet) demande une confirmation. **Abandonner** supprime le projet et ses brouillons non enregistrés de ce navigateur ; **Conserver** annule."
+
+msgid "Starting a blank project, or opening a template or a preset, turns the card into a confirmation: **Replace** followed by the project name. **Download preset first** downloads the current project as a `.kikx-preset.json`, **Replace** goes ahead, **Keep** cancels. Without a stored project there is no card and no confirmation."
+msgstr "Commencer un projet vierge, ou ouvrir un modèle ou un preset, transforme la carte en confirmation : **Remplacer** suivi du nom du projet. **Télécharger le preset d'abord** télécharge le projet actuel sous forme de `.kikx-preset.json`, **Remplacer** continue, **Conserver** annule. Sans projet enregistré, il n'y a ni carte ni confirmation."
 
 msgid "At the bottom of the page, **See how data flows through kikx** opens the [Data flow](#data-flow) page."
 msgstr "En bas de la page, **Voir comment les données circulent dans kikx** ouvre la page [Flux de données](#data-flow)."

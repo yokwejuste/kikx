@@ -28,7 +28,8 @@ The builder says this in its top bar: **Saved in this browser · not on disk yet
 | Preferences | **In the app** or **With the CLI**, the lesson speed, the lessons you've finished, the tours you've seen and the theme. The language is kept in a cookie. |
 
 There is one project per browser. Starting a **Blank project**, opening a template or opening a
-preset replaces it, along with its drafts.
+preset replaces it, along with its drafts. When a project is already stored, the home page asks
+first.
 
 ## What can remove it
 
@@ -37,7 +38,7 @@ way to recover it, when:
 
 - you clear the site data or the browsing data of that browser, or a cleanup tool does it for you;
 - you click the close button on the home page's resume card and confirm **Discard**;
-- you start a blank project, or open a template or a preset, over it.
+- you start a blank project, or open a template or a preset, over it, and confirm **Replace**.
 
 The same project isn't visible:
 

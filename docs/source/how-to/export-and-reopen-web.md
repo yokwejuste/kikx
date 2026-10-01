@@ -59,8 +59,8 @@ While the app renders every component through the backend, the button reads **Op
 
 If the file isn't a preset, or a component can't render, nothing opens. A notification says **Couldn't open that preset** with the reason, for example *That isn't a kikx preset: it has no components list.*
 
-:::{warning}
-Opening a preset replaces the project kept in your browser, along with its unsaved drafts, without asking. Export the current project first if you want to keep it.
+:::{note}
+Opening a preset replaces the project kept in your browser, along with its unsaved drafts. If the browser already holds a project, the card at the top of the home page asks **Replace** followed by the project name first. Click **Download preset first** to keep a copy, then **Replace** to open the file, or **Keep** to stay on the current project.
 :::
 
 The preset's project name, namespace and output directory come back with it. If the preset has no name, the app uses the file name.

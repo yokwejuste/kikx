@@ -16,7 +16,7 @@ export function TemplateGallery({
   onSelect,
 }: {
   opening: string | null;
-  onSelect: (name: string) => void;
+  onSelect: (name: string, title: string) => void;
 }) {
   const t = useTranslations("templates");
   const text = useCatalogText();
@@ -37,7 +37,7 @@ export function TemplateGallery({
               data-teach="template"
               type="button"
               disabled={opening !== null}
-              onClick={() => onSelect(preset.name)}
+              onClick={() => onSelect(preset.name, text.preset(preset.name, "title", preset.title))}
               className={cn(
                 "flex h-full w-full flex-col gap-2 rounded-xl border bg-card p-4 text-left transition-colors hover:border-brand/40 hover:bg-muted/40 disabled:opacity-60",
                 opening === preset.name && "border-brand",
