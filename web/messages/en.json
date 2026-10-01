@@ -822,6 +822,17 @@
     "levels": {
       "basics": "Basics",
       "further": "Going further"
-    }
+    },
+    "waiting": [
+      "Discombobulating",
+      "Permutating",
+      "Kicking the tyres",
+      "Reticulating splines",
+      "Untangling YAML",
+      "Herding servers",
+      "Polishing playbooks",
+      "Aligning the stars"
+    ],
+    "waitingWord": "{word}…"
   }
 }

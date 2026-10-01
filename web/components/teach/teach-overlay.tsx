@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   ArrowRight,
@@ -9,6 +9,7 @@ import {
   Gauge,
   GraduationCap,
   Hand,
+  LoaderCircle,
   MousePointer2,
   Pause,
   Play,
@@ -26,12 +27,16 @@ import { frameRect, trackRect } from "@/lib/dom/track-rect";
 import { cn } from "@/lib/utils";
 
 const RING_PADDING = 6;
+const HEADER_ROOM = 80;
+const BAR_GAP = 24;
+const WORD_MS = 1100;
 
 const stopOutsideDismiss = (event: React.PointerEvent) => event.stopPropagation();
 
 function useFollowTarget(target: HTMLElement | null) {
   const cursor = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
+  const bar = useRef<HTMLElement>(null);
   const targetRef = useRef(target);
 
   useEffect(() => {
@@ -45,8 +50,17 @@ function useFollowTarget(target: HTMLElement | null) {
         (rect) => {
           if (!ring.current) return;
           ring.current.style.opacity = rect ? "1" : "0";
-          if (!rect) return;
+          if (!rect) {
+            if (bar.current) bar.current.dataset.place = "bottom";
+            return;
+          }
           frameRect(ring.current, rect, RING_PADDING);
+          if (bar.current) {
+            const room = bar.current.offsetHeight + BAR_GAP;
+            const hiddenBelow = rect.bottom > window.innerHeight - room;
+            const hiddenAbove = rect.top < HEADER_ROOM + room;
+            bar.current.dataset.place = hiddenBelow && !hiddenAbove ? "top" : "bottom";
+          }
           if (cursor.current) {
             cursor.current.style.transform = `translate(${rect.left + rect.width / 2}px, ${rect.top + rect.height / 2}px)`;
             cursor.current.style.opacity = "1";
@@ -56,7 +70,25 @@ function useFollowTarget(target: HTMLElement | null) {
     [],
   );
 
-  return { cursor, ring };
+  return { cursor, ring, bar };
+}
+
+function WaitingWords() {
+  const t = useTranslations("teach");
+  const words = t.raw("waiting") as string[];
+  const [index, setIndex] = useState(() => Math.floor(Math.random() * words.length));
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setIndex((current) => (current + 1) % words.length), WORD_MS);
+    return () => window.clearInterval(timer);
+  }, [words.length]);
+
+  return (
+    <p aria-live="polite" className="flex items-center gap-2 text-muted-foreground">
+      <LoaderCircle className="size-4 shrink-0 animate-spin motion-reduce:animate-none" />
+      {t("waitingWord", { word: words[index] })}
+    </p>
+  );
 }
 
 function ChapterDots({ index, total }: { index: number; total: number }) {
@@ -101,7 +133,7 @@ export function TeachOverlay({
 }) {
   const t = useTranslations("teach");
   const format = useFormatter();
-  const { cursor, ring } = useFollowTarget(view.target);
+  const { cursor, ring, bar } = useFollowTarget(view.target);
   const playing = view.status === "playing";
   const practising = view.status === "task";
   const done = view.status === "done";
@@ -143,10 +175,12 @@ export function TeachOverlay({
       )}
 
       <section
+        ref={bar}
         data-teach-ui
+        data-place="bottom"
         aria-label={t("region")}
         onPointerDown={stopOutsideDismiss}
-        className="pointer-events-auto fixed bottom-4 left-1/2 z-[103] flex max-h-[70vh] w-[min(36rem,calc(100vw-2rem))] -translate-x-1/2 flex-col gap-3 overflow-y-auto rounded-xl border bg-card p-4 text-sm shadow-xl"
+        className="pointer-events-auto fixed bottom-4 left-1/2 z-[103] data-[place=top]:top-20 data-[place=top]:bottom-auto flex max-h-[70vh] w-[min(36rem,calc(100vw-2rem))] -translate-x-1/2 flex-col gap-3 overflow-y-auto rounded-xl border bg-card p-4 text-sm shadow-xl"
       >
         <div className="flex items-start gap-2">
           <IconTile icon={practising ? Hand : GraduationCap} />
@@ -179,6 +213,8 @@ export function TeachOverlay({
               ))}
             </ul>
           </div>
+        ) : view.waiting ? (
+          <WaitingWords />
         ) : (
           <p aria-live="polite" className="leading-relaxed">
             {view.caption}

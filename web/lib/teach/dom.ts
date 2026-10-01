@@ -39,6 +39,8 @@ function pointerInit(element: Element, buttons: number): PointerEventInit {
 }
 
 export function pressElement(element: HTMLElement): void {
+  element.dispatchEvent(new PointerEvent("pointerover", pointerInit(element, 0)));
+  element.dispatchEvent(new PointerEvent("pointermove", pointerInit(element, 0)));
   element.dispatchEvent(new PointerEvent("pointerdown", pointerInit(element, 1)));
   element.dispatchEvent(new MouseEvent("mousedown", pointerInit(element, 1)));
   element.focus({ preventScroll: true });
@@ -57,6 +59,10 @@ export function pressKey(key: string): void {
   const target = document.activeElement ?? document.body;
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
   target.dispatchEvent(new KeyboardEvent("keyup", { key, bubbles: true, cancelable: true }));
+}
+
+export function releaseFocus(): void {
+  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
 }
 
 export function prefersReducedMotion(): boolean {

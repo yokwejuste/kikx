@@ -38,7 +38,7 @@
     "openRole": "Your turn: click the common role on the diagram to open it.",
     "timezone": "The common role prepares every server: base packages, timezone, swap and a welcome message. Its timezone is UTC for now.",
     "currentLine": "Here is where that value lands, in the role's tasks file. The preview renders with the same templates as the CLI.",
-    "changeTimezone": "Your turn: set the timezone to Europe/Paris and watch the preview.",
+    "changeTimezone": "Your turn: set the timezone to {timezone} and watch the preview.",
     "changedLine": "The preview rendered the new line straight away. Nothing is saved yet, so you can try values freely and undo them.",
     "save": "Save the change to keep it in the project.",
     "checks": "Before exporting, open Checks. It reads every component together and looks for things that do not line up.",

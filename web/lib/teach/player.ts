@@ -1,5 +1,5 @@
 import type { Lesson, LessonStep, Target, TaskCheck, TextRef } from "@/lib/teach/types";
-import { findVisible, isComfortablyVisible, pressElement, pressKey, setInputValue } from "@/lib/teach/dom";
+import { findVisible, isComfortablyVisible, pressElement, pressKey, releaseFocus, setInputValue } from "@/lib/teach/dom";
 
 export type LessonStatus = "playing" | "paused" | "task" | "lost" | "done";
 
@@ -25,6 +25,7 @@ export interface LessonView {
   chapter: LessonChapter | null;
   learn: string | null;
   task: LessonTaskCheck[] | null;
+  waiting: boolean;
 }
 
 export interface LessonEnv {
@@ -49,6 +50,7 @@ const PRAISE_MS = 1400;
 const FIND_TIMEOUT_MS = 10000;
 const OPTIONAL_TIMEOUT_MS = 1500;
 const SCROLL_SETTLE_MS = 450;
+const WAITING_AFTER_MS = 600;
 const TYPE_MS = 70;
 const AFTER_ACTION_MS = 350;
 
@@ -73,6 +75,7 @@ export class LessonPlayer {
   private chapter: LessonChapter | null = null;
   private learn: string | null = null;
   private task: LessonTaskCheck[] | null = null;
+  private waiting = false;
   private readonly chapterTotal: number;
 
   constructor(
@@ -100,6 +103,7 @@ export class LessonPlayer {
       }
     }
     this.target = null;
+    releaseFocus();
     this.setStatus("done");
     this.env.onComplete();
   }
@@ -141,6 +145,7 @@ export class LessonPlayer {
       chapter: this.chapter,
       learn: this.learn,
       task: this.task,
+      waiting: this.waiting,
     });
   }
 
@@ -304,12 +309,23 @@ export class LessonPlayer {
 
   private async until(condition: () => boolean, timeout: number): Promise<boolean> {
     let waited = 0;
-    while (!condition()) {
-      if (waited >= timeout) return false;
-      await this.wait(TICK_MS * 2, false, false);
-      waited += TICK_MS * 2;
+    try {
+      while (!condition()) {
+        if (waited >= timeout) return false;
+        if (waited >= WAITING_AFTER_MS && !this.waiting) {
+          this.waiting = true;
+          this.emit();
+        }
+        await this.wait(TICK_MS * 2, false, false);
+        waited += TICK_MS * 2;
+      }
+      return true;
+    } finally {
+      if (this.waiting) {
+        this.waiting = false;
+        this.emit();
+      }
     }
-    return true;
   }
 
   private async untilPlaying(): Promise<void> {

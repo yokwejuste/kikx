@@ -38,7 +38,7 @@
     "openRole": "À vous : cliquez sur le rôle common dans le schéma pour l'ouvrir.",
     "timezone": "Le rôle common prépare chaque serveur : paquets de base, fuseau horaire, swap et message d'accueil. Son fuseau horaire est UTC pour l'instant.",
     "currentLine": "Voici où atterrit cette valeur, dans le fichier de tâches du rôle. L'aperçu utilise les mêmes gabarits que la CLI.",
-    "changeTimezone": "À vous : passez le fuseau horaire à Europe/Paris et regardez l'aperçu.",
+    "changeTimezone": "À vous : passez le fuseau horaire à {timezone} et regardez l'aperçu.",
     "changedLine": "L'aperçu a rendu la nouvelle ligne aussitôt. Rien n'est encore enregistré : vous pouvez essayer des valeurs librement et revenir en arrière.",
     "save": "Enregistrez la modification pour la garder dans le projet.",
     "checks": "Avant d'exporter, ouvrez Vérifications. Elles lisent tous les composants ensemble et cherchent ce qui ne concorde pas.",

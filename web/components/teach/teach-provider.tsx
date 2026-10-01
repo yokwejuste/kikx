@@ -65,8 +65,9 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
       if (!sandbox) return;
       setKeepable(!sandbox.hadProject);
       reset();
+      const demoValues = t.has(`lessons.${id}.demo`) ? (t.raw(`lessons.${id}.demo`) as Record<string, string>) : {};
       const lessonPlayer = new LessonPlayer(lesson, {
-        say: (key) => t(`lessons.${id}.steps.${key}`),
+        say: (key) => t(`lessons.${id}.steps.${key}`, demoValues),
         chapter: (key) => t(`lessons.${id}.chapters.${key}`),
         check: (key) => t(`lessons.${id}.checks.${key}`),
         praise: () => t("praise"),

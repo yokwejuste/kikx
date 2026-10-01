@@ -915,6 +915,17 @@
     "levels": {
       "basics": "Les bases",
       "further": "Pour aller plus loin"
-    }
+    },
+    "waiting": [
+      "Décombobulation",
+      "Permutation",
+      "Échauffement",
+      "Réticulation des splines",
+      "Démêlage du YAML",
+      "Rassemblement des serveurs",
+      "Polissage des playbooks",
+      "Alignement des étoiles"
+    ],
+    "waitingWord": "{word}…"
   }
 }
