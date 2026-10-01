@@ -9,12 +9,16 @@ function isValidHostOrIp(value: string): boolean {
   return IPV4_RE.test(value) || value.includes(":") || HOSTNAME_RE.test(value);
 }
 
-export const initFormSchema = z.object({
+export const projectNameSchema = z.object({
   name: z.string().min(1, m("projectNameRequired")),
+});
+export type ProjectNameValues = z.infer<typeof projectNameSchema>;
+
+export const projectSettingsSchema = z.object({
   namespace: z.string().min(1, m("namespaceRequired")),
   dir: z.string().min(1, m("outputDirRequired")),
 });
-export type InitFormValues = z.infer<typeof initFormSchema>;
+export type ProjectSettingsValues = z.infer<typeof projectSettingsSchema>;
 
 const labelSchema = z.object({
   key: z.string().min(1, m("labelKeyRequired")),

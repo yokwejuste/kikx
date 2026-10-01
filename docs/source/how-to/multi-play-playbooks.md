@@ -79,7 +79,7 @@ Use `plays`, even for a single play. The older `--set hosts=... --set roles=[...
 
 ## In a preset
 
-In a preset, the same JSON goes in as a string value of `fields.plays`. This is exactly what the dashboard writes when you click **Download preset**:
+In a preset, the same JSON goes in as a string value of `fields.plays`. This is exactly what the dashboard writes when you choose **Export** > **Preset (.kikx-preset.json)**:
 
 ```json
 {

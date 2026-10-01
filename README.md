@@ -183,7 +183,14 @@ required.
 ## The dashboard
 
 - **Stages, in order.** Components are grouped as Provision → Inventory → Configure → Deploy, with
-  a count and a tick per stage, so you can see what's still missing.
+  a count and a tick per stage, so you can see what's still missing. Configure shows the essentials
+  (playbook, site playbook, role) first; **Show more** reveals the rest, and it stays open once you
+  use one of them. An empty project opens on a start panel that walks those stages, with a one-click
+  add per stage or a link back to templates. After each add, the toast offers the next component in
+  that order, one click away.
+- **A checklist that ticks itself.** "Getting started" follows the usual workflow (servers, group
+  settings, a playbook, checks, download) and ticks each step from the project itself. Click an
+  open step to jump there, or hide the list.
 - **One editor with a live preview.** Output re-renders as you type. On wide screens the form and
   preview sit side by side and the project list opens from a Project button in the header. Any
   component can be reopened and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
@@ -192,7 +199,7 @@ required.
   exist in your repo.
 - **Conflicts are caught, not written.** A project can't have two writers for one file. The
   conflict dialog shows who owns the file and a side-by-side diff before replacing. The Checks
-  view cross-checks components for:
+  view cross-checks components, and each editor shows its component's findings with the same fixes:
   - a host with two addresses
   - a host var silently overriding a group var
   - a key set in both group_vars and the inventory
@@ -201,8 +208,10 @@ required.
   - `site.yml` importing a missing playbook
   - a Service or Ingress pointing at nothing
   - roles the project doesn't vendor, with one-click scaffolding
-- **Nothing touches disk until you download.** The project lives in the browser tab. Download it
-  as a `.zip`, or as a preset for `kikx setup` / `kikx apply`.
+- **Nothing touches disk until you export.** The project lives in the browser tab. The **Export**
+  menu gives you a `.zip` of plain files, a preset, or the `kikx setup` / `kikx apply` command.
+  A line in the header says whether the project is only in this browser, when you last
+  downloaded it, or has changed since.
 
 ## Architecture diagram
 

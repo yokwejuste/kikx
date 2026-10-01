@@ -3,8 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { LayoutTemplate, LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { api } from "@/lib/api/client";
+import { stagesForReferences } from "@/lib/registry/catalog";
 import { cn } from "@/lib/utils";
 
 export function TemplateGallery({
@@ -51,6 +53,14 @@ export function TemplateGallery({
                 {text.preset(preset.name, "title", preset.title)}
               </span>
               <span className="text-sm text-muted-foreground">{text.preset(preset.name, "description", preset.description)}</span>
+              <span className="flex flex-wrap gap-1.5">
+                <span className="sr-only">{t("covers")}</span>
+                {stagesForReferences(preset.references).map((id) => (
+                  <Badge key={id} variant="outline" className="font-normal text-muted-foreground" title={text.stage(id).hint}>
+                    {text.stage(id).label}
+                  </Badge>
+                ))}
+              </span>
               <span className="mt-auto font-mono text-xs text-muted-foreground">
                 {preset.name} · {t("components", { count: preset.componentCount })}
               </span>

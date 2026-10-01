@@ -11,17 +11,19 @@ import { useErrorText } from "@/lib/i18n/use-error-text";
 import { PronounceButton } from "@/components/common/pronounce-button";
 import { ArrowRight, Copy, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
 import { CopyButton } from "@/components/common/copy-button";
+import { Disclosure } from "@/components/common/disclosure";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
 import { useProject } from "@/lib/project/context";
-import { initFormSchema, type InitFormValues } from "@/lib/forms/schemas";
+import { projectNameSchema, type ProjectNameValues } from "@/lib/forms/schemas";
 import { api } from "@/lib/api/client";
 import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetManifest } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
 import { TemplateGallery } from "@/components/home/template-gallery";
 import { KikxMark } from "@/components/common/kikx-mark";
+import { HelpTip } from "@/components/common/help-tip";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
 
 const SNIPPET = [
@@ -65,14 +67,14 @@ function HomeContent() {
     }
   }
 
-  const form = useForm<InitFormValues>({
-    resolver: zodResolver(initFormSchema),
-    defaultValues: { name: "", namespace: defaults.defaultNamespace, dir: defaults.defaultOutputDir },
+  const form = useForm<ProjectNameValues>({
+    resolver: zodResolver(projectNameSchema),
+    defaultValues: { name: "" },
   });
 
-  function onSubmit(values: InitFormValues) {
+  function onSubmit(values: ProjectNameValues) {
     reset();
-    setDetails({ name: values.name, namespace: values.namespace, outputDir: values.dir });
+    setDetails({ name: values.name, namespace: defaults.defaultNamespace, outputDir: defaults.defaultOutputDir });
     router.push("/build");
   }
 
@@ -164,31 +166,6 @@ function HomeContent() {
           </div>
         )}
 
-        <div data-tour="cli" className="terminal w-full overflow-hidden rounded-xl border text-left shadow-sm">
-          <div className="flex items-center gap-1.5 border-b border-(--terminal-paper)/10 py-1.5 pr-1.5 pl-4">
-            <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
-            <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
-            <span className="size-2.5 rounded-full bg-volt" />
-            <CopyButton
-              text={SNIPPET.map((line) => line.cmd).join("\n")}
-              size="icon"
-              aria-label={t("copyCommands")}
-              title={t("copyCommands")}
-              className="ml-auto size-7 text-(--terminal-paper)/60 hover:bg-(--terminal-paper)/10 hover:text-(--terminal-paper) dark:hover:bg-(--terminal-paper)/10"
-            >
-              <Copy className="size-3.5" />
-            </CopyButton>
-          </div>
-          <div className="flex flex-col gap-2.5 p-4 font-mono text-sm">
-            {SNIPPET.map((line) => (
-              <div key={line.cmd} className="flex gap-2">
-                <span aria-hidden className="terminal-prompt select-none">$</span>
-                <span className="min-w-0 flex-1 break-words">{line.cmd}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
         <TemplateGallery
           opening={opening}
           onSelect={(name) => open(name, async () => toPresetManifest(await api.preset(name)), name)}
@@ -203,17 +180,8 @@ function HomeContent() {
                 label={t("build.projectName")}
                 registration={form.register("name")}
                 error={form.formState.errors.name}
-                placeholder="my-app"
-              />
-              <FormField
-                label={t("build.namespace")}
-                registration={form.register("namespace")}
-                error={form.formState.errors.namespace}
-              />
-              <FormField
-                label={t("build.outputDir")}
-                registration={form.register("dir")}
-                error={form.formState.errors.dir}
+                placeholder={defaults.defaultProjectName}
+                description={t("build.settingsHint")}
               />
             </FieldGroup>
             <Button type="submit" size="lg" className="mt-6 h-11 w-full">
@@ -230,6 +198,7 @@ function HomeContent() {
             </span>
             <span>
               <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
+              <HelpTip term="preset" className="ml-1" />
               <span className="block text-muted-foreground">
                 {t.rich("preset.body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
               </span>
@@ -249,6 +218,35 @@ function HomeContent() {
             }}
           />
         </label>
+
+        <div data-tour="cli" className="w-full">
+          <Disclosure variant="section" title={t("cli.title")} hint={t("cli.hint")}>
+            <div className="terminal mx-4 mb-4 overflow-hidden rounded-xl border text-left shadow-sm">
+              <div className="flex items-center gap-1.5 border-b border-(--terminal-paper)/10 py-1.5 pr-1.5 pl-4">
+                <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
+                <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
+                <span className="size-2.5 rounded-full bg-volt" />
+                <CopyButton
+                  text={SNIPPET.map((line) => line.cmd).join("\n")}
+                  size="icon"
+                  aria-label={t("copyCommands")}
+                  title={t("copyCommands")}
+                  className="ml-auto size-7 text-(--terminal-paper)/60 hover:bg-(--terminal-paper)/10 hover:text-(--terminal-paper) dark:hover:bg-(--terminal-paper)/10"
+                >
+                  <Copy className="size-3.5" />
+                </CopyButton>
+              </div>
+              <div className="flex flex-col gap-2.5 p-4 font-mono text-sm">
+                {SNIPPET.map((line) => (
+                  <div key={line.cmd} className="flex gap-2">
+                    <span aria-hidden className="terminal-prompt select-none">$</span>
+                    <span className="min-w-0 flex-1 break-words">{line.cmd}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Disclosure>
+        </div>
 
         <Link
           href="/flow"

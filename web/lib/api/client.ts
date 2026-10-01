@@ -104,6 +104,7 @@ export interface PresetSummary {
   title: string;
   description: string;
   componentCount: number;
+  references: string[];
 }
 
 export const api = {
