@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
-"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 16:27+0100\n"
 "Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
 "Language: fr\n"
 "Language-Team: fr\n"
@@ -19,32 +19,35 @@ msgstr "Gérer les group vars en YAML ou en dossier"
 msgid "Use this to give an inventory group its variables, either as simple key/value pairs or as raw YAML. You can write them to `group_vars/<group>.yml` or to `group_vars/<group>/main.yml`."
 msgstr "Suivez ce guide pour attribuer ses variables à un groupe d'inventaire, soit sous forme de simples paires clé/valeur, soit en YAML brut. Vous pouvez les écrire dans `group_vars/<group>.yml` ou dans `group_vars/<group>/main.yml`."
 
-msgid "In the dashboard"
-msgstr "Dans le tableau de bord"
+msgid "Add the group vars"
+msgstr "Ajouter les group vars"
+
+msgid "In the app"
+msgstr "Dans l'app"
 
 msgid "In **Build**, pick **Group vars** under the Inventory stage."
-msgstr "Dans « Build », choisissez « Group vars » sous l'étape Inventory."
+msgstr "Dans « Construire », choisissez « Group vars » sous l'étape Inventaire."
 
 msgid "In **Group**, type the group name, or pick one from your inventory's groups. `all` is always offered."
-msgstr "Dans « Group », saisissez le nom du groupe ou choisissez-en un parmi les groupes de votre inventaire. `all` est toujours proposé."
+msgstr "Dans « Groupe », saisissez le nom du groupe ou choisissez-en un parmi les groupes de votre inventaire. `all` est toujours proposé."
 
 msgid "Choose how to enter the variables with the toggle next to **Variables**:"
 msgstr "Choisissez comment saisir les variables avec le sélecteur situé à côté de « Variables » :"
 
 msgid "**Key / value**: one row per variable. Click **Add variable** for more."
-msgstr "« Key / value » : une ligne par variable. Cliquez sur « Add variable » pour en ajouter."
+msgstr "« Clé / valeur » : une ligne par variable. Cliquez sur « Ajouter une variable » pour en ajouter."
 
 msgid "**YAML**: paste anything YAML, including lists and nested maps. Your keys, order and comments are kept; only indentation and spacing are tidied when you paste or leave the editor, and mistakes such as a duplicate key or a tab used for indentation are underlined as you type. This makes it the easiest way to bring over an existing `group_vars` file."
 msgstr "« YAML » : collez n'importe quel YAML, y compris des listes et des maps imbriquées. Vos clés, leur ordre et vos commentaires sont conservés ; seules l'indentation et les espaces sont remises en ordre quand vous collez ou quittez l'éditeur, et les erreurs comme une clé en double ou une tabulation utilisée pour indenter sont soulignées pendant la saisie. C'est donc le moyen le plus simple de reprendre un fichier `group_vars` existant."
 
 msgid "For the folder layout, tick **Folder layout (`group_vars/<group>/main.yml`)**. The line under **Group** shows the path that will be written."
-msgstr "Pour la disposition en dossier, cochez « Folder layout (`group_vars/<group>/main.yml`) ». La ligne sous « Group » indique le chemin qui sera écrit."
+msgstr "Pour la disposition en dossier, cochez « Organisation en dossier (`group_vars/<group>/main.yml`) ». La ligne sous « Groupe » indique le chemin qui sera écrit."
 
 msgid "Click **Add to project**."
-msgstr "Cliquez sur « Add to project »."
+msgstr "Cliquez sur « Ajouter au projet »."
 
 msgid "When you switch from **Key / value** to **YAML**, your rows are copied into the YAML box. Switching back only works when every line is a flat `key: value`. If the YAML has nested values, the dashboard keeps you in YAML mode so nothing is lost."
-msgstr "Lorsque vous passez de « Key / value » à « YAML », vos lignes sont copiées dans la zone YAML. Le retour en arrière ne fonctionne que si chaque ligne est un simple `key: value`. Si le YAML contient des valeurs imbriquées, le tableau de bord vous maintient en mode YAML pour que rien ne soit perdu."
+msgstr "Lorsque vous passez de « Clé / valeur » à « YAML », vos lignes sont copiées dans la zone YAML. Le retour en arrière ne fonctionne que si chaque ligne est un simple `key: value`. Si le YAML contient des valeurs imbriquées, le tableau de bord vous maintient en mode YAML pour que rien ne soit perdu."
 
 msgid "With the CLI"
 msgstr "Avec la CLI"
@@ -68,25 +71,31 @@ msgid "If you want to add more files next to `main.yml` later, such as a `vault.
 msgstr "Si vous souhaitez ajouter plus tard d'autres fichiers à côté de `main.yml`, comme un `vault.yml`, passez le groupe à la disposition en dossier :"
 
 msgid "Open the existing group vars component, tick **Folder layout**, and click **Save changes**."
-msgstr "Ouvrez le composant group vars existant, cochez « Folder layout » et cliquez sur « Save changes »."
+msgstr "Ouvrez le composant group vars existant, cochez « Organisation en dossier » et cliquez sur « Enregistrer »."
 
-msgid "With the CLI, re-run `kikx add` with `--set layout=dir`, then delete the old `group_vars/<group>.yml` yourself. The CLI never removes files."
-msgstr "Avec la CLI, relancez `kikx add` avec `--set layout=dir`, puis supprimez vous-même l'ancien `group_vars/<group>.yml`. La CLI ne supprime jamais de fichiers."
+msgid "Re-run `kikx add` with `--set layout=dir`, then delete the old `group_vars/<group>.yml` yourself. The CLI never removes files."
+msgstr "Relancez `kikx add` avec `--set layout=dir`, puis supprimez vous-même l'ancien `group_vars/<group>.yml`. La CLI ne supprime jamais de fichiers."
 
 msgid "When both layouts exist"
 msgstr "Quand les deux dispositions coexistent"
 
-msgid "If a project has both `group_vars/web.yml` and `group_vars/web/main.yml`, **Checks** shows:"
-msgstr "Si un projet contient à la fois `group_vars/web.yml` et `group_vars/web/main.yml`, « Checks » affiche :"
+msgid "If a project has both `group_vars/web.yml` and `group_vars/web/main.yml`, **Checks** in the app shows:"
+msgstr "Si un projet contient à la fois `group_vars/web.yml` et `group_vars/web/main.yml`, « Vérifications » affiche dans l'app :"
 
 msgid "Group \"web\" has both group_vars/web.yml and group_vars/web/main.yml"
 msgstr "Group \"web\" has both group_vars/web.yml and group_vars/web/main.yml"
 
-msgid "Ansible loads and merges both files, so a key set in both depends on load order. Fix it by keeping one layout: open one of the components from the check, move its variables into the other, then remove it."
-msgstr "Ansible charge et fusionne les deux fichiers : la valeur d'une clé définie dans les deux dépend donc de l'ordre de chargement. Corrigez le problème en ne gardant qu'une disposition : ouvrez l'un des composants depuis la vérification, déplacez ses variables dans l'autre, puis supprimez-le."
+msgid "Ansible loads and merges both files, so a key set in both depends on load order. Fix it by keeping one layout."
+msgstr "Ansible charge et fusionne les deux fichiers : la valeur d'une clé définie dans les deux dépend donc de l'ordre de chargement. Corrigez le problème en ne gardant qu'une disposition."
 
-msgid "**Checks** also warns when:"
-msgstr "« Checks » vous avertit également lorsque :"
+msgid "Open one of the components from the check, move its variables into the other, then remove it."
+msgstr "Ouvrez l'un des composants depuis la vérification, déplacez ses variables dans l'autre, puis supprimez-le."
+
+msgid "The CLI doesn't run checks, so it won't tell you. This usually happens after you move a group to the folder layout and forget the old file. Make sure `group_vars/<group>/main.yml` has every variable you need, then delete `group_vars/<group>.yml`."
+msgstr "La CLI n'exécute pas les vérifications : elle ne vous le signalera pas. Cela arrive surtout quand vous passez un groupe à la disposition en dossier en oubliant l'ancien fichier. Vérifiez que `group_vars/<group>/main.yml` contient toutes les variables dont vous avez besoin, puis supprimez `group_vars/<group>.yml`."
+
+msgid "In the app, **Checks** also warns when:"
+msgstr "Dans l'app, « Vérifications » vous avertit également lorsque :"
 
 msgid "a group vars file targets a group that no inventory defines, which is usually a typo;"
 msgstr "un fichier de group vars vise un groupe qu'aucun inventaire ne définit, ce qui est généralement une faute de frappe ;"

@@ -45,7 +45,28 @@ What matters when you write one:
 
 For every key, see the [Registry item format reference](../reference/registry-item-format.md).
 
-## 2. Render it with the CLI
+## 2. Render it
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
+
+1. In **Build**, pick **From registry URL** under the Custom stage.
+2. Paste a URL or a path into **URL or path to a registry-item.json** and click **Load**.
+3. Fill in **Name** and the item's fields. Required fields are marked with `*`. Type JSON for list or map fields.
+4. Click **Preview** to check the output, then click **Add to project**.
+
+The backend loads the item, not the browser. That means:
+
+- a local path must exist on the machine running the backend. A relative path is resolved from the directory the backend was started in, so prefer an absolute path;
+- a URL must be reachable from the backend.
+
+To change a custom component later, open it, load the same item again, and add it with the same **Name**. The field values aren't filled back in, so type them again. The conflict dialog then offers to replace the old one.
+:::
+
+:::{tab-item} With the CLI
+:sync: cli
 
 In a kikx project, pass the path or URL where you'd normally pass a built-in reference:
 
@@ -81,20 +102,9 @@ kikx add https://example.com/kikx/configmap/registry-item.json --name web --set 
 If a required field is missing, you get `--data is required for k8s/configmap`. Supply it with `--set data=...`.
 
 Point at the `.json` file itself. kikx checks the built-ins first by the last segment of the reference, so a reference ending in a built-in name, such as `.../deployment`, renders the built-in Deployment instead.
+:::
 
-## 3. Or render it in the dashboard
-
-1. In **Build**, pick **From registry URL** under the Custom stage.
-2. Paste a URL or a path into **URL or path to a registry-item.json** and click **Load**.
-3. Fill in **Name** and the item's fields. Required fields are marked with `*`. Type JSON for list or map fields.
-4. Click **Preview** to check the output, then click **Add to project**.
-
-The backend loads the item, not the browser. That means:
-
-- a local path must exist on the machine running the backend. A relative path is resolved from the directory the backend was started in, so prefer an absolute path;
-- a URL must be reachable from the backend.
-
-To change a custom component later, open it, load the same item again, and add it with the same **Name**. The field values aren't filled back in, so type them again. The conflict dialog then offers to replace the old one.
+::::
 
 ## Share it
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
-"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 16:27+0100\n"
 "Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
 "Language: fr\n"
 "Language-Team: fr\n"
@@ -16,44 +16,50 @@ msgstr ""
 msgid "Resolve file conflicts and checks"
 msgstr "Résoudre les conflits de fichiers et les vérifications"
 
-msgid "Use this when the dashboard stops you with **This file already exists**, or when the **Checks** tab shows a count."
-msgstr "Suivez ce guide lorsque le tableau de bord vous arrête avec « This file already exists », ou lorsque l'onglet « Checks » affiche un compteur."
+msgid "Use this when the dashboard stops you with **This file already exists**, when the CLI stops with `already exists. Pass --force to overwrite`, or when the **Checks** tab shows a count."
+msgstr "Suivez ce guide lorsque le tableau de bord vous arrête avec « Ce fichier existe déjà », lorsque la CLI s'arrête avec `already exists. Pass --force to overwrite`, ou lorsque l'onglet « Vérifications » affiche un compteur."
 
 msgid "A file already exists"
 msgstr "Un fichier existe déjà"
 
-msgid "A project allows only one component per file. If the component you're saving would write a file another component already writes, the dashboard shows the conflict before it saves:"
-msgstr "Un projet n'autorise qu'un seul composant par fichier. Si le composant que vous enregistrez écrirait un fichier déjà écrit par un autre composant, le tableau de bord affiche le conflit avant d'enregistrer :"
+msgid "A project allows only one component per file."
+msgstr "Un projet n'autorise qu'un seul composant par fichier."
+
+msgid "In the app"
+msgstr "Dans l'app"
+
+msgid "If the component you're saving would write a file another component already writes, the dashboard shows the conflict before it saves:"
+msgstr "Si le composant que vous enregistrez écrirait un fichier déjà écrit par un autre composant, le tableau de bord affiche le conflit avant d'enregistrer :"
 
 msgid "With the form still open, the save bar warns you: *Saving replaces `<file>`, currently from `<component>`*."
 msgstr "Tant que le formulaire est ouvert, la barre d'enregistrement vous avertit : *Saving replaces `<file>`, currently from `<component>`*."
 
 msgid "When you click **Add to project** or **Save changes**, a dialog opens titled **This file already exists** (or **N files already exist**)."
-msgstr "Lorsque vous cliquez sur « Add to project » ou « Save changes », une boîte de dialogue s'ouvre avec le titre « This file already exists » (ou « N files already exist »)."
+msgstr "Lorsque vous cliquez sur « Ajouter au projet » ou « Enregistrer », une boîte de dialogue s'ouvre avec le titre « Ce fichier existe déjà » (ou « N fichiers existent déjà »)."
 
 msgid "In the dialog:"
 msgstr "Dans la boîte de dialogue :"
 
 msgid "Expand a file to compare the **Current** and **Incoming** content side by side. The row says **same content** or **content differs**."
-msgstr "Dépliez un fichier pour comparer côte à côte le contenu « Current » et le contenu « Incoming ». La ligne indique « same content » ou « content differs »."
+msgstr "Dépliez un fichier pour comparer côte à côte le contenu « Actuel » et le contenu « Nouveau ». La ligne indique « contenu identique » ou « contenu différent »."
 
 msgid "Read the **Also removed with that component:** line, if there is one. Replacing removes the *whole* owning component, including its other files."
-msgstr "Lisez la ligne « Also removed with that component: », si elle est présente. Remplacer supprime le composant propriétaire *en entier*, y compris ses autres fichiers."
+msgstr "Lisez la ligne « Également supprimés avec ce composant : », si elle est présente. Remplacer supprime le composant propriétaire *en entier*, y compris ses autres fichiers."
 
 msgid "Choose one:"
 msgstr "Choisissez l'une des options :"
 
 msgid "**Keep existing**: nothing changes. Rename your new component (for example, give the role or playbook a different **Name**) and save again."
-msgstr "« Keep existing » : rien ne change. Renommez votre nouveau composant (par exemple, donnez au rôle ou au playbook un autre « Name ») et enregistrez de nouveau."
+msgstr "« Garder l'existant » : rien ne change. Renommez votre nouveau composant (par exemple, donnez au rôle ou au playbook un autre « Nom ») et enregistrez de nouveau."
 
 msgid "**Replace**: the owning component is removed and yours takes its files. This can't be undone. To get the old component back, add it again."
-msgstr "« Replace » : le composant propriétaire est supprimé et le vôtre reprend ses fichiers. Cette action est irréversible. Pour récupérer l'ancien composant, ajoutez-le de nouveau."
+msgstr "« Remplacer » : le composant propriétaire est supprimé et le vôtre reprend ses fichiers. Cette action est irréversible. Pour récupérer l'ancien composant, ajoutez-le de nouveau."
 
 msgid "Editing a component and saving it under the same name replaces it in place, without a dialog."
 msgstr "Modifier un composant et l'enregistrer sous le même nom le remplace sur place, sans boîte de dialogue."
 
-msgid "The same thing with the CLI"
-msgstr "La même chose avec la CLI"
+msgid "With the CLI"
+msgstr "Avec la CLI"
 
 msgid "The CLI refuses instead of asking, and writes nothing:"
 msgstr "La CLI refuse au lieu de demander, et n'écrit rien :"
@@ -67,8 +73,11 @@ msgstr "Un preset dans lequel deux composants rendent le même chemin s'arrête 
 msgid "Fix what Checks reports"
 msgstr "Corriger ce que signalent les vérifications"
 
-msgid "Open **Checks** from the header, or click **Review** in the **Project** panel. Each item has **Open …** buttons that take you straight to the component to fix. Errors break the output, warnings are probably mistakes, and notes are informational."
-msgstr "Ouvrez « Checks » depuis l'en-tête, ou cliquez sur « Review » dans le panneau « Project ». Chaque élément comporte des boutons « Open … » qui vous mènent directement au composant à corriger. Les erreurs cassent le résultat, les avertissements signalent des erreurs probables, et les notes sont informatives."
+msgid "The checks only run in the dashboard. The CLI doesn't run them."
+msgstr "Les vérifications ne s'exécutent que dans le tableau de bord. La CLI ne les exécute pas."
+
+msgid "Open **Checks** from the header, or click **Review** in the **Project** panel. Each item has **Open …** buttons that take you straight to the component to fix. When you edit a component, its own checks also appear at the top of the editor, with the same **Open …** and **Scaffold N roles** buttons. Errors break the output, warnings are probably mistakes, and notes are informational."
+msgstr "Ouvrez « Vérifications » depuis l'en-tête, ou cliquez sur « Examiner » dans le panneau « Projet ». Chaque élément comporte des boutons « Ouvrir … » qui vous mènent directement au composant à corriger. Quand vous modifiez un composant, ses propres vérifications apparaissent aussi en haut de l'éditeur, avec les mêmes boutons « Ouvrir … » et « Créer N rôles ». Les erreurs cassent le résultat, les avertissements signalent des erreurs probables, et les notes sont informatives."
 
 msgid "Errors"
 msgstr "Erreurs"
@@ -134,7 +143,7 @@ msgid "`Play \"<name>\" targets \"<group>\", which isn't in the inventory`"
 msgstr "`Play \"<name>\" targets \"<group>\", which isn't in the inventory`"
 
 msgid "Correct **Runs on (hosts)**, or add the group to the inventory. Otherwise the play matches no hosts."
-msgstr "Corrigez « Runs on (hosts) », ou ajoutez le groupe à l'inventaire. Sinon, le play ne correspond à aucun hôte."
+msgstr "Corrigez « S'exécute sur (hôtes) », ou ajoutez le groupe à l'inventaire. Sinon, le play ne correspond à aucun hôte."
 
 msgid "`site.yml imports <path>, which this project doesn't produce`"
 msgstr "`site.yml imports <path>, which this project doesn't produce`"
@@ -152,7 +161,7 @@ msgid "`Ingress <name> routes to service \"<svc>\", which isn't in the project`"
 msgstr "`Ingress <name> routes to service \"<svc>\", which isn't in the project`"
 
 msgid "Add a Service with that name, or correct **Backend service**."
-msgstr "Ajoutez un Service portant ce nom, ou corrigez « Backend service »."
+msgstr "Ajoutez un Service portant ce nom, ou corrigez « Service backend »."
 
 msgid "Notes"
 msgstr "Notes"
@@ -164,7 +173,7 @@ msgid "`<playbook> uses N roles kikx doesn't vendor`"
 msgstr "`<playbook> uses N roles kikx doesn't vendor`"
 
 msgid "Click **Scaffold N roles**, or ignore it if the roles already exist in your repo. See [Scaffold roles](scaffold-roles.md)."
-msgstr "Cliquez sur « Scaffold N roles », ou ignorez la note si les rôles existent déjà dans votre dépôt. Consultez [Générer les rôles utilisés par vos playbooks](scaffold-roles.md)."
+msgstr "Cliquez sur « Créer N rôles », ou ignorez la note si les rôles existent déjà dans votre dépôt. Consultez [Générer les rôles utilisés par vos playbooks](scaffold-roles.md)."
 
 msgid "`<path> isn't imported by any site playbook`"
 msgstr "`<path> isn't imported by any site playbook`"
@@ -178,8 +187,8 @@ msgstr "`N inventories in this project`"
 msgid "Fine for separate environments. Checks treat all their groups as one pool, so pass the right one with `-i`."
 msgstr "Aucun problème pour des environnements distincts. Les vérifications traitent tous leurs groupes comme un seul ensemble ; passez donc le bon inventaire avec `-i`."
 
-msgid "The checks only run in the dashboard. The CLI doesn't run them."
-msgstr "Les vérifications ne s'exécutent que dans le tableau de bord. La CLI ne les exécute pas."
+msgid "[Start this lesson](teach:checks) to make these mistakes on purpose and watch Checks find them."
+msgstr "[Lancer cette leçon](teach:checks) pour commettre ces erreurs exprès et voir les vérifications les trouver."
 
 msgid "See also"
 msgstr "Voir aussi"

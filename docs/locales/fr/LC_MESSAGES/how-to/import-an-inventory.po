@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
-"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 16:27+0100\n"
 "Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
 "Language: fr\n"
 "Language-Team: fr\n"
@@ -19,32 +19,56 @@ msgstr "Importer un inventaire Ansible existant"
 msgid "Use this when you already have an `inventory.ini` and want kikx to manage it."
 msgstr "Suivez ce guide lorsque vous disposez déjà d'un `inventory.ini` et que vous voulez que kikx le gère."
 
-msgid "In the dashboard"
-msgstr "Dans le tableau de bord"
+msgid "Bring the hosts in"
+msgstr "Importer les hôtes"
+
+msgid "In the app"
+msgstr "Dans l'app"
 
 msgid "In **Build**, pick **Inventory** under the Inventory stage. To replace an inventory you already added, open that one instead."
-msgstr "Dans « Build », choisissez « Inventory » sous l'étape Inventory. Pour remplacer un inventaire déjà ajouté, ouvrez plutôt celui-ci."
+msgstr "Dans « Construire », choisissez « Inventaire » sous l'étape Inventaire. Pour remplacer un inventaire déjà ajouté, ouvrez plutôt celui-ci."
 
 msgid "Next to **Hosts**, click **Import inventory.ini**."
-msgstr "À côté de « Hosts », cliquez sur « Import inventory.ini »."
+msgstr "À côté de « Hôtes », cliquez sur « Importer inventory.ini »."
 
 msgid "Paste the file into the text box, or click **Choose a file…** and pick it."
-msgstr "Collez le fichier dans la zone de texte, ou cliquez sur « Choose a file… » et sélectionnez-le."
+msgstr "Collez le fichier dans la zone de texte, ou cliquez sur « Choisir un fichier… » et sélectionnez-le."
 
 msgid "Check the count under the text box (for example `3 hosts · 3 groups`) and read any warnings."
 msgstr "Vérifiez le décompte affiché sous la zone de texte (par exemple `3 hosts · 3 groups`) et lisez les éventuels avertissements."
 
 msgid "Click **Replace hosts & groups**."
-msgstr "Cliquez sur « Replace hosts & groups »."
+msgstr "Cliquez sur « Remplacer les hôtes et les groupes »."
 
 msgid "Give the inventory a **Name** and click **Add to project** (or **Save changes**)."
-msgstr "Donnez un « Name » à l'inventaire et cliquez sur « Add to project » (ou « Save changes »)."
+msgstr "Donnez un « Nom » à l'inventaire et cliquez sur « Ajouter au projet » (ou « Enregistrer »)."
 
 msgid "**Replace hosts & groups** overwrites every host and group row in the form. It doesn't merge them with what's already there."
-msgstr "« Replace hosts & groups » écrase toutes les lignes d'hôtes et de groupes du formulaire. Il ne les fusionne pas avec ce qui s'y trouve déjà."
+msgstr "« Remplacer les hôtes et les groupes » écrase toutes les lignes d'hôtes et de groupes du formulaire. Il ne les fusionne pas avec ce qui s'y trouve déjà."
+
+msgid "[Start this lesson](teach:import) to watch the dashboard import an inventory and its group vars."
+msgstr "[Lancer cette leçon](teach:import) pour voir le tableau de bord importer un inventaire et ses group vars."
+
+msgid "With the CLI"
+msgstr "Avec la CLI"
+
+msgid "The CLI can't read an `inventory.ini`. Only the dashboard imports one. The CLI takes the inventory as JSON in the `hosts` field: a list of groups, each with `members`, `children` and `vars`."
+msgstr "La CLI ne sait pas lire un `inventory.ini` : seul le tableau de bord en importe un. La CLI reçoit l'inventaire en JSON dans le champ `hosts` : une liste de groupes, chacun avec `members`, `children` et `vars`."
+
+msgid "This writes `platform-inventory.ini`:"
+msgstr "Cette commande écrit `platform-inventory.ini` :"
+
+msgid "To put a host in a second group, list it again with `ansible_host`, `ansible_user` and `ansible_port` set to `null`. A missing `ansible_user` or `ansible_port` gets the default (`root` and `22`). Set a different default with `--set default_user=deploy` or `--set default_port=2222`."
+msgstr "Pour placer un hôte dans un second groupe, listez-le de nouveau avec `ansible_host`, `ansible_user` et `ansible_port` à `null`. Un `ansible_user` ou un `ansible_port` absent prend la valeur par défaut (`root` et `22`). Définissez une autre valeur par défaut avec `--set default_user=deploy` ou `--set default_port=2222`."
+
+msgid "Add `--force` to overwrite an inventory you already added."
+msgstr "Ajoutez `--force` pour écraser un inventaire déjà ajouté."
 
 msgid "How hosts in several groups are merged"
 msgstr "Fusion des hôtes présents dans plusieurs groupes"
+
+msgid "These rules apply to **Import inventory.ini** in the app."
+msgstr "Ces règles s'appliquent à « Importer inventory.ini » dans l'app."
 
 msgid "A host that appears in several sections becomes one host row with several groups:"
 msgstr "Un hôte qui apparaît dans plusieurs sections devient une seule ligne d'hôte associée à plusieurs groupes :"
@@ -57,6 +81,9 @@ msgstr "Les sections `[group:children]` deviennent des groupes imbriqués, et le
 
 msgid "Warnings you may see"
 msgstr "Avertissements possibles"
+
+msgid "The import dialog in the app shows these warnings. The CLI never parses an `inventory.ini`, so it doesn't show them."
+msgstr "La boîte de dialogue d'import de l'app affiche ces avertissements. La CLI n'analyse jamais d'`inventory.ini` : elle ne les affiche donc pas."
 
 msgid "Warning"
 msgstr "Avertissement"
@@ -85,23 +112,8 @@ msgstr "Aucun problème si le nom se résout via le DNS. Sinon, ajoutez une adre
 msgid "Comment lines starting with `#` or `;` are ignored and aren't kept."
 msgstr "Les lignes de commentaire commençant par `#` ou `;` sont ignorées et ne sont pas conservées."
 
-msgid "After the import, open **Checks** to catch problems across components. See [Resolve file conflicts and checks](resolve-conflicts.md)."
-msgstr "Après l'import, ouvrez « Checks » pour repérer les problèmes entre composants. Consultez [Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md)."
-
-msgid "With the CLI"
-msgstr "Avec la CLI"
-
-msgid "The CLI takes the inventory as JSON in the `hosts` field: a list of groups, each with `members`, `children` and `vars`."
-msgstr "La CLI reçoit l'inventaire en JSON dans le champ `hosts` : une liste de groupes, chacun avec `members`, `children` et `vars`."
-
-msgid "This writes `platform-inventory.ini`:"
-msgstr "Cette commande écrit `platform-inventory.ini` :"
-
-msgid "To put a host in a second group, list it again with `ansible_host`, `ansible_user` and `ansible_port` set to `null`. A missing `ansible_user` or `ansible_port` gets the default (`root` and `22`). Set a different default with `--set default_user=deploy` or `--set default_port=2222`."
-msgstr "Pour placer un hôte dans un second groupe, listez-le de nouveau avec `ansible_host`, `ansible_user` et `ansible_port` à `null`. Un `ansible_user` ou un `ansible_port` absent prend la valeur par défaut (`root` et `22`). Définissez une autre valeur par défaut avec `--set default_user=deploy` ou `--set default_port=2222`."
-
-msgid "Add `--force` to overwrite an inventory you already added."
-msgstr "Ajoutez `--force` pour écraser un inventaire déjà ajouté."
+msgid "After the import, open **Checks** in the app to catch problems across components. The CLI doesn't run checks. See [Resolve file conflicts and checks](resolve-conflicts.md)."
+msgstr "Après l'import, ouvrez « Vérifications » dans l'app pour repérer les problèmes entre composants. La CLI n'exécute pas les vérifications. Consultez [Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md)."
 
 msgid "See also"
 msgstr "Voir aussi"
