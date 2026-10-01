@@ -25,6 +25,9 @@ msgstr "Chaque valeur de champ est une chaîne. Chaque template reçoit aussi `n
 msgid "A reference resolves to a built-in when the part after its last `/` equals a built-in name. See [Registry item format](registry-item-format.md#reference-resolution)."
 msgstr "Une référence correspond à un composant intégré lorsque la partie qui suit son dernier `/` est égale au nom d'un composant intégré. Voir [Format des éléments de registre](registry-item-format.md#reference-resolution)."
 
+msgid "With the CLI, you set a field with `--set <field>=<value>` on [`kikx add`](cli.md#kikx-add), using the names in the field tables. In the web app, each component is an entry in the builder's catalog, under one of its stages, and its fields are a form. The **In the app** note under each component gives the stage, the entry and the form fields as they are labelled in the app. See [The web app](web-app.md#component-catalog)."
+msgstr "Avec la CLI, vous définissez un champ avec `--set <champ>=<valeur>` sur [`kikx add`](cli.md#kikx-add), en utilisant les noms des tableaux de champs. Dans l'application web, chaque composant est une entrée du catalogue du constructeur, sous l'une de ses étapes, et ses champs forment un formulaire. La note **Dans l'app** sous chaque composant indique l'étape, l'entrée et les champs du formulaire tels qu'ils sont libellés dans l'application. Voir [L'application web](web-app.md#component-catalog)."
+
 msgid "Summary"
 msgstr "Résumé"
 
@@ -251,6 +254,9 @@ msgstr "`port`"
 msgid "`80`"
 msgstr "`80`"
 
+msgid "**In the app:** **Deploy** > **Deployment**. Fields: **Name**, **Image**, **Port**, **Replicas**, **Namespace** (empty uses the project's default namespace) and **Labels** (**Add label**)."
+msgstr "**Dans l'app :** **Déployer** > **Deployment**. Champs : **Nom**, **Image**, **Port**, **Réplicas**, **Namespace** (vide, il prend le namespace par défaut du projet) et **Labels** (**Ajouter un label**)."
+
 msgid "`k8s/service`"
 msgstr "`k8s/service`"
 
@@ -262,6 +268,9 @@ msgstr "`target_port`"
 
 msgid "Container port; defaults to the service port."
 msgstr "Container port; defaults to the service port."
+
+msgid "**In the app:** **Deploy** > **Service**. Fields: **Name**, **Port**, **Target port**, **Namespace** and **Labels**."
+msgstr "**Dans l'app :** **Déployer** > **Service**. Champs : **Nom**, **Port**, **Port cible**, **Namespace** et **Labels**."
 
 msgid "`k8s/ingress`"
 msgstr "`k8s/ingress`"
@@ -286,6 +295,9 @@ msgstr "`service`"
 
 msgid "Backend service; defaults to the ingress name."
 msgstr "Backend service; defaults to the ingress name."
+
+msgid "**In the app:** **Deploy** > **Ingress**. Fields: **Name**, **Host**, **Port**, **Path**, **Backend service** (suggests the services in the project), **Namespace** and **Labels**."
+msgstr "**Dans l'app :** **Déployer** > **Ingress**. Champs : **Nom**, **Hôte**, **Port**, **Chemin**, **Service backend** (propose les services du projet), **Namespace** et **Labels**."
 
 msgid "`terraform/digitalocean`"
 msgstr "`terraform/digitalocean`"
@@ -356,6 +368,9 @@ msgstr "`k8s_version`"
 msgid "`1.31`"
 msgstr "`1.31`"
 
+msgid "**In the app:** **Configure** > **Show more** > **Kubernetes Bootstrap**. Fields: **Name**, **Hosts** (suggests `all` and the inventory groups) and **Kubernetes version**."
+msgstr "**Dans l'app :** **Configurer** > **Afficher plus** > **Amorçage Kubernetes**. Champs : **Nom**, **Hôtes** (propose `all` et les groupes de l'inventaire) et **Version de Kubernetes**."
+
 msgid "`ansible/inventory`"
 msgstr "`ansible/inventory`"
 
@@ -382,6 +397,9 @@ msgstr "`22`"
 
 msgid "SSH port written for hosts that don't set one (null on a host omits it)."
 msgstr "SSH port written for hosts that don't set one (null on a host omits it)."
+
+msgid "**In the app:** **Inventory** > **Inventory**. Fields: **Name**, then **Hosts** with one row per host (**Host name**, **Address**, **Groups**, and under **Connection & host vars**: **SSH user**, **SSH port**, **SSH key file** and **Host vars**), then **Groups** with **Group name**, **Child groups** and **Group vars**. **Import inventory.ini** fills both from an existing file. The app builds `hosts` for you and has no fields for `default_user` and `default_port`: leave **SSH user** and **SSH port** empty on a host to inherit them from a group's vars. See [Import an existing Ansible inventory](../how-to/import-an-inventory.md)."
+msgstr "**Dans l'app :** **Inventaire** > **Inventaire**. Champs : **Nom**, puis **Hôtes** avec une ligne par hôte (**Nom de l'hôte**, **Adresse**, **Groupes**, et sous **Connexion et variables d'hôte** : **Utilisateur SSH**, **Port SSH**, **Fichier de clé SSH** et **Variables d'hôte**), puis **Groupes** avec **Nom du groupe**, **Groupes enfants** et **Variables du groupe**. **Importer inventory.ini** remplit les deux à partir d'un fichier existant. L'application construit `hosts` pour vous et n'a pas de champs pour `default_user` et `default_port` : laissez **Utilisateur SSH** et **Port SSH** vides sur un hôte pour qu'il les hérite des variables d'un groupe. Voir [Importer un inventaire Ansible existant](../how-to/import-an-inventory.md)."
 
 msgid "`ansible/group-vars`"
 msgstr "`ansible/group-vars`"
@@ -416,6 +434,9 @@ msgstr "`file`"
 msgid "`file` (group_vars/<group>.yml)<br>`dir` (group_vars/<group>/main.yml)"
 msgstr "`file` (group_vars/<group>.yml)<br>`dir` (group_vars/<group>/main.yml)"
 
+msgid "**In the app:** **Inventory** > **Group vars**. Fields: **Group** (suggests the inventory groups), **Folder layout** (ticked writes the `dir` layout) and **Variables**, edited as **Key / value** (`vars`) or **YAML** (`yaml`). The component takes its name from the group. See [Manage group vars as YAML or a folder](../how-to/group-vars.md)."
+msgstr "**Dans l'app :** **Inventaire** > **Group vars**. Champs : **Groupe** (propose les groupes de l'inventaire), **Organisation en dossier** (cochée, elle écrit l'organisation `dir`) et **Variables**, modifiées en **Clé / valeur** (`vars`) ou en **YAML** (`yaml`). Le composant prend le nom du groupe. Voir [Gérer les group vars en YAML ou en dossier](../how-to/group-vars.md)."
+
 msgid "`ansible/common-role`"
 msgstr "`ansible/common-role`"
 
@@ -428,6 +449,9 @@ msgstr "`timezone`"
 msgid "`UTC`"
 msgstr "`UTC`"
 
+msgid "**In the app:** **Configure** > **Show more** > **Common role**. Fields: **Name** and **Timezone**."
+msgstr "**Dans l'app :** **Configurer** > **Afficher plus** > **Rôle commun**. Champs : **Nom** et **Fuseau horaire**."
+
 msgid "`ansible/role`"
 msgstr "`ansible/role`"
 
@@ -439,6 +463,9 @@ msgstr "`description`"
 
 msgid "`\"\"`"
 msgstr "`\"\"`"
+
+msgid "**In the app:** **Configure** > **Role skeleton**. Fields: **Name** and **Description**. **Checks** can also create role skeletons for the roles your playbooks use; see [Scaffold the roles your playbooks use](../how-to/scaffold-roles.md)."
+msgstr "**Dans l'app :** **Configurer** > **Squelette de rôle**. Champs : **Nom** et **Description**. **Vérifications** peut aussi créer des squelettes pour les rôles utilisés par vos playbooks ; voir [Générer les rôles utilisés par vos playbooks](../how-to/scaffold-roles.md)."
 
 msgid "`ansible/playbook`"
 msgstr "`ansible/playbook`"
@@ -467,11 +494,17 @@ msgstr "`playbooks`"
 msgid "Where the file goes. Leave empty for the project root."
 msgstr "Where the file goes. Leave empty for the project root."
 
+msgid "**In the app:** **Configure** > **Playbook**. Fields: **Name**, **Folder**, then one card per play under **Plays** (**Add play**): **Name**, **Runs on (hosts)**, **Roles, in the order they run**, **Role conditions (when:)**, **Pre-tasks & post-tasks**, **Tags (optional)** and **Run as root (become)**. The app always writes `plays`; it doesn't use the legacy `hosts` and `roles` fields. See [Write a multi-play playbook with role conditions](../how-to/multi-play-playbooks.md)."
+msgstr "**Dans l'app :** **Configurer** > **Playbook**. Champs : **Nom**, **Dossier**, puis une carte par play sous **Plays** (**Ajouter un play**) : **Nom**, **S'exécute sur (hôtes)**, **Rôles, dans leur ordre d'exécution**, **Conditions des rôles (when:)**, **Pre-tasks et post-tasks**, **Tags (facultatif)** et **Exécuter en root (become)**. L'application écrit toujours `plays` ; elle n'utilise pas les anciens champs `hosts` et `roles`. Voir [Écrire un playbook à plusieurs plays avec des conditions de rôle](../how-to/multi-play-playbooks.md)."
+
 msgid "`ansible/site`"
 msgstr "`ansible/site`"
 
 msgid "[`playbooks`](#playbooks)"
 msgstr "[`playbooks`](#playbooks)"
+
+msgid "**In the app:** **Configure** > **Site playbook**. Fields: **Name**, then **Imports, in run order**: one row per import with **Import name** and **Playbook path**. Click a playbook next to **from this project:**, or **Add all**, to add rows for the project's playbooks; **Add path** adds an empty row. See [Wire playbooks together with a site playbook](../how-to/site-playbook.md)."
+msgstr "**Dans l'app :** **Configurer** > **Playbook site**. Champs : **Nom**, puis **Imports, dans l'ordre d'exécution** : une ligne par import avec **Nom de l'import** et **Chemin du playbook**. Cliquez sur un playbook à côté de **de ce projet :**, ou sur **Tout ajouter**, pour ajouter des lignes pour les playbooks du projet ; **Ajouter un chemin** ajoute une ligne vide. Voir [Relier les playbooks avec un playbook site](../how-to/site-playbook.md)."
 
 msgid "`ansible/config`"
 msgstr "`ansible/config`"
@@ -487,6 +520,9 @@ msgstr "`platform-inventory.ini`"
 
 msgid "`roles_path`"
 msgstr "`roles_path`"
+
+msgid "**In the app:** **Configure** > **Show more** > **Ansible config**. Fields: **Name**, **Inventory file** and **Roles path**."
+msgstr "**Dans l'app :** **Configurer** > **Afficher plus** > **Configuration Ansible**. Champs : **Nom**, **Fichier d'inventaire** et **Chemin des rôles**."
 
 msgid "Example: `inventory=platform-inventory.ini` writes `ansible.cfg`:"
 msgstr "Exemple : `inventory=platform-inventory.ini` écrit `ansible.cfg` :"
@@ -758,6 +794,9 @@ msgstr "Exemple : `[{\"name\":\"Data\",\"path\":\"playbooks/data.yml\"},{\"name\
 msgid "See also"
 msgstr "Voir aussi"
 
+msgid "[The web app](web-app.md)"
+msgstr "[L'application web](web-app.md)"
+
 msgid "[Write a multi-play playbook with role conditions](../how-to/multi-play-playbooks.md)"
 msgstr "[Écrire un playbook à plusieurs plays avec des conditions de rôle](../how-to/multi-play-playbooks.md)"
 
@@ -848,6 +887,9 @@ msgstr "`099720109477`"
 msgid "AWS account that publishes the image; 099720109477 is Canonical."
 msgstr "AWS account that publishes the image; 099720109477 is Canonical."
 
+msgid "**In the app:** **Provision** > **Cloud server**, then choose **AWS EC2 Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count**, **Private network** and **Image owner**."
+msgstr "**Dans l'app :** **Provisionner** > **Serveur cloud**, puis choisissez **AWS EC2 Instance** dans **Fournisseur**. Champs : **Nom**, **Région**, **Taille**, **Image système** (avec les options ci-dessus comme suggestions), **Nombre**, **Réseau privé** et **Image owner**."
+
 msgid "`terraform/google`"
 msgstr "`terraform/google`"
 
@@ -872,6 +914,9 @@ msgstr "`project`"
 msgid "`my-project`"
 msgstr "`my-project`"
 
+msgid "**In the app:** **Provision** > **Cloud server**, then choose **Google Compute Engine Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count**, **Private network** and **Project**."
+msgstr "**Dans l'app :** **Provisionner** > **Serveur cloud**, puis choisissez **Google Compute Engine Instance** dans **Fournisseur**. Champs : **Nom**, **Région**, **Taille**, **Image système** (avec les options ci-dessus comme suggestions), **Nombre**, **Réseau privé** et **Project**."
+
 msgid "`terraform/scaleway`"
 msgstr "`terraform/scaleway`"
 
@@ -889,6 +934,9 @@ msgstr "`ubuntu_noble`"
 
 msgid "`ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debian_bookworm` (Debian 12)<br>`rockylinux_9` (Rocky Linux 9)"
 msgstr "`ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debian_bookworm` (Debian 12)<br>`rockylinux_9` (Rocky Linux 9)"
+
+msgid "**In the app:** **Provision** > **Cloud server**, then choose **Scaleway Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count** and **Private network**."
+msgstr "**Dans l'app :** **Provisionner** > **Serveur cloud**, puis choisissez **Scaleway Instance** dans **Fournisseur**. Champs : **Nom**, **Région**, **Taille**, **Image système** (avec les options ci-dessus comme suggestions), **Nombre** et **Réseau privé**."
 
 msgid "`terraform/linode`"
 msgstr "`terraform/linode`"
@@ -908,6 +956,9 @@ msgstr "`linode/ubuntu24.04`"
 msgid "`linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9)"
 msgstr "`linode/ubuntu24.04` (Ubuntu 24.04)<br>`linode/ubuntu22.04` (Ubuntu 22.04)<br>`linode/debian12` (Debian 12)<br>`linode/rocky9` (Rocky Linux 9)"
 
+msgid "**In the app:** **Provision** > **Cloud server**, then choose **Linode Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count** and **Private network**."
+msgstr "**Dans l'app :** **Provisionner** > **Serveur cloud**, puis choisissez **Linode Instance** dans **Fournisseur**. Champs : **Nom**, **Région**, **Taille**, **Image système** (avec les options ci-dessus comme suggestions), **Nombre** et **Réseau privé**."
+
 msgid "Fields with a format are checked before rendering, and their value is normalised: `ip` takes one IPv4 or IPv6 address, and `cidr` takes a range in CIDR notation that starts on its boundary (`10.10.0.0/16`, not `10.10.0.5/16`). An invalid value fails rendering with an error that suggests the corrected value. An empty value is not checked."
 msgstr "Les champs qui ont un format sont vérifiés avant le rendu, et leur valeur est normalisée : `ip` accepte une seule adresse IPv4 ou IPv6, et `cidr` une plage en notation CIDR qui commence sur sa limite (`10.10.0.0/16`, pas `10.10.0.5/16`). Une valeur invalide fait échouer le rendu avec une erreur qui propose la valeur corrigée. Une valeur vide n'est pas vérifiée."
 
@@ -920,6 +971,9 @@ msgstr "`10.10.0.0/16`"
 msgid "Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network."
 msgstr "Format `cidr`. Plage du réseau privé de ces serveurs, en notation CIDR. Laissez vide pour utiliser le réseau par défaut du fournisseur."
 
+msgid "**In the app:** **Provision** > **Cloud server**, then choose **DigitalOcean Droplet** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count** and **Private network**."
+msgstr "**Dans l'app :** **Provisionner** > **Serveur cloud**, puis choisissez **Droplet DigitalOcean** dans **Fournisseur**. Champs : **Nom**, **Région**, **Taille**, **Image système** (avec les options ci-dessus comme suggestions), **Nombre** et **Réseau privé**."
+
 msgid "`network_zone`"
 msgstr "`network_zone`"
 
@@ -928,3 +982,6 @@ msgstr "`eu-central` (Europe (fsn1, nbg1, hel1))<br>`us-east` (US East (ash))<br
 
 msgid "Network zone of the private network; it must contain the server location."
 msgstr "Zone réseau du réseau privé ; elle doit contenir l'emplacement du serveur."
+
+msgid "**In the app:** **Provision** > **Cloud server**, then choose **Hetzner Cloud Server** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count**, **Private network** and **Network zone**."
+msgstr "**Dans l'app :** **Provisionner** > **Serveur cloud**, puis choisissez **Serveur Hetzner Cloud** dans **Fournisseur**. Champs : **Nom**, **Région**, **Taille**, **Image système** (avec les options ci-dessus comme suggestions), **Nombre**, **Réseau privé** et **Zone réseau**."

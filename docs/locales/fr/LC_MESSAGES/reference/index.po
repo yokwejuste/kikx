@@ -16,6 +16,6 @@ msgstr ""
 msgid "Reference"
 msgstr "Référence"
 
-msgid "Reference pages describe kikx exactly: its commands, components, API, configuration and file formats. Look things up here while you work."
-msgstr "Les pages de référence décrivent kikx avec exactitude : ses commandes, ses composants, son API, sa configuration et ses formats de fichiers. Consultez-les pendant que vous travaillez."
+msgid "Reference pages describe kikx exactly: its commands, web app, components, API, configuration and file formats. Look things up here while you work."
+msgstr "Les pages de référence décrivent kikx avec exactitude : ses commandes, son application web, ses composants, son API, sa configuration et ses formats de fichiers. Consultez-les pendant que vous travaillez."
 

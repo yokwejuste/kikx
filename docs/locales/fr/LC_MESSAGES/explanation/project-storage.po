@@ -1,0 +1,182 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:28+0100\n"
+"PO-Revision-Date: 2026-10-01 18:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Where your project lives"
+msgstr "Où vit votre projet"
+
+msgid "When you build a project in the kikx web app, it lives in your browser. There is no account and no server copy. This page explains what that means, what can remove it, and how to move a project somewhere else."
+msgstr "Quand vous construisez un projet dans l'application web kikx, il vit dans votre navigateur. Il n'y a ni compte ni copie sur un serveur. Cette page explique ce que cela implique, ce qui peut le faire disparaître et comment déplacer un projet ailleurs."
+
+msgid "In this browser"
+msgstr "Dans ce navigateur"
+
+msgid "The app keeps your project in the browser's local storage (`localStorage`) for the site you opened it on. Every change is saved there as you work, so you can close the tab, come back tomorrow and find the project as you left it. The home page then shows a card to **Continue** it."
+msgstr "L'application conserve votre projet dans le stockage local du navigateur (`localStorage`), pour le site sur lequel vous l'avez ouverte. Chaque modification y est enregistrée au fil de votre travail : vous pouvez fermer l'onglet, revenir le lendemain et retrouver le projet tel que vous l'avez laissé. La page d'accueil affiche alors une carte pour le **Reprendre**."
+
+msgid "The backend only renders. When you add or save a component, the app sends that component's fields to the backend, which returns the rendered files. The backend doesn't keep them: the app stores the result in the browser with the rest of the project."
+msgstr "Le backend ne fait que générer. Quand vous ajoutez ou enregistrez un composant, l'application envoie les champs de ce composant au backend, qui renvoie les fichiers générés. Le backend ne les garde pas : l'application stocke le résultat dans le navigateur avec le reste du projet."
+
+msgid "The builder says this in its top bar: **Saved in this browser · not on disk yet**."
+msgstr "Le constructeur l'indique dans sa barre du haut : **Enregistré dans ce navigateur · pas encore sur le disque**."
+
+msgid "What is stored"
+msgstr "Ce qui est stocké"
+
+msgid "What"
+msgstr "Quoi"
+
+msgid "Contents"
+msgstr "Contenu"
+
+msgid "The project"
+msgstr "Le projet"
+
+msgid "Its name, default namespace and output directory, and every component with its fields and rendered files."
+msgstr "Son nom, son namespace par défaut et son dossier de sortie, et chaque composant avec ses champs et ses fichiers générés."
+
+msgid "Drafts"
+msgstr "Brouillons"
+
+msgid "Edits in a form that you haven't added or saved yet, one per form. The form offers them back with **Restored your unsaved draft from** and a date."
+msgstr "Les modifications d'un formulaire que vous n'avez pas encore ajoutées ou enregistrées, une par formulaire. Le formulaire les propose à nouveau avec **Brouillon non enregistré restauré, datant du** et une date."
+
+msgid "Builder state"
+msgstr "État du constructeur"
+
+msgid "The view you were on (**Build**, **Architecture** or **Checks**), the form that was open, and which catalog stages were expanded."
+msgstr "La vue où vous étiez (**Construire**, **Architecture** ou **Vérifications**), le formulaire ouvert et les étapes du catalogue dépliées."
+
+msgid "Checklist"
+msgstr "Liste de départ"
+
+msgid "Which **Getting started** steps you've done that the project can't show by itself, such as opening **Checks** or exporting, and whether you folded or hid the list."
+msgstr "Les étapes de **Premiers pas** déjà faites que le projet ne peut pas montrer lui-même, comme ouvrir **Vérifications** ou exporter, et si vous avez replié ou masqué la liste."
+
+msgid "Last export"
+msgstr "Dernier export"
+
+msgid "When you last exported, and a fingerprint of the project at that moment. This is how the top bar knows to say **Changes since last download**."
+msgstr "La date de votre dernier export, et une empreinte du projet à ce moment. C'est ainsi que la barre du haut sait afficher **Modifié depuis le dernier téléchargement**."
+
+msgid "Preferences"
+msgstr "Préférences"
+
+msgid "**In the app** or **With the CLI**, the lesson speed, the lessons you've finished, the tours you've seen and the theme. The language is kept in a cookie."
+msgstr "**Dans l'app** ou **Avec la CLI**, la vitesse des leçons, les leçons terminées, les visites déjà vues et le thème. La langue est conservée dans un cookie."
+
+msgid "There is one project per browser. Starting a **Blank project**, opening a template or opening a preset replaces it, along with its drafts."
+msgstr "Il y a un seul projet par navigateur. Commencer un **Projet vierge**, ouvrir un modèle ou ouvrir un preset le remplace, avec ses brouillons."
+
+msgid "What can remove it"
+msgstr "Ce qui peut le supprimer"
+
+msgid "Local storage belongs to the browser profile and the site address. The project is gone, with no way to recover it, when:"
+msgstr "Le stockage local dépend du profil du navigateur et de l'adresse du site. Le projet disparaît, sans moyen de le récupérer, quand :"
+
+msgid "you clear the site data or the browsing data of that browser, or a cleanup tool does it for you;"
+msgstr "vous effacez les données du site ou les données de navigation de ce navigateur, ou qu'un outil de nettoyage le fait pour vous ;"
+
+msgid "you click the close button on the home page's resume card and confirm **Discard**;"
+msgstr "vous cliquez sur le bouton de fermeture de la carte de reprise de la page d'accueil et confirmez **Abandonner** ;"
+
+msgid "you start a blank project, or open a template or a preset, over it."
+msgstr "vous commencez un projet vierge, ou ouvrez un modèle ou un preset, par-dessus."
+
+msgid "The same project isn't visible:"
+msgstr "Le même projet n'est pas visible :"
+
+msgid "in another browser, or another profile of the same browser;"
+msgstr "dans un autre navigateur, ou un autre profil du même navigateur ;"
+
+msgid "at another address for the app, for example `localhost` and `127.0.0.1`, which the browser treats as two separate sites."
+msgstr "à une autre adresse de l'application, par exemple `localhost` et `127.0.0.1`, que le navigateur traite comme deux sites distincts."
+
+msgid "Private windows"
+msgstr "Fenêtres privées"
+
+msgid "A private or incognito window has its own storage, which the browser deletes when you close the last private window. A project built there disappears with it. Export it before you close the window."
+msgstr "Une fenêtre privée a son propre stockage, que le navigateur supprime quand vous fermez la dernière fenêtre privée. Un projet construit là disparaît avec lui. Exportez-le avant de fermer la fenêtre."
+
+msgid "Nothing touches your disk until you export"
+msgstr "Rien ne touche votre disque avant l'export"
+
+msgid "Building a project never reads or writes files on your machine. The `.zip` is assembled in the browser from the files it already holds, and nothing reaches your disk until you choose an item in the **Export** menu:"
+msgstr "Construire un projet ne lit ni n'écrit jamais de fichiers sur votre machine. Le `.zip` est assemblé dans le navigateur à partir des fichiers qu'il contient déjà, et rien n'atteint votre disque avant que vous choisissiez un élément du menu **Exporter** :"
+
+msgid "**Files (.zip)** saves the rendered files, ready to unzip into your repository;"
+msgstr "**Fichiers (.zip)** enregistre les fichiers générés, prêts à être décompressés dans votre dépôt ;"
+
+msgid "**Preset (.kikx-preset.json)** saves the project's recipe."
+msgstr "**Preset (.kikx-preset.json)** enregistre la recette du projet."
+
+msgid "This keeps the app safe to try: nothing changes in a repository until you unzip or apply the result yourself. It also means the browser copy is the only copy until you export. Export when you reach a point you want to keep."
+msgstr "Vous pouvez donc essayer l'application sans risque : rien ne change dans un dépôt tant que vous ne décompressez ou n'appliquez pas le résultat vous-même. Cela veut aussi dire que la copie du navigateur est la seule copie jusqu'à l'export. Exportez dès que vous atteignez un état que vous voulez garder."
+
+msgid "The Teach me sandbox"
+msgstr "Le bac à sable d'Apprends-moi"
+
+msgid "A **Teach me** lesson builds its own project, so it needs an empty builder. When a lesson starts, kikx copies your project, its drafts and its builder state aside into the tab's session storage and clears them. The lesson then works on a fresh project."
+msgstr "Une leçon **Apprends-moi** construit son propre projet : elle a besoin d'un constructeur vide. Au début d'une leçon, kikx copie votre projet, ses brouillons et l'état du constructeur dans le stockage de session de l'onglet, puis les efface. La leçon travaille ensuite sur un projet neuf."
+
+msgid "When the lesson ends, through **Back to my project**, the stop button or {kbd}`Esc`, kikx deletes the lesson's project and puts yours back. Reloading the page in the middle of a lesson does the same. If you had no project before the lesson, **Keep this project** keeps the one the lesson built instead."
+msgstr "Quand la leçon se termine, par **Retour à mon projet**, le bouton d'arrêt ou {kbd}`Esc`, kikx supprime le projet de la leçon et remet le vôtre en place. Recharger la page en pleine leçon fait de même. Si vous n'aviez pas de projet avant la leçon, **Garder ce projet** conserve plutôt celui que la leçon a construit."
+
+msgid "Session storage belongs to the tab. Finish or stop a lesson in the tab you started it in rather than closing that tab, or the copy of your project set aside for the lesson is lost with it."
+msgstr "Le stockage de session appartient à l'onglet. Terminez ou arrêtez une leçon dans l'onglet où vous l'avez commencée plutôt que de fermer cet onglet, sinon la copie de votre projet mise de côté pour la leçon est perdue avec lui."
+
+msgid "CLI lessons and the practice terminal work the same way: the files they write stay in that tab and are never saved to your disk. See [Practice the CLI in your browser](../how-to/practice-cli-in-browser.md)."
+msgstr "Les leçons de la CLI et le terminal d'entraînement fonctionnent de la même façon : les fichiers qu'ils écrivent restent dans cet onglet et ne sont jamais enregistrés sur votre disque. Voir [S'entraîner à la CLI dans le navigateur](../how-to/practice-cli-in-browser.md)."
+
+msgid "Moving a project to another browser or machine"
+msgstr "Déplacer un projet vers un autre navigateur ou une autre machine"
+
+msgid "Local storage isn't synced. To carry on elsewhere, use a preset:"
+msgstr "Le stockage local n'est pas synchronisé. Pour continuer ailleurs, utilisez un preset :"
+
+msgid "In the builder, open **Export** and choose **Preset (.kikx-preset.json)**."
+msgstr "Dans le constructeur, ouvrez **Exporter** et choisissez **Preset (.kikx-preset.json)**."
+
+msgid "Move the file to the other machine however you like: a repository, a shared drive, email."
+msgstr "Transférez le fichier vers l'autre machine comme vous le souhaitez : un dépôt, un disque partagé, un e-mail."
+
+msgid "There, on the kikx home page, click **Open a preset** and pick the file."
+msgstr "Là-bas, sur la page d'accueil de kikx, cliquez sur **Ouvrir un preset** et choisissez le fichier."
+
+msgid "The preset records the project and its components, not the rendered files, so the other side renders them again from the registry. Drafts and builder state don't travel with it. See [Export and reopen a project in the app](../how-to/export-and-reopen-web.md) and the [Preset format](../reference/preset-format.md)."
+msgstr "Le preset enregistre le projet et ses composants, pas les fichiers générés : l'autre côté les génère à nouveau à partir du registre. Les brouillons et l'état du constructeur ne voyagent pas avec lui. Voir [Exporter et rouvrir un projet dans l'app](../how-to/export-and-reopen-web.md) et le [Format des presets](../reference/preset-format.md)."
+
+msgid "How this differs from the CLI"
+msgstr "La différence avec la CLI"
+
+msgid "The CLI works on files from the start. `kikx init` writes `kikx.toml` in your project, and each `kikx add`, `kikx setup` or `kikx apply` writes rendered files to the output directory right away. Your project is those files: you commit them, review them in a pull request and edit them like any other code."
+msgstr "La CLI travaille sur des fichiers dès le départ. `kikx init` écrit `kikx.toml` dans votre projet, et chaque `kikx add`, `kikx setup` ou `kikx apply` écrit aussitôt les fichiers générés dans le dossier de sortie. Votre projet, ce sont ces fichiers : vous les commitez, les relisez dans une pull request et les modifiez comme n'importe quel code."
+
+msgid "The web app is the opposite: a workspace in the browser where nothing is written until you export. The two meet through the preset. Export one from the app, then run `kikx setup` to start a new project from it or `kikx apply` to add it to a project you already have. See [Your first project with the CLI](../tutorials/first-project-cli.md) and [Vendoring real files](vendoring.md)."
+msgstr "L'application web fait l'inverse : un espace de travail dans le navigateur où rien n'est écrit avant l'export. Les deux se rejoignent par le preset. Exportez-en un depuis l'application, puis lancez `kikx setup` pour démarrer un nouveau projet à partir de lui, ou `kikx apply` pour l'ajouter à un projet existant. Voir [Votre premier projet avec la CLI](../tutorials/first-project-cli.md) et [Vendoriser de vrais fichiers](vendoring.md)."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[The web app](../reference/web-app.md)"
+msgstr "[L'application web](../reference/web-app.md)"
+
+msgid "[Export and reopen a project in the app](../how-to/export-and-reopen-web.md)"
+msgstr "[Exporter et rouvrir un projet dans l'app](../how-to/export-and-reopen-web.md)"
+
+msgid "[Let kikx show you](../tutorials/teach-me.md)"
+msgstr "[Laissez kikx vous montrer](../tutorials/teach-me.md)"
+
+msgid "[Share a project as a preset](../how-to/presets.md)"
+msgstr "[Partager un projet sous forme de preset](../how-to/presets.md)"

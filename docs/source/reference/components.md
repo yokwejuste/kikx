@@ -8,6 +8,8 @@ Fields with a format are checked before rendering, and their value is normalised
 
 A reference resolves to a built-in when the part after its last `/` equals a built-in name. See [Registry item format](registry-item-format.md#reference-resolution).
 
+With the CLI, you set a field with `--set <field>=<value>` on [`kikx add`](cli.md#kikx-add), using the names in the field tables. In the web app, each component is an entry in the builder's catalog, under one of its stages, and its fields are a form. The **In the app** note under each component gives the stage, the entry and the form fields as they are labelled in the app. See [The web app](web-app.md#component-catalog).
+
 ## Summary
 
 | Reference | Title | Description | Output paths |
@@ -45,6 +47,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `replicas` | no | `1` |  |  |  |
 | `port` | no | `80` |  |  |  |
 
+**In the app:** **Deploy** > **Deployment**. Fields: **Name**, **Image**, **Port**, **Replicas**, **Namespace** (empty uses the project's default namespace) and **Labels** (**Add label**).
+
 ## `k8s/service`
 
 | Property | Value |
@@ -58,6 +62,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 |-|-|-|-|-|-|
 | `port` | no | `80` |  |  |  |
 | `target_port` | no |  |  |  | Container port; defaults to the service port. |
+
+**In the app:** **Deploy** > **Service**. Fields: **Name**, **Port**, **Target port**, **Namespace** and **Labels**.
 
 ## `k8s/ingress`
 
@@ -75,6 +81,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `service` | no |  |  |  | Backend service; defaults to the ingress name. |
 | `port` | no | `80` |  |  |  |
 
+**In the app:** **Deploy** > **Ingress**. Fields: **Name**, **Host**, **Port**, **Path**, **Backend service** (suggests the services in the project), **Namespace** and **Labels**.
+
 ## `terraform/digitalocean`
 
 | Property | Value |
@@ -91,6 +99,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `os_image` | yes | `ubuntu-24-04-x64` |  | `ubuntu-24-04-x64` (Ubuntu 24.04)<br>`ubuntu-22-04-x64` (Ubuntu 22.04)<br>`debian-13-x64` (Debian 13)<br>`fedora-44-x64` (Fedora 44)<br>`rockylinux-9-x64` (Rocky Linux 9)<br>`almalinux-9-x64` (AlmaLinux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
 | `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
+
+**In the app:** **Provision** > **Cloud server**, then choose **DigitalOcean Droplet** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count** and **Private network**.
 
 ## `terraform/hetzner`
 
@@ -110,6 +120,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 | `network_zone` | no | `eu-central` |  | `eu-central` (Europe (fsn1, nbg1, hel1))<br>`us-east` (US East (ash))<br>`us-west` (US West (hil))<br>`ap-southeast` (Asia Pacific (sin)) | Network zone of the private network; it must contain the server location. |
 
+**In the app:** **Provision** > **Cloud server**, then choose **Hetzner Cloud Server** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count**, **Private network** and **Network zone**.
+
 ## `terraform/aws`
 
 | Property | Value |
@@ -127,6 +139,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `count` | no | `1` |  |  |  |
 | `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 | `image_owner` | no | `099720109477` |  |  | AWS account that publishes the image; 099720109477 is Canonical. |
+
+**In the app:** **Provision** > **Cloud server**, then choose **AWS EC2 Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count**, **Private network** and **Image owner**.
 
 ## `terraform/google`
 
@@ -146,6 +160,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 | `project` | yes |  | `my-project` |  |  |
 
+**In the app:** **Provision** > **Cloud server**, then choose **Google Compute Engine Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count**, **Private network** and **Project**.
+
 ## `terraform/scaleway`
 
 | Property | Value |
@@ -162,6 +178,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `os_image` | yes | `ubuntu_noble` |  | `ubuntu_noble` (Ubuntu 24.04)<br>`ubuntu_jammy` (Ubuntu 22.04)<br>`debian_bookworm` (Debian 12)<br>`rockylinux_9` (Rocky Linux 9) | Any image slug the provider accepts; the list is a shortcut. |
 | `count` | no | `1` |  |  |  |
 | `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
+
+**In the app:** **Provision** > **Cloud server**, then choose **Scaleway Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count** and **Private network**.
 
 ## `terraform/linode`
 
@@ -180,6 +198,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `count` | no | `1` |  |  |  |
 | `private_network` | no |  | `10.10.0.0/16` |  | Format `cidr`. Private network range for these servers, in CIDR notation. Leave empty to use the provider's default network. |
 
+**In the app:** **Provision** > **Cloud server**, then choose **Linode Instance** in **Provider**. Fields: **Name**, **Region**, **Size**, **OS image** (with the options above as suggestions), **Count** and **Private network**.
+
 ## `ansible/k8s-bootstrap`
 
 | Property | Value |
@@ -193,6 +213,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 |-|-|-|-|-|-|
 | `hosts` | yes |  |  |  | An inventory group, or all. |
 | `k8s_version` | yes |  | `1.31` |  |  |
+
+**In the app:** **Configure** > **Show more** > **Kubernetes Bootstrap**. Fields: **Name**, **Hosts** (suggests `all` and the inventory groups) and **Kubernetes version**.
 
 ## `ansible/inventory`
 
@@ -208,6 +230,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `hosts` | yes |  |  |  |  |
 | `default_user` | no | `root` |  |  | SSH user written for hosts that don't set one (null on a host omits it). |
 | `default_port` | no | `22` |  |  | SSH port written for hosts that don't set one (null on a host omits it). |
+
+**In the app:** **Inventory** > **Inventory**. Fields: **Name**, then **Hosts** with one row per host (**Host name**, **Address**, **Groups**, and under **Connection & host vars**: **SSH user**, **SSH port**, **SSH key file** and **Host vars**), then **Groups** with **Group name**, **Child groups** and **Group vars**. **Import inventory.ini** fills both from an existing file. The app builds `hosts` for you and has no fields for `default_user` and `default_port`: leave **SSH user** and **SSH port** empty on a host to inherit them from a group's vars. See [Import an existing Ansible inventory](../how-to/import-an-inventory.md).
 
 ## `ansible/group-vars`
 
@@ -226,6 +250,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `yaml` | no |  |  |  | Raw YAML body, written as-is. |
 | `layout` | no | `file` |  | `file` (group_vars/<group>.yml)<br>`dir` (group_vars/<group>/main.yml) |  |
 
+**In the app:** **Inventory** > **Group vars**. Fields: **Group** (suggests the inventory groups), **Folder layout** (ticked writes the `dir` layout) and **Variables**, edited as **Key / value** (`vars`) or **YAML** (`yaml`). The component takes its name from the group. See [Manage group vars as YAML or a folder](../how-to/group-vars.md).
+
 ## `ansible/common-role`
 
 | Property | Value |
@@ -239,6 +265,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 |-|-|-|-|-|-|
 | `timezone` | no | `UTC` |  |  |  |
 
+**In the app:** **Configure** > **Show more** > **Common role**. Fields: **Name** and **Timezone**.
+
 ## `ansible/role`
 
 | Property | Value |
@@ -251,6 +279,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
 | `description` | no | `""` |  |  |  |
+
+**In the app:** **Configure** > **Role skeleton**. Fields: **Name** and **Description**. **Checks** can also create role skeletons for the roles your playbooks use; see [Scaffold the roles your playbooks use](../how-to/scaffold-roles.md).
 
 ## `ansible/playbook`
 
@@ -269,6 +299,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | `plays` | no |  |  |  | JSON list of plays: name, hosts, become, tags, roles, pre_tasks, post_tasks. |
 | `folder` | no |  | `playbooks` |  | Where the file goes. Leave empty for the project root. |
 
+**In the app:** **Configure** > **Playbook**. Fields: **Name**, **Folder**, then one card per play under **Plays** (**Add play**): **Name**, **Runs on (hosts)**, **Roles, in the order they run**, **Role conditions (when:)**, **Pre-tasks & post-tasks**, **Tags (optional)** and **Run as root (become)**. The app always writes `plays`; it doesn't use the legacy `hosts` and `roles` fields. See [Write a multi-play playbook with role conditions](../how-to/multi-play-playbooks.md).
+
 ## `ansible/site`
 
 | Property | Value |
@@ -281,6 +313,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 | Field | Required | Default | Example | Options | Description |
 |-|-|-|-|-|-|
 | `playbooks` | yes |  |  |  |  |
+
+**In the app:** **Configure** > **Site playbook**. Fields: **Name**, then **Imports, in run order**: one row per import with **Import name** and **Playbook path**. Click a playbook next to **from this project:**, or **Add all**, to add rows for the project's playbooks; **Add path** adds an empty row. See [Wire playbooks together with a site playbook](../how-to/site-playbook.md).
 
 ## `ansible/config`
 
@@ -295,6 +329,8 @@ A reference resolves to a built-in when the part after its last `/` equals a bui
 |-|-|-|-|-|-|
 | `inventory` | no |  | `platform-inventory.ini` |  |  |
 | `roles_path` | no | `roles` |  |  |  |
+
+**In the app:** **Configure** > **Show more** > **Ansible config**. Fields: **Name**, **Inventory file** and **Roles path**.
 
 Example: `inventory=platform-inventory.ini` writes `ansible.cfg`:
 
@@ -501,6 +537,7 @@ Example: `[{"name":"Data","path":"playbooks/data.yml"},{"name":"Legacy","path":"
 
 ## See also
 
+- [The web app](web-app.md)
 - [Write a multi-play playbook with role conditions](../how-to/multi-play-playbooks.md)
 - [Manage group vars as YAML or a folder](../how-to/group-vars.md)
 - [Import an existing Ansible inventory](../how-to/import-an-inventory.md)
