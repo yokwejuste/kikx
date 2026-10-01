@@ -608,7 +608,7 @@
       },
       "serviceSelector": {
         "title": "Service {service} selects {selector}, but no deployment's pods carry those labels",
-        "detail": "Its endpoints will be empty. Pods carry app=<deployment name>: name the deployment the same, or set the Service's app label to the deployment name."
+        "detail": "Its endpoints will be empty. Pods carry app='<'deployment name'>': name the deployment the same, or set the Service's app label to the deployment name."
       },
       "ingressBackend": {
         "title": "Ingress {ingress} routes to service \"{backend}\", which isn't in the project"
