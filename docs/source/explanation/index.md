@@ -10,4 +10,5 @@ registry
 rendering
 architecture-diagram
 project-layout
+project-storage
 ```
