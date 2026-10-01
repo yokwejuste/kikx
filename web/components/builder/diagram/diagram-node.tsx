@@ -10,6 +10,7 @@ export const DiagramNode = memo(function DiagramNode({ id, data }: NodeProps) {
   const emphasis = useNodeEmphasis(id);
   return (
     <div
+      data-teach="diagram-node"
       style={{ width: NODE_WIDTH, height: NODE_HEIGHT }}
       className={cn(
         "flex cursor-pointer flex-col justify-center gap-1 rounded-lg border bg-card px-3 shadow-sm transition-[opacity,box-shadow] duration-150",

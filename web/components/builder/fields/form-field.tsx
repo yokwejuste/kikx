@@ -3,6 +3,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { HelpTip } from "@/components/common/help-tip";
 import type { GlossaryTerm } from "@/lib/glossary/terms";
+import { Hint } from "@/components/common/hint";
 
 export function FormField({
   label,
@@ -24,8 +25,8 @@ export function FormField({
         {label}
         <HelpTip term={help} className="-my-1" />
       </FieldLabel>
-      <Input aria-invalid={!!error} {...registration} {...inputProps} />
-      {description && <p className="text-xs text-muted-foreground">{description}</p>}
+      <Input data-teach={`field-${registration.name}`} aria-invalid={!!error} {...registration} {...inputProps} />
+      {description && <Hint>{description}</Hint>}
       <FieldError errors={[error]} />
     </Field>
   );

@@ -1,0 +1,81 @@
+{
+  "title": "Provision servers with Terraform",
+  "description": "Describe cloud servers as Terraform files, read what kikx writes, and see how those servers reach your inventory.",
+  "outcomes": [
+    "Know when to provision and when to skip it",
+    "Pick a provider and fill region, size, image and count",
+    "Read the generated .tf file line by line",
+    "Connect provisioned servers to an inventory and see them in Architecture"
+  ],
+  "chapters": {
+    "start": "Why provision first",
+    "server": "Describe a server",
+    "file": "Read the Terraform file",
+    "second": "A second server",
+    "inventory": "From servers to inventory"
+  },
+  "steps": {
+    "intro": "This lesson is about the very first stage of a project: creating the machines themselves. I'll drive, and you'll take over twice.",
+    "why": "Terraform creates servers at a cloud provider; Ansible then configures them. Machines have to exist before anything can be installed on them, so Provision comes first. If your servers already exist, you simply skip this stage.",
+    "name": "We start with a fresh project.",
+    "start": "Start building opens the builder.",
+    "optional": "The start panel lists the stages in order. Provision is marked optional for exactly the reason above: nothing else depends on kikx creating the servers.",
+    "addServer": "Let's add a cloud server.",
+    "serverName": "The name matters more than it looks. It becomes the Terraform resource name, the file name, and the prefix of every machine Terraform creates.",
+    "provider": "Next, the provider: where the server will live.",
+    "providerList": "This list is not hard coded. It is every Terraform item in the kikx registry, so a new provider in the registry shows up here without a new release.",
+    "providerFields": "Each provider asks for its own fields. Switching provider resets them, because one provider's values rarely make sense at another.",
+    "region": "The region is the data centre the server runs in. Pick one close to your users for lower latency, or one in a given country when data has to stay there. The placeholder shows a value this provider accepts.",
+    "size": "The size is the machine type: how many CPUs and how much memory you pay for. Names differ per provider, and you can resize later by changing this one value.",
+    "image": "The OS image is the system installed on first boot. The list is only a shortcut: any image this provider accepts works.",
+    "count": "Count is how many identical machines to create from this one description. One is fine for now.",
+    "preview": "Here is the file kikx renders, live, as you type. It is plain Terraform you can read, review and commit.",
+    "token": "The API token is declared as a sensitive variable and never written into the file. You pass it at apply time through an environment variable or a gitignored tfvars file.",
+    "resource": "This is the server itself: one resource, named after the component.",
+    "names": "Each machine gets the component name plus its index, starting at zero, so this server becomes web-0. Remember that name: it is how the inventory finds it.",
+    "location": "And here is the region you typed. Each provider names it its own way, kikx maps the field for you.",
+    "add": "Add the server to the project.",
+    "secondWhy": "Real projects rarely have one machine. A database usually lives apart from the web servers, and nothing stops you from using a different provider for it: each file carries its own provider block and its own token.",
+    "secondTask": "Your turn: add a second cloud server named db at DigitalOcean, give it a region and a size, then add it. Stuck? Press Show me.",
+    "rows": "Both servers are now in the project, each in its own .tf file. Terraform reads every file in the folder together, so one apply creates them all.",
+    "handover": "Terraform creates the machines, but Ansible needs to know where they are. kikx does not read Terraform state: after apply, Terraform tells you each server's address, and you list it in an inventory.",
+    "addresses": "Name each host the way Terraform does, web-0, web-1 and so on, and put them in a group named after the server. kikx uses those names to link the two.",
+    "inventoryTask": "Your turn: add an inventory named hosts, with one host web-0 at 203.0.113.10 in the group web, then add it to the project.",
+    "diagram": "Now open Architecture to see how kikx connects the pieces.",
+    "serverNode": "Provisioned servers sit in the Provision lane, with their region and size underneath.",
+    "edge": "This arrow says the web server provisions the web group. kikx draws it because the group shares the server's name and its host, web-0, follows Terraform's naming.",
+    "groupNode": "Here is the group from your inventory, in the Inventory lane, with its host count.",
+    "fallback": "The db server has no group of its own yet, so kikx links it to the top level groups. Add a db group to the inventory and the arrow becomes precise.",
+    "build": "Back to the builder.",
+    "done": "You now know the whole provisioning loop: describe servers, read the Terraform, apply it, then list the machines in an inventory so Ansible can configure them."
+  },
+  "checks": {
+    "secondAdded": "A server named db is in the project",
+    "secondProvider": "It runs at DigitalOcean",
+    "inventoryAdded": "An inventory named hosts is in the project",
+    "hostListed": "It lists the host web-0"
+  },
+  "recap": [
+    "Provision is optional: skip it when your servers already exist.",
+    "Providers come from the registry; each asks for its own region, size and image.",
+    "Tokens stay out of the file as sensitive variables you pass at apply time.",
+    "Machines are named after the server plus an index, which is how kikx links them to inventory groups.",
+    "Architecture shows each server in the Provision lane and draws what it provisions."
+  ],
+  "demo": {
+    "server": "web",
+    "provider": "Hetzner",
+    "region": "fsn1",
+    "size": "cx22",
+    "token": "hcloud_token",
+    "resource": "resource \"hcloud_server\"",
+    "second": "db",
+    "secondProvider": "DigitalOcean",
+    "secondRegion": "ams3",
+    "secondSize": "s-1vcpu-2gb",
+    "inventory": "hosts",
+    "host": "web-0",
+    "address": "203.0.113.10",
+    "group": "web"
+  }
+}

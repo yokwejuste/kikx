@@ -7,11 +7,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { FieldError } from "@/components/ui/field";
 import { Disclosure } from "@/components/common/disclosure";
 import { RowActions } from "@/components/builder/fields/row-actions";
+import { RowInput } from "@/components/builder/fields/row-input";
 import { TagInputField } from "@/components/builder/fields/tag-input-field";
 import type { RowErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { PlayValues } from "@/lib/forms/schemas";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { codeTag } from "@/components/common/rich-tags";
 
 function Captioned({
   caption,
@@ -42,12 +45,12 @@ function RoleConditions({ form, index, play }: { form: UseFormReturn<FormValues>
   return (
     <Disclosure
       variant="dashed"
-      title={t.rich("title", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
+      title={t.rich("title", { code: codeTag })}
       hint={t("hint", { set: countConditions(play), total: play?.roles?.length ?? 0 })}
     >
       <div className="flex flex-col gap-2 px-2.5 pb-2.5">
         {!play?.roles?.length ? (
-          <p className="text-xs text-muted-foreground">{t("empty")}</p>
+          <Hint>{t("empty")}</Hint>
         ) : (
           <Controller
             control={form.control}
@@ -93,9 +96,9 @@ function PrePostTasks({ form, index, play }: { form: UseFormReturn<FormValues>; 
             />
           </Captioned>
         ))}
-        <p className="text-xs text-muted-foreground sm:col-span-2">
-          {t.rich("help", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
-        </p>
+        <Hint className="sm:col-span-2">
+          {t.rich("help", { code: codeTag })}
+        </Hint>
       </div>
     </Disclosure>
   );
@@ -130,11 +133,11 @@ export function PlayCard({
   const register = (field: keyof PlayValues) => form.register(`plays.${index}.${field}` as never);
 
   return (
-    <li className="flex flex-col gap-3 rounded-lg border p-3">
+    <li data-teach="play-card" className="flex flex-col gap-3 rounded-lg border p-3">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium text-muted-foreground">
+        <Hint as="span" className="font-medium">
           {play?.hosts ? t("headingOn", { number: index + 1, hosts: play.hosts }) : t("heading", { number: index + 1 })}
-        </span>
+        </Hint>
         <RowActions
           index={index}
           count={count}
@@ -147,20 +150,22 @@ export function PlayCard({
 
       <div className="grid gap-2 sm:grid-cols-2">
         <Captioned caption={t("name")}>
-          <Input
+          <RowInput
             placeholder={playbookName ? t("namePlaceholder", { name: playbookName }) : t("nameFallback")}
-            aria-invalid={!!errors?.name}
+            invalid={!!errors?.name}
             className="text-foreground"
-            {...register("name")}
+            registration={register("name")}
           />
         </Captioned>
         <Captioned caption={t("hosts")}>
-          <Input
+          <RowInput
+            data-teach="play-hosts"
             list={hostsListId}
             placeholder={defaultHosts}
-            aria-invalid={!!errors?.hosts}
-            className="font-mono text-foreground"
-            {...register("hosts")}
+            invalid={!!errors?.hosts}
+            mono
+            className="text-foreground"
+            registration={register("hosts")}
           />
         </Captioned>
       </div>

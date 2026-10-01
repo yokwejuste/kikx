@@ -1,0 +1,71 @@
+{
+  "title": "Explore a template",
+  "description": "Open a ready-made project, read it stage by stage, follow it on the diagram, change a value and see the files update.",
+  "outcomes": [
+    "Read a template card and know what it will add",
+    "Find any component and its files from the project panel",
+    "Open components from the Architecture diagram",
+    "Change a value, watch the preview and save it"
+  ],
+  "chapters": {
+    "choose": "Pick a template",
+    "project": "Read the project",
+    "architecture": "Follow the diagram",
+    "edit": "Make it yours",
+    "review": "Check and export"
+  },
+  "steps": {
+    "intro": "A template is a complete, working project you can start from instead of a blank page. Let's open one and take it apart, so you know exactly what you get and how to change it.",
+    "gallery": "Templates live on the home page. kikx ships them with the backend, so this list grows as new ones are added. The CLI reads the very same list.",
+    "card": "Each card says what the template builds. The badges are the stages it covers: Provision creates servers, Inventory lists them, Configure sets them up with Ansible. This one covers all three.",
+    "count": "The last line gives the template id, the name you would pass to the CLI, and how many components it adds. Seven components means seven things you can open and edit.",
+    "open": "Opening a template copies it into a fresh project. Nothing links back to the template: from now on, every file is yours to change.",
+    "panel": "The project panel lists everything the template added, grouped by stage in the order you would build it: provision, then inventory, then configure.",
+    "provision": "Provision holds the DigitalOcean droplet. It is Terraform code that creates the server itself, before Ansible ever touches it.",
+    "files": "The arrow next to a component lists the files it writes. Most components write one file; a role writes a whole folder.",
+    "viewFile": "Click a file to read it without leaving the builder.",
+    "fileDialog": "This is exactly what kikx will write into your project folder. It is read only here: you change it through the component's form, and the file follows.",
+    "inventoryStage": "Inventory holds the server list and its group vars: settings every server in the app group shares, like the port the app listens on.",
+    "configureStage": "Configure holds the Ansible side: the config file, the common role, the bootstrap playbook, and site.yml, the single entry point that runs it all.",
+    "openGroupVars": "Your turn: open the group vars component from the project panel.",
+    "groupVarsForm": "The form shows the settings as keys and values. Every server in the group gets them, so you change a port once instead of on each server.",
+    "diagram": "Now the same project as a picture. Architecture draws every component and how they relate.",
+    "lanes": "Each lane is a stage: provision, inventory, playbooks and roles. Hover a node and everything it touches lights up, the rest fades out.",
+    "edges": "Arrows only appear when kikx finds a real link in your values. Here, the playbook targets the app group and runs the common role.",
+    "nodeClick": "A node is also a shortcut. Clicking it opens that component in the builder.",
+    "playbookOpen": "There it is: the playbook is open, ready to edit. No need to hunt for it in the panel.",
+    "backToDiagram": "Back to the diagram.",
+    "openRole": "Your turn: click the common role on the diagram to open it.",
+    "timezone": "The common role prepares every server: base packages, timezone, swap and a welcome message. Its timezone is UTC for now.",
+    "currentLine": "Here is where that value lands, in the role's tasks file. The preview renders with the same templates as the CLI.",
+    "changeTimezone": "Your turn: set the timezone to {timezone} and watch the preview.",
+    "changedLine": "The preview rendered the new line straight away. Nothing is saved yet, so you can try values freely and undo them.",
+    "save": "Save the change to keep it in the project.",
+    "checks": "Before exporting, open Checks. It reads every component together and looks for things that do not line up.",
+    "checksWhy": "This template is clean. If you renamed the app group but not its group vars, or pointed a playbook at a group that does not exist, Checks would tell you here.",
+    "export": "When you are happy, Export takes the project home.",
+    "exportOptions": "Three ways out: the files as a zip, a preset that reopens this exact project later, or the CLI command that renders it on your machine.",
+    "done": "You opened a template, read it stage by stage, followed it on the diagram, changed a value and checked it. Keep adapting this one, or start your own."
+  },
+  "checks": {
+    "groupVarsOpen": "The group vars component is open",
+    "roleOpen": "The common role is open",
+    "typed": "The timezone field shows the new value",
+    "previewed": "The preview shows the new timezone"
+  },
+  "recap": [
+    "Template cards show the stages and the number of components you will get.",
+    "The project panel groups components by stage and shows the files each one writes.",
+    "Architecture shows real links between components; clicking a node opens it.",
+    "Every change renders live in the preview; save to keep it.",
+    "Checks catches broken links before you export."
+  ],
+  "demo": {
+    "template": "single-server",
+    "groupVars": "group_vars/app",
+    "playbook": "bootstrap",
+    "role": "common",
+    "current": "UTC",
+    "timezone": "Europe/Paris"
+  }
+}

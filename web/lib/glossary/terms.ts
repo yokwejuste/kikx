@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE } from "@/lib/i18n/config";
+import { docsHref } from "@/lib/i18n/docs";
 import type { CatalogKind, StageId } from "@/lib/registry/catalog";
 
 export const GLOSSARY = {
@@ -31,6 +31,5 @@ export const KIND_TERMS: Partial<Record<CatalogKind, GlossaryTerm>> = {
 };
 
 export function glossaryDocsHref(term: GlossaryTerm, locale: string): string {
-  const prefix = locale === DEFAULT_LOCALE ? "" : `${locale}/`;
-  return `/docs/${prefix}${GLOSSARY[term]}.html`;
+  return docsHref(GLOSSARY[term], locale);
 }

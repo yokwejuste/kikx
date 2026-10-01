@@ -38,7 +38,7 @@ export function PlaysFields({
 
       <Datalist id={hostsListId} options={["all", ...groupNames]} />
 
-      <ol className="flex flex-col gap-3">
+      <ol data-teach="plays" className="flex flex-col gap-3">
         {plays.fields.map((field, index) => (
           <PlayCard
             key={field.id}
@@ -58,7 +58,7 @@ export function PlaysFields({
       </ol>
       <FieldError errors={[errors.plays]} />
 
-      <Button type="button" variant="outline" size="sm" className="w-fit" onClick={() => plays.append(emptyPlay())}>
+      <Button data-teach="add-play" variant="outline" size="sm" className="w-fit" onClick={() => plays.append(emptyPlay())}>
         <Plus />
         {t("add")}
       </Button>

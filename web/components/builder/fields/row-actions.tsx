@@ -1,23 +1,12 @@
 import { ArrowDown, ArrowUp, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { IconButton } from "@/components/common/icon-button";
 import { cn } from "@/lib/utils";
 
 export function RemoveButton({
   className,
-  size = "icon",
   ...props
-}: Omit<React.ComponentProps<typeof Button>, "type" | "variant" | "children">) {
-  return (
-    <Button
-      type="button"
-      variant="ghost"
-      size={size}
-      className={cn("text-muted-foreground hover:text-destructive", className)}
-      {...props}
-    >
-      <X />
-    </Button>
-  );
+}: Omit<React.ComponentProps<typeof IconButton>, "icon" | "variant" | "children">) {
+  return <IconButton icon={X} className={cn("hover:text-destructive", className)} {...props} />;
 }
 
 export function RowActions({
@@ -37,27 +26,15 @@ export function RowActions({
 }) {
   return (
     <div className="flex gap-0.5">
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon-sm"
-        aria-label={labels.up}
-        disabled={index === 0}
-        onClick={() => onMove(index, index - 1)}
-      >
-        <ArrowUp />
-      </Button>
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon-sm"
-        aria-label={labels.down}
+      <IconButton icon={ArrowUp} size="sm" label={labels.up} disabled={index === 0} onClick={() => onMove(index, index - 1)} />
+      <IconButton
+        icon={ArrowDown}
+        size="sm"
+        label={labels.down}
         disabled={index === count - 1}
         onClick={() => onMove(index, index + 1)}
-      >
-        <ArrowDown />
-      </Button>
-      <RemoveButton size="icon-sm" aria-label={labels.remove} disabled={!canRemove} onClick={onRemove} />
+      />
+      <RemoveButton size="sm" label={labels.remove} disabled={!canRemove} onClick={onRemove} />
     </div>
   );
 }

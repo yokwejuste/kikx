@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 10:02+0100\n"
+"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Let kikx show you"
+msgstr "Laissez kikx vous montrer"
+
+msgid "**Teach me** is a guided lesson inside the dashboard. Instead of reading the steps, you watch kikx do them: a pointer moves across the page, types into the forms and clicks the buttons, while a caption explains what is happening and why."
+msgstr "« Apprends-moi » est une leçon guidée dans le tableau de bord. Au lieu de lire les étapes, vous regardez kikx les faire : un pointeur se déplace sur la page, tape dans les formulaires et clique sur les boutons, pendant qu'une légende explique ce qui se passe et pourquoi."
+
+msgid "Start a lesson"
+msgstr "Lancer une leçon"
+
+msgid "In the dashboard, click **Teach me** in the top bar and pick a lesson. The button shows on wide screens only, because the lessons use the full builder layout."
+msgstr "Dans le tableau de bord, cliquez sur « Apprends-moi » dans la barre du haut et choisissez une leçon. Le bouton n'apparaît que sur les grands écrans, car les leçons utilisent toute la mise en page de l'éditeur."
+
+msgid "From this page, use the **Start this lesson** links below. They open the dashboard and start the lesson straight away."
+msgstr "Depuis cette page, utilisez les liens « Lancer cette leçon » ci-dessous. Ils ouvrent le tableau de bord et démarrent la leçon tout de suite."
+
+msgid "The lessons"
+msgstr "Les leçons"
+
+msgid "Build your first project"
+msgstr "Construire votre premier projet"
+
+msgid "Name a project, add a server with its address and group, give that group a setting, then look at the checklist, **Checks**, **Architecture** and the **Export** menu. It takes about two minutes."
+msgstr "Nommez un projet, ajoutez un serveur avec son adresse et son groupe, donnez un réglage à ce groupe, puis parcourez la liste de démarrage, « Vérifications », « Architecture » et le menu « Exporter ». Comptez environ deux minutes."
+
+msgid "[Start this lesson](teach:firstProject)"
+msgstr "[Lancer cette leçon](teach:firstProject)"
+
+msgid "Start from a template"
+msgstr "Partir d'un modèle"
+
+msgid "Open a ready-made project, find what it added, open one of its components and see the files it writes, then look at **Checks**, **Architecture** and **Export**. It takes about a minute."
+msgstr "Ouvrez un projet tout prêt, repérez ce qu'il a ajouté, ouvrez l'un de ses composants et voyez les fichiers qu'il écrit, puis parcourez « Vérifications », « Architecture » et « Exporter ». Comptez environ une minute."
+
+msgid "[Start this lesson](teach:template)"
+msgstr "[Lancer cette leçon](teach:template)"
+
+msgid "While a lesson plays"
+msgstr "Pendant une leçon"
+
+msgid "Your own clicks are paused, so you can't knock the lesson off course by accident."
+msgstr "Vos propres clics sont suspendus, pour que vous ne fassiez pas dérailler la leçon par accident."
+
+msgid "**Pause** gives you control back. Look around, try things, then press **Resume** to carry on from the same step."
+msgstr "« Pause » vous rend la main. Explorez, essayez, puis appuyez sur « Reprendre » pour continuer à la même étape."
+
+msgid "**Skip ahead** moves on without waiting for the caption."
+msgstr "« Passer » avance sans attendre la fin de la légende."
+
+msgid "**Esc** or the close button stops the lesson."
+msgstr "Échap ou le bouton de fermeture arrête la leçon."
+
+msgid "If you changed the page while it was paused and the lesson can't find what it needs next, it says so. Put the page back and press **Resume**, or stop the lesson."
+msgstr "Si vous avez modifié la page pendant la pause et que la leçon ne trouve plus l'élément suivant, elle vous le dit. Remettez la page comme avant et appuyez sur « Reprendre », ou arrêtez la leçon."
+
+msgid "If your system asks for reduced motion, the pointer jumps instead of gliding and text appears at once."
+msgstr "Si votre système demande de réduire les animations, le pointeur saute au lieu de glisser et le texte s'affiche d'un coup."
+
+msgid "Your project is safe"
+msgstr "Votre projet est en sécurité"
+
+msgid "A lesson runs on an empty project. Before it starts, kikx sets your current project and its unsaved drafts aside. When the lesson ends, **Back to my project** puts them back, and so does stopping the lesson or reloading the page halfway through. If you had no project, **Keep this project** keeps the one the lesson built."
+msgstr "Une leçon se déroule sur un projet vide. Avant de commencer, kikx met de côté votre projet actuel et ses brouillons non enregistrés. À la fin de la leçon, « Retour à mon projet » les remet en place, tout comme arrêter la leçon ou recharger la page en cours de route. Si vous n'aviez pas de projet, « Garder ce projet » conserve celui que la leçon a construit."
+
+msgid "Nothing is downloaded during a lesson: it opens the **Export** menu only to show you what is in it."
+msgstr "Rien n'est téléchargé pendant une leçon : elle ouvre le menu « Exporter » uniquement pour vous montrer son contenu."

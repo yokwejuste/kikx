@@ -22,6 +22,9 @@ msgstr "Dans ce tutoriel, vous allez utiliser le tableau de bord de kikx pour co
 msgid "It takes about twenty minutes."
 msgstr "Comptez environ vingt minutes."
 
+msgid "Prefer to watch first? [Let kikx show you](teach-me.md) plays a two-minute lesson in the dashboard that builds a smaller project on its own."
+msgstr "Vous préférez regarder d'abord ? [Laissez kikx vous montrer](teach-me.md) joue une leçon de deux minutes dans le tableau de bord, qui construit toute seule un projet plus petit."
+
 msgid "Before you start"
 msgstr "Avant de commencer"
 
@@ -40,7 +43,8 @@ msgstr "La dernière étape utilise aussi la CLI `kikx`. Si vous ne l'avez pas e
 msgid "Open the dashboard"
 msgstr "Ouvrir le tableau de bord"
 
-msgid "Open the kikx dashboard in your browser. You should see the kikx home page with a form headed **Or build it here**. Above it, **Start from a template** offers ready-made projects; in this tutorial you'll start from an empty one instead."
+#, fuzzy
+msgid "Open the kikx dashboard in your browser. You should see the kikx home page with a form headed **Blank project**. Above it, **Start from a template** offers ready-made projects; in this tutorial you'll start from an empty one instead."
 msgstr "Ouvrez le tableau de bord kikx dans votre navigateur. Vous devriez voir la page d'accueil de kikx avec un formulaire intitulé « Or build it here ». Au-dessus, « Start from a template » propose des projets prêts à l'emploi ; dans ce tutoriel, vous partirez plutôt d'un projet vide."
 
 msgid "To work on kikx itself with a local copy of the dashboard, see [Run kikx locally](../contributing/run-locally.md)."
@@ -49,20 +53,8 @@ msgstr "Pour travailler sur kikx lui-même avec une copie locale du tableau de b
 msgid "Create the project"
 msgstr "Créer le projet"
 
-msgid "Fill in the form:"
-msgstr "Remplissez le formulaire :"
-
-msgid "**Project name**: `platform`"
-msgstr "« Project name » : `platform`"
-
-msgid "**Default namespace**: leave it as `default`"
-msgstr "« Default namespace » : laissez `default`"
-
-msgid "**Output directory**: `infra`"
-msgstr "« Output directory » : `infra`"
-
-msgid "Click **Start building**."
-msgstr "Cliquez sur « Start building »."
+msgid "In **Project name**, type `platform` and click **Start building**. The default namespace and output directory are filled in for you; you can change either later from the builder."
+msgstr ""
 
 msgid "You're now in the builder. It has three columns: the stages on the left (Provision, Inventory, Configure, Deploy, Custom), the editor in the middle, and the **Project** panel on the right, which says **Nothing yet. Most projects start with an Inventory.** Here is the same layout on a much larger project:"
 msgstr "Vous êtes maintenant dans l'éditeur de projet. Il comporte trois colonnes : les étapes à gauche (« Provision », « Inventory », « Configure », « Deploy », « Custom »), l'éditeur au centre, et le panneau « Project » à droite, qui indique « Nothing yet. Most projects start with an Inventory. » Voici la même disposition sur un projet beaucoup plus grand :"
@@ -73,7 +65,8 @@ msgstr "![L'éditeur de projet : les étapes à gauche, l'éditeur au centre, le
 msgid "The builder: stages on the left, the editor in the middle, the project on the right"
 msgstr "L'éditeur de projet : les étapes à gauche, l'éditeur au centre, le projet à droite"
 
-msgid "Above the columns you see the project name, the badges `ns: default` and `infra/`, and three tabs: **Build**, **Architecture** and **Checks**."
+#, fuzzy
+msgid "Above the columns you see the project name, the badges `ns: default` and `infra/`, and three tabs: **Build**, **Architecture** and **Checks**. Click either badge to change the default namespace or the output directory. This tutorial keeps both as they are."
 msgstr "Au-dessus des colonnes, vous devriez voir le nom du projet, les badges `ns: default` et `infra/`, et trois onglets : « Build », « Architecture » et « Checks »."
 
 msgid "Import an inventory"
@@ -196,7 +189,8 @@ msgstr "Ajouter une configuration Ansible"
 msgid "The playbook lives in `playbooks/`, and its roles will live in `roles/` at the top of `infra/`. Ansible looks for roles next to the playbook, so it needs an `ansible.cfg` that points at them."
 msgstr "Le playbook se trouve dans `playbooks/`, et ses rôles se trouveront dans `roles/`, à la racine de `infra/`. Ansible cherche les rôles à côté du playbook : il lui faut donc un `ansible.cfg` qui pointe vers eux."
 
-msgid "Under **Configure**, click **Ansible config**. The editor switches to **New ansible config**, and **Name** already says `ansible`."
+#, fuzzy
+msgid "Under **Configure**, click **Show more**, then **Ansible config**. The editor switches to **New ansible config**, and **Name** already says `ansible`."
 msgstr "Sous « Configure », cliquez sur « Ansible config ». L'éditeur passe à « New ansible config », et « Name » contient déjà `ansible`."
 
 msgid "In **Inventory file**, type `platform-inventory.ini`. The field shows it in grey before you type; that's only a hint, so type it."
@@ -292,7 +286,8 @@ msgstr "La vue « Architecture » d'un projet plus grand, avec des nœuds en cou
 msgid "Download the project"
 msgstr "Télécharger le projet"
 
-msgid "Click **Download .zip** at the top right. Your browser saves `platform.zip`. Unzip it into an empty directory and look inside:"
+#, fuzzy
+msgid "Open **Export** at the top right and choose **Files (.zip)**. Your browser saves `platform.zip`. Unzip it into an empty directory and look inside:"
 msgstr "Cliquez sur « Download .zip » en haut à droite. Votre navigateur enregistre `platform.zip`. Décompressez-le dans un répertoire vide et regardez son contenu :"
 
 msgid "Nothing was written to your disk until now: the project lived in the browser tab."
@@ -307,7 +302,8 @@ msgstr "L'utilisateur vient de `[platform:vars]` et les réglages des group vars
 msgid "Download the preset"
 msgstr "Télécharger le preset"
 
-msgid "Go back to the dashboard and the **Build** tab. At the bottom of the **Project** panel, click **Download preset**. Your browser saves `platform.kikx-preset.json`, and the button is replaced by two commands:"
+#, fuzzy
+msgid "Go back to the dashboard, open **Export** and choose **Preset (.kikx-preset.json)**. Your browser saves `platform.kikx-preset.json`. **Export** > **CLI command** shows the two commands that run it:"
 msgstr "Revenez au tableau de bord, dans l'onglet « Build ». En bas du panneau « Project », cliquez sur « Download preset ». Votre navigateur enregistre `platform.kikx-preset.json`, et vous devriez voir le bouton remplacé par deux commandes :"
 
 msgid "The preset is the recipe for your project, not the files themselves. Rebuild the project from it with the CLI, in a new empty directory that contains only the preset:"
@@ -349,3 +345,17 @@ msgstr "partir d'un projet prêt à l'emploi plutôt que d'une page vide : [Dém
 msgid "how the edges are chosen: [How the architecture diagram is drawn](../explanation/architecture-diagram.md)."
 msgstr "comment les arêtes sont choisies : [Comment le diagramme d'architecture est dessiné](../explanation/architecture-diagram.md)."
 
+#~ msgid "Fill in the form:"
+#~ msgstr "Remplissez le formulaire :"
+
+#~ msgid "**Project name**: `platform`"
+#~ msgstr "« Project name » : `platform`"
+
+#~ msgid "**Default namespace**: leave it as `default`"
+#~ msgstr "« Default namespace » : laissez `default`"
+
+#~ msgid "**Output directory**: `infra`"
+#~ msgstr "« Output directory » : `infra`"
+
+#~ msgid "Click **Start building**."
+#~ msgstr "Cliquez sur « Start building »."

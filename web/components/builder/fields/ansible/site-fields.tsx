@@ -3,14 +3,16 @@
 import { useFieldArray, useWatch, type UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { FieldError } from "@/components/ui/field";
 import { SectionHeader } from "@/components/builder/fields/section-header";
 import { RowActions } from "@/components/builder/fields/row-actions";
+import { RowInput } from "@/components/builder/fields/row-input";
 import { AddWithSuggestions } from "@/components/builder/fields/add-with-suggestions";
 import type { ListErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { SiteImportValues } from "@/lib/forms/schemas";
+import { Hint } from "@/components/common/hint";
+import { codeTag } from "@/components/common/rich-tags";
 
 export function SiteFields({
   form,
@@ -30,7 +32,7 @@ export function SiteFields({
     <section className="flex flex-col gap-3">
       <SectionHeader
         title={t("title")}
-        description={t.rich("body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
+        description={t.rich("body", { code: codeTag })}
       />
 
       {imports.fields.length > 0 && (
@@ -40,19 +42,19 @@ export function SiteFields({
             return (
               <li key={field.id} className="flex flex-col gap-1 rounded-lg border p-2">
                 <div className="grid items-center gap-2 sm:grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_auto]">
-                  <span className="text-center text-xs text-muted-foreground">{index + 1}</span>
-                  <Input
+                  <Hint as="span" className="text-center">{index + 1}</Hint>
+                  <RowInput
                     placeholder={t("namePlaceholder")}
-                    aria-label={t("nameLabel")}
-                    aria-invalid={!!rowErrors?.name}
-                    {...form.register(`imports.${index}.name` as never)}
+                    label={t("nameLabel")}
+                    invalid={!!rowErrors?.name}
+                    registration={form.register(`imports.${index}.name` as never)}
                   />
-                  <Input
+                  <RowInput
                     placeholder={t("pathPlaceholder")}
-                    aria-label={t("pathLabel")}
-                    aria-invalid={!!rowErrors?.path}
-                    className="font-mono"
-                    {...form.register(`imports.${index}.path` as never)}
+                    label={t("pathLabel")}
+                    invalid={!!rowErrors?.path}
+                    mono
+                    registration={form.register(`imports.${index}.path` as never)}
                   />
                   <RowActions
                     index={index}
@@ -78,7 +80,7 @@ export function SiteFields({
         onPick={(path) => imports.append(notImported.find((p) => p.path === path)!)}
       >
         {notImported.length > 1 && (
-          <Button type="button" variant="link" size="sm" onClick={() => imports.append(notImported)}>
+          <Button variant="link" size="sm" onClick={() => imports.append(notImported)}>
             {t("addAll")}
           </Button>
         )}

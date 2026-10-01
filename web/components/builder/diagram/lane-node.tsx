@@ -1,5 +1,6 @@
 import type { NodeProps } from "@xyflow/react";
 import { cn } from "@/lib/utils";
+import { SectionLabel } from "@/components/common/section-label";
 
 interface LaneNodeData {
   [key: string]: unknown;
@@ -16,9 +17,9 @@ export function LaneNode({ data }: NodeProps) {
       style={{ width, height }}
       className={cn("pointer-events-none border-x border-border/60", shaded ? "bg-muted/25" : "bg-transparent")}
     >
-      <div className="border-b border-border/60 px-4 py-2.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+      <SectionLabel as="div" className="border-b border-border/60 px-4 py-2.5">
         {label}
-      </div>
+      </SectionLabel>
     </div>
   );
 }

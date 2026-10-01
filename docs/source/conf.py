@@ -13,6 +13,8 @@ copyright = "2026 Steve Yonkeu"
 
 extensions = ["myst_parser", "sphinx_design", "sphinx_copybutton", "sphinxext.opengraph"]
 
+APP_URL = os.environ.get("KIKX_APP_URL", "/")
+
 ogp_site_url = os.environ.get("KIKX_DOCS_URL") or os.environ.get("READTHEDOCS_CANONICAL_URL", "")
 ogp_site_name = "kikx"
 ogp_image = "_static/kikx-og.png"
@@ -30,6 +32,12 @@ exclude_patterns = ["_build", "_pygments", "Thumbs.db", ".DS_Store"]
 
 myst_enable_extensions = ["colon_fence", "attrs_block"]
 myst_heading_anchors = 4
+myst_url_schemes = {
+    "http": None,
+    "https": None,
+    "mailto": None,
+    "teach": {"url": f"{APP_URL}?teach={{{{path}}}}", "classes": ["kikx-teach-link"]},
+}
 
 API_CHANGES = ["added", "changed", "deprecated", "removed"]
 
@@ -94,7 +102,7 @@ html_context = {
         ["fr", "Français"],
     ],
     "default_language": "en",
-    "app_url": os.environ.get("KIKX_APP_URL", "/"),
+    "app_url": APP_URL,
 }
 html_sidebars = {
     "**": [

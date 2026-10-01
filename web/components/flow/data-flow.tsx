@@ -14,7 +14,7 @@ import {
   type Edge,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useTheme } from "next-themes";
+import { useColorMode } from "@/lib/theme/use-color-mode";
 import { useTranslations } from "next-intl";
 import { Terminal, Globe, Cog, Layers, FileJson2, FileCode2 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -130,7 +130,7 @@ type PathKind = keyof typeof PATHS;
 
 export function DataFlow() {
   const t = useTranslations("flow");
-  const { resolvedTheme } = useTheme();
+  const colorMode = useColorMode();
   const [selected, setSelected] = useState<PathKind>("cli");
 
   const activeEdgeIds = useMemo(() => new Set<string>(PATHS[selected]), [selected]);
@@ -220,7 +220,7 @@ export function DataFlow() {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
-            colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+            colorMode={colorMode}
             fitView
             fitViewOptions={{ padding: 0.2 }}
             proOptions={{ hideAttribution: true }}

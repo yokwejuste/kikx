@@ -65,7 +65,7 @@ function ProjectSettingsForm({
       </FieldGroup>
       <DialogFooter>
         <DialogClose asChild>
-          <Button type="button" variant="outline">
+          <Button variant="outline">
             {t("cancel")}
           </Button>
         </DialogClose>

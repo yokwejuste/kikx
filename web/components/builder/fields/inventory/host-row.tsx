@@ -2,16 +2,17 @@
 
 import type { UseFormReturn } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/input";
 import { FieldError } from "@/components/ui/field";
 import { Disclosure } from "@/components/common/disclosure";
 import { RemoveButton } from "@/components/builder/fields/row-actions";
+import { RowInput } from "@/components/builder/fields/row-input";
 import { TagInputField } from "@/components/builder/fields/tag-input-field";
 import type { RowErrors } from "@/components/builder/fields/field-errors";
 import { cn } from "@/lib/utils";
 import { parseKeyValuePairs } from "@/lib/ansible/inventory";
 import type { FormValues } from "@/lib/forms/component-forms";
 import type { InventoryHostValues } from "@/lib/forms/schemas";
+import { Hint } from "@/components/common/hint";
 
 export const HOST_COLUMNS = "sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.6fr)_2rem]";
 
@@ -49,21 +50,23 @@ export function HostRow({
   const register = (field: keyof InventoryHostValues) => form.register(`hosts.${index}.${field}` as never);
 
   return (
-    <div className="rounded-lg border">
+    <div data-teach="host-row" className="rounded-lg border">
       <div className={cn("grid gap-2 p-2", HOST_COLUMNS)}>
-        <Input
+        <RowInput
+          data-teach="host-name"
           placeholder={t("namePlaceholder")}
-          aria-label={t("nameLabel")}
-          aria-invalid={!!errors?.name}
-          className="font-mono"
-          {...register("name")}
+          label={t("nameLabel")}
+          invalid={!!errors?.name}
+          mono
+          registration={register("name")}
         />
-        <Input
+        <RowInput
+          data-teach="host-address"
           placeholder={t("addressPlaceholder")}
-          aria-label={t("addressLabel")}
-          aria-invalid={!!errors?.ansibleHost}
-          className="font-mono"
-          {...register("ansibleHost")}
+          label={t("addressLabel")}
+          invalid={!!errors?.ansibleHost}
+          mono
+          registration={register("ansibleHost")}
         />
         <TagInputField
           form={form}
@@ -73,30 +76,31 @@ export function HostRow({
           placeholder={t("groupsPlaceholder")}
           invalid={!!errors?.groups}
         />
-        <RemoveButton aria-label={t("remove")} disabled={!canRemove} onClick={onRemove} />
+        <RemoveButton label={t("remove")} disabled={!canRemove} onClick={onRemove} />
       </div>
       <FieldError className="px-3 pb-2 text-xs" errors={[errors?.name, errors?.ansibleHost, errors?.groups]} />
 
       <Disclosure title={t("connection")} hint={summary}>
         <div className="grid gap-2 px-3 pb-3 sm:grid-cols-3">
-          <Input placeholder={t("sshUserPlaceholder")} aria-label={t("sshUserLabel")} {...register("ansibleUser")} />
-          <Input
+          <RowInput data-teach="host-user" placeholder={t("sshUserPlaceholder")} label={t("sshUserLabel")} registration={register("ansibleUser")} />
+          <RowInput
             type="number"
             placeholder={t("sshPortPlaceholder")}
-            aria-label={t("sshPortLabel")}
-            aria-invalid={!!errors?.ansiblePort}
-            {...register("ansiblePort")}
+            label={t("sshPortLabel")}
+            invalid={!!errors?.ansiblePort}
+            registration={register("ansiblePort")}
           />
-          <Input placeholder={t("sshKeyPlaceholder")} aria-label={t("sshKeyLabel")} {...register("sshKeyFile")} />
-          <Input
+          <RowInput placeholder={t("sshKeyPlaceholder")} label={t("sshKeyLabel")} registration={register("sshKeyFile")} />
+          <RowInput
             placeholder={t("varsPlaceholder")}
-            aria-label={t("varsLabel")}
-            className="font-mono text-xs sm:col-span-3"
-            {...register("vars")}
+            label={t("varsLabel")}
+            mono
+            className="text-xs sm:col-span-3"
+            registration={register("vars")}
           />
-          <p className="text-xs text-muted-foreground sm:col-span-3">
+          <Hint className="sm:col-span-3">
             {t("inheritNote")}
-          </p>
+          </Hint>
           <FieldError className="text-xs sm:col-span-3" errors={[errors?.ansiblePort]} />
         </div>
       </Disclosure>

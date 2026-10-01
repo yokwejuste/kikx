@@ -11,9 +11,9 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useTheme } from "next-themes";
+import { useColorMode } from "@/lib/theme/use-color-mode";
 import { useTranslations } from "next-intl";
-import { Download, LoaderCircle, Maximize2, Minimize2 } from "lucide-react";
+import { Download, Maximize2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
 import { DiagramIllustration } from "@/components/illustrations/illustrations";
@@ -28,6 +28,8 @@ import { buildArchitectureGraph } from "@/lib/architecture/graph";
 import { downloadDrawio } from "@/lib/architecture/drawio";
 import { useProject, type AddedComponent } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { Spinner } from "@/components/common/spinner";
 
 const nodeTypes = { diagram: DiagramNode, lane: LaneNode };
 const edgeTypes = { routed: RoutedEdge };
@@ -45,7 +47,7 @@ function FitWhenReady({ layoutKey }: { layoutKey: string }) {
 }
 
 export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent) => void }) {
-  const { resolvedTheme } = useTheme();
+  const colorMode = useColorMode();
   const t = useTranslations("diagram");
   const { details, components } = useProject();
   const graph = useMemo(() => buildArchitectureGraph(components, t), [components, t]);
@@ -73,12 +75,11 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
       <div className="flex flex-wrap items-center justify-between gap-3">
         <DiagramLegend />
         <div className="flex gap-2">
-          <Button type="button" variant="outline" size="sm" onClick={() => setExpanded((e) => !e)}>
+          <Button variant="outline" size="sm" onClick={() => setExpanded((e) => !e)}>
             {expanded ? <Minimize2 /> : <Maximize2 />}
             {expanded ? t("collapse") : t("expand")}
           </Button>
           <Button
-            type="button"
             variant="outline"
             size="sm"
             disabled={!layout}
@@ -98,7 +99,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
       >
         {!layout && !failed && (
           <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <LoaderCircle className="size-4 animate-spin" />
+            <Spinner />
             {t("arranging")}
           </div>
         )}
@@ -117,7 +118,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
               edges={edges}
               nodeTypes={nodeTypes}
               edgeTypes={edgeTypes}
-              colorMode={resolvedTheme === "dark" ? "dark" : "light"}
+              colorMode={colorMode}
               fitView
               fitViewOptions={{ padding: 0.08 }}
               minZoom={0.1}
@@ -140,9 +141,9 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
           </NeighbourhoodContext.Provider>
         )}
       </div>
-      <p className="text-xs text-muted-foreground">
+      <Hint>
         {t("hint")}
-      </p>
+      </Hint>
     </div>
   );
 }

@@ -18,6 +18,9 @@ import { CATALOG, catalogStage, describeComponent } from "@/lib/registry/catalog
 import { useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
 import type { ProjectIssue } from "@/lib/project/checks";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { SectionLabel } from "@/components/common/section-label";
+import { codeTag } from "@/components/common/rich-tags";
 
 export function ProjectPanel({
   activeId,
@@ -48,14 +51,14 @@ export function ProjectPanel({
     <div className="flex flex-col rounded-xl border bg-card">
       <div className="border-b px-4 py-3">
         <h2 className="text-sm font-medium">{t("title")}</h2>
-        <p className="text-xs text-muted-foreground">
+        <Hint>
           {t.rich("summary", {
             components: components.length,
             files: fileCount,
             dir: `${details?.outputDir}/`,
-            code: (chunks) => <code className="font-mono">{chunks}</code>,
+            code: codeTag,
           })}
-        </p>
+        </Hint>
         {(issueCounts.error > 0 || issueCounts.warning > 0) && (
           <button
             type="button"
@@ -86,9 +89,9 @@ export function ProjectPanel({
           <div className="flex flex-col gap-3">
             {byStage.map(({ stage, items }) => (
               <div key={stage.id}>
-                <p className="px-2 pb-1 text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">
+                <SectionLabel className="px-2 pb-1 text-[10px]">
                   {text.stage(stage.id).label}
-                </p>
+                </SectionLabel>
                 <ul className="flex flex-col gap-0.5">
                   {items.map((component) => (
                     <ComponentRow

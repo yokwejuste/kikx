@@ -1,3 +1,5 @@
+import { Hint } from "@/components/common/hint";
+
 export function SectionHeader({
   title,
   description,
@@ -11,7 +13,7 @@ export function SectionHeader({
     <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h3 className="text-sm font-medium">{title}</h3>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <Hint>{description}</Hint>
       </div>
       {children && <div className="flex shrink-0 gap-2">{children}</div>}
     </div>

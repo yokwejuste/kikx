@@ -11,7 +11,6 @@ export function CopyButton({
   const t = useTranslations("common");
   return (
     <Button
-      type="button"
       variant="ghost"
       onClick={() => {
         navigator.clipboard.writeText(text);

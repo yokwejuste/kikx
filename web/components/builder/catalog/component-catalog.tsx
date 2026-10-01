@@ -10,6 +10,8 @@ import { STAGE_TERMS } from "@/lib/glossary/terms";
 import { CATALOG, catalogStage, describeComponent, type CatalogKind, type StageId } from "@/lib/registry/catalog";
 import type { AddedComponent } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { SectionLabel } from "@/components/common/section-label";
 
 const OPEN_STAGES_KEY = "kikx:catalog:stages";
 const ADVANCED_STAGES_KEY = "kikx:catalog:advanced";
@@ -33,7 +35,7 @@ function writeStages(key: string, stages: OpenStages) {
 function CountBadge({ count }: { count: number }) {
   if (count === 0) return null;
   return (
-    <span className="rounded-full bg-volt-soft px-1.5 text-[10px] font-medium text-volt-soft-foreground tabular-nums">
+    <span data-teach="catalog-count" className="rounded-full bg-volt-soft px-1.5 text-[10px] font-medium text-volt-soft-foreground tabular-nums">
       {count}
     </span>
   );
@@ -95,6 +97,7 @@ export function ComponentCatalog({
         return (
           <div key={stage.id} className="flex flex-col gap-1">
             <button
+              data-teach={`stage-${stage.id}`}
               type="button"
               aria-expanded={open}
               aria-controls={panelId}
@@ -109,21 +112,21 @@ export function ComponentCatalog({
               >
                 {stageCount > 0 ? <CircleCheck className="size-3" /> : stageIndex + 1}
               </span>
-              <span className="min-w-0 flex-1 truncate text-xs font-semibold tracking-wide uppercase">{stageText.label}</span>
+              <SectionLabel as="span" className="min-w-0 flex-1 truncate text-foreground">{stageText.label}</SectionLabel>
               <CountBadge count={stageCount} />
               <ChevronDown
                 className={cn("size-4 shrink-0 text-muted-foreground transition-transform", !open && "-rotate-90")}
               />
             </button>
             <div id={panelId} hidden={!open}>
-              <p className="mb-1 px-2 pl-9 text-xs leading-snug text-muted-foreground">{stageText.hint} <HelpTip term={STAGE_TERMS[stage.id]} className="-my-1" /></p>
+              <Hint className="mb-1 px-2 pl-9 leading-snug">{stageText.hint} <HelpTip term={STAGE_TERMS[stage.id]} className="-my-1" /></Hint>
               <ul id={advancedId} className="flex flex-col">
                 {visible.map(({ kind }) => {
                   const entry = text.entry(kind);
                   const count = counts.get(entry.kind) ?? 0;
                   const active = entry.kind === selected;
                   return (
-                    <li key={entry.kind}>
+                    <li key={entry.kind} data-teach={`catalog-${entry.kind}`}>
                       <CatalogEntryButton
                         icon={entry.icon}
                         label={entry.label}
@@ -139,6 +142,7 @@ export function ComponentCatalog({
               </ul>
               {advanced.length > 0 && !inUse && (
                 <button
+                  data-teach={`more-${stage.id}`}
                   type="button"
                   aria-expanded={showAdvanced}
                   aria-controls={advancedId}

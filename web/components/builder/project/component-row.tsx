@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { ChevronRight, FileCode2, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { IconButton } from "@/components/common/icon-button";
 import { SEVERITY } from "@/components/builder/project/severity";
 import { useProject, type AddedComponent, type ProjectFile } from "@/lib/project/context";
 import type { ProjectIssue } from "@/lib/project/checks";
@@ -39,9 +39,10 @@ export function ComponentRow({
   const { icon: Icon, title, kindLabel } = text.describe(component.recipe);
 
   return (
-    <li className={cn("group rounded-lg", active && "bg-volt-soft text-volt-soft-foreground")}>
+    <li data-teach-frame className={cn("group rounded-lg", active && "bg-volt-soft text-volt-soft-foreground")}>
       <div className="flex items-center gap-1 pr-1">
         <button
+          data-teach="component-files"
           type="button"
           aria-label={open ? t("hideFiles") : t("showFiles")}
           aria-expanded={open}
@@ -51,6 +52,7 @@ export function ComponentRow({
           <ChevronRight className={cn("size-3.5 transition-transform", open && "rotate-90")} />
         </button>
         <button
+          data-teach="component-row"
           type="button"
           onClick={onEdit}
           title={t("edit", { title })}
@@ -65,12 +67,12 @@ export function ComponentRow({
           </span>
           <IssueMark issues={issues} />
         </button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-xs"
-          aria-label={t("remove", { title })}
-          className="shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-destructive focus-visible:opacity-100 pointer-coarse:opacity-100"
+        <IconButton
+          data-teach="component-remove"
+          icon={Trash2}
+          size="xs"
+          label={t("remove", { title })}
+          className="shrink-0 opacity-0 group-hover:opacity-100 hover:text-destructive focus-visible:opacity-100 pointer-coarse:opacity-100"
           onClick={() => {
             const removed = removeComponent(component.id);
             if (!removed) return;
@@ -78,15 +80,14 @@ export function ComponentRow({
               action: { label: t("undo"), onClick: () => restoreComponent(removed) },
             });
           }}
-        >
-          <Trash2 />
-        </Button>
+        />
       </div>
       {open && (
         <ul className="mb-1 ml-7 flex flex-col border-l pl-2">
           {component.files.map((file) => (
             <li key={file.fileName}>
               <button
+                data-teach="component-file"
                 type="button"
                 onClick={() => onView(file)}
                 className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-muted-foreground hover:bg-muted/60 hover:text-foreground"

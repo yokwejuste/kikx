@@ -2,7 +2,7 @@
 
 import { CircleHelp, ExternalLink } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
+import { IconButton } from "@/components/common/icon-button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { glossaryDocsHref, type GlossaryTerm } from "@/lib/glossary/terms";
 import { cn } from "@/lib/utils";
@@ -15,16 +15,12 @@ export function HelpTip({ term, className }: { term: GlossaryTerm | undefined; c
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-xs"
-          aria-label={t("ask", { term: name })}
-          title={t("ask", { term: name })}
-          className={cn("align-middle text-muted-foreground hover:text-foreground pointer-coarse:size-9", className)}
-        >
-          <CircleHelp />
-        </Button>
+        <IconButton
+          icon={CircleHelp}
+          size="xs"
+          label={t("ask", { term: name })}
+          className={cn("align-middle pointer-coarse:size-9", className)}
+        />
       </PopoverTrigger>
       <PopoverContent aria-label={name} className="flex flex-col gap-1.5 text-left">
         <p className="font-medium">{name}</p>

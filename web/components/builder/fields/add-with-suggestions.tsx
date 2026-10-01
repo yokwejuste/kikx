@@ -1,5 +1,6 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Hint } from "@/components/common/hint";
 
 export function AddWithSuggestions({
   addLabel,
@@ -18,15 +19,16 @@ export function AddWithSuggestions({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <Button type="button" variant="outline" size="sm" onClick={onAdd}>
+      <Button variant="outline" size="sm" onClick={onAdd}>
         <Plus />
         {addLabel}
       </Button>
       {suggestions.length > 0 && (
         <>
-          <span className="text-xs text-muted-foreground">{suggestionsLabel}</span>
+          <Hint as="span">{suggestionsLabel}</Hint>
           {suggestions.map((suggestion) => (
             <button
+              data-teach="suggestion"
               key={suggestion}
               type="button"
               onClick={() => onPick(suggestion)}

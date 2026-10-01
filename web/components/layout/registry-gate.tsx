@@ -1,10 +1,10 @@
 "use client";
 
-import { LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useRegistry } from "@/lib/registry/store";
 import { useErrorText } from "@/lib/i18n/use-error-text";
+import { Spinner } from "@/components/common/spinner";
 
 export function RegistryGate({ children }: { children: React.ReactNode }) {
   const t = useTranslations("registryGate");
@@ -14,7 +14,7 @@ export function RegistryGate({ children }: { children: React.ReactNode }) {
   if (registry.isPending) {
     return (
       <main className="flex flex-1 items-center justify-center gap-2 p-6 text-sm text-muted-foreground">
-        <LoaderCircle className="size-4 animate-spin" />
+        <Spinner />
         {t("loading")}
       </main>
     );
@@ -25,7 +25,7 @@ export function RegistryGate({ children }: { children: React.ReactNode }) {
       <main className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center">
         <p className="font-medium">{t("unreachable")}</p>
         <p className="max-w-md text-sm text-muted-foreground">{errorText(registry.error, "errors.network")}</p>
-        <Button type="button" variant="outline" size="sm" onClick={() => registry.refetch()}>
+        <Button variant="outline" size="sm" onClick={() => registry.refetch()}>
           {t("retry")}
         </Button>
       </main>

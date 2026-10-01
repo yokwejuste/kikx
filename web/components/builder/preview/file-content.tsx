@@ -5,13 +5,14 @@ import { useTranslations } from "next-intl";
 import { CodeView } from "@/components/common/code-view";
 import { CopyButton } from "@/components/common/copy-button";
 import type { RenderedFile } from "@/lib/api/client";
+import { Hint } from "@/components/common/hint";
 
 export function FileContent({ file }: { file: RenderedFile }) {
   const t = useTranslations("preview");
   return (
     <div className="overflow-hidden rounded-lg border bg-muted/30">
       <div className="flex items-center justify-between border-b bg-muted/40 px-4 py-1.5">
-        <span className="truncate font-mono text-xs text-muted-foreground">{file.path}</span>
+        <Hint as="span" className="truncate font-mono">{file.path}</Hint>
         <CopyButton
           text={file.content}
           size="sm"

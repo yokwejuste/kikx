@@ -14,7 +14,6 @@ export function PronounceButton() {
 
   return (
     <Button
-      type="button"
       variant="ghost"
       size="sm"
       aria-label={t("label")}

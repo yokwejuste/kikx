@@ -14,6 +14,8 @@ import {
 import { CopyButton } from "@/components/common/copy-button";
 import type { ProjectDetails } from "@/lib/project/context";
 import { presetFileName } from "@/lib/project/preset";
+import { Hint } from "@/components/common/hint";
+import { codeTag } from "@/components/common/rich-tags";
 
 function CommandLine({ command }: { command: string }) {
   const t = useTranslations("export.cli");
@@ -57,18 +59,18 @@ export function CliCommandsDialog({
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            {t.rich("needsPreset", { code: (chunks) => <code className="font-mono">{chunks}</code>, file: path })}
+            {t.rich("needsPreset", { code: codeTag, file: path })}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-2">
           <CommandLine command={`kikx setup ${path}`} />
           <CommandLine command={`kikx apply ${path}`} />
-          <p className="text-xs text-muted-foreground">
-            {t.rich("explain", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
-          </p>
+          <Hint>
+            {t.rich("explain", { code: codeTag })}
+          </Hint>
         </div>
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={onDownloadPreset}>
+          <Button variant="outline" onClick={onDownloadPreset}>
             <Download />
             {t("download")}
           </Button>

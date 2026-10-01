@@ -29,6 +29,7 @@ import { toPresetComponent, type PresetComponent } from "@/lib/project/preset";
 import { describeComponent, nextCatalogKind, type CatalogKind } from "@/lib/registry/catalog";
 import type { ComponentKind } from "@/lib/registry/references";
 import { projectDefaults } from "@/lib/registry/store";
+import { Hint } from "@/components/common/hint";
 
 export function ComponentEditor({
   kind,
@@ -129,7 +130,7 @@ export function ComponentEditor({
               date: format.dateTime(new Date(draft.restoredAt), { dateStyle: "medium", timeStyle: "short" }),
             })}
           </span>
-          <Button type="button" variant="ghost" size="sm" className="ml-auto" onClick={draft.discard}>
+          <Button variant="ghost" size="sm" className="ml-auto" onClick={draft.discard}>
             {t("draft.discard")}
           </Button>
         </div>
@@ -158,10 +159,10 @@ export function ComponentEditor({
           />
         </div>
 
-        <div className="flex min-w-0 flex-col gap-3 border-t p-6 2xl:sticky 2xl:top-6 2xl:max-h-[calc(100vh-3rem)] 2xl:self-start 2xl:overflow-y-auto 2xl:border-t-0 2xl:border-l">
+        <div data-teach="preview" className="flex min-w-0 flex-col gap-3 border-t p-6 2xl:sticky 2xl:top-6 2xl:max-h-[calc(100vh-3rem)] 2xl:self-start 2xl:overflow-y-auto 2xl:border-t-0 2xl:border-l">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">{t("preview.title")}</h3>
-            <span className="text-xs text-muted-foreground">{t("preview.live")}</span>
+            <Hint as="span">{t("preview.live")}</Hint>
           </div>
           <YamlPreview
             files={preview.rendered}

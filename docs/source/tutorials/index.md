@@ -7,4 +7,5 @@ Tutorials are lessons. Each one takes you step by step through building a workin
 
 first-project-cli
 platform-in-the-dashboard
+teach-me
 ```

@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react";
+import { IconTile } from "@/components/common/icon-tile";
 import { useTranslations } from "next-intl";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { Badge } from "@/components/ui/badge";
@@ -32,11 +33,9 @@ export function EditorHeader({
   return (
     <div className="flex flex-col gap-3 border-b px-6 py-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="flex min-w-0 gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
-          <Icon className="size-4" />
-        </div>
+        <IconTile icon={Icon} size="lg" />
         <div className="min-w-0">
-          <h2 className="truncate text-sm font-medium">
+          <h2 data-teach="editor-title" className="truncate text-sm font-medium">
             {editing
               ? t.rich("editing", {
                   label: entry.label,
@@ -54,7 +53,7 @@ export function EditorHeader({
           → {writes}
         </Badge>
         {editing && (
-          <Button type="button" variant="outline" size="sm" onClick={onStartNew}>
+          <Button variant="outline" size="sm" onClick={onStartNew}>
             <Plus />
             {t("startNew")}
           </Button>

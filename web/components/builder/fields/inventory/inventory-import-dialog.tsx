@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { parseInventoryIni, type ParsedInventory } from "@/lib/ansible/inventory";
+import { codeTag } from "@/components/common/rich-tags";
 
 const FORMAT_HINT = `[<group>]
 <host> ansible_host=<address> <key>=<value>
@@ -41,7 +42,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
       }}
     >
       <DialogTrigger asChild>
-        <Button type="button" variant="outline" size="sm">
+        <Button data-teach="inventory-import" variant="outline" size="sm">
           <ClipboardPaste />
           {t("trigger")}
         </Button>
@@ -50,11 +51,12 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            {t.rich("body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
+            {t.rich("body", { code: codeTag })}
           </DialogDescription>
         </DialogHeader>
 
         <Textarea
+          data-teach="inventory-ini"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={FORMAT_HINT}
@@ -78,7 +80,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
             />
           </label>
           {parsed && (
-            <p className="text-sm text-muted-foreground">
+            <p data-teach="inventory-counts" className="text-sm text-muted-foreground">
               {t("counts", { hosts: parsed.hosts.length, groups: parsed.groups.length })}
             </p>
           )}
@@ -96,11 +98,11 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
         )}
 
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+          <Button variant="outline" onClick={() => setOpen(false)}>
             {t("cancel")}
           </Button>
           <Button
-            type="button"
+            data-teach="inventory-replace"
             disabled={!parsed || parsed.hosts.length === 0}
             onClick={() => {
               if (!parsed) return;

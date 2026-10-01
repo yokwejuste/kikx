@@ -71,6 +71,7 @@ export function DashboardHeader({
           ).map(([setting, label, value]) => (
             <Badge key={setting} asChild variant="brand" className="font-mono text-xs font-normal">
               <button
+                data-teach={`setting-${setting}`}
                 type="button"
                 aria-label={label}
                 title={label}
@@ -91,9 +92,9 @@ export function DashboardHeader({
         {children}
         <Tabs data-tour="views" value={view} onValueChange={(v) => onViewChange(v as View)}>
           <TabsList>
-            <TabsTrigger value="build">{t("tabs.build")}</TabsTrigger>
-            <TabsTrigger value="diagram">{t("tabs.diagram")}</TabsTrigger>
-            <TabsTrigger value="checks" className="gap-1.5">
+            <TabsTrigger data-teach="tab-build" value="build">{t("tabs.build")}</TabsTrigger>
+            <TabsTrigger data-teach="tab-diagram" value="diagram">{t("tabs.diagram")}</TabsTrigger>
+            <TabsTrigger data-teach="tab-checks" value="checks" className="gap-1.5">
               {t("tabs.checks")}
               <ChecksBadge counts={issueCounts} />
             </TabsTrigger>

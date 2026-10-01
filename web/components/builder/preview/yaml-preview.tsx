@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { PreviewIllustration } from "@/components/illustrations/illustrations";
-import { FileWarning, LoaderCircle } from "lucide-react";
+import { FileWarning } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { FileContent } from "@/components/builder/preview/file-content";
 import type { RenderedFile } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
+import { Hint } from "@/components/common/hint";
+import { Spinner } from "@/components/common/spinner";
 
 export type PreviewStatus = "invalid" | "loading" | "ready" | "error";
 
@@ -29,7 +31,7 @@ export function YamlPreview({
       <div className="flex min-h-28 flex-col items-center justify-center gap-2 rounded-lg border border-dashed px-6 py-5 text-center text-sm text-muted-foreground">
         {status === "loading" ? (
           <>
-            <LoaderCircle className="size-4 animate-spin" />
+            <Spinner />
             {t("rendering")}
           </>
         ) : status === "error" ? (
@@ -71,7 +73,7 @@ export function YamlPreview({
       <FileContent file={current} />
       {status === "error" && error && <p className="text-xs text-destructive">{t("lastGood", { error })}</p>}
       {status === "invalid" && (
-        <p className="text-xs text-muted-foreground">{t("invalid")}</p>
+        <Hint>{t("invalid")}</Hint>
       )}
     </div>
   );

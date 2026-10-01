@@ -9,9 +9,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useErrorText } from "@/lib/i18n/use-error-text";
 import { PronounceButton } from "@/components/common/pronounce-button";
-import { ArrowRight, Copy, FolderOpen, History, Sparkles, Waypoints, X } from "lucide-react";
-import { CopyButton } from "@/components/common/copy-button";
-import { Disclosure } from "@/components/common/disclosure";
+import { AppWindow, ArrowRight, FolderOpen, History, Sparkles, SquareTerminal, Waypoints, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { FormField } from "@/components/builder/fields/form-field";
@@ -21,20 +19,15 @@ import { api } from "@/lib/api/client";
 import { loadPresetManifest, parsePresetManifest, toPresetManifest, type PresetManifest } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TemplateGallery } from "@/components/home/template-gallery";
+import { CliTerminal } from "@/components/home/cli-terminal";
 import { KikxMark } from "@/components/common/kikx-mark";
+import { IconTile } from "@/components/common/icon-tile";
+import { IconButton } from "@/components/common/icon-button";
 import { HelpTip } from "@/components/common/help-tip";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
-
-const SNIPPET = [
-  { cmd: "curl -fsSL https://raw.githubusercontent.com/yokwejuste/kikx/main/install.sh | bash" },
-  { cmd: "kikx init --name <project>" },
-  { cmd: "kikx presets" },
-  { cmd: "kikx setup <template>" },
-  { cmd: "kikx list" },
-  { cmd: "kikx add <category>/<component> --name <name> --set key=value" },
-  { cmd: "kikx apply ./<project>.kikx-preset.json" },
-];
+import { codeTag } from "@/components/common/rich-tags";
 
 export default function Home() {
   return (
@@ -114,11 +107,10 @@ function HomeContent() {
                   </span>
                 </span>
                 <span className="flex gap-2">
-                  <Button type="button" variant="ghost" size="sm" onClick={() => setConfirmingDiscard(false)}>
+                  <Button variant="ghost" size="sm" onClick={() => setConfirmingDiscard(false)}>
                     {t("resume.keep")}
                   </Button>
                   <Button
-                    type="button"
                     variant="destructive"
                     size="sm"
                     onClick={() => {
@@ -134,26 +126,18 @@ function HomeContent() {
             ) : (
               <>
                 <Link href="/build" className="flex min-w-48 flex-1 items-center gap-3 hover:underline-offset-4">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
-                    <History className="size-4" />
-                  </span>
+                  <IconTile icon={History} />
                   <span>
                     <span className="font-medium">{t("resume.continueTitle", { name: details.name })}</span>
                     <span className="block text-muted-foreground">{t("resume.kept", { count: components.length })}</span>
                   </span>
                 </Link>
                 <span className="flex items-center gap-1">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    aria-label={t("resume.discardLabel", { name: details.name })}
-                    title={t("resume.discardLabel", { name: details.name })}
-                    className="text-muted-foreground hover:text-foreground"
+                  <IconButton
+                    icon={X}
+                    label={t("resume.discardLabel", { name: details.name })}
                     onClick={() => setConfirmingDiscard(true)}
-                  >
-                    <X className="size-4" />
-                  </Button>
+                  />
                   <Button asChild variant="outline" size="sm">
                     <Link href="/build">
                       {t("resume.continue")}
@@ -166,87 +150,77 @@ function HomeContent() {
           </div>
         )}
 
-        <TemplateGallery
-          opening={opening}
-          onSelect={(name) => open(name, async () => toPresetManifest(await api.preset(name)), name)}
-        />
+        <Tabs defaultValue="app" className="w-full gap-8">
+          <TabsList data-tour="cli" variant="pill" className="self-center">
+            <TabsTrigger value="app">
+              <AppWindow />
+              {t("mode.app")}
+            </TabsTrigger>
+            <TabsTrigger value="cli">
+              <SquareTerminal />
+              {t("mode.cli")}
+            </TabsTrigger>
+          </TabsList>
 
-        <div data-tour="new-project" className="w-full rounded-xl border bg-card p-6 text-left">
-          <h2 className="text-sm font-medium">{t("build.title")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("build.body")}</p>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
-            <FieldGroup>
-              <FormField
-                label={t("build.projectName")}
-                registration={form.register("name")}
-                error={form.formState.errors.name}
-                placeholder={defaults.defaultProjectName}
-                description={t("build.settingsHint")}
-              />
-            </FieldGroup>
-            <Button type="submit" size="lg" className="mt-6 h-11 w-full">
-              <Sparkles className="size-4" />
-              {t("build.start")}
-            </Button>
-          </form>
-        </div>
+          <TabsContent value="app" className="flex flex-col items-center gap-10">
+            <TemplateGallery
+              opening={opening}
+              onSelect={(name) => open(name, async () => toPresetManifest(await api.preset(name)), name)}
+            />
 
-        <label data-tour="open-preset" className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:border-brand/40 hover:bg-muted/40">
-          <span className="flex items-center gap-3">
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
-              <FolderOpen className="size-4" />
-            </span>
-            <span>
-              <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
-              <HelpTip term="preset" className="ml-1" />
-              <span className="block text-muted-foreground">
-                {t.rich("preset.body", { code: (chunks) => <code className="font-mono">{chunks}</code> })}
-              </span>
-            </span>
-          </span>
-          <input
-            type="file"
-            accept=".json,application/json"
-            className="sr-only"
-            disabled={opening !== null}
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                open("file", async () => parsePresetManifest(await file.text()), file.name.replace(/\.kikx-preset\.json$|\.json$/, ""));
-              }
-              e.target.value = "";
-            }}
-          />
-        </label>
-
-        <div data-tour="cli" className="w-full">
-          <Disclosure variant="section" title={t("cli.title")} hint={t("cli.hint")}>
-            <div className="terminal mx-4 mb-4 overflow-hidden rounded-xl border text-left shadow-sm">
-              <div className="flex items-center gap-1.5 border-b border-(--terminal-paper)/10 py-1.5 pr-1.5 pl-4">
-                <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
-                <span className="size-2.5 rounded-full bg-(--terminal-paper)/20" />
-                <span className="size-2.5 rounded-full bg-volt" />
-                <CopyButton
-                  text={SNIPPET.map((line) => line.cmd).join("\n")}
-                  size="icon"
-                  aria-label={t("copyCommands")}
-                  title={t("copyCommands")}
-                  className="ml-auto size-7 text-(--terminal-paper)/60 hover:bg-(--terminal-paper)/10 hover:text-(--terminal-paper) dark:hover:bg-(--terminal-paper)/10"
-                >
-                  <Copy className="size-3.5" />
-                </CopyButton>
-              </div>
-              <div className="flex flex-col gap-2.5 p-4 font-mono text-sm">
-                {SNIPPET.map((line) => (
-                  <div key={line.cmd} className="flex gap-2">
-                    <span aria-hidden className="terminal-prompt select-none">$</span>
-                    <span className="min-w-0 flex-1 break-words">{line.cmd}</span>
-                  </div>
-                ))}
-              </div>
+            <div data-tour="new-project" className="w-full rounded-xl border bg-card p-6 text-left">
+              <h2 className="text-sm font-medium">{t("build.title")}</h2>
+              <p className="mt-1 text-sm text-muted-foreground">{t("build.body")}</p>
+              <form data-teach="new-project-form" onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
+                <FieldGroup>
+                  <FormField
+                    label={t("build.projectName")}
+                    registration={form.register("name")}
+                    error={form.formState.errors.name}
+                    placeholder={defaults.defaultProjectName}
+                    description={t("build.settingsHint")}
+                  />
+                </FieldGroup>
+                <Button type="submit" size="lg" className="mt-6 h-11 w-full">
+                  <Sparkles className="size-4" />
+                  {t("build.start")}
+                </Button>
+              </form>
             </div>
-          </Disclosure>
-        </div>
+
+            <label data-tour="open-preset" className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:border-brand/40 hover:bg-muted/40">
+              <span className="flex items-center gap-3">
+                <IconTile icon={FolderOpen} />
+                <span>
+                  <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
+                  <HelpTip term="preset" className="ml-1" />
+                  <span className="block text-muted-foreground">
+                    {t.rich("preset.body", { code: codeTag })}
+                  </span>
+                </span>
+              </span>
+              <input
+                type="file"
+                accept=".json,application/json"
+                className="sr-only"
+                disabled={opening !== null}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    open("file", async () => parsePresetManifest(await file.text()), file.name.replace(/\.kikx-preset\.json$|\.json$/, ""));
+                  }
+                  e.target.value = "";
+                }}
+              />
+            </label>
+
+          </TabsContent>
+
+          <TabsContent value="cli" className="flex flex-col gap-3 text-left">
+            <p className="text-sm text-muted-foreground">{t("cli.body")}</p>
+            <CliTerminal />
+          </TabsContent>
+        </Tabs>
 
         <Link
           href="/flow"

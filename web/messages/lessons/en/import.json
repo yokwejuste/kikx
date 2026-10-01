@@ -1,0 +1,82 @@
+{
+  "title": "Bring what you already have",
+  "description": "Import an existing inventory.ini and group_vars, reuse your roles, then reopen and edit what you saved.",
+  "outcomes": [
+    "Paste an inventory.ini and see how hosts in several groups are merged",
+    "Bring a group_vars file over as raw YAML, nested values included",
+    "Reference roles that already live in your repo",
+    "Reopen and edit saved components, and know where presets come back in"
+  ],
+  "chapters": {
+    "inventory": "Import an inventory",
+    "groupVars": "Paste your group vars",
+    "roles": "Roles you already have",
+    "reopen": "Reopen and edit",
+    "preset": "Next time: presets"
+  },
+  "steps": {
+    "intro": "You rarely start from nothing. In this lesson I'll take an existing Ansible setup, its inventory, its group_vars and its roles, and bring it into kikx without retyping a thing.",
+    "name": "A project first. The name only labels it; the files you import keep their own names.",
+    "start": "Start building.",
+    "inventory": "Open the Inventory. Instead of filling rows by hand, we'll import the file you already have.",
+    "importButton": "Import inventory.ini reads a standard INI inventory: hosts, groups, :children and :vars sections.",
+    "importOpen": "Let's open it.",
+    "paste": "Paste the file here, or pick it from disk with Choose a file. Look at the text: web1 is listed under [web] and again under [monitored].",
+    "counts": "kikx reads it as you paste. Four host lines, but only three hosts: the same web1 in two groups is one server, so it's counted once.",
+    "replace": "Replace hosts & groups swaps every row in the form for the imported ones. It doesn't merge with rows already there, so import first and tweak afterwards.",
+    "merged": "Here is web1: a single row in both web and monitored, with its address and user kept. Edit it once and every group follows.",
+    "writtenBack": "When kikx writes the file back, the connection details sit under the first group only. Under [monitored], web1 is listed by name, exactly as Ansible expects.",
+    "addInventory": "Add it to the project. The [db:vars] section came along too, as vars of the db group.",
+    "groupVars": "Next, the group_vars folder. Most repos keep a group_vars/web.yml with real structure in it: lists and nested maps.",
+    "groupName": "Type the group the file belongs to. The suggestions now come from the inventory you just imported.",
+    "groupPath": "The line below shows the exact path kikx will write. If your repo uses group_vars/web/main.yml, tick Folder layout to match it.",
+    "yamlMode": "Key / value rows only hold flat settings. For a real file, switch to YAML mode.",
+    "yamlPaste": "Paste the file as it is. Lists of sites, nested keys, all fine.",
+    "yamlAsIs": "The preview shows it written unchanged. kikx doesn't reformat or reorder your YAML, so the diff in your repo stays clean.",
+    "addKey": "Your turn: add one more setting on a new line at the end of the YAML, app_env: production. Watch it appear in the preview.",
+    "addVars": "Add the group vars to the project.",
+    "playbook": "Now roles. You probably have a roles folder already, full of work you don't want to redo. A playbook only needs their names.",
+    "playbookName": "Name the playbook file the way it's called in your repo,",
+    "playName": "give its play a name,",
+    "playHosts": "and pick the group it runs on: web, straight from the imported inventory.",
+    "role": "Now type a role name, the folder name under roles/. kikx doesn't need its tasks; it just references it.",
+    "roleWritten": "The role is in the playbook. Ansible will find it in your roles/ folder when it runs.",
+    "roleChecks": "Checks will note that kikx doesn't vendor this role. For roles already in your repo, ignore that note; for new ones, it can scaffold an empty role for you.",
+    "addPlaybook": "Add the playbook.",
+    "reopenWhy": "Imports are rarely perfect the first time. Anything you saved stays editable: open it from the project panel.",
+    "editHost": "Say web2 moved to a new address. Here is its row, as imported.",
+    "editPreview": "The preview already shows the new address.",
+    "saveChanges": "Save changes updates the same component in place. You still have one inventory, not a copy.",
+    "reopenVars": "Your turn: open the group vars you saved earlier from the project panel, by clicking its row.",
+    "reopened": "Everything you pasted is back, ready to edit. Any row in the project panel works the same way.",
+    "export": "All of this lives in your browser. To carry it elsewhere, Export also offers a preset: one file that holds the whole project.",
+    "openPreset": "Next time, Open a preset here on the home page takes that file and brings every component back, ready to edit.",
+    "done": "That's it: your inventory, your group_vars and your roles are in kikx, and nothing had to be retyped. Look around, or go back to your own project."
+  },
+  "checks": {
+    "keyTyped": "app_env: production is in the YAML",
+    "keyPreviewed": "It shows in the preview",
+    "varsOpen": "The group vars are open"
+  },
+  "recap": [
+    "Import inventory.ini replaces the host and group rows; a host in several groups becomes one row.",
+    "YAML mode takes a group_vars file as is, lists and nested maps included.",
+    "Roles already in your repo are referenced by name; Checks can scaffold the missing ones.",
+    "Saved components reopen from the project panel, and a preset brings a whole project back from the home page."
+  ],
+  "demo": {
+    "ini": "[web]\nweb1 ansible_host=10.0.0.11 ansible_user=deploy\nweb2 ansible_host=10.0.0.12 ansible_user=deploy\n\n[db]\ndb1 ansible_host=10.0.0.21\n\n[monitored]\nweb1\n\n[db:vars]\nansible_python_interpreter=/usr/bin/python3",
+    "monitoredGroup": "monitored",
+    "monitoredHeader": "[monitored]",
+    "group": "web",
+    "groupVarsTitle": "group_vars/web",
+    "yaml": "nginx_worker_processes: auto\nnginx_sites:\n  - name: shop\n    port: 443\n    tls: true\n  - name: admin\n    port: 8443\n    tls: true\n",
+    "taskKey": "app_env: production",
+    "yamlWithKey": "nginx_worker_processes: auto\nnginx_sites:\n  - name: shop\n    port: 443\n    tls: true\n  - name: admin\n    port: 8443\n    tls: true\napp_env: production\n",
+    "playbook": "webservers",
+    "playName": "Configure web servers",
+    "role": "nginx",
+    "oldAddress": "10.0.0.12",
+    "newAddress": "10.0.0.13"
+  }
+}

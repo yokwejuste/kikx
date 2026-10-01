@@ -44,8 +44,7 @@
     },
     "copyCommands": "Copier les commandes",
     "cli": {
-      "title": "Vous préférez le terminal ?",
-      "hint": "les mêmes étapes avec la CLI kikx"
+      "body": "Installez kikx, puis lancez les mêmes étapes dans votre dépôt. Copiez-les toutes avec le bouton."
     },
     "build": {
       "title": "Projet vierge",
@@ -60,7 +59,11 @@
       "body": "Reprenez à partir d'un fichier <code>.kikx-preset.json</code> téléchargé précédemment."
     },
     "dataFlowLink": "Voir comment les données circulent dans kikx",
-    "openFailed": "Impossible d'ouvrir ce preset"
+    "openFailed": "Impossible d'ouvrir ce preset",
+    "mode": {
+      "app": "Dans l'app",
+      "cli": "Avec la CLI"
+    }
   },
   "templates": {
     "title": "Partir d'un modèle",
@@ -79,8 +82,8 @@
         "description": "kikx génère de vrais fichiers d'infrastructure pour Ansible, Kubernetes et Terraform, qui vous appartiennent et se modifient comme n'importe quel code. Cette visite prend une minute."
       },
       "cli": {
-        "title": "Vous préférez le terminal ?",
-        "description": "Tout ce qui se trouve ici existe aussi dans la CLI kikx. Ouvrez cette section pour voir les commandes que vous lanceriez."
+        "title": "Dans l'app ou avec la CLI",
+        "description": "Tout ce qui est ici existe aussi dans la CLI kikx. Passez sur Avec la CLI pour voir les commandes à lancer."
       },
       "templates": {
         "title": "Partir d'un modèle",
@@ -882,5 +885,50 @@
         "description": "Une plateforme de boutique en ligne : load balancers en bordure, niveaux web et applicatif, PostgreSQL principal avec réplicas, Redis, supervision et un cluster Kubernetes."
       }
     }
+  },
+  "teach": {
+    "button": "Apprends-moi",
+    "title": "Apprends-moi",
+    "body": "Choisissez une leçon. kikx pilote la page lui-même : il déplace le pointeur, tape et clique tout en expliquant. Mettez en pause à tout moment pour reprendre la main.",
+    "sandbox": "Votre projet actuel est mis de côté pendant la leçon et restauré ensuite.",
+    "minutes": "{count, plural, one {environ # min} other {environ # min}}",
+    "region": "Leçon",
+    "progress": "Étape {step} sur {total}",
+    "takeOver": "Pause pour reprendre la main",
+    "pause": "Pause",
+    "play": "Reprendre",
+    "next": "Passer",
+    "speed": "Vitesse",
+    "speedValue": "{speed}×",
+    "stop": "Arrêter la leçon",
+    "paused": "En pause. Explorez librement, puis appuyez sur Reprendre pour continuer.",
+    "lost": "J'ai perdu le fil : l'élément suivant n'est pas à l'écran. Remettez la page comme avant et appuyez sur Reprendre, ou arrêtez la leçon.",
+    "doneTitle": "Leçon terminée",
+    "back": "Retour à mon projet",
+    "keep": "Garder ce projet",
+    "chapter": "Chapitre {index} sur {total} : {title}",
+    "yourTurn": "À vous",
+    "showMe": "Montre-moi",
+    "praise": "Bravo, c'est ça.",
+    "learnMore": "En savoir plus",
+    "recapTitle": "Ce que vous avez appris",
+    "nextLesson": "Suivant : {title}",
+    "youLearn": "Vous apprendrez",
+    "completed": "Terminé",
+    "levels": {
+      "basics": "Les bases",
+      "further": "Pour aller plus loin"
+    },
+    "waiting": [
+      "Décombobulation",
+      "Permutation",
+      "Échauffement",
+      "Réticulation des splines",
+      "Démêlage du YAML",
+      "Rassemblement des serveurs",
+      "Polissage des playbooks",
+      "Alignement des étoiles"
+    ],
+    "waitingWord": "{word}…"
   }
 }

@@ -23,7 +23,7 @@ export function ProjectSheet({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button type="button" variant="outline" data-tour="project" className="gap-2">
+        <Button variant="outline" data-tour="project" data-teach="project-drawer" className="gap-2">
           <PanelRightOpen className="size-4 text-muted-foreground" />
           {t("open", { count: components.length })}
         </Button>

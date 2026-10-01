@@ -8,6 +8,11 @@ missing roles, look at the architecture it draws, and download the result.
 
 It takes about twenty minutes.
 
+:::{tip}
+Prefer to watch first? [Let kikx show you](teach-me.md) plays a two-minute lesson in the
+dashboard that builds a smaller project on its own.
+:::
+
 ## Before you start
 
 You need:

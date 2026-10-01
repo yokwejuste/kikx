@@ -44,8 +44,7 @@
     },
     "copyCommands": "Copy commands",
     "cli": {
-      "title": "Prefer the terminal?",
-      "hint": "the same steps with the kikx CLI"
+      "body": "Install kikx, then run the same steps in your repo. Copy them all with the button."
     },
     "build": {
       "title": "Blank project",
@@ -60,7 +59,11 @@
       "body": "Continue from a <code>.kikx-preset.json</code> you downloaded earlier."
     },
     "dataFlowLink": "See how data flows through kikx",
-    "openFailed": "Couldn't open that preset"
+    "openFailed": "Couldn't open that preset",
+    "mode": {
+      "app": "In the app",
+      "cli": "With the CLI"
+    }
   },
   "templates": {
     "title": "Start from a template",
@@ -79,8 +82,8 @@
         "description": "kikx renders real infrastructure files for Ansible, Kubernetes and Terraform that you own and edit like any other code. This tour takes a minute."
       },
       "cli": {
-        "title": "Prefer the terminal?",
-        "description": "Everything here is also in the kikx CLI. Open this to see the commands you would run."
+        "title": "In the app or with the CLI",
+        "description": "Everything here is also in the kikx CLI. Switch to With the CLI to see the commands you would run."
       },
       "templates": {
         "title": "Start from a template",
@@ -789,5 +792,50 @@
     "notPreset": "That isn't a kikx preset: it has no components list.",
     "presetComponent": "Component #{index} is missing a reference or name."
   },
-  "registry": {}
+  "registry": {},
+  "teach": {
+    "button": "Teach me",
+    "title": "Teach me",
+    "body": "Pick a lesson. kikx drives the page itself: it moves the pointer, types and clicks while it explains. Pause any time to take over.",
+    "sandbox": "Your current project is set aside during the lesson and restored afterwards.",
+    "minutes": "{count, plural, one {about # min} other {about # min}}",
+    "region": "Lesson",
+    "progress": "Step {step} of {total}",
+    "takeOver": "Pause to take over",
+    "pause": "Pause",
+    "play": "Resume",
+    "next": "Skip ahead",
+    "speed": "Speed",
+    "speedValue": "{speed}×",
+    "stop": "Stop the lesson",
+    "paused": "Paused. Explore freely, then press Resume to carry on.",
+    "lost": "I lost my place: the next thing to click isn't on screen. Put the page back and press Resume, or stop the lesson.",
+    "doneTitle": "Lesson complete",
+    "back": "Back to my project",
+    "keep": "Keep this project",
+    "chapter": "Chapter {index} of {total}: {title}",
+    "yourTurn": "Your turn",
+    "showMe": "Show me",
+    "praise": "Nice, that's it.",
+    "learnMore": "Learn more",
+    "recapTitle": "What you learned",
+    "nextLesson": "Next: {title}",
+    "youLearn": "You'll learn",
+    "completed": "Done",
+    "levels": {
+      "basics": "Basics",
+      "further": "Going further"
+    },
+    "waiting": [
+      "Discombobulating",
+      "Permutating",
+      "Kicking the tyres",
+      "Reticulating splines",
+      "Untangling YAML",
+      "Herding servers",
+      "Polishing playbooks",
+      "Aligning the stars"
+    ],
+    "waitingWord": "{word}…"
+  }
 }
