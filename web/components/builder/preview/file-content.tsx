@@ -25,7 +25,7 @@ export function FileContent({ file }: { file: RenderedFile }) {
       <CodeView
         code={file.content}
         path={file.path}
-        className="max-h-[28rem] overflow-auto p-4 font-mono text-xs leading-relaxed"
+        className="max-h-file-preview overflow-auto p-4 font-mono text-xs leading-relaxed"
       />
     </div>
   );

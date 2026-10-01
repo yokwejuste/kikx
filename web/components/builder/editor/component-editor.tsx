@@ -136,7 +136,7 @@ export function ComponentEditor({
         </div>
       )}
 
-      <div className="2xl:grid 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="2xl:grid 2xl:grid-cols-2">
         <div className="min-w-0">
           <form
             onSubmit={(event) => {
@@ -159,7 +159,7 @@ export function ComponentEditor({
           />
         </div>
 
-        <div data-teach="preview" className="flex min-w-0 flex-col gap-3 border-t p-6 2xl:sticky 2xl:top-6 2xl:max-h-[calc(100vh-3rem)] 2xl:self-start 2xl:overflow-y-auto 2xl:border-t-0 2xl:border-l">
+        <div data-teach="preview" className="flex min-w-0 flex-col gap-3 border-t p-6 2xl:sticky 2xl:top-6 2xl:max-h-sticky 2xl:self-start 2xl:overflow-y-auto 2xl:border-t-0 2xl:border-l">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">{t("preview.title")}</h3>
             <Hint as="span">{t("preview.live")}</Hint>

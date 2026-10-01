@@ -48,7 +48,7 @@ export async function GithubLink() {
       <span className="hidden flex-col leading-tight lg:flex">
         <span className="text-xs text-foreground">{REPOSITORY}</span>
         {stats && (
-          <span className="flex items-center gap-2 text-[11px] tabular-nums">
+          <span className="flex items-center gap-2 text-2xs tabular-nums">
             <span className="flex items-center gap-0.5">
               <Star className="size-3" />
               {format.format(stats.stars)}

@@ -16,7 +16,7 @@ import type { FormValues } from "@/lib/forms/component-forms";
 import type { InventoryHostValues } from "@/lib/forms/schemas";
 import { Hint } from "@/components/common/hint";
 
-export const HOST_COLUMNS = "sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.6fr)_2rem]";
+export const HOST_COLUMNS = "sm:grid-cols-host-row";
 
 function useConnectionSummary(host: InventoryHostValues | undefined): string {
   const t = useTranslations("inventory.host.summary");

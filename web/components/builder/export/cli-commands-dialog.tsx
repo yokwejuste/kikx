@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CopyButton } from "@/components/common/copy-button";
+import { PromptLine, TerminalCopyButton } from "@/components/common/terminal";
 import type { ProjectDetails } from "@/lib/project/context";
 import { presetFileName } from "@/lib/project/preset";
 import { Hint } from "@/components/common/hint";
@@ -20,21 +20,11 @@ import { codeTag } from "@/components/common/rich-tags";
 function CommandLine({ command }: { command: string }) {
   const t = useTranslations("export.cli");
   return (
-    <div className="terminal flex items-center justify-between gap-2 overflow-hidden rounded-lg border py-2 pr-2 pl-3">
-      <code className="flex min-w-0 flex-1 gap-2 font-mono text-xs">
-        <span aria-hidden className="terminal-prompt">
-          $
-        </span>
-        <span className="min-w-0 truncate">{command}</span>
-      </code>
-      <CopyButton
-        text={command}
-        size="icon"
-        aria-label={t("copy", { command })}
-        className="size-6 text-(--terminal-paper)/60 hover:bg-(--terminal-paper)/10 hover:text-(--terminal-paper) dark:hover:bg-(--terminal-paper)/10"
-      >
-        <Copy className="size-3.5" />
-      </CopyButton>
+    <div className="terminal flex items-center justify-between gap-2 overflow-hidden rounded-lg border py-2 pr-2 pl-3 font-mono text-xs">
+      <PromptLine className="min-w-0 flex-1">
+        <code className="min-w-0 truncate">{command}</code>
+      </PromptLine>
+      <TerminalCopyButton text={command} label={t("copy", { command })} className="size-6" />
     </div>
   );
 }

@@ -30,13 +30,13 @@ function SheetContent({
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay
         data-slot="sheet-overlay"
-        className="fixed inset-0 z-50 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0"
+        className="fixed inset-0 z-50 bg-scrim/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0"
       />
       <DialogPrimitive.Content
         data-slot="sheet-content"
         aria-describedby={undefined}
         className={cn(
-          "fixed inset-y-0 z-50 flex w-[min(20rem,85vw)] flex-col gap-4 overflow-y-auto bg-background p-4 text-sm shadow-lg outline-none duration-200 data-open:animate-in data-closed:animate-out",
+          "fixed inset-y-0 z-50 flex w-sheet flex-col gap-4 overflow-y-auto bg-background p-4 text-sm shadow-lg outline-none duration-200 data-open:animate-in data-closed:animate-out",
           side === "left"
             ? "left-0 border-r data-open:slide-in-from-left data-closed:slide-out-to-left"
             : "right-0 border-l data-open:slide-in-from-right data-closed:slide-out-to-right",

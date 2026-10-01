@@ -41,7 +41,7 @@ export function CatalogEntryButton({
         <span className="truncate">{label}</span>
         <span
           className={cn(
-            "truncate font-mono text-[11px] leading-4 font-normal",
+            "truncate font-mono text-2xs leading-4 font-normal",
             active ? "text-volt-soft-foreground/70" : "text-muted-foreground/80 group-hover:text-muted-foreground",
           )}
         >

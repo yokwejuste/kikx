@@ -32,7 +32,7 @@ export function ResizableSplit({
     <div
       ref={container}
       style={{ "--split": `${ratio * 100}%` } as React.CSSProperties}
-      className={cn("grid gap-4 lg:grid-cols-[minmax(0,var(--split))_auto_minmax(0,1fr)] lg:gap-0", className)}
+      className={cn("grid gap-4 lg:grid-cols-split lg:gap-0", className)}
     >
       {start}
       <div

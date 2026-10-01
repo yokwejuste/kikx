@@ -61,7 +61,7 @@ export function ComponentRow({
           <Icon className="size-4 shrink-0 text-muted-foreground" />
           <span className="min-w-0 flex-1">
             <span className="block truncate font-mono text-xs">{title}</span>
-            <span className="block truncate text-[11px] text-muted-foreground">
+            <span className="block truncate text-2xs text-muted-foreground">
               {kindLabel} · {t("files", { count: component.files.length })}
             </span>
           </span>
@@ -93,7 +93,7 @@ export function ComponentRow({
                 className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-left text-muted-foreground hover:bg-muted/60 hover:text-foreground"
               >
                 <FileCode2 className="size-3.5 shrink-0" />
-                <span className="truncate font-mono text-[11px]">{file.fileName}</span>
+                <span className="truncate font-mono text-2xs">{file.fileName}</span>
               </button>
             </li>
           ))}

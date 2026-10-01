@@ -172,11 +172,11 @@ export function DataFlow() {
           target: e.target,
           label: e.label ?? t(`edges.${e.id}`),
           animated: active,
-          labelStyle: { fill: "var(--muted-foreground)", fontSize: 11 },
+          labelStyle: { fill: "var(--muted-foreground)", fontSize: "var(--edge-label-size)" },
           labelBgStyle: { fill: "var(--card)" },
           style: {
             stroke: active ? "var(--brand)" : "var(--border)",
-            strokeWidth: active ? 2 : 1.5,
+            strokeWidth: active ? "var(--flow-edge-width-active)" : "var(--flow-edge-width)",
           },
         };
       }),
@@ -211,7 +211,7 @@ export function DataFlow() {
         </Tabs>
       </div>
 
-      <div className="h-[560px] overflow-hidden rounded-xl border bg-card">
+      <div className="h-canvas overflow-hidden rounded-xl border bg-card">
         <ReactFlowProvider>
           <ReactFlow
             className="kikx-flow"

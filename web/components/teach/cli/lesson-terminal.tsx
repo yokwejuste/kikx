@@ -46,7 +46,7 @@ export function LessonTerminal() {
     <TerminalFrame
       data-teach="cli-terminal"
       title={cwdOf(projectDefaults().defaultProjectName)}
-      className="flex min-h-[24rem] flex-col"
+      className="flex min-h-pane flex-col"
       actions={
         !active && (
           <>
@@ -95,7 +95,7 @@ export function LessonTerminal() {
             autoComplete="off"
             autoCapitalize="off"
             spellCheck={false}
-            className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-(--terminal-paper)/40"
+            className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-terminal-muted"
             onKeyDown={onKeyDown}
           />
         </PromptLine>

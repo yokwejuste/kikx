@@ -31,7 +31,7 @@ export const DiagramNode = memo(function DiagramNode({ id, data }: NodeProps) {
         </span>
         <span className="truncate font-mono text-xs font-medium">{label}</span>
       </div>
-      <p className="truncate pl-8 text-[11px] text-muted-foreground">{description}</p>
+      <p className="truncate pl-8 text-2xs text-muted-foreground">{description}</p>
       <Handle type="source" position={Position.Right} className="!opacity-0" isConnectable={false} />
     </div>
   );

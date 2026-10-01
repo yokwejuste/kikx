@@ -79,7 +79,7 @@ export function ProjectPanel({
         )}
       </div>
 
-      <div className="max-h-[60vh] overflow-auto p-2">
+      <div className="max-h-panel-list overflow-auto p-2">
         {components.length === 0 ? (
           <div className="flex flex-col items-center gap-3 px-2 py-6 text-center text-sm text-muted-foreground">
             <EmptyProjectIllustration className="h-16" />
@@ -89,7 +89,7 @@ export function ProjectPanel({
           <div className="flex flex-col gap-3">
             {byStage.map(({ stage, items }) => (
               <div key={stage.id}>
-                <SectionLabel className="px-2 pb-1 text-[10px]">
+                <SectionLabel className="px-2 pb-1 text-3xs">
                   {text.stage(stage.id).label}
                 </SectionLabel>
                 <ul className="flex flex-col gap-0.5">

@@ -57,11 +57,11 @@ function ConflictRow({ conflict }: { conflict: FileConflict }) {
             ] as const
           ).map(([label, content]) => (
             <div key={label} className="min-w-0 overflow-hidden rounded-md border bg-muted/30">
-              <div className="border-b bg-muted/40 px-2 py-1 text-[11px] font-medium text-muted-foreground">{label}</div>
+              <div className="border-b bg-muted/40 px-2 py-1 text-2xs font-medium text-muted-foreground">{label}</div>
               <CodeView
                 code={content}
                 path={conflict.fileName}
-                className="max-h-56 overflow-auto p-2 font-mono text-[11px] leading-relaxed"
+                className="max-h-56 overflow-auto p-2 font-mono text-2xs leading-relaxed"
               />
             </div>
           ))}
@@ -101,7 +101,7 @@ export function FileConflictDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <ul className="flex max-h-[50vh] flex-col gap-2 overflow-auto">
+        <ul className="flex max-h-dialog-list flex-col gap-2 overflow-auto">
           {conflicts?.map((conflict) => (
             <ConflictRow key={`${conflict.owner.id}:${conflict.fileName}`} conflict={conflict} />
           ))}

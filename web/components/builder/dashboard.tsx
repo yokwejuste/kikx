@@ -35,7 +35,7 @@ const ProjectDiagram = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[620px] items-center justify-center rounded-xl border">
+      <div className="flex h-canvas-tall items-center justify-center rounded-xl border">
         <Spinner className="text-muted-foreground" />
       </div>
     ),
@@ -120,7 +120,7 @@ export function Dashboard() {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col gap-6 px-6 py-6">
+    <div className="mx-auto flex w-full max-w-builder flex-1 flex-col gap-6 px-6 py-6">
       <DashboardHeader
         details={details}
         components={components}
@@ -141,12 +141,12 @@ export function Dashboard() {
       )}
 
       <div
-        className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:items-start xl:grid-cols-[200px_minmax(0,1fr)_280px] 2xl:grid-cols-[200px_minmax(0,1fr)]"
+        className="grid gap-6 lg:grid-cols-builder lg:items-start xl:grid-cols-builder-wide 2xl:grid-cols-builder"
         hidden={view !== "build"}
       >
         <aside
           data-tour="catalog"
-          className="hidden lg:sticky lg:top-6 lg:row-span-2 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto xl:row-span-1"
+          className="hidden lg:sticky lg:top-6 lg:row-span-2 lg:block lg:max-h-sticky lg:overflow-y-auto xl:row-span-1"
         >
           <ComponentCatalog components={components} selected={starting ? null : selection.kind} onSelect={(kind) => select(kind)} />
         </aside>

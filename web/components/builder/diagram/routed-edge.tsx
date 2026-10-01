@@ -55,38 +55,33 @@ export function RoutedEdge({ id, data }: EdgeProps) {
   const color = edgeColor(tone, emphasis);
   const { base, shape } = arrowhead(points);
   const path = roundedPath([...points.slice(0, -1), base]);
-  const opacity = emphasis === "dim" ? 0.12 : tone === "structure" ? 0.7 : 0.85;
   return (
     <>
       <BaseEdge
         id={id}
         path={path}
-        style={{
-          stroke: color,
-          strokeWidth: emphasis === "focus" ? 2 : 1.25,
-          strokeDasharray: tone === "structure" ? "5 4" : undefined,
-          opacity,
-          transition: "opacity 150ms",
-        }}
+        className="kikx-edge"
+        data-tone={tone}
+        data-emphasis={emphasis}
+        style={{ stroke: color }}
       />
       {emphasis !== "dim" && (
         <path
           d={path}
           fill="none"
           stroke={color}
-          strokeWidth={emphasis === "focus" ? 3 : 2.25}
           strokeLinecap="round"
           className="kikx-edge-flow"
-          style={{ opacity: emphasis === "focus" ? 1 : 0.7 }}
+          data-emphasis={emphasis}
         />
       )}
-      <path d={shape} fill={color} style={{ opacity, transition: "opacity 150ms" }} />
+      <path d={shape} fill={color} className="kikx-edge-head" data-tone={tone} data-emphasis={emphasis} />
       {labelPosition && emphasis !== "dim" && (
         <EdgeLabelRenderer>
           <div
             style={{ transform: `translate(${labelPosition.x}px, ${labelPosition.y}px)` }}
             className={cn(
-              "pointer-events-none absolute rounded border bg-card px-1.5 text-[10px] leading-4 whitespace-nowrap",
+              "pointer-events-none absolute rounded border bg-card px-1.5 text-3xs leading-4 whitespace-nowrap",
               emphasis === "focus" ? "border-brand text-foreground" : "text-muted-foreground",
             )}
           >

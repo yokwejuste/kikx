@@ -18,7 +18,7 @@ export function LessonPicker({ open, onOpenChange }: { open: boolean; onOpenChan
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-h-[85vh] overflow-y-auto sm:max-w-3xl"
+        className="max-h-dialog-tall overflow-y-auto sm:max-w-3xl"
         onCloseAutoFocus={(event) => {
           const lessonId = chosen.current;
           if (!lessonId) return;

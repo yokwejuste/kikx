@@ -35,7 +35,7 @@ function writeStages(key: string, stages: OpenStages) {
 function CountBadge({ count }: { count: number }) {
   if (count === 0) return null;
   return (
-    <span data-teach="catalog-count" className="rounded-full bg-volt-soft px-1.5 text-[10px] font-medium text-volt-soft-foreground tabular-nums">
+    <span data-teach="catalog-count" className="rounded-full bg-volt-soft px-1.5 text-3xs font-medium text-volt-soft-foreground tabular-nums">
       {count}
     </span>
   );
@@ -106,7 +106,7 @@ export function ComponentCatalog({
             >
               <span
                 className={cn(
-                  "flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold",
+                  "flex size-5 shrink-0 items-center justify-center rounded-full text-3xs font-semibold",
                   stageCount > 0 ? "bg-volt-soft text-volt-soft-foreground ring-1 ring-brand/40" : "bg-muted text-muted-foreground",
                 )}
               >

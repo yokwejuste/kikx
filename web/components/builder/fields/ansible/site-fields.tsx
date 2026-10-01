@@ -41,7 +41,7 @@ export function SiteFields({
             const rowErrors = errors.imports?.[index];
             return (
               <li key={field.id} className="flex flex-col gap-1 rounded-lg border p-2">
-                <div className="grid items-center gap-2 sm:grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_auto]">
+                <div className="grid items-center gap-2 sm:grid-cols-site-row">
                   <Hint as="span" className="text-center">{index + 1}</Hint>
                   <RowInput
                     placeholder={t("namePlaceholder")}

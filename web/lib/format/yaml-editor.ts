@@ -49,16 +49,16 @@ const highlightStyle = HighlightStyle.define([
 const theme = EditorView.theme({
   "&": { flex: "1", minWidth: "0", backgroundColor: "transparent", color: "var(--syntax-foreground)" },
   "&.cm-focused": { outline: "none" },
-  ".cm-scroller": { fontFamily: "inherit", lineHeight: "1.6" },
-  ".cm-content": { padding: "0.5rem 0", caretColor: "var(--foreground)" },
-  ".cm-line": { padding: "0 0.625rem" },
+  ".cm-scroller": { fontFamily: "inherit", lineHeight: "var(--syntax-line-height)" },
+  ".cm-content": { padding: "var(--syntax-block-padding)", caretColor: "var(--foreground)" },
+  ".cm-line": { padding: "var(--syntax-line-padding)" },
   ".cm-placeholder": { color: "var(--muted-foreground)" },
-  ".cm-content ::selection": { backgroundColor: "color-mix(in oklab, var(--brand) 25%, transparent)" },
+  ".cm-content ::selection": { backgroundColor: "var(--syntax-selection)" },
   ".cm-format-problem": {
-    backgroundColor: "color-mix(in oklab, var(--destructive) 15%, transparent)",
+    backgroundColor: "var(--syntax-problem)",
     textDecoration: "underline wavy var(--destructive)",
     textDecorationSkipInk: "none",
-    textUnderlineOffset: "3px",
+    textUnderlineOffset: "var(--syntax-underline-offset)",
   },
 });
 
