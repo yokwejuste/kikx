@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Download, Pencil } from "lucide-react";
+import { House, Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ExportMenu } from "@/components/builder/export/export-menu";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import { ProjectSettingsDialog, type ProjectSetting } from "@/components/builder/project/project-settings-dialog";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
-import { downloadProjectZip } from "@/lib/project/archive";
+import { loadDownloadRecord, type DownloadRecord } from "@/lib/project/downloads";
+import { updateGettingStarted } from "@/lib/project/getting-started-store";
+import { StorageStatus } from "@/components/builder/project/storage-status";
 import { cn } from "@/lib/utils";
 
 export type View = "build" | "diagram" | "checks";
@@ -47,16 +49,11 @@ export function DashboardHeader({
   issueCounts: IssueCounts;
 }) {
   const t = useTranslations("builder.header");
-  const [downloading, setDownloading] = useState(false);
+  const [lastDownload, setLastDownload] = useState(loadDownloadRecord);
   const [editing, setEditing] = useState<ProjectSetting | null>(null);
-
-  const download = async () => {
-    setDownloading(true);
-    try {
-      await downloadProjectZip(details, components);
-    } finally {
-      setDownloading(false);
-    }
+  const downloaded = (record: DownloadRecord) => {
+    setLastDownload(record);
+    updateGettingStarted(details.name, { downloaded: true });
   };
 
   return (
@@ -84,6 +81,7 @@ export function DashboardHeader({
             </Badge>
           ))}
         </div>
+        <StorageStatus details={details} components={components} lastDownload={lastDownload} />
         <ProjectSettingsDialog details={details} focus={editing} onClose={() => setEditing(null)} />
       </div>
 
@@ -98,12 +96,14 @@ export function DashboardHeader({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Button data-tour="download" type="button" disabled={components.length === 0 || downloading} onClick={download}>
-          <Download />
-          {downloading ? t("zipping") : t("download")}
-        </Button>
-        <Link href="/" className="flex items-center px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-10">
-          {t("startOver")}
+        <ExportMenu details={details} components={components} onDownloaded={downloaded} />
+        <Link
+          href="/"
+          title={t("homeHint")}
+          className="flex items-center gap-1.5 px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-10"
+        >
+          <House className="size-4" />
+          {t("home")}
         </Link>
       </div>
     </div>

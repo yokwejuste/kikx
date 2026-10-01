@@ -43,8 +43,12 @@
       "discarded": "Discarded {name}"
     },
     "copyCommands": "Copy commands",
+    "cli": {
+      "title": "Prefer the terminal?",
+      "hint": "the same steps with the kikx CLI"
+    },
     "build": {
-      "title": "Or build it here",
+      "title": "Blank project",
       "body": "Name your project, add the components you need, and download the result. Nothing is read from or written to your machine until you hit download.",
       "projectName": "Project name",
       "settingsHint": "The default namespace and output directory are set for you. Click their badges in the builder to change them.",
@@ -61,7 +65,8 @@
   "templates": {
     "title": "Start from a template",
     "body": "A complete, editable project to adapt instead of starting from an empty page.",
-    "components": "{count, plural, one {# component} other {# components}}"
+    "components": "{count, plural, one {# component} other {# components}}",
+    "covers": "Covers"
   },
   "tour": {
     "next": "Next",
@@ -74,15 +79,15 @@
         "description": "kikx renders real infrastructure files for Ansible, Kubernetes and Terraform that you own and edit like any other code. This tour takes a minute."
       },
       "cli": {
-        "title": "The same thing, in your terminal",
-        "description": "Everything here is also in the kikx CLI. These are the commands you would run."
+        "title": "Prefer the terminal?",
+        "description": "Everything here is also in the kikx CLI. Open this to see the commands you would run."
       },
       "templates": {
         "title": "Start from a template",
         "description": "Open a complete project, from a single server to a kubeadm cluster or a multi-tier platform, and adapt it."
       },
       "new-project": {
-        "title": "Or start from scratch",
+        "title": "Or start from a blank project",
         "description": "Name the project, pick a namespace and an output folder, then add components one by one."
       },
       "open-preset": {
@@ -107,6 +112,10 @@
         "title": "Fill in, watch it render",
         "description": "Every field has a sensible default. The files below update as you type; press ⌘/Ctrl + Enter to add the component."
       },
+      "checklist": {
+        "title": "Your checklist",
+        "description": "It ticks itself as you go: servers, group settings, a playbook, checks, then the download. Click any open step to jump there."
+      },
       "project": {
         "title": "Your project",
         "description": "Everything you have added, with its files. Click one to edit it, or download the whole project as a preset to reopen later."
@@ -116,8 +125,8 @@
         "description": "Architecture draws how your components connect. Checks catches conflicts such as duplicate hosts, missing groups and unknown roles before you ship."
       },
       "download": {
-        "title": "Take the files",
-        "description": "Download everything as a .zip of plain files. Nothing touches your machine until you do."
+        "title": "Export your project",
+        "description": "Take plain files as a .zip, a preset to reopen here or run with kikx apply, or the CLI command. Nothing touches your machine until you do."
       }
     }
   },
@@ -132,6 +141,13 @@
   "builder": {
     "noDetails": "No project details yet.",
     "goBack": "Go back and fill them in",
+    "start": {
+      "title": "Your project is empty",
+      "body": "Here's the usual path: work through the stages in order. Pick one to open its editor, or browse the full catalog.",
+      "optional": "Optional",
+      "add": "Add {label}",
+      "templates": "Or start from a template"
+    },
     "header": {
       "editNamespace": "Change the default namespace (currently {value})",
       "editOutputDir": "Change the output directory (currently {value})",
@@ -140,9 +156,14 @@
         "diagram": "Architecture",
         "checks": "Checks"
       },
-      "download": "Download .zip",
-      "zipping": "Zipping…",
-      "startOver": "Start over"
+      "home": "Home",
+      "homeHint": "Back to the home page. Your project stays saved in this browser.",
+      "storage": {
+        "browser": "Saved in this browser · not on disk yet",
+        "downloaded": "Downloaded {time}",
+        "changed": "Changes since last download",
+        "hint": "This project is kept only in this browser's storage, not on a server or on your disk. Clearing your browser data removes it, so export it to keep a copy."
+      }
     },
     "settings": {
       "title": "Project settings",
@@ -193,6 +214,8 @@
       "summary": "Terraform for one or more servers at the provider of your choice",
       "writes": "<name>-<provider>.tf"
     },
+    "more": "Show more ({count})",
+    "fewer": "Show fewer",
     "close": "Close"
   },
   "editor": {
@@ -209,7 +232,11 @@
       "files": "{count, plural, one {# file} other {# files}} in the project.",
       "renderFailed": "Failed to render component",
       "attention": "Some fields need attention",
-      "attentionHint": "They're highlighted in the form."
+      "attentionHint": "They're highlighted in the form.",
+      "next": "Next: {label}"
+    },
+    "checks": {
+      "title": "{count, plural, one {# check flags this component} other {# checks flag this component}}"
     },
     "draft": {
       "restored": "Restored your unsaved draft from {date}.",
@@ -452,10 +479,54 @@
       "undo": "Undo"
     }
   },
-  "setup": {
-    "download": "Download preset",
-    "copy": "Copy {command}",
-    "explain": "<code>setup</code> bootstraps a new kikx project from this file. <code>apply</code> vendors it into a project you already have, with no kikx.toml and no backend required."
+  "gettingStarted": {
+    "title": "Getting started",
+    "progress": "{done} of {total}",
+    "dismiss": "Hide the checklist",
+    "items": {
+      "servers": {
+        "label": "List your servers",
+        "hint": "Add an inventory with your hosts and groups."
+      },
+      "groups": {
+        "label": "Group settings",
+        "hint": "Add group vars shared by every host in a group."
+      },
+      "playbook": {
+        "label": "Configure with a playbook",
+        "hint": "Add a playbook that applies roles to your groups."
+      },
+      "checks": {
+        "label": "Review checks",
+        "hint": "Catch duplicate hosts, missing groups and unknown roles."
+      },
+      "download": {
+        "label": "Download your project",
+        "hint": "Export the files as a .zip, or a preset for the CLI."
+      }
+    }
+  },
+  "export": {
+    "trigger": "Export",
+    "zipping": "Zipping…",
+    "empty": "Add a component to export your project.",
+    "zip": {
+      "title": "Files (.zip)",
+      "description": "Plain files to drop in your repo."
+    },
+    "preset": {
+      "title": "Preset (.kikx-preset.json)",
+      "description": "Reopen it here or run it with kikx apply."
+    },
+    "cli": {
+      "option": "CLI command",
+      "description": "Copy the kikx setup or kikx apply command.",
+      "title": "Run it with the CLI",
+      "needsPreset": "Both commands read the preset, so download <code>{file}</code> to the directory you run them from.",
+      "download": "Download preset",
+      "copy": "Copy {command}",
+      "explain": "<code>setup</code> bootstraps a new kikx project from this file. <code>apply</code> vendors it into a project you already have, with no kikx.toml and no backend required."
+    }
   },
   "checks": {
     "empty": "Add components and kikx will check how they fit together.",

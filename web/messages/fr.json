@@ -43,8 +43,12 @@
       "discarded": "{name} abandonné"
     },
     "copyCommands": "Copier les commandes",
+    "cli": {
+      "title": "Vous préférez le terminal ?",
+      "hint": "les mêmes étapes avec la CLI kikx"
+    },
     "build": {
-      "title": "Ou créez-le ici",
+      "title": "Projet vierge",
       "body": "Nommez votre projet, ajoutez les composants dont vous avez besoin, puis téléchargez le résultat. Rien n'est lu ni écrit sur votre machine avant le téléchargement.",
       "projectName": "Nom du projet",
       "settingsHint": "Le namespace par défaut et le dossier de sortie sont définis pour vous. Cliquez sur leurs badges dans l'éditeur pour les modifier.",
@@ -61,7 +65,8 @@
   "templates": {
     "title": "Partir d'un modèle",
     "body": "Un projet complet et modifiable à adapter, plutôt que de partir d'une page vide.",
-    "components": "{count, plural, one {# composant} other {# composants}}"
+    "components": "{count, plural, one {# composant} other {# composants}}",
+    "covers": "Couvre"
   },
   "tour": {
     "next": "Suivant",
@@ -74,15 +79,15 @@
         "description": "kikx génère de vrais fichiers d'infrastructure pour Ansible, Kubernetes et Terraform, qui vous appartiennent et se modifient comme n'importe quel code. Cette visite prend une minute."
       },
       "cli": {
-        "title": "La même chose, dans votre terminal",
-        "description": "Tout ce qui se trouve ici existe aussi dans la CLI kikx. Voici les commandes que vous lanceriez."
+        "title": "Vous préférez le terminal ?",
+        "description": "Tout ce qui se trouve ici existe aussi dans la CLI kikx. Ouvrez cette section pour voir les commandes que vous lanceriez."
       },
       "templates": {
         "title": "Partir d'un modèle",
         "description": "Ouvrez un projet complet, d'un serveur unique à un cluster kubeadm ou une plateforme multi-niveaux, et adaptez-le."
       },
       "new-project": {
-        "title": "Ou partir de zéro",
+        "title": "Ou partir d'un projet vierge",
         "description": "Nommez le projet, choisissez un namespace et un dossier de sortie, puis ajoutez les composants un par un."
       },
       "open-preset": {
@@ -107,6 +112,10 @@
         "title": "Remplissez, regardez le rendu",
         "description": "Chaque champ a une valeur par défaut sensée. Les fichiers ci-dessous se mettent à jour pendant la saisie ; appuyez sur ⌘/Ctrl + Entrée pour ajouter le composant."
       },
+      "checklist": {
+        "title": "Votre liste de départ",
+        "description": "Elle se coche toute seule au fil de votre travail : serveurs, réglages de groupe, playbook, vérifications, puis téléchargement. Cliquez sur une étape ouverte pour y aller."
+      },
       "project": {
         "title": "Votre projet",
         "description": "Tout ce que vous avez ajouté, avec ses fichiers. Cliquez sur un élément pour le modifier, ou téléchargez tout le projet en preset pour le rouvrir plus tard."
@@ -116,8 +125,8 @@
         "description": "L'architecture montre comment vos composants se relient. Les vérifications repèrent les conflits, comme les hôtes en double, les groupes manquants ou les rôles inconnus, avant la mise en production."
       },
       "download": {
-        "title": "Récupérer les fichiers",
-        "description": "Téléchargez le tout en .zip de fichiers simples. Rien ne touche votre machine avant cela."
+        "title": "Exporter votre projet",
+        "description": "Récupérez des fichiers simples en .zip, un preset à rouvrir ici ou à lancer avec kikx apply, ou la commande CLI. Rien ne touche votre machine avant cela."
       }
     }
   },
@@ -132,6 +141,13 @@
   "builder": {
     "noDetails": "Aucun détail de projet pour l'instant.",
     "goBack": "Revenir pour les renseigner",
+    "start": {
+      "title": "Votre projet est vide",
+      "body": "Voici le parcours habituel : suivez les étapes dans l'ordre. Choisissez-en une pour ouvrir son éditeur, ou parcourez le catalogue complet.",
+      "optional": "Facultatif",
+      "add": "Ajouter {label}",
+      "templates": "Ou partir d'un modèle"
+    },
     "header": {
       "editNamespace": "Modifier le namespace par défaut (actuellement {value})",
       "editOutputDir": "Modifier le dossier de sortie (actuellement {value})",
@@ -140,9 +156,14 @@
         "diagram": "Architecture",
         "checks": "Vérifications"
       },
-      "download": "Télécharger le .zip",
-      "zipping": "Compression…",
-      "startOver": "Recommencer"
+      "home": "Accueil",
+      "homeHint": "Retour à la page d'accueil. Votre projet reste enregistré dans ce navigateur.",
+      "storage": {
+        "browser": "Enregistré dans ce navigateur · pas encore sur le disque",
+        "downloaded": "Téléchargé {time}",
+        "changed": "Modifié depuis le dernier téléchargement",
+        "hint": "Ce projet n'est conservé que dans le stockage de ce navigateur, ni sur un serveur ni sur votre disque. Effacer les données du navigateur le supprime : exportez-le pour en garder une copie."
+      }
     },
     "settings": {
       "title": "Paramètres du projet",
@@ -193,6 +214,8 @@
       "summary": "Terraform pour un ou plusieurs serveurs chez le fournisseur de votre choix",
       "writes": "<name>-<provider>.tf"
     },
+    "more": "Afficher plus ({count})",
+    "fewer": "Afficher moins",
     "close": "Fermer"
   },
   "editor": {
@@ -209,7 +232,11 @@
       "files": "{count, plural, one {# fichier} other {# fichiers}} dans le projet.",
       "renderFailed": "Impossible de générer le composant",
       "attention": "Certains champs demandent votre attention",
-      "attentionHint": "Ils sont mis en évidence dans le formulaire."
+      "attentionHint": "Ils sont mis en évidence dans le formulaire.",
+      "next": "Suivant : {label}"
+    },
+    "checks": {
+      "title": "{count, plural, one {# point signalé sur ce composant} other {# points signalés sur ce composant}}"
     },
     "draft": {
       "restored": "Brouillon non enregistré restauré, datant du {date}.",
@@ -452,10 +479,54 @@
       "undo": "Annuler"
     }
   },
-  "setup": {
-    "download": "Télécharger le preset",
-    "copy": "Copier {command}",
-    "explain": "<code>setup</code> initialise un nouveau projet kikx à partir de ce fichier. <code>apply</code> l'intègre à un projet existant, sans kikx.toml ni backend."
+  "gettingStarted": {
+    "title": "Premiers pas",
+    "progress": "{done} sur {total}",
+    "dismiss": "Masquer la liste",
+    "items": {
+      "servers": {
+        "label": "Listez vos serveurs",
+        "hint": "Ajoutez un inventaire avec vos hôtes et vos groupes."
+      },
+      "groups": {
+        "label": "Réglages de groupe",
+        "hint": "Ajoutez des group vars partagées par tous les hôtes d'un groupe."
+      },
+      "playbook": {
+        "label": "Configurez avec un playbook",
+        "hint": "Ajoutez un playbook qui applique des rôles à vos groupes."
+      },
+      "checks": {
+        "label": "Consultez les vérifications",
+        "hint": "Repérez les hôtes en double, les groupes manquants et les rôles inconnus."
+      },
+      "download": {
+        "label": "Téléchargez votre projet",
+        "hint": "Exportez les fichiers en .zip, ou un preset pour la CLI."
+      }
+    }
+  },
+  "export": {
+    "trigger": "Exporter",
+    "zipping": "Compression…",
+    "empty": "Ajoutez un composant pour exporter votre projet.",
+    "zip": {
+      "title": "Fichiers (.zip)",
+      "description": "Des fichiers simples à déposer dans votre dépôt."
+    },
+    "preset": {
+      "title": "Preset (.kikx-preset.json)",
+      "description": "Rouvrez-le ici ou lancez-le avec kikx apply."
+    },
+    "cli": {
+      "option": "Commande CLI",
+      "description": "Copiez la commande kikx setup ou kikx apply.",
+      "title": "Lancer avec la CLI",
+      "needsPreset": "Les deux commandes lisent le preset : téléchargez <code>{file}</code> dans le dossier où vous les lancez.",
+      "download": "Télécharger le preset",
+      "copy": "Copier {command}",
+      "explain": "<code>setup</code> initialise un nouveau projet kikx à partir de ce fichier. <code>apply</code> l'intègre à un projet existant, sans kikx.toml ni backend."
+    }
   },
   "checks": {
     "empty": "Ajoutez des composants et kikx vérifiera qu'ils s'accordent entre eux.",

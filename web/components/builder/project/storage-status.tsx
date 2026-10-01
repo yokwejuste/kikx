@@ -1,0 +1,33 @@
+"use client";
+
+import { useMemo } from "react";
+import { useFormatter, useNow, useTranslations } from "next-intl";
+import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
+import { projectFingerprint, type DownloadRecord } from "@/lib/project/downloads";
+
+export function StorageStatus({
+  details,
+  components,
+  lastDownload,
+}: {
+  details: ProjectDetails;
+  components: AddedComponent[];
+  lastDownload: DownloadRecord | null;
+}) {
+  const t = useTranslations("builder.header.storage");
+  const format = useFormatter();
+  const now = useNow({ updateInterval: 30_000 });
+  const fingerprint = useMemo(() => projectFingerprint(details, components), [details, components]);
+
+  const label = !lastDownload
+    ? t("browser")
+    : lastDownload.fingerprint === fingerprint
+      ? t("downloaded", { time: format.relativeTime(lastDownload.at, now) })
+      : t("changed");
+
+  return (
+    <span className="min-w-0 truncate text-xs text-muted-foreground" title={t("hint")}>
+      {label}
+    </span>
+  );
+}

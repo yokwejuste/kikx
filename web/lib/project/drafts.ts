@@ -14,7 +14,7 @@ export interface BuilderState {
   editingId: string | null;
 }
 
-function read<T>(key: string): T | null {
+export function read<T>(key: string): T | null {
   try {
     const raw = localStorage.getItem(key);
     return raw ? (JSON.parse(raw) as T) : null;
@@ -23,7 +23,7 @@ function read<T>(key: string): T | null {
   }
 }
 
-function write(key: string, value: unknown): void {
+export function write(key: string, value: unknown): void {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
