@@ -68,6 +68,7 @@ export function ComponentRow({
           <IssueMark issues={issues} />
         </button>
         <Button
+          data-teach="component-remove"
           type="button"
           variant="ghost"
           size="icon-xs"

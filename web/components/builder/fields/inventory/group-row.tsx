@@ -33,7 +33,7 @@ export function GroupRow({
   const membership = members > 0 ? t("members", { count: members }) : group?.children?.length ? t("parent") : t("empty");
 
   return (
-    <div className="grid gap-2 rounded-lg border p-2 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_minmax(0,1.2fr)_2rem]">
+    <div data-teach="group-row" className="grid gap-2 rounded-lg border p-2 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_minmax(0,1.2fr)_2rem]">
       <div className="flex flex-col gap-1">
         <Input
           placeholder={t("namePlaceholder")}

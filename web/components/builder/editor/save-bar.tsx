@@ -26,7 +26,7 @@ export function SaveBar({
   return (
     <div className="sticky bottom-0 z-10 flex flex-col gap-2 border-t bg-card/95 px-6 py-3 backdrop-blur supports-[backdrop-filter]:bg-card/80">
       {conflicts.length > 0 && (
-        <p className="flex items-start gap-2 text-xs">
+        <p data-teach="save-conflict" className="flex items-start gap-2 text-xs">
           <FileWarning className="mt-0.5 size-3.5 shrink-0" />
           <span>
             {t.rich("replaces", {

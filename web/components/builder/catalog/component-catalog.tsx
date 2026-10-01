@@ -95,6 +95,7 @@ export function ComponentCatalog({
         return (
           <div key={stage.id} className="flex flex-col gap-1">
             <button
+              data-teach={`stage-${stage.id}`}
               type="button"
               aria-expanded={open}
               aria-controls={panelId}

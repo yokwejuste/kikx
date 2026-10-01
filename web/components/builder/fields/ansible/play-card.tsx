@@ -156,6 +156,7 @@ export function PlayCard({
         </Captioned>
         <Captioned caption={t("hosts")}>
           <Input
+            data-teach="play-hosts"
             list={hostsListId}
             placeholder={defaultHosts}
             aria-invalid={!!errors?.hosts}

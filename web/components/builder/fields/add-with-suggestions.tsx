@@ -27,6 +27,7 @@ export function AddWithSuggestions({
           <span className="text-xs text-muted-foreground">{suggestionsLabel}</span>
           {suggestions.map((suggestion) => (
             <button
+              data-teach="suggestion"
               key={suggestion}
               type="button"
               onClick={() => onPick(suggestion)}

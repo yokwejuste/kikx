@@ -96,7 +96,7 @@ export function InventoryFields({
           ))}
         </div>
         <FieldError errors={[errors.hosts]} />
-        <Button type="button" variant="outline" size="sm" className="w-fit" onClick={() => hostFields.append({ ...EMPTY_HOST })}>
+        <Button data-teach="add-host" type="button" variant="outline" size="sm" className="w-fit" onClick={() => hostFields.append({ ...EMPTY_HOST })}>
           <Plus />
           {t("addHost")}
         </Button>

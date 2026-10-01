@@ -28,6 +28,7 @@ function ConflictRow({ conflict }: { conflict: FileConflict }) {
   return (
     <li className="rounded-lg border">
       <button
+        data-teach="conflict-file"
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-muted/50"
@@ -47,7 +48,7 @@ function ConflictRow({ conflict }: { conflict: FileConflict }) {
         })}
       </p>
       {open && (
-        <div className="grid gap-2 border-t p-2 sm:grid-cols-2">
+        <div data-teach="conflict-diff" className="grid gap-2 border-t p-2 sm:grid-cols-2">
           {(
             [
               [t("current"), conflict.existingContent],
@@ -88,7 +89,7 @@ export function FileConflictDialog({
 
   return (
     <Dialog open={!!conflicts?.length} onOpenChange={(open) => !open && onCancel()}>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent data-teach="conflict-dialog" className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FileWarning className="size-4" />
@@ -115,7 +116,7 @@ export function FileConflictDialog({
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={onCancel}>
+          <Button data-teach="conflict-keep" variant="outline" onClick={onCancel}>
             {t("keep")}
           </Button>
           <Button variant="destructive" onClick={onConfirm}>

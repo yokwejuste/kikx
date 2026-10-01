@@ -40,7 +40,7 @@ export function ChecksPanel({
     return (
       <EmptyState className="h-64 gap-4">
         <ChecksClearIllustration className="h-24" />
-        <p>{t("clear")}</p>
+        <p data-teach="checks-clear">{t("clear")}</p>
       </EmptyState>
     );
   }

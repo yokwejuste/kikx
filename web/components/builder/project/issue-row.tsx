@@ -46,13 +46,13 @@ export function IssueRow({
       {(action || linked.length > 0) && (
         <div className="flex shrink-0 flex-wrap gap-1.5 pl-7 sm:pl-0">
           {action?.type === "scaffold-roles" && (
-            <Button type="button" variant="secondary" size="sm" onClick={() => onScaffoldRoles(action.roles)}>
+            <Button data-teach="issue-scaffold" type="button" variant="secondary" size="sm" onClick={() => onScaffoldRoles(action.roles)}>
               <FolderCog />
               {t("scaffold", { count: action.roles.length })}
             </Button>
           )}
           {linked.map((component) => (
-            <Button key={component.id} type="button" variant="outline" size="sm" onClick={() => onOpen(component)}>
+            <Button data-teach="issue-open" key={component.id} type="button" variant="outline" size="sm" onClick={() => onOpen(component)}>
               {t("open", { title: text.describe(component.recipe).title })}
             </Button>
           ))}

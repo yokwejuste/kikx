@@ -1,17 +1,97 @@
 {
   "title": "Catch mistakes with Checks",
-  "description": "Coming soon.",
+  "description": "Make the mistakes that break real Ansible runs on purpose, then let Checks find them and fix them one by one.",
   "outcomes": [
-    "Coming soon."
+    "Read the Checks badge, its errors, warnings and notes",
+    "Jump from an issue straight to the component that causes it",
+    "Understand why host vars override group vars",
+    "Handle two components writing the same file, and undo a removal"
   ],
   "chapters": {
-    "start": "Catch mistakes with Checks"
+    "mistakes": "Make a few mistakes",
+    "read": "Read the Checks",
+    "override": "Host vars beat group vars",
+    "addresses": "One host, two addresses",
+    "conflicts": "Two writers, one file"
   },
   "recap": [
-    "Coming soon."
+    "Each form catches its own mistakes, like a duplicate host name, before you save.",
+    "Checks catches the ones between components: groups nobody defines, hosts with two addresses, overrides.",
+    "Errors break the output, warnings are probably mistakes, notes are good to know.",
+    "Open on an issue jumps to the culprit, and the editor lists its issues at the top.",
+    "A file has one writer: kikx asks before replacing, and Undo brings back a removed component."
   ],
   "steps": {
-    "intro": "Coming soon.",
-    "done": "Coming soon."
+    "intro": "Ansible rarely complains when your files disagree with each other: a play aimed at the wrong group just does nothing. Let's make that kind of mistake on purpose and watch kikx catch it.",
+    "name": "A fresh project to break safely.",
+    "inventory": "Start with an inventory, the list of servers.",
+    "hostGroup": "One web server, in a group. Plays will target the group, not the server.",
+    "addHost": "Now a second server. Watch what happens if I copy the first one's name by accident.",
+    "duplicate": "Same name as the first host...",
+    "formCatch": "The form flags it right away. A host name must be unique, otherwise Ansible merges both rows into one machine.",
+    "rename": "Mistakes inside a single form never reach your project. Let me give it its own name.",
+    "connection": "Each host can carry its own connection settings.",
+    "hostUser": "Say someone set a login user on this host, months ago, for a quick test.",
+    "groupRow": "Now give the whole group its shared settings.",
+    "groupVar": "The team agreed every web server logs in as this user.",
+    "quiet": "The files render fine. Nothing here looks wrong, yet the two users disagree. Keep that in mind.",
+    "saveInventory": "Add the inventory.",
+    "playbook": "Next, a playbook: it says which roles run on which group.",
+    "wrongHosts": "A classic slip: the play targets a short name instead of the real group.",
+    "savePlaybook": "Add it. Every file is valid on its own, so nothing stops us.",
+    "badge": "But the Checks tab now shows a number: issues found across your components, counting errors and warnings.",
+    "playRow": "Here is the play: it targets a group no inventory defines, so it would match zero hosts and silently do nothing.",
+    "note": "Notes are just good to know. This one says the role is not in the project yet, and offers a fix.",
+    "scaffold": "One click creates an empty role folder for it, and the note is gone.",
+    "openRow": "Every issue links to the components involved. Open takes you straight to the culprit.",
+    "inline": "The editor repeats the issue at the top, so you can fix it where it happens.",
+    "fixHosts": "Your turn: aim the play at the real group, then save. Watch the Checks count drop.",
+    "oneLeft": "One warning is left. Back to the Checks.",
+    "override": "Remember those two users? A host var always wins over a group var, so this host ignores the team's user without any error.",
+    "openInventory": "Open the inventory to fix it.",
+    "inherit": "Empty means inherit. Clearing this field lets the host take the group's user again.",
+    "clearUser": "Your turn: clear the host's SSH user, save, then open the Checks tab.",
+    "clear": "All clear. Hosts, groups and plays line up again.",
+    "secondInventory": "Some mistakes only show up between components. Let's add a second inventory, say for staging.",
+    "otherAddress": "Same server name as before, but a different address.",
+    "saveStaging": "Add it.",
+    "redBadge": "The badge turns red: that is an error, not a warning.",
+    "twoAddresses": "One host name now points at two machines. Ansible keeps whichever it reads last, so a deploy could hit the wrong server.",
+    "toBuild": "The fix here is to remove the extra inventory.",
+    "remove": "Removing is one click on the trash icon of its row.",
+    "undone": "And one click on Undo in the notification brings it back, files and all. The error is back too.",
+    "removeAgain": "We really want it gone, so remove it once more.",
+    "groupVars": "Last one: shared settings for the group, as their own file.",
+    "saveGroupVars": "Add them. This component writes one file named after the group.",
+    "again": "Now a teammate adds settings for the same group, not knowing they exist.",
+    "liveWarning": "Before even saving, kikx warns that this would replace a file another component already writes.",
+    "saveAnyway": "Let's try to add it anyway.",
+    "dialog": "A project has exactly one writer per file, so kikx asks first instead of silently keeping the last one.",
+    "diff": "Current on the left, incoming on the right. Only the value differs.",
+    "keep": "Keep existing leaves the first component alone. Replace would remove it and use the new one.",
+    "done": "That is the habit: build, glance at the badge, open the issue, fix it at the source. Checks never change your files on their own."
+  },
+  "checks": {
+    "hosts": "The play runs on the real group",
+    "count": "Saved, and Checks shows one warning",
+    "clear": "Checks shows nothing left"
+  },
+  "demo": {
+    "host": "web1",
+    "address": "10.0.0.11",
+    "address2": "10.0.0.12",
+    "host2": "web2",
+    "group": "webservers",
+    "hostUser": "root",
+    "groupVar": "ansible_user=deploy",
+    "playbook": "frontend",
+    "play": "Install nginx",
+    "wrongHosts": "web",
+    "role": "nginx",
+    "inventory2": "staging",
+    "address3": "10.0.0.99",
+    "varKey": "app_port",
+    "varValue": "8080",
+    "varValue2": "9090"
   }
 }

@@ -13,7 +13,7 @@ export function EditorIssues({ checks, currentId }: { checks: EditorChecks; curr
   if (checks.issues.length === 0) return null;
 
   return (
-    <section className="border-b bg-muted/40 px-6 py-3">
+    <section data-teach="editor-issues" className="border-b bg-muted/40 px-6 py-3">
       <h3 className="text-xs font-medium text-muted-foreground">{t("title", { count: checks.issues.length })}</h3>
       <ul className="mt-2 flex flex-col gap-3">
         {checks.issues.map((issue) => (

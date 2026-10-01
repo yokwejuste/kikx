@@ -81,7 +81,7 @@ export function HostRow({
 
       <Disclosure title={t("connection")} hint={summary}>
         <div className="grid gap-2 px-3 pb-3 sm:grid-cols-3">
-          <Input placeholder={t("sshUserPlaceholder")} aria-label={t("sshUserLabel")} {...register("ansibleUser")} />
+          <Input data-teach="host-user" placeholder={t("sshUserPlaceholder")} aria-label={t("sshUserLabel")} {...register("ansibleUser")} />
           <Input
             type="number"
             placeholder={t("sshPortPlaceholder")}
