@@ -56,7 +56,7 @@ export function GroupRow({
         placeholder={t("varsPlaceholder")}
         aria-label={t("varsLabel")}
         rows={1}
-        className="min-h-8 font-mono text-xs"
+        className="min-h-8 resize-none self-start py-1 font-mono"
         {...form.register(`groups.${index}.vars` as never)}
       />
       <RemoveButton aria-label={t("remove")} onClick={onRemove} />
