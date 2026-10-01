@@ -7,7 +7,7 @@ import { IconTile } from "@/components/common/icon-tile";
 import { ResizableSplit } from "@/components/common/resizable-split";
 import { LessonTerminal } from "@/components/teach/cli/lesson-terminal";
 import { ProjectFiles } from "@/components/teach/cli/project-files";
-import { LessonChooser } from "@/components/teach/lesson-chooser";
+import { LessonsButton } from "@/components/teach/lessons-button";
 
 const SPLIT_KEY = "kikx-cli:split";
 
@@ -29,8 +29,10 @@ function LearnCli() {
           <h1 className="text-sm font-medium">{t("title")}</h1>
           <span className="text-sm text-muted-foreground">{t("body")}</span>
         </span>
+        <span className="ml-auto shrink-0">
+          <LessonsButton mode="cli" openOnArrival />
+        </span>
       </div>
-      <LessonChooser mode="cli" compact note={t("freeform")} />
       <ResizableSplit
         storageKey={SPLIT_KEY}
         label={t("resize")}
