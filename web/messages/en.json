@@ -432,6 +432,8 @@
     "review": "Review",
     "empty": "Nothing yet. Most projects start with an <strong>Inventory</strong>.",
     "viewing": "Rendered by {component}. Edit the component to change it.",
+    "open": "Project ({count})",
+    "close": "Close the project",
     "row": {
       "showFiles": "Show files",
       "hideFiles": "Hide files",

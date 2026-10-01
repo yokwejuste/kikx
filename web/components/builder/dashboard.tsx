@@ -12,6 +12,7 @@ import { CustomComponentPanel } from "@/components/builder/editor/custom-compone
 import { buildFormContext } from "@/components/builder/editor/form-context";
 import { toProjectFiles } from "@/components/builder/editor/project-files";
 import { ProjectPanel } from "@/components/builder/project/project-panel";
+import { ProjectSheet } from "@/components/builder/project/project-sheet";
 import { ChecksPanel } from "@/components/builder/project/checks-panel";
 import type { IssueCounts } from "@/components/builder/project/severity";
 import { ProjectDiagram } from "@/components/builder/diagram/project-diagram";
@@ -78,6 +79,13 @@ export function Dashboard() {
     });
   };
   const openComponent = (component: AddedComponent) => select(describeComponent(component.recipe).kind, component.id);
+  const projectPanel = {
+    activeId: editing?.id ?? null,
+    issuesFor,
+    issueCounts,
+    onEdit: openComponent,
+    onShowChecks: () => setView("checks"),
+  };
 
   const scaffoldRoles = async (roles: string[]) => {
     try {
@@ -100,7 +108,13 @@ export function Dashboard() {
         view={view}
         onViewChange={setView}
         issueCounts={issueCounts}
-      />
+      >
+        {view === "build" && (
+          <div className="hidden 2xl:block">
+            <ProjectSheet {...projectPanel} />
+          </div>
+        )}
+      </DashboardHeader>
 
       {view === "diagram" && <ProjectDiagram onOpen={openComponent} />}
       {view === "checks" && (
@@ -108,7 +122,7 @@ export function Dashboard() {
       )}
 
       <div
-        className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:items-start xl:grid-cols-[200px_minmax(0,1fr)_280px]"
+        className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:items-start xl:grid-cols-[200px_minmax(0,1fr)_280px] 2xl:grid-cols-[200px_minmax(0,1fr)]"
         hidden={view !== "build"}
       >
         <aside
@@ -150,14 +164,8 @@ export function Dashboard() {
           )}
         </div>
 
-        <aside data-tour="project" className="lg:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1">
-          <ProjectPanel
-            activeId={editing?.id ?? null}
-            issuesFor={issuesFor}
-            issueCounts={issueCounts}
-            onEdit={openComponent}
-            onShowChecks={() => setView("checks")}
-          />
+        <aside data-tour="project" className="lg:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1 2xl:hidden">
+          <ProjectPanel {...projectPanel} />
         </aside>
       </div>
     </div>

@@ -184,8 +184,9 @@ required.
 
 - **Stages, in order.** Components are grouped as Provision → Inventory → Configure → Deploy, with
   a count and a tick per stage, so you can see what's still missing.
-- **One editor with a live preview.** Output re-renders as you type. Any component can be reopened
-  and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
+- **One editor with a live preview.** Output re-renders as you type. On wide screens the form and
+  preview sit side by side and the project list opens from a Project button in the header. Any
+  component can be reopened and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
 - **Bring what you have.** Import an existing `inventory.ini` (hosts listed in several groups are
   merged), paste raw YAML into group vars, reopen a saved preset, or type role names that already
   exist in your repo.

@@ -126,37 +126,41 @@ export function ComponentEditor({
         </div>
       )}
 
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          submit();
-        }}
-        className="flex flex-col gap-6 p-6"
-      >
-        <ComponentFormFields kind={kind} form={form} context={context} />
-        <button type="submit" hidden aria-hidden tabIndex={-1} />
-      </form>
+      <div className="2xl:grid 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="min-w-0">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              submit();
+            }}
+            className="flex flex-col gap-6 p-6"
+          >
+            <ComponentFormFields kind={kind} form={form} context={context} />
+            <button type="submit" hidden aria-hidden tabIndex={-1} />
+          </form>
 
-      <SaveBar
-        isEditing={!!editing}
-        dirty={dirty}
-        saving={saving}
-        conflicts={liveConflicts}
-        onSave={() => submit()}
-        onReset={draft.discard}
-      />
-
-      <div className="flex flex-col gap-3 border-t p-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">{t("preview.title")}</h3>
-          <span className="text-xs text-muted-foreground">{t("preview.live")}</span>
+          <SaveBar
+            isEditing={!!editing}
+            dirty={dirty}
+            saving={saving}
+            conflicts={liveConflicts}
+            onSave={() => submit()}
+            onReset={draft.discard}
+          />
         </div>
-        <YamlPreview
-          files={preview.rendered}
-          status={preview.status}
-          error={preview.error}
-          conflictPaths={new Set(liveConflicts.map((c) => c.fileName))}
-        />
+
+        <div className="flex min-w-0 flex-col gap-3 border-t p-6 2xl:sticky 2xl:top-6 2xl:max-h-[calc(100vh-3rem)] 2xl:self-start 2xl:overflow-y-auto 2xl:border-t-0 2xl:border-l">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-medium">{t("preview.title")}</h3>
+            <span className="text-xs text-muted-foreground">{t("preview.live")}</span>
+          </div>
+          <YamlPreview
+            files={preview.rendered}
+            status={preview.status}
+            error={preview.error}
+            conflictPaths={new Set(liveConflicts.map((c) => c.fileName))}
+          />
+        </div>
       </div>
 
       <FileConflictDialog {...guard.dialogProps} />
