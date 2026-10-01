@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { House } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -8,6 +9,9 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ExportMenu } from "@/components/builder/export/export-menu";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
+import { loadDownloadRecord, type DownloadRecord } from "@/lib/project/downloads";
+import { updateGettingStarted } from "@/lib/project/getting-started-store";
+import { StorageStatus } from "@/components/builder/project/storage-status";
 import { cn } from "@/lib/utils";
 
 export type View = "build" | "diagram" | "checks";
@@ -44,6 +48,11 @@ export function DashboardHeader({
   issueCounts: IssueCounts;
 }) {
   const t = useTranslations("builder.header");
+  const [lastDownload, setLastDownload] = useState(loadDownloadRecord);
+  const downloaded = (record: DownloadRecord) => {
+    setLastDownload(record);
+    updateGettingStarted(details.name, { downloaded: true });
+  };
 
   return (
     <div className="flex flex-col gap-4 border-b pb-5 lg:flex-row lg:items-center lg:justify-between">
@@ -57,6 +66,7 @@ export function DashboardHeader({
             {details.outputDir}/
           </Badge>
         </div>
+        <StorageStatus details={details} components={components} lastDownload={lastDownload} />
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
@@ -70,7 +80,7 @@ export function DashboardHeader({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <ExportMenu details={details} components={components} />
+        <ExportMenu details={details} components={components} onDownloaded={downloaded} />
         <Link
           href="/"
           title={t("homeHint")}

@@ -12,9 +12,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CopyButton } from "@/components/common/copy-button";
-import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
-import { downloadPreset, presetFileName } from "@/lib/project/preset";
-import { updateGettingStarted } from "@/lib/project/getting-started-store";
+import type { ProjectDetails } from "@/lib/project/context";
+import { presetFileName } from "@/lib/project/preset";
 
 function CommandLine({ command }: { command: string }) {
   const t = useTranslations("export.cli");
@@ -42,12 +41,12 @@ export function CliCommandsDialog({
   open,
   onOpenChange,
   details,
-  components,
+  onDownloadPreset,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   details: ProjectDetails;
-  components: AddedComponent[];
+  onDownloadPreset: () => void;
 }) {
   const t = useTranslations("export.cli");
   const path = `./${presetFileName(details)}`;
@@ -69,14 +68,7 @@ export function CliCommandsDialog({
           </p>
         </div>
         <DialogFooter>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => {
-              downloadPreset(details, components);
-              updateGettingStarted(details.name, { downloaded: true });
-            }}
-          >
+          <Button type="button" variant="outline" onClick={onDownloadPreset}>
             <Download />
             {t("download")}
           </Button>
