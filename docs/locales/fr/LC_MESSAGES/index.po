@@ -129,3 +129,57 @@ msgstr "[Format des éléments de registre](reference/registry-item-format.md)"
 
 msgid "[Checks](reference/checks.md)"
 msgstr "[Vérifications](reference/checks.md)"
+
+msgid "Pick your way in"
+msgstr "Choisissez votre point de départ"
+
+msgid "kikx works the same in the browser and in the terminal. Start with the one you use."
+msgstr "kikx fonctionne de la même façon dans le navigateur et dans le terminal. Commencez par celui que vous utilisez."
+
+msgid "I use the web app"
+msgstr "J'utilise l'application web"
+
+msgid "*Build the project in your browser, then export it.*"
+msgstr "*Construisez le projet dans votre navigateur, puis exportez-le.*"
+
+msgid "[Your first project in the web app](tutorials/first-project-web.md)"
+msgstr "[Votre premier projet dans l'application web](tutorials/first-project-web.md)"
+
+msgid "[The web app](reference/web-app.md)"
+msgstr "[L'application web](reference/web-app.md)"
+
+msgid "[Where your project lives](explanation/project-storage.md)"
+msgstr "[Où vit votre projet](explanation/project-storage.md)"
+
+msgid "I use the CLI"
+msgstr "J'utilise la CLI"
+
+msgid "*Write the files straight into your repository.*"
+msgstr "*Écrivez les fichiers directement dans votre dépôt.*"
+
+msgid "[Practice the CLI in your browser](how-to/practice-cli-in-browser.md)"
+msgstr "[S'entraîner à la CLI dans le navigateur](how-to/practice-cli-in-browser.md)"
+
+msgid "The how-to guides show both ways side by side: pick **In the app** or **With the CLI** once and every page keeps your choice."
+msgstr "Les guides pratiques montrent les deux façons côte à côte : choisissez **Dans l'app** ou **Avec la CLI** une fois et chaque page garde votre choix."
+
+msgid "Everything in the docs"
+msgstr "Toute la documentation"
+
+msgid "[Start from a template in the app](how-to/start-from-template-web.md)"
+msgstr "[Partir d'un modèle dans l'app](how-to/start-from-template-web.md)"
+
+msgid "[Edit components in the app](how-to/edit-components-web.md)"
+msgstr "[Modifier des composants dans l'app](how-to/edit-components-web.md)"
+
+msgid "[Change project settings in the app](how-to/project-settings-web.md)"
+msgstr "[Modifier les paramètres du projet dans l'app](how-to/project-settings-web.md)"
+
+msgid "[Export and reopen a project in the app](how-to/export-and-reopen-web.md)"
+msgstr "[Exporter et rouvrir un projet dans l'app](how-to/export-and-reopen-web.md)"
+
+msgid "[Provision cloud servers in the app](how-to/provision-servers-web.md)"
+msgstr "[Provisionner des serveurs cloud dans l'app](how-to/provision-servers-web.md)"
+
+msgid "[Deploy an app to Kubernetes in the app](how-to/deploy-kubernetes-web.md)"
+msgstr "[Déployer une application sur Kubernetes dans l'app](how-to/deploy-kubernetes-web.md)"
