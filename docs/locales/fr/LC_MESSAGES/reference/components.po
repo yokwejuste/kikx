@@ -16,8 +16,8 @@ msgstr ""
 msgid "Components"
 msgstr "Composants"
 
-msgid "The thirteen built-in components of the kikx registry, generated from `GET /api/registry`. Components and fields are also printed by [`kikx list`](cli.md#kikx-list)."
-msgstr "Les treize composants intégrés du registre kikx, générés à partir de `GET /api/registry`. Les composants et leurs champs sont aussi affichés par [`kikx list`](cli.md#kikx-list)."
+msgid "The seventeen built-in components of the kikx registry, generated from `GET /api/registry`. Components and fields are also printed by [`kikx list`](cli.md#kikx-list)."
+msgstr "Les dix-sept composants intégrés du registre kikx, générés à partir de `GET /api/registry`. Les composants et leurs champs sont aussi affichés par [`kikx list`](cli.md#kikx-list)."
 
 msgid "Every field value is a string. Every template also receives `name`, `namespace` and `labels`, described in [Registry item format](registry-item-format.md#template-context). Output paths are relative to the target directory and are rendered with the same context as the file content."
 msgstr "Chaque valeur de champ est une chaîne. Chaque template reçoit aussi `name`, `namespace` et `labels`, décrits dans [Format des éléments de registre](registry-item-format.md#template-context). Les chemins de sortie sont relatifs au répertoire cible et sont rendus avec le même contexte que le contenu des fichiers."

@@ -1,6 +1,6 @@
 # Components
 
-The thirteen built-in components of the kikx registry, generated from `GET /api/registry`. Components and fields are also printed by [`kikx list`](cli.md#kikx-list).
+The seventeen built-in components of the kikx registry, generated from `GET /api/registry`. Components and fields are also printed by [`kikx list`](cli.md#kikx-list).
 
 Every field value is a string. Every template also receives `name`, `namespace` and `labels`, described in [Registry item format](registry-item-format.md#template-context). Output paths are relative to the target directory and are rendered with the same context as the file content.
 
