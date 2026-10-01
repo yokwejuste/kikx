@@ -89,6 +89,7 @@ export function LessonTerminal() {
           <input
             ref={input}
             data-teach="cli-input"
+            name="command"
             aria-label={t("prompt")}
             aria-keyshortcuts="Tab ArrowUp ArrowDown Control+C Control+L"
             placeholder={entries.length === 0 ? t("placeholder") : undefined}

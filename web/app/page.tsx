@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -61,6 +61,7 @@ function HomeContent() {
     }
   }
 
+  const presetInputId = useId();
   const form = useForm<ProjectNameValues>({
     resolver: zodResolver(projectNameSchema),
     defaultValues: { name: "" },
@@ -173,7 +174,7 @@ function HomeContent() {
               </form>
             </div>
 
-            <label data-tour="open-preset" className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:border-brand/40 hover:bg-muted/40">
+            <label data-tour="open-preset" htmlFor={presetInputId} className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:border-brand/40 hover:bg-muted/40">
               <span className="flex items-center gap-3">
                 <IconTile icon={FolderOpen} />
                 <span>
@@ -185,6 +186,8 @@ function HomeContent() {
                 </span>
               </span>
               <input
+                id={presetInputId}
+                name="preset"
                 type="file"
                 accept=".json,application/json"
                 className="sr-only"

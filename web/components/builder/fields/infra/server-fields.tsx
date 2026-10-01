@@ -76,7 +76,7 @@ export function ServerFields({ form, errors }: { form: UseFormReturn<FormValues>
     <>
       <Field className="sm:col-span-2">
         <FieldLabel htmlFor={selectId}>{t("provider")}</FieldLabel>
-        <Select value={provider} onValueChange={changeProvider}>
+        <Select name="provider" value={provider} onValueChange={changeProvider}>
           <SelectTrigger id={selectId} className="w-full pointer-coarse:h-10">
             <SelectValue />
           </SelectTrigger>

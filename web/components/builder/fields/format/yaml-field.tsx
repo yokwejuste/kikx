@@ -49,6 +49,7 @@ export function YamlField({
       fallback={
         <Textarea
           readOnly
+          name={name}
           aria-label={label}
           value={value}
           placeholder={placeholder}

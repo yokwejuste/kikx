@@ -223,7 +223,7 @@ export function DataFlow() {
             colorMode={colorMode}
             fitView
             fitViewOptions={{ padding: 0.2 }}
-            proOptions={{ hideAttribution: true }}
+            attributionPosition="top-right"
             nodesConnectable={false}
             elementsSelectable={false}
           >

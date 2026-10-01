@@ -122,7 +122,6 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
               fitView
               fitViewOptions={{ padding: 0.08 }}
               minZoom={0.1}
-              proOptions={{ hideAttribution: true }}
               nodesDraggable={false}
               nodesConnectable={false}
               elementsSelectable={false}

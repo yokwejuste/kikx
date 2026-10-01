@@ -1,10 +1,11 @@
 "use client";
 
+import { useId } from "react";
 import { useFieldArray, useWatch, type UseFormReturn } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError, FieldTitle } from "@/components/ui/field";
 import { RemoveButton } from "@/components/builder/fields/row-actions";
 import { RowInput } from "@/components/builder/fields/row-input";
 import type { FieldErrors } from "@/components/builder/fields/field-errors";
@@ -34,10 +35,11 @@ export function KeyValueFields({
   const errors = form.formState.errors as FieldErrors;
   const values = useWatch({ control: form.control, name: name as never }) as unknown as { key?: string }[] | undefined;
   const problems = keyProblems((values ?? []).map((row) => row?.key ?? ""), variableNames);
+  const titleId = useId();
 
   return (
-    <Field data-teach="key-values" data-invalid={!!errors[name]}>
-      <FieldLabel>{label}</FieldLabel>
+    <Field data-teach="key-values" data-invalid={!!errors[name]} aria-labelledby={titleId}>
+      <FieldTitle id={titleId}>{label}</FieldTitle>
       <div className="flex flex-col gap-2">
         {rows.fields.map((field, index) => (
           <div key={field.id} className="flex flex-col gap-1">

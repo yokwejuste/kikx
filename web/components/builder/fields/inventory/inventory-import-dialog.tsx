@@ -57,6 +57,8 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
 
         <Textarea
           data-teach="inventory-ini"
+          name="inventory"
+          aria-label={t("title")}
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={FORMAT_HINT}
@@ -69,6 +71,7 @@ export function InventoryImportDialog({ onImport }: { onImport: (parsed: ParsedI
             <Upload className="size-4" />
             {t("chooseFile")}
             <input
+              name="inventoryFile"
               type="file"
               accept=".ini,.cfg,.txt,text/plain"
               className="sr-only"
