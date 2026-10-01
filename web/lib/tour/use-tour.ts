@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { driver, type DriveStep, type Side } from "driver.js";
+import { driver, type Config, type DriveStep, type Driver, type Side } from "driver.js";
 import { useTranslations } from "next-intl";
 import { TOURS, tourTarget, type TourName } from "@/lib/tour/steps";
 import { glowAround, stopGlow } from "@/lib/tour/glow";
@@ -19,8 +19,27 @@ const LOOK = {
   smoothScroll: true,
   animate: false,
   onHighlighted: (element?: Element) => glowAround(element, STAGE_PADDING, STAGE_RADIUS),
-  onDestroyed: () => stopGlow(),
 };
+
+let activeTour: Driver | null = null;
+
+export function closeTour(): void {
+  activeTour?.destroy();
+}
+
+function launch(config: Config = {}): Driver {
+  activeTour?.destroy();
+  const tour = driver({
+    ...LOOK,
+    ...config,
+    onDestroyed: () => {
+      stopGlow();
+      if (activeTour === tour) activeTour = null;
+    },
+  });
+  activeTour = tour;
+  return tour;
+}
 
 function hasSeen(name: TourName) {
   try {
@@ -71,19 +90,20 @@ function presentSteps(name: TourName, t: Translate): DriveStep[] {
   );
 }
 
-export function startTour(name: TourName, t: Translate) {
+export function startTour(name: TourName, t: Translate): Driver | null {
   const steps = presentSteps(name, t);
-  if (steps.length === 0) return;
+  if (steps.length === 0) return null;
   markSeen(name);
-  driver({
-    ...LOOK,
+  const tour = launch({
     steps,
     showProgress: steps.length > 1,
     progressText: t("progress", { current: "{{current}}", total: "{{total}}" }),
     nextBtnText: t("next"),
     prevBtnText: t("back"),
     doneBtnText: t("done"),
-  }).drive();
+  });
+  tour.drive();
+  return tour;
 }
 
 export function useFirstVisitTour(name: TourName, ready = true) {
@@ -93,16 +113,20 @@ export function useFirstVisitTour(name: TourName, ready = true) {
     const total = TOURS[name].length;
     const started = performance.now();
     let frame = 0;
+    let tour: Driver | null = null;
     const tick = () => {
       const allPresent = presentSteps(name, t).length === total;
       if (allPresent || performance.now() - started > WAIT_FOR_TARGETS_MS) {
-        if (!hasSeen(name)) startTour(name, t);
+        if (!hasSeen(name)) tour = startTour(name, t);
         return;
       }
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      if (tour?.isActive()) tour.destroy();
+    };
   }, [name, ready, t]);
 }
 
@@ -112,7 +136,7 @@ export function usePointAt(name: TourName) {
     (target: string) => {
       const element = visibleTarget(target);
       if (!element) return;
-      driver(LOOK).highlight({
+      launch().highlight({
         element,
         popover: {
           title: t(`${name}.${target}.title`),

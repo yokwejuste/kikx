@@ -1,16 +1,20 @@
 "use client";
 
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Compass } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { TOUR_ROUTES } from "@/lib/tour/steps";
-import { useStartTour } from "@/lib/tour/use-tour";
+import { closeTour, useStartTour } from "@/lib/tour/use-tour";
 
 export function TourButton() {
   const t = useTranslations("header");
-  const tour = TOUR_ROUTES[usePathname()];
+  const pathname = usePathname();
+  const tour = TOUR_ROUTES[pathname];
   const start = useStartTour(tour);
+
+  useEffect(() => closeTour, [pathname]);
 
   if (!tour) return null;
 
