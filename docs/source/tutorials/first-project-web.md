@@ -321,7 +321,10 @@ project with an imported inventory, two plays, a role condition and a warning to
 When you want to know more:
 
 - watch kikx build a project on its own: [Let kikx show you](teach-me.md);
-- start from a ready-made project: [Start from a template](../how-to/presets.md#start-from-a-template);
+- start from a ready-made project: [Start from a template in the app](../how-to/start-from-template-web.md);
+- change, rename or remove what you added: [Edit components in the app](../how-to/edit-components-web.md);
+- change the namespace or output directory: [Change project settings in the app](../how-to/project-settings-web.md);
+- every way to save and reopen a project: [Export and reopen a project in the app](../how-to/export-and-reopen-web.md);
 - bring your own inventory: [Import an existing Ansible inventory](../how-to/import-an-inventory.md);
 - more about missing roles: [Scaffold the roles your playbooks use](../how-to/scaffold-roles.md);
 - why the project stays in the browser: [How the pieces fit together](../explanation/project-layout.md#the-dashboard-keeps-the-project-in-the-browser);

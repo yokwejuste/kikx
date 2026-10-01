@@ -358,8 +358,17 @@ msgstr "Pour aller plus loin :"
 msgid "watch kikx build a project on its own: [Let kikx show you](teach-me.md);"
 msgstr "regarder kikx construire un projet tout seul : [Laissez kikx vous montrer](teach-me.md) ;"
 
-msgid "start from a ready-made project: [Start from a template](../how-to/presets.md#start-from-a-template);"
-msgstr "partir d'un projet prêt à l'emploi : [Démarrer depuis un template](../how-to/presets.md#start-from-a-template) ;"
+msgid "start from a ready-made project: [Start from a template in the app](../how-to/start-from-template-web.md);"
+msgstr "partir d'un projet prêt à l'emploi : [Partir d'un modèle dans l'app](../how-to/start-from-template-web.md) ;"
+
+msgid "change, rename or remove what you added: [Edit components in the app](../how-to/edit-components-web.md);"
+msgstr "modifier, renommer ou retirer ce que vous avez ajouté : [Modifier des composants dans l'app](../how-to/edit-components-web.md) ;"
+
+msgid "change the namespace or output directory: [Change project settings in the app](../how-to/project-settings-web.md);"
+msgstr "changer le namespace ou le dossier de sortie : [Modifier les paramètres du projet dans l'app](../how-to/project-settings-web.md) ;"
+
+msgid "every way to save and reopen a project: [Export and reopen a project in the app](../how-to/export-and-reopen-web.md);"
+msgstr "toutes les façons d'enregistrer et de rouvrir un projet : [Exporter et rouvrir un projet dans l'app](../how-to/export-and-reopen-web.md) ;"
 
 msgid "bring your own inventory: [Import an existing Ansible inventory](../how-to/import-an-inventory.md);"
 msgstr "apporter votre propre inventaire : [Importer un inventaire Ansible existant](../how-to/import-an-inventory.md) ;"
