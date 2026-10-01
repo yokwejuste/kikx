@@ -1,0 +1,173 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 17:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Export and reopen a project in the app"
+msgstr "Exporter et rouvrir un projet dans l'app"
+
+msgid "The app keeps your project in the browser only. This guide shows how to get it out as files or as a preset, how to tell whether your latest changes are saved anywhere else, how to open a preset again, and how to move a project between the app and the CLI."
+msgstr "L'app ne conserve votre projet que dans le navigateur. Ce guide montre comment l'en sortir sous forme de fichiers ou de preset, comment savoir si vos dernières modifications sont enregistrées ailleurs, comment rouvrir un preset et comment faire passer un projet de l'app à la CLI et inversement."
+
+msgid "Check what's saved"
+msgstr "Vérifier ce qui est enregistré"
+
+msgid "Next to the badges in the builder header, a short line tells you where the project stands:"
+msgstr "À côté des badges dans l'en-tête du constructeur, une courte ligne indique où en est le projet :"
+
+msgid "The line says"
+msgstr "La ligne indique"
+
+msgid "Meaning"
+msgstr "Signification"
+
+msgid "**Saved in this browser · not on disk yet**"
+msgstr "**Enregistré dans ce navigateur · pas encore sur le disque**"
+
+msgid "You haven't exported this project."
+msgstr "Vous n'avez pas exporté ce projet."
+
+msgid "**Downloaded** followed by a time, for example *Downloaded 5 minutes ago*"
+msgstr "**Téléchargé** suivi d'un moment, par exemple *Téléchargé il y a 5 minutes*"
+
+msgid "Your last export matches the project as it is now."
+msgstr "Votre dernier export correspond au projet tel qu'il est maintenant."
+
+msgid "**Changes since last download**"
+msgstr "**Modifié depuis le dernier téléchargement**"
+
+msgid "You changed something after your last export."
+msgstr "Vous avez modifié quelque chose après votre dernier export."
+
+msgid "Both **Files (.zip)** and **Preset (.kikx-preset.json)** count as a download. Hover the line for a reminder that the project lives only in this browser's storage: clearing your browser data removes it, and another browser or computer doesn't see it."
+msgstr "**Fichiers (.zip)** et **Preset (.kikx-preset.json)** comptent tous deux comme un téléchargement. Survolez la ligne pour un rappel : le projet n'existe que dans le stockage de ce navigateur. Effacer les données du navigateur le supprime, et un autre navigateur ou ordinateur ne le voit pas."
+
+msgid "Export the project"
+msgstr "Exporter le projet"
+
+msgid "Open **Export** at the top right of the builder. It's disabled until the project has at least one component. Choose one of three options."
+msgstr "Ouvrez **Exporter** en haut à droite du constructeur. Le menu est désactivé tant que le projet n'a aucun composant. Choisissez l'une des trois options."
+
+msgid "Files (.zip)"
+msgstr "Fichiers (.zip)"
+
+msgid "Your browser saves `<project-name>.zip`. It contains:"
+msgstr "Votre navigateur enregistre `<project-name>.zip`. Il contient :"
+
+msgid "`kikx.toml`, with the project name, default namespace and output directory;"
+msgstr "`kikx.toml`, avec le nom du projet, le namespace par défaut et le dossier de sortie ;"
+
+msgid "every file of every component, inside the output directory, for example `infra/`."
+msgstr "tous les fichiers de tous les composants, dans le dossier de sortie, par exemple `infra/`."
+
+msgid "Unzip it at the root of your repo. The files are plain files with no link back to kikx. See the last steps of [Build an Ansible platform in the dashboard](../tutorials/platform-in-the-dashboard.md#download-the-project) for an example."
+msgstr "Décompressez-le à la racine de votre dépôt. Ce sont des fichiers simples, sans lien avec kikx. Voir les dernières étapes de [Construire une plateforme Ansible dans le tableau de bord](../tutorials/platform-in-the-dashboard.md#download-the-project) pour un exemple."
+
+msgid "Preset (.kikx-preset.json)"
+msgstr "Preset (.kikx-preset.json)"
+
+msgid "Your browser saves `<project-name>.kikx-preset.json`. A preset is the recipe for the project: the name, namespace, output directory, and each component's field values. It doesn't contain the rendered files."
+msgstr "Votre navigateur enregistre `<project-name>.kikx-preset.json`. Un preset est la recette du projet : le nom, le namespace, le dossier de sortie et les valeurs des champs de chaque composant. Il ne contient pas les fichiers générés."
+
+msgid "Keep the preset if you want to come back to the project in the app later, or share it so someone else can open it or render it with the CLI. [Preset format](../reference/preset-format.md) describes the file."
+msgstr "Gardez le preset si vous voulez revenir au projet dans l'app plus tard, ou partagez-le pour que quelqu'un d'autre puisse l'ouvrir ou le générer avec la CLI. [Format des presets](../reference/preset-format.md) décrit le fichier."
+
+msgid "CLI command"
+msgstr "Commande CLI"
+
+msgid "A dialog titled **Run it with the CLI** opens. It shows two commands with copy buttons, using your preset's file name:"
+msgstr "Une boîte de dialogue intitulée **Lancer avec la CLI** s'ouvre. Elle affiche deux commandes avec des boutons de copie, qui utilisent le nom de fichier de votre preset :"
+
+msgid "Both commands read the preset, so click **Download preset** in the dialog and save the file in the directory you run them from. Then:"
+msgstr "Les deux commandes lisent le preset : cliquez donc sur **Télécharger le preset** dans la boîte de dialogue et enregistrez le fichier dans le dossier d'où vous les lancez. Ensuite :"
+
+msgid "`kikx setup` starts a new kikx project from the preset: it writes `kikx.toml` and renders every component into the output directory;"
+msgstr "`kikx setup` démarre un nouveau projet kikx à partir du preset : il écrit `kikx.toml` et génère chaque composant dans le dossier de sortie ;"
+
+msgid "`kikx apply` adds the files to a repo you already have, with no `kikx.toml` and no backend. Add `--into <dir>` to choose where they go."
+msgstr "`kikx apply` ajoute les fichiers à un dépôt existant, sans `kikx.toml` ni backend. Ajoutez `--into <dir>` pour choisir où ils vont."
+
+msgid "[Share a project as a preset](presets.md#choose-between-setup-and-apply) explains when to use which."
+msgstr "[Partager un projet sous forme de preset](presets.md#choose-between-setup-and-apply) explique quand utiliser l'une ou l'autre."
+
+msgid "Reopen a preset in the app"
+msgstr "Rouvrir un preset dans l'app"
+
+msgid "Go to the home page. From the builder, click **Home** in the header."
+msgstr "Allez sur la page d'accueil. Depuis le constructeur, cliquez sur **Accueil** dans l'en-tête."
+
+msgid "Make sure **In the app** is selected."
+msgstr "Vérifiez que **Dans l'app** est sélectionné."
+
+msgid "Click **Open a preset** and pick your `.kikx-preset.json` file."
+msgstr "Cliquez sur **Ouvrir un preset** et choisissez votre fichier `.kikx-preset.json`."
+
+msgid "While the app renders every component through the backend, the button reads **Opening preset…**. Then the builder opens with the project loaded, and the storage line says **Saved in this browser · not on disk yet** again."
+msgstr "Pendant que l'app génère chaque composant via le backend, le bouton indique **Ouverture du preset…**. Le constructeur s'ouvre ensuite avec le projet chargé, et la ligne d'état indique de nouveau **Enregistré dans ce navigateur · pas encore sur le disque**."
+
+msgid "If the file isn't a preset, or a component can't render, nothing opens. A notification says **Couldn't open that preset** with the reason, for example *That isn't a kikx preset: it has no components list.*"
+msgstr "Si le fichier n'est pas un preset, ou si un composant ne peut pas être généré, rien ne s'ouvre. Une notification indique **Impossible d'ouvrir ce preset** avec la raison, par exemple *Ce n'est pas un preset kikx : il n'a pas de liste de composants.*"
+
+msgid "Opening a preset replaces the project kept in your browser, along with its unsaved drafts, without asking. Export the current project first if you want to keep it."
+msgstr "Ouvrir un preset remplace le projet conservé dans votre navigateur, ainsi que ses brouillons non enregistrés, sans confirmation. Exportez d'abord le projet actuel si vous voulez le garder."
+
+msgid "The preset's project name, namespace and output directory come back with it. If the preset has no name, the app uses the file name."
+msgstr "Le nom du projet, le namespace et le dossier de sortie du preset reviennent avec lui. Si le preset n'a pas de nom, l'app utilise le nom du fichier."
+
+msgid "Move between the app and the CLI"
+msgstr "Passer de l'app à la CLI et inversement"
+
+msgid "From the app to the CLI"
+msgstr "De l'app vers la CLI"
+
+msgid "You have two ways:"
+msgstr "Deux possibilités :"
+
+msgid "**Keep working with the CLI.** Export **Files (.zip)** and unzip it. Because the zip has `kikx.toml` at its root, `kikx add` works in that directory straight away and writes into the same output directory. See [Your first project with the CLI](../tutorials/first-project-cli.md)."
+msgstr "**Continuer avec la CLI.** Exportez **Fichiers (.zip)** et décompressez l'archive. Comme le zip contient `kikx.toml` à sa racine, `kikx add` fonctionne immédiatement dans ce dossier et écrit dans le même dossier de sortie. Voir [Votre premier projet avec la CLI](../tutorials/first-project-cli.md)."
+
+msgid "**Render the project somewhere else.** Export the preset and run `kikx setup` in an empty directory, or `kikx apply --into <dir>` in an existing repo. The CLI renders every component again from the registry, so you get the same files as the zip."
+msgstr "**Générer le projet ailleurs.** Exportez le preset et lancez `kikx setup` dans un dossier vide, ou `kikx apply --into <dir>` dans un dépôt existant. La CLI génère de nouveau chaque composant à partir du registre : vous obtenez les mêmes fichiers que dans le zip."
+
+msgid "[Start the CLI apply lesson](teach:cliApply) to practise `kikx apply` in the practice terminal."
+msgstr "[Lancez la leçon sur kikx apply](teach:cliApply) pour vous exercer à `kikx apply` dans le terminal d'entraînement."
+
+msgid "From the CLI back to the app"
+msgstr "De la CLI vers l'app"
+
+msgid "The app only opens presets, and the CLI doesn't write them. Components you add with `kikx add` exist only as files on disk, so the app can't load them."
+msgstr "L'app n'ouvre que des presets, et la CLI n'en écrit pas. Les composants ajoutés avec `kikx add` n'existent que sous forme de fichiers sur le disque : l'app ne peut donc pas les charger."
+
+msgid "If you want to switch between the two, keep the preset as the source of the project:"
+msgstr "Si vous voulez alterner entre les deux, faites du preset la source du projet :"
+
+msgid "Make your changes in the app and export the preset again."
+msgstr "Faites vos modifications dans l'app et exportez de nouveau le preset."
+
+msgid "Run `kikx apply --force` (or `kikx setup --force`) again with the new preset to update the files. Files of components you removed in the app stay on disk; delete them yourself."
+msgstr "Relancez `kikx apply --force` (ou `kikx setup --force`) avec le nouveau preset pour mettre à jour les fichiers. Les fichiers des composants supprimés dans l'app restent sur le disque ; supprimez-les vous-même."
+
+msgid "You can also edit a preset by hand, following [Preset format](../reference/preset-format.md), and open it with **Open a preset**."
+msgstr "Vous pouvez aussi modifier un preset à la main, en suivant le [Format des presets](../reference/preset-format.md), puis l'ouvrir avec **Ouvrir un preset**."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Share a project as a preset](presets.md)"
+msgstr "[Partager un projet sous forme de preset](presets.md)"
+
+msgid "[CLI reference](../reference/cli.md)"
+msgstr "[Référence de la CLI](../reference/cli.md)"
+
+msgid "[Change project settings in the app](project-settings-web.md)"
+msgstr "[Modifier les paramètres du projet dans l'app](project-settings-web.md)"

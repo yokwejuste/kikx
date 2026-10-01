@@ -13,7 +13,12 @@ roles/<name>/meta/main.yml
 
 The task file holds a single placeholder `debug` task, so the role runs straight away. Replace it with your real tasks.
 
-## Scaffold every missing role at once (dashboard)
+## Scaffold every missing role at once
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
 
 1. Add your playbooks.
 2. Open **Checks**. For each playbook that uses roles kikx doesn't vendor, there's a note such as:
@@ -25,8 +30,22 @@ The task file holds a single placeholder `debug` task, so the role runs straight
 This adds one **Role skeleton** per missing role. The note disappears, and the roles appear in the project and in role suggestions.
 
 Skip this for roles that already exist under `roles/` in your repo, or that come from Ansible Galaxy. The note is only informational, and the download works without it.
+:::
 
-## Scaffold one role (dashboard)
+:::{tab-item} With the CLI
+:sync: cli
+
+This only exists in the app, because it comes from **Checks** and the CLI doesn't run checks. With the CLI, add one role skeleton for each role your playbooks use, as shown below.
+:::
+
+::::
+
+## Scaffold one role
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
 
 1. In **Build**, pick **Role skeleton** under the Configure stage.
 2. Fill in **Name**, which must match the name used in the playbook. It can contain letters, digits, `_`, `.` and `-`.
@@ -35,7 +54,11 @@ Skip this for roles that already exist under `roles/` in your repo, or that come
 
 For a role with real starter tasks (base packages, timezone, swap, motd), pick **Common role** instead; it sits under **Show more** in the Configure stage.
 
-## Scaffold a role with the CLI
+[Start this lesson](teach:playbooks) to watch the dashboard write a playbook and scaffold its roles.
+:::
+
+:::{tab-item} With the CLI
+:sync: cli
 
 ```bash
 kikx add ansible/role --name nginx --set 'description=Serves the storefront'
@@ -53,6 +76,11 @@ dependencies: []
 `defaults/main.yml` starts with a single `nginx_enabled: true`. Dashes in the role name become underscores in the variable and in `role_name`.
 
 `kikx add` won't overwrite a role you've already started filling in. It stops with `already exists. Pass --force to overwrite`, so only pass `--force` if you want the empty skeleton back.
+
+For a role with real starter tasks (base packages, timezone, swap, motd), use `ansible/common-role` instead of `ansible/role`.
+:::
+
+::::
 
 ## See also
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
-"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 16:27+0100\n"
 "Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
 "Language: fr\n"
 "Language-Team: fr\n"
@@ -19,6 +19,9 @@ msgstr "Exporter l'architecture vers draw.io"
 msgid "Use this to take the generated architecture diagram into draw.io (diagrams.net) and keep editing it by hand, for example to annotate it for a design review."
 msgstr "Suivez ce guide pour reprendre le diagramme d'architecture généré dans draw.io (diagrams.net) et continuer à le modifier à la main, par exemple pour l'annoter en vue d'une revue de conception."
 
+msgid "This only exists in the app. The CLI doesn't draw the architecture, so it has nothing to export. If you built the project with the CLI from a preset, open that preset in the app with **Open a preset** and export from there."
+msgstr "Cette fonction n'existe que dans l'app. La CLI ne dessine pas l'architecture : elle n'a donc rien à exporter. Si vous avez construit le projet avec la CLI à partir d'un preset, ouvrez ce preset dans l'app avec « Ouvrir un preset » et exportez depuis là."
+
 msgid "Export"
 msgstr "Exporter"
 
@@ -26,10 +29,10 @@ msgid "In the dashboard, click the **Architecture** tab in the header."
 msgstr "Dans le tableau de bord, cliquez sur l'onglet « Architecture » de l'en-tête."
 
 msgid "Wait for the diagram to finish arranging. **Export to draw.io** stays disabled until it does."
-msgstr "Attendez que la disposition du diagramme soit terminée. « Export to draw.io » reste désactivé jusque-là."
+msgstr "Attendez que la disposition du diagramme soit terminée. « Exporter vers draw.io » reste désactivé jusque-là."
 
 msgid "Click **Export to draw.io**."
-msgstr "Cliquez sur « Export to draw.io »."
+msgstr "Cliquez sur « Exporter vers draw.io »."
 
 msgid "The browser saves `<project-name>-architecture.drawio`."
 msgstr "Le navigateur enregistre `<project-name>-architecture.drawio`."
@@ -59,7 +62,7 @@ msgid "Not kept"
 msgstr "Non conservé"
 
 msgid "The swimlanes shown in the dashboard (Provision, Inventory, Playbooks, Roles, Deploy), with their labels and sizes"
-msgstr "Les couloirs affichés dans le tableau de bord (Provision, Inventory, Playbooks, Roles, Deploy), avec leurs libellés et leurs tailles"
+msgstr "Les couloirs affichés dans le tableau de bord (Provisionnement, Inventaire, Playbooks, Rôles, Déploiement), avec leurs libellés et leurs tailles"
 
 msgid "Colors and dark mode. The export uses draw.io's default styling."
 msgstr "Les couleurs et le mode sombre. L'export utilise le style par défaut de draw.io."

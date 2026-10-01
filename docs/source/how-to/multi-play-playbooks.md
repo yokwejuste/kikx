@@ -2,7 +2,12 @@
 
 Use this when one playbook file has to run different roles on different groups, or when a role should only run under a condition.
 
-## In the dashboard
+## Add the playbook
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
 
 1. In **Build**, pick **Playbook** under the Configure stage.
 2. Fill in **Name**. Set **Folder** to `playbooks` if you keep playbooks in a subfolder. Leave it empty to write the file at the project root.
@@ -18,7 +23,11 @@ Use this when one playbook file has to run different roles on different groups, 
 
 The preview shows the rendered YAML as you type. If a play targets a group that isn't in the inventory, **Checks** warns you.
 
-## With the CLI
+[Start this lesson](teach:playbooks) to watch the dashboard write a playbook with several plays.
+:::
+
+:::{tab-item} With the CLI
+:sync: cli
 
 Pass the plays as a JSON list in the `plays` field:
 
@@ -76,6 +85,11 @@ A few rules for the JSON:
 - `pre_tasks` and `post_tasks` are YAML strings. Keep them at zero indentation, and kikx indents them under the play.
 
 Use `plays`, even for a single play. The older `--set hosts=... --set roles=[...]` form still works, but it writes a single play named after the component, with no tags and no role conditions.
+
+The CLI doesn't check play targets against the inventory. Make sure each `hosts` value matches a group.
+:::
+
+::::
 
 ## In a preset
 

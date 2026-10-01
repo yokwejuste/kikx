@@ -2,7 +2,12 @@
 
 Use this when you already have an `inventory.ini` and want kikx to manage it.
 
-## In the dashboard
+## Bring the hosts in
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
 
 1. In **Build**, pick **Inventory** under the Inventory stage. To replace an inventory you already added, open that one instead.
 2. Next to **Hosts**, click **Import inventory.ini**.
@@ -13,37 +18,13 @@ Use this when you already have an `inventory.ini` and want kikx to manage it.
 
 **Replace hosts & groups** overwrites every host and group row in the form. It doesn't merge them with what's already there.
 
-### How hosts in several groups are merged
+[Start this lesson](teach:import) to watch the dashboard import an inventory and its group vars.
+:::
 
-A host that appears in several sections becomes one host row with several groups:
+:::{tab-item} With the CLI
+:sync: cli
 
-```ini
-[web]
-web1 ansible_host=192.0.2.10 ansible_user=deploy
-
-[monitored]
-web1
-```
-
-This gives one `web1` row in groups `web` and `monitored`, with the address and user kept. When kikx writes the file back, the connection details go on the host's first group only. Later groups list just the name.
-
-`[group:children]` sections become nested groups, and `[group:vars]` sections become that group's vars.
-
-### Warnings you may see
-
-| Warning | What to do |
-|-|-|
-| `Line N: "…" is outside any [group] section, so it was skipped.` | Put the host under a `[group]` header, or ignore it if you didn't need it. |
-| `web1: ansible_host is "192.0.2.10" in one group but "192.0.2.11" in [db]. Kept the first.` | The same name points at two machines. Rename one of the hosts, or fix the address after the import. |
-| `web1 has no ansible_host. Ansible will try to resolve the name itself.` | Fine if the name resolves in DNS. Otherwise, add an address in the host row. |
-
-Comment lines starting with `#` or `;` are ignored and aren't kept.
-
-After the import, open **Checks** to catch problems across components. See [Resolve file conflicts and checks](resolve-conflicts.md).
-
-## With the CLI
-
-The CLI takes the inventory as JSON in the `hosts` field: a list of groups, each with `members`, `children` and `vars`.
+The CLI can't read an `inventory.ini`. Only the dashboard imports one. The CLI takes the inventory as JSON in the `hosts` field: a list of groups, each with `members`, `children` and `vars`.
 
 ```bash
 kikx add ansible/inventory --name platform --set 'hosts=[
@@ -85,6 +66,41 @@ db
 To put a host in a second group, list it again with `ansible_host`, `ansible_user` and `ansible_port` set to `null`. A missing `ansible_user` or `ansible_port` gets the default (`root` and `22`). Set a different default with `--set default_user=deploy` or `--set default_port=2222`.
 
 Add `--force` to overwrite an inventory you already added.
+:::
+
+::::
+
+### How hosts in several groups are merged
+
+These rules apply to **Import inventory.ini** in the app.
+
+A host that appears in several sections becomes one host row with several groups:
+
+```ini
+[web]
+web1 ansible_host=192.0.2.10 ansible_user=deploy
+
+[monitored]
+web1
+```
+
+This gives one `web1` row in groups `web` and `monitored`, with the address and user kept. When kikx writes the file back, the connection details go on the host's first group only. Later groups list just the name.
+
+`[group:children]` sections become nested groups, and `[group:vars]` sections become that group's vars.
+
+### Warnings you may see
+
+The import dialog in the app shows these warnings. The CLI never parses an `inventory.ini`, so it doesn't show them.
+
+| Warning | What to do |
+|-|-|
+| `Line N: "…" is outside any [group] section, so it was skipped.` | Put the host under a `[group]` header, or ignore it if you didn't need it. |
+| `web1: ansible_host is "192.0.2.10" in one group but "192.0.2.11" in [db]. Kept the first.` | The same name points at two machines. Rename one of the hosts, or fix the address after the import. |
+| `web1 has no ansible_host. Ansible will try to resolve the name itself.` | Fine if the name resolves in DNS. Otherwise, add an address in the host row. |
+
+Comment lines starting with `#` or `;` are ignored and aren't kept.
+
+After the import, open **Checks** in the app to catch problems across components. The CLI doesn't run checks. See [Resolve file conflicts and checks](resolve-conflicts.md).
 
 ## See also
 

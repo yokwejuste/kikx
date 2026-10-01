@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
-"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 16:27+0100\n"
 "Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
 "Language: fr\n"
 "Language-Team: fr\n"
@@ -22,14 +22,29 @@ msgstr "Un preset est un fichier `.kikx-preset.json` qui liste vos composants et
 msgid "Start from a template"
 msgstr "Démarrer depuis un template"
 
+msgid "In the app"
+msgstr "Dans l'app"
+
+msgid "Go to the home page and click a card under **Start from a template**. The builder opens with every component of the template loaded, ready to edit."
+msgstr "Allez sur la page d'accueil et cliquez sur une carte sous « Partir d'un modèle ». Le constructeur s'ouvre avec tous les composants du template chargés, prêts à être modifiés."
+
+msgid "Each card ends with the template name, for example `single-server` or `k8s-web-app`, and its number of components."
+msgstr "Chaque carte se termine par le nom du template, par exemple `single-server` ou `k8s-web-app`, et son nombre de composants."
+
+msgid "[Start this lesson](teach:template) to open a template and explore it stage by stage."
+msgstr "[Lancer cette leçon](teach:template) pour ouvrir un template et l'explorer étape par étape."
+
+msgid "With the CLI"
+msgstr "Avec la CLI"
+
 msgid "List the templates:"
 msgstr "Listez les templates :"
 
 msgid "Each entry starts with the template name, for example `single-server` or `k8s-web-app`. Pass that name wherever this page uses a preset file:"
 msgstr "Chaque entrée commence par le nom du template, par exemple `single-server` ou `k8s-web-app`. Passez ce nom partout où cette page utilise un fichier de preset :"
 
-msgid "In the dashboard, go to the home page and click a card under **Start from a template**. The builder opens with every component of the template loaded, ready to edit."
-msgstr "Dans le tableau de bord, allez sur la page d'accueil et cliquez sur une carte sous « Start from a template ». Le constructeur s'ouvre avec tous les composants du template chargés, prêts à être modifiés."
+msgid "[Start this lesson](teach:cliTemplate) to try `kikx presets` and `kikx setup` in a practice terminal."
+msgstr "[Lancer cette leçon](teach:cliTemplate) pour essayer `kikx presets` et `kikx setup` dans un terminal d'entraînement."
 
 msgid "The files are yours from then on. Nothing links them back to the template."
 msgstr "Les fichiers vous appartiennent dès lors. Rien ne les relie au template."
@@ -40,17 +55,32 @@ msgstr "Télécharger un preset depuis le tableau de bord"
 msgid "Build your project."
 msgstr "Construisez votre projet."
 
-msgid "At the bottom of the **Project** panel, click **Download preset**."
-msgstr "En bas du panneau « Project », cliquez sur « Download preset »."
+msgid "Open **Export** in the header and choose **Preset (.kikx-preset.json)**."
+msgstr "Ouvrez « Exporter » dans l'en-tête et choisissez « Preset (.kikx-preset.json) »."
 
-msgid "The browser saves `<project-name>.kikx-preset.json`. The panel then shows the two commands to run it, with copy buttons."
-msgstr "Le navigateur enregistre `<project-name>.kikx-preset.json`. Le panneau affiche ensuite les deux commandes permettant de l'exécuter, avec des boutons de copie."
+msgid "The browser saves `<project-name>.kikx-preset.json`. **Export** > **CLI command** shows the two commands to run it, with copy buttons."
+msgstr "Le navigateur enregistre `<project-name>.kikx-preset.json`. « Exporter » > « Commande CLI » affiche les deux commandes permettant de l'exécuter, avec des boutons de copie."
 
-msgid "**Download .zip** in the header is different. It gives you the rendered files themselves, not a recipe."
-msgstr "« Download .zip » dans l'en-tête est différent. Il vous donne les fichiers rendus eux-mêmes, pas une recette."
+msgid "**Export** > **Files (.zip)** is different. It gives you the rendered files themselves, not a recipe."
+msgstr "« Exporter » > « Fichiers (.zip) » est différent. Il vous donne les fichiers rendus eux-mêmes, pas une recette."
+
+msgid "Only the dashboard can save a project as a preset. The CLI reads presets but never writes one. To get a preset without the dashboard, write the file by hand following the [Preset format](../reference/preset-format.md)."
+msgstr "Seul le tableau de bord peut enregistrer un projet sous forme de preset. La CLI lit les presets mais n'en écrit jamais. Pour obtenir un preset sans le tableau de bord, écrivez le fichier à la main en suivant le [format de preset](../reference/preset-format.md)."
 
 msgid "Start a new project from a preset"
 msgstr "Démarrer un nouveau projet depuis un preset"
+
+msgid "Go to the home page. If you're in the builder, click **Home** in the header."
+msgstr "Allez sur la page d'accueil. Si vous êtes dans le constructeur, cliquez sur « Accueil » dans l'en-tête."
+
+msgid "Click **Open a preset** and pick the `.kikx-preset.json` file."
+msgstr "Cliquez sur « Ouvrir un preset » et sélectionnez le fichier `.kikx-preset.json`."
+
+msgid "The dashboard re-renders every component through the backend, then opens the builder with the project loaded. If a component can't render, for example a custom registry item the backend can't reach, the preset doesn't open and an error names the problem."
+msgstr "Le tableau de bord effectue un nouveau rendu de chaque composant via le backend, puis ouvre le constructeur avec le projet chargé. Si le rendu d'un composant échoue, par exemple pour un élément de registre personnalisé que le backend ne peut pas atteindre, le preset ne s'ouvre pas et une erreur indique le problème."
+
+msgid "Opening a preset replaces the project currently in the browser. Download what you have first if you want to keep it."
+msgstr "Ouvrir un preset remplace le projet actuellement chargé dans le navigateur. Téléchargez d'abord ce que vous avez si vous voulez le conserver."
 
 msgid "In an empty directory:"
 msgstr "Dans un répertoire vide :"
@@ -64,11 +94,26 @@ msgstr "`setup` s'arrête si `kikx.toml` existe déjà. Passez `--force` pour é
 msgid "Add a preset to a repo you already have"
 msgstr "Ajouter un preset à un dépôt existant"
 
+msgid "Open the preset as shown in [Start a new project from a preset](#start-a-new-project-from-a-preset)."
+msgstr "Ouvrez le preset comme indiqué dans [Démarrer un nouveau projet depuis un preset](#start-a-new-project-from-a-preset)."
+
+msgid "Open **Export** and choose **Files (.zip)**."
+msgstr "Ouvrez « Exporter » et choisissez « Fichiers (.zip) »."
+
+msgid "Unzip the file and copy what's inside its output directory, `infra/` by default, into your repo."
+msgstr "Décompressez le fichier et copiez le contenu de son répertoire de sortie, `infra/` par défaut, dans votre dépôt."
+
+msgid "The zip also holds a `kikx.toml` next to that directory. You only need it if you'll keep using the CLI in that repo."
+msgstr "Le zip contient aussi un `kikx.toml` à côté de ce répertoire. Il ne vous sert que si vous comptez utiliser la CLI dans ce dépôt."
+
 msgid "`apply` never creates or reads `kikx.toml`. It writes the files under `--into`, relative to the current directory. Without `--into`, files land directly in the current directory. The preset's output directory is ignored."
 msgstr "`apply` ne crée ni ne lit jamais `kikx.toml`. Il écrit les fichiers sous `--into`, relativement au répertoire courant. Sans `--into`, les fichiers sont écrits directement dans le répertoire courant. Le répertoire de sortie du preset est ignoré."
 
 msgid "If any target file already exists, `apply` writes nothing and names the file. Re-run with `--force` to overwrite."
 msgstr "Si un fichier cible existe déjà, `apply` n'écrit rien et indique le nom du fichier. Relancez avec `--force` pour écraser."
+
+msgid "[Start this lesson](teach:cliApply) to take a preset from the app into a project with `kikx apply`."
+msgstr "[Lancer cette leçon](teach:cliApply) pour reprendre un preset de l'app dans un projet avec `kikx apply`."
 
 msgid "Choose between setup and apply"
 msgstr "Choisir entre setup et apply"
@@ -97,23 +142,11 @@ msgstr "Les deux commandes effectuent à chaque fois un nouveau rendu de chaque 
 msgid "Load a preset from a URL"
 msgstr "Charger un preset depuis une URL"
 
+msgid "The dashboard only opens a preset file from your computer. Download the preset first, then use **Open a preset**."
+msgstr "Le tableau de bord n'ouvre qu'un fichier de preset présent sur votre ordinateur. Téléchargez d'abord le preset, puis utilisez « Ouvrir un preset »."
+
 msgid "Both commands also accept a URL:"
 msgstr "Les deux commandes acceptent aussi une URL :"
-
-msgid "Open a preset in the dashboard"
-msgstr "Ouvrir un preset dans le tableau de bord"
-
-msgid "Go to the home page. If you're in the builder, click **Home** in the header."
-msgstr "Allez sur la page d'accueil. Si vous êtes dans le constructeur, cliquez sur « Accueil » dans l'en-tête."
-
-msgid "Click **Open a preset** and pick the `.kikx-preset.json` file."
-msgstr "Cliquez sur « Open a preset » et sélectionnez le fichier `.kikx-preset.json`."
-
-msgid "The dashboard re-renders every component through the backend, then opens the builder with the project loaded. If a component can't render, for example a custom registry item the backend can't reach, the preset doesn't open and an error names the problem."
-msgstr "Le tableau de bord effectue un nouveau rendu de chaque composant via le backend, puis ouvre le constructeur avec le projet chargé. Si le rendu d'un composant échoue, par exemple pour un élément de registre personnalisé que le backend ne peut pas atteindre, le preset ne s'ouvre pas et une erreur indique le problème."
-
-msgid "Opening a preset replaces the project currently in the browser. Download what you have first if you want to keep it."
-msgstr "Ouvrir un preset remplace le projet actuellement chargé dans le navigateur. Téléchargez d'abord ce que vous avez si vous voulez le conserver."
 
 msgid "See also"
 msgstr "Voir aussi"
