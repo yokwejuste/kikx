@@ -15,11 +15,18 @@ const TONES: Record<Tone, string> = {
 };
 
 function TerminalLine({ line }: { line: OutputLine }) {
-  const t = useTranslations("learnCli.notices");
-  if (!Array.isArray(line)) {
+  const t = useTranslations("learnCli");
+  if ("tip" in line) {
+    return (
+      <p data-teach="cli-line" className="font-sans text-xs text-(--terminal-paper)/50">
+        {t("tip", { name: line.tip })}
+      </p>
+    );
+  }
+  if ("notice" in line) {
     return (
       <p data-teach="cli-line" className="font-sans text-(--terminal-paper)/70 italic">
-        {t(line.notice)}
+        {t(`notices.${line.notice}`)}
       </p>
     );
   }
@@ -39,8 +46,11 @@ export function TerminalEntry({ entry }: { entry: CliEntry }) {
   return (
     <div className="group flex flex-col gap-1">
       <PromptLine className="items-start">
-        <span className="min-w-0 flex-1 break-words">{entry.command}</span>
-        {entry.command.trim() && (
+        <span className="min-w-0 flex-1 break-words">
+          {entry.command}
+          {entry.interrupted && <span className="text-(--terminal-paper)/50">^C</span>}
+        </span>
+        {entry.command.trim() && !entry.interrupted && (
           <TerminalCopyButton
             data-teach="cli-copy"
             text={entry.command}

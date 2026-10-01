@@ -1,9 +1,11 @@
 import { useSyncExternalStore } from "react";
-import { api } from "@/lib/api/client";
+import { api, type RegistryItem } from "@/lib/api/client";
 import { presetFileName, presetJson, toPresetManifest } from "@/lib/project/preset";
 import { projectDefaults } from "@/lib/registry/store";
-import { emptyMachine, runLine, type CliMachine, type EngineDeps } from "@/lib/teach/cli/engine";
+import type { CompletionSources } from "@/lib/teach/cli/complete";
+import { emptyMachine, listDirectory, runLine, type CliMachine, type EngineDeps } from "@/lib/teach/cli/engine";
 import type { OutputLine } from "@/lib/teach/cli/format";
+import { remember } from "@/lib/teach/cli/history";
 import { kikxReleases } from "@/lib/teach/cli/releases";
 
 export interface CliEntry {
@@ -11,6 +13,7 @@ export interface CliEntry {
   command: string;
   lines: OutputLine[];
   running: boolean;
+  interrupted?: boolean;
 }
 
 export interface CliSnapshot {
@@ -23,6 +26,8 @@ export interface CliSnapshot {
 
 const initial = (): CliSnapshot => ({ machine: emptyMachine(), entries: [], ran: [], busy: false, selected: null });
 
+const HISTORY_KEY = "kikx-cli:history";
+
 let snapshot = initial();
 let nextId = 1;
 const listeners = new Set<() => void>();
@@ -32,6 +37,40 @@ function update(change: (current: CliSnapshot) => CliSnapshot): void {
   for (const listener of listeners) listener();
 }
 
+function loadHistory(): string[] {
+  try {
+    const stored = JSON.parse(sessionStorage.getItem(HISTORY_KEY) ?? "[]");
+    return Array.isArray(stored) ? stored.filter((command): command is string => typeof command === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveHistory(history: string[]): void {
+  try {
+    sessionStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  } catch {
+    return;
+  }
+}
+
+const once = <T>(load: () => Promise<T>): (() => Promise<T>) => {
+  let pending: Promise<T> | null = null;
+  return () => {
+    pending ??= load().catch((error: unknown) => {
+      pending = null;
+      throw error;
+    });
+    return pending;
+  };
+};
+
+const templateNames = once(async () => (await api.presets()).map((preset) => preset.name));
+
+const referenceOf = (item: RegistryItem): string => item.reference ?? `${item.category}/${item.name}`;
+
+const componentReferences = once(async () => (await api.registry()).items.map(referenceOf));
+
 function engineDeps(): EngineDeps {
   const defaults = projectDefaults();
   return {
@@ -39,7 +78,7 @@ function engineDeps(): EngineDeps {
     defaultNamespace: defaults.defaultNamespace,
     defaultOutputDir: defaults.defaultOutputDir,
     registry: async () =>
-      (await api.registry()).items.map((item) => ({ ...item, reference: item.reference ?? `${item.category}/${item.name}` })),
+      (await api.registry()).items.map((item) => ({ ...item, reference: referenceOf(item) })),
     presets: () => api.presets(),
     preset: (name) => api.preset(name),
     fetchJson: async (url) => (await fetch(url)).json(),
@@ -76,6 +115,28 @@ export const cliSession = {
     update(initial);
   },
 
+  history: loadHistory,
+
+  completionSources: (): CompletionSources => ({
+    templates: templateNames,
+    components: componentReferences,
+    listDirectory: (path) => listDirectory(snapshot.machine, path),
+  }),
+
+  clearScreen(): void {
+    update((current) => ({ ...current, entries: [] }));
+  },
+
+  echo(command: string, lines: OutputLine[], interrupted = false): void {
+    const id = nextId++;
+    update((current) => ({ ...current, entries: [...current.entries, { id, command, lines, running: false, interrupted }] }));
+  },
+
+  async replay(commands: string[]): Promise<void> {
+    update(initial);
+    for (const command of commands) await cliSession.execute(command);
+  },
+
   select(path: string): void {
     update((current) => ({ ...current, selected: path }));
   },
@@ -83,6 +144,7 @@ export const cliSession = {
   async execute(command: string): Promise<void> {
     if (snapshot.busy) return;
     const id = nextId++;
+    saveHistory(remember(loadHistory(), command));
     update((current) => ({
       ...current,
       busy: true,

@@ -14,7 +14,7 @@ export type ParsedLine =
   | { kind: "version" }
   | { kind: "shell"; program: string; args: string[] }
   | { kind: "foreign"; program: string }
-  | { kind: "usage"; message: string; details: string[] };
+  | { kind: "usage"; message: string; details: string[]; unknown?: string };
 
 const PROGRAM = "kikx";
 const HELP_FLAGS = ["help", "--help", "-h"];
@@ -45,7 +45,12 @@ export function tokenize(input: string): string[] {
   return tokens;
 }
 
-const usage = (message: string, details: string[] = []): ParsedLine => ({ kind: "usage", message, details });
+const usage = (message: string, details: string[] = [], unknown?: string): ParsedLine => ({
+  kind: "usage",
+  message,
+  details,
+  ...(unknown === undefined ? {} : { unknown }),
+});
 
 function findFlag(flags: FlagSpec[], token: string): { flag?: FlagSpec; inline?: string } {
   const [name, inline] = token.includes("=") ? [token.slice(0, token.indexOf("=")), token.slice(token.indexOf("=") + 1)] : [token, undefined];
@@ -75,7 +80,7 @@ export function parseLine(input: string): ParsedLine {
   if (name === undefined || HELP_FLAGS.includes(name)) return { kind: "help" };
   if (VERSION_FLAGS.includes(name)) return { kind: "version" };
   const spec = commandSpec(name);
-  if (!spec) return usage(`unrecognized subcommand '${name}'`);
+  if (!spec) return usage(`unrecognized subcommand '${name}'`, [], name);
 
   const flags: Record<string, string[]> = {};
   let positional: string | null = null;

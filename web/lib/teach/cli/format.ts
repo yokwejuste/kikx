@@ -9,7 +9,7 @@ export interface Segment {
 
 export type Notice = "foreign";
 
-export type OutputLine = Segment[] | { notice: Notice };
+export type OutputLine = Segment[] | { notice: Notice } | { tip: string };
 
 export interface ListedField {
   name: string;
@@ -128,6 +128,8 @@ export function upgradedOutput(current: string, target: string): OutputLine[] {
 }
 
 export const errorOutput = (message: string): OutputLine[] => [[{ text: "Error:", tone: "error" }, plain(` ${message}`)]];
+
+export const tipOutput = (name: string | null): OutputLine[] => (name ? [{ tip: name }] : []);
 
 export function usageOutput(message: string, details: string[]): OutputLine[] {
   return [

@@ -7,13 +7,13 @@ import { Button } from "@/components/ui/button";
 export function CopyButton({
   text,
   ...props
-}: { text: string } & Omit<React.ComponentProps<typeof Button>, "type" | "onClick">) {
+}: { text: string | (() => string) } & Omit<React.ComponentProps<typeof Button>, "type" | "onClick">) {
   const t = useTranslations("common");
   return (
     <Button
       variant="ghost"
       onClick={() => {
-        navigator.clipboard.writeText(text);
+        navigator.clipboard.writeText(typeof text === "function" ? text() : text);
         toast.success(t("copied"));
       }}
       {...props}
