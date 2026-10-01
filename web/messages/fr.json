@@ -468,6 +468,8 @@
     "review": "Examiner",
     "empty": "Rien pour l'instant. La plupart des projets commencent par un <strong>Inventaire</strong>.",
     "viewing": "Généré par {component}. Modifiez le composant pour le changer.",
+    "open": "Projet ({count})",
+    "close": "Fermer le projet",
     "row": {
       "showFiles": "Afficher les fichiers",
       "hideFiles": "Masquer les fichiers",

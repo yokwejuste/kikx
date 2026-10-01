@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { House, Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -41,12 +41,14 @@ export function DashboardHeader({
   view,
   onViewChange,
   issueCounts,
+  children,
 }: {
   details: ProjectDetails;
   components: AddedComponent[];
   view: View;
   onViewChange: (view: View) => void;
   issueCounts: IssueCounts;
+  children?: ReactNode;
 }) {
   const t = useTranslations("builder.header");
   const [lastDownload, setLastDownload] = useState(loadDownloadRecord);
@@ -86,6 +88,7 @@ export function DashboardHeader({
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
+        {children}
         <Tabs data-tour="views" value={view} onValueChange={(v) => onViewChange(v as View)}>
           <TabsList>
             <TabsTrigger value="build">{t("tabs.build")}</TabsTrigger>

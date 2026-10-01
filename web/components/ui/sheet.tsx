@@ -23,8 +23,9 @@ function SheetContent({
   className,
   children,
   closeLabel,
+  side = "left",
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content> & { closeLabel: string }) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & { closeLabel: string; side?: "left" | "right" }) {
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay
@@ -35,7 +36,10 @@ function SheetContent({
         data-slot="sheet-content"
         aria-describedby={undefined}
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-[min(20rem,85vw)] flex-col gap-4 overflow-y-auto border-r bg-background p-4 text-sm shadow-lg outline-none duration-200 data-open:animate-in data-open:slide-in-from-left data-closed:animate-out data-closed:slide-out-to-left",
+          "fixed inset-y-0 z-50 flex w-[min(20rem,85vw)] flex-col gap-4 overflow-y-auto bg-background p-4 text-sm shadow-lg outline-none duration-200 data-open:animate-in data-closed:animate-out",
+          side === "left"
+            ? "left-0 border-r data-open:slide-in-from-left data-closed:slide-out-to-left"
+            : "right-0 border-l data-open:slide-in-from-right data-closed:slide-out-to-right",
           className
         )}
         {...props}

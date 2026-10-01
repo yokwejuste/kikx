@@ -191,8 +191,9 @@ required.
 - **A checklist that ticks itself.** "Getting started" follows the usual workflow (servers, group
   settings, a playbook, checks, download) and ticks each step from the project itself. Click an
   open step to jump there, or hide the list.
-- **One editor with a live preview.** Output re-renders as you type. Any component can be reopened
-  and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
+- **One editor with a live preview.** Output re-renders as you type. On wide screens the form and
+  preview sit side by side and the project list opens from a Project button in the header. Any
+  component can be reopened and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
 - **Bring what you have.** Import an existing `inventory.ini` (hosts listed in several groups are
   merged), paste raw YAML into group vars, reopen a saved preset, or type role names that already
   exist in your repo.
