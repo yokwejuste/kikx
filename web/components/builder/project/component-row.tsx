@@ -39,7 +39,7 @@ export function ComponentRow({
   const { icon: Icon, title, kindLabel } = text.describe(component.recipe);
 
   return (
-    <li className={cn("group rounded-lg", active && "bg-volt-soft text-volt-soft-foreground")}>
+    <li data-teach-frame className={cn("group rounded-lg", active && "bg-volt-soft text-volt-soft-foreground")}>
       <div className="flex items-center gap-1 pr-1">
         <button
           data-teach="component-files"

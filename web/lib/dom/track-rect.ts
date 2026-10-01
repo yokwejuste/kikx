@@ -1,8 +1,11 @@
-export function trackRect(element: () => Element | null, onRect: (rect: DOMRect | null) => void): () => void {
+export function rectOf(element: Element | null): DOMRect | null {
+  return element?.isConnected ? element.getBoundingClientRect() : null;
+}
+
+export function trackRect(rect: () => DOMRect | null, onRect: (rect: DOMRect | null) => void): () => void {
   let frame = 0;
   const follow = () => {
-    const current = element();
-    onRect(current?.isConnected ? current.getBoundingClientRect() : null);
+    onRect(rect());
     frame = requestAnimationFrame(follow);
   };
   frame = requestAnimationFrame(follow);

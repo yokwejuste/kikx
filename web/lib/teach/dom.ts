@@ -43,7 +43,7 @@ export function pressElement(element: HTMLElement): void {
   element.dispatchEvent(new PointerEvent("pointermove", pointerInit(element, 0)));
   element.dispatchEvent(new PointerEvent("pointerdown", pointerInit(element, 1)));
   element.dispatchEvent(new MouseEvent("mousedown", pointerInit(element, 1)));
-  element.focus({ preventScroll: true });
+  element.focus({ preventScroll: true, focusVisible: false } as FocusOptions);
   element.dispatchEvent(new PointerEvent("pointerup", pointerInit(element, 0)));
   element.dispatchEvent(new MouseEvent("mouseup", pointerInit(element, 0)));
   element.click();
@@ -59,6 +59,15 @@ export function pressKey(key: string): void {
   const target = document.activeElement ?? document.body;
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
   target.dispatchEvent(new KeyboardEvent("keyup", { key, bubbles: true, cancelable: true }));
+}
+
+export function highlightRect(element: HTMLElement | null): DOMRect | null {
+  if (!element?.isConnected) return null;
+  const rect = (element.closest("[data-teach-frame]") ?? element).getBoundingClientRect();
+  const block = element.hasAttribute("data-line") ? element.closest("pre") : null;
+  if (!block) return rect;
+  const lines = block.getBoundingClientRect();
+  return new DOMRect(lines.left, rect.top, lines.width, rect.height);
 }
 
 export function releaseFocus(): void {

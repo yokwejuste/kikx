@@ -24,6 +24,7 @@ import { ProgressBar } from "@/components/common/progress-bar";
 import { CURSOR_MOVE_MS, type LessonView } from "@/lib/teach/player";
 import { LESSON_SPEEDS } from "@/lib/teach/speed";
 import { frameRect, trackRect } from "@/lib/dom/track-rect";
+import { highlightRect } from "@/lib/teach/dom";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/common/hint";
 import { Spinner } from "@/components/common/spinner";
@@ -48,7 +49,7 @@ function useFollowTarget(target: HTMLElement | null) {
   useEffect(
     () =>
       trackRect(
-        () => targetRef.current,
+        () => highlightRect(targetRef.current),
         (rect) => {
           if (!ring.current) return;
           ring.current.style.opacity = rect ? "1" : "0";
@@ -63,8 +64,9 @@ function useFollowTarget(target: HTMLElement | null) {
             const hiddenAbove = rect.top < HEADER_ROOM + room;
             bar.current.dataset.place = hiddenBelow && !hiddenAbove ? "top" : "bottom";
           }
+          const point = targetRef.current?.getBoundingClientRect() ?? rect;
           if (cursor.current) {
-            cursor.current.style.transform = `translate(${rect.left + rect.width / 2}px, ${rect.top + rect.height / 2}px)`;
+            cursor.current.style.transform = `translate(${point.left + point.width / 2}px, ${point.top + point.height / 2}px)`;
             cursor.current.style.opacity = "1";
           }
         },

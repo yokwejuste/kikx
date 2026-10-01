@@ -1,4 +1,4 @@
-import { frameRect, trackRect } from "@/lib/dom/track-rect";
+import { frameRect, rectOf, trackRect } from "@/lib/dom/track-rect";
 
 const GLOW_CLASS = "kikx-tour-glow";
 
@@ -15,7 +15,7 @@ export function glowAround(element: Element | undefined, padding: number, radius
   glow.style.borderRadius = `${radius}px`;
   document.body.append(glow);
   untrack = trackRect(
-    () => target,
+    () => rectOf(target),
     (rect) => {
       if (!glow) return;
       glow.style.opacity = rect ? "1" : "0";
