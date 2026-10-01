@@ -43,7 +43,7 @@ function fits(side: CardSide, target: Box, card: Size, viewport: Size, room: Pla
   }
 }
 
-export function dockedPlacement(card: Size, viewport: Size, room: PlacementRoom): CardPlacement {
+function dockedPlacement(card: Size, viewport: Size, room: PlacementRoom): CardPlacement {
   return {
     top: viewport.height - card.height - room.margin,
     left: (viewport.width - card.width) / 2,

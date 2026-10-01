@@ -80,7 +80,7 @@ function leadingSpaces(text: string): number {
   return text.length - text.trimStart().length;
 }
 
-export function tidyDocument(view: EditorView): void {
+function tidyDocument(view: EditorView): void {
   const text = view.state.doc.toString();
   const formatted = formatYaml(text);
   if (formatted === text) return;

@@ -29,7 +29,7 @@ export function TerminalFrame({
   );
 }
 
-export const terminalButtonClass =
+const terminalButtonClass =
   "size-7 shrink-0 text-terminal-muted hover:bg-terminal-hover hover:text-terminal-foreground dark:hover:bg-terminal-hover";
 
 export function TerminalButton({ className, ...props }: Omit<React.ComponentProps<typeof IconButton>, "size">) {

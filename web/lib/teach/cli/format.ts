@@ -7,11 +7,11 @@ export interface Segment {
   tone?: Tone;
 }
 
-export type Notice = "foreign";
+type Notice = "foreign";
 
 export type OutputLine = Segment[] | { notice: Notice } | { tip: string };
 
-export interface ListedField {
+interface ListedField {
   name: string;
   required: boolean;
   default?: string | null;

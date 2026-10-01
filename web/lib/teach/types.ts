@@ -2,7 +2,7 @@ export type TextRef = { literal: string } | { demo: string } | { projectName: tr
 
 export type Target = string | { selector: string; text: TextRef };
 
-export interface StepNarration {
+interface StepNarration {
   say?: string;
   learn?: string;
 }

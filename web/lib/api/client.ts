@@ -65,7 +65,7 @@ export interface RenderResponse {
   files: RenderedFile[];
 }
 
-export interface FieldOption {
+interface FieldOption {
   value: string;
   label: string;
 }
