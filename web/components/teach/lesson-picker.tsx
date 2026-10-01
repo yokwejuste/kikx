@@ -8,11 +8,21 @@ import { LessonCards } from "@/components/teach/lesson-cards";
 import { ModeTabs, ModeTabsList } from "@/components/teach/mode-tabs";
 import { useTeach } from "@/components/teach/teach-provider";
 import { useTeachMode } from "@/lib/teach/mode";
+import type { TeachMode } from "@/lib/teach/types";
 
-export function LessonPicker({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+export function LessonPicker({
+  open,
+  onOpenChange,
+  only,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  only?: TeachMode;
+}) {
   const t = useTranslations("teach");
   const { start } = useTeach();
-  const mode = useTeachMode();
+  const chosenMode = useTeachMode();
+  const mode = only ?? chosenMode;
   const chosen = useRef<string | null>(null);
 
   return (
@@ -31,9 +41,11 @@ export function LessonPicker({ open, onOpenChange }: { open: boolean; onOpenChan
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t(`body.${mode}`)}</DialogDescription>
         </DialogHeader>
-        <ModeTabs>
-          <ModeTabsList />
-        </ModeTabs>
+        {!only && (
+          <ModeTabs>
+            <ModeTabsList />
+          </ModeTabs>
+        )}
         <LessonCards
           mode={mode}
           onPick={(lessonId) => {
