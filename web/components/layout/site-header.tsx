@@ -6,6 +6,7 @@ import { KikxMark } from "@/components/common/kikx-mark";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { TourButton } from "@/components/layout/tour-button";
+import { TeachButton } from "@/components/teach/teach-button";
 import { GithubLink } from "@/components/layout/github-link";
 import { NavLink } from "@/components/layout/nav-link";
 
@@ -37,6 +38,7 @@ export async function SiteHeader() {
           <Waypoints className="size-4" />
           <span className="hidden sm:inline">{t("dataFlow")}</span>
         </NavLink>
+        <TeachButton />
         <TourButton />
         <GithubLink />
         <LanguageSwitcher />

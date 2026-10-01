@@ -37,7 +37,7 @@ export function SaveBar({
         </p>
       )}
       <div className="flex flex-wrap items-center gap-2">
-        <Button type="button" disabled={saving} onClick={onSave}>
+        <Button data-teach="save" type="button" disabled={saving} onClick={onSave}>
           {isEditing ? <Save /> : <PackagePlus />}
           {saving ? t("rendering") : isEditing ? t("save") : t("add")}
         </Button>

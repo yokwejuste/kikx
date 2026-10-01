@@ -51,6 +51,7 @@ export function ComponentRow({
           <ChevronRight className={cn("size-3.5 transition-transform", open && "rotate-90")} />
         </button>
         <button
+          data-teach="component-row"
           type="button"
           onClick={onEdit}
           title={t("edit", { title })}

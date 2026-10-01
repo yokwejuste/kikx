@@ -37,6 +37,9 @@ msgstr "[Votre premier projet avec la CLI](tutorials/first-project-cli.md)"
 msgid "[Build an Ansible platform in the dashboard](tutorials/platform-in-the-dashboard.md)"
 msgstr "[Construire une plateforme Ansible dans le tableau de bord](tutorials/platform-in-the-dashboard.md)"
 
+msgid "[Let kikx show you](tutorials/teach-me.md)"
+msgstr "[Laissez kikx vous montrer](tutorials/teach-me.md)"
+
 msgid "How-to guides"
 msgstr "Guides pratiques"
 
@@ -126,4 +129,3 @@ msgstr "[Format des éléments de registre](reference/registry-item-format.md)"
 
 msgid "[Checks](reference/checks.md)"
 msgstr "[Vérifications](reference/checks.md)"
-

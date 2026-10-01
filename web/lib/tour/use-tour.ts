@@ -23,6 +23,10 @@ function markSeen(name: TourName) {
   } catch {}
 }
 
+export function markToursSeen() {
+  for (const name of Object.keys(TOURS) as TourName[]) markSeen(name);
+}
+
 type Translate = ReturnType<typeof useTranslations<"tour">>;
 
 function visibleTarget(target: string): Element | undefined {
@@ -66,7 +70,7 @@ export function useFirstVisitTour(name: TourName, ready = true) {
     const tick = () => {
       const allPresent = presentSteps(name, t).length === total;
       if (allPresent || performance.now() - started > WAIT_FOR_TARGETS_MS) {
-        startTour(name, t);
+        if (!hasSeen(name)) startTour(name, t);
         return;
       }
       frame = requestAnimationFrame(tick);

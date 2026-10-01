@@ -882,5 +882,77 @@
         "description": "Une plateforme de boutique en ligne : load balancers en bordure, niveaux web et applicatif, PostgreSQL principal avec réplicas, Redis, supervision et un cluster Kubernetes."
       }
     }
+  },
+  "teach": {
+    "button": "Apprends-moi",
+    "title": "Apprends-moi",
+    "body": "Choisissez une leçon. kikx pilote la page lui-même : il déplace le pointeur, tape et clique tout en expliquant. Mettez en pause à tout moment pour reprendre la main.",
+    "sandbox": "Votre projet actuel est mis de côté pendant la leçon et restauré ensuite.",
+    "minutes": "{count, plural, one {environ # min} other {environ # min}}",
+    "region": "Leçon",
+    "progress": "Étape {step} sur {total}",
+    "takeOver": "Pause pour reprendre la main",
+    "pause": "Pause",
+    "play": "Reprendre",
+    "next": "Passer",
+    "speed": "Vitesse",
+    "speedValue": "{speed}×",
+    "stop": "Arrêter la leçon",
+    "paused": "En pause. Explorez librement, puis appuyez sur Reprendre pour continuer.",
+    "lost": "J'ai perdu le fil : l'élément suivant n'est pas à l'écran. Remettez la page comme avant et appuyez sur Reprendre, ou arrêtez la leçon.",
+    "doneTitle": "Leçon terminée",
+    "back": "Retour à mon projet",
+    "keep": "Garder ce projet",
+    "lessons": {
+      "firstProject": {
+        "title": "Construire votre premier projet",
+        "description": "Nommez un projet, ajoutez un serveur et ses réglages, puis vérifiez et exportez-le.",
+        "steps": {
+          "intro": "Construisons un petit projet de zéro. Installez-vous : je pilote et j'explique au fur et à mesure. Mettez en pause quand vous voulez reprendre la main.",
+          "name": "Tout projet commence par un nom. C'est tout ce qu'il faut à kikx pour démarrer.",
+          "start": "Commencer ouvre l'éditeur.",
+          "path": "Un projet vide montre le parcours habituel : lister vos serveurs, les configurer, puis déployer.",
+          "inventory": "D'abord, l'inventaire : les serveurs que kikx va préparer.",
+          "hostName": "Donnez un nom au serveur,",
+          "hostAddress": "l'adresse à laquelle Ansible se connecte,",
+          "hostGroup": "et un groupe. Les groupes permettent à un play de viser plusieurs serveurs à la fois.",
+          "preview": "Les fichiers se génèrent en direct pendant la saisie. C'est exactement ce qui arrive dans votre dépôt.",
+          "add": "Ajoutez l'inventaire au projet.",
+          "groupVars": "Ensuite, les réglages partagés par ce groupe, appelés group vars.",
+          "groupName": "Choisissez le groupe,",
+          "varKey": "puis ajoutez un réglage : une clé et sa valeur.",
+          "addVars": "Ajoutez-les aussi.",
+          "checklist": "La liste de démarrage se coche toute seule et montre la suite.",
+          "checks": "Vérifications cherche les erreurs entre composants : groupes inconnus, hôtes en double, rôles manquants.",
+          "diagram": "Architecture dessine comment tout se connecte.",
+          "build": "Retour à l'éditeur.",
+          "export": "Quand vous êtes prêt, Exporter vous donne des fichiers simples, un preset à rouvrir plus tard, ou la commande CLI.",
+          "done": "Voilà toute la boucle : décrire, prévisualiser, vérifier, exporter. Explorez ce projet de démonstration, ou retournez au vôtre."
+        }
+      },
+      "template": {
+        "title": "Partir d'un modèle",
+        "description": "Ouvrez un projet tout prêt, faites le tour et voyez comment l'adapter.",
+        "steps": {
+          "intro": "Les modèles sont des projets complets que vous pouvez ouvrir et adapter. Ouvrons-en un.",
+          "open": "Chaque carte indique les étapes couvertes par le modèle. Prenons le premier.",
+          "project": "Tout ce que le modèle a ajouté est listé ici, regroupé par étape.",
+          "edit": "Ouvrez n'importe quel composant pour le modifier.",
+          "preview": "Le formulaire contient ses réglages, et l'aperçu montre les fichiers qu'il écrit.",
+          "checks": "Vérifications confirme que le modèle est cohérent avant toute modification.",
+          "diagram": "Architecture montre comment les parties se connectent : serveurs, groupes, plays et services.",
+          "build": "Retour à l'éditeur.",
+          "export": "Exporter emporte tout le projet : fichiers simples, preset ou commande CLI.",
+          "done": "À vous : ouvrez un modèle pour de vrai, ou construisez le vôtre de zéro."
+        }
+      }
+    },
+    "demo": {
+      "host": "web1",
+      "address": "10.0.0.10",
+      "group": "web",
+      "varKey": "app_port",
+      "varValue": "8080"
+    }
   }
 }

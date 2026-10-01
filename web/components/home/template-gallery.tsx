@@ -32,6 +32,7 @@ export function TemplateGallery({
         {presets.data.map((preset) => (
           <li key={preset.name}>
             <button
+              data-teach="template"
               type="button"
               disabled={opening !== null}
               onClick={() => onSelect(preset.name)}

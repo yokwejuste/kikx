@@ -30,7 +30,7 @@ export function KeyValueFields({
   const errors = form.formState.errors as FieldErrors;
 
   return (
-    <Field data-invalid={!!errors[name]}>
+    <Field data-teach="key-values" data-invalid={!!errors[name]}>
       <FieldLabel>{label}</FieldLabel>
       <div className="flex flex-col gap-2">
         {rows.fields.map((field, index) => (

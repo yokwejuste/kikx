@@ -49,9 +49,10 @@ export function HostRow({
   const register = (field: keyof InventoryHostValues) => form.register(`hosts.${index}.${field}` as never);
 
   return (
-    <div className="rounded-lg border">
+    <div data-teach="host-row" className="rounded-lg border">
       <div className={cn("grid gap-2 p-2", HOST_COLUMNS)}>
         <Input
+          data-teach="host-name"
           placeholder={t("namePlaceholder")}
           aria-label={t("nameLabel")}
           aria-invalid={!!errors?.name}
@@ -59,6 +60,7 @@ export function HostRow({
           {...register("name")}
         />
         <Input
+          data-teach="host-address"
           placeholder={t("addressPlaceholder")}
           aria-label={t("addressLabel")}
           aria-invalid={!!errors?.ansibleHost}

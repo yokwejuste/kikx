@@ -14,7 +14,7 @@ export function EmptyProjectStart({ onSelect }: { onSelect: (kind: CatalogKind) 
   const text = useCatalogText();
 
   return (
-    <section className="flex flex-col gap-5 rounded-xl border bg-card p-5">
+    <section data-teach="start-panel" className="flex flex-col gap-5 rounded-xl border bg-card p-5">
       <div className="flex items-center gap-4">
         <EmptyProjectIllustration className="hidden h-14 sm:block" />
         <div className="min-w-0">
@@ -38,7 +38,14 @@ export function EmptyProjectStart({ onSelect }: { onSelect: (kind: CatalogKind) 
                 {stage.id === "provision" && <Badge variant="outline">{t("optional")}</Badge>}
               </div>
               <p className="flex-1 text-sm text-muted-foreground">{stageText.hint}</p>
-              <Button type="button" variant="outline" size="sm" className="self-start" onClick={() => onSelect(first.kind)}>
+              <Button
+                data-teach={`start-${stage.id}`}
+                type="button"
+                variant="outline"
+                size="sm"
+                className="self-start"
+                onClick={() => onSelect(first.kind)}
+              >
                 <Icon />
                 {t("add", { label: first.label })}
               </Button>

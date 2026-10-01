@@ -59,7 +59,7 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
 
   return (
     <>
-      <Field data-invalid={!!errors.group} className="max-w-sm">
+      <Field data-teach="groupvars-group" data-invalid={!!errors.group} className="max-w-sm">
         <FieldLabel>{t("group")}</FieldLabel>
         <Input
           list={listId}

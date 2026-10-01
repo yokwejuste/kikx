@@ -174,7 +174,7 @@ function HomeContent() {
         <div data-tour="new-project" className="w-full rounded-xl border bg-card p-6 text-left">
           <h2 className="text-sm font-medium">{t("build.title")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{t("build.body")}</p>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
+          <form data-teach="new-project-form" onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
             <FieldGroup>
               <FormField
                 label={t("build.projectName")}

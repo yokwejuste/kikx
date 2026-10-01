@@ -123,7 +123,7 @@ export function ComponentCatalog({
                   const count = counts.get(entry.kind) ?? 0;
                   const active = entry.kind === selected;
                   return (
-                    <li key={entry.kind}>
+                    <li key={entry.kind} data-teach={`catalog-${entry.kind}`}>
                       <CatalogEntryButton
                         icon={entry.icon}
                         label={entry.label}

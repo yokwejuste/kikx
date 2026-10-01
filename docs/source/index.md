@@ -16,6 +16,7 @@ Start here if you're new. Each one builds a working project from scratch.
 
 1. [Your first project with the CLI](tutorials/first-project-cli.md)
 2. [Build an Ansible platform in the dashboard](tutorials/platform-in-the-dashboard.md)
+3. [Let kikx show you](tutorials/teach-me.md)
 :::
 
 :::{grid-item-card} How-to guides
