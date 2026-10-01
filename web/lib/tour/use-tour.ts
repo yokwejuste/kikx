@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { driver, type DriveStep } from "driver.js";
+import { driver, type DriveStep, type Side } from "driver.js";
 import { useTranslations } from "next-intl";
 import { TOURS, tourTarget, type TourName } from "@/lib/tour/steps";
 import { glowAround, stopGlow } from "@/lib/tour/glow";
@@ -10,12 +10,14 @@ const SEEN_PREFIX = "kikx.tour.seen.";
 const WAIT_FOR_TARGETS_MS = 2000;
 const STAGE_PADDING = 12;
 const STAGE_RADIUS = 16;
+const POPOVER_ROOM = 340 + STAGE_PADDING + 24;
 const LOOK = {
   popoverClass: "kikx-tour",
   overlayOpacity: 0.55,
   stagePadding: STAGE_PADDING,
   stageRadius: STAGE_RADIUS,
   smoothScroll: true,
+  animate: false,
   onHighlighted: (element?: Element) => glowAround(element, STAGE_PADDING, STAGE_RADIUS),
   onDestroyed: () => stopGlow(),
 };
@@ -44,12 +46,25 @@ function visibleTarget(target: string): Element | undefined {
   return Array.from(document.querySelectorAll(tourTarget(target))).find((element) => element.getClientRects().length > 0);
 }
 
+function roomiestSide(element: Element): Side {
+  const rect = element.getBoundingClientRect();
+  if (window.innerWidth - rect.right >= POPOVER_ROOM) return "right";
+  if (rect.left >= POPOVER_ROOM) return "left";
+  return rect.top > window.innerHeight - rect.bottom ? "top" : "bottom";
+}
+
 function presentSteps(name: TourName, t: Translate): DriveStep[] {
   const steps = TOURS[name]
-    .filter((target) => visibleTarget(target))
-    .map((target) => ({
+    .map((target) => ({ target, element: visibleTarget(target) }))
+    .filter((step): step is { target: string; element: Element } => step.element !== undefined)
+    .map(({ target, element }) => ({
       element: () => visibleTarget(target) ?? document.body,
-      popover: { title: t(`${name}.${target}.title`), description: t(`${name}.${target}.description`) },
+      popover: {
+        title: t(`${name}.${target}.title`),
+        description: t(`${name}.${target}.description`),
+        side: roomiestSide(element),
+        align: "start" as const,
+      },
     }));
   return steps.map((step, index) =>
     index === 0 ? { ...step, popover: { ...step.popover, showButtons: ["next" as const, "close" as const] } } : step,
@@ -102,6 +117,8 @@ export function usePointAt(name: TourName) {
         popover: {
           title: t(`${name}.${target}.title`),
           description: t(`${name}.${target}.description`),
+          side: roomiestSide(element),
+          align: "start",
           showButtons: ["close"],
         },
       });
