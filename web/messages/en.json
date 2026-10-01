@@ -44,8 +44,7 @@
     },
     "copyCommands": "Copy commands",
     "cli": {
-      "title": "Prefer the terminal?",
-      "hint": "the same steps with the kikx CLI"
+      "body": "Install kikx, then run the same steps in your repo. Copy them all with the button."
     },
     "build": {
       "title": "Blank project",
@@ -60,7 +59,11 @@
       "body": "Continue from a <code>.kikx-preset.json</code> you downloaded earlier."
     },
     "dataFlowLink": "See how data flows through kikx",
-    "openFailed": "Couldn't open that preset"
+    "openFailed": "Couldn't open that preset",
+    "mode": {
+      "app": "In the app",
+      "cli": "With the CLI"
+    }
   },
   "templates": {
     "title": "Start from a template",
@@ -79,8 +82,8 @@
         "description": "kikx renders real infrastructure files for Ansible, Kubernetes and Terraform that you own and edit like any other code. This tour takes a minute."
       },
       "cli": {
-        "title": "Prefer the terminal?",
-        "description": "Everything here is also in the kikx CLI. Open this to see the commands you would run."
+        "title": "In the app or with the CLI",
+        "description": "Everything here is also in the kikx CLI. Switch to With the CLI to see the commands you would run."
       },
       "templates": {
         "title": "Start from a template",
