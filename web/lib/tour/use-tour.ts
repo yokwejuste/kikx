@@ -22,12 +22,19 @@ const LOOK = {
 };
 
 let activeTour: Driver | null = null;
+let blocked = false;
+
+export function blockTours(block: boolean): void {
+  blocked = block;
+  if (block) activeTour?.destroy();
+}
 
 export function closeTour(): void {
   activeTour?.destroy();
 }
 
-function launch(config: Config = {}): Driver {
+function launch(config: Config = {}): Driver | null {
+  if (blocked) return null;
   activeTour?.destroy();
   const tour = driver({
     ...LOOK,
@@ -102,7 +109,7 @@ export function startTour(name: TourName, t: Translate): Driver | null {
     prevBtnText: t("back"),
     doneBtnText: t("done"),
   });
-  tour.drive();
+  tour?.drive();
   return tour;
 }
 
@@ -136,7 +143,7 @@ export function usePointAt(name: TourName) {
     (target: string) => {
       const element = visibleTarget(target);
       if (!element) return;
-      launch().highlight({
+      launch()?.highlight({
         element,
         popover: {
           title: t(`${name}.${target}.title`),

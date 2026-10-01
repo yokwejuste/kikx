@@ -13,6 +13,7 @@ import { beginSandbox, endSandbox, hasPendingSandbox } from "@/lib/teach/sandbox
 import { prefersReducedMotion } from "@/lib/teach/dom";
 import { loadSpeed, saveSpeed } from "@/lib/teach/speed";
 import { markCompleted } from "@/lib/teach/progress";
+import { blockTours } from "@/lib/tour/use-tour";
 
 interface TeachContextValue {
   start: (lessonId: string) => void;
@@ -50,6 +51,7 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
     player.current = null;
     const returnPath = endSandbox(keep);
     if (keep && !then) {
+      blockTours(false);
       setLessonId(null);
       setView(null);
       return;
@@ -64,6 +66,7 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
       const sandbox = beginSandbox(window.location.pathname);
       if (!sandbox) return;
       setKeepable(!sandbox.hadProject);
+      blockTours(true);
       reset();
       const demoValues = t.has(`lessons.${id}.demo`) ? (t.raw(`lessons.${id}.demo`) as Record<string, string>) : {};
       const lessonPlayer = new LessonPlayer(lesson, {

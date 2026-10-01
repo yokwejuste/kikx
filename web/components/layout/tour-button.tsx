@@ -7,12 +7,14 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { TOUR_ROUTES } from "@/lib/tour/steps";
 import { closeTour, useStartTour } from "@/lib/tour/use-tour";
+import { useTeach } from "@/components/teach/teach-provider";
 
 export function TourButton() {
   const t = useTranslations("header");
   const pathname = usePathname();
   const tour = TOUR_ROUTES[pathname];
   const start = useStartTour(tour);
+  const { active: teaching } = useTeach();
 
   useEffect(() => closeTour, [pathname]);
 
@@ -25,6 +27,7 @@ export function TourButton() {
       data-tour="tour-button"
       className="gap-1.5 text-muted-foreground hover:text-foreground"
       aria-label={t("tour")}
+      disabled={teaching}
       onClick={start}
     >
       <Compass className="size-4" />
