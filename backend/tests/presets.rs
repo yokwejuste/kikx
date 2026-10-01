@@ -1,5 +1,7 @@
 mod common;
 
+use std::collections::HashSet;
+
 use axum::http::{Method, StatusCode};
 use common::{router, send};
 
@@ -15,6 +17,32 @@ async fn lists_every_preset_template_with_a_summary() {
         .unwrap();
     assert_eq!(platform["title"], "Multi-tier platform");
     assert!(platform["componentCount"].as_u64().unwrap() > 30);
+}
+
+#[tokio::test]
+async fn summary_lists_each_component_reference_once() {
+    let (_, body) = send(router(), Method::GET, "/api/presets", None).await;
+    let summary = body["presets"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|p| p["name"] == "single-server")
+        .unwrap();
+    let references: Vec<&str> = summary["references"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|r| r.as_str().unwrap())
+        .collect();
+    let unique: HashSet<&str> = references.iter().copied().collect();
+    assert_eq!(unique.len(), references.len());
+    let manifest = kikx_core::presets::template("single-server").unwrap();
+    let expected: HashSet<&str> = manifest
+        .components
+        .iter()
+        .map(|c| c.reference.as_str())
+        .collect();
+    assert_eq!(unique, expected);
 }
 
 #[tokio::test]
