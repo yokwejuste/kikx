@@ -4,11 +4,11 @@ import { useId } from "react";
 import { useWatch, type UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Datalist } from "@/components/builder/fields/datalist";
 import { RowInput } from "@/components/builder/fields/row-input";
 import { KeyValueFields } from "@/components/builder/fields/key-value-fields";
+import { YamlField } from "@/components/builder/fields/format/yaml-field";
 import type { FieldErrors } from "@/components/builder/fields/field-errors";
 import type { FormValues } from "@/lib/forms/component-forms";
 import { cn } from "@/lib/utils";
@@ -125,16 +125,18 @@ export function GroupVarsFields({ form, groupNames }: { form: UseFormReturn<Form
             label={t("simple")}
             addLabel={t("addVar")}
             keyPlaceholder={t("keyPlaceholder")}
+            variableNames
           />
         ) : (
           <Field data-invalid={!!errors.yaml}>
-            <Textarea
-              data-teach="groupvars-yaml-text"
-              spellCheck={false}
-              aria-invalid={!!errors.yaml}
+            <YamlField
+              form={form}
+              name="yaml"
+              teach="groupvars-yaml-text"
+              label={t("variables")}
+              invalid={!!errors.yaml}
               placeholder={"key: value\nlist:\n  - item\nmap:\n  nested: value"}
-              className="min-h-48 font-mono text-xs"
-              {...form.register("yaml" as never)}
+              className="min-h-48"
             />
             <Hint>
               {t("yamlHelp")}

@@ -32,7 +32,7 @@
     "groupPath": "La ligne en dessous indique le chemin exact que kikx écrira. Si votre dépôt utilise group_vars/web/main.yml, cochez la disposition en dossier.",
     "yamlMode": "Les lignes clé / valeur ne gèrent que des réglages simples. Pour un vrai fichier, passez en mode YAML.",
     "yamlPaste": "Collez le fichier tel quel. Listes de sites, clés imbriquées, tout passe.",
-    "yamlAsIs": "L'aperçu le montre écrit sans changement. kikx ne reformate ni ne réordonne votre YAML, donc le diff de votre dépôt reste propre.",
+    "yamlAsIs": "L'aperçu le montre avec vos clés, leur ordre et vos commentaires. kikx ne fait que remettre en ordre l'indentation et les espaces, donc le diff de votre dépôt reste propre.",
     "addKey": "À vous : ajoutez un réglage sur une nouvelle ligne à la fin du YAML, app_env: production. Regardez-le apparaître dans l'aperçu.",
     "addVars": "Ajoutons les group vars au projet.",
     "playbook": "Maintenant, les rôles. Vous avez sûrement déjà un dossier roles, plein de travail à ne pas refaire. Un playbook n'a besoin que de leurs noms.",

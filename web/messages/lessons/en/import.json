@@ -32,7 +32,7 @@
     "groupPath": "The line below shows the exact path kikx will write. If your repo uses group_vars/web/main.yml, tick Folder layout to match it.",
     "yamlMode": "Key / value rows only hold flat settings. For a real file, switch to YAML mode.",
     "yamlPaste": "Paste the file as it is. Lists of sites, nested keys, all fine.",
-    "yamlAsIs": "The preview shows it written unchanged. kikx doesn't reformat or reorder your YAML, so the diff in your repo stays clean.",
+    "yamlAsIs": "The preview shows it with your keys, order and comments kept. kikx only tidies indentation and spacing, so the diff in your repo stays clean.",
     "addKey": "Your turn: add one more setting on a new line at the end of the YAML, app_env: production. Watch it appear in the preview.",
     "addVars": "Add the group vars to the project.",
     "playbook": "Now roles. You probably have a roles folder already, full of work you don't want to redo. A playbook only needs their names.",

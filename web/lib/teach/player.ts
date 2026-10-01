@@ -1,5 +1,16 @@
 import type { Lesson, LessonStep, Target, TaskCheck, TextRef } from "@/lib/teach/types";
-import { closedDrawerTrigger, findElement, isComfortablyVisible, openDrawer, pressElement, pressKey, releaseFocus, setInputValue } from "@/lib/teach/dom";
+import {
+  closedDrawerTrigger,
+  findElement,
+  isComfortablyVisible,
+  isTypingTarget,
+  openDrawer,
+  pressElement,
+  pressKey,
+  releaseFocus,
+  setInputValue,
+  type TypingTarget,
+} from "@/lib/teach/dom";
 
 export type LessonStatus = "playing" | "paused" | "task" | "lost" | "done";
 
@@ -196,7 +207,7 @@ export class LessonPlayer {
       case "type": {
         this.narrate(step);
         const element = await this.reach(step.target);
-        if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) throw new Lost();
+        if (!element || !isTypingTarget(element)) throw new Lost();
         this.click(element);
         await this.typeInto(element, this.env.text(step.value), step.instant);
         if (step.enter) pressKey("Enter");
@@ -271,7 +282,7 @@ export class LessonPlayer {
     pressElement(element);
   }
 
-  private async typeInto(element: HTMLInputElement | HTMLTextAreaElement, text: string, instant = false): Promise<void> {
+  private async typeInto(element: TypingTarget, text: string, instant = false): Promise<void> {
     if (instant || this.env.reducedMotion) {
       setInputValue(element, text);
       return;
