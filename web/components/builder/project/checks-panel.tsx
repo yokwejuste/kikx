@@ -1,11 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { EmptyState } from "@/components/common/empty-state";
 import { ChecksClearIllustration, ChecksEmptyIllustration } from "@/components/illustrations/illustrations";
 import { SEVERITY } from "@/components/builder/project/severity";
 import { IssueRow, type IssueActions } from "@/components/builder/project/issue-row";
-import type { AddedComponent } from "@/lib/project/context";
+import { useProject, type AddedComponent } from "@/lib/project/context";
+import { updateGettingStarted } from "@/lib/project/getting-started-store";
 import type { ProjectIssue } from "@/lib/project/checks";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +21,11 @@ export function ChecksPanel({
   components: AddedComponent[];
 }) {
   const t = useTranslations("checks");
+  const project = useProject().details?.name;
+
+  useEffect(() => {
+    if (project) updateGettingStarted(project, { checksOpened: true });
+  }, [project]);
 
   if (components.length === 0) {
     return (

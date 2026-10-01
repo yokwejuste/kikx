@@ -188,6 +188,9 @@ required.
   use one of them. An empty project opens on a start panel that walks those stages, with a one-click
   add per stage or a link back to templates. After each add, the toast offers the next component in
   that order, one click away.
+- **A checklist that ticks itself.** "Getting started" follows the usual workflow (servers, group
+  settings, a playbook, checks, download) and ticks each step from the project itself. Click an
+  open step to jump there, or hide the list.
 - **One editor with a live preview.** Output re-renders as you type. Any component can be reopened
   and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
 - **Bring what you have.** Import an existing `inventory.ini` (hosts listed in several groups are

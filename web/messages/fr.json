@@ -113,6 +113,10 @@
         "title": "Remplissez, regardez le rendu",
         "description": "Chaque champ a une valeur par défaut sensée. Les fichiers ci-dessous se mettent à jour pendant la saisie ; appuyez sur ⌘/Ctrl + Entrée pour ajouter le composant."
       },
+      "checklist": {
+        "title": "Votre liste de départ",
+        "description": "Elle se coche toute seule au fil de votre travail : serveurs, réglages de groupe, playbook, vérifications, puis téléchargement. Cliquez sur une étape ouverte pour y aller."
+      },
       "project": {
         "title": "Votre projet",
         "description": "Tout ce que vous avez ajouté, avec ses fichiers. Cliquez sur un élément pour le modifier, ou téléchargez tout le projet en preset pour le rouvrir plus tard."
@@ -464,6 +468,33 @@
       "remove": "Supprimer {title}",
       "removed": "{title} supprimé",
       "undo": "Annuler"
+    }
+  },
+  "gettingStarted": {
+    "title": "Premiers pas",
+    "progress": "{done} sur {total}",
+    "dismiss": "Masquer la liste",
+    "items": {
+      "servers": {
+        "label": "Listez vos serveurs",
+        "hint": "Ajoutez un inventaire avec vos hôtes et vos groupes."
+      },
+      "groups": {
+        "label": "Réglages de groupe",
+        "hint": "Ajoutez des group vars partagées par tous les hôtes d'un groupe."
+      },
+      "playbook": {
+        "label": "Configurez avec un playbook",
+        "hint": "Ajoutez un playbook qui applique des rôles à vos groupes."
+      },
+      "checks": {
+        "label": "Consultez les vérifications",
+        "hint": "Repérez les hôtes en double, les groupes manquants et les rôles inconnus."
+      },
+      "download": {
+        "label": "Téléchargez votre projet",
+        "hint": "Exportez les fichiers en .zip, ou un preset pour la CLI."
+      }
     }
   },
   "export": {

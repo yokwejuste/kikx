@@ -9,5 +9,5 @@ export const tourTarget = (id: string) => `[data-tour="${id}"]`;
 
 export const TOURS: Record<TourName, string[]> = {
   home: ["welcome", "templates", "new-project", "open-preset", "cli", "data-flow", "tour-button"],
-  builder: ["catalog", "editor", "project", "views", "download"],
+  builder: ["catalog", "editor", "checklist", "project", "views", "download"],
 };

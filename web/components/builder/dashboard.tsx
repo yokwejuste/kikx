@@ -13,6 +13,7 @@ import { buildFormContext } from "@/components/builder/editor/form-context";
 import { toProjectFiles } from "@/components/builder/editor/project-files";
 import { ProjectPanel } from "@/components/builder/project/project-panel";
 import { ChecksPanel } from "@/components/builder/project/checks-panel";
+import { GettingStarted } from "@/components/builder/project/getting-started";
 import type { IssueCounts } from "@/components/builder/project/severity";
 import { EmptyProjectStart } from "@/components/builder/start/empty-project-start";
 import { ProjectDiagram } from "@/components/builder/diagram/project-diagram";
@@ -156,7 +157,8 @@ export function Dashboard() {
           )}
         </div>
 
-        <aside data-tour="project" className="lg:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1">
+        <aside data-tour="project" className="flex flex-col gap-3 lg:col-start-2 xl:sticky xl:top-6 xl:col-start-3 xl:row-start-1">
+          <GettingStarted issueCounts={issueCounts} onSelect={(kind) => select(kind)} onShowChecks={() => setView("checks")} />
           <ProjectPanel
             activeId={editing?.id ?? null}
             issuesFor={issuesFor}
