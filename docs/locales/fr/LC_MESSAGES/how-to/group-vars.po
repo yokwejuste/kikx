@@ -46,6 +46,9 @@ msgstr "Pour la disposition en dossier, cochez « Organisation en dossier (`grou
 msgid "Click **Add to project**."
 msgstr "Cliquez sur « Ajouter au projet »."
 
+msgid "The group vars form for db with Folder layout ticked and the YAML mode holding nested postgres settings"
+msgstr "Le formulaire de group vars pour db avec l'organisation en dossier cochée et le mode YAML contenant des réglages postgres imbriqués"
+
 msgid "When you switch from **Key / value** to **YAML**, your rows are copied into the YAML box. Switching back only works when every line is a flat `key: value`. If the YAML has nested values, the dashboard keeps you in YAML mode so nothing is lost."
 msgstr "Lorsque vous passez de « Clé / valeur » à « YAML », vos lignes sont copiées dans la zone YAML. Le retour en arrière ne fonctionne que si chaque ligne est un simple `key: value`. Si le YAML contient des valeurs imbriquées, le tableau de bord vous maintient en mode YAML pour que rien ne soit perdu."
 

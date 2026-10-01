@@ -67,6 +67,9 @@ msgstr "Chaque nœud appartient à un couloir : « Provision », « Inventory »
 msgid "Lanes answer the question people ask first when they look at an infrastructure diagram, which is \"where does this fit?\", before they look at any individual arrow. They also make the diagram stable as the project grows. Adding a role only ever adds something to the Roles lane; it doesn't reshuffle the inventory. Without lanes an automatic layout is free to move any node anywhere, and a small change can produce a picture that looks unrelated to the previous one."
 msgstr "Les couloirs répondent à la première question que l'on se pose devant un diagramme d'infrastructure, « où cela se situe-t-il ? », avant même de regarder une flèche en particulier. Ils rendent aussi le diagramme stable à mesure que le projet grandit. Ajouter un rôle ne fait jamais qu'ajouter quelque chose dans le couloir « Roles » ; l'inventaire n'est pas remanié pour autant. Sans couloirs, une disposition automatique est libre de déplacer n'importe quel nœud n'importe où, et un petit changement peut produire une image sans rapport apparent avec la précédente."
 
+msgid "The Architecture tab of the multi-tier-platform template, with nodes in the Provision, Inventory, Playbooks, Roles and Deploy lanes"
+msgstr "L'onglet Architecture du modèle multi-tier-platform, avec des nœuds dans les couloirs Provisionnement, Inventaire, Playbooks, Rôles et Déploiement"
+
 msgid "A layered layout engine"
 msgstr "Un moteur de disposition en couches"
 
@@ -87,6 +90,9 @@ msgstr "Traçage au survol"
 
 msgid "On a project with many nodes, the question is rarely \"what does the whole graph look like\" and usually \"what is this connected to\". Hovering a node highlights it, its direct neighbours and the edges between them, and dims everything else. That turns a busy diagram into a local answer without changing the layout, which would undermine the stability the lanes provide. Clicking a node opens the component in the editor, since the diagram is a view of the project rather than a separate thing to edit."
 msgstr "Sur un projet comptant de nombreux nœuds, la question est rarement « à quoi ressemble le graphe entier ? » et bien plus souvent « à quoi ceci est-il relié ? ». Survoler un nœud le met en évidence, ainsi que ses voisins directs et les arêtes qui les relient, et estompe tout le reste. Un diagramme chargé fournit ainsi une réponse locale sans modifier la disposition, ce qui compromettrait la stabilité qu'apportent les couloirs. Cliquer sur un nœud ouvre le composant dans l'éditeur, puisque le diagramme est une vue du projet et non un objet distinct à modifier."
+
+msgid "The Architecture tab with the pointer on playbooks/services.yml: its groups, site.yml and roles are highlighted and the rest is dimmed"
+msgstr "L'onglet Architecture avec le pointeur sur playbooks/services.yml : ses groupes, site.yml et ses rôles sont mis en évidence et le reste est estompé"
 
 msgid "Exporting to draw.io"
 msgstr "Exporter vers draw.io"

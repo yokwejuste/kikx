@@ -10,6 +10,16 @@ The builder header shows two badges next to the project name, for example `ns: d
 2. Change **Default Kubernetes namespace**, **Output directory**, or both. Neither can be empty.
 3. Click **Save**, or **Cancel** to leave both as they were.
 
+```{image} ../images/web/settings-dialog.webp
+:alt: The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field
+:class: only-light
+```
+
+```{image} ../images/web/settings-dialog-dark.webp
+:alt: The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field
+:class: only-dark
+```
+
 The badges show the new values straight away.
 
 ## What changes for existing and new components
@@ -38,6 +48,16 @@ The zip's `kikx.toml` also records the new namespace as `default_namespace`, so 
 
 Click **Home** at the right of the builder header. Your project stays saved in this browser, and the home page shows a card at the top: **Continue** followed by the project name, with how many components it has. Click **Continue** to return to the builder where you left it.
 
+```{image} ../images/web/resume-card.webp
+:alt: The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue
+:class: only-light
+```
+
+```{image} ../images/web/resume-card-dark.webp
+:alt: The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue
+:class: only-dark
+```
+
 ## Start over
 
 You can only keep one project at a time in the app. Starting a new one replaces it, after you confirm.
@@ -48,6 +68,16 @@ To discard the current project without starting another:
 2. The card asks **Discard** followed by the project name, and says that its components and unsaved drafts are removed from this browser.
 3. Click **Discard**, or **Keep** to change your mind.
 
+```{image} ../images/web/discard-prompt.webp
+:alt: The home page card asking Discard shop?, with Keep and Discard
+:class: only-light
+```
+
+```{image} ../images/web/discard-prompt-dark.webp
+:alt: The home page card asking Discard shop?, with Keep and Discard
+:class: only-dark
+```
+
 A notification confirms the project was discarded. There's no undo, so export the project first if you might want it back. See [Export and reopen a project in the app](export-and-reopen-web.md).
 
 These also replace the current project:
@@ -57,6 +87,16 @@ These also replace the current project:
 - opening a file with **Open a preset**.
 
 Each one asks first, on the same card: **Replace** followed by the project name. Click **Download preset first** to keep a copy, **Replace** to go ahead, or **Keep** to change your mind.
+
+```{image} ../images/web/replace-prompt.webp
+:alt: The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace
+:class: only-light
+```
+
+```{image} ../images/web/replace-prompt-dark.webp
+:alt: The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace
+:class: only-dark
+```
 
 ## See also
 

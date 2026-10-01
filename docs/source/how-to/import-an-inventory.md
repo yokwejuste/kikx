@@ -16,6 +16,16 @@ Use this when you already have an `inventory.ini` and want kikx to manage it.
 5. Click **Replace hosts & groups**.
 6. Give the inventory a **Name** and click **Add to project** (or **Save changes**).
 
+```{image} ../images/web/import-dialog.webp
+:alt: The Import an existing inventory dialog with the platform inventory pasted, counting 3 hosts and 3 groups, and the Replace hosts & groups button
+:class: only-light
+```
+
+```{image} ../images/web/import-dialog-dark.webp
+:alt: The Import an existing inventory dialog with the platform inventory pasted, counting 3 hosts and 3 groups, and the Replace hosts & groups button
+:class: only-dark
+```
+
 **Replace hosts & groups** overwrites every host and group row in the form. It doesn't merge them with what's already there.
 
 [Start this lesson](teach:import) to watch the dashboard import an inventory and its group vars.

@@ -608,7 +608,7 @@
       },
       "serviceSelector": {
         "title": "Le Service {service} sélectionne {selector}, mais aucun pod de Deployment ne porte ces labels",
-        "detail": "Ses endpoints seront vides. Les pods portent app=<nom du Deployment> : donnez le même nom au Deployment, ou mettez le nom du Deployment dans le label app du Service."
+        "detail": "Ses endpoints seront vides. Les pods portent app='<'nom du Deployment'>' : donnez le même nom au Deployment, ou mettez le nom du Deployment dans le label app du Service."
       },
       "ingressBackend": {
         "title": "L'Ingress {ingress} route vers le service « {backend} », qui n'est pas dans le projet"

@@ -12,6 +12,16 @@ This only exists in the app. The CLI doesn't draw the architecture, so it has no
 2. Wait for the diagram to finish arranging. **Export to draw.io** stays disabled until it does.
 3. Click **Export to draw.io**.
 
+```{image} ../images/web/drawio-export.webp
+:alt: The bar above the architecture diagram: the legend, then the Expand and Export to draw.io buttons
+:class: only-light
+```
+
+```{image} ../images/web/drawio-export-dark.webp
+:alt: The bar above the architecture diagram: the legend, then the Expand and Export to draw.io buttons
+:class: only-dark
+```
+
 The browser saves `<project-name>-architecture.drawio`.
 
 The export is a snapshot of the current project. If you add or change components later, export again.

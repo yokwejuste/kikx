@@ -8,3 +8,5 @@ AGENTS.md
 docs/build/
 docs/locales/**/*.mo
 !web/app/build/
+
+docs/screenshots/node_modules/

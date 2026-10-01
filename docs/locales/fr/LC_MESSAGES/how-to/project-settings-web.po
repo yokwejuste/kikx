@@ -34,6 +34,9 @@ msgstr "Modifiez **Namespace Kubernetes par défaut**, **Dossier de sortie**, ou
 msgid "Click **Save**, or **Cancel** to leave both as they were."
 msgstr "Cliquez sur **Enregistrer**, ou sur **Annuler** pour les laisser tels quels."
 
+msgid "The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field"
+msgstr "La boîte de dialogue Paramètres du projet avec shop-prod saisi dans Namespace Kubernetes par défaut, une note sur les composants existants et le champ Dossier de sortie"
+
 msgid "The badges show the new values straight away."
 msgstr "Les badges affichent immédiatement les nouvelles valeurs."
 
@@ -79,6 +82,9 @@ msgstr "Revenir à la page d'accueil"
 msgid "Click **Home** at the right of the builder header. Your project stays saved in this browser, and the home page shows a card at the top: **Continue** followed by the project name, with how many components it has. Click **Continue** to return to the builder where you left it."
 msgstr "Cliquez sur **Accueil** à droite de l'en-tête du constructeur. Votre projet reste enregistré dans ce navigateur, et la page d'accueil affiche une carte en haut : **Reprendre** suivi du nom du projet, avec son nombre de composants. Cliquez sur **Reprendre** pour retrouver le constructeur là où vous l'avez laissé."
 
+msgid "The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue"
+msgstr "La carte Reprendre shop de la page d'accueil, qui indique que 5 composants et les brouillons non enregistrés sont conservés dans ce navigateur, avec un bouton de fermeture et Reprendre"
+
 msgid "Start over"
 msgstr "Repartir de zéro"
 
@@ -97,6 +103,9 @@ msgstr "La carte demande **Abandonner** suivi du nom du projet, et précise que 
 msgid "Click **Discard**, or **Keep** to change your mind."
 msgstr "Cliquez sur **Abandonner**, ou sur **Conserver** si vous changez d'avis."
 
+msgid "The home page card asking Discard shop?, with Keep and Discard"
+msgstr "La carte de la page d'accueil qui demande Abandonner shop ?, avec Conserver et Abandonner"
+
 msgid "A notification confirms the project was discarded. There's no undo, so export the project first if you might want it back. See [Export and reopen a project in the app](export-and-reopen-web.md)."
 msgstr "Une notification confirme l'abandon du projet. Il n'y a pas de retour en arrière : exportez d'abord le projet si vous pourriez en avoir besoin. Voir [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
 
@@ -114,6 +123,9 @@ msgstr "ouvrir un fichier avec **Ouvrir un preset**."
 
 msgid "Each one asks first, on the same card: **Replace** followed by the project name. Click **Download preset first** to keep a copy, **Replace** to go ahead, or **Keep** to change your mind."
 msgstr "Chacune demande d'abord confirmation, sur la même carte : **Remplacer** suivi du nom du projet. Cliquez sur **Télécharger le preset d'abord** pour en garder une copie, sur **Remplacer** pour continuer, ou sur **Conserver** pour changer d'avis."
+
+msgid "The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace"
+msgstr "La carte de la page d'accueil qui demande Remplacer shop ? avant d'ouvrir un modèle, avec Conserver, Télécharger le preset d'abord et Remplacer"
 
 msgid "See also"
 msgstr "Voir aussi"

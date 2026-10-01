@@ -21,6 +21,16 @@ Provision is optional. If your servers already exist, skip it and start with an
 5. Fill in the fields for that provider, described below.
 6. Click **Add to project**, or press ⌘/Ctrl + Enter.
 
+```{image} ../images/web/server-form.webp
+:alt: The cloud server form for web at Hetzner, with region fsn1, size cx22 and the preview of web-hetzner.tf
+:class: only-light
+```
+
+```{image} ../images/web/server-form-dark.webp
+:alt: The cloud server form for web at Hetzner, with region fsn1, size cx22 and the preview of web-hetzner.tf
+:class: only-dark
+```
+
 The badge at the top right of the editor shows the file the component writes:
 `<name>-<provider>.tf`, for example `web-hetzner.tf`.
 
@@ -30,6 +40,16 @@ The **Provider** list is not built into the app. It lists every Terraform item i
 registry, so a provider added to the registry shows up here. For a provider that isn't listed,
 load its registry item from **Custom** instead, see
 [Render your own component from a registry item](custom-registry-item.md).
+
+```{image} ../images/web/provider-list.webp
+:alt: The Provider list open, with the Terraform providers from the registry
+:class: only-light
+```
+
+```{image} ../images/web/provider-list-dark.webp
+:alt: The Provider list open, with the Terraform providers from the registry
+:class: only-dark
+```
 
 Each provider asks for its own fields. Switching provider resets them to that provider's
 defaults, because one provider's values rarely make sense at another.
@@ -134,6 +154,18 @@ creates machines for. kikx picks those groups in this order:
 1. a group with the same name as the server;
 2. groups with a host whose name starts with the server name and a dash, such as `web-0`;
 3. groups whose name contains the server name as a word, such as `web_eu` for `web`.
+
+```{image} ../images/web/architecture-servers.webp
+:alt: The Architecture tab with the web and db servers in the Provision lane and provisions arrows to the web group
+:class: only-light
+:width: 100%
+```
+
+```{image} ../images/web/architecture-servers-dark.webp
+:alt: The Architecture tab with the web and db servers in the Provision lane and provisions arrows to the web group
+:class: only-dark
+:width: 100%
+```
 
 When no group matches, the arrow goes to every top level group. Add a group named after the
 server to make the arrow precise. Click a node to open its component in the editor.

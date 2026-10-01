@@ -43,6 +43,9 @@ msgstr "Cliquez sur « Remplacer les hôtes et les groupes »."
 msgid "Give the inventory a **Name** and click **Add to project** (or **Save changes**)."
 msgstr "Donnez un « Nom » à l'inventaire et cliquez sur « Ajouter au projet » (ou « Enregistrer »)."
 
+msgid "The Import an existing inventory dialog with the platform inventory pasted, counting 3 hosts and 3 groups, and the Replace hosts & groups button"
+msgstr "La boîte de dialogue Importer un inventaire existant avec l'inventaire platform collé, qui compte 3 hôtes et 3 groupes, et le bouton Remplacer les hôtes et les groupes"
+
 msgid "**Replace hosts & groups** overwrites every host and group row in the form. It doesn't merge them with what's already there."
 msgstr "« Remplacer les hôtes et les groupes » écrase toutes les lignes d'hôtes et de groupes du formulaire. Il ne les fusionne pas avec ce qui s'y trouve déjà."
 

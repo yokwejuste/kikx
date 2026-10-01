@@ -230,8 +230,8 @@ Hover a node to trace its connections, click it to edit, or **Export to draw.io*
 refining it by hand. The export keeps the swimlanes and every edge's waypoints.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/source/images/architecture-dark.png">
-  <img alt="Architecture diagram of the multi-tier platform example: 47 nodes and 49 routed edges across five swimlanes" src="docs/source/images/architecture-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/source/images/web/architecture-template-dark.webp">
+  <img alt="Architecture diagram of the multi-tier platform example: 47 nodes and 49 routed edges across five swimlanes" src="docs/source/images/web/architecture-template.webp">
 </picture>
 
 ## Presets: setup vs. apply

@@ -41,7 +41,15 @@ Configure, Deploy, Custom), the editor in the middle, and the **Project** panel 
 says **Nothing yet. Most projects start with an Inventory.** Here is the same layout on a much
 larger project:
 
-![The builder: stages on the left, the editor in the middle, the project on the right](../images/builder-light.png)
+```{image} ../images/web/builder-template.webp
+:alt: The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right
+:class: only-light
+```
+
+```{image} ../images/web/builder-template-dark.webp
+:alt: The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right
+:class: only-dark
+```
 
 Above the columns you see the project name, the badges `ns: default` and `infra/`, and three tabs:
 **Build**, **Architecture** and **Checks**. Click either badge to change the default namespace or
@@ -71,11 +79,31 @@ db
 ansible_user=deploy
 ```
 
+```{image} ../images/web/import-dialog.webp
+:alt: The Import an existing inventory dialog with the platform inventory pasted, counting 3 hosts and 3 groups, and the Replace hosts & groups button
+:class: only-light
+```
+
+```{image} ../images/web/import-dialog-dark.webp
+:alt: The Import an existing inventory dialog with the platform inventory pasted, counting 3 hosts and 3 groups, and the Replace hosts & groups button
+:class: only-dark
+```
+
 Under the text area the dialog counts **3 hosts · 3 groups**. Click **Replace hosts & groups**.
 
 The dialog closes and the form fills in: **Hosts (3)** with `web-01`, `web-02` and `db-01`, and a
 **Groups** section with `web`, `db` and `platform`. The `platform` row lists `web` and `db` as child
 groups and `ansible_user=deploy` as its vars.
+
+```{image} ../images/web/inventory-groups.webp
+:alt: The inventory form after the import: three hosts, and a Groups section where platform has web and db as children and ansible_user=deploy as vars
+:class: only-light
+```
+
+```{image} ../images/web/inventory-groups-dark.webp
+:alt: The inventory form after the import: three hosts, and a Groups section where platform has web and db as children and ansible_user=deploy as vars
+:class: only-dark
+```
 
 Scroll down to **Preview**. It shows `platform-inventory.ini`, rendered as you'd get it:
 
@@ -178,6 +206,16 @@ The preview shows `playbooks/services.yml`:
       when: backups_enabled | default(true)
 ```
 
+```{image} ../images/web/playbook-plays.webp
+:alt: The services playbook with two plays, Web tier and Database tier, a when condition on the backups role, and the rendered preview
+:class: only-light
+```
+
+```{image} ../images/web/playbook-plays-dark.webp
+:alt: The services playbook with two plays, Web tier and Database tier, a when condition on the backups role, and the rendered preview
+:class: only-dark
+```
+
 Click **Add to project**. `services` appears in the **Project** panel under **Configure**.
 
 ## Add the site playbook
@@ -231,6 +269,16 @@ Click the **Checks** tab. The page lists what kikx found when it cross-checked y
 - under **Notes**: **services uses 3 roles kikx doesn't vendor**, listing `nginx, postgres,
   backups`.
 
+```{image} ../images/web/checks-warning.webp
+:alt: The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor
+:class: only-light
+```
+
+```{image} ../images/web/checks-warning-dark.webp
+:alt: The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor
+:class: only-dark
+```
+
 The warning is right: the pasted inventory still had an old `ansible_user=root` on `web-02`, so it
 would ignore the `deploy` user every other host uses. Fix it:
 
@@ -238,6 +286,16 @@ would ignore the `deploy` user every other host uses. Fix it:
    Inventory · platform**.
 2. On the `web-02` row, open **Connection & host vars**. Its summary says **user root**.
 3. Clear the **ssh user (inherit)** field.
+
+```{image} ../images/web/host-override.webp
+:alt: The web-02 host row with Connection & host vars open and root in the ssh user field
+:class: only-light
+```
+
+```{image} ../images/web/host-override-dark.webp
+:alt: The web-02 host row with Connection & host vars open and root in the ssh user field
+:class: only-dark
+```
 
 In the preview, the `web-02` line loses its user:
 
@@ -284,10 +342,32 @@ You should see:
 - `site.yml` with an **imports** edge to `playbooks/services.yml`;
 - three **runs** edges from the playbook to `roles/nginx`, `roles/postgres` and `roles/backups`.
 
+```{image} ../images/web/architecture-platform.webp
+:alt: The Architecture tab of the platform project, with ansible.cfg, the platform, web and db groups, the services playbook and its three roles
+:class: only-light
+:width: 100%
+```
+
+```{image} ../images/web/architecture-platform-dark.webp
+:alt: The Architecture tab of the platform project, with ansible.cfg, the platform, web and db groups, the services playbook and its three roles
+:class: only-dark
+:width: 100%
+```
+
 Hover a node to highlight its connections; click one to open it in the editor. On a larger project
 the same view looks like this:
 
-![The Architecture view of a larger project, with nodes in swimlanes and routed edges](../images/architecture-light.png)
+```{image} ../images/web/architecture-template.webp
+:alt: The Architecture tab of the multi-tier-platform template, with nodes in the Provision, Inventory, Playbooks, Roles and Deploy lanes
+:class: only-light
+:width: 100%
+```
+
+```{image} ../images/web/architecture-template-dark.webp
+:alt: The Architecture tab of the multi-tier-platform template, with nodes in the Provision, Inventory, Playbooks, Roles and Deploy lanes
+:class: only-dark
+:width: 100%
+```
 
 ## Download the project
 

@@ -28,6 +28,9 @@ msgstr "Dans le tableau de bord, cliquez sur « Apprends-moi » dans la barre du
 msgid "From this page, use the **Start this lesson** links below. They open the dashboard and start the lesson straight away."
 msgstr "Depuis cette page, utilisez les liens « Lancer cette leçon » ci-dessous. Ils ouvrent le tableau de bord et démarrent la leçon tout de suite."
 
+msgid "The Teach me lesson picker with the app lessons under Basics and Going further"
+msgstr "Le sélecteur de leçons Apprends-moi avec les leçons de l'app sous Les bases et Pour aller plus loin"
+
 msgid "The lessons"
 msgstr "Les leçons"
 
@@ -54,6 +57,9 @@ msgstr "Leçons avec la CLI"
 
 msgid "Pick **With the CLI** at the top of the **Teach me** list, or on the home page, to see the lessons for the command line. They open a practice terminal with the project files next to it. kikx types each command letter by letter and the real kikx engine prints the output and writes the files, but everything stays in your browser tab. When it is your turn, click the terminal, type the command and press Enter; **Show me** types it for you. Every command has a copy button so you can run it for real in your own terminal."
 msgstr "Choisissez « Avec la CLI » en haut de la liste « Apprends-moi », ou sur la page d'accueil, pour voir les leçons en ligne de commande. Elles ouvrent un terminal d'entraînement avec les fichiers du projet à côté. kikx tape chaque commande lettre par lettre et le vrai moteur kikx affiche la sortie et écrit les fichiers, mais tout reste dans votre onglet. Quand c'est à vous, cliquez dans le terminal, tapez la commande et appuyez sur Entrée ; « Montre-moi » la tape pour vous. Chaque commande a un bouton de copie pour la lancer pour de vrai dans votre propre terminal."
+
+msgid "The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer"
+msgstr "Le terminal d'entraînement après kikx init, kikx add et ls, avec l'arborescence Fichiers et shop-deployment.yaml ouvert dans la visionneuse"
 
 msgid "The practice terminal behaves like a shell. The up and down arrows recall earlier commands. Tab completes commands, flags, template and component names and file names; press it twice to list the choices. Ctrl+A, Ctrl+E, Ctrl+U, Ctrl+W and Ctrl+K edit the line, Ctrl+C cancels it and Ctrl+L clears the screen. The buttons above the terminal run the line, clear the screen, copy every command of the session as a script, and copy a link that replays the session in someone else's browser."
 msgstr "Le terminal d'entraînement se comporte comme un shell. Les flèches haut et bas rappellent les commandes précédentes. Tab complète les commandes, les options, les noms de modèles et de composants et les noms de fichiers ; appuyez deux fois pour lister les choix. Ctrl+A, Ctrl+E, Ctrl+U, Ctrl+W et Ctrl+K modifient la ligne, Ctrl+C l'annule et Ctrl+L efface l'écran. Les boutons au-dessus du terminal exécutent la ligne, effacent l'écran, copient toutes les commandes de la session sous forme de script et copient un lien qui rejoue la session dans le navigateur de quelqu'un d'autre."
@@ -108,6 +114,9 @@ msgstr "Échap ou le bouton de fermeture arrête la leçon."
 
 msgid "If you changed the page while it was paused and the lesson can't find what it needs next, it says so. Put the page back and press **Resume**, or stop the lesson."
 msgstr "Si vous avez modifié la page pendant la pause et que la leçon ne trouve plus l'élément suivant, elle vous le dit. Remettez la page comme avant et appuyez sur « Reprendre », ou arrêtez la leçon."
+
+msgid "A lesson in progress: kikx typing into the inventory form while the lesson card explains groups, with Pause, skip, speed and stop controls"
+msgstr "Une leçon en cours : kikx saisit dans le formulaire d'inventaire pendant que la carte de la leçon explique les groupes, avec les commandes Pause, passer, vitesse et arrêt"
 
 msgid "If your system asks for reduced motion, the pointer jumps instead of gliding and text appears at once."
 msgstr "Si votre système demande de réduire les animations, le pointeur saute au lieu de glisser et le texte s'affiche d'un coup."

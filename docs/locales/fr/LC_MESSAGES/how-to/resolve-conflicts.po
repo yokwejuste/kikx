@@ -55,6 +55,9 @@ msgstr "« Garder l'existant » : rien ne change. Renommez votre nouveau composa
 msgid "**Replace**: the owning component is removed and yours takes its files. This can't be undone. To get the old component back, add it again."
 msgstr "« Remplacer » : le composant propriétaire est supprimé et le vôtre reprend ses fichiers. Cette action est irréversible. Pour récupérer l'ancien composant, ajoutez-le de nouveau."
 
+msgid "The This file already exists dialog comparing the Current and Incoming content of group_vars/web.yml, with Keep existing and Replace"
+msgstr "La boîte de dialogue Ce fichier existe déjà qui compare le contenu Actuel et Nouveau de group_vars/web.yml, avec Garder l'existant et Remplacer"
+
 msgid "Editing a component and saving it under the same name replaces it in place, without a dialog."
 msgstr "Modifier un composant et l'enregistrer sous le même nom le remplace sur place, sans boîte de dialogue."
 
@@ -78,6 +81,9 @@ msgstr "Les vérifications ne s'exécutent que dans le tableau de bord. La CLI n
 
 msgid "Open **Checks** from the header, or click **Review** in the **Project** panel. Each item has **Open …** buttons that take you straight to the component to fix. When you edit a component, its own checks also appear at the top of the editor, with the same **Open …** and **Scaffold N roles** buttons. Errors break the output, warnings are probably mistakes, and notes are informational."
 msgstr "Ouvrez « Vérifications » depuis l'en-tête, ou cliquez sur « Examiner » dans le panneau « Projet ». Chaque élément comporte des boutons « Ouvrir … » qui vous mènent directement au composant à corriger. Quand vous modifiez un composant, ses propres vérifications apparaissent aussi en haut de l'éditeur, avec les mêmes boutons « Ouvrir … » et « Créer N rôles ». Les erreurs cassent le résultat, les avertissements signalent des erreurs probables, et les notes sont informatives."
+
+msgid "The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor"
+msgstr "L'onglet Vérifications avec un avertissement sur web-02 qui remplace ansible_user et une note sur trois rôles que kikx ne fournit pas"
 
 msgid "Errors"
 msgstr "Erreurs"

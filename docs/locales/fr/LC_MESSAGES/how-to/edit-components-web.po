@@ -76,6 +76,9 @@ msgstr "Cliquez sur l'icône de corbeille au bout de sa ligne."
 msgid "The component and all its files leave the project. A notification says **Removed** followed by the name, with an **Undo** button. Click **Undo** to put the component back where it was. Once the notification is gone, the only way back is to add the component again."
 msgstr "Le composant et tous ses fichiers quittent le projet. Une notification indique le nom suivi de **supprimé**, avec un bouton **Annuler**. Cliquez sur **Annuler** pour remettre le composant à sa place. Une fois la notification disparue, le seul moyen de le récupérer est de l'ajouter à nouveau."
 
+msgid "The builder after removing the site playbook: the notification Removed site with an Undo button"
+msgstr "Le constructeur après la suppression du playbook site : la notification site supprimé avec un bouton Annuler"
+
 msgid "Pick up a draft"
 msgstr "Reprendre un brouillon"
 
@@ -90,6 +93,9 @@ msgstr "continuez à modifier et enregistrez comme d'habitude ;"
 
 msgid "click **Discard draft** to go back to the saved values."
 msgstr "cliquez sur **Abandonner le brouillon** pour revenir aux valeurs enregistrées."
+
+msgid "A group vars form reopened with the line Restored your unsaved draft from and a Discard draft button"
+msgstr "Un formulaire de group vars rouvert avec la ligne Brouillon non enregistré restauré et un bouton Abandonner le brouillon"
 
 msgid "Each component keeps its own draft, and so does each kind of new component. Drafts are removed when you save, and for the whole project when you open a template or a preset, start a blank project, or discard the project from the home page."
 msgstr "Chaque composant garde son propre brouillon, de même que chaque type de nouveau composant. Les brouillons sont supprimés quand vous enregistrez, et pour tout le projet quand vous ouvrez un modèle ou un preset, démarrez un projet vierge, ou abandonnez le projet depuis la page d'accueil."
@@ -127,6 +133,9 @@ msgstr "**Garder l'existant** ferme la boîte de dialogue sans rien enregistrer.
 msgid "**Replace** removes the owning component and saves yours. The notification says how many other components were replaced. There's no **Undo** for this."
 msgstr "**Remplacer** supprime le composant propriétaire et enregistre le vôtre. La notification indique combien d'autres composants ont été remplacés. Il n'y a pas d'**Annuler** pour cette action."
 
+msgid "The This file already exists dialog comparing the Current and Incoming content of group_vars/web.yml, with Keep existing and Replace"
+msgstr "La boîte de dialogue Ce fichier existe déjà qui compare le contenu Actuel et Nouveau de group_vars/web.yml, avec Garder l'existant et Remplacer"
+
 msgid "[Resolve file conflicts and checks](resolve-conflicts.md) covers the CLI side and what to do next."
 msgstr "[Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md) couvre le côté CLI et la suite."
 
@@ -141,6 +150,9 @@ msgstr "**Ouvrir** suivi d'un nom de composant ouvre l'autre composant concerné
 
 msgid "**Scaffold N roles** creates empty roles for the roles a playbook uses that the project doesn't have."
 msgstr "**Créer N rôles** crée des rôles vides pour les rôles qu'un playbook utilise et que le projet n'a pas."
+
+msgid "The editor of the web playbook with the section 1 check flags this component above the form, and its Scaffold 1 role button"
+msgstr "L'éditeur du playbook web avec la section 1 point signalé sur ce composant au-dessus du formulaire, et son bouton Créer 1 rôle"
 
 msgid "Fix the values, save, and the section shrinks or disappears. The **Checks** tab lists the issues of every component at once. See [Resolve file conflicts and checks](resolve-conflicts.md#fix-what-checks-reports) and the [Checks reference](../reference/checks.md)."
 msgstr "Corrigez les valeurs, enregistrez, et la section se réduit ou disparaît. L'onglet **Vérifications** liste les problèmes de tous les composants à la fois. Voir [Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md#fix-what-checks-reports) et la [référence des vérifications](../reference/checks.md)."

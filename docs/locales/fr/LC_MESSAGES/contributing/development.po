@@ -79,6 +79,66 @@ msgstr "Après avoir modifié une page anglaise, mettez à jour les catalogues f
 msgid "To rebuild on every save while you write:"
 msgstr "Pour reconstruire à chaque enregistrement pendant que vous écrivez :"
 
+msgid "Update the screenshots"
+msgstr "Mettre à jour les captures d'écran"
+
+msgid "The screenshots of the web app in `docs/source/images/web/` are made by one script, `docs/screenshots/capture.mjs`. It drives the real app in a headless browser, builds the example projects through the forms, and saves every picture four times: light and dark theme, English and French. Pages show the one that matches the reader's theme, and the French site uses the French files."
+msgstr "Les captures d'écran de l'app web dans `docs/source/images/web/` sont produites par un seul script, `docs/screenshots/capture.mjs`. Il pilote la vraie app dans un navigateur sans interface, construit les projets d'exemple en remplissant les formulaires, et enregistre chaque image quatre fois : thème clair et sombre, en anglais et en français. Les pages affichent celle qui correspond au thème du lecteur, et le site français utilise les fichiers français."
+
+msgid "File"
+msgstr "Fichier"
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "`<name>.webp`"
+msgstr "`<name>.webp`"
+
+msgid "light"
+msgstr "clair"
+
+msgid "English"
+msgstr "anglais"
+
+msgid "`<name>-dark.webp`"
+msgstr "`<name>-dark.webp`"
+
+msgid "dark"
+msgstr "sombre"
+
+msgid "`<name>.fr.webp`"
+msgstr "`<name>.fr.webp`"
+
+msgid "French"
+msgstr "français"
+
+msgid "`<name>-dark.fr.webp`"
+msgstr "`<name>-dark.fr.webp`"
+
+msgid "You need Node.js and `cwebp` (`brew install webp` on macOS, `apt install webp` on Debian and Ubuntu)."
+msgstr "Il vous faut Node.js et `cwebp` (`brew install webp` sur macOS, `apt install webp` sur Debian et Ubuntu)."
+
+msgid "Start the backend and the dashboard, as in [Run kikx locally](run-locally.md)."
+msgstr "Démarrez le backend et le tableau de bord, comme dans [Lancer kikx en local](run-locally.md)."
+
+msgid "Install the script's dependencies and its browser once:"
+msgstr "Installez une fois les dépendances du script et son navigateur :"
+
+msgid "Run it against the dashboard:"
+msgstr "Lancez-le sur le tableau de bord :"
+
+msgid "It replaces the files in `docs/source/images/web/`. To redo some of them only, pass their names with `--only`, for example `--only home,export-menu`. `--themes light` and `--locales en` limit the variants. Each shot is listed in `docs/screenshots/shots.mjs`, and the example projects it starts from in `docs/screenshots/scenes.mjs`."
+msgstr "Il remplace les fichiers de `docs/source/images/web/`. Pour n'en refaire que certains, passez leurs noms avec `--only`, par exemple `--only home,export-menu`. `--themes light` et `--locales en` limitent les variantes. Chaque capture est décrite dans `docs/screenshots/shots.mjs`, et les projets d'exemple dont elle part dans `docs/screenshots/scenes.mjs`."
+
+msgid "To add a screenshot to a page, add a shot, run the script, and put a light and a dark image on the page:"
+msgstr "Pour ajouter une capture à une page, ajoutez une capture au script, lancez-le, puis placez une image claire et une image sombre dans la page :"
+
+msgid "Write the same alt text on both, and translate it in the page's French catalogue."
+msgstr "Écrivez le même texte alternatif sur les deux, et traduisez-le dans le catalogue français de la page."
+
 msgid "See also"
 msgstr "Voir aussi"
 

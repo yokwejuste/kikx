@@ -28,8 +28,14 @@ msgstr "Ouvrez `/learn/cli` dans l'app, par exemple `https://<votre app kikx>/le
 msgid "When you arrive, the lesson list opens. Pick a lesson, or close the list to practise on your own. **Choose a lesson** at the top right opens it again."
 msgstr "À l'arrivée, la liste des leçons s'ouvre. Choisissez une leçon, ou fermez la liste pour vous entraîner seul. **Choisir une leçon**, en haut à droite, la rouvre."
 
+msgid "The Teach me picker over the practice terminal, listing the CLI lessons"
+msgstr "Le sélecteur Apprends-moi au-dessus du terminal d'entraînement, qui liste les leçons de la CLI"
+
 msgid "Starting any lesson from **Teach me** > **With the CLI** also brings you here."
 msgstr "Lancer une leçon depuis **Apprends-moi** > **Avec la CLI** vous amène aussi ici."
+
+msgid "The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer"
+msgstr "Le terminal d'entraînement après kikx init, kikx add et ls, avec l'arborescence Fichiers et shop-deployment.yaml ouvert dans la visionneuse"
 
 msgid "What runs, and where"
 msgstr "Ce qui s'exécute, et où"

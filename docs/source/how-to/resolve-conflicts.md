@@ -24,6 +24,16 @@ In the dialog:
    - **Keep existing**: nothing changes. Rename your new component (for example, give the role or playbook a different **Name**) and save again.
    - **Replace**: the owning component is removed and yours takes its files. This can't be undone. To get the old component back, add it again.
 
+```{image} ../images/web/conflict-dialog.webp
+:alt: The This file already exists dialog comparing the Current and Incoming content of group_vars/web.yml, with Keep existing and Replace
+:class: only-light
+```
+
+```{image} ../images/web/conflict-dialog-dark.webp
+:alt: The This file already exists dialog comparing the Current and Incoming content of group_vars/web.yml, with Keep existing and Replace
+:class: only-dark
+```
+
 Editing a component and saving it under the same name replaces it in place, without a dialog.
 :::
 
@@ -45,6 +55,16 @@ The checks only run in the dashboard. The CLI doesn't run them.
 :::
 
 Open **Checks** from the header, or click **Review** in the **Project** panel. Each item has **Open …** buttons that take you straight to the component to fix. When you edit a component, its own checks also appear at the top of the editor, with the same **Open …** and **Scaffold N roles** buttons. Errors break the output, warnings are probably mistakes, and notes are informational.
+
+```{image} ../images/web/checks-warning.webp
+:alt: The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor
+:class: only-light
+```
+
+```{image} ../images/web/checks-warning-dark.webp
+:alt: The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor
+:class: only-dark
+```
 
 ### Errors
 

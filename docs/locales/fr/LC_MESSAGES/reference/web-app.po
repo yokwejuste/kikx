@@ -121,6 +121,9 @@ msgstr "Accueil"
 msgid "The home page (`/`) is where you start or resume a project."
 msgstr "La page d'accueil (`/`) sert à commencer ou à reprendre un projet."
 
+msgid "The kikx home page: the In the app and With the CLI toggle, then the template cards"
+msgstr "La page d'accueil de kikx : le sélecteur Dans l'app / Avec la CLI, puis les cartes de modèles"
+
 msgid "In the app / With the CLI"
 msgstr "Dans l'app / Avec la CLI"
 
@@ -132,6 +135,9 @@ msgstr "**Dans l'app** affiche les modèles, **Projet vierge** et **Ouvrir un pr
 
 msgid "**With the CLI** shows the commands that do the same thing in a terminal, from installing kikx to `kikx apply`, with a **Copy commands** button that copies them all. See [Your first project with the CLI](../tutorials/first-project-cli.md)."
 msgstr "**Avec la CLI** affiche les commandes qui font la même chose dans un terminal, de l'installation de kikx à `kikx apply`, avec un bouton **Copier les commandes** qui les copie toutes. Voir [Votre premier projet avec la CLI](../tutorials/first-project-cli.md)."
+
+msgid "The With the CLI choice on the home page: the commands from installing kikx to kikx apply, with a copy button"
+msgstr "Le choix Avec la CLI sur la page d'accueil : les commandes, de l'installation de kikx à kikx apply, avec un bouton de copie"
 
 msgid "Start from a template"
 msgstr "Partir d'un modèle"
@@ -169,6 +175,9 @@ msgstr "Le bouton de fermeture (**Abandonner** suivi du nom du projet) demande u
 msgid "Starting a blank project, or opening a template or a preset, turns the card into a confirmation: **Replace** followed by the project name. **Download preset first** downloads the current project as a `.kikx-preset.json`, **Replace** goes ahead, **Keep** cancels. Without a stored project there is no card and no confirmation."
 msgstr "Commencer un projet vierge, ou ouvrir un modèle ou un preset, transforme la carte en confirmation : **Remplacer** suivi du nom du projet. **Télécharger le preset d'abord** télécharge le projet actuel sous forme de `.kikx-preset.json`, **Remplacer** continue, **Conserver** annule. Sans projet enregistré, il n'y a ni carte ni confirmation."
 
+msgid "The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace"
+msgstr "La carte de la page d'accueil qui demande Remplacer shop ? avant d'ouvrir un modèle, avec Conserver, Télécharger le preset d'abord et Remplacer"
+
 msgid "At the bottom of the page, **See how data flows through kikx** opens the [Data flow](#data-flow) page."
 msgstr "En bas de la page, **Voir comment les données circulent dans kikx** ouvre la page [Flux de données](#data-flow)."
 
@@ -178,11 +187,8 @@ msgstr "Le constructeur"
 msgid "The builder (`/build`) is where you add and edit components. If no project exists yet, it says **No project details yet.** with a link back to the home page."
 msgstr "Le constructeur (`/build`) sert à ajouter et modifier des composants. S'il n'existe pas encore de projet, il affiche **Aucun détail de projet pour l'instant.** avec un lien vers la page d'accueil."
 
-msgid "![The builder on a template project: the stages on the left, a playbook open in the editor, the Getting started checklist and the Project panel on the right](../images/web/builder-overview.png)"
-msgstr "![Le constructeur sur un projet issu d'un modèle : les étapes à gauche, un playbook ouvert dans l'éditeur, la liste Premiers pas et le panneau Projet à droite](../images/web/builder-overview.png)"
-
-msgid "The builder on a template project: the stages on the left, a playbook open in the editor, the Getting started checklist and the Project panel on the right"
-msgstr "Le constructeur sur un projet issu d'un modèle : les étapes à gauche, un playbook ouvert dans l'éditeur, la liste Premiers pas et le panneau Projet à droite"
+msgid "The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right"
+msgstr "Le constructeur sur le modèle multi-tier-platform : les étapes à gauche, l'éditeur au centre, la liste Premiers pas et le panneau Projet à droite"
 
 msgid "Top bar"
 msgstr "Barre du haut"
@@ -247,6 +253,9 @@ msgstr "**Namespace Kubernetes par défaut** : le namespace donné aux composant
 msgid "**Output directory**: the folder your files are written to inside the `.zip`."
 msgstr "**Dossier de sortie** : le dossier dans lequel vos fichiers sont écrits à l'intérieur du `.zip`."
 
+msgid "The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field"
+msgstr "La boîte de dialogue Paramètres du projet avec shop-prod saisi dans Namespace Kubernetes par défaut, une note sur les composants existants et le champ Dossier de sortie"
+
 msgid "Click **Save** to apply or **Cancel** to close. See [Change project settings in the app](../how-to/project-settings-web.md)."
 msgstr "Cliquez sur **Enregistrer** pour appliquer ou sur **Annuler** pour fermer. Voir [Modifier les paramètres du projet dans l'app](../how-to/project-settings-web.md)."
 
@@ -297,6 +306,9 @@ msgstr "Chaque entrée affiche le fichier qu'elle écrit et combien le projet en
 
 msgid "On an empty project the editor area shows **Your project is empty** instead: one card per stage with a button such as **Add Inventory**, and a link **Or start from a template**."
 msgstr "Sur un projet vide, la zone de l'éditeur affiche à la place **Votre projet est vide** : une carte par étape avec un bouton comme **Ajouter Inventaire**, et un lien **Ou partir d'un modèle**."
+
+msgid "The builder on an empty project: the stages on the left, Your project is empty in the middle, the Getting started checklist and the Project panel on the right"
+msgstr "Le constructeur sur un projet vide : les étapes à gauche, Votre projet est vide au centre, la liste Premiers pas et le panneau Projet à droite"
 
 msgid "Where each component lives in the catalog, with its form fields, is listed in [Components](components.md). To provision servers or deploy to Kubernetes from the catalog, see [Provision cloud servers in the app](../how-to/provision-servers-web.md) and [Deploy an app to Kubernetes in the app](../how-to/deploy-kubernetes-web.md)."
 msgstr "L'emplacement de chaque composant dans le catalogue, avec les champs de son formulaire, est indiqué dans [Composants](components.md). Pour provisionner des serveurs ou déployer sur Kubernetes depuis le catalogue, voir [Provisionner des serveurs cloud dans l'app](../how-to/provision-servers-web.md) et [Déployer une application sur Kubernetes dans l'app](../how-to/deploy-kubernetes-web.md)."
@@ -379,6 +391,9 @@ msgstr "cliquez sur la flèche (**Afficher les fichiers**) pour lister les fichi
 msgid "the bin icon (**Remove**) removes the component. The notification offers **Undo**."
 msgstr "l'icône de corbeille (**Supprimer**) supprime le composant. La notification propose **Annuler**."
 
+msgid "The Project panel listing 5 components, with the nginx role skeleton unfolded to show its four files"
+msgstr "Le panneau Projet qui liste 5 composants, avec le squelette de rôle nginx déplié sur ses quatre fichiers"
+
 msgid "An empty project says **Nothing yet. Most projects start with an Inventory.**"
 msgstr "Un projet vide affiche **Rien pour l'instant. La plupart des projets commencent par un Inventaire.**"
 
@@ -405,6 +420,9 @@ msgstr "**Téléchargez votre projet** : exportez le projet."
 
 msgid "It shows your progress, such as **2 of 5**. Click an open step to jump to the right form or view. Click the title to fold it, or the close button (**Hide the checklist**) to hide it for this project. It disappears once every step is done."
 msgstr "Elle affiche votre progression, par exemple **2 sur 5**. Cliquez sur une étape ouverte pour aller au bon formulaire ou à la bonne vue. Cliquez sur le titre pour la replier, ou sur le bouton de fermeture (**Masquer la liste**) pour la masquer pour ce projet. Elle disparaît une fois toutes les étapes faites."
+
+msgid "The Getting started checklist at 2 of 5, with List your servers and Review checks ticked"
+msgstr "La liste Premiers pas à 2 sur 5, avec Listez vos serveurs et Consultez les vérifications cochés"
 
 msgid "Project drawer"
 msgstr "Tiroir du projet"
@@ -466,6 +484,9 @@ msgstr "**Commande CLI**"
 msgid "Opens **Run it with the CLI**: the `kikx setup` and `kikx apply` commands for this project's preset, each with a copy button, and **Download preset**."
 msgstr "Ouvre **Lancer avec la CLI** : les commandes `kikx setup` et `kikx apply` pour le preset de ce projet, chacune avec un bouton de copie, et **Télécharger le preset**."
 
+msgid "The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command"
+msgstr "Le menu Exporter ouvert, avec Fichiers (.zip), Preset (.kikx-preset.json) et Commande CLI"
+
 msgid "Exporting is the only moment kikx writes anything to your machine. See [Export and reopen a project in the app](../how-to/export-and-reopen-web.md) and [Where your project lives](../explanation/project-storage.md)."
 msgstr "L'export est le seul moment où kikx écrit quelque chose sur votre machine. Voir [Exporter et rouvrir un projet dans l'app](../how-to/export-and-reopen-web.md) et [Où vit votre projet](../explanation/project-storage.md)."
 
@@ -481,6 +502,9 @@ msgstr "Flux de données"
 msgid "The **Data flow** page (`/flow`) draws how kikx turns a template into files. Pick **CLI** or **Dashboard** at the top right: the path that driver takes lights up, from the terminal or the browser through the CLI or the backend to the shared engine, and on to `kikx.toml` and the rendered files. Solid borders are actors and processes; dashed borders are data on disk. You can drag the nodes, zoom with the controls and move around with the minimap. See [How the pieces fit together](../explanation/project-layout.md)."
 msgstr "La page **Flux de données** (`/flow`) montre comment kikx transforme un modèle en fichiers. Choisissez **CLI** ou **Tableau de bord** en haut à droite : le chemin emprunté s'allume, du terminal ou du navigateur, en passant par la CLI ou le backend, jusqu'au moteur partagé, puis vers `kikx.toml` et les fichiers générés. Les bordures pleines sont des acteurs et des traitements ; les bordures pointillées, des données sur disque. Vous pouvez déplacer les nœuds, zoomer avec les commandes et vous déplacer avec la mini-carte. Voir [Comment les éléments s'articulent](../explanation/project-layout.md)."
 
+msgid "The Data flow page with CLI selected: the path from the terminal through the kikx CLI and kikx-core to kikx.toml and the manifests"
+msgstr "La page Flux de données avec CLI sélectionné : le chemin du terminal à kikx.toml et aux manifestes, en passant par la CLI kikx et kikx-core"
+
 msgid "Teach me"
 msgstr "Apprends-moi"
 
@@ -493,14 +517,14 @@ msgstr "Choix des leçons"
 msgid "The picker lists the lessons under **Basics** and **Going further**. A toggle at the top switches between **In the app** and **With the CLI** lessons. Each card shows the title, a short description, how long it takes, what **You'll learn**, and **Done** once you've finished it. Click a card to start."
 msgstr "Le choix des leçons les range sous **Les bases** et **Pour aller plus loin**. Un sélecteur en haut passe des leçons **Dans l'app** à celles **Avec la CLI**. Chaque carte affiche le titre, une courte description, la durée, ce que **Vous apprendrez**, et **Terminé** une fois la leçon finie. Cliquez sur une carte pour commencer."
 
+msgid "The Teach me lesson picker with the app lessons under Basics and Going further"
+msgstr "Le sélecteur de leçons Apprends-moi avec les leçons de l'app sous Les bases et Pour aller plus loin"
+
 msgid "Lesson card"
 msgstr "Carte de leçon"
 
-msgid "![A Teach me lesson waiting for you: the Your turn card lists three things to do, with Show me, Learn more, speed and stop controls](../images/web/teach-me-lesson.png)"
-msgstr "![Une leçon Apprends-moi qui attend votre action : la carte À vous liste trois choses à faire, avec les commandes Montre-moi, En savoir plus, vitesse et arrêt](../images/web/teach-me-lesson.png)"
-
-msgid "A Teach me lesson waiting for you: the Your turn card lists three things to do, with Show me, Learn more, speed and stop controls"
-msgstr "Une leçon Apprends-moi qui attend votre action : la carte À vous liste trois choses à faire, avec les commandes Montre-moi, En savoir plus, vitesse et arrêt"
+msgid "A lesson in progress: kikx typing into the inventory form while the lesson card explains groups, with Pause, skip, speed and stop controls"
+msgstr "Une leçon en cours : kikx saisit dans le formulaire d'inventaire pendant que la carte de la leçon explique les groupes, avec les commandes Pause, passer, vitesse et arrêt"
 
 msgid "While a lesson runs, a card next to the highlighted element shows the lesson title, the chapter (for example **Chapter 2 of 7**) and the caption. Your own clicks are paused while kikx is acting."
 msgstr "Pendant une leçon, une carte à côté de l'élément mis en évidence affiche le titre de la leçon, le chapitre (par exemple **Chapitre 2 sur 7**) et la légende. Vos propres clics sont suspendus pendant que kikx agit."
@@ -550,6 +574,9 @@ msgstr "À vous"
 msgid "Some steps hand over to you. The card is titled **Your turn** and lists what to do, ticking each item as you do it. **Show me** does it for you. When all items are ticked the lesson carries on."
 msgstr "Certaines étapes vous passent la main. La carte s'intitule **À vous** et liste ce qu'il faut faire, en cochant chaque élément au fur et à mesure. **Montre-moi** le fait pour vous. Quand tout est coché, la leçon continue."
 
+msgid "The Your turn card listing three things to do, with Show me, a Learn more link, speed and stop controls"
+msgstr "La carte À vous qui liste trois choses à faire, avec Montre-moi, un lien En savoir plus, et les commandes de vitesse et d'arrêt"
+
 msgid "Recap"
 msgstr "Récapitulatif"
 
@@ -577,6 +604,9 @@ msgstr "**Faire la visite** met en évidence les principales parties de la page,
 msgid "Each tour opens by itself the first time you visit the page. Use **Next** and **Back** to move, **Done** on the last step, or the close button to leave."
 msgstr "Chaque visite s'ouvre d'elle-même la première fois que vous venez sur la page. Utilisez **Suivant** et **Précédent** pour avancer, **Terminer** à la dernière étape, ou le bouton de fermeture pour la quitter."
 
+msgid "The first step of the home page tour, Welcome to kikx, next to the highlighted introduction"
+msgstr "La première étape de la visite de la page d'accueil, Bienvenue dans kikx, à côté de l'introduction mise en évidence"
+
 msgid "Learn pages"
 msgstr "Pages d'apprentissage"
 
@@ -585,6 +615,9 @@ msgstr "`/learn/app` affiche **Apprendre kikx dans l'app** avec **Choisir une le
 
 msgid "`/learn/cli` is the **Practice terminal**: a terminal on one side and the **Files** it writes on the other, with **Choose a lesson** for the CLI lessons. Commands run on the real kikx engine but the files stay in this browser tab. Drag the divider, or focus it and use the arrow keys, to resize the two panes."
 msgstr "`/learn/cli` est le **Terminal d'entraînement** : un terminal d'un côté et les **Fichiers** qu'il écrit de l'autre, avec **Choisir une leçon** pour les leçons de la CLI. Les commandes passent par le vrai moteur kikx, mais les fichiers restent dans cet onglet. Faites glisser le séparateur, ou placez le focus dessus et utilisez les flèches, pour redimensionner les deux volets."
+
+msgid "The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer"
+msgstr "Le terminal d'entraînement après kikx init, kikx add et ls, avec l'arborescence Fichiers et shop-deployment.yaml ouvert dans la visionneuse"
 
 msgid "How the practice terminal behaves, and its buttons for running the line, clearing the screen, copying the session as a script and sharing a replay link, is described in [Practice the CLI in your browser](../how-to/practice-cli-in-browser.md)."
 msgstr "Le comportement du terminal d'entraînement, et ses boutons pour exécuter la ligne, effacer l'écran, copier la session sous forme de script et partager un lien de relecture, sont décrits dans [S'entraîner à la CLI dans le navigateur](../how-to/practice-cli-in-browser.md)."

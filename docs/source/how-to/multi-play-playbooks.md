@@ -21,6 +21,16 @@ Use this when one playbook file has to run different roles on different groups, 
 7. Click **Add play** for the next play. Use the arrows on a play to reorder it.
 8. Click **Add to project**.
 
+```{image} ../images/web/playbook-plays.webp
+:alt: The services playbook with two plays, Web tier and Database tier, a when condition on the backups role, and the rendered preview
+:class: only-light
+```
+
+```{image} ../images/web/playbook-plays-dark.webp
+:alt: The services playbook with two plays, Web tier and Database tier, a when condition on the backups role, and the rendered preview
+:class: only-dark
+```
+
 The preview shows the rendered YAML as you type. If a play targets a group that isn't in the inventory, **Checks** warns you.
 
 [Start this lesson](teach:playbooks) to watch the dashboard write a playbook with several plays.

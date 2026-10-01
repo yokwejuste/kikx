@@ -37,6 +37,9 @@ msgstr "Dans **Namespace Kubernetes par défaut**, tapez le namespace, par exemp
 msgid "Click **Save**."
 msgstr "Cliquez sur **Enregistrer**."
 
+msgid "The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field"
+msgstr "La boîte de dialogue Paramètres du projet avec shop-prod saisi dans Namespace Kubernetes par défaut, une note sur les composants existants et le champ Dossier de sortie"
+
 msgid "Set it before you add components. Components already in the project keep the namespace they were saved with. New components, and ones you open and save again, use the new one. Inventories, playbooks and Terraform ignore the namespace."
 msgstr "Définissez-le avant d'ajouter des composants. Les composants déjà présents gardent le namespace avec lequel ils ont été enregistrés. Les nouveaux composants, et ceux que vous rouvrez puis enregistrez, utilisent le nouveau. Les inventaires, les playbooks et Terraform ignorent le namespace."
 
@@ -96,6 +99,9 @@ msgstr "Si vous le souhaitez, cliquez sur **Ajouter un label** pour ajouter des 
 
 msgid "Click **Add to project**."
 msgstr "Cliquez sur **Ajouter au projet**."
+
+msgid "The Deployment form for shop with image nginx:1.27, 3 replicas, port 8080, the label tier=web and the preview"
+msgstr "Le formulaire Deployment pour shop avec l'image nginx:1.27, 3 réplicas, le port 8080, le label tier=web et l'aperçu"
 
 msgid "In the **Preview**, `app: shop` appears three times: on the Deployment, in its selector and on the pod template. The pods always carry `app: <Deployment name>`. Keep that label in mind: the Service needs it."
 msgstr "Dans l'**Aperçu**, `app: shop` apparaît trois fois : sur le Deployment, dans son sélecteur et sur le modèle de pod. Les pods portent toujours `app: <nom du Deployment>`. Retenez ce label : le Service en a besoin."
@@ -205,6 +211,9 @@ msgstr "**Le Service frontend sélectionne app=frontend, mais aucun pod de Deplo
 msgid "**Ingress shop routes to service \"shop\", which isn't in the project.**"
 msgstr "**L'Ingress shop route vers le service « shop », qui n'est pas dans le projet.**"
 
+msgid "The Checks tab warning that Service frontend selects app=frontend but no deployment's pods carry those labels, with Open frontend"
+msgstr "L'onglet Vérifications qui signale que le Service frontend sélectionne app=frontend mais qu'aucun pod de Deployment ne porte ces labels, avec Ouvrir frontend"
+
 msgid "The editor of a flagged component also shows how many checks flag it. To fix a warning:"
 msgstr "L'éditeur d'un composant signalé indique aussi combien de vérifications le signalent. Pour corriger un avertissement :"
 
@@ -231,6 +240,9 @@ msgstr "Voir la chaîne dans Architecture"
 
 msgid "Open the **Architecture** tab. In the **Deploy** lane, an arrow labelled **routes to** goes from the Ingress to its Service, and one labelled **selects** goes from the Service to the Deployment. A missing arrow means a broken link. When **Checks** shows **No conflicts found** and both arrows are there, export the project and apply it with `kubectl apply`."
 msgstr "Ouvrez l'onglet **Architecture**. Dans le couloir **Déploiement**, une flèche étiquetée **route vers** va de l'Ingress à son Service, et une autre étiquetée **sélectionne** va du Service au Deployment. Une flèche manquante signale un maillon cassé. Quand **Vérifications** affiche **Aucun conflit trouvé** et que les deux flèches sont là, exportez le projet et appliquez-le avec `kubectl apply`."
+
+msgid "The Deploy lane: the shop Ingress routes to the shop Service, which selects the shop Deployment"
+msgstr "Le couloir Déploiement : l'Ingress shop route vers le Service shop, qui sélectionne le Deployment shop"
 
 msgid "See also"
 msgstr "Voir aussi"

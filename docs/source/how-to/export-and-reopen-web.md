@@ -18,6 +18,16 @@ Both **Files (.zip)** and **Preset (.kikx-preset.json)** count as a download. Ho
 
 Open **Export** at the top right of the builder. It's disabled until the project has at least one component. Choose one of three options.
 
+```{image} ../images/web/export-menu.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-light
+```
+
+```{image} ../images/web/export-menu-dark.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-dark
+```
+
 ### Files (.zip)
 
 Your browser saves `<project-name>.zip`. It contains:
@@ -42,6 +52,16 @@ kikx setup ./platform.kikx-preset.json
 kikx apply ./platform.kikx-preset.json
 ```
 
+```{image} ../images/web/cli-dialog.webp
+:alt: The Run it with the CLI dialog with the kikx setup and kikx apply commands for shop.kikx-preset.json and a Download preset button
+:class: only-light
+```
+
+```{image} ../images/web/cli-dialog-dark.webp
+:alt: The Run it with the CLI dialog with the kikx setup and kikx apply commands for shop.kikx-preset.json and a Download preset button
+:class: only-dark
+```
+
 Both commands read the preset, so click **Download preset** in the dialog and save the file in the directory you run them from. Then:
 
 - `kikx setup` starts a new kikx project from the preset: it writes `kikx.toml` and renders every component into the output directory;
@@ -54,6 +74,16 @@ Both commands read the preset, so click **Download preset** in the dialog and sa
 1. Go to the home page. From the builder, click **Home** in the header.
 2. Make sure **In the app** is selected.
 3. Click **Open a preset** and pick your `.kikx-preset.json` file.
+
+```{image} ../images/web/blank-project.webp
+:alt: The Blank project form with the Project name field and Start building, and Open a preset below it
+:class: only-light
+```
+
+```{image} ../images/web/blank-project-dark.webp
+:alt: The Blank project form with the Project name field and Start building, and Open a preset below it
+:class: only-dark
+```
 
 While the app renders every component through the backend, the button reads **Opening preset…**. Then the builder opens with the project loaded, and the storage line says **Saved in this browser · not on disk yet** again.
 

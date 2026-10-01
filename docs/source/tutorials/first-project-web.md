@@ -34,7 +34,15 @@ Open the kikx web app in your browser. The first time you visit, a short tour st
 Click **Next** to follow it, or close it; you can replay it any time with **Take the tour** in the
 top bar.
 
-![The kikx home page with the In the app and With the CLI toggle, and the template cards below it](../images/web/first-project-home.png)
+```{image} ../images/web/home.webp
+:alt: The kikx home page: the In the app and With the CLI toggle, then the template cards
+:class: only-light
+```
+
+```{image} ../images/web/home-dark.webp
+:alt: The kikx home page: the In the app and With the CLI toggle, then the template cards
+:class: only-dark
+```
 
 The home page has a toggle with two choices:
 
@@ -72,6 +80,16 @@ The middle column says **Your project is empty** and lists the usual path, one s
 Provision (optional), Inventory, Configure, Deploy and Custom. Each row has a button that opens the
 right editor, such as **Add Inventory**. The same stages are in the left column, where you can open
 any component.
+
+```{image} ../images/web/builder-empty.webp
+:alt: The builder on an empty project: the stages on the left, Your project is empty in the middle, the Getting started checklist and the Project panel on the right
+:class: only-light
+```
+
+```{image} ../images/web/builder-empty-dark.webp
+:alt: The builder on an empty project: the stages on the left, Your project is empty in the middle, the Getting started checklist and the Project panel on the right
+:class: only-dark
+```
 
 On the right, the **Getting started** checklist shows **0 of 5**:
 
@@ -119,12 +137,30 @@ web1 ansible_host=10.0.0.10
 db1 ansible_host=10.0.0.20
 ```
 
-![The builder with two hosts in the inventory form and the live preview of shop-inventory.ini underneath](../images/web/first-project-builder.png)
+```{image} ../images/web/inventory-form.webp
+:alt: The inventory form with web1 in the web group and db1 in the db group, and the preview of shop-inventory.ini underneath
+:class: only-light
+```
+
+```{image} ../images/web/inventory-form-dark.webp
+:alt: The inventory form with web1 in the web group and db1 in the db group, and the preview of shop-inventory.ini underneath
+:class: only-dark
+```
 
 Click **Add to project**. A notification says **Added shop**, with a **Next: Group vars** button.
 The **Project** panel lists `shop` under **Inventory**, and the checklist ticks **List your
 servers**. The editor stays open as **Editing Inventory · shop**, so you can keep changing it and
 click **Save changes**.
+
+```{image} ../images/web/inventory-added.webp
+:alt: The builder after adding the inventory: the notification Added shop with a Next: Group vars button, shop in the Project panel and List your servers ticked
+:class: only-light
+```
+
+```{image} ../images/web/inventory-added-dark.webp
+:alt: The builder after adding the inventory: the notification Added shop with a Next: Group vars button, shop in the Project panel and List your servers ticked
+:class: only-dark
+```
 
 ## Add group vars
 
@@ -141,6 +177,16 @@ The preview shows `group_vars/web.yml`:
 
 ```yaml
 http_port: 80
+```
+
+```{image} ../images/web/groupvars-form.webp
+:alt: The group vars form for web with Folder layout unticked and http_port set to 80 in Key / value mode
+:class: only-light
+```
+
+```{image} ../images/web/groupvars-form-dark.webp
+:alt: The group vars form for web with Folder layout unticked and http_port set to 80 in Key / value mode
+:class: only-dark
 ```
 
 Click **Add to project**. `group_vars/web` appears under **Inventory** in the **Project** panel, and
@@ -169,6 +215,16 @@ preview shows `web.yml`:
     - nginx
 ```
 
+```{image} ../images/web/playbook-form.webp
+:alt: The playbook form: Play 1 runs on web with the nginx role, Run as root ticked, and the preview of web.yml
+:class: only-light
+```
+
+```{image} ../images/web/playbook-form-dark.webp
+:alt: The playbook form: Play 1 runs on web with the nginx role, Run as root ticked, and the preview of web.yml
+:class: only-dark
+```
+
 Click **Add to project**. `web` appears under **Configure**, and the checklist ticks **Configure
 with a playbook**.
 
@@ -183,6 +239,16 @@ one:
 
 - **web uses 1 role kikx doesn't vendor**
 - *nginx: they must already exist under roles/ in your repo, or scaffold empty ones here.*
+
+```{image} ../images/web/checks-missing-role.webp
+:alt: The Checks tab with one note, web uses 1 role kikx doesn't vendor, and the buttons Scaffold 1 role and Open web
+:class: only-light
+```
+
+```{image} ../images/web/checks-missing-role-dark.webp
+:alt: The Checks tab with one note, web uses 1 role kikx doesn't vendor, and the buttons Scaffold 1 role and Open web
+:class: only-dark
+```
 
 It has two buttons: **Scaffold 1 role** and **Open web**. Click **Scaffold 1 role**. A notification
 says **Scaffolded 1 role**, and the page now reads:
@@ -227,7 +293,17 @@ Click **Add to project**. The **Project** panel now reads **5 components · 8 fi
 Click the **Architecture** tab. kikx draws your project in swimlanes, left to right in the order
 things happen: **Inventory**, **Playbooks**, **Roles**.
 
-![The Architecture tab: the web and db groups and the group vars in the Inventory lane, site.yml and web.yml in Playbooks, roles/nginx in Roles](../images/web/first-project-architecture.png)
+```{image} ../images/web/architecture-shop.webp
+:alt: The Architecture tab of the shop project: the web and db groups and group_vars/web in the Inventory lane, site.yml and web.yml in Playbooks, roles/nginx in Roles
+:class: only-light
+:width: 100%
+```
+
+```{image} ../images/web/architecture-shop-dark.webp
+:alt: The Architecture tab of the shop project: the web and db groups and group_vars/web in the Inventory lane, site.yml and web.yml in Playbooks, roles/nginx in Roles
+:class: only-dark
+:width: 100%
+```
 
 You should see:
 
@@ -259,6 +335,16 @@ Open **Export** at the top right. It has three choices:
   Both read the preset, so the dialog has a **Download preset** button too. `setup` starts a new
   kikx project from the file; `apply` adds the files to a repo you already have.
   [Share a project as a preset](../how-to/presets.md) explains the difference.
+
+```{image} ../images/web/export-menu.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-light
+```
+
+```{image} ../images/web/export-menu-dark.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-dark
+```
 
 Choose **Files (.zip)**. Your browser saves `shop.zip`, and the header note changes to
 **Downloaded** with the time. The checklist's last step, **Download your project**, is now done, so
@@ -299,6 +385,16 @@ Click **Home**. Your project stays saved in this browser, and the home page now 
 **Continue shop**, saying that **5 components and any unsaved drafts are kept in this browser**.
 Click **Continue** to go back to the builder where you left off, or use the close button next to it to
 discard the project after a confirmation.
+
+```{image} ../images/web/resume-card.webp
+:alt: The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue
+:class: only-light
+```
+
+```{image} ../images/web/resume-card-dark.webp
+:alt: The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue
+:class: only-dark
+```
 
 The browser keeps one project at a time, and only on this browser. Keep these in mind:
 

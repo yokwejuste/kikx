@@ -17,6 +17,16 @@ Use this to give an inventory group its variables, either as simple key/value pa
 4. For the folder layout, tick **Folder layout (`group_vars/<group>/main.yml`)**. The line under **Group** shows the path that will be written.
 5. Click **Add to project**.
 
+```{image} ../images/web/groupvars-yaml.webp
+:alt: The group vars form for db with Folder layout ticked and the YAML mode holding nested postgres settings
+:class: only-light
+```
+
+```{image} ../images/web/groupvars-yaml-dark.webp
+:alt: The group vars form for db with Folder layout ticked and the YAML mode holding nested postgres settings
+:class: only-dark
+```
+
 When you switch from **Key / value** to **YAML**, your rows are copied into the YAML box. Switching back only works when every line is a flat `key: value`. If the YAML has nested values, the dashboard keeps you in YAML mode so nothing is lost.
 :::
 

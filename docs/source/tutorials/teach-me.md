@@ -11,6 +11,16 @@ caption explains what is happening and why.
 - From this page, use the **Start this lesson** links below. They open the dashboard and start the
   lesson straight away.
 
+```{image} ../images/web/lesson-picker.webp
+:alt: The Teach me lesson picker with the app lessons under Basics and Going further
+:class: only-light
+```
+
+```{image} ../images/web/lesson-picker-dark.webp
+:alt: The Teach me lesson picker with the app lessons under Basics and Going further
+:class: only-dark
+```
+
 ## The lessons
 
 ### Build your first project
@@ -35,6 +45,16 @@ each command letter by letter and the real kikx engine prints the output and wri
 everything stays in your browser tab. When it is your turn, click the terminal, type the command
 and press Enter; **Show me** types it for you. Every command has a copy button so you can run it for
 real in your own terminal.
+
+```{image} ../images/web/cli-practice.webp
+:alt: The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer
+:class: only-light
+```
+
+```{image} ../images/web/cli-practice-dark.webp
+:alt: The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer
+:class: only-dark
+```
 
 The practice terminal behaves like a shell. The up and down arrows recall earlier commands. Tab
 completes commands, flags, template and component names and file names; press it twice to list the
@@ -80,6 +100,16 @@ to run a command again safely.
 - **Esc** or the close button stops the lesson.
 - If you changed the page while it was paused and the lesson can't find what it needs next, it
   says so. Put the page back and press **Resume**, or stop the lesson.
+
+```{image} ../images/web/lesson-card.webp
+:alt: A lesson in progress: kikx typing into the inventory form while the lesson card explains groups, with Pause, skip, speed and stop controls
+:class: only-light
+```
+
+```{image} ../images/web/lesson-card-dark.webp
+:alt: A lesson in progress: kikx typing into the inventory form while the lesson card explains groups, with Pause, skip, speed and stop controls
+:class: only-dark
+```
 
 If your system asks for reduced motion, the pointer jumps instead of gliding and text appears at
 once.

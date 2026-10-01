@@ -36,6 +36,16 @@ On a new component, **Reset** in the save bar puts every field back to its defau
 
 The component and all its files leave the project. A notification says **Removed** followed by the name, with an **Undo** button. Click **Undo** to put the component back where it was. Once the notification is gone, the only way back is to add the component again.
 
+```{image} ../images/web/remove-undo.webp
+:alt: The builder after removing the site playbook: the notification Removed site with an Undo button
+:class: only-light
+```
+
+```{image} ../images/web/remove-undo-dark.webp
+:alt: The builder after removing the site playbook: the notification Removed site with an Undo button
+:class: only-dark
+```
+
 ## Pick up a draft
 
 The app keeps what you type in the browser, even before you save. While you have unsaved changes, the save bar says **Draft kept in this browser · ⌘/Ctrl + Enter to save**.
@@ -44,6 +54,16 @@ If you leave the builder, reload the page, or open another component before savi
 
 - keep editing and save as usual; or
 - click **Discard draft** to go back to the saved values.
+
+```{image} ../images/web/draft-restored.webp
+:alt: A group vars form reopened with the line Restored your unsaved draft from and a Discard draft button
+:class: only-light
+```
+
+```{image} ../images/web/draft-restored-dark.webp
+:alt: A group vars form reopened with the line Restored your unsaved draft from and a Discard draft button
+:class: only-dark
+```
 
 Each component keeps its own draft, and so does each kind of new component. Drafts are removed when you save, and for the whole project when you open a template or a preset, start a blank project, or discard the project from the home page.
 
@@ -64,6 +84,16 @@ If you save anyway, a dialog opens titled **This file already exists**, or **N f
    - **Keep existing** closes the dialog and saves nothing. Your edits stay in the form, so you can change **Name** and save again.
    - **Replace** removes the owning component and saves yours. The notification says how many other components were replaced. There's no **Undo** for this.
 
+```{image} ../images/web/conflict-dialog.webp
+:alt: The This file already exists dialog comparing the Current and Incoming content of group_vars/web.yml, with Keep existing and Replace
+:class: only-light
+```
+
+```{image} ../images/web/conflict-dialog-dark.webp
+:alt: The This file already exists dialog comparing the Current and Incoming content of group_vars/web.yml, with Keep existing and Replace
+:class: only-dark
+```
+
 [Resolve file conflicts and checks](resolve-conflicts.md) covers the CLI side and what to do next.
 
 ## Fix check issues from the editor
@@ -72,6 +102,16 @@ When you open a component that a check flags, a section at the top of the editor
 
 - **Open** followed by a component name opens the other component involved, for example the inventory a play targets;
 - **Scaffold N roles** creates empty roles for the roles a playbook uses that the project doesn't have.
+
+```{image} ../images/web/editor-issues.webp
+:alt: The editor of the web playbook with the section 1 check flags this component above the form, and its Scaffold 1 role button
+:class: only-light
+```
+
+```{image} ../images/web/editor-issues-dark.webp
+:alt: The editor of the web playbook with the section 1 check flags this component above the form, and its Scaffold 1 role button
+:class: only-dark
+```
 
 Fix the values, save, and the section shrinks or disappears. The **Checks** tab lists the issues of every component at once. See [Resolve file conflicts and checks](resolve-conflicts.md#fix-what-checks-reports) and the [Checks reference](../reference/checks.md).
 

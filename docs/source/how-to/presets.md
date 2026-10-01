@@ -11,6 +11,16 @@ A preset is a `.kikx-preset.json` file that lists your components and their fiel
 
 Go to the home page and click a card under **Start from a template**. The builder opens with every component of the template loaded, ready to edit.
 
+```{image} ../images/web/templates.webp
+:alt: Start from a template: one card per template with its description, the stages it covers, its name and its number of components
+:class: only-light
+```
+
+```{image} ../images/web/templates-dark.webp
+:alt: Start from a template: one card per template with its description, the stages it covers, its name and its number of components
+:class: only-dark
+```
+
 Each card ends with the template name, for example `single-server` or `k8s-web-app`, and its number of components.
 
 [Start this lesson](teach:template) to open a template and explore it stage by stage.
@@ -48,6 +58,16 @@ The files are yours from then on. Nothing links them back to the template.
 
 1. Build your project.
 2. Open **Export** in the header and choose **Preset (.kikx-preset.json)**.
+
+```{image} ../images/web/export-menu.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-light
+```
+
+```{image} ../images/web/export-menu-dark.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-dark
+```
 
 The browser saves `<project-name>.kikx-preset.json`. **Export** > **CLI command** shows the two commands to run it, with copy buttons.
 

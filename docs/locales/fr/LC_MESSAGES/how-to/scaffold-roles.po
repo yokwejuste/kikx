@@ -43,8 +43,14 @@ msgstr "web utilise 3 rôles que kikx ne fournit pas"
 msgid "Click **Scaffold 3 roles** on that note."
 msgstr "Cliquez sur « Créer 3 rôles » dans cette note."
 
+msgid "The Checks tab with one note, web uses 1 role kikx doesn't vendor, and the buttons Scaffold 1 role and Open web"
+msgstr "L'onglet Vérifications avec une note, web utilise 1 rôle que kikx ne fournit pas, et les boutons Créer 1 rôle et Ouvrir web"
+
 msgid "This adds one **Role skeleton** per missing role. The note disappears, and the roles appear in the project and in role suggestions."
 msgstr "Un « Squelette de rôle » est ajouté pour chaque rôle manquant. La note disparaît, et les rôles apparaissent dans le projet et dans les suggestions de rôles."
+
+msgid "The Project panel listing 5 components, with the nginx role skeleton unfolded to show its four files"
+msgstr "Le panneau Projet qui liste 5 composants, avec le squelette de rôle nginx déplié sur ses quatre fichiers"
 
 msgid "Skip this for roles that already exist under `roles/` in your repo, or that come from Ansible Galaxy. The note is only informational, and the download works without it."
 msgstr "Passez cette étape pour les rôles qui existent déjà sous `roles/` dans votre dépôt, ou qui proviennent d'Ansible Galaxy. La note est purement informative, et le téléchargement fonctionne sans elle."

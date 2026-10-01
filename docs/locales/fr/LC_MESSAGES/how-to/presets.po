@@ -28,6 +28,9 @@ msgstr "Dans l'app"
 msgid "Go to the home page and click a card under **Start from a template**. The builder opens with every component of the template loaded, ready to edit."
 msgstr "Allez sur la page d'accueil et cliquez sur une carte sous « Partir d'un modèle ». Le constructeur s'ouvre avec tous les composants du template chargés, prêts à être modifiés."
 
+msgid "Start from a template: one card per template with its description, the stages it covers, its name and its number of components"
+msgstr "Partir d'un modèle : une carte par modèle avec sa description, les étapes qu'il couvre, son nom et son nombre de composants"
+
 msgid "Each card ends with the template name, for example `single-server` or `k8s-web-app`, and its number of components."
 msgstr "Chaque carte se termine par le nom du template, par exemple `single-server` ou `k8s-web-app`, et son nombre de composants."
 
@@ -57,6 +60,9 @@ msgstr "Construisez votre projet."
 
 msgid "Open **Export** in the header and choose **Preset (.kikx-preset.json)**."
 msgstr "Ouvrez « Exporter » dans l'en-tête et choisissez « Preset (.kikx-preset.json) »."
+
+msgid "The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command"
+msgstr "Le menu Exporter ouvert, avec Fichiers (.zip), Preset (.kikx-preset.json) et Commande CLI"
 
 msgid "The browser saves `<project-name>.kikx-preset.json`. **Export** > **CLI command** shows the two commands to run it, with copy buttons."
 msgstr "Le navigateur enregistre `<project-name>.kikx-preset.json`. « Exporter » > « Commande CLI » affiche les deux commandes permettant de l'exécuter, avec des boutons de copie."

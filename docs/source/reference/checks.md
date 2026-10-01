@@ -2,6 +2,16 @@
 
 The dashboard's Checks view, computed in the browser by `checkProject` in `web/lib/project/checks.ts`. Checks read component field values; they do not call the backend or read files on disk.
 
+```{image} ../images/web/checks-warning.webp
+:alt: The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor
+:class: only-light
+```
+
+```{image} ../images/web/checks-warning-dark.webp
+:alt: The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor
+:class: only-dark
+```
+
 ## Severities
 
 | Severity | Order |
