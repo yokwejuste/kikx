@@ -14,6 +14,10 @@ resolve-conflicts
 presets
 export-to-drawio
 custom-registry-item
+start-from-template-web
+edit-components-web
+project-settings-web
+export-and-reopen-web
 provision-servers-web
 deploy-kubernetes-web
 practice-cli-in-browser

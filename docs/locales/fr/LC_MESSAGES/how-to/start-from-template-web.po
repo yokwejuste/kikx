@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 17:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Start from a template in the app"
+msgstr "Partir d'un modèle dans l'app"
+
+msgid "A template is a complete project you adapt instead of starting from an empty page. This guide shows how to pick one in the app, what you get, and how to make it yours."
+msgstr "Un modèle est un projet complet que vous adaptez, plutôt que de partir d'une page vide. Ce guide montre comment en choisir un dans l'app, ce que vous obtenez et comment vous l'approprier."
+
+msgid "[Start this lesson](teach:template) to have the app walk you through the same steps."
+msgstr "[Lancez cette leçon](teach:template) pour que l'app vous guide à travers les mêmes étapes."
+
+msgid "Pick a template"
+msgstr "Choisir un modèle"
+
+msgid "Go to the home page. If you're in the builder, click **Home** in the header."
+msgstr "Allez sur la page d'accueil. Si vous êtes dans le constructeur, cliquez sur **Accueil** dans l'en-tête."
+
+msgid "Make sure **In the app** is selected above the cards."
+msgstr "Vérifiez que **Dans l'app** est sélectionné au-dessus des cartes."
+
+msgid "Under **Start from a template**, read the cards. Each one shows:"
+msgstr "Sous **Partir d'un modèle**, lisez les cartes. Chacune affiche :"
+
+msgid "the template's title and a one-line description;"
+msgstr "le titre du modèle et une description d'une ligne ;"
+
+msgid "badges for the stages it covers, such as **Provision**, **Inventory**, **Configure** or **Deploy**. Hover a badge to see what that stage is for;"
+msgstr "des badges pour les étapes qu'il couvre, comme **Provisionner**, **Inventaire**, **Configurer** ou **Déployer**. Survolez un badge pour voir à quoi sert l'étape ;"
+
+msgid "a last line with the template name and its component count, for example `single-server · 7 components`. The name is the one the CLI accepts."
+msgstr "une dernière ligne avec le nom du modèle et son nombre de composants, par exemple `single-server · 7 composants`. Ce nom est celui qu'accepte la CLI."
+
+msgid "Click a card."
+msgstr "Cliquez sur une carte."
+
+msgid "The card shows a spinner while the app renders every component through the backend. Then the builder opens."
+msgstr "La carte affiche un indicateur de chargement pendant que l'app génère chaque composant via le backend. Le constructeur s'ouvre ensuite."
+
+msgid "The list comes from the backend, so it's the same list `kikx presets` prints. [Built-in templates](../reference/preset-format.md#built-in-templates) describes each one."
+msgstr "La liste vient du backend : c'est donc la même que celle qu'affiche `kikx presets`. [Templates intégrés](../reference/preset-format.md#built-in-templates) décrit chacun d'eux."
+
+msgid "Opening a template replaces the project kept in your browser, along with its unsaved drafts, without asking. If you want to keep the current project, export it first. See [Export and reopen a project in the app](export-and-reopen-web.md)."
+msgstr "Ouvrir un modèle remplace le projet conservé dans votre navigateur, ainsi que ses brouillons non enregistrés, sans confirmation. Si vous voulez garder le projet actuel, exportez-le d'abord. Voir [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
+
+msgid "What opens"
+msgstr "Ce qui s'ouvre"
+
+msgid "The builder opens on the **Build** tab with the template loaded:"
+msgstr "Le constructeur s'ouvre sur l'onglet **Construire**, avec le modèle chargé :"
+
+msgid "the project name, namespace and output directory come from the template. The header shows them, for example `ns: default` and `infra/`;"
+msgstr "le nom du projet, le namespace et le dossier de sortie viennent du modèle. L'en-tête les affiche, par exemple `ns: default` et `infra/` ;"
+
+msgid "the **Project** panel lists every component, grouped by stage in build order. Its summary counts the components and files and names the output directory;"
+msgstr "le panneau **Projet** liste chaque composant, regroupé par étape dans l'ordre de construction. Son résumé compte les composants et les fichiers, et indique le dossier de sortie ;"
+
+msgid "the editor in the middle shows a new, empty component. Nothing in the template is open yet."
+msgstr "l'éditeur au centre affiche un nouveau composant vide. Aucun élément du modèle n'est encore ouvert."
+
+msgid "From here on, the project is yours. Nothing links it back to the template, and a later change to the template doesn't touch it."
+msgstr "À partir de là, le projet vous appartient. Rien ne le relie au modèle, et une modification ultérieure du modèle ne le touche pas."
+
+msgid "Look around before you change anything"
+msgstr "Explorer avant de modifier quoi que ce soit"
+
+msgid "Click the arrow next to a component in the **Project** panel to list the files it writes. Click a file to read it in a dialog."
+msgstr "Cliquez sur la flèche à côté d'un composant dans le panneau **Projet** pour lister les fichiers qu'il écrit. Cliquez sur un fichier pour le lire dans une boîte de dialogue."
+
+msgid "Open the **Architecture** tab to see how the components relate. Click a node to open that component."
+msgstr "Ouvrez l'onglet **Architecture** pour voir comment les composants sont reliés. Cliquez sur un nœud pour ouvrir ce composant."
+
+msgid "Open the **Checks** tab to see what kikx reports before you change anything, so you can tell later which issues your changes introduced."
+msgstr "Ouvrez l'onglet **Vérifications** pour voir ce que kikx signale avant toute modification : vous saurez ensuite quels problèmes viennent de vos changements."
+
+msgid "Adapt the components"
+msgstr "Adapter les composants"
+
+msgid "In the **Project** panel, click a component. The editor title changes to **Editing** followed by the component, for example **Editing Inventory · app**."
+msgstr "Dans le panneau **Projet**, cliquez sur un composant. Le titre de l'éditeur devient **Modification :** suivi du composant, par exemple **Modification : Inventaire · app**."
+
+msgid "Change the values you need: your real host names and addresses in the inventory, your settings in the group vars, your image in a Kubernetes deployment."
+msgstr "Modifiez les valeurs nécessaires : vos vrais noms d'hôtes et adresses dans l'inventaire, vos réglages dans les group vars, votre image dans un déploiement Kubernetes."
+
+msgid "Watch **Preview** update as you type."
+msgstr "L'**Aperçu** se met à jour pendant la saisie."
+
+msgid "Click **Save changes**."
+msgstr "Cliquez sur **Enregistrer**."
+
+msgid "Repeat for each component you want to change. [Edit components in the app](edit-components-web.md) covers editing in detail, including what happens when you rename a component."
+msgstr "Recommencez pour chaque composant à modifier. [Modifier des composants dans l'app](edit-components-web.md) détaille la modification, y compris ce qui se passe quand vous renommez un composant."
+
+msgid "To change the namespace or output directory the template set, click the badges in the header. See [Change project settings in the app](project-settings-web.md)."
+msgstr "Pour changer le namespace ou le dossier de sortie définis par le modèle, cliquez sur les badges de l'en-tête. Voir [Modifier les paramètres du projet dans l'app](project-settings-web.md)."
+
+msgid "Remove what you don't need"
+msgstr "Supprimer ce dont vous n'avez pas besoin"
+
+msgid "Templates often include more than you need. For example, `single-server` creates a DigitalOcean droplet in its **Provision** stage; if your server already exists, you don't need it."
+msgstr "Les modèles contiennent souvent plus que nécessaire. Par exemple, `single-server` crée un droplet DigitalOcean dans son étape **Provisionner** ; si votre serveur existe déjà, vous n'en avez pas besoin."
+
+msgid "In the **Project** panel, hover the component you don't need."
+msgstr "Dans le panneau **Projet**, survolez le composant inutile."
+
+msgid "Click the bin icon at the end of its row."
+msgstr "Cliquez sur l'icône de corbeille au bout de sa ligne."
+
+msgid "A notification says **Removed** followed by the component name, with an **Undo** button. Click **Undo** if you removed the wrong one."
+msgstr "Une notification indique le nom du composant suivi de **supprimé**, avec un bouton **Annuler**. Cliquez sur **Annuler** si vous vous êtes trompé de composant."
+
+msgid "After removing components, open the **Checks** tab. Removing a playbook, for example, can leave `site.yml` importing a file the project no longer produces. Fix what it reports, as described in [Resolve file conflicts and checks](resolve-conflicts.md#fix-what-checks-reports)."
+msgstr "Après avoir supprimé des composants, ouvrez l'onglet **Vérifications**. Supprimer un playbook, par exemple, peut laisser `site.yml` importer un fichier que le projet ne produit plus. Corrigez ce qui est signalé, comme décrit dans [Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md#fix-what-checks-reports)."
+
+msgid "Next steps"
+msgstr "Étapes suivantes"
+
+msgid "Download the result: [Export and reopen a project in the app](export-and-reopen-web.md)."
+msgstr "Téléchargez le résultat : [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
+
+msgid "Use the same template with the CLI: [Share a project as a preset](presets.md#start-from-a-template)."
+msgstr "Utilisez le même modèle avec la CLI : [Partager un projet sous forme de preset](presets.md#start-from-a-template)."
+
+msgid "See every template's contents: [Built-in templates](../reference/preset-format.md#built-in-templates)."
+msgstr "Consultez le contenu de chaque modèle : [Templates intégrés](../reference/preset-format.md#built-in-templates)."
