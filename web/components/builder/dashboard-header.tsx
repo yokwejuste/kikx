@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Download } from "lucide-react";
+import { House } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ExportMenu } from "@/components/builder/export/export-menu";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
-import { downloadProjectZip } from "@/lib/project/archive";
-import { loadDownloadRecord, recordDownload } from "@/lib/project/downloads";
+import { loadDownloadRecord } from "@/lib/project/downloads";
 import { StorageStatus } from "@/components/builder/project/storage-status";
 import { cn } from "@/lib/utils";
 
@@ -48,18 +47,7 @@ export function DashboardHeader({
   issueCounts: IssueCounts;
 }) {
   const t = useTranslations("builder.header");
-  const [downloading, setDownloading] = useState(false);
   const [lastDownload, setLastDownload] = useState(loadDownloadRecord);
-
-  const download = async () => {
-    setDownloading(true);
-    try {
-      await downloadProjectZip(details, components);
-      setLastDownload(recordDownload(details, components));
-    } finally {
-      setDownloading(false);
-    }
-  };
 
   return (
     <div className="flex flex-col gap-4 border-b pb-5 lg:flex-row lg:items-center lg:justify-between">
@@ -87,12 +75,14 @@ export function DashboardHeader({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Button data-tour="download" type="button" disabled={components.length === 0 || downloading} onClick={download}>
-          <Download />
-          {downloading ? t("zipping") : t("download")}
-        </Button>
-        <Link href="/" className="flex items-center px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-10">
-          {t("startOver")}
+        <ExportMenu details={details} components={components} onDownloaded={setLastDownload} />
+        <Link
+          href="/"
+          title={t("homeHint")}
+          className="flex items-center gap-1.5 px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-10"
+        >
+          <House className="size-4" />
+          {t("home")}
         </Link>
       </div>
     </div>

@@ -101,12 +101,20 @@ pub struct PresetSummaryDto {
     pub title: String,
     pub description: String,
     pub component_count: usize,
+    pub references: Vec<String>,
 }
 
 impl From<PresetManifest> for PresetSummaryDto {
     fn from(manifest: PresetManifest) -> Self {
+        let mut references: Vec<String> = Vec::new();
+        for component in &manifest.components {
+            if !references.contains(&component.reference) {
+                references.push(component.reference.clone());
+            }
+        }
         Self {
             component_count: manifest.components.len(),
+            references,
             name: manifest.name,
             title: manifest.title,
             description: manifest.description,

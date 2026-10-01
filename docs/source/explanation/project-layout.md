@@ -69,7 +69,7 @@ diagram all run over that in-browser model, without calling the backend.
 Nothing reaches disk until you download. You can take the project as a `.zip` containing
 `kikx.toml` and the rendered files, or as a preset: the recipes only, for `kikx setup` or
 `kikx apply` to render again. The builder header shows where the project stands: saved only in
-this browser, downloaded (and how long ago), or changed since the last `.zip` download.
+this browser, downloaded (and how long ago), or changed since the last `.zip` or preset download.
 
 Keeping the project in the browser matches the vendoring model. A project being built is a draft,
 and drafts shouldn't be half-written into someone's repository. Deferring every write to one

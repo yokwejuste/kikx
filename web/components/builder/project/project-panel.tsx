@@ -12,7 +12,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ComponentRow } from "@/components/builder/project/component-row";
-import { SetupCommand } from "@/components/builder/project/setup-command";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import { FileContent } from "@/components/builder/preview/file-content";
 import { CATALOG, catalogStage, describeComponent } from "@/lib/registry/catalog";
@@ -107,12 +106,6 @@ export function ProjectPanel({
           </div>
         )}
       </div>
-
-      {components.length > 0 && (
-        <div className="border-t p-3">
-          <SetupCommand />
-        </div>
-      )}
 
       <Dialog open={!!viewing} onOpenChange={(open) => !open && setViewing(null)}>
         <DialogContent className="sm:max-w-3xl">

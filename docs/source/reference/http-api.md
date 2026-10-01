@@ -101,7 +101,7 @@ Summaries of the [built-in preset templates](preset-format.md#built-in-templates
 Response `200`:
 
 ```json
-{"presets":[{"name":"k8s-web-app","title":"Kubernetes web app","description":"A web frontend and an API behind ingresses, plus a background worker.","componentCount":7},{"name":"single-server","title":"Single server with Ansible","description":"One DigitalOcean droplet, configured by a common role through a site playbook.","componentCount":7},{"name":"kubeadm-cluster","title":"Kubernetes cluster with kubeadm","description":"Hetzner servers bootstrapped into a three-node control plane and three workers.","componentCount":11},{"name":"web-and-database","title":"Web servers and a database","description":"Existing servers split into a web tier and a PostgreSQL primary with a replica.","componentCount":13},{"name":"multi-tier-platform","title":"Multi-tier platform","description":"A storefront platform: edge load balancers, web/app tiers, PostgreSQL primary + replicas, Redis, monitoring and a Kubernetes cluster.","componentCount":35}]}
+{"presets":[{"name":"k8s-web-app","title":"Kubernetes web app","description":"A web frontend and an API behind ingresses, plus a background worker.","componentCount":7,"references":["k8s/deployment","k8s/service","k8s/ingress"]},{"name":"single-server","title":"Single server with Ansible","description":"One DigitalOcean droplet, configured by a common role through a site playbook.","componentCount":7,"references":["terraform/digitalocean","ansible/inventory","ansible/config","ansible/group-vars","ansible/common-role","ansible/playbook","ansible/site"]},{"name":"kubeadm-cluster","title":"Kubernetes cluster with kubeadm","description":"Hetzner servers bootstrapped into a three-node control plane and three workers.","componentCount":11,"references":["terraform/hetzner","ansible/inventory","ansible/config","ansible/group-vars","ansible/k8s-bootstrap","ansible/role","ansible/playbook","ansible/site"]},{"name":"web-and-database","title":"Web servers and a database","description":"Existing servers split into a web tier and a PostgreSQL primary with a replica.","componentCount":13,"references":["ansible/inventory","ansible/config","ansible/group-vars","ansible/common-role","ansible/role","ansible/playbook","ansible/site"]},{"name":"multi-tier-platform","title":"Multi-tier platform","description":"A storefront platform: edge load balancers, web/app tiers, PostgreSQL primary + replicas, Redis, monitoring and a Kubernetes cluster.","componentCount":35,"references":["terraform/hetzner","ansible/inventory","ansible/config","ansible/group-vars","ansible/playbook","ansible/site","ansible/common-role","ansible/role","k8s/deployment","k8s/service","k8s/ingress"]}]}
 ```
 
 | Key | Type |
@@ -116,6 +116,7 @@ Response `200`:
 | `title` | string | Display title, `""` when unset |
 | `description` | string | One-line description, `""` when unset |
 | `componentCount` | integer | Number of components in the template |
+| `references` | array of string | Each distinct component reference in the template, in first-use order |
 
 ## `GET /api/presets/{name}`
 

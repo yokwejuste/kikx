@@ -28,7 +28,7 @@ The CLI refuses instead of asking, and writes nothing:
 
 ## Fix what Checks reports
 
-Open **Checks** from the header, or click **Review** in the **Project** panel. Each item has **Open …** buttons that take you straight to the component to fix. Errors break the output, warnings are probably mistakes, and notes are informational.
+Open **Checks** from the header, or click **Review** in the **Project** panel. Each item has **Open …** buttons that take you straight to the component to fix. When you edit a component, its own checks also appear at the top of the editor, with the same **Open …** and **Scaffold N roles** buttons. Errors break the output, warnings are probably mistakes, and notes are informational.
 
 ### Errors
 

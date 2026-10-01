@@ -21,7 +21,7 @@ The last step also uses the `kikx` CLI. If you haven't installed it yet,
 ## Open the dashboard
 
 Open the kikx dashboard in your browser. You should see the kikx home page with a form headed
-**Or build it here**. Above it, **Start from a template** offers ready-made projects; in this
+**Blank project**. Above it, **Start from a template** offers ready-made projects; in this
 tutorial you'll start from an empty one instead.
 
 To work on kikx itself with a local copy of the dashboard, see [Run kikx locally](../contributing/run-locally.md).
@@ -203,7 +203,7 @@ Click **Add to project**. The **Project** panel now reads **4 components · 4 fi
 The playbook lives in `playbooks/`, and its roles will live in `roles/` at the top of `infra/`.
 Ansible looks for roles next to the playbook, so it needs an `ansible.cfg` that points at them.
 
-Under **Configure**, click **Ansible config**. The editor switches to **New ansible config**, and
+Under **Configure**, click **Show more**, then **Ansible config**. The editor switches to **New ansible config**, and
 **Name** already says `ansible`.
 
 1. In **Inventory file**, type `platform-inventory.ini`. The field shows it in grey before you type;
@@ -290,8 +290,8 @@ the same view looks like this:
 
 ## Download the project
 
-Click **Download .zip** at the top right. Your browser saves `platform.zip`. Unzip it into an empty
-directory and look inside:
+Open **Export** at the top right and choose **Files (.zip)**. Your browser saves `platform.zip`.
+Unzip it into an empty directory and look inside:
 
 ```bash
 unzip platform.zip -d platform
@@ -359,9 +359,8 @@ playbook: site.yml
 
 ## Download the preset
 
-Go back to the dashboard and the **Build** tab. At the bottom of the **Project** panel, click
-**Download preset**. Your browser saves `platform.kikx-preset.json`, and the button is replaced by
-two commands:
+Go back to the dashboard, open **Export** and choose **Preset (.kikx-preset.json)**. Your browser
+saves `platform.kikx-preset.json`. **Export** > **CLI command** shows the two commands that run it:
 
 ```text
 kikx setup ./platform.kikx-preset.json

@@ -14,6 +14,7 @@ import { toProjectFiles } from "@/components/builder/editor/project-files";
 import { ProjectPanel } from "@/components/builder/project/project-panel";
 import { ChecksPanel } from "@/components/builder/project/checks-panel";
 import type { IssueCounts } from "@/components/builder/project/severity";
+import { EmptyProjectStart } from "@/components/builder/start/empty-project-start";
 import { ProjectDiagram } from "@/components/builder/diagram/project-diagram";
 import { useProject, type AddedComponent } from "@/lib/project/context";
 import { CATALOG, describeComponent, type CatalogKind } from "@/lib/registry/catalog";
@@ -67,6 +68,7 @@ export function Dashboard() {
 
   if (!details) return null;
 
+  const starting = components.length === 0 && selection.nonce === 0;
   const editing = selection.editingId ? (components.find((c) => c.id === selection.editingId) ?? null) : null;
 
   const select = (kind: CatalogKind, editingId: string | null = null) => {
@@ -115,15 +117,17 @@ export function Dashboard() {
           data-tour="catalog"
           className="hidden lg:sticky lg:top-6 lg:row-span-2 lg:block lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto xl:row-span-1"
         >
-          <ComponentCatalog components={components} selected={selection.kind} onSelect={(kind) => select(kind)} />
+          <ComponentCatalog components={components} selected={starting ? null : selection.kind} onSelect={(kind) => select(kind)} />
         </aside>
 
         <div className="lg:hidden">
-          <CatalogSheet components={components} selected={selection.kind} onSelect={(kind) => select(kind)} />
+          <CatalogSheet components={components} selected={starting ? null : selection.kind} onSelect={(kind) => select(kind)} />
         </div>
 
         <div ref={editorTop} data-tour="editor" className="min-w-0 scroll-mt-6">
-          {selection.kind === "custom" ? (
+          {starting ? (
+            <EmptyProjectStart onSelect={(kind) => select(kind)} />
+          ) : selection.kind === "custom" ? (
             <div className="flex flex-col gap-3">
               {editing && (
                 <p className="rounded-lg border border-dashed p-3 text-sm text-muted-foreground">
@@ -144,8 +148,10 @@ export function Dashboard() {
               kind={selection.kind}
               editing={editing}
               context={context}
+              checks={{ issues: issuesFor.get(editing?.id ?? "") ?? [], onOpen: openComponent, onScaffoldRoles: scaffoldRoles }}
               onSaved={(id) => select(selection.kind, id)}
               onStartNew={() => select(selection.kind)}
+              onNext={(kind) => select(kind)}
             />
           )}
         </div>
