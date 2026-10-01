@@ -184,6 +184,9 @@ required.
 
 - **Stages, in order.** Components are grouped as Provision → Inventory → Configure → Deploy, with
   a count and a tick per stage, so you can see what's still missing.
+- **A checklist that ticks itself.** "Getting started" follows the usual workflow (servers, group
+  settings, a playbook, checks, download) and ticks each step from the project itself. Click an
+  open step to jump there, or hide the list.
 - **One editor with a live preview.** Output re-renders as you type. Any component can be reopened
   and edited, removes can be undone, and ⌘/Ctrl+Enter saves.
 - **Bring what you have.** Import an existing `inventory.ini` (hosts listed in several groups are

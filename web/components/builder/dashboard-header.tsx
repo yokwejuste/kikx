@@ -10,6 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SEVERITY, type IssueCounts } from "@/components/builder/project/severity";
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
 import { downloadProjectZip } from "@/lib/project/archive";
+import { updateGettingStarted } from "@/lib/project/getting-started-store";
 import { cn } from "@/lib/utils";
 
 export type View = "build" | "diagram" | "checks";
@@ -52,6 +53,7 @@ export function DashboardHeader({
     setDownloading(true);
     try {
       await downloadProjectZip(details, components);
+      updateGettingStarted(details.name, { downloaded: true });
     } finally {
       setDownloading(false);
     }

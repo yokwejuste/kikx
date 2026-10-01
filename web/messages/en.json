@@ -108,6 +108,10 @@
         "title": "Fill in, watch it render",
         "description": "Every field has a sensible default. The files below update as you type; press ⌘/Ctrl + Enter to add the component."
       },
+      "checklist": {
+        "title": "Your checklist",
+        "description": "It ticks itself as you go: servers, group settings, a playbook, checks, then the download. Click any open step to jump there."
+      },
       "project": {
         "title": "Your project",
         "description": "Everything you have added, with its files. Click one to edit it, or download the whole project as a preset to reopen later."
@@ -441,6 +445,33 @@
       "remove": "Remove {title}",
       "removed": "Removed {title}",
       "undo": "Undo"
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting started",
+    "progress": "{done} of {total}",
+    "dismiss": "Hide the checklist",
+    "items": {
+      "servers": {
+        "label": "List your servers",
+        "hint": "Add an inventory with your hosts and groups."
+      },
+      "groups": {
+        "label": "Group settings",
+        "hint": "Add group vars shared by every host in a group."
+      },
+      "playbook": {
+        "label": "Configure with a playbook",
+        "hint": "Add a playbook that applies roles to your groups."
+      },
+      "checks": {
+        "label": "Review checks",
+        "hint": "Catch duplicate hosts, missing groups and unknown roles."
+      },
+      "download": {
+        "label": "Download your project",
+        "hint": "Take the files as a .zip and run them."
+      }
     }
   },
   "setup": {

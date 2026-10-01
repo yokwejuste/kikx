@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { FolderCog } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
@@ -7,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/common/empty-state";
 import { ChecksClearIllustration, ChecksEmptyIllustration } from "@/components/illustrations/illustrations";
 import { SEVERITY } from "@/components/builder/project/severity";
-import type { AddedComponent } from "@/lib/project/context";
+import { useProject, type AddedComponent } from "@/lib/project/context";
+import { updateGettingStarted } from "@/lib/project/getting-started-store";
 import type { ProjectIssue } from "@/lib/project/checks";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +28,11 @@ export function ChecksPanel({
   const root = useTranslations();
   const text = useCatalogText();
   const byId = new Map(components.map((c) => [c.id, c]));
+  const project = useProject().details?.name;
+
+  useEffect(() => {
+    if (project) updateGettingStarted(project, { checksOpened: true });
+  }, [project]);
 
   if (components.length === 0) {
     return (

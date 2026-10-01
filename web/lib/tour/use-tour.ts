@@ -7,6 +7,7 @@ import { TOURS, tourTarget, type TourName } from "@/lib/tour/steps";
 
 const SEEN_PREFIX = "kikx.tour.seen.";
 const WAIT_FOR_TARGETS_MS = 2000;
+const LOOK = { popoverClass: "kikx-tour", overlayOpacity: 0.55, stagePadding: 6, stageRadius: 12, smoothScroll: true };
 
 function hasSeen(name: TourName) {
   try {
@@ -45,17 +46,13 @@ export function startTour(name: TourName, t: Translate) {
   if (steps.length === 0) return;
   markSeen(name);
   driver({
+    ...LOOK,
     steps,
-    popoverClass: "kikx-tour",
     showProgress: steps.length > 1,
     progressText: t("progress", { current: "{{current}}", total: "{{total}}" }),
     nextBtnText: t("next"),
     prevBtnText: t("back"),
     doneBtnText: t("done"),
-    overlayOpacity: 0.55,
-    stagePadding: 6,
-    stageRadius: 12,
-    smoothScroll: true,
   }).drive();
 }
 
@@ -77,6 +74,25 @@ export function useFirstVisitTour(name: TourName, ready = true) {
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
   }, [name, ready, t]);
+}
+
+export function usePointAt(name: TourName) {
+  const t = useTranslations("tour");
+  return useCallback(
+    (target: string) => {
+      const element = visibleTarget(target);
+      if (!element) return;
+      driver(LOOK).highlight({
+        element,
+        popover: {
+          title: t(`${name}.${target}.title`),
+          description: t(`${name}.${target}.description`),
+          showButtons: ["close"],
+        },
+      });
+    },
+    [name, t],
+  );
 }
 
 export function useStartTour(name: TourName | undefined) {
