@@ -1,0 +1,299 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 17:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Practice the CLI in your browser"
+msgstr "S'entraîner à la CLI dans le navigateur"
+
+msgid "The app has a practice terminal where you can try `kikx` commands without installing anything. This page shows how to open it, what it runs, and how to work in it like in a real shell."
+msgstr "L'app propose un terminal d'entraînement où essayer les commandes `kikx` sans rien installer. Cette page montre comment l'ouvrir, ce qu'il exécute et comment y travailler comme dans un vrai shell."
+
+msgid "Open the practice terminal"
+msgstr "Ouvrir le terminal d'entraînement"
+
+msgid "Open `/learn/cli` in the app, for example `https://<your kikx app>/learn/cli`. The page is called **Practice terminal**. The terminal is on the left and the project files are on the right."
+msgstr "Ouvrez `/learn/cli` dans l'app, par exemple `https://<votre app kikx>/learn/cli`. La page s'appelle **Terminal d'entraînement**. Le terminal est à gauche et les fichiers du projet à droite."
+
+msgid "When you arrive, the lesson list opens. Pick a lesson, or close the list to practise on your own. **Choose a lesson** at the top right opens it again."
+msgstr "À l'arrivée, la liste des leçons s'ouvre. Choisissez une leçon, ou fermez la liste pour vous entraîner seul. **Choisir une leçon**, en haut à droite, la rouvre."
+
+msgid "Starting any lesson from **Teach me** > **With the CLI** also brings you here."
+msgstr "Lancer une leçon depuis **Apprends-moi** > **Avec la CLI** vous amène aussi ici."
+
+msgid "What runs, and where"
+msgstr "Ce qui s'exécute, et où"
+
+msgid "Commands run on the real kikx engine. `kikx list`, `kikx add`, `kikx setup` and the rest ask the same backend as the app, so the output and the files are what the CLI would give you."
+msgstr "Les commandes passent par le vrai moteur kikx. `kikx list`, `kikx add`, `kikx setup` et les autres interrogent le même backend que l'app : la sortie et les fichiers sont ceux que la CLI vous donnerait."
+
+msgid "The files stay in your browser tab. Nothing is written to your machine. They are lost when you reload the page or close the tab, so copy what you want to keep."
+msgstr "Les fichiers restent dans votre onglet. Rien n'est écrit sur votre machine. Ils sont perdus quand vous rechargez la page ou fermez l'onglet, alors copiez ce que vous voulez garder."
+
+msgid "Besides `kikx` and its commands, the terminal runs three shell commands:"
+msgstr "En plus de `kikx` et de ses commandes, le terminal exécute trois commandes shell :"
+
+msgid "Command"
+msgstr "Commande"
+
+msgid "What it does"
+msgstr "Ce qu'elle fait"
+
+msgid "`ls`"
+msgstr "`ls`"
+
+msgid "Lists a folder. Without an argument, the project folder."
+msgstr "Liste un dossier. Sans argument, le dossier du projet."
+
+msgid "`cat`"
+msgstr "`cat`"
+
+msgid "Prints a file."
+msgstr "Affiche un fichier."
+
+msgid "`clear`"
+msgstr "`clear`"
+
+msgid "Clears the screen."
+msgstr "Efface l'écran."
+
+msgid "Any other command, such as `terraform` or `cd`, prints a notice instead of running. Copy that command to run it in your own terminal. When you mistype a `kikx` command, the terminal suggests the closest one, for example **tip: did you mean init?**"
+msgstr "Toute autre commande, comme `terraform` ou `cd`, affiche un avertissement au lieu de s'exécuter. Copiez-la pour la lancer dans votre propre terminal. Quand vous faites une faute de frappe dans une commande `kikx`, le terminal propose la plus proche, par exemple **astuce : vouliez-vous dire init ?**"
+
+msgid "Start with `kikx init` or `kikx setup` to get some files, or `kikx --help` to see every command."
+msgstr "Commencez par `kikx init` ou `kikx setup` pour obtenir des fichiers, ou par `kikx --help` pour voir toutes les commandes."
+
+msgid "Read the files"
+msgstr "Lire les fichiers"
+
+msgid "The **Files** panel shows the project as a tree. Click a folder to fold or unfold it. Click a file to read it in the viewer under the tree. After a command writes files, the viewer opens the first one it wrote."
+msgstr "Le panneau **Fichiers** montre le projet sous forme d'arborescence. Cliquez sur un dossier pour le replier ou le déplier. Cliquez sur un fichier pour le lire dans la visionneuse sous l'arborescence. Quand une commande écrit des fichiers, la visionneuse ouvre le premier écrit."
+
+msgid "Edit the command line"
+msgstr "Modifier la ligne de commande"
+
+msgid "The terminal behaves like a shell."
+msgstr "Le terminal se comporte comme un shell."
+
+msgid "Keys"
+msgstr "Touches"
+
+msgid "What they do"
+msgstr "Ce qu'elles font"
+
+msgid "Enter"
+msgstr "Entrée"
+
+msgid "Run the line."
+msgstr "Exécute la ligne."
+
+msgid "Up, Down"
+msgstr "Haut, Bas"
+
+msgid "Go back through earlier commands, then forward again. Down past the newest command brings back what you were typing."
+msgstr "Remontent dans les commandes précédentes, puis redescendent. Bas après la commande la plus récente rend ce que vous étiez en train de taper."
+
+msgid "Tab"
+msgstr "Tab"
+
+msgid "Complete what you're typing."
+msgstr "Complète ce que vous tapez."
+
+msgid "Tab, Tab"
+msgstr "Tab, Tab"
+
+msgid "When several completions are possible, list them."
+msgstr "Quand plusieurs complétions sont possibles, les liste."
+
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+msgid "Move to the start of the line."
+msgstr "Va au début de la ligne."
+
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+msgid "Move to the end of the line."
+msgstr "Va à la fin de la ligne."
+
+msgid "Ctrl+U"
+msgstr "Ctrl+U"
+
+msgid "Clear the line."
+msgstr "Efface la ligne."
+
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+msgid "Delete the word before the cursor."
+msgstr "Supprime le mot avant le curseur."
+
+msgid "Ctrl+K"
+msgstr "Ctrl+K"
+
+msgid "Delete from the cursor to the end of the line."
+msgstr "Supprime du curseur à la fin de la ligne."
+
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+msgid "Cancel the line. It stays on screen marked `^C`. With text selected, Ctrl+C copies it instead."
+msgstr "Annule la ligne. Elle reste à l'écran, marquée `^C`. Si du texte est sélectionné, Ctrl+C le copie à la place."
+
+msgid "Ctrl+L"
+msgstr "Ctrl+L"
+
+msgid "Clear the screen."
+msgstr "Efface l'écran."
+
+msgid "History keeps your last 200 commands for as long as the tab is open, even after you reload the page."
+msgstr "L'historique garde vos 200 dernières commandes tant que l'onglet reste ouvert, même après un rechargement de la page."
+
+msgid "Tab completion"
+msgstr "Complétion avec Tab"
+
+msgid "Tab completes, depending on where you are in the line:"
+msgstr "Tab complète, selon l'endroit où vous êtes dans la ligne :"
+
+msgid "the first word, once you have typed at least one letter: `kikx`, `ls`, `cat` and `clear`;"
+msgstr "le premier mot, dès que vous avez tapé au moins une lettre : `kikx`, `ls`, `cat` et `clear` ;"
+
+msgid "after `kikx`: the commands, such as `init`, `add` or `setup`;"
+msgstr "après `kikx` : les commandes, comme `init`, `add` ou `setup` ;"
+
+msgid "after a `-`: the flags of that command, such as `--name` or `--set`;"
+msgstr "après un `-` : les options de cette commande, comme `--name` ou `--set` ;"
+
+msgid "after `kikx add`: the component references from the registry, such as `k8s/deployment`;"
+msgstr "après `kikx add` : les références de composants du registre, comme `k8s/deployment` ;"
+
+msgid "after `kikx setup` or `kikx apply`: the template names and the files in the project;"
+msgstr "après `kikx setup` ou `kikx apply` : les noms de modèles et les fichiers du projet ;"
+
+msgid "after `ls` or `cat`: the files and folders in the project."
+msgstr "après `ls` ou `cat` : les fichiers et dossiers du projet."
+
+msgid "When only one choice fits, Tab writes it in full. When several fit, Tab writes the part they share; press Tab again to list them all."
+msgstr "Quand un seul choix convient, Tab l'écrit en entier. Quand plusieurs conviennent, Tab écrit leur partie commune ; appuyez de nouveau sur Tab pour tous les lister."
+
+msgid "Use the toolbar"
+msgstr "Utiliser la barre d'outils"
+
+msgid "The buttons above the terminal do the following. Hover a button to see its name."
+msgstr "Les boutons au-dessus du terminal font ce qui suit. Survolez un bouton pour voir son nom."
+
+msgid "Button"
+msgstr "Bouton"
+
+msgid "**Run this line**"
+msgstr "**Exécuter cette ligne**"
+
+msgid "Runs what you typed, like Enter. Ctrl+Enter or Cmd+Enter does the same."
+msgstr "Exécute ce que vous avez tapé, comme Entrée. Ctrl+Entrée ou Cmd+Entrée fait de même."
+
+msgid "**Clear the screen**"
+msgstr "**Effacer l'écran**"
+
+msgid "Clears the screen, like Ctrl+L. Files and history stay."
+msgstr "Efface l'écran, comme Ctrl+L. Les fichiers et l'historique restent."
+
+msgid "**Copy every command of this session as a script**"
+msgstr "**Copier toutes les commandes de cette session sous forme de script**"
+
+msgid "Copies the commands you ran, one per line, ready to paste into your own terminal."
+msgstr "Copie les commandes que vous avez lancées, une par ligne, prêtes à coller dans votre propre terminal."
+
+msgid "**Copy a link that replays this session**"
+msgstr "**Copier un lien qui rejoue cette session**"
+
+msgid "Copies a link to this page with your commands in it."
+msgstr "Copie un lien vers cette page qui contient vos commandes."
+
+msgid "**Start over**"
+msgstr "**Recommencer**"
+
+msgid "Empties the terminal and deletes every file, to start from nothing."
+msgstr "Vide le terminal et supprime tous les fichiers, pour repartir de zéro."
+
+msgid "Each command on screen also has its own copy button."
+msgstr "Chaque commande à l'écran a aussi son propre bouton de copie."
+
+msgid "The toolbar is hidden while a lesson plays. Pause or finish the lesson to get it back."
+msgstr "La barre d'outils est masquée pendant une leçon. Mettez la leçon en pause ou terminez-la pour la retrouver."
+
+msgid "Share a session"
+msgstr "Partager une session"
+
+msgid "**Copy a link that replays this session** puts up to your last 50 commands into the link. When someone opens it, the practice terminal starts empty and runs those commands one by one on the real engine, so they see the same output and the same files you did. Send the link to show a colleague how you got a result, or to ask for help."
+msgstr "**Copier un lien qui rejoue cette session** met jusqu'à vos 50 dernières commandes dans le lien. Quand quelqu'un l'ouvre, le terminal d'entraînement démarre vide et exécute ces commandes une à une sur le vrai moteur : cette personne voit la même sortie et les mêmes fichiers que vous. Envoyez le lien pour montrer à un collègue comment vous avez obtenu un résultat, ou pour demander de l'aide."
+
+msgid "Resize the panes"
+msgstr "Redimensionner les panneaux"
+
+msgid "On a wide screen, drag the bar between the terminal and the files to give one more room. You can also focus the bar with Tab and use the arrow keys, or Home and End. The app remembers the size in this browser. On a narrow screen, the files sit under the terminal."
+msgstr "Sur un grand écran, faites glisser la barre entre le terminal et les fichiers pour donner plus de place à l'un des deux. Vous pouvez aussi atteindre la barre avec Tab et utiliser les flèches, ou Début et Fin. L'app retient la taille dans ce navigateur. Sur un écran étroit, les fichiers se placent sous le terminal."
+
+msgid "Follow a CLI lesson"
+msgstr "Suivre une leçon CLI"
+
+msgid "The lessons type real commands into this terminal and explain the files they write. When it's your turn, click the terminal, type the command and press Enter, or click **Show me** to have it typed for you."
+msgstr "Les leçons tapent de vraies commandes dans ce terminal et expliquent les fichiers qu'elles écrivent. Quand c'est à vous, cliquez dans le terminal, tapez la commande et appuyez sur Entrée, ou cliquez sur **Montre-moi** pour qu'elle soit tapée pour vous."
+
+msgid "Install and your first project"
+msgstr "Installation et premier projet"
+
+msgid "What the install script does, `kikx init` and `kikx.toml`, `kikx list`, then `kikx add` with `--name` and `--set`."
+msgstr "Ce que fait le script d'installation, `kikx init` et `kikx.toml`, `kikx list`, puis `kikx add` avec `--name` et `--set`."
+
+msgid "[Start this lesson](teach:cliInstall)"
+msgstr "[Lancer cette leçon](teach:cliInstall)"
+
+msgid "Start from a template"
+msgstr "Partir d'un modèle"
+
+msgid "`kikx presets`, `kikx setup` with a template, and how to change the files you now own."
+msgstr "`kikx presets`, `kikx setup` avec un modèle, et comment modifier les fichiers qui sont désormais les vôtres."
+
+msgid "[Start this lesson](teach:cliTemplate)"
+msgstr "[Lancer cette leçon](teach:cliTemplate)"
+
+msgid "App and CLI together"
+msgstr "L'application et la CLI ensemble"
+
+msgid "A preset exported from the app, `kikx apply`, the difference between `setup` and `apply`, and how to run a command again safely."
+msgstr "Un preset exporté depuis l'app, `kikx apply`, la différence entre `setup` et `apply`, et comment relancer une commande sans risque."
+
+msgid "[Start this lesson](teach:cliApply)"
+msgstr "[Lancer cette leçon](teach:cliApply)"
+
+msgid "Keep kikx up to date"
+msgstr "Garder kikx à jour"
+
+msgid "`kikx --version`, `kikx upgrade --check`, `kikx upgrade`, and what an upgrade never touches."
+msgstr "`kikx --version`, `kikx upgrade --check`, `kikx upgrade`, et ce qu'une mise à jour ne touche jamais."
+
+msgid "[Start this lesson](teach:cliUpgrade)"
+msgstr "[Lancer cette leçon](teach:cliUpgrade)"
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Let kikx show you](../tutorials/teach-me.md)"
+msgstr "[Laissez kikx vous montrer](../tutorials/teach-me.md)"
+
+msgid "[Your first project with the CLI](../tutorials/first-project-cli.md)"
+msgstr "[Votre premier projet avec la CLI](../tutorials/first-project-cli.md)"
+
+msgid "[CLI reference](../reference/cli.md)"
+msgstr "[Référence de la CLI](../reference/cli.md)"

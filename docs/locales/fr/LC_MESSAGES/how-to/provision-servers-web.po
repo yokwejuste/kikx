@@ -1,0 +1,242 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kikx \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 17:00+0100\n"
+"Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
+"Language: fr\n"
+"Language-Team: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Provision cloud servers in the app"
+msgstr "Provisionner des serveurs cloud dans l'app"
+
+msgid "The **Provision** stage of the builder writes Terraform files that create servers at a cloud provider. This page shows how to describe one or more servers in the app, read the file kikx writes, and connect those servers to an inventory."
+msgstr "L'étape **Provisionner** de l'éditeur écrit des fichiers Terraform qui créent des serveurs chez un fournisseur cloud. Cette page montre comment décrire un ou plusieurs serveurs dans l'app, lire le fichier que kikx écrit et relier ces serveurs à un inventaire."
+
+msgid "Provision is optional. If your servers already exist, skip it and start with an [inventory](import-an-inventory.md)."
+msgstr "Cette étape est facultative. Si vos serveurs existent déjà, passez-la et commencez par un [inventaire](import-an-inventory.md)."
+
+msgid "[Start this lesson](teach:terraform)"
+msgstr "[Lancer cette leçon](teach:terraform)"
+
+msgid "Add a cloud server"
+msgstr "Ajouter un serveur cloud"
+
+msgid "Open the builder. From the home page, start a **Blank project** or open a project you already have."
+msgstr "Ouvrez l'éditeur. Depuis la page d'accueil, démarrez un **Projet vierge** ou ouvrez un projet que vous avez déjà."
+
+msgid "In the stages on the left, under **Provision**, click **Cloud server**. The editor shows **New cloud server**."
+msgstr "Dans les étapes à gauche, sous **Provisionner**, cliquez sur **Serveur cloud**. L'éditeur affiche **Nouveau composant : serveur cloud**."
+
+msgid "In **Name**, type a name such as `web`. The name becomes the Terraform resource name, the file name and the prefix of every machine Terraform creates."
+msgstr "Dans **Nom**, tapez un nom comme `web`. Ce nom devient le nom de la ressource Terraform, le nom du fichier et le préfixe de chaque machine que Terraform crée."
+
+msgid "Pick a **Provider**."
+msgstr "Choisissez un **Fournisseur**."
+
+msgid "Fill in the fields for that provider, described below."
+msgstr "Remplissez les champs de ce fournisseur, décrits plus bas."
+
+msgid "Click **Add to project**, or press ⌘/Ctrl + Enter."
+msgstr "Cliquez sur **Ajouter au projet**, ou appuyez sur ⌘/Ctrl + Entrée."
+
+msgid "The badge at the top right of the editor shows the file the component writes: `<name>-<provider>.tf`, for example `web-hetzner.tf`."
+msgstr "Le badge en haut à droite de l'éditeur indique le fichier que le composant écrit : `<name>-<provider>.tf`, par exemple `web-hetzner.tf`."
+
+msgid "Choose a provider"
+msgstr "Choisir un fournisseur"
+
+msgid "The **Provider** list is not built into the app. It lists every Terraform item in the kikx registry, so a provider added to the registry shows up here. For a provider that isn't listed, load its registry item from **Custom** instead, see [Render your own component from a registry item](custom-registry-item.md)."
+msgstr "La liste **Fournisseur** n'est pas figée dans l'app. Elle reprend chaque élément Terraform du registre kikx, donc un fournisseur ajouté au registre apparaît ici. Pour un fournisseur absent de la liste, chargez plutôt son élément de registre depuis **Personnalisé**, voir [Générer votre propre composant depuis un élément de registre](custom-registry-item.md)."
+
+msgid "Each provider asks for its own fields. Switching provider resets them to that provider's defaults, because one provider's values rarely make sense at another."
+msgstr "Chaque fournisseur demande ses propres champs. Changer de fournisseur les remet aux valeurs par défaut de ce fournisseur, car les valeurs d'un fournisseur ont rarement un sens chez un autre."
+
+msgid "Fill in the fields"
+msgstr "Remplir les champs"
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "What to enter"
+msgstr "Quoi saisir"
+
+msgid "**Region**"
+msgstr "**Région**"
+
+msgid "The data centre the server runs in, such as `fsn1` at Hetzner or `nyc3` at DigitalOcean. The placeholder shows a value the provider accepts."
+msgstr "Le centre de données où tourne le serveur, comme `fsn1` chez Hetzner ou `nyc3` chez DigitalOcean. Le texte indicatif montre une valeur que le fournisseur accepte."
+
+msgid "**Size**"
+msgstr "**Taille**"
+
+msgid "The machine type: how many CPUs and how much memory. Names differ per provider, for example `cx22` or `s-2vcpu-4gb`."
+msgstr "Le type de machine : combien de CPU et combien de mémoire. Les noms varient selon le fournisseur, par exemple `cx22` ou `s-2vcpu-4gb`."
+
+msgid "**OS image**"
+msgstr "**Image système**"
+
+msgid "The system installed on first boot. The suggestions are a shortcut; any image the provider accepts works."
+msgstr "Le système installé au premier démarrage. Les suggestions ne sont qu'un raccourci ; toute image acceptée par le fournisseur fonctionne."
+
+msgid "**Count**"
+msgstr "**Nombre**"
+
+msgid "How many identical machines to create from this one description. The default is `1`."
+msgstr "Combien de machines identiques créer à partir de cette description. La valeur par défaut est `1`."
+
+msgid "**Private network**"
+msgstr "**Réseau privé**"
+
+msgid "Optional. A private range for these servers, in CIDR notation, such as `10.10.0.0/16`. Leave it empty to use the provider's default network."
+msgstr "Facultatif. Une plage privée pour ces serveurs, en notation CIDR, comme `10.10.0.0/16`. Laissez vide pour utiliser le réseau par défaut du fournisseur."
+
+msgid "Some providers add fields of their own. Hetzner, for example, adds **Network zone**, which must contain the server's region. Every field has a help line under it, and [Components](../reference/components.md) lists the fields of each provider."
+msgstr "Certains fournisseurs ajoutent leurs propres champs. Hetzner, par exemple, ajoute **Zone réseau**, qui doit contenir la région du serveur. Chaque champ a une ligne d'aide en dessous, et [Composants](../reference/components.md) liste les champs de chaque fournisseur."
+
+msgid "Required fields that are empty, or values in the wrong format, are flagged when you leave the field. Until you fix them, the preview keeps showing the last valid render."
+msgstr "Les champs obligatoires vides et les valeurs au mauvais format sont signalés quand vous quittez le champ. Tant que vous ne les corrigez pas, l'aperçu continue d'afficher le dernier rendu valide."
+
+msgid "Enter a private network range"
+msgstr "Saisir une plage de réseau privé"
+
+msgid "**Private network** takes one IPv4 or IPv6 range written as an address, a slash and a prefix length. The address must be the first address of the range:"
+msgstr "**Réseau privé** accepte une plage IPv4 ou IPv6 écrite sous la forme d'une adresse, d'une barre oblique et d'une longueur de préfixe. L'adresse doit être la première adresse de la plage :"
+
+msgid "You type"
+msgstr "Vous tapez"
+
+msgid "The app says"
+msgstr "L'app répond"
+
+msgid "`10.10.0.0/16`"
+msgstr "`10.10.0.0/16`"
+
+msgid "Nothing: the range is valid."
+msgstr "Rien : la plage est valide."
+
+msgid "`10.10.0.5/16`"
+msgstr "`10.10.0.5/16`"
+
+msgid "**This range starts at 10.10.0.0/16; enter that instead**"
+msgstr "**Cette plage commence à 10.10.0.0/16 ; saisissez plutôt cette valeur**"
+
+msgid "`10.10.0.0` or `10.10.0.0/40`"
+msgstr "`10.10.0.0` ou `10.10.0.0/40`"
+
+msgid "**Enter a range as address/prefix length, like the example**"
+msgstr "**Saisissez une plage au format adresse/longueur de préfixe, comme dans l'exemple**"
+
+msgid "With a range set, the file also creates a private network for these servers and attaches every machine to it. Without one, the servers use the provider's default network."
+msgstr "Avec une plage, le fichier crée aussi un réseau privé pour ces serveurs et y rattache chaque machine. Sans plage, les serveurs utilisent le réseau par défaut du fournisseur."
+
+msgid "Read the generated file"
+msgstr "Lire le fichier généré"
+
+msgid "The **Preview** under the form shows the `.tf` file as you type. It is plain Terraform that you can read, review and commit. Look for these parts:"
+msgstr "L'**Aperçu** sous le formulaire montre le fichier `.tf` pendant la saisie. C'est du Terraform ordinaire que vous pouvez lire, relire et committer. Repérez ces parties :"
+
+msgid "**The provider and its token.** For providers that use an API token, such as Hetzner or DigitalOcean, the token is declared as a sensitive variable and is never written into the file. You pass it when you run Terraform, through an environment variable or a gitignored `.tfvars` file."
+msgstr "**Le fournisseur et son jeton.** Pour les fournisseurs qui utilisent un jeton d'API, comme Hetzner ou DigitalOcean, le jeton est déclaré comme variable sensible et n'est jamais écrit dans le fichier. Vous le passez au lancement de Terraform, par une variable d'environnement ou un fichier `.tfvars` ignoré par git."
+
+msgid "**The server resource.** One resource, named after the component, for example `resource \"hcloud_server\" \"web\"`."
+msgstr "**La ressource serveur.** Une seule ressource, nommée d'après le composant, par exemple `resource \"hcloud_server\" \"web\"`."
+
+msgid "**The machine names.** Each machine is named after the component plus its index, starting at zero: `web-0`, `web-1` and so on. You'll use these names in the inventory."
+msgstr "**Les noms des machines.** Chaque machine porte le nom du composant suivi de son index, à partir de zéro : `web-0`, `web-1`, etc. Vous utiliserez ces noms dans l'inventaire."
+
+msgid "**The region.** Each provider names this setting its own way. kikx maps **Region** to the right attribute for you."
+msgstr "**La région.** Chaque fournisseur nomme ce réglage à sa façon. kikx associe **Région** au bon attribut pour vous."
+
+msgid "**The private network,** when you set one."
+msgstr "**Le réseau privé,** quand vous en définissez un."
+
+msgid "Use **Copy** on the preview to copy the file."
+msgstr "Utilisez **Copier** sur l'aperçu pour copier le fichier."
+
+msgid "Add several servers"
+msgstr "Ajouter plusieurs serveurs"
+
+msgid "Real projects rarely have one kind of machine. Add one **Cloud server** component per kind, for example `web` for the web servers and `db` for the database:"
+msgstr "Un vrai projet a rarement un seul type de machine. Ajoutez un composant **Serveur cloud** par type, par exemple `web` pour les serveurs web et `db` pour la base de données :"
+
+msgid "After you add the first server, the editor stays on it. Click **New** at the top of the editor, or click **Cloud server** again in the stages."
+msgstr "Une fois le premier serveur ajouté, l'éditeur reste dessus. Cliquez sur **Nouveau** en haut de l'éditeur, ou de nouveau sur **Serveur cloud** dans les étapes."
+
+msgid "Fill in the second server with a different **Name**, and add it."
+msgstr "Remplissez le second serveur avec un **Nom** différent, puis ajoutez-le."
+
+msgid "Each server writes its own file and carries its own provider block, so servers can use different providers. Terraform reads every `.tf` file in the folder together, so one `terraform apply` creates them all. To create several identical machines, raise **Count** instead of adding more components."
+msgstr "Chaque serveur écrit son propre fichier et porte son propre bloc provider, donc les serveurs peuvent utiliser des fournisseurs différents. Terraform lit ensemble tous les fichiers `.tf` du dossier, donc un seul `terraform apply` les crée tous. Pour créer plusieurs machines identiques, augmentez **Nombre** au lieu d'ajouter des composants."
+
+msgid "If two servers would write the same file, for example two servers named `web` at the same provider, the app asks before replacing the first. See [Resolve file conflicts and checks](resolve-conflicts.md)."
+msgstr "Si deux serveurs écrivent le même fichier, par exemple deux serveurs nommés `web` chez le même fournisseur, l'app demande avant de remplacer le premier. Voir [Résoudre les conflits de fichiers et les vérifications](resolve-conflicts.md)."
+
+msgid "Check that private networks don't overlap"
+msgstr "Vérifier que les réseaux privés ne se chevauchent pas"
+
+msgid "Each server with a **Private network** creates its own network. When the ranges of two servers overlap, the **Checks** tab shows a warning such as:"
+msgstr "Chaque serveur doté d'un **Réseau privé** crée son propre réseau. Quand les plages de deux serveurs se chevauchent, l'onglet **Vérifications** affiche un avertissement comme :"
+
+msgid "**web (10.10.0.0/16) and db (10.10.0.0/24) use overlapping networks**"
+msgstr "**web (10.10.0.0/16) et db (10.10.0.0/24) utilisent des réseaux qui se chevauchent**"
+
+msgid "Overlapping networks can't be peered or routed to each other. That is fine if the servers never need to talk. Otherwise, give each server a range that doesn't overlap the others, for example `10.10.0.0/16` and `10.20.0.0/16`."
+msgstr "Des réseaux qui se chevauchent ne peuvent être ni appairés ni routés entre eux. Sans importance si les serveurs n'ont jamais à communiquer. Sinon, donnez à chaque serveur une plage qui ne chevauche pas les autres, par exemple `10.10.0.0/16` et `10.20.0.0/16`."
+
+msgid "Connect servers to the inventory"
+msgstr "Relier les serveurs à l'inventaire"
+
+msgid "Terraform creates the machines, and Ansible configures them. kikx does not read Terraform state, so after `terraform apply` you list the machines in an inventory yourself:"
+msgstr "Terraform crée les machines, et Ansible les configure. kikx ne lit pas l'état Terraform : après `terraform apply`, c'est vous qui listez les machines dans un inventaire :"
+
+msgid "Run `terraform apply`. Terraform prints or stores the address of each machine."
+msgstr "Lancez `terraform apply`. Terraform affiche ou enregistre l'adresse de chaque machine."
+
+msgid "In the builder, under **Inventory**, add an inventory. Name each host the way Terraform does, `web-0`, `web-1` and so on, with its address."
+msgstr "Dans l'éditeur, sous **Inventaire**, ajoutez un inventaire. Nommez chaque hôte comme Terraform le fait, `web-0`, `web-1`, etc., avec son adresse."
+
+msgid "Put the hosts in a group named after the server, for example `web`."
+msgstr "Placez les hôtes dans un groupe qui porte le nom du serveur, par exemple `web`."
+
+msgid "Using the same names lets kikx link the two. See [Import an existing Ansible inventory](import-an-inventory.md) to paste an existing inventory instead of typing hosts."
+msgstr "Utiliser les mêmes noms permet à kikx de relier les deux. Voir [Importer un inventaire Ansible existant](import-an-inventory.md) pour coller un inventaire existant au lieu de taper les hôtes."
+
+msgid "See the servers in Architecture"
+msgstr "Voir les serveurs dans Architecture"
+
+msgid "Open the **Architecture** tab. Each server sits in the **Provision** lane, with its region and size under its name. An arrow labelled **provisions** goes from the server to the inventory groups it creates machines for. kikx picks those groups in this order:"
+msgstr "Ouvrez l'onglet **Architecture**. Chaque serveur se trouve dans le couloir **Provisionnement**, avec sa région et sa taille sous son nom. Une flèche étiquetée **provisionne** va du serveur vers les groupes d'inventaire pour lesquels il crée des machines. kikx choisit ces groupes dans cet ordre :"
+
+msgid "a group with the same name as the server;"
+msgstr "un groupe qui porte le même nom que le serveur ;"
+
+msgid "groups with a host whose name starts with the server name and a dash, such as `web-0`;"
+msgstr "les groupes contenant un hôte dont le nom commence par le nom du serveur suivi d'un tiret, comme `web-0` ;"
+
+msgid "groups whose name contains the server name as a word, such as `web_eu` for `web`."
+msgstr "les groupes dont le nom contient le nom du serveur comme mot, comme `web_eu` pour `web`."
+
+msgid "When no group matches, the arrow goes to every top level group. Add a group named after the server to make the arrow precise. Click a node to open its component in the editor."
+msgstr "Si aucun groupe ne correspond, la flèche va vers chaque groupe de premier niveau. Ajoutez un groupe qui porte le nom du serveur pour rendre la flèche précise. Cliquez sur un nœud pour ouvrir son composant dans l'éditeur."
+
+msgid "See also"
+msgstr "Voir aussi"
+
+msgid "[Let kikx show you](../tutorials/teach-me.md)"
+msgstr "[Laissez kikx vous montrer](../tutorials/teach-me.md)"
+
+msgid "[Components](../reference/components.md)"
+msgstr "[Composants](../reference/components.md)"
+
+msgid "[Checks](../reference/checks.md#range-overlap)"
+msgstr "[Vérifications](../reference/checks.md#range-overlap)"
+
+msgid "[How the architecture diagram is drawn](../explanation/architecture-diagram.md)"
+msgstr "[Comment le diagramme d'architecture est dessiné](../explanation/architecture-diagram.md)"

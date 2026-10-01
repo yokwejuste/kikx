@@ -14,4 +14,7 @@ resolve-conflicts
 presets
 export-to-drawio
 custom-registry-item
+provision-servers-web
+deploy-kubernetes-web
+practice-cli-in-browser
 ```
