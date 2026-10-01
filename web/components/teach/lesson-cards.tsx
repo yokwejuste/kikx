@@ -40,19 +40,15 @@ const LEVELS: LessonLevel[] = ["basics", "further"];
 
 export function LessonCards({
   mode,
-  compact = false,
-  levels = LEVELS,
   onPick,
 }: {
   mode: TeachMode;
-  compact?: boolean;
-  levels?: LessonLevel[];
   onPick: (lessonId: string) => void;
 }) {
   const t = useTranslations("teach");
   const completed = useCompletedLessons();
 
-  return levels.map((level) => {
+  return LEVELS.map((level) => {
     const lessons = lessonsFor(mode).filter((lesson) => lesson.level === level);
     if (lessons.length === 0) return null;
     return (
@@ -60,7 +56,7 @@ export function LessonCards({
         <SectionLabel as="h3">{t(`levels.${level}`)}</SectionLabel>
         <ul className="grid gap-2 sm:grid-cols-2">
           {lessons.map((lesson) => {
-            const outcomes = compact ? [] : (t.raw(`lessons.${lesson.id}.outcomes`) as string[]);
+            const outcomes = t.raw(`lessons.${lesson.id}.outcomes`) as string[];
             return (
               <li key={lesson.id}>
                 <button

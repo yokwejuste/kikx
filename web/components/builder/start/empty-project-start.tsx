@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyProjectIllustration } from "@/components/illustrations/illustrations";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
-import { LessonChooser } from "@/components/teach/lesson-chooser";
 import { CATALOG, type CatalogKind } from "@/lib/registry/catalog";
 import { SectionLabel } from "@/components/common/section-label";
 
@@ -54,8 +53,6 @@ export function EmptyProjectStart({ onSelect }: { onSelect: (kind: CatalogKind) 
           );
         })}
       </ol>
-
-      <LessonChooser mode="app" compact levels={["basics"]} />
 
       <Link
         href="/"
