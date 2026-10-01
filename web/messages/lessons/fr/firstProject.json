@@ -1,0 +1,50 @@
+{
+  "title": "Construire votre premier projet",
+  "description": "Nommez un projet, ajoutez un serveur et ses réglages, puis vérifiez et exportez-le.",
+  "outcomes": [
+    "Démarrer un projet et ajouter un inventaire",
+    "Partager des réglages dans un groupe avec les group vars",
+    "Lire l'aperçu en direct, Vérifications et Architecture"
+  ],
+  "chapters": {
+    "start": "Démarrer un projet",
+    "inventory": "Inventaire",
+    "groupVars": "Group vars",
+    "review": "Vérifier et exporter"
+  },
+  "recap": [
+    "Un projet part d'un nom ; les réglages peuvent changer ensuite.",
+    "Un inventaire liste les serveurs et les range en groupes.",
+    "Les group vars contiennent les réglages partagés par tous les serveurs d'un groupe.",
+    "Vérifications, Architecture et Exporter sont à un clic."
+  ],
+  "steps": {
+    "intro": "Construisons un petit projet de zéro. Installez-vous : je pilote et j'explique au fur et à mesure. Mettez en pause quand vous voulez reprendre la main.",
+    "name": "Tout projet commence par un nom. C'est tout ce qu'il faut à kikx pour démarrer.",
+    "start": "Commencer ouvre l'éditeur.",
+    "path": "Un projet vide montre le parcours habituel : lister vos serveurs, les configurer, puis déployer.",
+    "inventory": "D'abord, l'inventaire : les serveurs que kikx va préparer.",
+    "hostName": "Donnez un nom au serveur,",
+    "hostAddress": "l'adresse à laquelle Ansible se connecte,",
+    "hostGroup": "et un groupe. Les groupes permettent à un play de viser plusieurs serveurs à la fois.",
+    "preview": "Les fichiers se génèrent en direct pendant la saisie. C'est exactement ce qui arrive dans votre dépôt.",
+    "add": "Ajoutez l'inventaire au projet.",
+    "groupVars": "Ensuite, les réglages partagés par ce groupe, appelés group vars.",
+    "groupName": "Choisissez le groupe,",
+    "varKey": "puis ajoutez un réglage : une clé et sa valeur.",
+    "addVars": "Ajoutez-les aussi.",
+    "checklist": "La liste de démarrage se coche toute seule et montre la suite.",
+    "checks": "Vérifications cherche les erreurs entre composants : groupes inconnus, hôtes en double, rôles manquants.",
+    "diagram": "Architecture dessine comment tout se connecte.",
+    "build": "Retour à l'éditeur.",
+    "export": "Quand vous êtes prêt, Exporter vous donne des fichiers simples, un preset à rouvrir plus tard, ou la commande CLI.",
+    "done": "Voilà toute la boucle : décrire, prévisualiser, vérifier, exporter. Explorez ce projet de démonstration, ou retournez au vôtre."
+  },
+  "demo": {
+    "host": "web1",
+    "address": "10.0.0.10",
+    "group": "web",
+    "varKey": "app_port",
+    "varValue": "8080"
+  }
+}

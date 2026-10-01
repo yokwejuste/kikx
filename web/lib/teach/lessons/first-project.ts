@@ -1,0 +1,37 @@
+import type { Lesson } from "../types.ts";
+import { chapter, click, demo, go, key, point, projectName, say, teachTarget, type } from "../steps.ts";
+
+export const firstProject: Lesson = {
+  id: "firstProject",
+  level: "basics",
+  icon: "sparkles",
+  steps: [
+    chapter("start"),
+    go("/"),
+    say("intro"),
+    type(teachTarget("new-project-form", "input"), projectName, { say: "name" }),
+    click(teachTarget("new-project-form", 'button[type="submit"]'), { say: "start" }),
+    point(teachTarget("start-panel"), "path"),
+    chapter("inventory"),
+    click(teachTarget("start-inventory"), { say: "inventory", learn: "how-to/import-an-inventory" }),
+    type(teachTarget("host-name"), demo("host"), { say: "hostName" }),
+    type(teachTarget("host-address"), demo("address"), { say: "hostAddress" }),
+    type(teachTarget("host-row", '[role="combobox"]'), demo("group"), { say: "hostGroup", enter: true }),
+    point(teachTarget("preview"), "preview"),
+    click(teachTarget("save"), { say: "add" }),
+    chapter("groupVars"),
+    click(teachTarget("catalog-groupvars", "button"), { say: "groupVars", learn: "how-to/group-vars" }),
+    type(teachTarget("groupvars-group", "input"), demo("group"), { say: "groupName" }),
+    type(teachTarget("key-values", "input:nth-of-type(1)"), demo("varKey"), { say: "varKey" }),
+    type(teachTarget("key-values", "input:nth-of-type(2)"), demo("varValue")),
+    click(teachTarget("save"), { say: "addVars" }),
+    chapter("review"),
+    point('[data-tour="checklist"]', "checklist"),
+    click(teachTarget("tab-checks"), { say: "checks" }),
+    click(teachTarget("tab-diagram"), { say: "diagram" }),
+    click(teachTarget("tab-build"), { say: "build" }),
+    click('[data-tour="download"]', { say: "export" }),
+    key("Escape"),
+    say("done"),
+  ],
+};

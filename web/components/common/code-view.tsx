@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const HighlightedLines = memo(function HighlightedLines({ lines }: { lines: Lines }) {
   return lines.map((line, index) => (
-    <span key={index}>
+    <span key={index} data-line>
       {line.map((token, position) => (
         <span key={position} style={{ color: token.color, fontStyle: token.italic ? "italic" : undefined }}>
           {token.content}

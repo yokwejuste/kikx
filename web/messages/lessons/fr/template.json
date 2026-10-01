@@ -1,0 +1,30 @@
+{
+  "title": "Partir d'un modèle",
+  "description": "Ouvrez un projet tout prêt, faites le tour et voyez comment l'adapter.",
+  "outcomes": [
+    "Ouvrir un modèle et voir ce qu'il contient",
+    "Modifier n'importe lequel de ses composants",
+    "Le vérifier et l'exporter"
+  ],
+  "chapters": {
+    "open": "Ouvrir un modèle",
+    "review": "Vérifier et exporter"
+  },
+  "recap": [
+    "Les modèles sont des projets complets à adapter.",
+    "Chaque composant reste modifiable, avec un aperçu en direct.",
+    "Vérifications et Architecture donnent la vue d'ensemble avant d'exporter."
+  ],
+  "steps": {
+    "intro": "Les modèles sont des projets complets que vous pouvez ouvrir et adapter. Ouvrons-en un.",
+    "open": "Chaque carte indique les étapes couvertes par le modèle. Prenons le premier.",
+    "project": "Tout ce que le modèle a ajouté est listé ici, regroupé par étape.",
+    "edit": "Ouvrez n'importe quel composant pour le modifier.",
+    "preview": "Le formulaire contient ses réglages, et l'aperçu montre les fichiers qu'il écrit.",
+    "checks": "Vérifications confirme que le modèle est cohérent avant toute modification.",
+    "diagram": "Architecture montre comment les parties se connectent : serveurs, groupes, plays et services.",
+    "build": "Retour à l'éditeur.",
+    "export": "Exporter emporte tout le projet : fichiers simples, preset ou commande CLI.",
+    "done": "À vous : ouvrez un modèle pour de vrai, ou construisez le vôtre de zéro."
+  }
+}

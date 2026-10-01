@@ -1,6 +1,8 @@
 "use client";
 
-import { ArrowRight, ChevronDown, Circle, CircleCheck, X } from "lucide-react";
+import { ArrowRight, ChevronDown, X } from "lucide-react";
+import { DoneMark } from "@/components/common/done-mark";
+import { ProgressBar } from "@/components/common/progress-bar";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import type { IssueCounts } from "@/components/builder/project/severity";
@@ -62,9 +64,7 @@ export function GettingStarted({
           <X />
         </Button>
       </div>
-      <div className="mx-4 h-1 overflow-hidden rounded-full bg-muted">
-        <div className="h-full rounded-full bg-brand transition-all" style={{ width: `${(progress.done / progress.total) * 100}%` }} />
-      </div>
+      <ProgressBar value={progress.done} max={progress.total} className="mx-4" />
       {flags.collapsed ? (
         <div className="h-3" />
       ) : (
@@ -73,7 +73,7 @@ export function GettingStarted({
             <li key={item.step}>
               {item.done ? (
                 <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-muted-foreground">
-                  <CircleCheck className="size-4 shrink-0 text-brand" />
+                  <DoneMark done />
                   <span className="line-through">{t(`items.${item.step}.label`)}</span>
                 </div>
               ) : (
@@ -82,7 +82,7 @@ export function GettingStarted({
                   onClick={() => go(item)}
                   className="group flex w-full items-start gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-muted/50"
                 >
-                  <Circle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                  <DoneMark done={false} className="mt-0.5" />
                   <span className="flex min-w-0 flex-1 flex-col">
                     <span className="text-sm">{t(`items.${item.step}.label`)}</span>
                     <span className="text-xs text-muted-foreground">{t(`items.${item.step}.hint`)}</span>

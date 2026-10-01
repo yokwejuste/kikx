@@ -903,56 +903,18 @@
     "doneTitle": "Leçon terminée",
     "back": "Retour à mon projet",
     "keep": "Garder ce projet",
-    "lessons": {
-      "firstProject": {
-        "title": "Construire votre premier projet",
-        "description": "Nommez un projet, ajoutez un serveur et ses réglages, puis vérifiez et exportez-le.",
-        "steps": {
-          "intro": "Construisons un petit projet de zéro. Installez-vous : je pilote et j'explique au fur et à mesure. Mettez en pause quand vous voulez reprendre la main.",
-          "name": "Tout projet commence par un nom. C'est tout ce qu'il faut à kikx pour démarrer.",
-          "start": "Commencer ouvre l'éditeur.",
-          "path": "Un projet vide montre le parcours habituel : lister vos serveurs, les configurer, puis déployer.",
-          "inventory": "D'abord, l'inventaire : les serveurs que kikx va préparer.",
-          "hostName": "Donnez un nom au serveur,",
-          "hostAddress": "l'adresse à laquelle Ansible se connecte,",
-          "hostGroup": "et un groupe. Les groupes permettent à un play de viser plusieurs serveurs à la fois.",
-          "preview": "Les fichiers se génèrent en direct pendant la saisie. C'est exactement ce qui arrive dans votre dépôt.",
-          "add": "Ajoutez l'inventaire au projet.",
-          "groupVars": "Ensuite, les réglages partagés par ce groupe, appelés group vars.",
-          "groupName": "Choisissez le groupe,",
-          "varKey": "puis ajoutez un réglage : une clé et sa valeur.",
-          "addVars": "Ajoutez-les aussi.",
-          "checklist": "La liste de démarrage se coche toute seule et montre la suite.",
-          "checks": "Vérifications cherche les erreurs entre composants : groupes inconnus, hôtes en double, rôles manquants.",
-          "diagram": "Architecture dessine comment tout se connecte.",
-          "build": "Retour à l'éditeur.",
-          "export": "Quand vous êtes prêt, Exporter vous donne des fichiers simples, un preset à rouvrir plus tard, ou la commande CLI.",
-          "done": "Voilà toute la boucle : décrire, prévisualiser, vérifier, exporter. Explorez ce projet de démonstration, ou retournez au vôtre."
-        }
-      },
-      "template": {
-        "title": "Partir d'un modèle",
-        "description": "Ouvrez un projet tout prêt, faites le tour et voyez comment l'adapter.",
-        "steps": {
-          "intro": "Les modèles sont des projets complets que vous pouvez ouvrir et adapter. Ouvrons-en un.",
-          "open": "Chaque carte indique les étapes couvertes par le modèle. Prenons le premier.",
-          "project": "Tout ce que le modèle a ajouté est listé ici, regroupé par étape.",
-          "edit": "Ouvrez n'importe quel composant pour le modifier.",
-          "preview": "Le formulaire contient ses réglages, et l'aperçu montre les fichiers qu'il écrit.",
-          "checks": "Vérifications confirme que le modèle est cohérent avant toute modification.",
-          "diagram": "Architecture montre comment les parties se connectent : serveurs, groupes, plays et services.",
-          "build": "Retour à l'éditeur.",
-          "export": "Exporter emporte tout le projet : fichiers simples, preset ou commande CLI.",
-          "done": "À vous : ouvrez un modèle pour de vrai, ou construisez le vôtre de zéro."
-        }
-      }
-    },
-    "demo": {
-      "host": "web1",
-      "address": "10.0.0.10",
-      "group": "web",
-      "varKey": "app_port",
-      "varValue": "8080"
+    "chapter": "Chapitre {index} sur {total} : {title}",
+    "yourTurn": "À vous",
+    "showMe": "Montre-moi",
+    "praise": "Bravo, c'est ça.",
+    "learnMore": "En savoir plus",
+    "recapTitle": "Ce que vous avez appris",
+    "nextLesson": "Suivant : {title}",
+    "youLearn": "Vous apprendrez",
+    "completed": "Terminé",
+    "levels": {
+      "basics": "Les bases",
+      "further": "Pour aller plus loin"
     }
   }
 }

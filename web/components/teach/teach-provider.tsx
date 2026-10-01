@@ -2,15 +2,17 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { TeachOverlay } from "@/components/teach/teach-overlay";
 import { useProject } from "@/lib/project/context";
 import { projectDefaults } from "@/lib/registry/store";
-import { LESSONS } from "@/lib/teach/lessons";
+import { docsHref } from "@/lib/i18n/docs";
+import { LESSONS, nextLesson } from "@/lib/teach/lessons";
 import { LessonPlayer, type LessonView } from "@/lib/teach/player";
 import { beginSandbox, endSandbox, hasPendingSandbox } from "@/lib/teach/sandbox";
 import { prefersReducedMotion } from "@/lib/teach/dom";
 import { loadSpeed, saveSpeed } from "@/lib/teach/speed";
+import { markCompleted } from "@/lib/teach/progress";
 
 interface TeachContextValue {
   start: (lessonId: string) => void;
@@ -27,8 +29,15 @@ export function useTeach(): TeachContextValue {
   return context;
 }
 
+function withLesson(path: string, lessonId: string): string {
+  const url = new URL(path, window.location.origin);
+  url.searchParams.set(TEACH_PARAM, lessonId);
+  return `${url.pathname}${url.search}`;
+}
+
 export function TeachProvider({ children }: { children: React.ReactNode }) {
   const t = useTranslations("teach");
+  const locale = useLocale();
   const router = useRouter();
   const { reset } = useProject();
   const player = useRef<LessonPlayer | null>(null);
@@ -36,16 +45,16 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
   const [view, setView] = useState<LessonView | null>(null);
   const [keepable, setKeepable] = useState(false);
 
-  const finish = useCallback((keep: boolean) => {
+  const finish = useCallback((keep: boolean, then?: string) => {
     player.current?.stop();
     player.current = null;
     const returnPath = endSandbox(keep);
-    if (keep) {
+    if (keep && !then) {
       setLessonId(null);
       setView(null);
       return;
     }
-    window.location.assign(returnPath);
+    window.location.assign(then ? withLesson(returnPath, then) : returnPath);
   }, []);
 
   const start = useCallback(
@@ -58,11 +67,16 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
       reset();
       const lessonPlayer = new LessonPlayer(lesson, {
         say: (key) => t(`lessons.${id}.steps.${key}`),
-        value: (value) => (value === "projectName" ? projectDefaults().defaultProjectName : t(`demo.${value}`)),
+        chapter: (key) => t(`lessons.${id}.chapters.${key}`),
+        check: (key) => t(`lessons.${id}.checks.${key}`),
+        praise: () => t("praise"),
+        text: (ref) =>
+          "literal" in ref ? ref.literal : "demo" in ref ? t(`lessons.${id}.demo.${ref.demo}`) : projectDefaults().defaultProjectName,
         navigate: (path) => router.push(path),
         reducedMotion: prefersReducedMotion(),
         speed: loadSpeed(),
         onChange: setView,
+        onComplete: () => markCompleted(id),
       });
       player.current = lessonPlayer;
       setLessonId(id);
@@ -111,6 +125,7 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
   }, [playing, finish]);
 
   const value = useMemo(() => ({ start, active: lessonId !== null }), [start, lessonId]);
+  const upNext = lessonId ? nextLesson(lessonId) : null;
 
   return (
     <TeachContext.Provider value={value}>
@@ -118,11 +133,15 @@ export function TeachProvider({ children }: { children: React.ReactNode }) {
       {lessonId && view && (
         <TeachOverlay
           title={t(`lessons.${lessonId}.title`)}
+          recap={t.raw(`lessons.${lessonId}.recap`) as string[]}
+          upNext={upNext ? { id: upNext.id, title: t(`lessons.${upNext.id}.title`) } : null}
+          learnHref={view.learn ? docsHref(view.learn, locale) : null}
           view={view}
           keepable={keepable}
           onPause={() => player.current?.pause()}
           onResume={() => player.current?.resume()}
           onNext={() => player.current?.next()}
+          onShowMe={() => player.current?.showMe()}
           onSpeed={(speed) => {
             saveSpeed(speed);
             player.current?.setSpeed(speed);

@@ -4,10 +4,21 @@ import { useCallback, useEffect } from "react";
 import { driver, type DriveStep } from "driver.js";
 import { useTranslations } from "next-intl";
 import { TOURS, tourTarget, type TourName } from "@/lib/tour/steps";
+import { glowAround, stopGlow } from "@/lib/tour/glow";
 
 const SEEN_PREFIX = "kikx.tour.seen.";
 const WAIT_FOR_TARGETS_MS = 2000;
-const LOOK = { popoverClass: "kikx-tour", overlayOpacity: 0.55, stagePadding: 6, stageRadius: 12, smoothScroll: true };
+const STAGE_PADDING = 12;
+const STAGE_RADIUS = 16;
+const LOOK = {
+  popoverClass: "kikx-tour",
+  overlayOpacity: 0.55,
+  stagePadding: STAGE_PADDING,
+  stageRadius: STAGE_RADIUS,
+  smoothScroll: true,
+  onHighlighted: (element?: Element) => glowAround(element, STAGE_PADDING, STAGE_RADIUS),
+  onDestroyed: () => stopGlow(),
+};
 
 function hasSeen(name: TourName) {
   try {

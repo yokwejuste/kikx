@@ -1,0 +1,50 @@
+{
+  "title": "Build your first project",
+  "description": "Name a project, add a server and its settings, then check and export it.",
+  "outcomes": [
+    "Start a project and add an inventory",
+    "Share settings across a group with group vars",
+    "Read the live preview, Checks and Architecture"
+  ],
+  "chapters": {
+    "start": "Start a project",
+    "inventory": "Inventory",
+    "groupVars": "Group vars",
+    "review": "Review and export"
+  },
+  "recap": [
+    "A project starts from a name; settings can change later.",
+    "An inventory lists servers and sorts them into groups.",
+    "Group vars hold settings every server in a group shares.",
+    "Checks, Architecture and Export are one click away."
+  ],
+  "steps": {
+    "intro": "Let's build a small project from scratch. Sit back: I'll drive and explain as I go. Pause whenever you want to take over.",
+    "name": "Every project starts with a name. That's all kikx needs to begin.",
+    "start": "Start building opens the builder.",
+    "path": "An empty project shows the usual path: list your servers, configure them, then deploy.",
+    "inventory": "First, the inventory: the servers kikx will set up.",
+    "hostName": "Give the server a name,",
+    "hostAddress": "the address Ansible connects to,",
+    "hostGroup": "and a group. Groups let one play target many servers at once.",
+    "preview": "The files render live as you type. This is exactly what lands in your repo.",
+    "add": "Add the inventory to the project.",
+    "groupVars": "Next, settings shared by that group, called group vars.",
+    "groupName": "Pick the group,",
+    "varKey": "then add a setting: a key and its value.",
+    "addVars": "Add them too.",
+    "checklist": "The checklist ticks itself off as you go and shows what comes next.",
+    "checks": "Checks looks across components for mistakes: unknown groups, duplicate hosts, missing roles.",
+    "diagram": "Architecture draws how everything connects.",
+    "build": "Back to the builder.",
+    "export": "When you're ready, Export gives you plain files, a preset to reopen later, or the CLI command.",
+    "done": "That's the whole loop: describe, preview, check, export. Look around this demo project, or go back to yours."
+  },
+  "demo": {
+    "host": "web1",
+    "address": "10.0.0.10",
+    "group": "web",
+    "varKey": "app_port",
+    "varValue": "8080"
+  }
+}

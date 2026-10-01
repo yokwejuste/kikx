@@ -23,6 +23,7 @@ import { projectDefaults } from "@/lib/registry/store";
 import { RegistryGate } from "@/components/layout/registry-gate";
 import { TemplateGallery } from "@/components/home/template-gallery";
 import { KikxMark } from "@/components/common/kikx-mark";
+import { IconTile } from "@/components/common/icon-tile";
 import { HelpTip } from "@/components/common/help-tip";
 import { useFirstVisitTour } from "@/lib/tour/use-tour";
 
@@ -134,9 +135,7 @@ function HomeContent() {
             ) : (
               <>
                 <Link href="/build" className="flex min-w-48 flex-1 items-center gap-3 hover:underline-offset-4">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
-                    <History className="size-4" />
-                  </span>
+                  <IconTile icon={History} />
                   <span>
                     <span className="font-medium">{t("resume.continueTitle", { name: details.name })}</span>
                     <span className="block text-muted-foreground">{t("resume.kept", { count: components.length })}</span>
@@ -193,9 +192,7 @@ function HomeContent() {
 
         <label data-tour="open-preset" className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed p-4 text-left text-sm hover:border-brand/40 hover:bg-muted/40">
           <span className="flex items-center gap-3">
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
-              <FolderOpen className="size-4" />
-            </span>
+            <IconTile icon={FolderOpen} />
             <span>
               <span className="font-medium">{opening === "file" ? t("preset.opening") : t("preset.open")}</span>
               <HelpTip term="preset" className="ml-1" />

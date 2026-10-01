@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { LayoutTemplate, LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
+import { IconTile } from "@/components/common/icon-tile";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
 import { api } from "@/lib/api/client";
 import { stagesForReferences } from "@/lib/registry/catalog";
@@ -42,15 +43,11 @@ export function TemplateGallery({
               )}
             >
               <span className="flex items-center gap-2 text-sm font-medium">
-                {opening === preset.name ? (
-                  <span className="flex size-6 items-center justify-center rounded-md bg-volt-soft text-volt-soft-foreground">
-                    <LoaderCircle className="size-3.5 animate-spin" />
-                  </span>
-                ) : (
-                  <span className="flex size-6 items-center justify-center rounded-md bg-volt-soft text-volt-soft-foreground">
-                    <LayoutTemplate className="size-3.5" />
-                  </span>
-                )}
+                <IconTile
+                  size="sm"
+                  icon={opening === preset.name ? LoaderCircle : LayoutTemplate}
+                  iconClassName={cn(opening === preset.name && "animate-spin")}
+                />
                 {text.preset(preset.name, "title", preset.title)}
               </span>
               <span className="text-sm text-muted-foreground">{text.preset(preset.name, "description", preset.description)}</span>

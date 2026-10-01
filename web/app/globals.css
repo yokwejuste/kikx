@@ -192,7 +192,41 @@
   animation: teach-ripple 500ms ease-out forwards;
 }
 
+@property --kikx-glow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes kikx-glow-spin {
+  to {
+    --kikx-glow-angle: 360deg;
+  }
+}
+
+.kikx-tour-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10001;
+  padding: 2px;
+  pointer-events: none;
+  background: conic-gradient(from var(--kikx-glow-angle), transparent 0deg 250deg, var(--volt) 320deg, transparent 360deg);
+  filter: drop-shadow(0 0 6px var(--volt));
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: kikx-glow-spin 2.4s linear infinite;
+  transition: opacity 200ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .kikx-tour-glow {
+    background: var(--volt);
+    animation: none;
+  }
+
   .kikx-edge-flow {
     display: none;
   }
@@ -305,11 +339,6 @@
 
 .kikx-tour .driver-popover-arrow-side-bottom.driver-popover-arrow {
   border-bottom-color: var(--popover);
-}
-
-.driver-active .driver-active-element {
-  outline: 2px solid var(--brand);
-  outline-offset: 4px;
 }
 
 @media (pointer: coarse) {

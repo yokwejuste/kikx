@@ -810,56 +810,18 @@
     "doneTitle": "Lesson complete",
     "back": "Back to my project",
     "keep": "Keep this project",
-    "lessons": {
-      "firstProject": {
-        "title": "Build your first project",
-        "description": "Name a project, add a server and its settings, then check and export it.",
-        "steps": {
-          "intro": "Let's build a small project from scratch. Sit back: I'll drive and explain as I go. Pause whenever you want to take over.",
-          "name": "Every project starts with a name. That's all kikx needs to begin.",
-          "start": "Start building opens the builder.",
-          "path": "An empty project shows the usual path: list your servers, configure them, then deploy.",
-          "inventory": "First, the inventory: the servers kikx will set up.",
-          "hostName": "Give the server a name,",
-          "hostAddress": "the address Ansible connects to,",
-          "hostGroup": "and a group. Groups let one play target many servers at once.",
-          "preview": "The files render live as you type. This is exactly what lands in your repo.",
-          "add": "Add the inventory to the project.",
-          "groupVars": "Next, settings shared by that group, called group vars.",
-          "groupName": "Pick the group,",
-          "varKey": "then add a setting: a key and its value.",
-          "addVars": "Add them too.",
-          "checklist": "The checklist ticks itself off as you go and shows what comes next.",
-          "checks": "Checks looks across components for mistakes: unknown groups, duplicate hosts, missing roles.",
-          "diagram": "Architecture draws how everything connects.",
-          "build": "Back to the builder.",
-          "export": "When you're ready, Export gives you plain files, a preset to reopen later, or the CLI command.",
-          "done": "That's the whole loop: describe, preview, check, export. Look around this demo project, or go back to yours."
-        }
-      },
-      "template": {
-        "title": "Start from a template",
-        "description": "Open a ready-made project, look around and see how to adapt it.",
-        "steps": {
-          "intro": "Templates are complete projects you can open and adapt. Let's open one.",
-          "open": "Each card shows which stages a template covers. Let's take the first one.",
-          "project": "Everything the template added is listed here, grouped by stage.",
-          "edit": "Open any component to change it.",
-          "preview": "The form holds its settings, and the preview shows the files it writes.",
-          "checks": "Checks confirms the template is consistent before you change anything.",
-          "diagram": "Architecture shows how the parts connect: servers, groups, plays and services.",
-          "build": "Back to the builder.",
-          "export": "Export takes the whole project home: plain files, a preset, or a CLI command.",
-          "done": "Now open a template for real, or build your own from scratch."
-        }
-      }
-    },
-    "demo": {
-      "host": "web1",
-      "address": "10.0.0.10",
-      "group": "web",
-      "varKey": "app_port",
-      "varValue": "8080"
+    "chapter": "Chapter {index} of {total}: {title}",
+    "yourTurn": "Your turn",
+    "showMe": "Show me",
+    "praise": "Nice, that's it.",
+    "learnMore": "Learn more",
+    "recapTitle": "What you learned",
+    "nextLesson": "Next: {title}",
+    "youLearn": "You'll learn",
+    "completed": "Done",
+    "levels": {
+      "basics": "Basics",
+      "further": "Going further"
     }
   }
 }

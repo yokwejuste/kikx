@@ -1,27 +1,55 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { GraduationCap, LayoutTemplate, Sparkles, type LucideIcon } from "lucide-react";
+import {
+  CircleCheck,
+  Cloud,
+  FileInput,
+  GraduationCap,
+  LayoutTemplate,
+  ScrollText,
+  ShieldCheck,
+  Ship,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
+import { IconTile } from "@/components/common/icon-tile";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useTeach } from "@/components/teach/teach-provider";
 import { LESSONS, lessonMinutes } from "@/lib/teach/lessons";
+import { loadCompleted } from "@/lib/teach/progress";
+import type { LessonIcon, LessonLevel } from "@/lib/teach/types";
 
-const LESSON_ICONS: Record<string, LucideIcon> = {
-  firstProject: Sparkles,
+const LESSON_ICONS: Record<LessonIcon, LucideIcon> = {
+  sparkles: Sparkles,
   template: LayoutTemplate,
+  playbook: ScrollText,
+  checks: ShieldCheck,
+  kubernetes: Ship,
+  cloud: Cloud,
+  import: FileInput,
 };
+
+const LEVELS: LessonLevel[] = ["basics", "further"];
 
 export function TeachButton() {
   const t = useTranslations("teach");
   const { start, active } = useTeach();
   const [open, setOpen] = useState(false);
+  const [completed, setCompleted] = useState<string[]>([]);
   const chosen = useRef<string | null>(null);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        if (next) setCompleted(loadCompleted());
+        setOpen(next);
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           type="button"
@@ -35,7 +63,7 @@ export function TeachButton() {
         </Button>
       </DialogTrigger>
       <DialogContent
-        className="sm:max-w-md"
+        className="max-h-[85vh] overflow-y-auto sm:max-w-3xl"
         onCloseAutoFocus={(event) => {
           const lessonId = chosen.current;
           if (!lessonId) return;
@@ -48,36 +76,61 @@ export function TeachButton() {
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t("body")}</DialogDescription>
         </DialogHeader>
-        <ul className="flex flex-col gap-2">
-          {LESSONS.map((lesson) => {
-            const Icon = LESSON_ICONS[lesson.id] ?? GraduationCap;
-            return (
-              <li key={lesson.id}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    chosen.current = lesson.id;
-                    setOpen(false);
-                  }}
-                  className="flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors hover:border-brand/40 hover:bg-muted/40"
-                >
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-volt-soft text-volt-soft-foreground">
-                    <Icon className="size-4" />
-                  </span>
-                  <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                    <span className="flex items-center gap-2 font-medium">
-                      {t(`lessons.${lesson.id}.title`)}
-                      <Badge variant="outline" className="font-normal text-muted-foreground">
-                        {t("minutes", { count: lessonMinutes(lesson) })}
-                      </Badge>
-                    </span>
-                    <span className="text-muted-foreground">{t(`lessons.${lesson.id}.description`)}</span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        {LEVELS.map((level) => {
+          const lessons = LESSONS.filter((lesson) => lesson.level === level);
+          if (lessons.length === 0) return null;
+          return (
+            <section key={level} className="flex flex-col gap-2">
+              <h3 className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{t(`levels.${level}`)}</h3>
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {lessons.map((lesson) => {
+                  const outcomes = t.raw(`lessons.${lesson.id}.outcomes`) as string[];
+                  const isDone = completed.includes(lesson.id);
+                  return (
+                    <li key={lesson.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          chosen.current = lesson.id;
+                          setOpen(false);
+                        }}
+                        className="flex h-full w-full flex-col gap-2 rounded-lg border p-3 text-left transition-colors hover:border-brand/40 hover:bg-muted/40"
+                      >
+                        <span className="flex items-start gap-3">
+                          <IconTile icon={LESSON_ICONS[lesson.icon]} />
+                          <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                            <span className="flex flex-wrap items-center gap-1.5 font-medium">
+                              {t(`lessons.${lesson.id}.title`)}
+                              {isDone && (
+                                <Badge variant="brand" className="gap-1 font-normal">
+                                  <CircleCheck className="size-3" />
+                                  {t("completed")}
+                                </Badge>
+                              )}
+                            </span>
+                            <span className="text-muted-foreground">{t(`lessons.${lesson.id}.description`)}</span>
+                          </span>
+                          <Badge variant="outline" className="shrink-0 font-normal text-muted-foreground">
+                            {t("minutes", { count: lessonMinutes(lesson) })}
+                          </Badge>
+                        </span>
+                        <span className="flex flex-col gap-1 pl-11">
+                          <span className="text-xs font-medium text-muted-foreground">{t("youLearn")}</span>
+                          {outcomes.map((outcome) => (
+                            <span key={outcome} className="flex gap-1.5 text-xs text-muted-foreground">
+                              <span aria-hidden>·</span>
+                              {outcome}
+                            </span>
+                          ))}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          );
+        })}
         <p className="text-xs text-muted-foreground">{t("sandbox")}</p>
       </DialogContent>
     </Dialog>

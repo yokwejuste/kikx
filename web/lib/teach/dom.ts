@@ -1,10 +1,18 @@
 const CAPTION_CLEARANCE = 200;
 const HEADER_CLEARANCE = 72;
 
-export function findVisible(selector: string): HTMLElement | null {
+function shownText(element: HTMLElement): string {
+  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+    return element.value;
+  }
+  return element.textContent ?? "";
+}
+
+export function findVisible(selector: string, text?: string): HTMLElement | null {
   for (const element of document.querySelectorAll<HTMLElement>(selector)) {
     const disabled = element instanceof HTMLButtonElement && element.disabled;
-    if (!disabled && element.getClientRects().length > 0) return element;
+    const matches = text === undefined || shownText(element).includes(text);
+    if (!disabled && matches && element.getClientRects().length > 0) return element;
   }
   return null;
 }
@@ -39,10 +47,10 @@ export function pressElement(element: HTMLElement): void {
   element.click();
 }
 
-export function setInputValue(element: HTMLInputElement | HTMLTextAreaElement, value: string): void {
+export function setInputValue(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, value: string): void {
   const setter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(element), "value")?.set;
   setter?.call(element, value);
-  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event(element instanceof HTMLSelectElement ? "change" : "input", { bubbles: true }));
 }
 
 export function pressKey(key: string): void {

@@ -1,0 +1,30 @@
+{
+  "title": "Start from a template",
+  "description": "Open a ready-made project, look around and see how to adapt it.",
+  "outcomes": [
+    "Open a template and see what it contains",
+    "Edit any of its components",
+    "Check and export it"
+  ],
+  "chapters": {
+    "open": "Open a template",
+    "review": "Review and export"
+  },
+  "recap": [
+    "Templates are full projects you can adapt.",
+    "Every component stays editable, with a live preview.",
+    "Checks and Architecture show the whole picture before you export."
+  ],
+  "steps": {
+    "intro": "Templates are complete projects you can open and adapt. Let's open one.",
+    "open": "Each card shows which stages a template covers. Let's take the first one.",
+    "project": "Everything the template added is listed here, grouped by stage.",
+    "edit": "Open any component to change it.",
+    "preview": "The form holds its settings, and the preview shows the files it writes.",
+    "checks": "Checks confirms the template is consistent before you change anything.",
+    "diagram": "Architecture shows how the parts connect: servers, groups, plays and services.",
+    "build": "Back to the builder.",
+    "export": "Export takes the whole project home: plain files, a preset, or a CLI command.",
+    "done": "Now open a template for real, or build your own from scratch."
+  }
+}

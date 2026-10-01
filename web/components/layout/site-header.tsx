@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BookOpen, Waypoints } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
-import { DEFAULT_LOCALE } from "@/lib/i18n/config";
+import { docsHref } from "@/lib/i18n/docs";
 import { KikxMark } from "@/components/common/kikx-mark";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
@@ -13,7 +13,6 @@ import { NavLink } from "@/components/layout/nav-link";
 export async function SiteHeader() {
   const t = await getTranslations("header");
   const locale = await getLocale();
-  const docsHref = locale === DEFAULT_LOCALE ? "/docs/index.html" : `/docs/${locale}/index.html`;
   return (
     <header className="flex h-14 shrink-0 items-center justify-between gap-2 border-b px-4 sm:px-6">
       <Link href="/" aria-label={t("home")} className="flex items-center gap-2 text-base font-semibold tracking-tight">
@@ -22,7 +21,7 @@ export async function SiteHeader() {
       </Link>
       <nav className="flex items-center gap-0.5 sm:gap-1">
         <a
-          href={docsHref}
+          href={docsHref("index", locale)}
           aria-label={t("docs")}
           className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground sm:px-3 pointer-coarse:min-h-10"
         >
