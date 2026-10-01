@@ -48,6 +48,7 @@ function ProjectSettingsForm({
       <FieldGroup>
         <FormField
           label={t("namespace")}
+          help="namespace"
           registration={form.register("namespace")}
           error={form.formState.errors.namespace}
           description={namespaceChanged ? t("namespaceHint", { previous: details.namespace }) : undefined}
@@ -55,6 +56,7 @@ function ProjectSettingsForm({
         />
         <FormField
           label={t("outputDir")}
+          help="outputDir"
           registration={form.register("dir")}
           error={form.formState.errors.dir}
           description={t("outputDirHint")}

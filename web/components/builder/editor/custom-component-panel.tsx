@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Panel } from "@/components/common/panel";
+import { HelpTip } from "@/components/common/help-tip";
 import { FileConflictDialog } from "@/components/builder/conflicts/file-conflict-dialog";
 import { YamlPreview } from "@/components/builder/preview/yaml-preview";
 import { toProjectFiles } from "@/components/builder/editor/project-files";
@@ -79,6 +80,7 @@ export function CustomComponentPanel({ onSaved }: { onSaved?: (id: string) => vo
     <Panel
       title={t("title")}
       description={t("body")}
+      action={<HelpTip term="registryItem" />}
     >
       <div className="flex flex-col gap-6">
         <div className="flex gap-2">

@@ -700,6 +700,44 @@
     "another": "Une autre",
     "home": "Retour à l'accueil"
   },
+  "glossary": {
+    "ask": "Qu'est-ce que {term} ?",
+    "learnMore": "En savoir plus dans la documentation",
+    "terms": {
+      "namespace": {
+        "term": "Namespace",
+        "definition": "Le namespace Kubernetes dans lequel vont vos manifestes quand un composant n'en précise pas. Il regroupe les charges de travail liées sur le cluster."
+      },
+      "outputDir": {
+        "term": "Dossier de sortie",
+        "definition": "Le dossier, relatif à votre projet, où kikx écrit tous les fichiers générés. Rien n'est écrit en dehors."
+      },
+      "inventory": {
+        "term": "Inventaire",
+        "definition": "Le fichier Ansible qui liste vos serveurs et les répartit en groupes, pour que les playbooks sachent quelles machines cibler."
+      },
+      "groupVars": {
+        "term": "Group vars",
+        "definition": "Des variables, comme un nom d'utilisateur ou une version de paquet, placées dans un fichier group_vars qui porte le nom d'un groupe d'inventaire. Elles s'appliquent à chaque hôte de ce groupe."
+      },
+      "siteYml": {
+        "term": "site.yml",
+        "definition": "Le playbook Ansible principal qui importe vos autres playbooks dans l'ordre, pour configurer toute la plateforme en une seule commande."
+      },
+      "role": {
+        "term": "Rôle",
+        "definition": "Un ensemble Ansible réutilisable de tâches, handlers, templates et valeurs par défaut. Les playbooks appliquent des rôles à des groupes d'hôtes."
+      },
+      "preset": {
+        "term": "Preset",
+        "definition": "Un fichier .kikx-preset.json qui enregistre un projet et tous ses composants, pour le rouvrir ou le reconstruire avec la CLI."
+      },
+      "registryItem": {
+        "term": "Élément de registre",
+        "definition": "Un registry-item.json qui décrit un composant : ses champs, ses valeurs par défaut et les templates qu'il génère. kikx peut le charger depuis n'importe quelle URL ou chemin."
+      }
+    }
+  },
   "validation": {
     "projectNameRequired": "Le nom du projet est obligatoire",
     "namespaceRequired": "Le namespace est obligatoire",

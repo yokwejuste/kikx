@@ -700,6 +700,44 @@
     "another": "Another one",
     "home": "Take me home"
   },
+  "glossary": {
+    "ask": "What is {term}?",
+    "learnMore": "Learn more in the docs",
+    "terms": {
+      "namespace": {
+        "term": "Namespace",
+        "definition": "The Kubernetes namespace your manifests go into when a component doesn't set its own. It groups related workloads on the cluster."
+      },
+      "outputDir": {
+        "term": "Output directory",
+        "definition": "The folder, relative to your project, where kikx writes every rendered file. Nothing is written outside it."
+      },
+      "inventory": {
+        "term": "Inventory",
+        "definition": "The Ansible file that lists your servers and sorts them into groups, so playbooks know which machines to target."
+      },
+      "groupVars": {
+        "term": "Group vars",
+        "definition": "Variables in a group_vars file named after an inventory group, such as a user name or a package version. They apply to every host in that group."
+      },
+      "siteYml": {
+        "term": "site.yml",
+        "definition": "The top level Ansible playbook that imports your other playbooks in order, so one command configures the whole platform."
+      },
+      "role": {
+        "term": "Role",
+        "definition": "A reusable Ansible bundle of tasks, handlers, templates and defaults. Playbooks apply roles to groups of hosts."
+      },
+      "preset": {
+        "term": "Preset",
+        "definition": "A .kikx-preset.json file that records a project and all its components, so you can reopen it or rebuild it with the CLI."
+      },
+      "registryItem": {
+        "term": "Registry item",
+        "definition": "A registry-item.json that describes one component: its fields, defaults and the templates it renders. kikx can load one from any URL or path."
+      }
+    }
+  },
   "validation": {
     "projectNameRequired": "Project name is required",
     "namespaceRequired": "Namespace is required",

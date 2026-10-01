@@ -5,6 +5,8 @@ import { ChevronDown, CircleCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { CatalogEntryButton } from "@/components/builder/catalog/catalog-entry-button";
 import { useCatalogText } from "@/lib/i18n/use-catalog-text";
+import { HelpTip } from "@/components/common/help-tip";
+import { STAGE_TERMS } from "@/lib/glossary/terms";
 import { CATALOG, catalogStage, describeComponent, type CatalogKind, type StageId } from "@/lib/registry/catalog";
 import type { AddedComponent } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
@@ -114,7 +116,7 @@ export function ComponentCatalog({
               />
             </button>
             <div id={panelId} hidden={!open}>
-              <p className="mb-1 px-2 pl-9 text-xs leading-snug text-muted-foreground">{stageText.hint}</p>
+              <p className="mb-1 px-2 pl-9 text-xs leading-snug text-muted-foreground">{stageText.hint} <HelpTip term={STAGE_TERMS[stage.id]} className="-my-1" /></p>
               <ul id={advancedId} className="flex flex-col">
                 {visible.map(({ kind }) => {
                   const entry = text.entry(kind);
