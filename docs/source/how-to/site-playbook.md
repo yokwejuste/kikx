@@ -2,7 +2,12 @@
 
 Use this when you want one entry point, `ansible-playbook site.yml`, that runs your playbooks in a fixed order.
 
-## In the dashboard
+## Add the site playbook
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
 
 1. Add your playbooks first. See [Write a multi-play playbook](multi-play-playbooks.md).
 2. In **Build**, pick **Site playbook** under the Configure stage.
@@ -17,7 +22,11 @@ Use this when you want one entry point, `ansible-playbook site.yml`, that runs y
 - an import that points to a playbook this project doesn't produce. That's fine if the file already exists in your repo.
 - a playbook that no site playbook imports. It only runs if you call it directly.
 
-## With the CLI
+[Start this lesson](teach:playbooks) to watch the dashboard wire playbooks together with `ansible.cfg` and a site playbook.
+:::
+
+:::{tab-item} With the CLI
+:sync: cli
 
 ```bash
 kikx add ansible/site --name site --set 'playbooks=[
@@ -37,13 +46,25 @@ This writes `site.yml`:
 
 Paths are relative to `site.yml`, which kikx writes at the root of the output directory.
 
+The CLI doesn't check the imports. Make sure each `path` points at a playbook that exists.
+:::
+
+::::
+
 ## Point Ansible at the inventory and roles
 
 If your playbooks sit in a subfolder such as `playbooks/`, Ansible looks for roles next to each playbook, not in the root `roles/` folder. Add an `ansible.cfg` next to `site.yml` that points at the vendored roles and your inventory.
 
-In the dashboard, pick **Ansible config** under the Configure stage (click **Show more** to reveal it), set **Inventory file** to your inventory, for example `platform-inventory.ini`, leave **Roles path** as `roles`, and click **Add to project**.
+::::{tab-set}
 
-With the CLI:
+:::{tab-item} In the app
+:sync: app
+
+Pick **Ansible config** under the Configure stage (click **Show more** to reveal it), set **Inventory file** to your inventory, for example `platform-inventory.ini`, leave **Roles path** as `roles`, and click **Add to project**.
+:::
+
+:::{tab-item} With the CLI
+:sync: cli
 
 ```bash
 kikx add ansible/config --name ansible --set inventory=platform-inventory.ini
@@ -56,10 +77,31 @@ This writes `ansible.cfg`:
 inventory = platform-inventory.ini
 roles_path = roles
 ```
+:::
+
+::::
 
 The built-in [templates](presets.md#start-from-a-template) that contain Ansible already include it.
 
 ## Run it
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
+
+The project only lives in your browser until you download it. Open **Export**, choose **Files (.zip)**, and unzip the file. Your files are in the output directory inside it, `infra/` by default.
+:::
+
+:::{tab-item} With the CLI
+:sync: cli
+
+The files are already on disk, in the project's output directory, `infra/` by default.
+:::
+
+::::
+
+Then check and run the playbooks:
 
 ```bash
 cd infra

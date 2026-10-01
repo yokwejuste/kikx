@@ -2,6 +2,10 @@
 
 Use this to take the generated architecture diagram into draw.io (diagrams.net) and keep editing it by hand, for example to annotate it for a design review.
 
+:::{note}
+This only exists in the app. The CLI doesn't draw the architecture, so it has nothing to export. If you built the project with the CLI from a preset, open that preset in the app with **Open a preset** and export from there.
+:::
+
 ## Export
 
 1. In the dashboard, click the **Architecture** tab in the header.

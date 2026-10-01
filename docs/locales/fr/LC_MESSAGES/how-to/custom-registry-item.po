@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kikx \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 09:40+0100\n"
-"PO-Revision-Date: 2026-09-29 12:00+0100\n"
+"POT-Creation-Date: 2026-10-01 16:24+0100\n"
+"PO-Revision-Date: 2026-10-01 16:27+0100\n"
 "Last-Translator: Steve Yonkeu <steve@yokwejuste.me>\n"
 "Language: fr\n"
 "Language-Team: fr\n"
@@ -43,8 +43,38 @@ msgstr "Un champ `required` sans `default` doit être fourni, sinon le rendu éc
 msgid "For every key, see the [Registry item format reference](../reference/registry-item-format.md)."
 msgstr "Pour le détail de chaque clé, consultez la référence [Format des éléments de registre](../reference/registry-item-format.md)."
 
-msgid "2. Render it with the CLI"
-msgstr "2. Effectuer le rendu avec la CLI"
+msgid "2. Render it"
+msgstr "2. En effectuer le rendu"
+
+msgid "In the app"
+msgstr "Dans l'app"
+
+msgid "In **Build**, pick **From registry URL** under the Custom stage."
+msgstr "Dans « Construire », choisissez « Depuis une URL de registre » sous l'étape Personnalisé."
+
+msgid "Paste a URL or a path into **URL or path to a registry-item.json** and click **Load**."
+msgstr "Collez une URL ou un chemin dans « URL ou chemin vers un registry-item.json », puis cliquez sur « Charger »."
+
+msgid "Fill in **Name** and the item's fields. Required fields are marked with `*`. Type JSON for list or map fields."
+msgstr "Renseignez « Nom » et les champs de l'élément. Les champs obligatoires sont marqués d'un `*`. Saisissez du JSON pour les champs de type liste ou map."
+
+msgid "Click **Preview** to check the output, then click **Add to project**."
+msgstr "Cliquez sur « Aperçu » pour vérifier le résultat, puis sur « Ajouter au projet »."
+
+msgid "The backend loads the item, not the browser. That means:"
+msgstr "C'est le backend qui charge l'élément, pas le navigateur. Cela signifie que :"
+
+msgid "a local path must exist on the machine running the backend. A relative path is resolved from the directory the backend was started in, so prefer an absolute path;"
+msgstr "un chemin local doit exister sur la machine qui exécute le backend. Un chemin relatif est résolu depuis le répertoire dans lequel le backend a été démarré ; préférez donc un chemin absolu ;"
+
+msgid "a URL must be reachable from the backend."
+msgstr "une URL doit être accessible depuis le backend."
+
+msgid "To change a custom component later, open it, load the same item again, and add it with the same **Name**. The field values aren't filled back in, so type them again. The conflict dialog then offers to replace the old one."
+msgstr "Pour modifier plus tard un composant personnalisé, ouvrez-le, chargez à nouveau le même élément et ajoutez-le avec le même « Nom ». Les valeurs des champs ne sont pas pré-remplies : saisissez-les de nouveau. La boîte de dialogue de conflit propose alors de remplacer l'ancien."
+
+msgid "With the CLI"
+msgstr "Avec la CLI"
 
 msgid "In a kikx project, pass the path or URL where you'd normally pass a built-in reference:"
 msgstr "Dans un projet kikx, passez le chemin ou l'URL à l'endroit où vous passeriez normalement la référence d'un élément intégré :"
@@ -61,38 +91,11 @@ msgstr "S'il manque un champ obligatoire, vous obtenez `--data is required for k
 msgid "Point at the `.json` file itself. kikx checks the built-ins first by the last segment of the reference, so a reference ending in a built-in name, such as `.../deployment`, renders the built-in Deployment instead."
 msgstr "Pointez vers le fichier `.json` lui-même. kikx vérifie d'abord les éléments intégrés à partir du dernier segment de la référence : une référence qui se termine par le nom d'un élément intégré, comme `.../deployment`, rend donc le Deployment intégré à la place."
 
-msgid "3. Or render it in the dashboard"
-msgstr "3. Ou effectuer le rendu dans le tableau de bord"
-
-msgid "In **Build**, pick **From registry URL** under the Custom stage."
-msgstr "Dans « Build », choisissez « From registry URL » sous l'étape Custom."
-
-msgid "Paste a URL or a path into **URL or path to a registry-item.json** and click **Load**."
-msgstr "Collez une URL ou un chemin dans « URL or path to a registry-item.json », puis cliquez sur « Load »."
-
-msgid "Fill in **Name** and the item's fields. Required fields are marked with `*`. Type JSON for list or map fields."
-msgstr "Renseignez « Name » et les champs de l'élément. Les champs obligatoires sont marqués d'un `*`. Saisissez du JSON pour les champs de type liste ou map."
-
-msgid "Click **Preview** to check the output, then click **Add to project**."
-msgstr "Cliquez sur « Preview » pour vérifier le résultat, puis sur « Add to project »."
-
-msgid "The backend loads the item, not the browser. That means:"
-msgstr "C'est le backend qui charge l'élément, pas le navigateur. Cela signifie que :"
-
-msgid "a local path must exist on the machine running the backend. A relative path is resolved from the directory the backend was started in, so prefer an absolute path;"
-msgstr "un chemin local doit exister sur la machine qui exécute le backend. Un chemin relatif est résolu depuis le répertoire dans lequel le backend a été démarré ; préférez donc un chemin absolu ;"
-
-msgid "a URL must be reachable from the backend."
-msgstr "une URL doit être accessible depuis le backend."
-
-msgid "To change a custom component later, open it, load the same item again, and add it with the same **Name**. The field values aren't filled back in, so type them again. The conflict dialog then offers to replace the old one."
-msgstr "Pour modifier plus tard un composant personnalisé, ouvrez-le, chargez à nouveau le même élément et ajoutez-le avec le même « Name ». Les valeurs des champs ne sont pas pré-remplies : saisissez-les de nouveau. La boîte de dialogue de conflit propose alors de remplacer l'ancien."
-
 msgid "Share it"
 msgstr "Le partager"
 
 msgid "A preset stores the reference exactly as you typed it. `kikx setup`, `kikx apply` and **Open a preset** all load the item again from there. For a preset other people will use, host the item at a URL rather than a local path."
-msgstr "Un preset enregistre la référence exactement telle que vous l'avez saisie. `kikx setup`, `kikx apply` et « Open a preset » rechargent tous l'élément depuis cet emplacement. Pour un preset que d'autres personnes utiliseront, hébergez l'élément à une URL plutôt qu'à un chemin local."
+msgstr "Un preset enregistre la référence exactement telle que vous l'avez saisie. `kikx setup`, `kikx apply` et « Ouvrir un preset » rechargent tous l'élément depuis cet emplacement. Pour un preset que d'autres personnes utiliseront, hébergez l'élément à une URL plutôt qu'à un chemin local."
 
 msgid "See also"
 msgstr "Voir aussi"

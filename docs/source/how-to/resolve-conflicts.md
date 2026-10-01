@@ -1,10 +1,17 @@
 # Resolve file conflicts and checks
 
-Use this when the dashboard stops you with **This file already exists**, or when the **Checks** tab shows a count.
+Use this when the dashboard stops you with **This file already exists**, when the CLI stops with `already exists. Pass --force to overwrite`, or when the **Checks** tab shows a count.
 
 ## A file already exists
 
-A project allows only one component per file. If the component you're saving would write a file another component already writes, the dashboard shows the conflict before it saves:
+A project allows only one component per file.
+
+::::{tab-set}
+
+:::{tab-item} In the app
+:sync: app
+
+If the component you're saving would write a file another component already writes, the dashboard shows the conflict before it saves:
 
 - With the form still open, the save bar warns you: *Saving replaces `<file>`, currently from `<component>`*.
 - When you click **Add to project** or **Save changes**, a dialog opens titled **This file already exists** (or **N files already exist**).
@@ -18,15 +25,24 @@ In the dialog:
    - **Replace**: the owning component is removed and yours takes its files. This can't be undone. To get the old component back, add it again.
 
 Editing a component and saving it under the same name replaces it in place, without a dialog.
+:::
 
-### The same thing with the CLI
+:::{tab-item} With the CLI
+:sync: cli
 
 The CLI refuses instead of asking, and writes nothing:
 
 - `kikx add` and `kikx apply` stop with `<file> already exists. Pass --force to overwrite`. Re-run with `--force` to overwrite. The files you don't re-render stay on disk.
 - A preset where two components render the same path stops with ``two files rendered to the same path: `<file>` ``. Rename one of them in the preset.
+:::
+
+::::
 
 ## Fix what Checks reports
+
+:::{note}
+The checks only run in the dashboard. The CLI doesn't run them.
+:::
 
 Open **Checks** from the header, or click **Review** in the **Project** panel. Each item has **Open …** buttons that take you straight to the component to fix. When you edit a component, its own checks also appear at the top of the editor, with the same **Open …** and **Scaffold N roles** buttons. Errors break the output, warnings are probably mistakes, and notes are informational.
 
@@ -60,7 +76,7 @@ Open **Checks** from the header, or click **Review** in the **Project** panel. E
 | `<path> isn't imported by any site playbook` | Add it to the site playbook if it should run as part of `site.yml`. |
 | `N inventories in this project` | Fine for separate environments. Checks treat all their groups as one pool, so pass the right one with `-i`. |
 
-The checks only run in the dashboard. The CLI doesn't run them.
+[Start this lesson](teach:checks) to make these mistakes on purpose and watch Checks find them.
 
 ## See also
 
