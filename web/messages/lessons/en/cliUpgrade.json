@@ -1,0 +1,63 @@
+{
+  "title": "Keep kikx up to date",
+  "description": "Check your kikx version, see whether a newer release exists, upgrade in place, and learn what an upgrade replaces and what it never touches.",
+  "outcomes": [
+    "Check which kikx you have with the version option",
+    "See whether a newer release exists without installing it",
+    "Upgrade kikx in place with kikx upgrade",
+    "Know that an upgrade never touches kikx.toml or your files"
+  ],
+  "chapters": {
+    "project": "A project to keep",
+    "version": "Your version",
+    "check": "Check for a release",
+    "upgrade": "Upgrade",
+    "untouched": "What stays the same"
+  },
+  "checks": {
+    "checked": "You ran kikx upgrade with the check option",
+    "upgraded": "You ran kikx upgrade"
+  },
+  "recap": [
+    "The version option prints the kikx you have installed.",
+    "kikx upgrade with the check option only reports whether a newer release exists.",
+    "kikx upgrade downloads the release for your system from GitHub and replaces the kikx binary.",
+    "It never touches kikx.toml or any vendored file: those are yours.",
+    "A new version changes what future add, setup and apply commands render, never what you already have."
+  ],
+  "steps": {
+    "intro": "kikx ships new releases with new components and fixes. This practice machine has the release before the latest installed, so let's upgrade it.",
+    "setup": "First, a project, so we can see what an upgrade does to it. I set one up from the {template} template.",
+    "files": "Keep an eye on these files during the upgrade.",
+    "version": "Which kikx do you have? {flagVersion} tells you.",
+    "versionLine": "That's the installed version, read from GitHub releases for this practice machine.",
+    "releases": "Each release is published on GitHub with a binary for every system. kikx upgrade reads that list.",
+    "check": "Your turn. Ask whether a newer release exists, without installing it: kikx upgrade {flagCheck}.",
+    "checkLine": "It compares your version with the latest release and stops there.",
+    "checkWhy": "Handy in a script or before a busy day: nothing changes until you decide.",
+    "upgrade": "Your turn. Install it: type kikx upgrade and press Enter.",
+    "upgraded": "kikx downloaded the release for your system and replaced its own binary. Run the version option again any time to confirm.",
+    "replaces": "That's all it replaces: the kikx program itself, in the same place it was installed.",
+    "untouched": "Your project didn't change at all. Same files, same content.",
+    "tomlSame": "kikx.toml is exactly as before. An upgrade never edits a project.",
+    "newTemplates": "A new version can render components differently. That only affects the next add, setup or apply. To pick up a change, re-render one component with {flagForce}, or apply into a separate folder and compare.",
+    "again": "Run kikx upgrade again and it says you're up to date.",
+    "latest": "Nothing to do.",
+    "pin": "Need a specific release, say to match your team? kikx upgrade {flagVersion} followed by a version number installs exactly that one, older or newer.",
+    "done": "You know your version, how to check for a release, how to upgrade, and that your files are never part of it.",
+    "why": "Upgrading now and then brings new components, new templates and fixes to how files are rendered.",
+    "help": "kikx with the help option lists every command.",
+    "helpUpgrade": "upgrade is one of them, built into kikx itself: no package manager needed.",
+    "confirm": "Let's confirm with the version option.",
+    "confirmLine": "The new version is the one that runs from now on.",
+    "reinstall": "Running the install script again does the same job, if you prefer it.",
+    "filesSame": "Every vendored file is untouched too, like site.yml.",
+    "pinCheck": "Add the check option to see what pinning would do before you do it.",
+    "pinLine": "Without the check option, kikx would install that release instead."
+  },
+  "demo": {
+    "template": "single-server",
+    "siteFile": "site.yml",
+    "pinned": "0.1.0"
+  }
+}

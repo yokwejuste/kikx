@@ -15,6 +15,7 @@ const varValue = teachTarget("key-values", "input:nth-of-type(2)");
 
 export const checks: Lesson = {
   id: "checks",
+  mode: "app",
   level: "further",
   icon: "checks",
   steps: [

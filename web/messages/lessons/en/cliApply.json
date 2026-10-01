@@ -1,0 +1,63 @@
+{
+  "title": "App and CLI together",
+  "description": "Take a preset exported from the app into a project with kikx apply, see how it differs from kikx setup, and re-run it safely.",
+  "outcomes": [
+    "Know what a preset exported from the app contains",
+    "Vendor a preset into an existing project with kikx apply",
+    "Choose between kikx setup and kikx apply",
+    "Re-run a command safely, and apply into a separate folder to compare"
+  ],
+  "chapters": {
+    "export": "Export from the app",
+    "apply": "Apply the preset",
+    "versus": "Setup or apply",
+    "rerun": "Run it again safely"
+  },
+  "checks": {
+    "applied": "You applied {presetFile} into {outputDir}",
+    "staged": "You applied {presetFile} into {staging}"
+  },
+  "recap": [
+    "A preset is one JSON file that lists the project settings and every component with its values.",
+    "kikx apply renders a preset into a folder of an existing project and leaves kikx.toml alone.",
+    "kikx setup starts a new project from a preset and refuses to run where kikx.toml already exists.",
+    "Both check every file before writing, so a refused run writes nothing at all.",
+    "Applying into a separate folder is a safe way to compare a preset with what you have."
+  ],
+  "steps": {
+    "intro": "Many people design a project in the app and keep it in a repo with the CLI. Let's carry one from one to the other.",
+    "appTab": "We start in the app.",
+    "open": "I open the {template} template, as if you had built this project yourself.",
+    "export": "Export takes the project out of the app.",
+    "presetOption": "Preset saves the whole project as one {presetFile} file. That's the one the CLI reads.",
+    "exported": "Let's say you downloaded it into your repo. Here it is, next to nothing else yet.",
+    "presetFile": "A preset is plain JSON, so you can read it, review it and commit it.",
+    "presetJson": "It holds the project settings and the list of components, each with the values you entered in the app.",
+    "init": "This repo already has a kikx project, so I start with kikx init.",
+    "apply": "Your turn. Vendor the preset into the {outputDir} folder: kikx apply {presetPath} {flagInto} {outputDir}.",
+    "vendored": "kikx rendered every component of the preset with the real engine and lists each file it wrote.",
+    "applied": "Same files as the app would give you in a zip, now in your project.",
+    "setupTry": "What about kikx setup with the same file?",
+    "setupRefused": "setup refuses: it creates a new project, and this one already has a kikx.toml.",
+    "versus": "So: setup to start a new project from a preset, apply to bring a preset into a project you already have. apply never changes kikx.toml.",
+    "rerun": "Now, what if you run the same apply again, say after editing the files?",
+    "nothingWritten": "kikx checks every file before writing anything. One file exists, so it stops and writes nothing, not even the files that don't exist yet.",
+    "force": "{flagForce} would overwrite them all. To compare instead, apply into a folder of its own.",
+    "staging": "Your turn. Apply the same preset into a new folder: kikx apply {presetPath} {flagInto} {staging}.",
+    "stagingFolder": "A fresh copy sits in {staging}. Compare it with {outputDir} using diff or your editor, then keep what you want.",
+    "done": "The app and the CLI share presets: design in one, vendor with the other, and re-run without fear of losing your edits.",
+    "presetComponent": "Each component names its reference in the registry, like you would pass to kikx add, then its name and values.",
+    "tomlKept": "apply wrote files only. kikx.toml is still the one kikx init created.",
+    "tomlName": "Same name, {project}, not the one stored in the preset.",
+    "lsStaging": "Both folders now hold the same files.",
+    "diff": "In your own terminal, diff with the recursive option between {outputDir} and {staging} shows every line you changed since the first apply."
+  },
+  "demo": {
+    "template": "single-server",
+    "presetFile": "single-server.kikx-preset.json",
+    "presetPath": "./single-server.kikx-preset.json",
+    "project": "shop",
+    "outputDir": "infra",
+    "staging": "staging"
+  }
+}

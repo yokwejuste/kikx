@@ -27,6 +27,43 @@ writes, then look at **Checks**, **Architecture** and **Export**. It takes about
 
 [Start this lesson](teach:template)
 
+## Lessons with the CLI
+
+Pick **With the CLI** at the top of the **Teach me** list, or on the home page, to see the lessons
+for the command line. They open a practice terminal with the project files next to it. kikx types
+each command letter by letter and the real kikx engine prints the output and writes the files, but
+everything stays in your browser tab. When it is your turn, click the terminal, type the command
+and press Enter; **Show me** types it for you. Every command has a copy button so you can run it for
+real in your own terminal.
+
+### Install and your first project
+
+What the install script does, `kikx init` and what `kikx.toml` holds, `kikx list`, then
+`kikx add` with `--name` and `--set` and the files it writes.
+
+[Start this lesson](teach:cliInstall)
+
+### Start from a template
+
+`kikx presets`, `kikx setup` with a template, the project it creates, and how to change the files
+you now own.
+
+[Start this lesson](teach:cliTemplate)
+
+### App and CLI together
+
+A preset exported from the app, `kikx apply`, the difference between `setup` and `apply`, and how
+to run a command again safely.
+
+[Start this lesson](teach:cliApply)
+
+### Keep kikx up to date
+
+`kikx --version`, `kikx upgrade --check`, `kikx upgrade`, and why an upgrade never touches
+`kikx.toml` or your files.
+
+[Start this lesson](teach:cliUpgrade)
+
 ## While a lesson plays
 
 - Your own clicks are paused, so you can't knock the lesson off course by accident.

@@ -11,6 +11,7 @@ const catalogEntry = (kind: string) => teachTarget(`catalog-${kind}`, "button");
 
 export const playbooks: Lesson = {
   id: "playbooks",
+  mode: "app",
   level: "further",
   icon: "playbook",
   steps: [

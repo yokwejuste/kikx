@@ -10,6 +10,7 @@ const timezone = '[data-tour="editor"] input[name="timezone"]';
 
 export const template: Lesson = {
   id: "template",
+  mode: "app",
   level: "basics",
   icon: "template",
   steps: [

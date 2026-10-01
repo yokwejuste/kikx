@@ -1,9 +1,7 @@
 import { GitFork, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import packageJson from "@/package.json";
+import { REPOSITORY, REPOSITORY_URL } from "@/lib/cli/repository";
 
-const REPOSITORY_URL = packageJson.repository.url;
-const REPOSITORY = new URL(REPOSITORY_URL).pathname.replace(/^\/|\.git$/g, "");
 const REFRESH_SECONDS = 3600;
 
 interface RepositoryStats {

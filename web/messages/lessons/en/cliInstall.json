@@ -1,0 +1,79 @@
+{
+  "title": "Install and your first project",
+  "description": "Install the kikx CLI, create a project with kikx init, find components with kikx list and vendor their files with kikx add.",
+  "outcomes": [
+    "Know what the install script does before you run it",
+    "Create kikx.toml with kikx init and read what it holds",
+    "Read kikx list to find a component and its fields",
+    "Vendor files with kikx add, its name and set options",
+    "See why kikx refuses to overwrite a file you own"
+  ],
+  "chapters": {
+    "install": "Install the CLI",
+    "init": "Start a project",
+    "list": "Find a component",
+    "add": "Vendor files",
+    "again": "Run it again"
+  },
+  "checks": {
+    "service": "You ran kikx add {serviceComponent} for {name} with {portSet}",
+    "role": "You ran kikx add {roleComponent} named {roleName} with {timezoneSet}"
+  },
+  "recap": [
+    "The install script downloads the kikx binary for your system. Read it, then run it in your own terminal.",
+    "kikx init writes kikx.toml: the project name, its default namespace and the folder files go to.",
+    "kikx list prints every component with its fields, defaults and examples.",
+    "kikx add renders a component with the real engine and writes plain files into your output folder.",
+    "kikx never overwrites a file you already have unless you add the force option."
+  ],
+  "steps": {
+    "intro": "Let's use kikx from a terminal. This page is a practice terminal: I type real kikx commands, the real kikx engine renders the files, and nothing touches your machine.",
+    "terminal": "Commands go here. I type each one letter by letter, then you see exactly what the CLI prints.",
+    "files": "Files the commands write show up on this side. Click one to read it.",
+    "install": "First, installing kikx. On macOS and Linux this one line does it.",
+    "installNotice": "The practice terminal doesn't run the installer: it would change your machine, not this page.",
+    "installWhat": "The script finds the latest kikx release for your system, downloads the binary and puts it on your PATH. Nothing else is installed, and you can read the script first.",
+    "copy": "Every command has a copy button. Use it to run the command for real in your own terminal.",
+    "init": "Every kikx project starts with kikx init. I give it a name; without one, kikx uses the folder name.",
+    "initialized": "kikx confirms the project and reminds you what comes next.",
+    "toml": "It wrote one file: kikx.toml, at the root of the project.",
+    "tomlName": "name is the project name you gave.",
+    "tomlNamespace": "default_namespace is used by Kubernetes components when you don't set one.",
+    "tomlOutput": "output_dir is the folder every vendored file goes into.",
+    "outputDir": "kikx created that folder right away, empty for now: {outputDir}.",
+    "list": "Which components can you add? kikx list prints them all.",
+    "listItem": "Each entry is category/component, the reference you pass to kikx add, with a short description.",
+    "listFields": "Under it, the fields you can set, each marked required or with its default and an example.",
+    "listOthers": "The same components power the app, so what you see here is what the builder offers.",
+    "add": "Let's vendor a Kubernetes Deployment. {flagName} names it, and {flagSet} fills in a field, here the image it runs.",
+    "vendored": "Vendored means the files are now in your project, rendered and ready to commit.",
+    "deploymentFile": "Here's the file, named after the component.",
+    "imageLine": "The image you set is in the file. Fields you left out took their defaults, like one replica.",
+    "yours": "These are plain files. Edit them in your editor and commit them; kikx doesn't keep a copy or sync anything later.",
+    "addService": "Your turn. Click the terminal and add a Service for the same app: kikx add {serviceComponent} {flagName} {name} {flagSet} {portSet}, then press Enter.",
+    "serviceFile": "A second file. The Service and the Deployment share the name {name}, so they find each other.",
+    "rerun": "What if I run the first command again?",
+    "refused": "kikx stops instead of overwriting the file you may have edited. Pass {flagForce} only when you want the fresh version.",
+    "addRole": "Your turn. Add an Ansible role with a setting: kikx add {roleComponent} {flagName} {roleName} {flagSet} {timezoneSet}.",
+    "roleFiles": "One component can write several files: the role has tasks, defaults, handlers and a template.",
+    "timezoneLine": "And the value you set landed in its tasks.",
+    "done": "That's the CLI loop: init once, list to explore, add what you need. Copy any command to try it for real."
+  },
+  "demo": {
+    "project": "shop",
+    "outputDir": "infra",
+    "component": "k8s/deployment",
+    "imageField": "image=…",
+    "name": "web",
+    "imageSet": "image=nginx:1.27",
+    "image": "nginx:1.27",
+    "deploymentFile": "web-deployment.yaml",
+    "serviceComponent": "k8s/service",
+    "portSet": "port=80",
+    "serviceFile": "web-service.yaml",
+    "roleComponent": "ansible/common-role",
+    "roleName": "common",
+    "timezoneSet": "timezone=Europe/Paris",
+    "timezone": "Europe/Paris"
+  }
+}

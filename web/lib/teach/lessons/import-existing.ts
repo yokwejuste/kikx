@@ -22,6 +22,7 @@ const openProjectRow = (title: Parameters<typeof withText>[1]) => [
 
 export const importExisting: Lesson = {
   id: "import",
+  mode: "app",
   level: "basics",
   icon: "import",
   steps: [

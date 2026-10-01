@@ -889,8 +889,14 @@
   "teach": {
     "button": "Apprends-moi",
     "title": "Apprends-moi",
-    "body": "Choisissez une leçon. kikx pilote la page lui-même : il déplace le pointeur, tape et clique tout en expliquant. Mettez en pause à tout moment pour reprendre la main.",
-    "sandbox": "Votre projet actuel est mis de côté pendant la leçon et restauré ensuite.",
+    "body": {
+      "app": "Choisissez une leçon. kikx pilote la page lui-même : il déplace le pointeur, tape et clique tout en expliquant. Mettez en pause à tout moment pour reprendre la main.",
+      "cli": "Choisissez une leçon. kikx tape de vraies commandes dans un terminal d'entraînement et montre les fichiers qu'elles écrivent, tout en expliquant. Mettez en pause à tout moment pour taper les vôtres."
+    },
+    "sandbox": {
+      "app": "Votre projet actuel est mis de côté pendant la leçon et restauré ensuite.",
+      "cli": "Les commandes passent par le vrai moteur kikx, mais les fichiers restent dans cet onglet. Rien ne touche votre machine."
+    },
     "minutes": "{count, plural, one {environ # min} other {environ # min}}",
     "region": "Leçon",
     "progress": "Étape {step} sur {total}",
@@ -930,5 +936,19 @@
       "Alignement des étoiles"
     ],
     "waitingWord": "{word}…"
+  },
+  "learnCli": {
+    "title": "Terminal d'entraînement",
+    "body": "Tapez des commandes kikx et voyez les fichiers qu'elles écrivent. Elles passent par le vrai moteur kikx ; les fichiers restent dans cet onglet.",
+    "prompt": "Commande",
+    "placeholder": "Tapez une commande kikx, comme kikx list, puis appuyez sur Entrée",
+    "copy": "Copier cette commande",
+    "reset": "Recommencer",
+    "files": "Fichiers",
+    "noFiles": "Aucun fichier pour l'instant. Commencez par kikx init ou kikx setup.",
+    "pickFile": "Choisissez un fichier pour le lire.",
+    "notices": {
+      "foreign": "Ce terminal d'entraînement lance les commandes kikx, ainsi que ls, cat et clear. Copiez celle-ci pour la lancer dans votre propre terminal."
+    }
   }
 }

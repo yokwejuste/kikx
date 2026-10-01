@@ -9,6 +9,7 @@ const checksClear = `${teachTarget("tab-checks")}:not(:has(svg))`;
 
 export const kubernetes: Lesson = {
   id: "kubernetes",
+  mode: "app",
   level: "further",
   icon: "kubernetes",
   steps: [

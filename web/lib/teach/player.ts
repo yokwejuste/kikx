@@ -1,5 +1,8 @@
 import type { Lesson, LessonStep, Target, TaskCheck, TextRef } from "@/lib/teach/types";
 import { closedDrawerTrigger, findElement, isComfortablyVisible, openDrawer, pressElement, pressKey, releaseFocus, setInputValue } from "@/lib/teach/dom";
+import { teachTarget } from "@/lib/teach/steps";
+import { cliSession } from "@/lib/teach/cli/session";
+import { commandMatches } from "@/lib/teach/cli/match";
 
 export type LessonStatus = "playing" | "paused" | "task" | "lost" | "done";
 
@@ -54,6 +57,8 @@ const SCROLL_SETTLE_MS = 450;
 const WAITING_AFTER_MS = 600;
 const TYPE_MS = 70;
 const AFTER_ACTION_MS = 350;
+const RUN_TIMEOUT_MS = 30000;
+const CLI_INPUT = teachTarget("cli-input");
 
 export const CURSOR_MOVE_MS = 650;
 
@@ -78,6 +83,7 @@ export class LessonPlayer {
   private learn: string | null = null;
   private task: LessonTaskCheck[] | null = null;
   private waiting = false;
+  private ranBefore = 0;
   private readonly chapterTotal: number;
 
   constructor(
@@ -219,16 +225,43 @@ export class LessonPlayer {
         pressKey(step.key);
         await this.wait(AFTER_ACTION_MS, false);
         return;
+      case "run": {
+        this.narrate(step);
+        await this.untilIdle();
+        const element = await this.reach(CLI_INPUT);
+        if (!(element instanceof HTMLInputElement)) throw new Lost();
+        this.click(element);
+        await this.typeInto(element, this.env.text(step.command));
+        pressKey("Enter");
+        await this.untilIdle();
+        if (step.say) await this.read();
+        else await this.wait(AFTER_ACTION_MS, false);
+        return;
+      }
+      case "export":
+        this.narrate(step);
+        this.target = null;
+        this.emit();
+        await cliSession.exportPreset(this.env.text(step.preset)).catch(() => {
+          throw new Lost();
+        });
+        if (step.say) await this.read();
+        return;
       case "task":
         await this.practise(step);
         return;
     }
   }
 
+  private async untilIdle(): Promise<void> {
+    if (!(await this.until(() => !cliSession.busy(), RUN_TIMEOUT_MS))) throw new Lost();
+  }
+
   private async practise(step: Extract<LessonStep, { kind: "task" }>): Promise<void> {
     this.target = null;
     this.narrate(step);
     this.showRequested = false;
+    this.ranBefore = cliSession.ranCount();
     this.task = this.checkTask(step.checks);
     this.setStatus("task");
     while (!this.task.every((check) => check.done)) {
@@ -254,7 +287,13 @@ export class LessonPlayer {
   }
 
   private checkTask(checks: TaskCheck[]): LessonTaskCheck[] {
-    return checks.map((check) => ({ label: this.env.check(check.label), done: this.find(check.target, false) !== null }));
+    return checks.map((check) => ({ label: this.env.check(check.label), done: this.passes(check) }));
+  }
+
+  private passes(check: TaskCheck): boolean {
+    if ("target" in check) return this.find(check.target, false) !== null;
+    const expected = this.env.text(check.command);
+    return cliSession.ranSince(this.ranBefore).some((command) => commandMatches(command, expected));
   }
 
   private narrate(step: { say?: string; learn?: string }): void {
