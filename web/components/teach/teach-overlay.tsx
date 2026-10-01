@@ -25,13 +25,14 @@ import { CURSOR_MOVE_MS, type LessonView } from "@/lib/teach/player";
 import { LESSON_SPEEDS } from "@/lib/teach/speed";
 import { frameRect, trackRect } from "@/lib/dom/track-rect";
 import { highlightRect } from "@/lib/teach/dom";
+import { placeCard, type CardSide } from "@/lib/teach/placement";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/common/hint";
 import { Spinner } from "@/components/common/spinner";
 
 const RING_PADDING = 6;
-const HEADER_ROOM = 80;
-const BAR_GAP = 24;
+const ARROW_SIZE = 16;
+const CARD_ROOM = { gap: 14, margin: 16, header: 72, arrowInset: 24 };
 const WORD_MS = 1100;
 
 const stopOutsideDismiss = (event: React.PointerEvent) => event.stopPropagation();
@@ -40,6 +41,8 @@ function useFollowTarget(target: HTMLElement | null) {
   const cursor = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLElement>(null);
+  const arrow = useRef<HTMLSpanElement>(null);
+  const side = useRef<CardSide | null>(null);
   const targetRef = useRef(target);
 
   useEffect(() => {
@@ -53,17 +56,23 @@ function useFollowTarget(target: HTMLElement | null) {
         (rect) => {
           if (!ring.current) return;
           ring.current.style.opacity = rect ? "1" : "0";
-          if (!rect) {
-            if (bar.current) bar.current.dataset.place = "bottom";
-            return;
+          if (rect) frameRect(ring.current, rect, RING_PADDING);
+          if (bar.current && arrow.current) {
+            const box = rect && {
+              top: rect.top - RING_PADDING,
+              left: rect.left - RING_PADDING,
+              width: rect.width + RING_PADDING * 2,
+              height: rect.height + RING_PADDING * 2,
+            };
+            const viewport = { width: window.innerWidth, height: window.innerHeight };
+            const card = { width: bar.current.offsetWidth, height: bar.current.offsetHeight };
+            const placement = placeCard(box, card, viewport, side.current, CARD_ROOM);
+            side.current = placement.side;
+            bar.current.style.transform = `translate(${placement.left}px, ${placement.top}px)`;
+            bar.current.style.opacity = "1";
+            pointArrow(arrow.current, placement.side, placement.arrow);
           }
-          frameRect(ring.current, rect, RING_PADDING);
-          if (bar.current) {
-            const room = bar.current.offsetHeight + BAR_GAP;
-            const hiddenBelow = rect.bottom > window.innerHeight - room;
-            const hiddenAbove = rect.top < HEADER_ROOM + room;
-            bar.current.dataset.place = hiddenBelow && !hiddenAbove ? "top" : "bottom";
-          }
+          if (!rect) return;
           const point = targetRef.current?.getBoundingClientRect() ?? rect;
           if (cursor.current) {
             cursor.current.style.transform = `translate(${point.left + point.width / 2}px, ${point.top + point.height / 2}px)`;
@@ -74,7 +83,24 @@ function useFollowTarget(target: HTMLElement | null) {
     [],
   );
 
-  return { cursor, ring, bar };
+  return { cursor, ring, bar, arrow };
+}
+
+const ARROW_EDGES: Record<CardSide, { edge: "top" | "bottom" | "left" | "right"; along: "left" | "top"; borders: string }> = {
+  below: { edge: "top", along: "left", borders: "1px 0 0 1px" },
+  above: { edge: "bottom", along: "left", borders: "0 1px 1px 0" },
+  right: { edge: "left", along: "top", borders: "0 0 1px 1px" },
+  left: { edge: "right", along: "top", borders: "1px 1px 0 0" },
+};
+
+function pointArrow(arrow: HTMLSpanElement, side: CardSide | null, offset: number) {
+  arrow.style.display = side ? "block" : "none";
+  if (!side) return;
+  const { edge, along, borders } = ARROW_EDGES[side];
+  arrow.style.top = arrow.style.bottom = arrow.style.left = arrow.style.right = "";
+  arrow.style[edge] = `${-ARROW_SIZE / 2}px`;
+  arrow.style[along] = `${offset - ARROW_SIZE / 2}px`;
+  arrow.style.borderWidth = borders;
 }
 
 function WaitingWords() {
@@ -137,7 +163,7 @@ export function TeachOverlay({
 }) {
   const t = useTranslations("teach");
   const format = useFormatter();
-  const { cursor, ring, bar } = useFollowTarget(view.target);
+  const { cursor, ring, bar, arrow } = useFollowTarget(view.target);
   const playing = view.status === "playing";
   const practising = view.status === "task";
   const done = view.status === "done";
@@ -181,132 +207,135 @@ export function TeachOverlay({
       <section
         ref={bar}
         data-teach-ui
-        data-place="bottom"
         aria-label={t("region")}
         onPointerDown={stopOutsideDismiss}
-        className="pointer-events-auto fixed bottom-4 left-1/2 z-[103] data-[place=top]:top-20 data-[place=top]:bottom-auto flex max-h-[70vh] w-[min(36rem,calc(100vw-2rem))] -translate-x-1/2 flex-col gap-3 overflow-y-auto rounded-xl border bg-card p-4 text-sm shadow-xl"
+        style={{ opacity: 0 }}
+        className="pointer-events-auto fixed top-0 left-0 z-[103] w-[min(26rem,calc(100vw-2rem))] rounded-xl border border-brand/60 bg-card text-sm shadow-xl transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none"
       >
-        <div className="flex items-start gap-2">
-          <IconTile icon={practising ? Hand : GraduationCap} />
-          <span className="flex min-w-0 flex-1 flex-col">
-            <span className="truncate font-medium">{done ? t("doneTitle") : practising ? t("yourTurn") : title}</span>
-            {view.chapter && !done && (
-              <Hint as="span" className="truncate">
-                {t("chapter", { index: view.chapter.index, total: view.chapter.total, title: view.chapter.title })}
+        <span
+          ref={arrow}
+          aria-hidden
+          className="absolute hidden size-4 rotate-45 border-brand/60 bg-card"
+        />
+        <div className="flex max-h-[70vh] flex-col gap-3 overflow-y-auto p-4">
+          <div className="flex items-start gap-2">
+            <IconTile icon={practising ? Hand : GraduationCap} />
+            <span className="flex min-w-0 flex-1 flex-col">
+              <span className="truncate font-medium">{done ? t("doneTitle") : practising ? t("yourTurn") : title}</span>
+              {view.chapter && !done && (
+                <Hint as="span" className="truncate">
+                  {t("chapter", { index: view.chapter.index, total: view.chapter.total, title: view.chapter.title })}
+                </Hint>
+              )}
+            </span>
+            {view.chapter && !done ? (
+              <ChapterDots index={view.chapter.index} total={view.chapter.total} />
+            ) : (
+              <Hint as="span" className="shrink-0 tabular-nums">
+                {t("progress", { step: view.step, total: view.total })}
               </Hint>
             )}
-          </span>
-          {view.chapter && !done ? (
-            <ChapterDots index={view.chapter.index} total={view.chapter.total} />
-          ) : (
-            <Hint as="span" className="shrink-0 tabular-nums">
-              {t("progress", { step: view.step, total: view.total })}
-            </Hint>
-          )}
-        </div>
+          </div>
 
-        {done ? (
-          <div className="flex flex-col gap-2">
-            <p className="font-medium">{t("recapTitle")}</p>
-            <ul className="flex flex-col gap-1.5">
-              {recap.map((line) => (
-                <li key={line} className="flex gap-2 text-muted-foreground">
-                  <Check className="mt-0.5 size-4 shrink-0 text-brand" />
-                  {line}
+          {done ? (
+            <div className="flex flex-col gap-2">
+              <p className="font-medium">{t("recapTitle")}</p>
+              <ul className="flex flex-col gap-1.5">
+                {recap.map((line) => (
+                  <li key={line} className="flex gap-2 text-muted-foreground">
+                    <Check className="mt-0.5 size-4 shrink-0 text-brand" />
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : view.waiting ? (
+            <WaitingWords />
+          ) : (
+            <p aria-live="polite" className="leading-relaxed">
+              {view.caption}
+            </p>
+          )}
+
+          {practising && view.task && (
+            <ul className="flex flex-col gap-1.5 rounded-lg border bg-muted/30 p-3">
+              {view.task.map((check) => (
+                <li key={check.label} className={cn("flex items-center gap-2", check.done && "text-muted-foreground line-through")}>
+                  <DoneMark done={check.done} />
+                  {check.label}
                 </li>
               ))}
             </ul>
-          </div>
-        ) : view.waiting ? (
-          <WaitingWords />
-        ) : (
-          <p aria-live="polite" className="leading-relaxed">
-            {view.caption}
-          </p>
-        )}
+          )}
 
-        {practising && view.task && (
-          <ul className="flex flex-col gap-1.5 rounded-lg border bg-muted/30 p-3">
-            {view.task.map((check) => (
-              <li key={check.label} className={cn("flex items-center gap-2", check.done && "text-muted-foreground line-through")}>
-                <DoneMark done={check.done} />
-                {check.label}
-              </li>
-            ))}
-          </ul>
-        )}
+          {notice && <Hint>{notice}</Hint>}
 
-        {notice && <Hint>{notice}</Hint>}
+          <ProgressBar value={view.step} max={view.total} />
 
-        <ProgressBar value={view.step} max={view.total} />
-
-        {done ? (
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            {keepable && (
-              <Button variant="ghost" onClick={() => onFinish(true)}>
-                {t("keep")}
+          {done ? (
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              {keepable && (
+                <Button variant="ghost" onClick={() => onFinish(true)}>
+                  {t("keep")}
+                </Button>
+              )}
+              <Button variant={upNext ? "outline" : "default"} onClick={() => onFinish(false)}>
+                {t("back")}
               </Button>
-            )}
-            <Button variant={upNext ? "outline" : "default"} onClick={() => onFinish(false)}>
-              {t("back")}
-            </Button>
-            {upNext && (
-              <Button onClick={() => onFinish(false, upNext.id)}>
-                {t("nextLesson", { title: upNext.title })}
-                <ArrowRight />
-              </Button>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-wrap items-center gap-1">
-            {practising ? (
-              <Button size="sm" onClick={onShowMe}>
-                <MousePointer2 />
-                {t("showMe")}
-              </Button>
-            ) : playing ? (
-              <Button variant="outline" size="sm" onClick={onPause}>
-                <Pause />
-                {t("pause")}
-              </Button>
-            ) : (
-              <Button size="sm" onClick={onResume}>
-                <Play />
-                {t("play")}
-              </Button>
-            )}
-            {!practising && (
-              <Button variant="ghost" size="sm" disabled={!playing} onClick={onNext}>
-                <SkipForward />
-                {t("next")}
-              </Button>
-            )}
-            {learnHref && (
-              <Button asChild variant="ghost" size="sm">
-                <a href={learnHref} target="_blank" rel="noreferrer" onClick={onPause}>
-                  <BookOpen />
-                  {t("learnMore")}
-                </a>
-              </Button>
-            )}
-            <label className="ml-auto flex items-center gap-1 text-xs text-muted-foreground" title={t("speed")}>
-              <Gauge className="size-3.5" />
-              <span className="sr-only">{t("speed")}</span>
-              <select
-                value={view.speed}
-                onChange={(event) => onSpeed(Number(event.target.value))}
-                className="rounded-md bg-transparent py-1 tabular-nums hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-              >
-                {LESSON_SPEEDS.map((speed) => (
-                  <option key={speed} value={speed}>
-                    {t("speedValue", { speed: format.number(speed) })}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <IconButton icon={X} size="sm" label={t("stop")} onClick={() => onFinish(false)} />
-          </div>
-        )}
+              {upNext && (
+                <Button onClick={() => onFinish(false, upNext.id)}>
+                  {t("nextLesson", { title: upNext.title })}
+                  <ArrowRight />
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-wrap items-center gap-1">
+              {practising ? (
+                <Button size="sm" onClick={onShowMe}>
+                  <MousePointer2 />
+                  {t("showMe")}
+                </Button>
+              ) : playing ? (
+                <Button variant="outline" size="sm" onClick={onPause}>
+                  <Pause />
+                  {t("pause")}
+                </Button>
+              ) : (
+                <Button size="sm" onClick={onResume}>
+                  <Play />
+                  {t("play")}
+                </Button>
+              )}
+              {!practising && (
+                <IconButton icon={SkipForward} label={t("next")} size="sm" disabled={!playing} onClick={onNext} />
+              )}
+              {learnHref && (
+                <IconButton asChild label={t("learnMore")} size="sm">
+                  <a href={learnHref} target="_blank" rel="noreferrer" onClick={onPause}>
+                    <BookOpen />
+                  </a>
+                </IconButton>
+              )}
+              <label className="ml-auto flex items-center gap-1 text-xs text-muted-foreground" title={t("speed")}>
+                <Gauge className="size-3.5" />
+                <span className="sr-only">{t("speed")}</span>
+                <select
+                  value={view.speed}
+                  onChange={(event) => onSpeed(Number(event.target.value))}
+                  className="rounded-md bg-transparent py-1 tabular-nums hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                >
+                  {LESSON_SPEEDS.map((speed) => (
+                    <option key={speed} value={speed}>
+                      {t("speedValue", { speed: format.number(speed) })}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <IconButton icon={X} size="sm" label={t("stop")} onClick={() => onFinish(false)} />
+            </div>
+          )}
+        </div>
       </section>
     </>,
     document.body,
