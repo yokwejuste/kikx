@@ -1,4 +1,4 @@
-export const REPLAY_PARAM = "replay";
+const REPLAY_PARAM = "replay";
 export const REPLAY_LIMIT = 50;
 const COMMAND_LIMIT = 500;
 

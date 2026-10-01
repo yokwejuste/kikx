@@ -115,7 +115,7 @@ function presentSteps(name: TourName, t: Translate): DriveStep[] {
   );
 }
 
-export function startTour(name: TourName, t: Translate): Driver | null {
+function startTour(name: TourName, t: Translate): Driver | null {
   const steps = presentSteps(name, t);
   if (steps.length === 0) return null;
   markSeen(name);

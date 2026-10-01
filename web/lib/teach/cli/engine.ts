@@ -35,7 +35,7 @@ export interface CliMachine {
   version: string | null;
 }
 
-export interface RenderInput {
+interface RenderInput {
   reference: string;
   name: string;
   fields: Record<string, string>;
@@ -43,7 +43,7 @@ export interface RenderInput {
   defaultNamespace: string;
 }
 
-export interface WrittenFile {
+interface WrittenFile {
   path: string;
   content: string;
 }

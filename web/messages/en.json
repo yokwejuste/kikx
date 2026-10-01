@@ -821,7 +821,6 @@
     "minutes": "{count, plural, one {about # min} other {about # min}}",
     "region": "Lesson",
     "progress": "Step {step} of {total}",
-    "takeOver": "Pause to take over",
     "pause": "Pause",
     "play": "Resume",
     "next": "Skip ahead",

@@ -1,6 +1,6 @@
 import type { CatalogKind } from "@/lib/registry/catalog";
 
-export type GettingStartedStep = "servers" | "groups" | "playbook" | "checks" | "download";
+type GettingStartedStep = "servers" | "groups" | "playbook" | "checks" | "download";
 
 export interface GettingStartedFlags {
   checksOpened: boolean;

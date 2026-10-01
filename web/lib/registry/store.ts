@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { api, type FieldFormat, type FieldOption, type FieldSpec, type ProjectDefaults, type RegistryItem } from "@/lib/api/client";
+import { api, type FieldFormat, type FieldSpec, type ProjectDefaults, type RegistryItem } from "@/lib/api/client";
 
 interface Snapshot {
   items: Map<string, RegistryItem>;
@@ -59,10 +59,6 @@ export function fieldExample(reference: string, name: string): string | undefine
 
 export function fieldFormat(reference: string, name: string): FieldFormat | null {
   return fieldSpec(reference, name)?.format ?? null;
-}
-
-export function fieldOptions(reference: string, name: string): FieldOption[] {
-  return fieldSpec(reference, name)?.options ?? [];
 }
 
 function templateHint(template: string): string {

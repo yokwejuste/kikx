@@ -1,7 +1,7 @@
 import type { HighlighterCore } from "shiki/core";
 import { loadLanguage, type Language } from "@/lib/highlight/languages";
 
-export interface Token {
+interface Token {
   content: string;
   color?: string;
   italic: boolean;
