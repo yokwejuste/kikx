@@ -58,6 +58,9 @@ msgstr "Cliquez sur « Ajouter un play » pour le play suivant. Utilisez les fl�
 msgid "Click **Add to project**."
 msgstr "Cliquez sur « Ajouter au projet »."
 
+msgid "The services playbook with two plays, Web tier and Database tier, a when condition on the backups role, and the rendered preview"
+msgstr "Le playbook services avec deux plays, Web tier et Database tier, une condition when sur le rôle backups, et l'aperçu rendu"
+
 msgid "The preview shows the rendered YAML as you type. If a play targets a group that isn't in the inventory, **Checks** warns you."
 msgstr "L'aperçu affiche le YAML rendu au fil de la saisie. Si un play vise un groupe absent de l'inventaire, « Vérifications » vous avertit."
 

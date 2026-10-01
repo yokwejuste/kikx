@@ -34,6 +34,9 @@ msgstr "Attendez que la disposition du diagramme soit terminée. « Exporter ver
 msgid "Click **Export to draw.io**."
 msgstr "Cliquez sur « Exporter vers draw.io »."
 
+msgid "The bar above the architecture diagram: the legend, then the Expand and Export to draw.io buttons"
+msgstr "La barre au-dessus du diagramme d'architecture : la légende, puis les boutons Agrandir et Exporter vers draw.io"
+
 msgid "The browser saves `<project-name>-architecture.drawio`."
 msgstr "Le navigateur enregistre `<project-name>-architecture.drawio`."
 

@@ -58,6 +58,9 @@ msgstr "Exporter le projet"
 msgid "Open **Export** at the top right of the builder. It's disabled until the project has at least one component. Choose one of three options."
 msgstr "Ouvrez **Exporter** en haut à droite du constructeur. Le menu est désactivé tant que le projet n'a aucun composant. Choisissez l'une des trois options."
 
+msgid "The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command"
+msgstr "Le menu Exporter ouvert, avec Fichiers (.zip), Preset (.kikx-preset.json) et Commande CLI"
+
 msgid "Files (.zip)"
 msgstr "Fichiers (.zip)"
 
@@ -88,6 +91,9 @@ msgstr "Commande CLI"
 msgid "A dialog titled **Run it with the CLI** opens. It shows two commands with copy buttons, using your preset's file name:"
 msgstr "Une boîte de dialogue intitulée **Lancer avec la CLI** s'ouvre. Elle affiche deux commandes avec des boutons de copie, qui utilisent le nom de fichier de votre preset :"
 
+msgid "The Run it with the CLI dialog with the kikx setup and kikx apply commands for shop.kikx-preset.json and a Download preset button"
+msgstr "La boîte de dialogue Lancer avec la CLI avec les commandes kikx setup et kikx apply pour shop.kikx-preset.json et un bouton Télécharger le preset"
+
 msgid "Both commands read the preset, so click **Download preset** in the dialog and save the file in the directory you run them from. Then:"
 msgstr "Les deux commandes lisent le preset : cliquez donc sur **Télécharger le preset** dans la boîte de dialogue et enregistrez le fichier dans le dossier d'où vous les lancez. Ensuite :"
 
@@ -111,6 +117,9 @@ msgstr "Vérifiez que **Dans l'app** est sélectionné."
 
 msgid "Click **Open a preset** and pick your `.kikx-preset.json` file."
 msgstr "Cliquez sur **Ouvrir un preset** et choisissez votre fichier `.kikx-preset.json`."
+
+msgid "The Blank project form with the Project name field and Start building, and Open a preset below it"
+msgstr "Le formulaire Projet vierge avec le champ Nom du projet et Commencer, et Ouvrir un preset en dessous"
 
 msgid "While the app renders every component through the backend, the button reads **Opening preset…**. Then the builder opens with the project loaded, and the storage line says **Saved in this browser · not on disk yet** again."
 msgstr "Pendant que l'app génère chaque composant via le backend, le bouton indique **Ouverture du preset…**. Le constructeur s'ouvre ensuite avec le projet chargé, et la ligne d'état indique de nouveau **Enregistré dans ce navigateur · pas encore sur le disque**."

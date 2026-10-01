@@ -11,7 +11,27 @@ Open `/learn/cli` in the app, for example `https://<your kikx app>/learn/cli`. T
 When you arrive, the lesson list opens. Pick a lesson, or close the list to practise on your own.
 **Choose a lesson** at the top right opens it again.
 
+```{image} ../images/web/cli-lesson-picker.webp
+:alt: The Teach me picker over the practice terminal, listing the CLI lessons
+:class: only-light
+```
+
+```{image} ../images/web/cli-lesson-picker-dark.webp
+:alt: The Teach me picker over the practice terminal, listing the CLI lessons
+:class: only-dark
+```
+
 Starting any lesson from **Teach me** > **With the CLI** also brings you here.
+
+```{image} ../images/web/cli-practice.webp
+:alt: The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer
+:class: only-light
+```
+
+```{image} ../images/web/cli-practice-dark.webp
+:alt: The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer
+:class: only-dark
+```
 
 ## What runs, and where
 

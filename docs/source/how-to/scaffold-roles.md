@@ -27,7 +27,27 @@ The task file holds a single placeholder `debug` task, so the role runs straight
 
 3. Click **Scaffold 3 roles** on that note.
 
+```{image} ../images/web/checks-missing-role.webp
+:alt: The Checks tab with one note, web uses 1 role kikx doesn't vendor, and the buttons Scaffold 1 role and Open web
+:class: only-light
+```
+
+```{image} ../images/web/checks-missing-role-dark.webp
+:alt: The Checks tab with one note, web uses 1 role kikx doesn't vendor, and the buttons Scaffold 1 role and Open web
+:class: only-dark
+```
+
 This adds one **Role skeleton** per missing role. The note disappears, and the roles appear in the project and in role suggestions.
+
+```{image} ../images/web/project-panel.webp
+:alt: The Project panel listing 5 components, with the nginx role skeleton unfolded to show its four files
+:class: only-light
+```
+
+```{image} ../images/web/project-panel-dark.webp
+:alt: The Project panel listing 5 components, with the nginx role skeleton unfolded to show its four files
+:class: only-dark
+```
 
 Skip this for roles that already exist under `roles/` in your repo, or that come from Ansible Galaxy. The note is only informational, and the download works without it.
 :::

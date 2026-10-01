@@ -10,6 +10,16 @@ The app keeps your project in the browser's local storage (`localStorage`) for t
 it on. Every change is saved there as you work, so you can close the tab, come back tomorrow and
 find the project as you left it. The home page then shows a card to **Continue** it.
 
+```{image} ../images/web/resume-card.webp
+:alt: The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue
+:class: only-light
+```
+
+```{image} ../images/web/resume-card-dark.webp
+:alt: The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue
+:class: only-dark
+```
+
 The backend only renders. When you add or save a component, the app sends that component's fields
 to the backend, which returns the rendered files. The backend doesn't keep them: the app stores the
 result in the browser with the rest of the project.

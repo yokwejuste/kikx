@@ -25,6 +25,9 @@ msgstr "Dans ce navigateur"
 msgid "The app keeps your project in the browser's local storage (`localStorage`) for the site you opened it on. Every change is saved there as you work, so you can close the tab, come back tomorrow and find the project as you left it. The home page then shows a card to **Continue** it."
 msgstr "L'application conserve votre projet dans le stockage local du navigateur (`localStorage`), pour le site sur lequel vous l'avez ouverte. Chaque modification y est enregistrée au fil de votre travail : vous pouvez fermer l'onglet, revenir le lendemain et retrouver le projet tel que vous l'avez laissé. La page d'accueil affiche alors une carte pour le **Reprendre**."
 
+msgid "The home page card Continue shop, saying that 5 components and any unsaved drafts are kept in this browser, with a close button and Continue"
+msgstr "La carte Reprendre shop de la page d'accueil, qui indique que 5 composants et les brouillons non enregistrés sont conservés dans ce navigateur, avec un bouton de fermeture et Reprendre"
+
 msgid "The backend only renders. When you add or save a component, the app sends that component's fields to the backend, which returns the rendered files. The backend doesn't keep them: the app stores the result in the browser with the rest of the project."
 msgstr "Le backend ne fait que générer. Quand vous ajoutez ou enregistrez un composant, l'application envoie les champs de ce composant au backend, qui renvoie les fichiers générés. Le backend ne les garde pas : l'application stocke le résultat dans le navigateur avec le reste du projet."
 

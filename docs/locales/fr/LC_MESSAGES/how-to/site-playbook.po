@@ -46,6 +46,9 @@ msgstr "Réordonnez les lignes avec les flèches. `ansible-playbook` les exécut
 msgid "Click **Add to project**."
 msgstr "Cliquez sur « Ajouter au projet »."
 
+msgid "The site playbook form importing web.yml, with the preview of site.yml"
+msgstr "Le formulaire du playbook site qui importe web.yml, avec l'aperçu de site.yml"
+
 msgid "**Checks** then tells you about two things:"
 msgstr "« Vérifications » vous signale alors deux choses :"
 

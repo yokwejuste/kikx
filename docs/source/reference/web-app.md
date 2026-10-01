@@ -33,6 +33,16 @@ The header sits at the top of every page. On narrow screens some buttons show on
 
 The home page (`/`) is where you start or resume a project.
 
+```{image} ../images/web/home.webp
+:alt: The kikx home page: the In the app and With the CLI toggle, then the template cards
+:class: only-light
+```
+
+```{image} ../images/web/home-dark.webp
+:alt: The kikx home page: the In the app and With the CLI toggle, then the template cards
+:class: only-dark
+```
+
 ### In the app / With the CLI
 
 A toggle under the introduction picks how you want to use kikx. The choice is remembered in this
@@ -42,6 +52,16 @@ browser and also sets which lessons the [Teach me](#teach-me) picker shows first
 - **With the CLI** shows the commands that do the same thing in a terminal, from installing kikx to
   `kikx apply`, with a **Copy commands** button that copies them all. See
   [Your first project with the CLI](../tutorials/first-project-cli.md).
+
+```{image} ../images/web/home-cli.webp
+:alt: The With the CLI choice on the home page: the commands from installing kikx to kikx apply, with a copy button
+:class: only-light
+```
+
+```{image} ../images/web/home-cli-dark.webp
+:alt: The With the CLI choice on the home page: the commands from installing kikx to kikx apply, with a copy button
+:class: only-dark
+```
 
 ### Start from a template
 
@@ -80,6 +100,16 @@ project name, with the number of components it has.
   project as a `.kikx-preset.json`, **Replace** goes ahead, **Keep** cancels. Without a stored
   project there is no card and no confirmation.
 
+```{image} ../images/web/replace-prompt.webp
+:alt: The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace
+:class: only-light
+```
+
+```{image} ../images/web/replace-prompt-dark.webp
+:alt: The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace
+:class: only-dark
+```
+
 At the bottom of the page, **See how data flows through kikx** opens the [Data flow](#data-flow)
 page.
 
@@ -88,7 +118,15 @@ page.
 The builder (`/build`) is where you add and edit components. If no project exists yet, it says
 **No project details yet.** with a link back to the home page.
 
-![The builder on a template project: the stages on the left, a playbook open in the editor, the Getting started checklist and the Project panel on the right](../images/web/builder-overview.png)
+```{image} ../images/web/builder-template.webp
+:alt: The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right
+:class: only-light
+```
+
+```{image} ../images/web/builder-template-dark.webp
+:alt: The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right
+:class: only-dark
+```
 
 ### Top bar
 
@@ -111,6 +149,16 @@ Both badges open the same **Project settings** dialog:
   their own. Components already in the project keep the old one; new components, and ones you open
   and save again, use the new one.
 - **Output directory**: the folder your files are written to inside the `.zip`.
+
+```{image} ../images/web/settings-dialog.webp
+:alt: The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field
+:class: only-light
+```
+
+```{image} ../images/web/settings-dialog-dark.webp
+:alt: The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field
+:class: only-dark
+```
 
 Click **Save** to apply or **Cancel** to close. See [Change project settings in the app](../how-to/project-settings-web.md).
 
@@ -135,6 +183,16 @@ stays visible. The **?** next to a stage hint explains the term, with a link to 
 
 On an empty project the editor area shows **Your project is empty** instead: one card per stage
 with a button such as **Add Inventory**, and a link **Or start from a template**.
+
+```{image} ../images/web/builder-empty.webp
+:alt: The builder on an empty project: the stages on the left, Your project is empty in the middle, the Getting started checklist and the Project panel on the right
+:class: only-light
+```
+
+```{image} ../images/web/builder-empty-dark.webp
+:alt: The builder on an empty project: the stages on the left, Your project is empty in the middle, the Getting started checklist and the Project panel on the right
+:class: only-dark
+```
 
 Where each component lives in the catalog, with its form fields, is listed in
 [Components](components.md). To provision servers or deploy to Kubernetes from the catalog, see
@@ -192,6 +250,16 @@ On each row:
   file viewer. The viewer says which component rendered it; edit the component to change it;
 - the bin icon (**Remove**) removes the component. The notification offers **Undo**.
 
+```{image} ../images/web/project-panel.webp
+:alt: The Project panel listing 5 components, with the nginx role skeleton unfolded to show its four files
+:class: only-light
+```
+
+```{image} ../images/web/project-panel-dark.webp
+:alt: The Project panel listing 5 components, with the nginx role skeleton unfolded to show its four files
+:class: only-dark
+```
+
 An empty project says **Nothing yet. Most projects start with an Inventory.**
 
 ### Getting started
@@ -207,6 +275,16 @@ The **Getting started** checklist sits above the **Project** panel and ticks its
 It shows your progress, such as **2 of 5**. Click an open step to jump to the right form or view.
 Click the title to fold it, or the close button (**Hide the checklist**) to hide it for this
 project. It disappears once every step is done.
+
+```{image} ../images/web/checklist.webp
+:alt: The Getting started checklist at 2 of 5, with List your servers and Review checks ticked
+:class: only-light
+```
+
+```{image} ../images/web/checklist-dark.webp
+:alt: The Getting started checklist at 2 of 5, with List your servers and Review checks ticked
+:class: only-dark
+```
 
 ### Project drawer
 
@@ -232,6 +310,16 @@ The **Checks** tab shows the number of errors and warnings next to its label.
 | **Preset (.kikx-preset.json)** | Downloads the project's recipe, to reopen here or run with `kikx apply`. See [Preset format](preset-format.md). |
 | **CLI command** | Opens **Run it with the CLI**: the `kikx setup` and `kikx apply` commands for this project's preset, each with a copy button, and **Download preset**. |
 
+```{image} ../images/web/export-menu.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-light
+```
+
+```{image} ../images/web/export-menu-dark.webp
+:alt: The Export menu open with Files (.zip), Preset (.kikx-preset.json) and CLI command
+:class: only-dark
+```
+
 Exporting is the only moment kikx writes anything to your machine. See
 [Export and reopen a project in the app](../how-to/export-and-reopen-web.md) and
 [Where your project lives](../explanation/project-storage.md).
@@ -250,6 +338,16 @@ files. Solid borders are actors and processes; dashed borders are data on disk. 
 nodes, zoom with the controls and move around with the minimap. See
 [How the pieces fit together](../explanation/project-layout.md).
 
+```{image} ../images/web/data-flow.webp
+:alt: The Data flow page with CLI selected: the path from the terminal through the kikx CLI and kikx-core to kikx.toml and the manifests
+:class: only-light
+```
+
+```{image} ../images/web/data-flow-dark.webp
+:alt: The Data flow page with CLI selected: the path from the terminal through the kikx CLI and kikx-core to kikx.toml and the manifests
+:class: only-dark
+```
+
 ## Teach me
 
 **Teach me** runs guided lessons inside the app. kikx moves a pointer, types into the forms and
@@ -263,9 +361,27 @@ between **In the app** and **With the CLI** lessons. Each card shows the title, 
 description, how long it takes, what **You'll learn**, and **Done** once you've finished it. Click
 a card to start.
 
+```{image} ../images/web/lesson-picker.webp
+:alt: The Teach me lesson picker with the app lessons under Basics and Going further
+:class: only-light
+```
+
+```{image} ../images/web/lesson-picker-dark.webp
+:alt: The Teach me lesson picker with the app lessons under Basics and Going further
+:class: only-dark
+```
+
 ### Lesson card
 
-![A Teach me lesson waiting for you: the Your turn card lists three things to do, with Show me, Learn more, speed and stop controls](../images/web/teach-me-lesson.png)
+```{image} ../images/web/lesson-card.webp
+:alt: A lesson in progress: kikx typing into the inventory form while the lesson card explains groups, with Pause, skip, speed and stop controls
+:class: only-light
+```
+
+```{image} ../images/web/lesson-card-dark.webp
+:alt: A lesson in progress: kikx typing into the inventory form while the lesson card explains groups, with Pause, skip, speed and stop controls
+:class: only-dark
+```
 
 While a lesson runs, a card next to the highlighted element shows the lesson title, the chapter
 (for example **Chapter 2 of 7**) and the caption. Your own clicks are paused while kikx is acting.
@@ -286,6 +402,16 @@ card says so. Put the page back and press **Resume**, or stop the lesson.
 
 Some steps hand over to you. The card is titled **Your turn** and lists what to do, ticking each
 item as you do it. **Show me** does it for you. When all items are ticked the lesson carries on.
+
+```{image} ../images/web/lesson-your-turn.webp
+:alt: The Your turn card listing three things to do, with Show me, a Learn more link, speed and stop controls
+:class: only-light
+```
+
+```{image} ../images/web/lesson-your-turn-dark.webp
+:alt: The Your turn card listing three things to do, with Show me, a Learn more link, speed and stop controls
+:class: only-dark
+```
 
 ### Recap
 
@@ -309,6 +435,16 @@ covers the catalog, the editor, the checklist, the project panel, the views and 
 Each tour opens by itself the first time you visit the page. Use **Next** and **Back** to move,
 **Done** on the last step, or the close button to leave.
 
+```{image} ../images/web/tour.webp
+:alt: The first step of the home page tour, Welcome to kikx, next to the highlighted introduction
+:class: only-light
+```
+
+```{image} ../images/web/tour-dark.webp
+:alt: The first step of the home page tour, Welcome to kikx, next to the highlighted introduction
+:class: only-dark
+```
+
 ## Learn pages
 
 - `/learn/app` shows **Learn kikx in the app** with **Choose a lesson**, which opens the picker on
@@ -317,6 +453,16 @@ Each tour opens by itself the first time you visit the page. Use **Next** and **
   the other, with **Choose a lesson** for the CLI lessons. Commands run on the real kikx engine but
   the files stay in this browser tab. Drag the divider, or focus it and use the arrow keys, to
   resize the two panes.
+
+```{image} ../images/web/cli-practice.webp
+:alt: The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer
+:class: only-light
+```
+
+```{image} ../images/web/cli-practice-dark.webp
+:alt: The practice terminal after kikx init, kikx add and ls, with the Files tree and shop-deployment.yaml open in the viewer
+:class: only-dark
+```
 
 How the practice terminal behaves, and its buttons for running the line, clearing the screen,
 copying the session as a script and sharing a replay link, is described in

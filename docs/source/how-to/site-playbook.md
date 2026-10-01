@@ -17,6 +17,16 @@ Use this when you want one entry point, `ansible-playbook site.yml`, that runs y
 6. Reorder the rows with the arrows. `ansible-playbook` runs them top to bottom.
 7. Click **Add to project**.
 
+```{image} ../images/web/site-form.webp
+:alt: The site playbook form importing web.yml, with the preview of site.yml
+:class: only-light
+```
+
+```{image} ../images/web/site-form-dark.webp
+:alt: The site playbook form importing web.yml, with the preview of site.yml
+:class: only-dark
+```
+
 **Checks** then tells you about two things:
 
 - an import that points to a playbook this project doesn't produce. That's fine if the file already exists in your repo.

@@ -54,16 +54,13 @@ msgid "Create the project"
 msgstr "Créer le projet"
 
 msgid "In **Project name**, type `platform` and click **Start building**. The default namespace and output directory are filled in for you; you can change either later from the builder."
-msgstr ""
+msgstr "Dans « Nom du projet », tapez `platform` et cliquez sur « Commencer ». Le namespace par défaut et le dossier de sortie sont remplis pour vous ; vous pourrez changer l'un ou l'autre plus tard depuis le constructeur."
 
 msgid "You're now in the builder. It has three columns: the stages on the left (Provision, Inventory, Configure, Deploy, Custom), the editor in the middle, and the **Project** panel on the right, which says **Nothing yet. Most projects start with an Inventory.** Here is the same layout on a much larger project:"
 msgstr "Vous êtes maintenant dans l'éditeur de projet. Il comporte trois colonnes : les étapes à gauche (« Provision », « Inventory », « Configure », « Deploy », « Custom »), l'éditeur au centre, et le panneau « Project » à droite, qui indique « Nothing yet. Most projects start with an Inventory. » Voici la même disposition sur un projet beaucoup plus grand :"
 
-msgid "![The builder: stages on the left, the editor in the middle, the project on the right](../images/builder-light.png)"
-msgstr "![L'éditeur de projet : les étapes à gauche, l'éditeur au centre, le projet à droite](../images/builder-light.png)"
-
-msgid "The builder: stages on the left, the editor in the middle, the project on the right"
-msgstr "L'éditeur de projet : les étapes à gauche, l'éditeur au centre, le projet à droite"
+msgid "The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right"
+msgstr "Le constructeur sur le modèle multi-tier-platform : les étapes à gauche, l'éditeur au centre, la liste Premiers pas et le panneau Projet à droite"
 
 #, fuzzy
 msgid "Above the columns you see the project name, the badges `ns: default` and `infra/`, and three tabs: **Build**, **Architecture** and **Checks**. Click either badge to change the default namespace or the output directory. This tutorial keeps both as they are."
@@ -78,11 +75,17 @@ msgstr "L'éditeur affiche déjà « New inventory », et son champ « Name » i
 msgid "Next to **Hosts (1)**, click **Import inventory.ini**. A dialog titled **Import an existing inventory** opens. Paste this into the text area:"
 msgstr "À côté de « Hosts (1) », cliquez sur « Import inventory.ini ». Une boîte de dialogue intitulée « Import an existing inventory » s'ouvre. Collez ceci dans la zone de texte :"
 
+msgid "The Import an existing inventory dialog with the platform inventory pasted, counting 3 hosts and 3 groups, and the Replace hosts & groups button"
+msgstr "La boîte de dialogue Importer un inventaire existant avec l'inventaire platform collé, qui compte 3 hôtes et 3 groupes, et le bouton Remplacer les hôtes et les groupes"
+
 msgid "Under the text area the dialog counts **3 hosts · 3 groups**. Click **Replace hosts & groups**."
 msgstr "Sous la zone de texte, vous devriez voir le décompte « 3 hosts · 3 groups ». Cliquez sur « Replace hosts & groups »."
 
 msgid "The dialog closes and the form fills in: **Hosts (3)** with `web-01`, `web-02` and `db-01`, and a **Groups** section with `web`, `db` and `platform`. The `platform` row lists `web` and `db` as child groups and `ansible_user=deploy` as its vars."
 msgstr "La boîte de dialogue se ferme et le formulaire se remplit : « Hosts (3) » avec `web-01`, `web-02` et `db-01`, et une section « Groups » avec `web`, `db` et `platform`. La ligne `platform` liste `web` et `db` comme groupes enfants et `ansible_user=deploy` comme variables."
+
+msgid "The inventory form after the import: three hosts, and a Groups section where platform has web and db as children and ansible_user=deploy as vars"
+msgstr "Le formulaire d'inventaire après l'import : trois hôtes, et une section Groupes où platform a web et db comme enfants et ansible_user=deploy comme variables"
 
 msgid "Scroll down to **Preview**. It shows `platform-inventory.ini`, rendered as you'd get it:"
 msgstr "Faites défiler jusqu'à « Preview ». L'aperçu en direct montre `platform-inventory.ini`, tel que vous l'obtiendrez après le rendu :"
@@ -159,6 +162,9 @@ msgstr "Les sauvegardes doivent pouvoir être désactivées. Sous « Play 2 », 
 msgid "The preview shows `playbooks/services.yml`:"
 msgstr "Vous devriez voir l'aperçu montrer `playbooks/services.yml` :"
 
+msgid "The services playbook with two plays, Web tier and Database tier, a when condition on the backups role, and the rendered preview"
+msgstr "Le playbook services avec deux plays, Web tier et Database tier, une condition when sur le rôle backups, et l'aperçu rendu"
+
 msgid "Click **Add to project**. `services` appears in the **Project** panel under **Configure**."
 msgstr "Cliquez sur « Add to project ». `services` apparaît dans le panneau « Project » sous « Configure »."
 
@@ -217,6 +223,9 @@ msgstr "sous « Warnings » : « web-02 sets ansible_user=root, overriding [plat
 msgid "under **Notes**: **services uses 3 roles kikx doesn't vendor**, listing `nginx, postgres, backups`."
 msgstr "sous « Notes » : « services uses 3 roles kikx doesn't vendor », qui liste `nginx, postgres, backups`."
 
+msgid "The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor"
+msgstr "L'onglet Vérifications avec un avertissement sur web-02 qui remplace ansible_user et une note sur trois rôles que kikx ne fournit pas"
+
 msgid "The warning is right: the pasted inventory still had an old `ansible_user=root` on `web-02`, so it would ignore the `deploy` user every other host uses. Fix it:"
 msgstr "L'avertissement a raison : l'inventaire collé contenait encore un ancien `ansible_user=root` sur `web-02`, qui ignorerait donc l'utilisateur `deploy` qu'utilisent tous les autres hôtes. Corrigez-le :"
 
@@ -228,6 +237,9 @@ msgstr "Sur la ligne `web-02`, ouvrez « Connection & host vars ». Son résumé
 
 msgid "Clear the **ssh user (inherit)** field."
 msgstr "Videz le champ « ssh user (inherit) »."
+
+msgid "The web-02 host row with Connection & host vars open and root in the ssh user field"
+msgstr "La ligne de l'hôte web-02 avec Connexion et variables d'hôte ouvert et root dans le champ utilisateur ssh"
 
 msgid "In the preview, the `web-02` line loses its user:"
 msgstr "Dans l'aperçu, vous devriez voir la ligne `web-02` perdre son utilisateur :"
@@ -274,14 +286,14 @@ msgstr "`site.yml` avec une arête « imports » vers `playbooks/services.yml` ;
 msgid "three **runs** edges from the playbook to `roles/nginx`, `roles/postgres` and `roles/backups`."
 msgstr "trois arêtes « runs » du playbook vers `roles/nginx`, `roles/postgres` et `roles/backups`."
 
+msgid "The Architecture tab of the platform project, with ansible.cfg, the platform, web and db groups, the services playbook and its three roles"
+msgstr "L'onglet Architecture du projet platform, avec ansible.cfg, les groupes platform, web et db, le playbook services et ses trois rôles"
+
 msgid "Hover a node to highlight its connections; click one to open it in the editor. On a larger project the same view looks like this:"
 msgstr "Survolez un nœud pour mettre en évidence ses connexions ; cliquez sur un nœud pour l'ouvrir dans l'éditeur. Sur un projet plus grand, la même vue ressemble à ceci :"
 
-msgid "![The Architecture view of a larger project, with nodes in swimlanes and routed edges](../images/architecture-light.png)"
-msgstr "![La vue « Architecture » d'un projet plus grand, avec des nœuds en couloirs et des arêtes routées](../images/architecture-light.png)"
-
-msgid "The Architecture view of a larger project, with nodes in swimlanes and routed edges"
-msgstr "La vue « Architecture » d'un projet plus grand, avec des nœuds en couloirs et des arêtes routées"
+msgid "The Architecture tab of the multi-tier-platform template, with nodes in the Provision, Inventory, Playbooks, Roles and Deploy lanes"
+msgstr "L'onglet Architecture du modèle multi-tier-platform, avec des nœuds dans les couloirs Provisionnement, Inventaire, Playbooks, Rôles et Déploiement"
 
 msgid "Download the project"
 msgstr "Télécharger le projet"

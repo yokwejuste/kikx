@@ -16,6 +16,16 @@ one, shown on the `ns:` badge above the builder columns.
 2. In **Default Kubernetes namespace**, type the namespace, for example `shop-prod`.
 3. Click **Save**.
 
+```{image} ../images/web/settings-dialog.webp
+:alt: The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field
+:class: only-light
+```
+
+```{image} ../images/web/settings-dialog-dark.webp
+:alt: The Project settings dialog with shop-prod typed in Default Kubernetes namespace, a note about existing components, and the Output directory field
+:class: only-dark
+```
+
 Set it before you add components. Components already in the project keep the namespace they were
 saved with. New components, and ones you open and save again, use the new one. Inventories,
 playbooks and Terraform ignore the namespace.
@@ -46,6 +56,16 @@ The Deployment says which container to run and how many copies to keep alive.
 3. Optionally, click **Add label** to add labels such as `tier` = `web`. They help you filter with
    `kubectl` and are written on the Deployment.
 4. Click **Add to project**.
+
+```{image} ../images/web/deployment-form.webp
+:alt: The Deployment form for shop with image nginx:1.27, 3 replicas, port 8080, the label tier=web and the preview
+:class: only-light
+```
+
+```{image} ../images/web/deployment-form-dark.webp
+:alt: The Deployment form for shop with image nginx:1.27, 3 replicas, port 8080, the label tier=web and the preview
+:class: only-dark
+```
 
 In the **Preview**, `app: shop` appears three times: on the Deployment, in its selector and on the
 pod template. The pods always carry `app: <Deployment name>`. Keep that label in mind: the Service
@@ -119,6 +139,16 @@ no traffic gets through. The **Checks** tab reads all components together and wa
   endpoints would be empty and every request would fail.
 - **Ingress shop routes to service "shop", which isn't in the project.**
 
+```{image} ../images/web/checks-service.webp
+:alt: The Checks tab warning that Service frontend selects app=frontend but no deployment's pods carry those labels, with Open frontend
+:class: only-light
+```
+
+```{image} ../images/web/checks-service-dark.webp
+:alt: The Checks tab warning that Service frontend selects app=frontend but no deployment's pods carry those labels, with Open frontend
+:class: only-dark
+```
+
 The editor of a flagged component also shows how many checks flag it. To fix a warning:
 
 1. Open the **Checks** tab. Next to the warning, click **Open** followed by the component name, for example **Open frontend**. The component opens in the editor.
@@ -137,6 +167,18 @@ Open the **Architecture** tab. In the **Deploy** lane, an arrow labelled **route
 Ingress to its Service, and one labelled **selects** goes from the Service to the Deployment. A
 missing arrow means a broken link. When **Checks** shows **No conflicts found** and both arrows are
 there, export the project and apply it with `kubectl apply`.
+
+```{image} ../images/web/architecture-k8s.webp
+:alt: The Deploy lane: the shop Ingress routes to the shop Service, which selects the shop Deployment
+:class: only-light
+:width: 100%
+```
+
+```{image} ../images/web/architecture-k8s-dark.webp
+:alt: The Deploy lane: the shop Ingress routes to the shop Service, which selects the shop Deployment
+:class: only-dark
+:width: 100%
+```
 
 ## See also
 

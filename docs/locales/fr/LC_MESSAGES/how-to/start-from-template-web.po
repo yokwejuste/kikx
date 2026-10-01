@@ -46,6 +46,9 @@ msgstr "une dernière ligne avec le nom du modèle et son nombre de composants, 
 msgid "Click a card."
 msgstr "Cliquez sur une carte."
 
+msgid "Start from a template: one card per template with its description, the stages it covers, its name and its number of components"
+msgstr "Partir d'un modèle : une carte par modèle avec sa description, les étapes qu'il couvre, son nom et son nombre de composants"
+
 msgid "The card shows a spinner while the app renders every component through the backend. Then the builder opens."
 msgstr "La carte affiche un indicateur de chargement pendant que l'app génère chaque composant via le backend. Le constructeur s'ouvre ensuite."
 
@@ -54,6 +57,9 @@ msgstr "La liste vient du backend : c'est donc la même que celle qu'affiche `ki
 
 msgid "Opening a template replaces the project kept in your browser, along with its unsaved drafts. If the browser already holds a project, the card at the top of the home page asks **Replace** followed by the project name first. Click **Download preset first** to keep a copy, then **Replace** to open the template, or **Keep** to stay on the current project. See [Export and reopen a project in the app](export-and-reopen-web.md)."
 msgstr "Ouvrir un modèle remplace le projet conservé dans votre navigateur, ainsi que ses brouillons non enregistrés. Si le navigateur contient déjà un projet, la carte en haut de la page d'accueil demande d'abord **Remplacer** suivi du nom du projet. Cliquez sur **Télécharger le preset d'abord** pour en garder une copie, puis sur **Remplacer** pour ouvrir le modèle, ou sur **Conserver** pour rester sur le projet actuel. Voir [Exporter et rouvrir un projet dans l'app](export-and-reopen-web.md)."
+
+msgid "The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace"
+msgstr "La carte de la page d'accueil qui demande Remplacer shop ? avant d'ouvrir un modèle, avec Conserver, Télécharger le preset d'abord et Remplacer"
 
 msgid "What opens"
 msgstr "Ce qui s'ouvre"
@@ -70,6 +76,9 @@ msgstr "le panneau **Projet** liste chaque composant, regroupé par étape dans 
 msgid "the editor in the middle shows a new, empty component. Nothing in the template is open yet."
 msgstr "l'éditeur au centre affiche un nouveau composant vide. Aucun élément du modèle n'est encore ouvert."
 
+msgid "The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right"
+msgstr "Le constructeur sur le modèle multi-tier-platform : les étapes à gauche, l'éditeur au centre, la liste Premiers pas et le panneau Projet à droite"
+
 msgid "From here on, the project is yours. Nothing links it back to the template, and a later change to the template doesn't touch it."
 msgstr "À partir de là, le projet vous appartient. Rien ne le relie au modèle, et une modification ultérieure du modèle ne le touche pas."
 
@@ -84,6 +93,9 @@ msgstr "Ouvrez l'onglet **Architecture** pour voir comment les composants sont r
 
 msgid "Open the **Checks** tab to see what kikx reports before you change anything, so you can tell later which issues your changes introduced."
 msgstr "Ouvrez l'onglet **Vérifications** pour voir ce que kikx signale avant toute modification : vous saurez ensuite quels problèmes viennent de vos changements."
+
+msgid "The file viewer showing lb-hetzner.tf, with a note saying which component rendered it"
+msgstr "La visionneuse de fichiers qui affiche lb-hetzner.tf, avec une note indiquant quel composant l'a rendu"
 
 msgid "Adapt the components"
 msgstr "Adapter les composants"

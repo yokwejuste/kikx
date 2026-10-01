@@ -14,6 +14,16 @@ A template is a complete project you adapt instead of starting from an empty pag
    - a last line with the template name and its component count, for example `single-server · 7 components`. The name is the one the CLI accepts.
 4. Click a card.
 
+```{image} ../images/web/templates.webp
+:alt: Start from a template: one card per template with its description, the stages it covers, its name and its number of components
+:class: only-light
+```
+
+```{image} ../images/web/templates-dark.webp
+:alt: Start from a template: one card per template with its description, the stages it covers, its name and its number of components
+:class: only-dark
+```
+
 The card shows a spinner while the app renders every component through the backend. Then the builder opens.
 
 The list comes from the backend, so it's the same list `kikx presets` prints. [Built-in templates](../reference/preset-format.md#built-in-templates) describes each one.
@@ -21,6 +31,16 @@ The list comes from the backend, so it's the same list `kikx presets` prints. [B
 :::{note}
 Opening a template replaces the project kept in your browser, along with its unsaved drafts. If the browser already holds a project, the card at the top of the home page asks **Replace** followed by the project name first. Click **Download preset first** to keep a copy, then **Replace** to open the template, or **Keep** to stay on the current project. See [Export and reopen a project in the app](export-and-reopen-web.md).
 :::
+
+```{image} ../images/web/replace-prompt.webp
+:alt: The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace
+:class: only-light
+```
+
+```{image} ../images/web/replace-prompt-dark.webp
+:alt: The home page card asking Replace shop? before opening a template, with Keep, Download preset first and Replace
+:class: only-dark
+```
 
 ## What opens
 
@@ -30,6 +50,16 @@ The builder opens on the **Build** tab with the template loaded:
 - the **Project** panel lists every component, grouped by stage in build order. Its summary counts the components and files and names the output directory;
 - the editor in the middle shows a new, empty component. Nothing in the template is open yet.
 
+```{image} ../images/web/builder-template.webp
+:alt: The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right
+:class: only-light
+```
+
+```{image} ../images/web/builder-template-dark.webp
+:alt: The builder on the multi-tier-platform template: the stages on the left, the editor in the middle, the Getting started checklist and the Project panel on the right
+:class: only-dark
+```
+
 From here on, the project is yours. Nothing links it back to the template, and a later change to the template doesn't touch it.
 
 ## Look around before you change anything
@@ -37,6 +67,16 @@ From here on, the project is yours. Nothing links it back to the template, and a
 - Click the arrow next to a component in the **Project** panel to list the files it writes. Click a file to read it in a dialog.
 - Open the **Architecture** tab to see how the components relate. Click a node to open that component.
 - Open the **Checks** tab to see what kikx reports before you change anything, so you can tell later which issues your changes introduced.
+
+```{image} ../images/web/file-dialog.webp
+:alt: The file viewer showing lb-hetzner.tf, with a note saying which component rendered it
+:class: only-light
+```
+
+```{image} ../images/web/file-dialog-dark.webp
+:alt: The file viewer showing lb-hetzner.tf, with a note saying which component rendered it
+:class: only-dark
+```
 
 ## Adapt the components
 

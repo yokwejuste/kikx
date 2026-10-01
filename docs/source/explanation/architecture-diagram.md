@@ -53,6 +53,18 @@ as the project grows. Adding a role only ever adds something to the Roles lane; 
 reshuffle the inventory. Without lanes an automatic layout is free to move any node anywhere, and a
 small change can produce a picture that looks unrelated to the previous one.
 
+```{image} ../images/web/architecture-template.webp
+:alt: The Architecture tab of the multi-tier-platform template, with nodes in the Provision, Inventory, Playbooks, Roles and Deploy lanes
+:class: only-light
+:width: 100%
+```
+
+```{image} ../images/web/architecture-template-dark.webp
+:alt: The Architecture tab of the multi-tier-platform template, with nodes in the Provision, Inventory, Playbooks, Roles and Deploy lanes
+:class: only-dark
+:width: 100%
+```
+
 ## A layered layout engine
 
 The layout is computed by ELK (the Eclipse Layout Kernel, through `elkjs`) in
@@ -85,6 +97,18 @@ edges between them, and dims everything else. That turns a busy diagram into a l
 without changing the layout, which would undermine the stability the lanes provide. Clicking a
 node opens the component in the editor, since the diagram is a view of the project rather than a
 separate thing to edit.
+
+```{image} ../images/web/architecture-hover.webp
+:alt: The Architecture tab with the pointer on playbooks/services.yml: its groups, site.yml and roles are highlighted and the rest is dimmed
+:class: only-light
+:width: 100%
+```
+
+```{image} ../images/web/architecture-hover-dark.webp
+:alt: The Architecture tab with the pointer on playbooks/services.yml: its groups, site.yml and roles are highlighted and the rest is dimmed
+:class: only-dark
+:width: 100%
+```
 
 ## Exporting to draw.io
 

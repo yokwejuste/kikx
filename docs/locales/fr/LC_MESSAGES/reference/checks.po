@@ -19,6 +19,9 @@ msgstr "Vérifications"
 msgid "The dashboard's Checks view, computed in the browser by `checkProject` in `web/lib/project/checks.ts`. Checks read component field values; they do not call the backend or read files on disk."
 msgstr "La vue « Checks » du tableau de bord, calculée dans le navigateur par `checkProject` dans `web/lib/project/checks.ts`. Les vérifications lisent les valeurs des champs des composants ; elles n'appellent pas le backend et ne lisent aucun fichier sur le disque."
 
+msgid "The Checks tab with a warning about web-02 overriding ansible_user and a note about three roles kikx doesn't vendor"
+msgstr "L'onglet Vérifications avec un avertissement sur web-02 qui remplace ansible_user et une note sur trois rôles que kikx ne fournit pas"
+
 msgid "Severities"
 msgstr "Sévérités"
 

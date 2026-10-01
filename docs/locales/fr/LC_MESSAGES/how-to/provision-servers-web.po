@@ -46,6 +46,9 @@ msgstr "Remplissez les champs de ce fournisseur, décrits plus bas."
 msgid "Click **Add to project**, or press ⌘/Ctrl + Enter."
 msgstr "Cliquez sur **Ajouter au projet**, ou appuyez sur ⌘/Ctrl + Entrée."
 
+msgid "The cloud server form for web at Hetzner, with region fsn1, size cx22 and the preview of web-hetzner.tf"
+msgstr "Le formulaire de serveur cloud pour web chez Hetzner, avec la région fsn1, la taille cx22 et l'aperçu de web-hetzner.tf"
+
 msgid "The badge at the top right of the editor shows the file the component writes: `<name>-<provider>.tf`, for example `web-hetzner.tf`."
 msgstr "Le badge en haut à droite de l'éditeur indique le fichier que le composant écrit : `<name>-<provider>.tf`, par exemple `web-hetzner.tf`."
 
@@ -54,6 +57,9 @@ msgstr "Choisir un fournisseur"
 
 msgid "The **Provider** list is not built into the app. It lists every Terraform item in the kikx registry, so a provider added to the registry shows up here. For a provider that isn't listed, load its registry item from **Custom** instead, see [Render your own component from a registry item](custom-registry-item.md)."
 msgstr "La liste **Fournisseur** n'est pas figée dans l'app. Elle reprend chaque élément Terraform du registre kikx, donc un fournisseur ajouté au registre apparaît ici. Pour un fournisseur absent de la liste, chargez plutôt son élément de registre depuis **Personnalisé**, voir [Générer votre propre composant depuis un élément de registre](custom-registry-item.md)."
+
+msgid "The Provider list open, with the Terraform providers from the registry"
+msgstr "La liste Fournisseur ouverte, avec les fournisseurs Terraform du registre"
 
 msgid "Each provider asks for its own fields. Switching provider resets them to that provider's defaults, because one provider's values rarely make sense at another."
 msgstr "Chaque fournisseur demande ses propres champs. Changer de fournisseur les remet aux valeurs par défaut de ce fournisseur, car les valeurs d'un fournisseur ont rarement un sens chez un autre."
@@ -222,6 +228,9 @@ msgstr "les groupes contenant un hôte dont le nom commence par le nom du serveu
 
 msgid "groups whose name contains the server name as a word, such as `web_eu` for `web`."
 msgstr "les groupes dont le nom contient le nom du serveur comme mot, comme `web_eu` pour `web`."
+
+msgid "The Architecture tab with the web and db servers in the Provision lane and provisions arrows to the web group"
+msgstr "L'onglet Architecture avec les serveurs web et db dans le couloir Provisionnement et des flèches provisionne vers le groupe web"
 
 msgid "When no group matches, the arrow goes to every top level group. Add a group named after the server to make the arrow precise. Click a node to open its component in the editor."
 msgstr "Si aucun groupe ne correspond, la flèche va vers chaque groupe de premier niveau. Ajoutez un groupe qui porte le nom du serveur pour rendre la flèche précise. Cliquez sur un nœud pour ouvrir son composant dans l'éditeur."
