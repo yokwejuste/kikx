@@ -154,7 +154,13 @@
         "checks": "Vérifications"
       },
       "home": "Accueil",
-      "homeHint": "Retour à la page d'accueil. Votre projet reste enregistré dans ce navigateur."
+      "homeHint": "Retour à la page d'accueil. Votre projet reste enregistré dans ce navigateur.",
+      "storage": {
+        "browser": "Enregistré dans ce navigateur · pas encore sur le disque",
+        "downloaded": "Téléchargé {time}",
+        "changed": "Modifié depuis le dernier téléchargement",
+        "hint": "Ce projet n'est conservé que dans le stockage de ce navigateur, ni sur un serveur ni sur votre disque. Effacer les données du navigateur le supprime : exportez-le pour en garder une copie."
+      }
     },
     "customNotice": "<code>{reference}</code> est un élément de registre personnalisé. Chargez-le de nouveau ci-dessous avec le même nom pour le régénérer.",
     "scaffolded": "{count, plural, one {# rôle créé} other {# rôles créés}}",

@@ -14,6 +14,7 @@ import { CliCommandsDialog } from "@/components/builder/export/cli-commands-dial
 import type { AddedComponent, ProjectDetails } from "@/lib/project/context";
 import { downloadProjectZip } from "@/lib/project/archive";
 import { downloadPreset } from "@/lib/project/preset";
+import { recordDownload, type DownloadRecord } from "@/lib/project/downloads";
 
 function ExportOption({
   icon: Icon,
@@ -37,7 +38,15 @@ function ExportOption({
   );
 }
 
-export function ExportMenu({ details, components }: { details: ProjectDetails; components: AddedComponent[] }) {
+export function ExportMenu({
+  details,
+  components,
+  onDownloaded,
+}: {
+  details: ProjectDetails;
+  components: AddedComponent[];
+  onDownloaded: (record: DownloadRecord) => void;
+}) {
   const t = useTranslations("export");
   const [zipping, setZipping] = useState(false);
   const [cliOpen, setCliOpen] = useState(false);
@@ -47,9 +56,15 @@ export function ExportMenu({ details, components }: { details: ProjectDetails; c
     setZipping(true);
     try {
       await downloadProjectZip(details, components);
+      onDownloaded(recordDownload(details, components));
     } finally {
       setZipping(false);
     }
+  };
+
+  const downloadPresetFile = () => {
+    downloadPreset(details, components);
+    onDownloaded(recordDownload(details, components));
   };
 
   return (
@@ -70,7 +85,7 @@ export function ExportMenu({ details, components }: { details: ProjectDetails; c
             icon={FileJson}
             title={t("preset.title")}
             description={t("preset.description")}
-            onSelect={() => downloadPreset(details, components)}
+            onSelect={downloadPresetFile}
           />
           <ExportOption
             icon={Terminal}
@@ -80,7 +95,7 @@ export function ExportMenu({ details, components }: { details: ProjectDetails; c
           />
         </DropdownMenuContent>
       </DropdownMenu>
-      <CliCommandsDialog open={cliOpen} onOpenChange={setCliOpen} details={details} components={components} />
+      <CliCommandsDialog open={cliOpen} onOpenChange={setCliOpen} details={details} onDownloadPreset={downloadPresetFile} />
     </>
   );
 }

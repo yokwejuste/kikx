@@ -206,6 +206,8 @@ required.
   - roles the project doesn't vendor, with one-click scaffolding
 - **Nothing touches disk until you export.** The project lives in the browser tab. The **Export**
   menu gives you a `.zip` of plain files, a preset, or the `kikx setup` / `kikx apply` command.
+  A line in the header says whether the project is only in this browser, when you last
+  downloaded it, or has changed since.
 
 ## Architecture diagram
 
