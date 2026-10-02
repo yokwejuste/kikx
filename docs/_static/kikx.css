@@ -161,10 +161,22 @@ hr.docutils {
     text-decoration: underline;
 }
 
+.toc-tree {
+    position: relative;
+}
+
 .toc-tree li.scroll-current > .reference {
-    box-shadow: inset 2px 0 0 var(--color-brand-primary);
     color: var(--color-foreground-primary);
     font-weight: 700;
+}
+
+.toc-tree li.scroll-current > .reference::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    width: 2px;
+    height: 1.3em;
+    background: var(--color-brand-primary);
 }
 
 .nav-overlay-icon .icon svg,
