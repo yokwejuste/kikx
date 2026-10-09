@@ -787,3 +787,42 @@ fn upgrade_is_listed_with_its_options() {
         .stdout(contains("--check"))
         .stdout(contains("--version"));
 }
+
+#[test]
+fn diff_shows_changes_without_writing() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["init", "--name", "demo"])
+        .assert()
+        .success();
+    kikx()
+        .current_dir(&tmp)
+        .args(["add", "k8s/deployment", "-n", "web", "-i", "nginx:1.27"])
+        .assert()
+        .success();
+    let file = tmp.path().join("infra/web-deployment.yaml");
+    let before = std::fs::read_to_string(&file).unwrap();
+
+    kikx()
+        .current_dir(&tmp)
+        .args(["diff", "k8s/deployment", "-n", "web", "-i", "nginx:1.28"])
+        .assert()
+        .success()
+        .stdout(contains("Modified"))
+        .stdout(contains("-          image: nginx:1.27"))
+        .stdout(contains("+          image: nginx:1.28"));
+
+    assert_eq!(std::fs::read_to_string(&file).unwrap(), before);
+}
+
+#[test]
+fn diff_rejects_field_flags_without_a_name() {
+    let tmp = tempfile::tempdir().unwrap();
+    kikx()
+        .current_dir(&tmp)
+        .args(["diff", "k8s/deployment", "-i", "nginx"])
+        .assert()
+        .failure()
+        .stderr(contains("--name"));
+}

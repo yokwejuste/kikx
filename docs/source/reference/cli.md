@@ -14,6 +14,7 @@ kikx <COMMAND>
 | [`presets`](#kikx-presets) | Print the built-in preset templates | no | no |
 | [`setup`](#kikx-setup) | Create a project from a preset template, file or URL | no | yes |
 | [`apply`](#kikx-apply) | Render a preset template, file or URL into an existing directory | no | no |
+| [`diff`](#kikx-diff) | Show what `add` or `apply` would change, without writing | for a component | no |
 | [`upgrade`](#kikx-upgrade) | Replace kikx with the latest release | no | no |
 
 Global options:
@@ -39,6 +40,7 @@ Commands:
   presets  List the built-in preset templates
   setup    Bootstrap a new project from a preset template, file or URL
   apply    Vendor a preset template, file or URL into an existing project
+  diff     Show what add or apply would change in the project, without writing
   help     Print this message or the help of the given subcommand(s)
 
 Options:
@@ -265,6 +267,43 @@ Example, adding a template to an existing repo:
 
 ```bash
 kikx apply k8s-web-app --into deploy/k8s
+```
+
+## `kikx diff`
+
+```
+kikx diff [OPTIONS] <REFERENCE>
+```
+
+Renders like [`add`](#kikx-add) or [`apply`](#kikx-apply) and compares the result with the files on disk. Nothing is written. Use it to preview an upgrade or a field change before passing `--force`.
+
+With `--name`, `<REFERENCE>` is a component and accepts the same field and label options as `add`; files are compared under the output directory from `kikx.toml`. Without `--name`, `<REFERENCE>` is a preset and files are compared under the current directory, or `--into`.
+
+| Option | Type | Default | Description |
+|-|-|-|-|
+| `-n`, `--name <NAME>` | string | none | Component name. Field and label options require it |
+| `--into <INTO>` | path | current directory | Preset only: directory to compare against |
+
+Each rendered file is reported as `Added` (not on disk yet), `Modified` (followed by a unified diff from the file on disk to the new render) or `Unchanged`, then a summary line. Path checks are those of the [write rules](#write-rules).
+
+Example:
+
+```bash
+kikx diff k8s/deployment --name web --image nginx:1.28
+```
+
+```
+Modified  infra/web-deployment.yaml
+@@ -19,6 +19,6 @@
+     spec:
+       containers:
+         - name: web
+-          image: nginx:1.27
++          image: nginx:1.28
+           ports:
+             - containerPort: 80
+
+0 added, 1 modified, 0 unchanged. Nothing was written.
 ```
 
 ## Write rules

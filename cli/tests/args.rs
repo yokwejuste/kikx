@@ -12,7 +12,7 @@ fn parse_labels(label: &str) -> Result<Vec<(String, String)>, clap::Error> {
         label,
     ])?;
     match cli.command {
-        Commands::Add(args) => Ok(args.labels),
+        Commands::Add(args) => Ok(args.fields.labels),
         _ => unreachable!("parsed an `add` command"),
     }
 }

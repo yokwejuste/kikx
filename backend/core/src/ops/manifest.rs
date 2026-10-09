@@ -25,7 +25,7 @@ pub(super) fn render_manifest(
     Ok(files)
 }
 
-fn validate_path_safety(rendered: &[RenderedFile]) -> Result<(), OpsError> {
+pub(super) fn validate_path_safety(rendered: &[RenderedFile]) -> Result<(), OpsError> {
     let mut seen = HashSet::new();
     for file in rendered {
         if file.path.is_absolute() {

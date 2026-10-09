@@ -31,6 +31,10 @@ pub fn heading() -> Style {
     Style::new().bold()
 }
 
+pub fn removed() -> Style {
+    Style::new().fg_color(Some(AnsiColor::Red.into()))
+}
+
 pub fn hint() -> Style {
     Style::new().dimmed()
 }

@@ -1,29 +1,20 @@
 use anyhow::Result;
-use kikx_core::ops::{self, AddParams, CommonFields};
+use kikx_core::ops::{self, AddParams};
 
 use crate::cli::AddArgs;
 use crate::style::{paint, success};
 
 pub fn run(args: AddArgs) -> Result<()> {
     let cwd = super::current_dir()?;
-    let common = CommonFields {
-        image: args.image,
-        replicas: args.replicas,
-        port: args.port,
-        target_port: args.target_port,
-        namespace: args.namespace,
-        host: args.host,
-        path: args.path,
-        service: args.service,
-    };
+    let (fields, labels) = args.fields.into_fields_and_labels();
 
     let outcome = ops::add_component(
         &cwd,
         AddParams {
             reference: args.reference,
             name: args.name,
-            fields: common.into_fields(args.set),
-            labels: args.labels,
+            fields,
+            labels,
             force: args.force,
             dry_run: false,
         },
