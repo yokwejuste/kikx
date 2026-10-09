@@ -274,7 +274,12 @@
     "lastGood": "{error}. Showing the last good render.",
     "invalid": "Some fields are incomplete. Showing the last valid render.",
     "copy": "Copy",
-    "renderFailed": "Render failed"
+    "renderFailed": "Render failed",
+    "view": "Preview view",
+    "file": "File",
+    "changes": "Changes",
+    "changed": "Changed since last save",
+    "newFile": "New file. It isn't in the saved component yet."
   },
   "fields": {
     "name": "Name",
@@ -458,6 +463,9 @@
     "added": "Added {count, plural, one {# file} other {# files}}",
     "loadFailed": "Failed to load that reference",
     "previewFailed": "Preview failed"
+  },
+  "diff": {
+    "none": "No changes since the last save."
   },
   "conflicts": {
     "title": "{count, plural, one {This file already exists} other {# files already exist}}",

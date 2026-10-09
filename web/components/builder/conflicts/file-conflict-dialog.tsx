@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { CodeList } from "@/components/common/code-list";
 import { CodeView } from "@/components/common/code-view";
+import { DiffView } from "@/components/common/diff-view";
 import type { FileConflict } from "@/lib/project/context";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/common/hint";
@@ -49,22 +50,26 @@ function ConflictRow({ conflict }: { conflict: FileConflict }) {
         })}
       </Hint>
       {open && (
-        <div data-teach="conflict-diff" className="grid gap-2 border-t p-2 sm:grid-cols-2">
-          {(
-            [
-              [t("current"), conflict.existingContent],
-              [t("incoming"), conflict.incomingContent],
-            ] as const
-          ).map(([label, content]) => (
-            <div key={label} className="min-w-0 overflow-hidden rounded-md border bg-muted/30">
-              <div className="border-b bg-muted/40 px-2 py-1 text-2xs font-medium text-muted-foreground">{label}</div>
-              <CodeView
-                code={content}
-                path={conflict.fileName}
-                className="max-h-56 overflow-auto p-2 font-mono text-2xs leading-relaxed"
+        <div data-teach="conflict-diff" className="border-t p-2">
+          {identical ? (
+            <CodeView
+              code={conflict.incomingContent}
+              path={conflict.fileName}
+              className="max-h-56 overflow-auto rounded-md border bg-muted/30 p-2 font-mono text-2xs leading-relaxed"
+            />
+          ) : (
+            <>
+              <Hint className="flex gap-3 px-1 pb-1.5">
+                <span className="text-destructive">− {t("current")}</span>
+                <span>+ {t("incoming")}</span>
+              </Hint>
+              <DiffView
+                before={conflict.existingContent}
+                after={conflict.incomingContent}
+                className="max-h-56 overflow-auto rounded-md border bg-muted/30 p-2"
               />
-            </div>
-          ))}
+            </>
+          )}
         </div>
       )}
     </li>

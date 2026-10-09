@@ -274,7 +274,12 @@
     "lastGood": "{error}. Affichage du dernier rendu valide.",
     "invalid": "Certains champs sont incomplets. Affichage du dernier rendu valide.",
     "copy": "Copier",
-    "renderFailed": "Échec de la génération"
+    "renderFailed": "Échec de la génération",
+    "view": "Vue de l'aperçu",
+    "file": "Fichier",
+    "changes": "Modifications",
+    "changed": "Modifié depuis la dernière sauvegarde",
+    "newFile": "Nouveau fichier. Il n'est pas encore dans le composant enregistré."
   },
   "fields": {
     "name": "Nom",
@@ -458,6 +463,9 @@
     "added": "{count, plural, one {# fichier ajouté} other {# fichiers ajoutés}}",
     "loadFailed": "Impossible de charger cette référence",
     "previewFailed": "Échec de l'aperçu"
+  },
+  "diff": {
+    "none": "Aucune modification depuis la dernière sauvegarde."
   },
   "conflicts": {
     "title": "{count, plural, one {Ce fichier existe déjà} other {# fichiers existent déjà}}",
