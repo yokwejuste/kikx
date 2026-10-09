@@ -1,5 +1,6 @@
 use std::path::{Path, PathBuf};
 
+use super::add::RenderedFile;
 use super::error::{OpsError, OpsErrorKind, OrKind};
 use super::manifest::{render_manifest, write_all};
 use crate::config;
@@ -16,13 +17,17 @@ pub struct ApplyOutcome {
     pub files_written: Vec<PathBuf>,
 }
 
-pub fn apply_bundle(target_dir: &Path, params: ApplyParams) -> Result<ApplyOutcome, OpsError> {
-    let manifest = resolve_preset(&params.reference).or_kind(OpsErrorKind::Other)?;
+pub(super) fn render_bundle(reference: &str) -> Result<Vec<RenderedFile>, OpsError> {
+    let manifest = resolve_preset(reference).or_kind(OpsErrorKind::Other)?;
     let default_namespace = manifest
         .project
         .as_ref()
         .map_or_else(config::default_namespace, |p| p.namespace.clone());
-    let rendered = render_manifest(&manifest, &default_namespace)?;
+    render_manifest(&manifest, &default_namespace)
+}
+
+pub fn apply_bundle(target_dir: &Path, params: ApplyParams) -> Result<ApplyOutcome, OpsError> {
+    let rendered = render_bundle(&params.reference)?;
 
     let base = match &params.into {
         Some(sub) => target_dir.join(sub),

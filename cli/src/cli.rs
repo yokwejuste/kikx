@@ -45,6 +45,8 @@ pub enum Commands {
     Setup(SetupArgs),
     #[command(about = "Vendor a preset template, file or URL into an existing project")]
     Apply(ApplyArgs),
+    #[command(about = "Show what add or apply would change in the project, without writing")]
+    Diff(DiffArgs),
     #[command(about = "Upgrade kikx to the latest release")]
     Upgrade(UpgradeArgs),
 }
@@ -84,6 +86,34 @@ pub struct AddArgs {
     #[arg(short = 'n', long)]
     pub name: String,
 
+    #[command(flatten)]
+    pub fields: FieldArgs,
+
+    #[arg(short = 'f', long)]
+    pub force: bool,
+}
+
+#[derive(Args)]
+pub struct DiffArgs {
+    #[arg(help = "A component reference with --name, or a preset template, file or URL")]
+    pub reference: String,
+
+    #[arg(
+        short = 'n',
+        long,
+        help = "Component name. Without it, REFERENCE is a preset"
+    )]
+    pub name: Option<String>,
+
+    #[command(flatten)]
+    pub fields: FieldArgs,
+
+    #[arg(long, help = "Preset only: compare against this subdirectory")]
+    pub into: Option<PathBuf>,
+}
+
+#[derive(Args)]
+pub struct FieldArgs {
     #[arg(short = 'i', long)]
     pub image: Option<String>,
 
@@ -117,9 +147,6 @@ pub struct AddArgs {
 
     #[arg(short = 's', long = "set", value_parser = parse_key_val)]
     pub set: Vec<(String, String)>,
-
-    #[arg(short = 'f', long)]
-    pub force: bool,
 }
 
 #[derive(Args)]

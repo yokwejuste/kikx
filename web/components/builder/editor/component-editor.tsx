@@ -169,6 +169,7 @@ export function ComponentEditor({
             status={preview.status}
             error={preview.error}
             conflictPaths={new Set(liveConflicts.map((c) => c.fileName))}
+            saved={editing ? new Map(editing.files.map((f) => [f.fileName, f.content])) : undefined}
           />
         </div>
       </div>
