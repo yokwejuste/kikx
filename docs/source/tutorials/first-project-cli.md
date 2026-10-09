@@ -56,7 +56,7 @@ kikx --version
 ```
 
 ```text
-kikx 0.3.0
+kikx 0.4.0
 ```
 
 ## Create the project

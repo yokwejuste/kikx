@@ -22,7 +22,7 @@ Global options:
 | Option | Effect |
 |-|-|
 | `-h`, `--help` | Print help |
-| `-V`, `--version` | Print the version, for example `kikx 0.3.0` |
+| `-V`, `--version` | Print the version, for example `kikx 0.4.0` |
 
 All paths are resolved against the current working directory. The CLI reads no environment variables.
 
