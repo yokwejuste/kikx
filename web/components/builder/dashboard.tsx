@@ -30,13 +30,14 @@ import { api } from "@/lib/api/client";
 import { siteHeaderBottom } from "@/lib/layout/site-header";
 import { closeTour, useFirstVisitTour } from "@/lib/tour/use-tour";
 import { usePhoneWarningOpen } from "@/components/builder/phone-warning";
+import { cn } from "@/lib/utils";
 
 const ProjectDiagram = dynamic(
   () => import("@/components/builder/diagram/project-diagram").then((module) => module.ProjectDiagram),
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-canvas-tall items-center justify-center rounded-xl border">
+      <div className="flex min-h-canvas flex-1 items-center justify-center rounded-xl border">
         <Spinner className="text-muted-foreground" />
       </div>
     ),
@@ -121,7 +122,12 @@ export function Dashboard() {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-builder flex-1 flex-col gap-6 px-6 py-6">
+    <div
+      className={cn(
+        "flex w-full flex-col gap-6 px-6 py-6",
+        view === "diagram" ? "h-below-header min-h-fit" : "flex-1",
+      )}
+    >
       <DashboardHeader
         details={details}
         components={components}

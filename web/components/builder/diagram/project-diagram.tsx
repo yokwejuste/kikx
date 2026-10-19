@@ -57,6 +57,13 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
   const { nodes, edges } = useDiagramElements(layout);
   const neighbourhood = useNeighbourhood(layout, hovered);
 
+  useEffect(() => {
+    if (!expanded) return;
+    const collapseOnEscape = (event: KeyboardEvent) => event.key === "Escape" && setExpanded(false);
+    window.addEventListener("keydown", collapseOnEscape);
+    return () => window.removeEventListener("keydown", collapseOnEscape);
+  }, [expanded]);
+
   if (components.length === 0) {
     return (
       <EmptyState className="h-canvas gap-4">
@@ -71,7 +78,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
     : "pending";
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className={cn("flex min-h-0 flex-1 flex-col gap-3", expanded && "fixed inset-0 z-50 bg-background p-6")}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <DiagramLegend />
         <div className="flex gap-2">
@@ -91,12 +98,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
         </div>
       </div>
 
-      <div
-        className={cn(
-          "relative overflow-hidden rounded-xl border bg-card transition-[height]",
-          expanded ? "h-canvas-expanded" : "h-canvas-tall",
-        )}
-      >
+      <div className="relative min-h-canvas flex-1 overflow-hidden rounded-xl border bg-card">
         {!layout && !failed && (
           <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <Spinner />
@@ -122,6 +124,7 @@ export function ProjectDiagram({ onOpen }: { onOpen?: (component: AddedComponent
               fitView
               fitViewOptions={{ padding: 0.08 }}
               minZoom={0.1}
+              proOptions={{ hideAttribution: true }}
               nodesDraggable={false}
               nodesConnectable={false}
               elementsSelectable={false}

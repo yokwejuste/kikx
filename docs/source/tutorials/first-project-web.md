@@ -313,8 +313,8 @@ You should see:
 - `site.yml` (**Site playbook · entry point**) with an **imports** edge to `web.yml`;
 - `web.yml` (**1 play · 1 role**) with a **runs** edge to `roles/nginx`.
 
-Hover a node to highlight its connections, and click one to open it in the editor. **Expand** makes
-the canvas taller, and **Export to draw.io** saves it as a file you can keep editing in
+Hover a node to highlight its connections, and click one to open it in the editor. **Expand** opens
+the canvas full screen, and **Export to draw.io** saves it as a file you can keep editing in
 [draw.io](../how-to/export-to-drawio.md).
 
 ## Export the project
