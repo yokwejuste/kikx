@@ -148,7 +148,7 @@ export function Dashboard() {
       )}
 
       <div
-        className="grid gap-6 lg:grid-cols-builder lg:items-start xl:grid-cols-builder-wide 2xl:grid-cols-builder"
+        className="grid flex-1 gap-6 lg:grid-cols-builder lg:items-start xl:grid-cols-builder-wide 2xl:grid-cols-builder"
         hidden={view !== "build"}
       >
         <aside
@@ -162,7 +162,7 @@ export function Dashboard() {
           <CatalogSheet components={components} selected={starting ? null : selection.kind} onSelect={(kind) => select(kind)} />
         </div>
 
-        <div ref={editorTop} data-tour="editor" className="min-w-0 scroll-mt-6">
+        <div ref={editorTop} data-tour="editor" className="flex min-w-0 scroll-mt-6 flex-col xl:self-stretch">
           {starting ? (
             <EmptyProjectStart onSelect={(kind) => select(kind)} />
           ) : selection.kind === "custom" ? (

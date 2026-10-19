@@ -111,7 +111,7 @@ export function ComponentEditor({
 
   return (
     <div
-      className="rounded-xl border bg-card"
+      className="flex flex-1 flex-col rounded-xl border bg-card"
       onKeyDown={(event) => {
         if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
           event.preventDefault();
@@ -136,14 +136,14 @@ export function ComponentEditor({
         </div>
       )}
 
-      <div className="2xl:grid 2xl:grid-cols-2">
-        <div className="min-w-0">
+      <div className="flex-1 2xl:grid 2xl:grid-cols-2">
+        <div className="flex min-w-0 flex-col 2xl:border-r">
           <form
             onSubmit={(event) => {
               event.preventDefault();
               submit();
             }}
-            className="flex flex-col gap-6 p-6"
+            className="flex flex-1 flex-col gap-6 p-6"
           >
             <ComponentFormFields kind={kind} form={form} context={context} />
             <button type="submit" hidden aria-hidden tabIndex={-1} />
@@ -159,7 +159,7 @@ export function ComponentEditor({
           />
         </div>
 
-        <div data-teach="preview" className="flex min-w-0 flex-col gap-3 border-t p-6 2xl:sticky 2xl:top-sticky-offset 2xl:max-h-sticky 2xl:self-start 2xl:overflow-y-auto 2xl:border-t-0 2xl:border-l">
+        <div data-teach="preview" className="flex min-w-0 flex-col gap-3 border-t p-6 2xl:sticky 2xl:top-sticky-offset 2xl:max-h-sticky 2xl:self-start 2xl:overflow-y-auto 2xl:border-t-0">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">{t("preview.title")}</h3>
             <Hint as="span">{t("preview.live")}</Hint>
