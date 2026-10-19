@@ -448,8 +448,8 @@ msgstr "Le catalogue, l'éditeur et le panneau du projet."
 msgid "**Architecture**"
 msgstr "**Architecture**"
 
-msgid "A diagram of how your components connect, in swimlanes from left to right. Hover a node to trace its connections, click it to edit the component. **Expand** makes the diagram larger and **Collapse** shrinks it back. **Export to draw.io** downloads the diagram. See [How the architecture diagram is drawn](../explanation/architecture-diagram.md) and [Export the architecture to draw.io](../how-to/export-to-drawio.md)."
-msgstr "Un schéma des liens entre vos composants, en couloirs de gauche à droite. Survolez un nœud pour suivre ses liens, cliquez dessus pour modifier le composant. **Agrandir** agrandit le schéma et **Réduire** le ramène à sa taille. **Exporter vers draw.io** télécharge le schéma. Voir [Comment le diagramme d'architecture est dessiné](../explanation/architecture-diagram.md) et [Exporter l'architecture vers draw.io](../how-to/export-to-drawio.md)."
+msgid "A diagram of how your components connect, in swimlanes from left to right. Hover a node to trace its connections, click it to edit the component. **Expand** opens the diagram full screen and **Collapse** (or Esc) returns to the page. **Export to draw.io** downloads the diagram. See [How the architecture diagram is drawn](../explanation/architecture-diagram.md) and [Export the architecture to draw.io](../how-to/export-to-drawio.md)."
+msgstr "Un schéma des liens entre vos composants, en couloirs de gauche à droite. Survolez un nœud pour suivre ses liens, cliquez dessus pour modifier le composant. **Agrandir** ouvre le schéma en plein écran et **Réduire** (ou Échap) revient à la page. **Exporter vers draw.io** télécharge le schéma. Voir [Comment le diagramme d'architecture est dessiné](../explanation/architecture-diagram.md) et [Exporter l'architecture vers draw.io](../how-to/export-to-drawio.md)."
 
 msgid "**Checks**"
 msgstr "**Vérifications**"

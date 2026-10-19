@@ -297,7 +297,7 @@ the number of components. Choosing a component or a step closes the drawer.
 | Tab | What it shows |
 |-|-|
 | **Build** | The catalog, the editor and the project panel. |
-| **Architecture** | A diagram of how your components connect, in swimlanes from left to right. Hover a node to trace its connections, click it to edit the component. **Expand** makes the diagram larger and **Collapse** shrinks it back. **Export to draw.io** downloads the diagram. See [How the architecture diagram is drawn](../explanation/architecture-diagram.md) and [Export the architecture to draw.io](../how-to/export-to-drawio.md). |
+| **Architecture** | A diagram of how your components connect, in swimlanes from left to right. Hover a node to trace its connections, click it to edit the component. **Expand** opens the diagram full screen and **Collapse** (or Esc) returns to the page. **Export to draw.io** downloads the diagram. See [How the architecture diagram is drawn](../explanation/architecture-diagram.md) and [Export the architecture to draw.io](../how-to/export-to-drawio.md). |
 | **Checks** | What kikx found when it cross-checked your components, under **Errors**, **Warnings** and **Notes**. Each issue has an **Open** button, followed by the component name, for each component concerned; roles that kikx doesn't vendor can be created with **Scaffold** followed by the count. With nothing to report it says **No conflicts found. Hosts, groups, playbooks and manifests all line up.** See [Checks](checks.md). |
 
 The **Checks** tab shows the number of errors and warnings next to its label.
